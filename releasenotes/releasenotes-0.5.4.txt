@@ -1,0 +1,32 @@
+release notes databene commons 0.5.4
+------------------------------------
+
+
+
+Enhancements
+------------
+- new DownloadCache
+- new NameUtil and NameComparator
+- IOUtil.download(URL url, File targetFile)
+- ArrayUtil.removeElement(T[] array, T item)
+- Supporting varargs in BeanUtil
+- new method StringUtil.buildPhrase()
+- new classes
+  - DoubleRect
+  - IntRange
+  - CompressedIntSet
+  - ConcurrentDecimalFormat
+- FileUtil.relativePath()
+- XMLUtil.formatText()
+- TreeLogger logs the structure of implementors of the databene TreeModel interface
+- HashCodeBuilder class facilitates the calculation of hash codes
+
+
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
+- 3089073: Bug in Timestamp format for second resolution
+- Fixed reported path on resource file lookup error ('/')
+- Postfix error in TimestampFormatter
+- NullPointerException when trying to convert a String object to instance of Number.class
+- ConverterManager's tryToCreateFactoryConverter() method: <targetType>Value() approach and to-String-conversion

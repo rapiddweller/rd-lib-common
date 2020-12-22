@@ -1,0 +1,15 @@
+release notes databene commons 1.0.4
+------------------------------------
+
+
+Enhancements
+------------
+
+
+Changes
+-------
+
+
+Bug Fixes
+---------
+- SubstringExtractor fails on short strings

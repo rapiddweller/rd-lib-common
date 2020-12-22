@@ -1,0 +1,35 @@
+release notes databene commons 0.5.21
+-------------------------------------
+
+
+Enhancements
+------------
+- Created Date2TimeConverter
+- New method ExceptionUtil.containsException()
+- New method FileUtil.newFile() which resolves paths like ~/data.txt
+- ElapsedTimeFormatter supports internationalization of time units
+- new method ArrayUtil.append(T[] newValues, T[] array)
+- new method BeanUtil.getTypes(Object... objects) -> Class<?>[]
+- New TimeUtil methods: hour(Date), minute(Date), second(Date) 
+- New method: ParseUtil.parseBoolean(String s)
+- New method CollectionUtil.toListOfType()
+- OrderedNameMap:
+  - Improved performance 
+  - Added method elementAt(int index)
+- New method SwingUtil.bindKeyToAction
+- New class NullSafeFormat
+
+
+Changes
+-------
+- Deprecated class String2ConverterConverter
+- Made String2BooleanConverter more restrictive
+- ClassCache: Allowing import overrides
+- Made ContextStack an interface, moved former implementation to SimpleContextStack and removed locks
+
+  
+Bug Fixes
+---------
+- DependencyModel fails on self-referencing nodes with clients
+- StringUtil.splitLine() ignores empty lines in between
+- Version info not found

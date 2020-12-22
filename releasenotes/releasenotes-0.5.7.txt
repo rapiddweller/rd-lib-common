@@ -1,0 +1,11 @@
+release notes databene commons 0.5.7
+------------------------------------
+
+
+Enhancements
+------------
+
+
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------

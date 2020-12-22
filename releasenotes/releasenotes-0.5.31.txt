@@ -1,0 +1,7 @@
+release notes databene commons 0.5.31
+-------------------------------------
+
+
+Enhancements
+------------
+- VersionInfo: Made dependency parsing optional

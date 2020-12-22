@@ -1,0 +1,17 @@
+release notes databene commons 0.5.25
+-------------------------------------
+
+Enhancements
+------------
+- Created Tag support classes: TagUtil, TagSupport, AbstractTagged
+- Created LockFile
+- Created TimeUtil.mostRecentBusinessDay()
+- New method XMLUtil.saveDocument(Document document, String encoding, FileOutputStream out)
+- Created TextIcon class
+
+
+Bug Fixes
+---------
+- String2EnumConverter used Enum.toString() instead of Enum.name()
+- Avoiding NPEs in FileChooser classes
+- Bug fix: XMLUtil.format() ignores text content

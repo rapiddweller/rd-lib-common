@@ -1,0 +1,15 @@
+release notes databene commons 1.0.2
+------------------------------------
+
+
+Enhancements
+------------
+- Checking preconditions in AnyMutator's constructor
+- Created tests for PropertyArray2JavaBeanConverter
+
+Changes
+-------
+
+
+Bug Fixes
+---------

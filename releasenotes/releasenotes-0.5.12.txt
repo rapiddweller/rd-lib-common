@@ -1,0 +1,12 @@
+release notes databene commons 0.5.12
+-------------------------------------
+
+Enhancements
+------------
+- new method CollectionUtil.formatCommaSeparatedList(List)
+- new method NameUtil.sort(List)
+- new method TimeUtil.formatDuration()
+
+Bug Fixes
+---------
+- OrderedMap.values() returns reference to internal values list

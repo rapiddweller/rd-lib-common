@@ -1,0 +1,24 @@
+release notes databene-commons 0.3.0
+------------------------------------
+
+Changes
+- moved packages from org.databene.model to com.rapiddweller.commons
+
+Enhancements
+- StringUtil.trimAll()
+- BeanUtil.extractProperties()
+- StringCharacterIterator: new methods skipWhitespace(), parseLetters(), remainingText()
+- ParseUtil: New method parseAssignment()
+- IOUtil: Custom Properties file reader that supports preprocessing of entries.
+- BeanUtil: Added deprecation check and escalation on instantiation
+
+Bug Fixes
+- MinOperation returned max
+- MaxOperation returned min
+
+QA
+- Minimal JavaDoc added to all classes
+- Added tests
+
+Migration
+- rename class imports from org.databene.model.** to com.rapiddweller.commons.**

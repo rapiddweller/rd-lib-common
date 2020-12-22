@@ -1,0 +1,25 @@
+release notes databene commons 0.5.6
+------------------------------------
+
+
+Enhancements
+------------
+- String2DateConverter supports custom date patterns
+- Improved string (un)escaping support in StringUtil
+- Introduced dateCapitalization and timestampCapitalization in ToStringConverter
+- MapValueIterable gives access to a Map's values through the Iterable interface
+- FileSizeComparator
+- FileSizeFormatter
+- FileTreeModel supports Visitor pattern
+- MultiVisitor wraps a collection of other visitors to be used like a single one
+- ExpressionBasedFilter, FilterExIterator, FilterExIterable
+- EmptyStringToNullConverter, NullToEmptyStringConverter
+- Interval, Intervals
+- VersionNumberParser, Versions
+- Parser interface
+- IntParser
+
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
+None

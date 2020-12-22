@@ -1,0 +1,6 @@
+release notes databene commons 0.5.13
+-------------------------------------
+
+Enhancements
+------------
+- moved UI classes from Benerator's gui library to commons library

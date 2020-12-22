@@ -1,0 +1,19 @@
+release notes databene commons 0.5.8
+------------------------------------
+
+
+Enhancements
+------------
+- generic version configuration and dependency verification
+- Debug switch, activatable by -Ddebug
+- Resource monitoring mechanism
+- new methods TimeUtil.firstDayOfMonth() and lastDayOfMonth()
+- Defined regular expression based filters
+- moved Expression and Arithmetic classes from Benerator to commons
+- Extended varargs support in generic invocation to methods mit multiple parameters
+- New class FilePrintWriter
+
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
+- Unit test fail on Windows: IOUtil, StringUtil

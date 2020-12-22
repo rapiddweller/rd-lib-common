@@ -1,0 +1,8 @@
+release notes databene commons 0.5.14
+-------------------------------------
+
+Enhancements
+------------
+- New method NameUtil.find(List<T extends Named> list, Filter<String> filter)
+- New Collection classes which allow to mark each entry: MarkedList, MarkedMap
+- New class ArrayWithIdentity

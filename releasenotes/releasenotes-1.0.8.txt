@@ -1,0 +1,15 @@
+release notes databene commons 1.0.8
+------------------------------------
+
+
+Enhancements
+------------
+- New convenience method SystemInfo.getCurrentDirFile()
+- Implemented FileHistory mechanism
+
+Changes
+-------
+
+
+Bug Fixes
+---------

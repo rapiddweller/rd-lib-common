@@ -1,0 +1,23 @@
+release notes databene commons 0.5.30
+-------------------------------------
+
+
+Enhancements
+------------
+- StringPadder: Improved error messaging
+- PropertyMutatorFactory: Improved untyped getPropertyMutator()
+- StringUtil: new methods
+  - limitLength(String text, int maxLength)
+  - limitLengthWithEllipsis(String text, int maxLength)
+- FileChooser: new method setTitle(String)
+
+
+Changes
+-------
+- VersionInfo: 
+  - separated and improved handling of name, file path and version key 
+  - improved error tolerance
+
+
+Bug Fixes
+---------

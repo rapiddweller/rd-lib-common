@@ -1,0 +1,7 @@
+release notes databene commons 0.5.2
+------------------------------------
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
+3006883 Read-only database accepts 'SELECT INTO'
+2998010 'select into' causes exception

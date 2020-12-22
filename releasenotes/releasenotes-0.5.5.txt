@@ -1,0 +1,20 @@
+release notes databene commons 0.5.5
+------------------------------------
+
+
+
+Enhancements
+------------
+- Char2StringConverter
+- EscapingConverter
+- Number2CharConverter
+
+
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
+- 3089196: The POM for xerces:XercesImpl:jar:2.9.1 is missing
+- 3089073: Bug in Timestamp format for second resolution
+- Cloning support of MultiConverterWrapper and ConverterChain
+- Grouping and decimal precision support in PadFormat
+- containsKey() and get() ignore the configured case sensitivity

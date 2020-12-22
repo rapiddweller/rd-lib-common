@@ -1,0 +1,17 @@
+<root>
+	<list>
+		<item>
+			<class>my.Class1</class>
+			<properties>
+				<prop1>value11</prop1>
+				<prop2>value12</prop2>
+			</properties>
+		</item>
+		<item>
+			<class>my.Class3</class>
+			<properties>
+				<prop3>val21</prop3>
+			</properties>
+		</item>
+	</list>
+</root>

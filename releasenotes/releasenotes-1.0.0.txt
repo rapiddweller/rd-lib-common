@@ -1,0 +1,17 @@
+release notes databene commons 1.0.0
+------------------------------------
+
+
+Enhancements
+------------
+- Assert Class: New method notEmpty(Object[] array, String message)
+- AnyMutator creates missing property path nodes on the fly
+- Created facility for converting arrays of property values to JavaBeans: PropertyArray2JavaBeanConverter
+
+
+Changes
+-------
+
+
+Bug Fixes
+---------

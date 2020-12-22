@@ -1,0 +1,18 @@
+release notes databene commons 0.5.33
+-------------------------------------
+
+
+Enhancements
+------------
+- StringUtil: New method replaceOptionalSuffix()
+- XMLUtil:
+  - new method getChildElementAtPath()
+  - new method resolveEntities()
+  - improved namespace support
+- New Class CloseWindowAction for closing a window, dialog or frame
+
+
+Bug Fixes
+---------
+- FeatureAccessor: Tolerating absence of generic get(String) method
+- StringUtil.splitLines() inserts empty lines when using Windows line separator (CRLF)

@@ -1,0 +1,31 @@
+release notes databene commons 1.0.6
+------------------------------------
+
+
+Enhancements
+------------
+- New method XMLUtil.format(Document)
+- Tolerating non-version entries in version.properties
+- New methods in TimeUtil:
+  - nextBusinessDay()
+  - indexOfDate(Date, Date[])
+- New class ConverterBasedFormat Format implementation that uses a to-String-Converter for formatting objects
+- Created IntArrayBuilder
+- CollectionUtil.formatCommaSeparatedList() now supports arbitrary collections
+- New Assertions: Assert.negative() and Assert.notEquals()
+- New method BeanUtil.getRWPropertyValues()New method BeanUtil.getRWPropertyValues()
+- new FileUtil methods: read/writeTextFileContent()
+- new method: IOUtil.encodeUrl()
+- new method NameUtil.findByName()
+- new Timespan factory methods: Timespan.recentDays(int) & Timespan.futureDays(int)
+- SwingUtil: new methods semiTransparentColor(Color) and applyAlpha(Color, int)
+- Created XMLNode2StringConverter and using it in ToStringConverter
+
+Changes
+-------
+- Using File object for LockFile instead of a String (with a path)
+- XPathUtil: Simplified existing methods, cleaned up and generified interface
+
+Bug Fixes
+---------
+- SplitUtil.trimAndSplit() performed uppercase transformations

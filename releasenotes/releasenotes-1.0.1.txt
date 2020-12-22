@@ -1,0 +1,18 @@
+release notes databene commons 1.0.1
+------------------------------------
+
+
+Enhancements
+------------
+- new method StringUtil.trimmedEmptyToNull(String)
+- Added precondition checks to PropertyArray2JavaBeanConverter's constructor
+
+Changes
+-------
+
+
+Bug Fixes
+---------
+- NPE in FeatureAccessor.getValue() when querying public attribute which is also available as property without reader method
+- PropertyArray2JavaBeanConverter.haveTargetObject() recreates and replaces existing objects
+- String2DateConverter does not map a whitespace-only strings to an empty (null) Date object

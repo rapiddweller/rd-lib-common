@@ -1,0 +1,18 @@
+release notes databene-commons 0.2.02
+-------------------------------------
+
+Purpose: This release only provides features needed for new releases of dependent projects
+
+Enhancements:
+- new method SystemInfo.fileEncoding()
+- new method SystemInfo.userLanguage()
+- new class org.databene.model.converter.MessageConverter
+- new method BeanUtil.hasProperty()
+- implemented StringLengthValidator.toString()
+- new class MessageConverter
+- new class MathUtil
+- improved logging
+- new method CollectionUtil.toArray(Collection<Character> source)
+- supporting file encodings in IOUtil.getReaderForUri() that abviate from System defaults
+- new method ParseUtil.isHex()
+- CompositeValidator, AndValidator, OrValidator

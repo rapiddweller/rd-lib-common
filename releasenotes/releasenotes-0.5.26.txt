@@ -1,0 +1,17 @@
+release notes databene commons 0.5.26
+-------------------------------------
+
+Enhancements
+------------
+- Improved PropertiesFileMerger to support lists of elements with the same same
+- new method TimeUtil.julianDay(Date date)
+- new methods XMLUtil.queryNodes() and XMLUtil.query()
+- Created DoubleArrayBuilder
+- New method MathUtil.min(double... args)
+- New method GUIUtil.takeScreenshot()
+
+Bug Fixes
+---------
+- XMLUtil.format()
+- LockFile: Assuring that parent directory of lock file exists
+- OrderedMap.equals()

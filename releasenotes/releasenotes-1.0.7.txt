@@ -1,0 +1,25 @@
+release notes databene commons 1.0.7
+------------------------------------
+
+
+Enhancements
+------------
+- new convenience methods for calculations with nullable Doubles (which count as 0): 
+  - Double nullableProduct(Double... factors)
+  - Double nullableDivision(Double dividend, Double... divisors)
+  - Double nullableSum(Double... summands)
+  - Double nullableSubtraction(Double minuend, Double... subtrahends)
+- NullSafeFormat: supporting null as source argument in parseObject()
+
+
+Changes
+-------
+- UntypedPropertyAccessor: Made propertyType default to null
+
+
+Bug Fixes
+---------
+- Workaround for JDK bug http://bugs.java.com/view_bug.do?bug_id=8016153
+- PropertyGraphAccessor breaks if intermediate property node resolves to null
+- TypedAccessorChain breaks if intermediate result is null
+- ParseUtil.isNMToken() allows '.' and '-' as first character

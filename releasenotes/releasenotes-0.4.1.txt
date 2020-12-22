@@ -1,0 +1,15 @@
+release notes databene commons 0.4.1
+------------------------------------
+
+Changes
+- restructured CompositeFormatter from static utility class to instance class
+
+Enhancements
+- new methods in StringUtil class: endsWithIgnoreCase(), normalizeName() and unescape()
+- StringUtil: Added logic for null-value handling in starts/endsWithIgnoreCase()
+- AnyConverter, ToStringConverter: Added support for datePattern
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+- 1937404 IOUtil.readProperties does not support \n \r \t
+- 1936931 LiteralParser parses 01234 as number, should be string
+- ParseUtil: catching null input in parseAssignment 

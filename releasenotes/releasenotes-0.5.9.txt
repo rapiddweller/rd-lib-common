@@ -1,0 +1,21 @@
+release notes databene commons 0.5.9
+------------------------------------
+
+
+Enhancements
+------------
+- new NumberUtil methods: isLimited(numberType), minValue(numberType)
+- new method ConverterManager.convertAll(Collection<S> sourceValues, Converter<S, T> converter)
+- new Interval properties min, minInclusive, max, maxInclusive
+- new method StringUtil.quoteIfNotNull()
+- new class ConditionalConverter
+- Added TimeUtil.addDays(), addMonths(), addYears(), midnightOf()
+- new Validator classes:
+  - SubStringValidator
+  - PrefixValidator
+  - SuffixValidator
+  
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
+- Unit tests fail on Windows: IOUtil, StringUtil

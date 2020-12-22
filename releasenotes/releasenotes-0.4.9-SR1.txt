@@ -1,0 +1,19 @@
+release notes databene commons 0.4.9-SR1
+----------------------------------------
+
+Summary
+-------
+This is a bug fix release
+
+Improvements
+------------
+- JDBC drivers are instantiated by the context ClassLoader
+- new methods BeanUtil.createJarClassLoader() and BeanUtil.executeInJarClassLoader()
+- new method StringUtil.new method nullToEmpty()
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
+- 2805254 milliseconds setting ignored in DateTimeGenerator
+- NullPointer by default JDBCDriverInfo.urlPattern
+- Bug fix in Eclipse ClassLoader exception handling in forName(),
+- Bug fix in getPropertyValue(), avoiding NullPointerException for non-strict access to non-existing properties

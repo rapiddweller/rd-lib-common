@@ -1,0 +1,67 @@
+release notes databene commons 0.5.0
+------------------------------------
+
+Summary
+-------
+
+
+Improvements
+------------
+- new BeanUtil methods: 
+  - isIntegralNumber(className)
+  - isDecimalNumber(className)
+  - clone(Object)
+- new DBUtil methods:
+  - logMetaData()
+  - connect(JDBCConnectData)
+  - queryScalarArray()
+- IOUtil: Unified close() and flush() methods to work on any Closeable and Flushable
+- new Converters
+  - PrintfConverter
+  - PropertyExtractor
+  - String2DateFormatConverter
+  - String2GregorianCalendarConverter
+  - String2NumberFormatConverter
+  - String2PatternConverter
+  - RegexReplacer
+- new Validators
+  - RegexValidator
+- new test helper class SimpleValidatorTest
+- new LoggingProxyFactory that creates logging wrappers for arbitrary classes which implement an interface
+- AnyConverter supports timePattern and timestampPattern
+- BeanUtil: new methods getFieldValue() for object attribute access
+- FeatureAccessor can read normal and static attributes
+- LiteralParser supports time literals
+- test support methods:
+  - TimeUtil.runInTimeZone(Runnable)
+  - TimeUtil.callInTimeZone(Callable)
+  - LocaleUtil.runInLocale(Runnable)
+  - LocaleUtil.callInLocale(Callable)
+  - BeanUtil.runWithJarClassLoader(File, Runnable)
+  - BeanUtil.callWithJarClassLoader(File, Callable)
+  - SysUtil.runiWithSysProp(String, String, Runnable)
+  - SysUtil.callWithSysProp(String, String, Callable)
+- new methods TimeUtil.month() ...dayOfMonth()
+- new class BoolenConverter
+- new method DBUtil.queryLong()
+- BeanUtil:
+  - new method commonSuperType()
+  - new method commonSubType()
+- New interfaces:
+  - ContextAware, Resettable
+- New Enums: 
+  - ThreadSupport
+- New method NumberUtil.maxValue()
+
+
+Changes
+-------
+- Replaced Heavyweight with Closeable
+
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
+- fixed support for String-to-Class conversion in AnyConverter and StringConverter
+- Bug fixe in handling and converting Time and Timestamp values
+- 2879250 Error processing C:\\temp
+- Bug fix for avoiding duplicate logs

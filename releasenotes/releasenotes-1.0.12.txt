@@ -1,0 +1,21 @@
+release notes databene commons 1.0.12
+-------------------------------------
+
+
+Enhancements
+------------
+- Defined Assert.notZero()
+- Added method TimeUtil.nthDayOfWeekInMonth()
+- Created RingBuffer class
+- Created class DoubleRingBuffer
+- String2BooleanConverter now can configured with individual aliases for true and false as well as for case sensitivity
+- Added method XMLUtil.String[] getTexts(Element[] nodes)
+
+Changes
+-------
+- 
+
+
+Bug Fixes
+---------
+- Fixed generics use in CollectionUtil.toArray(Collection<? extends T> source)

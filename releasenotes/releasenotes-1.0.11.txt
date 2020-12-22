@@ -1,0 +1,23 @@
+release notes databene commons 1.0.11
+-------------------------------------
+
+
+Enhancements
+------------
+- Defined the generic classes Factory and Consumer
+- Defined ConsumerAction for generic Swing support of processing a predefined element 
+- new method Assert.lessOrEqual()
+- Created ClassComboBox and ClassListCellRenderer for class selection in Swing
+- Created RecentFilesMenu and RecentFilesPopupButton for accessing a file history in Swing
+- New methods for transparent button creation in SwingUtil
+- Created Swing XPathField to entering and validating an XPath expression
+- Created XmlNodeTableCellRenderer for rendering object of type org.w3c.dom.Node and its child classes in Swing table cells
+
+Changes
+-------
+- FileHistory: Presenting newest files first in the history and set the maximum supported history length to 50
+
+
+Bug Fixes
+---------
+- Restricted the stored history length

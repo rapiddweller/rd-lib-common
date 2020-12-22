@@ -1,0 +1,11 @@
+release notes databene commons 0.5.32
+-------------------------------------
+
+
+Enhancements
+------------
+- StringUtil: New method replaceOptionalSuffix()
+- XMLUtil:
+  - new method getChildElementAtPath()
+  - new method resolveEntities()
+  - improved namespace support

@@ -1,0 +1,8 @@
+release notes databene commons 0.5.22
+-------------------------------------
+
+
+Bug Fixes
+---------
+- Windows issue: ConfigurationError: Resource not found: org\databene\commons\time\timeUnits.properties
+- Duplicate exception stack traces when nesting ErrorHandler usage recursively

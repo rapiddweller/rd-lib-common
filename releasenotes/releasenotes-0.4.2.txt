@@ -1,0 +1,13 @@
+release notes databene commons 0.4.2
+------------------------------------
+
+Changes
+- renamed Composite.setComponentValue() to setComponent()
+- renamed toArray(Class<T> componentType, T ... values) to buildArrayOfType(Class<T> componentType, T ... values) 
+- added toArray(T ... values)
+
+Enhancements
+- new OrderedNameMap with capitalization support
+- new Long2IntegerConverter
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)

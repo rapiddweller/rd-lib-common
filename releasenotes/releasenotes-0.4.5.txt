@@ -1,0 +1,44 @@
+release notes databene commons 0.4.5
+------------------------------------
+
+Changes
+-------
+- NamedValueList: renamed put() to set()
+
+Enhancements
+------------
+- new StringUtil methods
+  - equalsIgnoreCase()
+  - replaceTokens()
+- new methods 
+  - Assert.notEmpty()
+  - Assert.instanceOf()
+  - Assert.isTrue()
+  - Assert.found()
+- improved StringUtil.getChars()
+- improved namespace support in XMLUtil
+- new class NamedValueList for name-value-assignmments with non-unique names
+- new class NumberFormatConverter
+- added TimeUtil.createDefaultDateFormat()
+- new method NullSafeComparator.hashCode()
+- new method MathUtil.sumOfDigits()
+- new classes
+  - ShellUtil
+  - I18NSupport
+  - ErrorHandler
+  - SQLScriptException
+- new interfaces
+  - Named
+  - LogCategories
+  - CharacterRangeValidator
+  - StringValidator
+  - ObservableBean
+  - AbstractObservableBean
+  - ObservableFactory
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+---------
+- ToStringConverter and CompositeFormatter fail on byte[] and char[]
+- BeanUtil.typesMatch()
+- Handling of Heavyweight sources in ConvertingIterable
+- Bug fix for SQL lines that end with white space after ;

@@ -1,0 +1,30 @@
+release notes databene commons 1.0.10
+-------------------------------------
+
+
+Enhancements
+------------
+- New methods in class XMLUtil:
+  - formatStartTag(): Renders a start tag as string
+  - getChildComments(Node parent): provides the comments under a given node
+  - getParentNode(Node node): determines the parent node for different XML related Node classes
+  - xpathTo(Node node): calculates an xpath from the document root to the node using indexes like /root/item[3]
+  - nodePathTo(Node node): provides an array of Node objects from the root document to the node itself
+- New method XPathUtil.isValidXPath(String expression)
+- New method FileHistory.addFileAndSave(File file)
+- New class MethodCallAction
+- New class SquareButton
+- New class TextDialog
+- New class TextOverlayIcon
+- New methods in SwingUtil:
+  - getDirectoryIcon()
+  - getHardDriveIcon() 
+
+Changes
+-------
+
+
+Bug Fixes
+---------
+- Improved handling of different Node types in class XMLNode2StringConverter
+- Fixed y-position of text in TextIcon class

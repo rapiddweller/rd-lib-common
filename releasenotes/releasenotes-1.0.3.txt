@@ -1,0 +1,15 @@
+release notes databene commons 1.0.3
+------------------------------------
+
+
+Enhancements
+------------
+
+
+Changes
+-------
+
+
+Bug Fixes
+---------
+- ArrayIndexOutOfBoundsException in PropertyArray2JavaBeanConverter.convert() if propertyArray is too short

@@ -1,0 +1,22 @@
+release notes databene commons 0.5.18
+-------------------------------------
+
+Enhancements
+------------
+- Improved serialization support: ObservableBean, Interval
+- New Swing support classes: AbstractTreeModel, SimpleDialog, ExpandOrCollapseTreeNodeAction
+- New Swing features in SwingUtil
+- New method MathUtil.isIntegralValue()
+
+
+Changes
+-------
+- Upgraded code to Java 6
+- Improved use of Generics in Visitor interface
+
+  
+Bug Fixes
+---------
+- IndexOutOfBoundsException in SelectiveTabularIterator
+- Ambiguities in BeanUtil API
+- supporting names like "Karl Heinz", "Hans-Georg", "O'Hara" in StringUtil.normalizeName()

@@ -1,0 +1,11 @@
+toStringrelease notes databene commons 0.4.4
+------------------------------------
+
+Enhancements
+------------
+- BeanUtil
+  - new method toString(bean)
+  - explicit strictness in proprty getters
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+---------

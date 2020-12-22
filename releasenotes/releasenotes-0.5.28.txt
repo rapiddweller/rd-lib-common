@@ -1,0 +1,16 @@
+release notes databene commons 0.5.28
+-------------------------------------
+
+Enhancements
+------------
+- new method NumberUtil.numberFormat()
+
+
+Changes
+-------
+- redesigned PadFormat and created StringPadder Converter class
+
+
+Bug Fixes
+---------
+- 

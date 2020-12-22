@@ -1,0 +1,19 @@
+release notes databene commons 0.5.19
+-------------------------------------
+
+Enhancements
+------------
+- Improved classpath support in IOUtil.isURIAvailable() and IOUtil.getResourceAsStream()
+- new method ZipUtil.printContent(File zipFile)
+
+
+Changes
+-------
+- 
+
+  
+Bug Fixes
+---------
+- resource leak in FileUtil.equalContent(File, File)
+- resource leak in IOUtil.isURIAvailable(String)
+- resource leak in PrintfConverter.convert(Object)

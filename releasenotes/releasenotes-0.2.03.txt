@@ -1,0 +1,7 @@
+release notes databene-commons 0.2.03
+-------------------------------------
+
+Changes
+- new method ArrayFormat.formatStrings() as workaround for an Eclipse Java parser problem
+- renamed ArrayFormat.formatCharacterArray() to formatChars()
+- renamed ArrayFormat.formatIntArray() to formatInts()

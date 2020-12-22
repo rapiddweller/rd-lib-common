@@ -1,0 +1,25 @@
+release notes databene commons 0.4.6
+------------------------------------
+
+Changes
+-------
+- Renamed Nullsafe... to NullSafe...
+- Renamed PropertyMutator.getPropertyName() to getName() 
+
+Enhancements
+------------
+- new classes
+  - ToHashCodeConverter
+  - NamedMutator
+  - HeavyweightIterableAdapter
+  - HeavyweightIteratorAdapter
+  - AbstractValidator
+  - ClassProvider, DefaultClassProvider, ClassCache
+- AnyConverter supports conversion boolean -> number (0/1)
+- new mthods
+  - CollectionUtil.getCaseInsensitive(String key, Map<String, V> map)
+  
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+---------
+- Entries returned from OrderedMap.entrySet() now have the expected behavior of updating the original data on setValue()
+- Bug fix in setting boolean properties in BeanUtils.setProperty()

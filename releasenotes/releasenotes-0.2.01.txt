@@ -1,0 +1,11 @@
+release notes databene-commons 0.2.01
+-------------------------------------
+
+Purpose: This release only provides features needed for new releases of dependent projects
+
+Enhancements:
+- StringUtil.indexOfIgnoreCase()
+- StringUtil.lastChar(String)
+- StringUtil.capitalize(String)
+- IOUtil.copy(String srcUri, String dstUri)
+- DBUtil.close(Statement)

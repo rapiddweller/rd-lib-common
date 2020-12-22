@@ -1,0 +1,28 @@
+release notes databene commons 0.5.23
+-------------------------------------
+
+
+Enhancements
+------------
+- new methods in class BeanUtil: getPropertyValues() and setPropertyValues() 
+  to set a bean's properties to the name-value-pairs of a Map
+- IOUtil.writeProperties() accepts Maps with non-String values
+- new method MathUtil.digitCount()
+- new method FileUtil.isXMLFile()
+- new class BufferedInfoPrinter
+- Added Assert methods: notNegative() and that()
+- Defined OffsetPushbackReader class
+- new method CollectionUtil.toSortedList()
+- new method TimeUtil.isLeapYear()
+- ToStringConverter supports Calendar class
+- new method ConsoleInfoPrinter.printFile(String uri)
+
+
+Changes
+-------
+- Renamed MathUtil.prefixDigits() to MathUtil.prefixDigitCount()
+
+
+Bug Fixes
+---------
+- Error when using BeanUtil.invoke() with varargs argument of length 0

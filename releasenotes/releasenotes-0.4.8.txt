@@ -1,0 +1,14 @@
+release notes databene commons 0.4.8
+------------------------------------
+
+Changes
+-------
+Interface change of SytemInfo and VMInfo
+
+Enhancements
+------------
+Several improvements in StringUtil and IOUtil, new LogCategories
+  
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
+2687567 Error in non-latin language support

@@ -1,0 +1,56 @@
+release notes databene commons 0.4.0
+------------------------------------
+
+Changes
+- moved DBUtil to com.rapiddweller.commons
+- moved packages org.databene.platform.* -> com.rapiddweller.commons.*
+- Changed parameter order in ArrayUtil.contains()
+- moved collection related methods from ArrayUtil to CollectionUtil
+- Renamed AbstractTypedConverter to AbstractBidirectionalConverter
+- Added generic type for source to AnyConverter
+
+Enhancements
+- new methods in StringUtil
+  - splitOnLastSeparator()
+  - containsIgnoreCase()
+  - startsWithIgnoreCase()
+- new Time creation methods in TimeUtil
+- Added configuration from file for the ComparatorFactory
+- new method ParseUtil.isNMToken()
+- new methods LocaleUtil.availableLocaleUrl() and reduceLocaleString()
+- new class MathUtil
+- IOUtil
+  - improved properties file support by preprocessors
+  - new method getBinaryContentOfUri()
+- Made Composite a generic type and added getComponents() method
+- new methods ArrayUtil.append(), equals() and isEmpty()
+- new operations:
+  - AndOperation
+  - ArrayIntersectionOperation
+  - ConvertingOperation
+  - FirstNonNullSelector
+  - MaxNumberLiteral
+  - MinNumberLiteral
+  - OperationWrapper
+  - OrOperation
+- new Converters:
+  - ArrayTypeConverter
+  - LiteralParser
+  - String2NumberConverter
+  - String2TimeConverter
+  - DefaultEntryConverter
+- many many new XML utility methods in XMLUtil
+- new FlatXML2BeanConverter
+- Implemented parsing of arrays in ArrayFormat
+- new BeanUtil methods
+  - findMethodsByAnnotation()
+  - getGenericInterfaceParams()
+  - findMethodsByName()
+- new class CompositeFormatter
+
+Bug fixes
+- UTF-8 support in IOUtil
+- added array support for StringConverter
+- converting null values with ArrayConverter
+- AnyMutator: auto-converting bean properties to the correct type
+- BeanUtil supports auto-conversion of invocation parameters to appropriate type

@@ -1,0 +1,18 @@
+release notes databene commons 0.5.24
+-------------------------------------
+
+
+Enhancements
+------------
+- Mapping of Properties structures to XML files and vice-versa
+- Merging simple and XML-formed properties files
+- Created RecursiveMapIterator
+- Created Formatter and PercentageFormatter as data formatting utilities
+- TimeUtil: firstDayOfWeek(), lastDayOfWeek()
+- Implemented Timespan.dayIterator()
+
+
+Bug Fixes
+---------
+- Fixed StringUtil.splitOnFirstSeparator()
+- Timespan.contains() does not include startDate and endDate

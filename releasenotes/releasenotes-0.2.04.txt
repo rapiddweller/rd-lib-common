@@ -1,0 +1,23 @@
+release notes databene-commons 0.2.04
+-------------------------------------
+
+Summary: Most enhancements are related to conversions of timestamps and arrays. 
+A new Escalation strategy was introduced.
+
+
+Enhancements
+- New Escalation strategy with LoggerEscalatior implementation
+- New classes
+  - ByteArrayToBase64Converter
+  - Date2TimestampConverter
+  - String2ByteArrayConverter
+  - ArrayBuilder
+  - Base64Codec
+  - ObjectNotFoundException 
+- ToArrayConverter: generic support of getBytes() methods
+- String2DateConverter: added support for java.sql.Timestamp creation
+- ArrayFormat.formatBytes()
+- FactoryConverter: added generic support for typeValue() methods, e.g. intValue(), stringValue()
+- new method StringUtil.uncapitalize()
+- RoundedNumberFormat: using number formatting in US Locale by default
+- ArrayUtil: new methods arrayType(), newInstance()

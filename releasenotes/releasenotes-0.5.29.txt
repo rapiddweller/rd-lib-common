@@ -1,0 +1,37 @@
+release notes databene commons 0.5.29
+-------------------------------------
+
+Enhancements
+------------
+- AnyMutator: Added direct access to public attributes
+- XMLUtil: new xpath query methods: 
+  - applying queries to XML elements
+  - maping results to lists of elements
+- Assert: new methods 
+  - startsWith()
+  - endsWith()
+- BeanUtil: new method hasWriteableProperty()
+- XMLUtil: New methods 
+  - toElementArray(NodeList)
+  - toElementList(NodeList)
+- Formatter: New method format(Date date, String pattern)
+- TimeUtil: new methods
+  - lastDayOfMonth(Calendar)
+  - midnightOf(Calendar)
+- FileUtil: new method prependFilePrefix()
+- New class XPathSupport for supporting namespaces in XPath queries
+
+
+Changes
+-------
+- FormatFormatConverter: Removed special handling of null values in
+- StringUtil: normalizeSpace() now normalizes NBSPs too
+- Removed XPath query methods from XMLUtil and put them into the new class XPathUtil
+
+Bug Fixes
+---------
+- handling of read-only bean property with public attribute in AnyMutator
+- NPE in NullSafeConverterProxy
+- Handling null values in PadFormat
+- IOUtil.readTextLines() trims content lines
+- IOUtil.isAbsoluteRef() breaks on references to absolute windows paths

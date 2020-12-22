@@ -1,0 +1,11 @@
+release notes databene commons 0.4.9
+------------------------------------
+
+Summary
+-------
+This is a bug fix release
+
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+--------------------------------------------------------------------------------------------
+2702433 Exception in the NumberFormatConverter

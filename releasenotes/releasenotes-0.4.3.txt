@@ -1,0 +1,34 @@
+release notes databene commons 0.4.3
+------------------------------------
+
+Summary
+-------
+Bug fix release guided by crap4j. 
+Now, each method with a cyclomatic complexity of 5 or more is unit-tested.
+
+Changes
+- moved DBUtil to com.rapiddweller.commons.db
+- Made UpdateFailedException and unchecked exception
+- Deprecated ArrayUtil.equals()
+- Deprecated ParseUtil.parseUnit()
+
+Enhancements
+- added HSQLUtil class
+- added runScript(), executeUpdate() and query() to DBUtil
+- Timespan: Added equals() and hashcode()
+- ArrayUtil.lastElement()
+
+Bug fixes (find the tracker at http://sourceforge.net/tracker/?group_id=222964&atid=1057386)
+- OrderedMap.equalsIgnoreOrder(): Comparison with sub set is broken
+- StringUtil.splitOnLastSeparator(): Bug fix for expressions like /a or a/
+- XMLUtil: Bug fix in getText(Element -> Node)
+- ConditionalMutator: Bug fix in exception type RuntimeException -> UpdateFailedException
+- NullsafeFormat: using NumberFormats to parse a String for a non-long number
+- TreeIterator: backward iteration
+- HTML2XML: handling malformed HTML
+- LocaleUtil: Handling 3+level locales
+- UntypedPropertyMutator: handling missing or read-only properties
+- ArrayComparator: comparing null values
+- LiteralParser: parsing dates and fractions
+- StringConverter: converting null and empty values
+- ToArrayConverter: converting null values

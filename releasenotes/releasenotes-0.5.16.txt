@@ -1,0 +1,22 @@
+release notes databene commons 0.5.16
+-------------------------------------
+
+Enhancements
+------------
+- String2DateConverter supports datetime formats without 'T'
+- new method Date TimeUtil.parse(String dateOrTimeSpec)
+- new method StrimgUtil.equalsIgnoreCase(Set<String>, Set<String>)
+- new class NameMap
+
+
+Changes
+-------
+- Using newer libraries
+  - slf4j 1.6.4
+  - log4j 1.2.16
+  - junit 4.10
+
+  
+Bug Fixes
+---------
+- NullPointerException on empty directory in FileUtil.getFileIgnoreCase()

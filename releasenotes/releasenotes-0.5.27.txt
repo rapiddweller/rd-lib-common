@@ -1,0 +1,16 @@
+release notes databene commons 0.5.27
+-------------------------------------
+
+Enhancements
+------------
+- New method TimeUtil.formatCurrentDateTime()
+- New method XMLUtil.queryString()
+
+Changes
+-------
+- Unified 'required' and 'autoConvert' mechanism in PropertyMutator classes
+
+Bug Fixes
+---------
+- NPE when calling BeanUtil.getPropertyDescriptor() for a non-existing property
+- Infinite recursion in ExceptionUtil.getRootCause() in case of an UnsupportedOperationException

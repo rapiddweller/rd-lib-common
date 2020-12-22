@@ -1,0 +1,18 @@
+release notes databene commons 1.0.5
+------------------------------------
+
+
+Enhancements
+------------
+- Introduced ByteArray class
+
+
+Changes
+-------
+
+
+Bug Fixes
+---------
+- NullPointerException in FileUtil.deleteDirectory() when deleting empty directories 
+- SpeechUtil speaks German on a German Mac OS X Yosemite
+- ObservableFactoryTest fails on Java 1.8

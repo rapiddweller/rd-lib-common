@@ -1,0 +1,19 @@
+release notes databene commons 0.5.20
+-------------------------------------
+
+Enhancements
+------------
+- Improved classpath support in IOUtil.isURIAvailable() and IOUtil.getResourceAsStream()
+- new method ZipUtil.printContent(File zipFile)
+
+
+Changes
+-------
+- 
+
+  
+Bug Fixes
+---------
+- ArrayFormat renders null values as empty strings
+- Inappropriate minValue calculation for floating point types (float, double, BigDecimal)
+- ToStringConverter renders Long.MAX_VALUE for BigDecimals that are greater than Long.MAX_VALUE
