@@ -13,7 +13,7 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
   PACKAGE_REGISTRY_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/releases/${CI_COMMIT_TAG}"
-  RELEASE_JDK_11: "false"
+  RELEASE_JDK11: "true"
 
 cache:
   paths:
@@ -120,6 +120,7 @@ build:jdk-11:
   <<: *update-mvn-project
   stage: quality
   when: manual
+  allow_failure: true
   variables:
     SONAR_ANALYSIS_MODE: publish
     GIT_DEPTH: "0"
@@ -149,7 +150,6 @@ quality:sonarqube-jdk-8:
       -Dsonar.login=$SONARQUBE_TOKEN
       -Dsonar.scm.disabled=true
       -Dsonar.ws.timeout=120
-  allow_failure: true
 
 quality:sonarqube-jdk-11:
   <<: *sonar
@@ -174,8 +174,6 @@ quality:sonarqube-jdk-11:
       -Dsonar.login=$SONARQUBE_TOKEN
       -Dsonar.scm.disabled=true
       -Dsonar.ws.timeout=120
-  allow_failure: true
-
 
 ###################### Assembly and Deploy ######################
 
@@ -210,6 +208,8 @@ assembly:jdk-11:
       - target/*.tar.gz
       - target/*.zip
       - target/site/
+    reports:
+      dotenv: build.env
   script:
     - mvn $MAVEN_CLI_OPTS -Dmaven.test.skip=true clean install site:site assembly:single
 
@@ -230,6 +230,7 @@ deploy:jdk-8:
 upload:jdk-8:
   stage: upload
   image: curlimages/curl:latest
+  allow_failure: true
   needs:
     - job: setup:jdk-8
       artifacts: true
@@ -263,7 +264,8 @@ upload:jdk-11:
     reports:
       dotenv: build.env
   rules:
-    - if: $RELEASE_JDK_11 && $CI_COMMIT_TAG
+    - if: $RELEASE_JDK11 == "true" && $CI_COMMIT_TAG
+      when: manual
   script:
     - export UPLOAD_DIST_ZIP_JDK11_NAME=$ARTIFACT_FULLNAME-dist.zip
     - echo "UPLOAD_DIST_ZIP_JDK11_NAME=$UPLOAD_DIST_ZIP_JDK11_NAME" >> build.env
@@ -276,31 +278,53 @@ upload:jdk-11:
 
 ###################### Release ######################
 
-release:dist:
+release:dist-jdk-8:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   needs:
-    - job: upload:jdk-8
+    - job: setup:jdk-8
       artifacts: true
-    - job: upload:jdk-11
+    - job: upload:jdk-8
       artifacts: true
   rules:
     - if: $CI_COMMIT_TAG
   script:
     - |
-      release-cli create --name "Release $CI_COMMIT_TAG" --tag-name $CI_COMMIT_TAG \
+      release-cli create --name "Release ${ARTIFACT_VERSION}" --tag-name $CI_COMMIT_TAG \
         --assets-link "{\"name\":\"${UPLOAD_DIST_ZIP_JDK8_NAME}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${UPLOAD_DIST_ZIP_JDK8_NAME}\"}" \
         --assets-link "{\"name\":\"${UPLOAD_DIST_TARGZ_JDK8_NAME}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${UPLOAD_DIST_TARGZ_JDK8_NAME}\"}"
+
+
+release:dist-jdk-11:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  allow_failure: true
+  needs:
+    - job: setup:jdk-11
+      artifacts: true
+    - job: upload:jdk-11
+      artifacts: true
+  rules:
+    - if: $RELEASE_JDK11 == "true" && $CI_COMMIT_TAG
+      when: manual
+  script:
+    - |
+      release-cli create --name "Release ${ARTIFACT_VERSION}" --tag-name $CI_COMMIT_TAG \
+        --assets-link "{\"name\":\"${UPLOAD_DIST_ZIP_JDK11_NAME}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${UPLOAD_DIST_ZIP_JDK11_NAME}\"}" \
+        --assets-link "{\"name\":\"${UPLOAD_DIST_TARGZ_JDK11_NAME}\",\"url\":\"${PACKAGE_REGISTRY_URL}/${UPLOAD_DIST_TARGZ_JDK11_NAME}\"}"
+
 
 release:mvncentral-jdk-8:
   <<: *update-mvn-project
   stage: release
   image: maven:3-adoptopenjdk-8
+  allow_failure: true
   needs:
     - job: setup:jdk-8
       artifacts: true
   rules:
-    - if: '$CI_COMMIT_TAG && $CI_SERVER_HOST == "gitlab.com"'
+    - if: '$CI_COMMIT_TAG && $CI_SERVER_HOST == "gitlab.dwellerlab.com"'
+      when: manual
   script:
     - apt update && apt-get -y install gnupg
     ## Add gpg key to sign
@@ -313,11 +337,13 @@ release:mvncentral-jdk-11:
   <<: *update-mvn-project
   stage: release
   image: maven:3-adoptopenjdk-11
+  allow_failure: true
   needs:
     - job: setup:jdk-11
       artifacts: true
   rules:
-    - if: '$RELEASE_JDK_11 && $CI_COMMIT_TAG && $CI_SERVER_HOST == "gitlab.com"'
+    - if: '$RELEASE_JDK11 == "true" && $CI_COMMIT_TAG && $CI_SERVER_HOST == "gitlab.dwellerlab.com"'
+      when: manual
   script:
     - apt update && apt-get -y install gnupg
     ## Add gpg key to sign
