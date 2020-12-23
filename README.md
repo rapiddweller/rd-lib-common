@@ -1,4 +1,4 @@
-# rapiddweller-common
+# rd-lib-common
 
 'rapiddweller Common' is an open source Java library forked from Databene Commons by Volker Bergmann.
 
@@ -17,6 +17,8 @@ This library is mandatory for [rapiddweller 'Benerator'](https://www.benerator.d
 ## Docs
 
 - Create your docs using the maven site plugin `mvn site:site`. 
+- Checkout the rapiddweller benerator projects website [www.benerator.de](https://www.benerator.de/) 
+  for additional support resources.  
 - Checkout the maintainers website [www.rapiddweller.com](https://www.rapiddweller.com/) 
   for additional support resources.  
   
