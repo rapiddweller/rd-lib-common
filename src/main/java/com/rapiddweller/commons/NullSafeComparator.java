@@ -28,11 +28,11 @@ public class NullSafeComparator<E> implements Comparator<E> {
     public static final int NULL_IS_LESSER   = -1;
     public static final int NULL_IS_GREATER =  1;
 
-    private Comparator<? super E> realComparator;
+    private final Comparator<? super E> realComparator;
 
     /** The value returned if null is compared to something.
      */
-    private int nullComparation;
+    private final int nullComparation;
 
     // constructors ----------------------------------------------------------------------------------------------------
 

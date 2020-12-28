@@ -28,7 +28,7 @@ import com.rapiddweller.commons.ui.JavaApplication;
  */
 public class OSXInvocationHandler implements InvocationHandler {
 	
-	private JavaApplication application;
+	private final JavaApplication application;
 	
 	public OSXInvocationHandler(JavaApplication application) {
 	    this.application = application;

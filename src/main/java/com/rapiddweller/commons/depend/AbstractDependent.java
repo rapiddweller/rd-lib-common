@@ -27,18 +27,19 @@ public abstract class AbstractDependent<E extends Dependent<E>> implements Depen
 
     protected List<ProviderInfo<E>> providers;
 
+    @SafeVarargs
     public AbstractDependent(E ... requiredProviders) {
-        this.providers = new ArrayList<ProviderInfo<E>>();
+        this.providers = new ArrayList<>();
         for (E requiredProvider : requiredProviders)
             addRequiredProvider(requiredProvider);
     }
     
     public void addRequiredProvider(E provider) {
-        providers.add(new ProviderInfo<E>(provider, true));
+        providers.add(new ProviderInfo<>(provider, true));
     }
 
     public void addOptionalProvider(E provider) {
-        providers.add(new ProviderInfo<E>(provider, false));
+        providers.add(new ProviderInfo<>(provider, false));
     }
 
     // Dependent interface --------------------------------------------------------------------------

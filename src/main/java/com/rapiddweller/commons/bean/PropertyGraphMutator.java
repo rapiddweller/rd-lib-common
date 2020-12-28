@@ -28,13 +28,13 @@ import org.apache.logging.log4j.LogManager;
  */
 public class PropertyGraphMutator implements NamedMutator {
 
-    private static Logger logger = LogManager.getLogger(PropertyGraphMutator.class);
+    private static final Logger logger = LogManager.getLogger(PropertyGraphMutator.class);
 
-    private boolean required;
-    private boolean autoConvert;
+    private final boolean required;
+    private final boolean autoConvert;
     private PropertyAccessor<Object, ?>[] subAccessors;
-    private NamedMutator lastMutator;
-    private String propertyName;
+    private final NamedMutator lastMutator;
+    private final String propertyName;
 
     // constructors ----------------------------------------------------------------------------------------------------
 

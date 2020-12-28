@@ -14,7 +14,7 @@ import com.rapiddweller.commons.RegexUtil;
  */
 public class IntTimePair {
 	
-	private static String TIMED_INT_PATTERN = "^(\\-?\\d+) (\\d{2,2}:\\d{2})$";
+	private static final String TIMED_INT_PATTERN = "^(\\-?\\d+) (\\d{2,2}:\\d{2})$";
 	
 	private final int index;
 	private final LocalTime time;

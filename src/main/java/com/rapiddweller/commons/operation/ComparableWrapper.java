@@ -44,7 +44,7 @@ public class ComparableWrapper<E> implements Comparable<ComparableWrapper> {
 		for (int i = 0; i < realObjects.length; i++) {
 			T realObject = realObjects[i];
 			Comparable comparable = (Comparable) comparableBuilder.convert(realObject);
-			result[i] = new ComparableWrapper<T>(comparable, realObject);
+			result[i] = new ComparableWrapper<>(comparable, realObject);
 		}
 		return result;
 	}

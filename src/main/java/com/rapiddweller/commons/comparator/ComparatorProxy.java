@@ -24,7 +24,7 @@ import java.util.Comparator;
  */
 public abstract class ComparatorProxy<E> implements Comparator<E> {
 
-    private Comparator<E> realComparator;
+    private final Comparator<E> realComparator;
 
     public ComparatorProxy(Comparator<E> realComparator) {
         this.realComparator = realComparator;

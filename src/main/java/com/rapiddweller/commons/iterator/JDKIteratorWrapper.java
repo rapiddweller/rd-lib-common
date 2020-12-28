@@ -25,7 +25,7 @@ import java.util.Iterator;
  */
 public class JDKIteratorWrapper<E> implements BidirectionalIterator<E> {
 
-    private Iterator<E> realIterator;
+    private final Iterator<E> realIterator;
 
     public JDKIteratorWrapper(Iterator<E> realIterator) {
         this.realIterator = realIterator;

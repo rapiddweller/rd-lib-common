@@ -41,8 +41,8 @@ public class PropertyFileList extends FileList {
 	
 	private static final long serialVersionUID = -1259803129031396860L;
 	
-	private Object bean;
-	private String propertyName;
+	private final Object bean;
+	private final String propertyName;
 
 	boolean locked;
 	

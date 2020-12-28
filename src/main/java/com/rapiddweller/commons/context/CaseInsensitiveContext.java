@@ -31,12 +31,12 @@ import com.rapiddweller.commons.Context;
 
 public class CaseInsensitiveContext implements Context {
 	
-	private boolean capsPreserved;
-	private Map<String, Object> map;
+	private final boolean capsPreserved;
+	private final Map<String, Object> map;
 
 	public CaseInsensitiveContext(boolean capsPreserved) {
 		this.capsPreserved = capsPreserved;
-		map = new HashMap<String, Object>();
+		map = new HashMap<>();
 	}
 	
 	// Context interface implementation --------------------------------------------------------------------------------

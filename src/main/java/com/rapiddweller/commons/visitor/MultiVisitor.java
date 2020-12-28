@@ -30,7 +30,8 @@ public class MultiVisitor<E> implements Visitor<E> {
 
 	protected List<Visitor<E>> realVisitors;
 	
-	public MultiVisitor(Visitor<E>... realVisitors) {
+	@SafeVarargs
+    public MultiVisitor(Visitor<E>... realVisitors) {
 		this.realVisitors = CollectionUtil.toList(realVisitors);
 	}
 	

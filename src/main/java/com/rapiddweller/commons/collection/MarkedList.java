@@ -32,7 +32,7 @@ import com.rapiddweller.commons.NullSafeComparator;
  */
 public class MarkedList<E> extends ListProxy<E> {
 	
-	private List<Boolean> marks;
+	private final List<Boolean> marks;
 
 	public MarkedList(List<E> realList) {
 		this(realList, createMarks(realList.size()));
@@ -71,7 +71,7 @@ public class MarkedList<E> extends ListProxy<E> {
 	}
 	
 	public List<E> getMarkedElements() {
-		List<E> result = new ArrayList<E>();
+		List<E> result = new ArrayList<>();
 		for (int i = 0; i < realList.size(); i++)
 			if (isMarked(i))
 				result.add(get(i));
@@ -79,7 +79,7 @@ public class MarkedList<E> extends ListProxy<E> {
 	}
 	
 	public List<E> getUnmarkedElements() {
-		List<E> result = new ArrayList<E>();
+		List<E> result = new ArrayList<>();
 		for (int i = 0; i < realList.size(); i++)
 			if (!isMarked(i))
 				result.add(get(i));
@@ -165,13 +165,13 @@ public class MarkedList<E> extends ListProxy<E> {
 
 	@Override
 	public List<E> subList(int fromIndex, int toIndex) {
-		return new MarkedList<E>(realList.subList(fromIndex, toIndex), marks.subList(fromIndex, toIndex));
+		return new MarkedList<>(realList.subList(fromIndex, toIndex), marks.subList(fromIndex, toIndex));
 	}
 	
 	// private helpers -------------------------------------------------------------------------------------------------
 	
 	private static ArrayList<Boolean> createMarks(int size) {
-		ArrayList<Boolean> result = new ArrayList<Boolean>(size);
+		ArrayList<Boolean> result = new ArrayList<>(size);
 		for (int i = 0; i < size; i++)
 			result.add(false);
 		return result;

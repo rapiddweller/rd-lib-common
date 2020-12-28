@@ -61,7 +61,7 @@ public class DatabeneTestUtil {
     }
 	
     private static void createDefaultProperties() {
-	    properties = new HashMap<String, String>();
+	    properties = new HashMap<>();
 	    properties.put("online", "false");
     }
 
@@ -70,7 +70,7 @@ public class DatabeneTestUtil {
 		if (StringUtil.isEmpty(setting))
 			return false;
 		else
-			return setting.toLowerCase().equals("true");
+			return setting.equalsIgnoreCase("true");
 	}
 	
 	public static String ftpDownloadUrl() {

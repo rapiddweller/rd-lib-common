@@ -29,7 +29,7 @@ public class ComparableComparatorTest {
 
 	@Test
     public void testCompare() {
-        Comparator<String> comparator = new ComparableComparator<String>();
+        Comparator<String> comparator = new ComparableComparator<>();
         assertEquals( 0, comparator.compare("1", "1"));
         assertEquals( 1, comparator.compare("1", "0"));
         assertEquals(-1, comparator.compare("0", "1"));

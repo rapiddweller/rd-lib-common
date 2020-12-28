@@ -48,13 +48,13 @@ public class FileList extends JPanel {
 	I18NSupport i18n;
 	JList<File> list;
 	protected ArrayListModel model;
-	private JFileChooser chooser;
+	private final JFileChooser chooser;
 	
 	public FileList(I18NSupport i18n) {
 		super(new BorderLayout());
 		this.i18n = i18n;
 		model = new ArrayListModel();
-		list = new JList<File>(model);
+		list = new JList<>(model);
 		list.setVisibleRowCount(4);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		list.setCellRenderer(new FilePathListCellRenderer());

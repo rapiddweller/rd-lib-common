@@ -29,7 +29,7 @@ public class Boolean2NumberConverter<T extends Number> extends ConverterWrapper<
 	implements Converter<Boolean, T> {
 	
 	public Boolean2NumberConverter(Class<T> targetType) {
-	    super(new NumberToNumberConverter<Integer, T>(Integer.class, targetType));
+	    super(new NumberToNumberConverter<>(Integer.class, targetType));
     }
 
 	@Override

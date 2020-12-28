@@ -35,7 +35,7 @@ public class ArrayFormatTest {
 
 	@Test
     public void testInstanceFormat() {
-        assertEquals("1, 2, 3", ArrayFormat.format(new Integer[] {1, 2, 3}));
+        assertEquals("1, 2, 3", ArrayFormat.format(1, 2, 3));
     }
 
 	@Test

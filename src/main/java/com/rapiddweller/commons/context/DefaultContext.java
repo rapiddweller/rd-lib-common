@@ -29,7 +29,7 @@ import java.util.Set;
  */
 public class DefaultContext implements Context {
 
-    private Context defaults;
+    private final Context defaults;
 
     protected Map<String, Object> map;
 
@@ -39,17 +39,17 @@ public class DefaultContext implements Context {
 
     public DefaultContext(Context defaults) {
         this.defaults = defaults;
-        this.map = new HashMap<String, Object>();
+        this.map = new HashMap<>();
     }
 
     public DefaultContext(Map<String, ?> map) {
     	this.defaults = null;
-        this.map = new HashMap<String, Object>(map);
+        this.map = new HashMap<>(map);
     }
     
     public DefaultContext(Properties props) {
     	this.defaults = null;
-        this.map = new HashMap<String, Object>(props.size());
+        this.map = new HashMap<>(props.size());
         for (Map.Entry<?, ?> entry : props.entrySet())
         	this.map.put((String) entry.getKey(), entry.getValue());
     }

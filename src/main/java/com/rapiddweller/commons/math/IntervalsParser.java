@@ -46,8 +46,8 @@ import com.rapiddweller.commons.Parser;
  */
 public class IntervalsParser<E> extends Parser<Intervals<E>> {
 
-	private Parser<E> endpointParser;
-	private Comparator<E> endpointComparator;
+	private final Parser<E> endpointParser;
+	private final Comparator<E> endpointComparator;
 	
 	public static <T> Intervals<T> parse(String text, Parser<T> endpointParser, Comparator<T> endpointComparator) {
 		return new IntervalsParser<T>(endpointParser, endpointComparator).parseObject(text, new ParsePosition(0));
@@ -60,7 +60,7 @@ public class IntervalsParser<E> extends Parser<Intervals<E>> {
 
 	@Override
 	public Intervals<E> parseObject(String text, ParsePosition pos) {
-		return parseObject(text, pos, new Intervals<E>());
+		return parseObject(text, pos, new Intervals<>());
 	}
 
 	public Intervals<E> parseObject(String text, ParsePosition pos, Intervals<E> target) {
@@ -83,7 +83,7 @@ public class IntervalsParser<E> extends Parser<Intervals<E>> {
 		char c = text.charAt(pos.getIndex());
 		if (c == '*') {
 			advance(pos);
-			return new Interval<E>(null, false, null, false, endpointComparator);
+			return new Interval<>(null, false, null, false, endpointComparator);
 		} else if (c == '>' || c == '<') {
 			return parseBound(text, pos);
 		} else if (c == '[' || c == ']') {
@@ -112,16 +112,16 @@ public class IntervalsParser<E> extends Parser<Intervals<E>> {
 			max = endpoint;
 			maxInclusive = orEqual;
 		}
-		return new Interval<E>(min, minInclusive, max, maxInclusive, endpointComparator);
+		return new Interval<>(min, minInclusive, max, maxInclusive, endpointComparator);
 	}
 
 	private Interval<E> parseInterval(String text, ParsePosition pos) {
-		return new IntervalParser<E>(endpointParser, endpointComparator).parseObject(text, pos);
+		return new IntervalParser<>(endpointParser, endpointComparator).parseObject(text, pos);
 	}
 
 	private Interval<E> parseEndpoint(String text, ParsePosition pos) {
 		E endpoint = endpointParser.parseObject(text, pos);
-		return new Interval<E>(endpoint, true, endpoint, true, endpointComparator);
+		return new Interval<>(endpoint, true, endpoint, true, endpointComparator);
 	}
 
 	private static void advance(ParsePosition pos) {

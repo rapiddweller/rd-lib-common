@@ -36,14 +36,14 @@ public class DependencyModel<E extends Dependent<E>> {
     
     private static final Logger LOGGER = LogManager.getLogger(DependencyModel.class);
     
-    private Map<E, Node<E>> nodeMappings;
+    private final Map<E, Node<E>> nodeMappings;
     
     public DependencyModel() {
-        this.nodeMappings = new HashMap<E, Node<E>>();
+        this.nodeMappings = new HashMap<>();
     }
     
     public void addNode(E object) {
-        nodeMappings.put(object, new Node<E>(object));
+        nodeMappings.put(object, new Node<>(object));
     }
     
     public List<E> dependencyOrderedObjects(boolean acceptingCycles) {
@@ -61,17 +61,15 @@ public class DependencyModel<E extends Dependent<E>> {
         }
         
         // set up lists for processing
-        List<Node<E>> heads = new ArrayList<Node<E>>();
-        List<Node<E>> tails = new ArrayList<Node<E>>();
-        List<Node<E>> pending = new ArrayList<Node<E>>(nodeMappings.size());
-        List<Node<E>> orderedNodes = new ArrayList<Node<E>>(nodeMappings.size());
-        List<Node<E>> incompletes = new ArrayList<Node<E>>();
+        List<Node<E>> heads = new ArrayList<>();
+        List<Node<E>> tails = new ArrayList<>();
+        List<Node<E>> pending = new ArrayList<>(nodeMappings.size());
+        List<Node<E>> orderedNodes = new ArrayList<>(nodeMappings.size());
+        List<Node<E>> incompletes = new ArrayList<>();
         
         try {
             // determine types and extract islands
-            Iterator<Node<E>> iterator = nodeMappings.values().iterator();
-            while (iterator.hasNext()) {
-                Node<E> node = iterator.next();
+            for (Node<E> node : nodeMappings.values()) {
                 if (node.hasForeignClients()) {
                     if (node.hasForeignProviders()) {
                         pending.add(node);
@@ -125,7 +123,7 @@ public class DependencyModel<E extends Dependent<E>> {
             	LOGGER.debug("ordered to " + orderedNodes);
             
             // map result
-            List<E> result = new ArrayList<E>(orderedNodes.size());
+            List<E> result = new ArrayList<>(orderedNodes.size());
             for (Node<E> node : orderedNodes) {
                 E subject = node.getSubject();
                 if (node.getState() != INITIALIZED)

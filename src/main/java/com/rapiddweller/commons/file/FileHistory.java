@@ -38,14 +38,14 @@ public class FileHistory {
 	
 	private static final String RECENT_FILE_PREFIX = "recent_file_";
 	
-	private Class<?> clazz;
-	private ArrayDeque<File> files;
-	private boolean toleratingFailure;
+	private final Class<?> clazz;
+	private final ArrayDeque<File> files;
+	private final boolean toleratingFailure;
 	
 	public FileHistory(Class<?> clazz, int length, boolean toleratingFailure) {
 		this.clazz = clazz;
 		Assert.lessOrEqual(length, HISTORY_LENGTH_LIMIT, "length");
-		this.files = new ArrayDeque<File>(length);
+		this.files = new ArrayDeque<>(length);
 		this.toleratingFailure = toleratingFailure;
 		load();
 	}
@@ -109,10 +109,7 @@ public class FileHistory {
 	}
 
 	private void remove(File file) {
-		Iterator<File> iterator = files.iterator();
-		while (iterator.hasNext())
-			if (file.equals(iterator.next()))
-				iterator.remove();
+		files.removeIf(file::equals);
 	}
 	
 	private void appendFile(File file) {

@@ -25,17 +25,17 @@ import java.util.ArrayList;
  */
 public class DefaultTreeNode<E> {
 
-    private DefaultTreeNode<E> parent;
-    private boolean leaf;
-    private List<DefaultTreeNode<E>> children;
+    private final DefaultTreeNode<E> parent;
+    private final boolean leaf;
+    private final List<DefaultTreeNode<E>> children;
     protected E object;
 
     public static <T> DefaultTreeNode<T> createLeaf(DefaultTreeNode<T> parent, T object) {
-        return new DefaultTreeNode<T>(parent, object, true);
+        return new DefaultTreeNode<>(parent, object, true);
     }
 
     public static <T> DefaultTreeNode<T> createFolder(DefaultTreeNode<T> parent, T object) {
-        return new DefaultTreeNode<T>(parent, object, false);
+        return new DefaultTreeNode<>(parent, object, false);
     }
 
     public DefaultTreeNode(E object) {
@@ -49,7 +49,7 @@ public class DefaultTreeNode<E> {
     public DefaultTreeNode(DefaultTreeNode<E> parent, E object, boolean leaf) {
         this.parent = parent;
         this.leaf = leaf;
-        this.children = new ArrayList<DefaultTreeNode<E>>();
+        this.children = new ArrayList<>();
         this.object = object;
     }
 

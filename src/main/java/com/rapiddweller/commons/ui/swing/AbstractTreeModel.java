@@ -29,10 +29,10 @@ import javax.swing.tree.TreeModel;
  */
 public abstract class AbstractTreeModel implements TreeModel {
 
-	private List<TreeModelListener> listeners;
+	private final List<TreeModelListener> listeners;
 	
 	public AbstractTreeModel() {
-		this.listeners = new ArrayList<TreeModelListener>();
+		this.listeners = new ArrayList<>();
 	}
 	
 	@Override

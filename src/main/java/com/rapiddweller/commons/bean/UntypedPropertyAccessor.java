@@ -28,9 +28,9 @@ import java.lang.reflect.Method;
 @SuppressWarnings("rawtypes")
 public class UntypedPropertyAccessor implements PropertyAccessor {
 
-    private String propertyName;
+    private final String propertyName;
     private Class<?> propertyType;
-    private boolean strict;
+    private final boolean strict;
 
     public UntypedPropertyAccessor(String propertyName, boolean strict) {
         this.propertyName = propertyName;

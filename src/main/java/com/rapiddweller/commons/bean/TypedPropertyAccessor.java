@@ -28,9 +28,9 @@ import java.beans.PropertyDescriptor;
  */
 class TypedPropertyAccessor<E> implements PropertyAccessor<E, Object> {
 
-    private String propertyName;
+    private final String propertyName;
     private Method accessorMethod;
-    private boolean strict;
+    private final boolean strict;
 
     public TypedPropertyAccessor(Class<E> beanClass, String propertyName, boolean strict) {
         this.propertyName = propertyName;

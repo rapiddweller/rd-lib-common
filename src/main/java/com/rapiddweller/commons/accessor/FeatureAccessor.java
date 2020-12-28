@@ -38,9 +38,9 @@ import java.util.Map;
  */
 public class FeatureAccessor<C, V> implements Accessor<C, V> {
     
-    private static Logger LOGGER = LogManager.getLogger(FeatureAccessor.class);
+    private static final Logger LOGGER = LogManager.getLogger(FeatureAccessor.class);
     
-    private static Escalator escalator = new LoggerEscalator();
+    private static final Escalator escalator = new LoggerEscalator();
 
     private String featureName;
     

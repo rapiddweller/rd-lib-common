@@ -24,7 +24,7 @@ import com.rapiddweller.commons.Validator;
  */
 public class StringValidator extends StringLengthValidator {
 	
-	private Validator<Character> charValidator;
+	private final Validator<Character> charValidator;
 	
 	// constructors ----------------------------------------------------------------------------------------------------
 

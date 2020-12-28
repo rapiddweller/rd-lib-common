@@ -22,7 +22,7 @@ import java.util.*;
  */
 public class Period implements Comparable<Period> {
 
-    private static SortedSet<Period> instances = new TreeSet<Period>();
+    private static final SortedSet<Period> instances = new TreeSet<>();
 
     public static final Period MILLISECOND = new Period(1L, "ms");
     public static final Period SECOND = new Period(1000L, "s");
@@ -34,8 +34,8 @@ public class Period implements Comparable<Period> {
     public static final Period QUARTER = new Period(3L * MONTH.millis, "M");
     public static final Period YEAR = new Period(365L * DAY.millis, "y");
 
-    private long millis;
-    private String name;
+    private final long millis;
+    private final String name;
 
     private Period(long millis, String name) {
         this.millis = millis;
@@ -52,7 +52,7 @@ public class Period implements Comparable<Period> {
     }
 
     public static List<Period> getInstances() {
-        return new ArrayList<Period>(instances);
+        return new ArrayList<>(instances);
     }
 
     // java.lang.Object overrides --------------------------------------------------------------------------------------
@@ -80,12 +80,7 @@ public class Period implements Comparable<Period> {
 
     @Override
 	public int compareTo(Period that) {
-        if (this.millis > that.millis)
-            return 1;
-        else if (this.millis < that.millis)
-            return -1;
-        else
-            return 0;
+        return Long.compare(this.millis, that.millis);
     }
 
     public static Period minInstance() {

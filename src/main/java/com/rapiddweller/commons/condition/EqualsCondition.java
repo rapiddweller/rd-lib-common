@@ -25,7 +25,7 @@ import com.rapiddweller.commons.NullSafeComparator;
  */
 public class EqualsCondition<E> implements Condition<E> {
 
-    private E reference;
+    private final E reference;
 
     public EqualsCondition(E reference) {
         this.reference = reference;

@@ -24,7 +24,7 @@ import com.rapiddweller.commons.TreeModel;
  */
 public class DefaultTreeModel<E> implements TreeModel<DefaultTreeNode<E>> {
 
-    private DefaultTreeNode<E> root;
+    private final DefaultTreeNode<E> root;
 
     public DefaultTreeModel(DefaultTreeNode<E> root) {
         this.root = root;

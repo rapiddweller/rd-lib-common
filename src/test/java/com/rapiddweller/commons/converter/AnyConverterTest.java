@@ -84,15 +84,15 @@ public class AnyConverterTest extends AbstractConverterTest {
 
 	@Test
     public void testIdConversion() throws ConversionException {
-        assertEquals(true, (boolean) AnyConverter.convert(true, boolean.class));
+        assertEquals(true, AnyConverter.convert(true, boolean.class));
         assertEquals("text", AnyConverter.convert("text", String.class));
         assertEquals(1, (int) AnyConverter.convert(1, int.class));
     }
 
 	@Test
     public void testFromStringConversion() throws Exception {
-        assertEquals(true, (boolean) AnyConverter.convert("true", Boolean.class));
-        assertEquals(true, (boolean) AnyConverter.convert("true", boolean.class));
+        assertEquals(true, AnyConverter.convert("true", Boolean.class));
+        assertEquals(true, AnyConverter.convert("true", boolean.class));
         assertEquals(1, (int) AnyConverter.convert("1", Integer.class));
         assertEquals(1, (int) AnyConverter.convert("1", int.class));
         assertEquals(new SimpleDateFormat("S").parse("1"), AnyConverter.convert("00:00:00.001", Time.class));

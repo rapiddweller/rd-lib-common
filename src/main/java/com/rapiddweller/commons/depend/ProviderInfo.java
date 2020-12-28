@@ -22,8 +22,8 @@ package com.rapiddweller.commons.depend;
  */
 class ProviderInfo<E> {
     
-    private E provider;
-    private boolean required;
+    private final E provider;
+    private final boolean required;
     
     public ProviderInfo(E provider, boolean required) {
         super();

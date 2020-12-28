@@ -26,7 +26,7 @@ import java.text.SimpleDateFormat;
  */
 public class Timespan {
 
-    private static SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     public Date startDate;
     public Date endDate;
@@ -42,7 +42,7 @@ public class Timespan {
 
     public Long duration() {
         if (endDate != null && startDate != null)
-            return new Long(endDate.getTime() - startDate.getTime());
+            return endDate.getTime() - startDate.getTime();
         else
             return null;
     }
@@ -101,7 +101,7 @@ public class Timespan {
 
 
 	public Iterator<Date> dayIterator() {
-		List<Date> dates = new ArrayList<Date>();
+		List<Date> dates = new ArrayList<>();
 		for (Date date = startDate; !date.after(endDate); date = TimeUtil.addDays(date, 1))
 			dates.add(date);
 		return dates.iterator();
@@ -140,11 +140,9 @@ public class Timespan {
 		} else if (!endDate.equals(that.endDate))
 			return false;
 		if (startDate == null) {
-			if (that.startDate != null)
-				return false;
+            return that.startDate == null;
 		} else 
 			return (startDate.equals(that.startDate));
-		return true;
-	}
+    }
 
 }

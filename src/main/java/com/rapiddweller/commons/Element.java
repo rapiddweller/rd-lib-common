@@ -21,5 +21,5 @@ package com.rapiddweller.commons;
  * @param <E> the type of object to be visited
  */
 public interface Element<E> {
-    public void accept(Visitor<E> visitor);
+    void accept(Visitor<E> visitor);
 }

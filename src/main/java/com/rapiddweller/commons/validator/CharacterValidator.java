@@ -25,7 +25,7 @@ import com.rapiddweller.commons.Validator;
  */
 public class CharacterValidator implements Validator<Character> {
 
-	private CharSet charSet;
+	private final CharSet charSet;
 
 	public CharacterValidator(CharSet charSet) {
 	    this.charSet = charSet;

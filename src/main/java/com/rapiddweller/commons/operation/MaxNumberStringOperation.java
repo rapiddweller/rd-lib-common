@@ -28,12 +28,12 @@ import com.rapiddweller.commons.converter.NumberParser;
 public class MaxNumberStringOperation implements Operation<String, String> {
 
     @SuppressWarnings("rawtypes")
-	private MaxOperation<ComparableWrapper> operation;
-	private Converter<String, ?> parser;
+	private final MaxOperation<ComparableWrapper> operation;
+	private final Converter<String, ?> parser;
 
     @SuppressWarnings("rawtypes")
 	public MaxNumberStringOperation() {
-        this.operation = new MaxOperation<ComparableWrapper>();
+        this.operation = new MaxOperation<>();
         this.parser = new NumberParser();
     }
 

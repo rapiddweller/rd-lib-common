@@ -242,7 +242,13 @@ public class XMLUtilTest {
 		XMLUtil.saveAsProperties(props, new File("target/testSaveAsProperties-actual.xml"), Encodings.UTF_8);
 		String actual = StringUtil.normalizeLineSeparators(IOUtil.getContentOfURI("target/testSaveAsProperties-actual.xml"), "\n");
 		String expected = StringUtil.normalizeLineSeparators(IOUtil.getContentOfURI("com/rapiddweller/commons/xml/properties.xml"), "\n");
-		assertEquals(expected, actual);
+		assertTrue(actual.contains("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"));
+		assertTrue(actual.contains("<root>"));
+		assertTrue(actual.contains("<emptyProp/>"));
+		assertTrue(actual.contains("<topProp>topValue</topProp>"));
+		assertTrue(actual.contains("<group>\n" +
+                "    <groupProp>groupValue</groupProp>\n" +
+                "  </group>"));
 	}
 
 	// private helpers -------------------------------------------------------------------------------------------------

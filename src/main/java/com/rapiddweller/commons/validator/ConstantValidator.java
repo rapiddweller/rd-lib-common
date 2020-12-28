@@ -25,7 +25,7 @@ import com.rapiddweller.commons.Validator;
 
 public class ConstantValidator implements Validator<Object> {
 
-	private Object expectedValue;
+	private final Object expectedValue;
 	
     public ConstantValidator() {
     	this(null);

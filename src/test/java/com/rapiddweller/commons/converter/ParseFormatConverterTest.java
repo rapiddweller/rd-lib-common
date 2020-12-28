@@ -41,7 +41,7 @@ public class ParseFormatConverterTest extends AbstractConverterTest {
 
 	@Test
     public void testIntegerConversion() throws ConversionException {
-        ParseFormatConverter<Long> converter = new ParseFormatConverter<Long>(Long.class, NumberFormat.getInstance(), false);
+        ParseFormatConverter<Long> converter = new ParseFormatConverter<>(Long.class, NumberFormat.getInstance(), false);
         assertNull(converter.convert(null));
         assertEquals( 1L, (long)converter.convert( "1"));
         assertEquals( 0L, (long)converter.convert( "0"));
@@ -50,7 +50,7 @@ public class ParseFormatConverterTest extends AbstractConverterTest {
 
 	@Test
     public void testDateConversion() throws ConversionException {
-        ParseFormatConverter<Date> converter = new ParseFormatConverter<Date>(Date.class, new SimpleDateFormat("yyyy-MM-dd"), false);
+        ParseFormatConverter<Date> converter = new ParseFormatConverter<>(Date.class, new SimpleDateFormat("yyyy-MM-dd"), false);
         assertNull(converter.convert(null));
         assertEquals(TimeUtil.date(1969,  5, 24), converter.convert("1969-06-24"));
         assertEquals(TimeUtil.date(1970,  0,  1), converter.convert("1970-01-01"));

@@ -48,7 +48,7 @@ public class ConvertingIterable<S, T> implements HeavyweightTypedIterable<T> {
 
     @Override
 	public HeavyweightIterator<T> iterator() {
-        return new ConvertingIterator<S, T>(this.iterable.iterator(), converter);
+        return new ConvertingIterator<>(this.iterable.iterator(), converter);
     }
     
 	public void close() {

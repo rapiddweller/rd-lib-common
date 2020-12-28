@@ -30,10 +30,10 @@ public class Intervals<E> implements Serializable {
 
 	private static final long serialVersionUID = 8528001196553630862L;
 	
-	private List<Interval<E>> intervals;
+	private final List<Interval<E>> intervals;
 	
 	public Intervals() {
-		this.intervals = new ArrayList<Interval<E>>();
+		this.intervals = new ArrayList<>();
 	}
 	
 	public Intervals<E> add(Interval<E> interval) {

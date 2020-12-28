@@ -28,9 +28,9 @@ public class ArrayBuilder<E> {
     
     private static final int DEFAULT_INITIAL_CAPACITY = 10;
     
-    private static Escalator escalator = new LoggerEscalator();
+    private static final Escalator escalator = new LoggerEscalator();
     
-    private Class<E> componentType;
+    private final Class<E> componentType;
     private E[] buffer;
     private int elementCount;
 
@@ -65,7 +65,8 @@ public class ArrayBuilder<E> {
         return this;
     }
     
-	public void addAllIfNotContained(E... elements) {
+	@SafeVarargs
+    public final void addAllIfNotContained(E... elements) {
 		for (E element : elements)
 			addIfNotContained(element);
 	}

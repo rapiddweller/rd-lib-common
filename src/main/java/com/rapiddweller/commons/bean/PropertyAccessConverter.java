@@ -25,7 +25,7 @@ import com.rapiddweller.commons.converter.ThreadSafeConverter;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class PropertyAccessConverter extends ThreadSafeConverter {
 
-    private PropertyAccessor accessor;
+    private final PropertyAccessor accessor;
     
     // constructors ----------------------------------------------------------------------------------------------------
 

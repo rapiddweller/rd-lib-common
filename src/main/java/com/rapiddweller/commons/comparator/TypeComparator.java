@@ -26,10 +26,10 @@ import java.util.Map;
  */
 public class TypeComparator implements Comparator<Class<?>> {
 
-    private Map<Class<?>, Integer> indexes;
+    private final Map<Class<?>, Integer> indexes;
 
     public TypeComparator(Class<?> ... orderedClasses) {
-        indexes = new HashMap<Class<?>, Integer>();
+        indexes = new HashMap<>();
         int count = 0;
         for (Class<?> type : orderedClasses)
             indexes.put(type, ++count);

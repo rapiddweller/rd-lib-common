@@ -45,7 +45,7 @@ public class OSXUtil {
 				classLoader, 
 				new Class[] { applicationListenerClass }, 
 				new OSXInvocationHandler(application));
-		BeanUtil.invoke(osxApplication, "addApplicationListener", new Object[] { osxAdapterProxy });
+		BeanUtil.invoke(osxApplication, "addApplicationListener", osxAdapterProxy);
 		
 		// set dock icon image
 		String iconPath = application.iconPath();

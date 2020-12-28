@@ -159,6 +159,7 @@ public class ParseUtilTest {
     
 	// implementation --------------------------------------------------------------------------------------------------
 
+    @SafeVarargs
     private static <T> void assertEqualArrays(T[] found, T ... expected) {
         if (!Arrays.deepEquals(expected, found))
             throw new AssertionFailedError();
@@ -171,7 +172,7 @@ public class ParseUtilTest {
     }
 
     private static PushbackReader createReader(String ... lines) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
             buffer.append(line);

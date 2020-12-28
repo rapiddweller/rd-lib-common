@@ -30,9 +30,9 @@ import java.beans.PropertyDescriptor;
  */
 public class TypedPropertyMutator extends AbstractNamedMutator {
 
-    private boolean required;
-    private boolean autoConvert;
-    private Method writeMethod;
+    private final boolean required;
+    private final boolean autoConvert;
+    private final Method writeMethod;
 
     public TypedPropertyMutator(Class<?> beanClass, String propertyName, boolean required, boolean autoConvert) {
         super(propertyName);

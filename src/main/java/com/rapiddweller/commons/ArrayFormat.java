@@ -39,8 +39,8 @@ public class ArrayFormat extends Format {
 
     // attributes ------------------------------------------------------------------------------------------------------
 
-    private Converter<Object, String> itemFormatter;
-    private String separator;
+    private final Converter<Object, String> itemFormatter;
+    private final String separator;
 
     // constructors ----------------------------------------------------------------------------------------------------
 
@@ -77,28 +77,34 @@ public class ArrayFormat extends Format {
 
     // publicly available utility methods ------------------------------------------------------------------------------
 
+    @SafeVarargs
     public static <T> String format(T ... items) {
         return format(", ", items);
     }
 
+    @SafeVarargs
     public static <T> String format(String separator, T ... items) {
         if (items == null)
             return "";
         return formatPart(null, separator, 0, items.length, items);
     }
 
+    @SafeVarargs
     public static <T> String format(Converter<Object,String> formatter, String separator, T ... items) {
         return formatPart(formatter, separator, 0, items.length, items);
     }
 
+    @SafeVarargs
     public static <T> String formatPart(int offset, int length, T ... items) {
         return formatPart(null, DEFAULT_SEPARATOR, offset, length, items);
     }
 
+    @SafeVarargs
     public static <T> String formatPart(String separator, int offset, int length, T ... items) {
         return formatPart(null, separator, offset, length, items);
     }
 
+    @SafeVarargs
     public static <T> String formatPart(Converter<Object,String> formatter, String separator, int offset, int length, T ... items) {
         if (items.length == 0)
             return "";
@@ -160,7 +166,7 @@ public class ArrayFormat extends Format {
     // parse methods ---------------------------------------------------------------------------------------------------
 
     public static <T> T[] parse(String source, String separator, Class<T> componentType) {
-        ArrayBuilder<T> builder = new ArrayBuilder<T>(componentType);
+        ArrayBuilder<T> builder = new ArrayBuilder<>(componentType);
         int i = 0;
         int sepIndex;
         while ((sepIndex = source.indexOf(separator, i)) >= 0) {
@@ -168,7 +174,7 @@ public class ArrayFormat extends Format {
             builder.add(AnyConverter.convert(token, componentType));
             i = sepIndex + separator.length();
         }
-        builder.add(AnyConverter.convert(source.substring(i, source.length()), componentType));
+        builder.add(AnyConverter.convert(source.substring(i), componentType));
         return builder.toArray();
     }
 

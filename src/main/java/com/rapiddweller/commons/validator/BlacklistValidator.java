@@ -29,7 +29,7 @@ public class BlacklistValidator<E> extends AbstractValidator<E> {
 	private Set<E> blacklist;
 	
 	public BlacklistValidator(Set<E> blacklist) {
-	    this.blacklist = (blacklist != null ? blacklist : new HashSet<E>());
+	    this.blacklist = (blacklist != null ? blacklist : new HashSet<>());
     }
 
 	public void setBlacklist(Set<E> blacklist) {

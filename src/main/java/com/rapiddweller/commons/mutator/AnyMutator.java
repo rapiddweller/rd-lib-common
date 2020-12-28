@@ -39,11 +39,11 @@ import com.rapiddweller.commons.converter.AnyConverter;
  */
 public class AnyMutator implements NamedMutator {
     
-    private static Escalator escalator = new LoggerEscalator();
+    private static final Escalator escalator = new LoggerEscalator();
     
-    private String path;
-    private boolean required;
-    private boolean autoConvert;
+    private final String path;
+    private final boolean required;
+    private final boolean autoConvert;
     
     public AnyMutator(String path) {
         this(path, true, false);

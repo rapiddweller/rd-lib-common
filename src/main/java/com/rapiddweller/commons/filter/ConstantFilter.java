@@ -25,7 +25,7 @@ import com.rapiddweller.commons.Filter;
  */
 public class ConstantFilter<E> implements Filter<E> {
 	
-	private boolean accept;
+	private final boolean accept;
 
 	public ConstantFilter(boolean accept) {
 		this.accept = accept;

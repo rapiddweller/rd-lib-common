@@ -28,7 +28,7 @@ import java.io.IOException;
  */
 public class TextLineIterable implements HeavyweightTypedIterable<String> {
 
-    private String uri;
+    private final String uri;
 
     public TextLineIterable(String uri) {
         this.uri = uri;

@@ -28,7 +28,7 @@ import java.util.Comparator;
  */
 public class MaxOperation<E> implements Operation<E, E> {
 
-    private Comparator<E> comparator;
+    private final Comparator<E> comparator;
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public MaxOperation() {
@@ -39,8 +39,9 @@ public class MaxOperation<E> implements Operation<E, E> {
         this.comparator = comparator;
     }
 
+    @SafeVarargs
     @Override
-	public E perform(E... args) {
+	public final E perform(E... args) {
         if (args.length == 0)
             return null;
         E result = args[0];

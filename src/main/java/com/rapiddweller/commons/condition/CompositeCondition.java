@@ -26,6 +26,7 @@ public abstract class CompositeCondition<E> implements Condition<E> {
 
     protected Condition<E>[] components;
 
+    @SafeVarargs
     public CompositeCondition(Condition<E> ... components) {
         this.components = components;
     }

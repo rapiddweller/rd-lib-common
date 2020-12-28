@@ -27,7 +27,7 @@ import org.w3c.dom.Document;
  */
 public class XMLParser {
 
-	private ClassLoader jaxpClassLoader;
+	private final ClassLoader jaxpClassLoader;
 	
 	public XMLParser() {
 		this(null);

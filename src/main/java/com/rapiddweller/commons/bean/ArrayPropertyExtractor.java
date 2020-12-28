@@ -28,8 +28,8 @@ import com.rapiddweller.commons.converter.AnyConverter;
  */
 public class ArrayPropertyExtractor<E> extends ThreadSafeConverter<Object[], E[]> {
 
-    private String propertyName;
-    private Class<E> propertyType;
+    private final String propertyName;
+    private final Class<E> propertyType;
 
     @SuppressWarnings("unchecked")
     public ArrayPropertyExtractor(String propertyName, Class<E> propertyType) {

@@ -86,7 +86,7 @@ public final class ArrayUtil {
 
 	public static <T> T[] removeAll(T[] toRemove, T[] target) {
         Class<T> componentType = componentType(target);
-		ArrayBuilder<T> builder = new ArrayBuilder<T>(componentType);
+		ArrayBuilder<T> builder = new ArrayBuilder<>(componentType);
 		for (T element : target)
 			if (!contains(element, toRemove))
 				builder.add(element);
@@ -157,8 +157,9 @@ public final class ArrayUtil {
         return commonElements(componentType, sources);
     }
 
+    @SafeVarargs
     public static <T> T[] commonElements(Class<T> componentType, T[]... sources) {
-        ArrayBuilder<T> builder = new ArrayBuilder<T>(componentType);
+        ArrayBuilder<T> builder = new ArrayBuilder<>(componentType);
         T[] firstArray = sources[0];
         for (T element : firstArray) {
             boolean common = true;
@@ -183,7 +184,7 @@ public final class ArrayUtil {
             return false;
         if (a1.length != a2.length)
             return false;
-        List<T> l1 = new ArrayList<T>(a1.length);
+        List<T> l1 = new ArrayList<>(a1.length);
         for (T item : a1)
             l1.add(item);
         for (int i = a1.length - 1; i >= 0; i--)
@@ -202,7 +203,7 @@ public final class ArrayUtil {
         int length = Array.getLength(a1);
 		if (length != Array.getLength(a2))
             return false;
-        List<Object> l1 = new ArrayList<Object>(length);
+        List<Object> l1 = new ArrayList<>(length);
         for (int i = 0; i < length ; i++)
             l1.add(Array.get(a1, i));
         for (int i = length - 1; i >= 0; i--) {
@@ -256,7 +257,7 @@ public final class ArrayUtil {
     }
     
     public static <T> Iterator<T> iterator(T[] array) {
-    	return new ArrayIterator<T>(array);
+    	return new ArrayIterator<>(array);
     }
 
     public static <T> T[] revert(T[] array) {

@@ -65,13 +65,13 @@ public final class BeanUtil {
 
     private static final Logger logger = LogManager.getLogger(BeanUtil.class);
     
-    private static final HashSet<String> NON_CLASS_NAMES = new HashSet<String>(100);
+    private static final HashSet<String> NON_CLASS_NAMES = new HashSet<>(100);
     
-    private static Escalator escalator = new LoggerEscalator();
+    private static final Escalator escalator = new LoggerEscalator();
 
     // (static) attributes ---------------------------------------------------------------------------------------------
 
-    private static final Map<String, PropertyDescriptor> propertyDescriptors = new HashMap<String, PropertyDescriptor>();
+    private static final Map<String, PropertyDescriptor> propertyDescriptors = new HashMap<>();
 
     /**
      * List of simple Java types.
@@ -120,27 +120,27 @@ public final class BeanUtil {
     /**
      * Map of integral Java number types
      */
-    private static Map<String, Class<?>> integralNumberTypeMap;
+    private static final Map<String, Class<?>> integralNumberTypeMap;
 
     /**
      * Map of decimal Java number types
      */
-    private static Map<String, Class<?>> decimalNumberTypeMap;
+    private static final Map<String, Class<?>> decimalNumberTypeMap;
 
     /**
      * Map of simple Java types
      */
-    private static Map<String, Class<?>> simpleTypeMap;
+    private static final Map<String, Class<?>> simpleTypeMap;
 
     /**
      * Map of primitive Java types
      */
-    private static Map<String, Class<?>> primitiveTypeMap;
+    private static final Map<String, Class<?>> primitiveTypeMap;
 
     /**
      * Map of primitive Java number types
      */
-    private static Map<String, Class<?>> primitiveNumberTypeMap;
+    private static final Map<String, Class<?>> primitiveNumberTypeMap;
 
     // initialization --------------------------------------------------------------------------------------------------
 
@@ -148,8 +148,8 @@ public final class BeanUtil {
         simpleTypeMap = map(simpleTypes);
         integralNumberTypeMap = map(integralNumberTypes);
         decimalNumberTypeMap = map(decimalNumberTypes);
-        primitiveNumberTypeMap = new HashMap<String, Class<?>>();
-        primitiveTypeMap = new HashMap<String, Class<?>>();
+        primitiveNumberTypeMap = new HashMap<>();
+        primitiveTypeMap = new HashMap<>();
         for (PrimitiveTypeMapping mapping : primitiveNumberTypes) {
             primitiveNumberTypeMap.put(mapping.primitiveType.getName(), mapping.wrapperType);
             primitiveTypeMap.put(mapping.primitiveType.getName(), mapping.wrapperType);
@@ -159,7 +159,7 @@ public final class BeanUtil {
     }
 
 	private static Map<String, Class<?>> map(Class<?>[] array) {
-		Map<String, Class<?>> result = new HashMap<String, Class<?>>();
+		Map<String, Class<?>> result = new HashMap<>();
         for (Class<?> type : array)
         	result.put(type.getName(), type);
         return result;
@@ -364,12 +364,10 @@ public final class BeanUtil {
         else {
             try {
                  return (Class<T>) getContextClassLoader().loadClass(name);
-            } catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException | NullPointerException e) {
                 throw ExceptionMapper.configurationException(e, name);
-            } catch (NullPointerException e) {
-            	// this is raised by the Eclipse BundleLoader if it does not find the class
-                throw ExceptionMapper.configurationException(e, name);
-            }
+            } // this is raised by the Eclipse BundleLoader if it does not find the class
+
         }
     }
 
@@ -456,7 +454,7 @@ public final class BeanUtil {
         Constructor<T> constructorToUse = null;
         try {
             Constructor<T>[] constructors = (Constructor<T>[]) type.getConstructors();
-    		List<Constructor<T>> candidates = new ArrayList<Constructor<T>>(constructors.length);
+    		List<Constructor<T>> candidates = new ArrayList<>(constructors.length);
     		int paramCount = parameters.length;
     		for (Constructor<T> constructor : constructors)
     			if (constructor.getParameterTypes().length == paramCount)
@@ -526,11 +524,7 @@ public final class BeanUtil {
             escalator.escalate("Instantiating a deprecated class: " + type.getName(), BeanUtil.class, null);
         try {
             return constructor.newInstance(parameters);
-        } catch (InstantiationException e) {
-            throw ExceptionMapper.configurationException(e, type);
-        } catch (IllegalAccessException e) {
-            throw ExceptionMapper.configurationException(e, type);
-        } catch (InvocationTargetException e) {
+        } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
             throw ExceptionMapper.configurationException(e, type);
         }
     }
@@ -540,9 +534,7 @@ public final class BeanUtil {
         try {
             Method cloneMethod = object.getClass().getMethod("clone");
             return (T) cloneMethod.invoke(object);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Unexpected exception", e); // This is not supposed to happen
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchMethodException | IllegalAccessException e) {
             throw new RuntimeException("Unexpected exception", e); // This is not supposed to happen
         } catch (InvocationTargetException e) {
             throw new RuntimeException("Execption occured in clone() method", e);
@@ -604,7 +596,7 @@ public final class BeanUtil {
     }
 
     public static Method[] findMethodsByName(Class<?> type, String methodName) {
-        ArrayBuilder<Method> builder = new ArrayBuilder<Method>(Method.class);
+        ArrayBuilder<Method> builder = new ArrayBuilder<>(Method.class);
         for (Method method : type.getMethods()) {
             if (methodName.equals(method.getName()))
                 builder.add(method);
@@ -719,9 +711,7 @@ public final class BeanUtil {
             			"but only " + args.length + " were provided. ");
             }
             return method.invoke(target, params);
-        } catch (IllegalAccessException e) {
-            throw ExceptionMapper.configurationException(e, method);
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             throw ExceptionMapper.configurationException(e, method);
         }
     }
@@ -820,7 +810,7 @@ public final class BeanUtil {
 
     public static boolean hasWriteableProperty(Class<?> beanClass, String propertyName) {
         PropertyDescriptor descriptor = getPropertyDescriptor(beanClass, propertyName);
-		return (descriptor != null ? descriptor.getWriteMethod() != null : false);
+		return (descriptor != null && descriptor.getWriteMethod() != null);
     }
 
     /**
@@ -891,9 +881,7 @@ public final class BeanUtil {
             }
         } catch (IntrospectionException e) {
             throw ExceptionMapper.configurationException(e, beanClass);
-        } catch (IllegalAccessException e) {
-            throw ExceptionMapper.configurationException(e, writeMethod);
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             throw ExceptionMapper.configurationException(e, writeMethod);
         }
     }
@@ -906,7 +894,7 @@ public final class BeanUtil {
 */
 
     public static Map<String, ?> getPropertyValues(Object bean, boolean includeClass) {
-    	Map<String, Object> result = new HashMap<String, Object>();
+    	Map<String, Object> result = new HashMap<>();
     	PropertyDescriptor[] descriptors = getPropertyDescriptors(bean.getClass());
     	for (PropertyDescriptor descriptor : descriptors) {
     		String propertyName = descriptor.getName();
@@ -917,7 +905,7 @@ public final class BeanUtil {
     }
 
     public static Map<String, ?> getReadablePropertyValues(Object bean, boolean includeClass) {
-    	Map<String, Object> result = new HashMap<String, Object>();
+    	Map<String, Object> result = new HashMap<>();
     	PropertyDescriptor[] descriptors = getPropertyDescriptors(bean.getClass());
     	for (PropertyDescriptor descriptor : descriptors) {
     		String propertyName = descriptor.getName();
@@ -928,7 +916,7 @@ public final class BeanUtil {
     }
 
     public static Map<String, ?> getRWPropertyValues(Object bean, boolean includeClass) {
-    	Map<String, Object> result = new HashMap<String, Object>();
+    	Map<String, Object> result = new HashMap<>();
     	PropertyDescriptor[] descriptors = getPropertyDescriptors(bean.getClass());
     	for (PropertyDescriptor descriptor : descriptors) {
     		String propertyName = descriptor.getName();
@@ -964,12 +952,10 @@ public final class BeanUtil {
         try {
 			readMethod = descriptor.getReadMethod();
             return readMethod.invoke(bean);
-        } catch (IllegalAccessException e) {
-            throw ExceptionMapper.configurationException(e, readMethod);
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             throw ExceptionMapper.configurationException(e, readMethod);
         }
-	}
+    }
     
     /**
      * Sets a property value on a JavaBean object.
@@ -1013,16 +999,14 @@ public final class BeanUtil {
             } else {
             	// no write method but property is not required, so ignore it silently
             }
-        } catch (IllegalAccessException e) {
-            throw ExceptionMapper.configurationException(e, writeMethod);
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             throw ExceptionMapper.configurationException(e, writeMethod);
         }
     }
 
     @SuppressWarnings("unchecked")
     public static <BEAN, PROP_TYPE> List<PROP_TYPE> extractProperties(Collection<BEAN> beans, String propertyName) {
-        List<PROP_TYPE> result = new ArrayList<PROP_TYPE>(beans.size());
+        List<PROP_TYPE> result = new ArrayList<>(beans.size());
         for (BEAN bean : beans)
             result.add((PROP_TYPE) getPropertyValue(bean, propertyName));
         return result;
@@ -1103,7 +1087,7 @@ public final class BeanUtil {
 			ClassLoader classLoader = getContextClassLoader();
 			String packagePath = packageName.replace('.', '/');
 			Enumeration<URL> resourceUris = classLoader.getResources(packagePath);
-			List<Class<?>> classes = new ArrayList<Class<?>>();
+			List<Class<?>> classes = new ArrayList<>();
 			while (resourceUris.hasMoreElements()) {
 				URL resource = resourceUris.nextElement();
 				String protocol = resource.getProtocol();
@@ -1115,14 +1099,12 @@ public final class BeanUtil {
 					throw new UnsupportedOperationException("Not a supported protocol: " + protocol);
 			}
 			return classes;
-		} catch (IOException e) {
+		} catch (IOException | URISyntaxException e) {
 			throw new RuntimeException(e);
 		} catch (ClassNotFoundException e) {
 			throw new ObjectNotFoundException(e);
-		} catch (URISyntaxException e) {
-			throw new RuntimeException(e);
 		}
-	}
+    }
 
     public static Object getFieldValue(Object target, String name, boolean strict) {
         Class<?> type = target.getClass();
@@ -1145,9 +1127,7 @@ public final class BeanUtil {
             	return field.get(null);
             else
             	return field.get(target);
-        } catch (IllegalArgumentException e) {
-        	throw new ConfigurationError(e);
-        } catch (IllegalAccessException e) {
+        } catch (IllegalArgumentException | IllegalAccessException e) {
         	throw new ConfigurationError(e);
         }
     }
@@ -1169,7 +1149,7 @@ public final class BeanUtil {
     public static Method[] findMethodsByAnnotation(
             Class<?> owner, Class<? extends Annotation> annotationClass) {
         Method[] methods = owner.getMethods();
-        ArrayBuilder<Method> builder = new ArrayBuilder<Method>(Method.class);
+        ArrayBuilder<Method> builder = new ArrayBuilder<>(Method.class);
         for (Method method : methods)
             if (method.getAnnotation(annotationClass) != null)
                 builder.add(method);
@@ -1284,9 +1264,7 @@ public final class BeanUtil {
         if (isPrimitiveType(foundType.getName()) &&
                 expectedType.equals(getWrapper(foundType.getName())))
             return true;
-        if (isNumberType(foundType) && isNumberType(expectedType))
-        	return true;
-	    return false;
+        return isNumberType(foundType) && isNumberType(expectedType);
     }
 
     /**
@@ -1304,10 +1282,8 @@ public final class BeanUtil {
         if (deprecated(type))
             escalator.escalate("Instantiating a deprecated class: " + type.getName(), BeanUtil.class, null);
         try {
-            return (T) type.newInstance();
-        } catch (InstantiationException e) {
-            throw ExceptionMapper.configurationException(e, type);
-        } catch (IllegalAccessException e) {
+            return type.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
             throw ExceptionMapper.configurationException(e, type);
         }
     }
@@ -1321,7 +1297,7 @@ public final class BeanUtil {
 				findClassesInDirectory(file, packagePath + "." + fileName, classes);
 			else if (fileName.endsWith(".class") && !fileName.contains("$")) {
 				String className = packagePath + '.' + fileName.substring(0, fileName.length() - 6);
-				classes.add(BeanUtil.<Object>forName(className));
+				classes.add(BeanUtil.forName(className));
 			}
 		}
 		return classes;

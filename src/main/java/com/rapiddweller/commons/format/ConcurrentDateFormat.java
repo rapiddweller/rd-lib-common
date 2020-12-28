@@ -28,15 +28,10 @@ import java.util.Date;
  */
 public class ConcurrentDateFormat extends DateFormat {
 
-	private ThreadLocal<SimpleDateFormat> format;
+	private final ThreadLocal<SimpleDateFormat> format;
 
     public ConcurrentDateFormat(final String pattern) {
-        format = new ThreadLocal<SimpleDateFormat>() {
-            @Override
-            protected SimpleDateFormat initialValue() {
-                return new SimpleDateFormat(pattern);
-            }
-        };
+        format = ThreadLocal.withInitial(() -> new SimpleDateFormat(pattern));
     }
 
     @Override

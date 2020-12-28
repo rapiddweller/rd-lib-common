@@ -36,7 +36,7 @@ public class ExtremeElementFinderTest {
 	@Test
     public void test() {
         Collection<String> collection = Arrays.asList("Alpha", "Bravo");
-        Element<String> wrapper = new CollectionElement<String>(collection);
+        Element<String> wrapper = new CollectionElement<>(collection);
         String min = ExtremeElementFinder.findMin(wrapper);
         assertEquals("Alpha", min);
         assertEquals("Bravo", ExtremeElementFinder.findMax(wrapper));

@@ -30,7 +30,7 @@ public class AnyConverter<E> extends FormatHolder implements Converter<Object, E
 	
     private static final Logger logger = LogManager.getLogger(AnyConverter.class);
 
-    private Class<E> targetType;
+    private final Class<E> targetType;
     
     public AnyConverter(Class<E> targetType) {
         this(targetType, Patterns.DEFAULT_DATE_PATTERN);

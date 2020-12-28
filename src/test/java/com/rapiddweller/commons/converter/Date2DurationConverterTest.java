@@ -61,17 +61,14 @@ public class Date2DurationConverterTest extends AbstractConverterTest {
 	}
 	
 	private static void check(TimeZone timeZone) throws Exception {
-		TimeUtil.callInTimeZone(timeZone, new Callable<Object>() {
-			@Override
-			public Object call() throws Exception {
-				assertEquals(1L, convert("1970-01-01T00:00:00.001").longValue());
-				assertEquals(0L, convert("0000-00-00T00:00:00.000").longValue());
-				assertEquals(1L, convert("0000-00-00T00:00:00.001").longValue());
-				assertEquals(Period.DAY.getMillis(), convert("0000-00-01T00:00:00.000").longValue());
-				assertEquals(Period.DAY.getMillis() * 50, convert("0000-00-50T00:00:00.000").longValue());
-				return null;
-            }
-		});
+		TimeUtil.callInTimeZone(timeZone, () -> {
+			assertEquals(1L, convert("1970-01-01T00:00:00.001").longValue());
+			assertEquals(0L, convert("0000-00-00T00:00:00.000").longValue());
+			assertEquals(1L, convert("0000-00-00T00:00:00.001").longValue());
+			assertEquals(Period.DAY.getMillis(), convert("0000-00-01T00:00:00.000").longValue());
+			assertEquals(Period.DAY.getMillis() * 50, convert("0000-00-50T00:00:00.000").longValue());
+			return null;
+});
 	}
 	
 	public static Long convert(String string) throws ConversionException, ParseException {

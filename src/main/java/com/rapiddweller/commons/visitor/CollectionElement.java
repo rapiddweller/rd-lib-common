@@ -27,7 +27,7 @@ import java.util.Collection;
  */
 public class CollectionElement<E> implements Element<E> {
 
-    private Collection<E> collection;
+    private final Collection<E> collection;
 
     public CollectionElement(Collection<E> collection) {
         this.collection = collection;

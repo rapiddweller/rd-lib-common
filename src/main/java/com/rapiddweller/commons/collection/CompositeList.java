@@ -36,7 +36,7 @@ public class CompositeList<E> implements List<E>, Serializable {
 
 	@SuppressWarnings("unchecked")
 	public CompositeList(List<? extends E>... components) {
-		this.components = new ArrayList<List<E>>();
+		this.components = new ArrayList<>();
 		for (List<? extends E> component : components) {
 			if (component == null)
 				throw new IllegalArgumentException("Component is null");
@@ -220,7 +220,7 @@ public class CompositeList<E> implements List<E>, Serializable {
 
 	@Override
 	public List<E> subList(int fromIndex, int toIndex) {
-		List<E> list = new ArrayList<E>(toIndex - fromIndex + 1);
+		List<E> list = new ArrayList<>(toIndex - fromIndex + 1);
 		for (int i = fromIndex; i < toIndex; i++)
 			list.add(get(i));
 		return list;
@@ -249,7 +249,7 @@ public class CompositeList<E> implements List<E>, Serializable {
 	
 	private List<E> getOrCreateLastComponent() {
 		if (components.size() == 0)
-			this.components.add(new ArrayList<E>());
+			this.components.add(new ArrayList<>());
 		return components.get(components.size() - 1);
 	}
 	

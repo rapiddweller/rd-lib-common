@@ -30,7 +30,7 @@ import javax.swing.AbstractListModel;
 public class ArrayListModel extends AbstractListModel<File> {
 	
 	private static final long serialVersionUID = 3499248476952363886L;
-	private ArrayList<File> elements = new ArrayList<File>();
+	private final ArrayList<File> elements = new ArrayList<>();
 
 	@Override
 	public File getElementAt(int index) {

@@ -34,9 +34,9 @@ public class MethodCallAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 
-	private Object target;
-	private String methodName;
-	private Object[] arguments;
+	private final Object target;
+	private final String methodName;
+	private final Object[] arguments;
 	
 	public MethodCallAction(String label, Icon icon, Object target, String methodName, Object... arguments) {
 		super(label, icon);

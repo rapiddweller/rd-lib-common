@@ -27,7 +27,7 @@ import com.rapiddweller.commons.Filter;
  */
 public class FileByNameFilter implements FileFilter {
 	
-	private Filter<String> pathFilter;
+	private final Filter<String> pathFilter;
 	
 	public FileByNameFilter(Filter<String> realFilter) {
 	    this.pathFilter = realFilter;

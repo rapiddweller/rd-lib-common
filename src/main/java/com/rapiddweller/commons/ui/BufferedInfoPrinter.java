@@ -25,7 +25,7 @@ import com.rapiddweller.commons.SystemInfo;
  */
 public class BufferedInfoPrinter extends InfoPrinter {
 	
-	private StringBuilder buffer;
+	private final StringBuilder buffer;
 	
 	public BufferedInfoPrinter() {
 		this.buffer = new StringBuilder();

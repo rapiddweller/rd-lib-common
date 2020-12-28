@@ -35,8 +35,8 @@ public class LoggingProxyFactoryTest {
 	
 	// helpers ---------------------------------------------------------------------------------------------------------
 	
-	public static interface Calc {
-		public int add(int a, int b);
+	public interface Calc {
+		int add(int a, int b);
 	}
 	
 	public static class CalcImpl implements Calc {

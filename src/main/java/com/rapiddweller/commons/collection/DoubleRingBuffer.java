@@ -31,7 +31,7 @@ import com.rapiddweller.commons.MathUtil;
 
 public class DoubleRingBuffer {
 	
-	private double[] buffer;
+	private final double[] buffer;
 	private int sampleCount;
 	private int cursor;
 	private boolean filled;
@@ -114,7 +114,7 @@ public class DoubleRingBuffer {
 	}
 
 	public double median() {
-		List<Double> list = new ArrayList<Double>();
+		List<Double> list = new ArrayList<>();
 		for (double d : buffer)
 			if (!Double.isNaN(d))
 				list.add(d);

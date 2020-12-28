@@ -32,7 +32,7 @@ import com.rapiddweller.commons.StringUtil;
 
 public class String2ZonedDateTimeConverter extends ThreadSafeConverter<String, ZonedDateTime> implements Patterns {
 	
-	private DateTimeFormatter formatter;
+	private final DateTimeFormatter formatter;
 
 	public String2ZonedDateTimeConverter(String pattern, ZoneId zoneId) {
         this(DateTimeFormatter.ofPattern(pattern).withZone(zoneId));

@@ -35,42 +35,33 @@ public class String2TimeConverterTest extends AbstractConverterTest {
 
 	@Test
     public void testMillis() {
-    	checkTimeZones(new Runnable() {
-            @Override
-			public void run() {
-                check("00:00:00.000", 0);
-                check("00:00:00.001", 1);
-                check("00:00:00.123", 123);
-                check("00:00:01.001", 1001);
-                check("00:01:00.001", 60001);
-                check("01:00:00.001", 3600001);
-            }
-    	});
+    	checkTimeZones(() -> {
+			check("00:00:00.000", 0);
+			check("00:00:00.001", 1);
+			check("00:00:00.123", 123);
+			check("00:00:01.001", 1001);
+			check("00:01:00.001", 60001);
+			check("01:00:00.001", 3600001);
+		});
     }
 
 	@Test
     public void testSeconds() {
-    	checkTimeZones(new Runnable() {
-            @Override
-			public void run() {
-		        check("00:00:00", 0);
-		        check("00:00:01", 1000);
-		        check("00:01:00", 60000);
-		        check("01:01:01", 3661000);
-            }
-    	});
+    	checkTimeZones(() -> {
+			check("00:00:00", 0);
+			check("00:00:01", 1000);
+			check("00:01:00", 60000);
+			check("01:01:01", 3661000);
+		});
     }
 
 	@Test
     public void testMinutes() {
-    	checkTimeZones(new Runnable() {
-            @Override
-			public void run() {
-		        check("00:00", 0);
-		        check("00:01", 60000);
-		        check("01:00", 3600000);
-            }
-    	});
+    	checkTimeZones(() -> {
+			check("00:00", 0);
+			check("00:01", 60000);
+			check("01:00", 3600000);
+		});
     }
     
     // test helpers ----------------------------------------------------------------------------------------------------

@@ -28,27 +28,27 @@ import org.junit.Test;
 @SuppressWarnings("unchecked")
 public class AndFilterTest {
 
-	private static final ConstantFilter<Integer> TRUE = new ConstantFilter<Integer>(true);
-	private static final ConstantFilter<Integer> FALSE = new ConstantFilter<Integer>(false);
+	private static final ConstantFilter<Integer> TRUE = new ConstantFilter<>(true);
+	private static final ConstantFilter<Integer> FALSE = new ConstantFilter<>(false);
 	
 	@Test
 	public void testTrueAndTrue() {
-		assertTrue(new AndFilter<Integer>(TRUE, TRUE).accept(0));
+		assertTrue(new AndFilter<>(TRUE, TRUE).accept(0));
 	}
 	
 	@Test
 	public void testTrueAndFalse() {
-		assertFalse(new AndFilter<Integer>(TRUE, FALSE).accept(0));
+		assertFalse(new AndFilter<>(TRUE, FALSE).accept(0));
 	}
 	
 	@Test
 	public void testFalseAndTrue() {
-		assertFalse(new AndFilter<Integer>(FALSE, TRUE).accept(0));
+		assertFalse(new AndFilter<>(FALSE, TRUE).accept(0));
 	}
 	
 	@Test
 	public void testFalseAndFalse() {
-		assertFalse(new AndFilter<Integer>(FALSE, FALSE).accept(0));
+		assertFalse(new AndFilter<>(FALSE, FALSE).accept(0));
 	}
 	
 }

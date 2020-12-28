@@ -30,8 +30,8 @@ import java.util.Comparator;
  */
 public class BeanComparator<E> implements Comparator<E> {
 
-    private Comparator<Object> propertyComparator;
-	private PropertyAccessor<E, ?> propertyAccessor;
+    private final Comparator<Object> propertyComparator;
+	private final PropertyAccessor<E, ?> propertyAccessor;
 
     // constructor -----------------------------------------------------------------------------------------------------
 

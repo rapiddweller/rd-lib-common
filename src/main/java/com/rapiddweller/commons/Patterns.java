@@ -23,36 +23,36 @@ package com.rapiddweller.commons;
 
 public interface Patterns {
 
-	public static final String DEFAULT_NULL_STRING = "";
+	String DEFAULT_NULL_STRING = "";
 
-	public static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
+	String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
 
 	// time patterns ---------------------------------------------------------------------------------------------------
 	
-	public static final String DEFAULT_TIME_MILLIS_PATTERN = "HH:mm:ss.SSS";
+	String DEFAULT_TIME_MILLIS_PATTERN = "HH:mm:ss.SSS";
 
-	public static final String DEFAULT_TIME_SECONDS_PATTERN = "HH:mm:ss";
+	String DEFAULT_TIME_SECONDS_PATTERN = "HH:mm:ss";
 
-	public static final String DEFAULT_TIME_MINUTES_PATTERN = "HH:mm";
+	String DEFAULT_TIME_MINUTES_PATTERN = "HH:mm";
 
-	public static final String DEFAULT_TIME_PATTERN = DEFAULT_TIME_SECONDS_PATTERN;
+	String DEFAULT_TIME_PATTERN = DEFAULT_TIME_SECONDS_PATTERN;
 
 	// datetime patterns -----------------------------------------------------------------------------------------------
 	
-	public static final String DEFAULT_DATETIME_MINUTES_PATTERN = "yyyy-MM-dd'T'HH:mm";
+	String DEFAULT_DATETIME_MINUTES_PATTERN = "yyyy-MM-dd'T'HH:mm";
     
-	public static final String DEFAULT_DATETIME_SECONDS_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
+	String DEFAULT_DATETIME_SECONDS_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
     
-	public static final String DEFAULT_DATETIME_MILLIS_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+	String DEFAULT_DATETIME_MILLIS_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
     
-	public static final String DEFAULT_DATETIME_MICROS_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS";
+	String DEFAULT_DATETIME_MICROS_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS";
     
-	public static final String DEFAULT_DATETIME_NANOS_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS";
+	String DEFAULT_DATETIME_NANOS_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS";
     
-	public static final String DEFAULT_DATETIME_PATTERN = DEFAULT_DATETIME_SECONDS_PATTERN;
+	String DEFAULT_DATETIME_PATTERN = DEFAULT_DATETIME_SECONDS_PATTERN;
 
 	// timestamp patterns ----------------------------------------------------------------------------------------------
 	
-	public static final String DEFAULT_TIMESTAMP_PATTERN = DEFAULT_DATETIME_NANOS_PATTERN;
+	String DEFAULT_TIMESTAMP_PATTERN = DEFAULT_DATETIME_NANOS_PATTERN;
 
 }

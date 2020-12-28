@@ -16,6 +16,8 @@ package com.rapiddweller.commons.visitor;
 
 import com.rapiddweller.commons.Visitor;
 
+import java.util.Objects;
+
 /**
  * Element implementation that serves as proxy for another Element.
  * Created: 04.02.2007 08:17:20
@@ -47,7 +49,7 @@ public abstract class WrapperElement<E> extends AbstractElement<E> {
         if (o == null || getClass() != o.getClass())
             return false;
 		final WrapperElement that = (WrapperElement) o;
-        return !(wrappedObject != null ? !wrappedObject.equals(that.wrappedObject) : that.wrappedObject != null);
+        return !(!Objects.equals(wrappedObject, that.wrappedObject));
     }
 
     @Override

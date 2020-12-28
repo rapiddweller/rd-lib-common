@@ -25,6 +25,7 @@ import com.rapiddweller.commons.Condition;
  */
 public class AndCondition<E> extends CompositeCondition<E> {
 
+    @SafeVarargs
     public AndCondition(Condition<E>... components) {
         super(components);
     }

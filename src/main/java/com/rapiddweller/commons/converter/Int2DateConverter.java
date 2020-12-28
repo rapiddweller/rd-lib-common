@@ -25,7 +25,7 @@ import java.util.Date;
 public class Int2DateConverter extends ConverterChain<Integer, Date> {
 
 	public Int2DateConverter() {
-		super(new NumberToNumberConverter<Integer, Long>(Integer.class, Long.class),
+		super(new NumberToNumberConverter<>(Integer.class, Long.class),
 				new Long2DateConverter());
 	}
 	

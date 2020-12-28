@@ -106,6 +106,7 @@ public class PadFormatTest {
         assertEquals("-1", format.parseObject("-01"));
     }
 
+    @Test
     public void testParseCentered() throws ParseException {
         PadFormat format = new PadFormat("", 3, Alignment.CENTER, '0');
         assertEquals(null, format.parseObject(null));

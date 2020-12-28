@@ -26,7 +26,8 @@ import com.rapiddweller.commons.Filter;
  */
 public class AndFilter<E> extends CompositeFilter<E> {
 
-	public AndFilter(Filter<E>... components) {
+	@SafeVarargs
+    public AndFilter(Filter<E>... components) {
 		super(components);
 	}
 

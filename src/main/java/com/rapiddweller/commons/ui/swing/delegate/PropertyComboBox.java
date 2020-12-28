@@ -44,11 +44,12 @@ public class PropertyComboBox<E> extends JComboBox<E> {
 
 	private static final long serialVersionUID = -5039037135360506124L;
 	
-	private Object bean;
-	private String propertyName;
+	private final Object bean;
+	private final String propertyName;
 	boolean locked;
 	
 
+	@SafeVarargs
 	public PropertyComboBox(Object bean, String propertyName, I18NSupport i18n, String prefix, E ... values) {
 		super(values);
 		this.bean = bean;
@@ -124,9 +125,9 @@ public class PropertyComboBox<E> extends JComboBox<E> {
 	static final class Renderer extends DefaultListCellRenderer {
 		
 		private static final long serialVersionUID = 8358429951305253637L;
-		private ToStringConverter converter = new ToStringConverter();
-		private I18NSupport i18n;
-		private String prefix;
+		private final ToStringConverter converter = new ToStringConverter();
+		private final I18NSupport i18n;
+		private final String prefix;
 
 		public Renderer(I18NSupport i18n, String prefix) {
 			this.i18n = i18n;

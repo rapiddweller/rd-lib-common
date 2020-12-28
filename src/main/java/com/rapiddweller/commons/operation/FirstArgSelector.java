@@ -24,8 +24,9 @@ import com.rapiddweller.commons.Operation;
  */
 public class FirstArgSelector<E> implements Operation<E, E> {
 
+    @SafeVarargs
     @Override
-	public E perform(E ... args) {
+	public final E perform(E... args) {
         return (args.length > 0 ? args[0] : null);
     }
 }

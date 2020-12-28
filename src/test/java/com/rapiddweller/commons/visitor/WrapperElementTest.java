@@ -56,7 +56,7 @@ public class WrapperElementTest {
 		@Override
         protected Collection<Element<Integer>> getChildren(
 				Visitor<Integer> visitor) {
-			return new ArrayList<Element<Integer>>();
+			return new ArrayList<>();
 		}
 	}
 

@@ -31,16 +31,16 @@ import com.rapiddweller.commons.OrderedMap;
  */
 public class MarkedMap<K, V> implements Map<K, V> {
 
-	private Map<K, V> realMap;
+	private final Map<K, V> realMap;
 	private Map<K, Boolean> marks;
 
 	public MarkedMap() {
-		this(new HashMap<K, V>());
+		this(new HashMap<>());
 	}
 
 	public MarkedMap(Map<K, V> realMap) {
 		this.realMap = realMap;
-		this.marks = new HashMap<K, Boolean>(realMap.size());
+		this.marks = new HashMap<>(realMap.size());
 		for (K key : realMap.keySet())
 			marks.put(key, false);
 	}
@@ -60,7 +60,7 @@ public class MarkedMap<K, V> implements Map<K, V> {
 	}
 	
 	public Map<K, V> unmarkedEntries() {
-		Map<K, V> result = new OrderedMap<K, V>();
+		Map<K, V> result = new OrderedMap<>();
 		for (Map.Entry<K, V> entry : realMap.entrySet())
 			if (!isMarked(entry.getKey()))
 				result.put(entry.getKey(), entry.getValue());
@@ -68,7 +68,7 @@ public class MarkedMap<K, V> implements Map<K, V> {
 	}
 	
 	public Map<K, V> markedEntries() {
-		Map<K, V> result = new OrderedMap<K, V>();
+		Map<K, V> result = new OrderedMap<>();
 		for (Map.Entry<K, V> entry : realMap.entrySet())
 			if (isMarked(entry.getKey()))
 				result.put(entry.getKey(), entry.getValue());
@@ -125,7 +125,7 @@ public class MarkedMap<K, V> implements Map<K, V> {
 	@Override
 	public void putAll(Map<? extends K, ? extends V> otherMap) {
 		realMap.putAll(otherMap);
-		this.marks = new HashMap<K, Boolean>(realMap.size());
+		this.marks = new HashMap<>(realMap.size());
 		for (K key : realMap.keySet())
 			marks.put(key, false);
 	}

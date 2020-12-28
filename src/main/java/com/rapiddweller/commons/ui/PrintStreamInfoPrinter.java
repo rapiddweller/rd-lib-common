@@ -24,7 +24,7 @@ import java.io.PrintStream;
  */
 public class PrintStreamInfoPrinter extends InfoPrinter {
 	
-	private PrintStream out;
+	private final PrintStream out;
 	
 	public PrintStreamInfoPrinter(PrintStream out) {
 		this.out = out;

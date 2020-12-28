@@ -49,8 +49,8 @@ public class ToCollectionConverterTest extends AbstractConverterTest {
     @Test
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     public void testToList() throws ConversionException {
-        Converter<Object, ArrayList> toArrayListConverter = new ToCollectionConverter<ArrayList>(ArrayList.class);
-        Converter<Object, List> toListConverter = new ToCollectionConverter<List>(List.class);
+        Converter<Object, ArrayList> toArrayListConverter = new ToCollectionConverter<>(ArrayList.class);
+        Converter<Object, List> toListConverter = new ToCollectionConverter<>(List.class);
         Integer[] array = createArray();
         List<Integer> list = createList();
         Set<Integer> set = createSet();
@@ -69,8 +69,8 @@ public class ToCollectionConverterTest extends AbstractConverterTest {
     @Test
 	@SuppressWarnings("rawtypes")
     public void testToSet() throws ConversionException {
-        Converter<Object, HashSet> toHashSetConverter = new ToCollectionConverter<HashSet>(HashSet.class);
-        Converter<Object, Set> toSetConverter = new ToCollectionConverter<Set>(Set.class);
+        Converter<Object, HashSet> toHashSetConverter = new ToCollectionConverter<>(HashSet.class);
+        Converter<Object, Set> toSetConverter = new ToCollectionConverter<>(Set.class);
         Integer[] array = createArray();
         Set<Integer> set = createSet();
         Set<Integer> sortedSet = createSortedSet();
@@ -88,8 +88,8 @@ public class ToCollectionConverterTest extends AbstractConverterTest {
 	@Test
 	@SuppressWarnings("rawtypes")
     public void testToSortedSet() throws ConversionException {
-        Converter<Object, TreeSet> toTreeSetConverter = new ToCollectionConverter<TreeSet>(TreeSet.class);
-        Converter<Object, SortedSet> toSortedSetConverter = new ToCollectionConverter<SortedSet>(SortedSet.class);
+        Converter<Object, TreeSet> toTreeSetConverter = new ToCollectionConverter<>(TreeSet.class);
+        Converter<Object, SortedSet> toSortedSetConverter = new ToCollectionConverter<>(SortedSet.class);
         List<Integer> list = createList();
         Set<Integer> set = createSet();
         Set<Integer> sortedSet = createSortedSet();
@@ -119,7 +119,7 @@ public class ToCollectionConverterTest extends AbstractConverterTest {
     }
 
     private static Set<Integer> createSortedSet() {
-        SortedSet<Integer> set = new TreeSet<Integer>();
+        SortedSet<Integer> set = new TreeSet<>();
         set.add(1);
         set.add(2);
         set.add(3);

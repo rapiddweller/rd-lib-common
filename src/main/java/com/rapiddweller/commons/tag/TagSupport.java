@@ -28,10 +28,10 @@ import com.rapiddweller.commons.Tagged;
 
 public class TagSupport implements Tagged {
 	
-	private Set<String> tags;
+	private final Set<String> tags;
 	
 	public TagSupport() {
-		this.tags = new HashSet<String>();
+		this.tags = new HashSet<>();
 	}
 	
 	@Override

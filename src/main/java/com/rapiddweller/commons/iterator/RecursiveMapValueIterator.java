@@ -29,12 +29,12 @@ import java.util.Stack;
 
 public class RecursiveMapValueIterator<E> implements Iterator<E> {
 	
-	private Stack<Iterator<?>> iterators;
+	private final Stack<Iterator<?>> iterators;
 	private E next;
 	private boolean hasNext;
 	
 	public RecursiveMapValueIterator(Map<?, ?> root) {
-		this.iterators = new Stack<Iterator<?>>();
+		this.iterators = new Stack<>();
 		this.iterators.push(root.values().iterator());
 		forward();
 	}

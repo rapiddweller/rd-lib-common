@@ -36,18 +36,17 @@ public final class CollectionUtil {
      * @param <T> the element type
      * @return a list containing all elements of the given array.
      */
+    @SafeVarargs
     public static <T> List<T> toList(T ... array) {
-        List<T> result = new ArrayList<T>(array.length);
-        for (T item : array)
-            result.add(item);
+        List<T> result = new ArrayList<>(array.length);
+        result.addAll(Arrays.asList(array));
         return result;
     }
 
     @SafeVarargs
 	public static <P, C extends P> List<P> toListOfType(Class<P> type, C ... array) {
-        List<P> result = new ArrayList<P>(array.length);
-        for (C item : array)
-            result.add(item);
+        List<P> result = new ArrayList<>(array.length);
+        result.addAll(Arrays.asList(array));
         return result;
     }
 
@@ -57,27 +56,30 @@ public final class CollectionUtil {
      * @param <T> the element type
      * @return a HashSet with the elements
      */
+    @SafeVarargs
     public static <T> Set<T> toSet(T ... elements) {
-        HashSet<T> set = new HashSet<T>();
+        HashSet<T> set = new HashSet<>();
         if (elements != null)
 	        for (T element : elements)
 	            set.add(element);
         return set;
     }
 
+    @SafeVarargs
     public static <T, U extends T> SortedSet<T> toSortedSet(U ... elements) {
-        TreeSet<T> set = new TreeSet<T>();
+        TreeSet<T> set = new TreeSet<>();
         for (T element : elements)
             set.add(element);
         return set;
     }
     
+    @SafeVarargs
     public static <T extends Comparable<T>, U extends T> SortedList<T> toSortedList(U ... elements) {
-    	return new SortedList<T>(CollectionUtil.<T>toList(elements), new ComparableComparator<T>());
+    	return new SortedList<>(CollectionUtil.toList(elements), new ComparableComparator<>());
     }
     
 	public static Set<Character> toCharSet(char[] chars) {
-        HashSet<Character> set = new HashSet<Character>();
+        HashSet<Character> set = new HashSet<>();
         if (chars != null)
 	        for (char element : chars)
 	            set.add(element);
@@ -93,6 +95,7 @@ public final class CollectionUtil {
      * @param <U> the common supertype of the values
      * @return the collection, extended by the contents of the array
      */
+    @SafeVarargs
     public static <T, U extends T, C extends Collection<? super T>> C add(C target, U ... values) {
         for (T item : values)
             target.add(item);
@@ -100,7 +103,7 @@ public final class CollectionUtil {
     }
 
     public static <T> List<T> copy(List<? extends T> src, int offset, int length) {
-        List<T> items = new ArrayList<T>(length);
+        List<T> items = new ArrayList<>(length);
         for (int i = 0; i < length; i++)
             items.add(src.get(offset + i));
         return items;
@@ -144,7 +147,7 @@ public final class CollectionUtil {
     }
 
     public static <K, V> Map<K, V> buildMap(K key, V value) {
-        Map<K, V> map = new HashMap<K, V>();
+        Map<K, V> map = new HashMap<>();
         map.put(key, value);
         return map;
     }
@@ -181,11 +184,11 @@ public final class CollectionUtil {
         if ((collectionType.getModifiers() & Modifier.ABSTRACT) == 0)
             return BeanUtil.newInstance(collectionType);
         else if (Collection.class.equals(collectionType)  || List.class.equals(collectionType))
-            return (T) new ArrayList<Object>();
+            return (T) new ArrayList<>();
         else if (SortedSet.class.equals(collectionType))
-            return (T) new TreeSet<Object>();
+            return (T) new TreeSet<>();
         else if (Set.class.equals(collectionType))
-            return (T) new TreeSet<Object>();
+            return (T) new TreeSet<>();
         else
             throw new UnsupportedOperationException("Not a supported collection type: " + collectionType.getName());
     }
@@ -202,7 +205,7 @@ public final class CollectionUtil {
             return false;
         if (a1.size() != a2.size())
             return false;
-        List<T> l1 = new ArrayList<T>(a1.size());
+        List<T> l1 = new ArrayList<>(a1.size());
         for (T item : a1)
             l1.add(item);
         for (int i = a1.size() - 1; i >= 0; i--)
@@ -259,7 +262,7 @@ public final class CollectionUtil {
 
 	@SuppressWarnings("unchecked")
 	public static <S, T extends S> List<T> extractItemsOfExactType(Class<T> itemType, Collection<S> items) {
-		List<T> result = new ArrayList<T>();
+		List<T> result = new ArrayList<>();
 		for (S item : items)
 			if (itemType == item.getClass())
 				result.add((T) item);
@@ -268,7 +271,7 @@ public final class CollectionUtil {
 	
 	@SuppressWarnings("unchecked")
 	public static <S, T extends S> List<T> extractItemsOfCompatibleType(Class<T> itemType, Collection<S> items) {
-		List<T> result = new ArrayList<T>();
+		List<T> result = new ArrayList<>();
 		for (S item : items)
 			if (itemType.isAssignableFrom(item.getClass()))
 				result.add((T) item);
@@ -278,17 +281,16 @@ public final class CollectionUtil {
 	public static String formatCommaSeparatedList(Collection<?> collection, Character quoteCharacter) {
 		StringBuilder builder = new StringBuilder();
 		int i = 0;
-		Iterator<?> iterator = collection.iterator();
-		while (iterator.hasNext()) {
-			if (i > 0)
-				builder.append(", ");
-			if (quoteCharacter != null)
-				builder.append(quoteCharacter);
-			builder.append(iterator.next());
-			if (quoteCharacter != null)
-				builder.append(quoteCharacter);
-			i++;
-		}
+        for (Object o : collection) {
+            if (i > 0)
+                builder.append(", ");
+            if (quoteCharacter != null)
+                builder.append(quoteCharacter);
+            builder.append(o);
+            if (quoteCharacter != null)
+                builder.append(quoteCharacter);
+            i++;
+        }
 		return builder.toString();
 	}
 	

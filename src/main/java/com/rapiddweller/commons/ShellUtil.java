@@ -32,7 +32,7 @@ import org.apache.logging.log4j.LogManager;
  */
 public class ShellUtil {
 	
-	private static Logger logger = LogManager.getLogger(ShellUtil.class);
+	private static final Logger logger = LogManager.getLogger(ShellUtil.class);
 
 	public static int runShellCommands(ReaderLineIterator iterator, Writer outputWriter, ErrorHandler errorHandler) {
 		int result = 0;

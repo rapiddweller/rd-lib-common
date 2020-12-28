@@ -31,22 +31,22 @@ import java.util.Set;
 
 public class OrderedSet<E> implements Set<E> {
 	
-	private OrderedMap<E, E> map;
+	private final OrderedMap<E, E> map;
 	
     public OrderedSet() {
-        map = new OrderedMap<E, E>();
+        map = new OrderedMap<>();
     }
 
     public OrderedSet(int initialCapacity) {
-        map = new OrderedMap<E, E>(initialCapacity);
+        map = new OrderedMap<>(initialCapacity);
     }
 
     public OrderedSet(int initialCapacity, float loadFactor) {
-        map = new OrderedMap<E, E>(initialCapacity, loadFactor);
+        map = new OrderedMap<>(initialCapacity, loadFactor);
     }
 
     public OrderedSet(Collection<E> source) {
-        map = new OrderedMap<E, E>(source.size());
+        map = new OrderedMap<>(source.size());
         addAll(source);
     }
     

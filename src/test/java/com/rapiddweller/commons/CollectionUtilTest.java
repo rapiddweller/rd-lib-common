@@ -37,7 +37,7 @@ public class CollectionUtilTest {
 
 	@Test
     public void testToList() {
-        List<Number> expectedList = new ArrayList<Number>();
+        List<Number> expectedList = new ArrayList<>();
         expectedList.add(1);
         expectedList.add(2);
         expectedList.add(3);
@@ -46,7 +46,7 @@ public class CollectionUtilTest {
 
 	@Test
     public void testToSet() {
-        Set<Integer> expectedSet = new HashSet<Integer>();
+        Set<Integer> expectedSet = new HashSet<>();
         expectedSet.add(1);
         expectedSet.add(2);
         expectedSet.add(3);
@@ -55,7 +55,7 @@ public class CollectionUtilTest {
 
 	@Test
     public void testToSortedSet() {
-        Set<Integer> expectedSet = new TreeSet<Integer>();
+        Set<Integer> expectedSet = new TreeSet<>();
         expectedSet.add(1);
         expectedSet.add(2);
         expectedSet.add(3);
@@ -64,7 +64,7 @@ public class CollectionUtilTest {
 
 	@Test
     public void testAdd() {
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         CollectionUtil.add(list, 1);
         assertEquals(Arrays.asList(1), list);
         CollectionUtil.add(list, 2);
@@ -96,7 +96,7 @@ public class CollectionUtilTest {
 	
 	@Test
 	public void testFormatCommaSeparatedList() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		list.add("A");
 		list.add("B");
 		assertEquals("A, B", CollectionUtil.formatCommaSeparatedList(list, null));

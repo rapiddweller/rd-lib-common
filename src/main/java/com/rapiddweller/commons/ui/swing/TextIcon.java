@@ -33,15 +33,15 @@ import javax.swing.UIManager;
 
 public class TextIcon implements Icon {
 
-	private String text;
-	private Color background;
-	private Color foreground;
-	private Font font;
+	private final String text;
+	private final Color background;
+	private final Color foreground;
+	private final Font font;
 
 	private int iconWidth;
 	private int iconHeight;
-	private int textWidth;
-	private int ascent;
+	private final int textWidth;
+	private final int ascent;
 
 
 	// constructors ----------------------------------------------------------------------------------------------------

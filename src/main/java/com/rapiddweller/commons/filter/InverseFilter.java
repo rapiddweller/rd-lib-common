@@ -25,7 +25,7 @@ import com.rapiddweller.commons.Filter;
  */
 public class InverseFilter<E> implements Filter<E> {
 
-	private Filter<E> realFilter;
+	private final Filter<E> realFilter;
 
 	public InverseFilter(Filter<E> realFilter) {
 		this.realFilter = realFilter;

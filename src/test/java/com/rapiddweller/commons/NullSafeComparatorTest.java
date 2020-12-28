@@ -39,10 +39,10 @@ public class NullSafeComparatorTest {
 
 	@Test
     public void testComparableComparation() {
-        Comparator<Integer> comparator = new NullSafeComparator<Integer>();
-        Integer i1 = new Integer(1);
-        Integer i2 = new Integer(2);
-        Integer i2d = new Integer(2);
+        Comparator<Integer> comparator = new NullSafeComparator<>();
+        Integer i1 = 1;
+        Integer i2 = 2;
+        Integer i2d = 2;
         assertEquals(-1, comparator.compare(i1, i2));
         assertEquals(-1, comparator.compare(null, i2));
         assertEquals(1, comparator.compare(i2, i1));
@@ -54,24 +54,24 @@ public class NullSafeComparatorTest {
 
 	@Test
     public void testStaticComparableComparation() {
-        Integer i1 = new Integer(1);
-        Integer i2 = new Integer(2);
-        Integer i2d = new Integer(2);
+        Integer i1 = 1;
+        Integer i2 = 2;
+        Integer i2d = 2;
         assertEquals(-1, NullSafeComparator.compare(i1, i2, -1));
         assertEquals(1, NullSafeComparator.compare(i2, null, -1));
         assertEquals(-1, NullSafeComparator.compare(null, i2, -1));
         assertEquals(1, NullSafeComparator.compare(i2, i1, -1));
         assertEquals(0, NullSafeComparator.compare(i2, i2, -1));
         assertEquals(0, NullSafeComparator.compare(i2, i2d, -1));
-        assertEquals(0, NullSafeComparator.compare((Integer) null, (Integer) null, Integer.valueOf(-1)));
+        assertEquals(0, NullSafeComparator.compare(null, (Integer) null, -1));
     }
 
 	@Test
     public void testDownwardComparation() {
-        Comparator<Integer> comparator = new NullSafeComparator<Integer>(NullSafeComparator.NULL_IS_GREATER);
-        Integer i1 = new Integer(1);
-        Integer i2 = new Integer(2);
-        Integer i2d = new Integer(2);
+        Comparator<Integer> comparator = new NullSafeComparator<>(NullSafeComparator.NULL_IS_GREATER);
+        Integer i1 = 1;
+        Integer i2 = 2;
+        Integer i2d = 2;
         assertEquals(-1, comparator.compare(i1, i2));
         assertEquals(1, comparator.compare(null, i2));
         assertEquals(1, comparator.compare(i2, i1));
@@ -84,7 +84,7 @@ public class NullSafeComparatorTest {
 	@Test
     public void testCollatorComparation() {
         Collator collator = Collator.getInstance(Locale.GERMANY);
-        Comparator<String> comparator = new NullSafeComparator<String>(collator);
+        Comparator<String> comparator = new NullSafeComparator<>(collator);
         String s1 = "Alpha";
         String s2 = "Beta";
         String s2d = "Beta";

@@ -30,8 +30,8 @@ import java.lang.reflect.Method;
  */
 public class UntypedPropertyMutator extends AbstractNamedMutator {
 
-    private boolean required;
-    private boolean autoConvert;
+    private final boolean required;
+    private final boolean autoConvert;
 
     public UntypedPropertyMutator(String propertyName, boolean required, boolean autoConvert) {
         super(propertyName);

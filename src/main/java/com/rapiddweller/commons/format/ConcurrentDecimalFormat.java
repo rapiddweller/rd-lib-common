@@ -29,15 +29,10 @@ public class ConcurrentDecimalFormat extends Format {
 
 	private static final long serialVersionUID = 7100542444272244206L;
 	
-	private ThreadLocal<DecimalFormat> format;
+	private final ThreadLocal<DecimalFormat> format;
 
     public ConcurrentDecimalFormat(final String pattern) {
-        format = new ThreadLocal<DecimalFormat>() {
-            @Override
-            protected DecimalFormat initialValue() {
-                return new DecimalFormat(pattern);
-            }
-        };
+        format = ThreadLocal.withInitial(() -> new DecimalFormat(pattern));
     }
 
 	@Override

@@ -25,14 +25,15 @@ import com.rapiddweller.commons.Operation;
  */
 public class ArrayIntersectionOperation<E> implements Operation<E[], E[]>{
 
-    private Class<E> componentType;
+    private final Class<E> componentType;
 
     public ArrayIntersectionOperation(Class<E> componentType) {
         this.componentType = componentType;
     }
 
+    @SafeVarargs
     @Override
-	public E[] perform(E[]... sources) {
+	public final E[] perform(E[]... sources) {
         return ArrayUtil.commonElements(componentType, sources);
     }
     

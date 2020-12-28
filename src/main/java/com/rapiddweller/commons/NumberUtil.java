@@ -98,7 +98,7 @@ public class NumberUtil {
     public static String formatHex(int value, int digits) {
         String tmp = Integer.toHexString(value);
         if (tmp.length() > digits)
-            return tmp.substring(tmp.length() - digits, tmp.length());
+            return tmp.substring(tmp.length() - digits);
         return StringUtil.padLeft(tmp, digits, '0');
     }
 

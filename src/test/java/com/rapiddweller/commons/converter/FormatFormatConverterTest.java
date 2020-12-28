@@ -40,7 +40,7 @@ public class FormatFormatConverterTest extends AbstractConverterTest {
 
 	@Test
     public void testIntegerConversion() throws ConversionException {
-        FormatFormatConverter<Integer> converter = new FormatFormatConverter<Integer>(Integer.class, NumberFormat.getInstance(), false);
+        FormatFormatConverter<Integer> converter = new FormatFormatConverter<>(Integer.class, NumberFormat.getInstance(), false);
         assertEquals("1", converter.convert(1));
         assertEquals("0", converter.convert(0));
         assertEquals("-1", converter.convert(-1));
@@ -48,7 +48,7 @@ public class FormatFormatConverterTest extends AbstractConverterTest {
 
 	@Test
     public void testDateConversion() throws ConversionException {
-		FormatFormatConverter<Date> converter = new FormatFormatConverter<Date>(Date.class, new SimpleDateFormat("yyyy-MM-dd"), false);
+		FormatFormatConverter<Date> converter = new FormatFormatConverter<>(Date.class, new SimpleDateFormat("yyyy-MM-dd"), false);
         assertEquals("1969-06-24", converter.convert(TimeUtil.date(1969, 5, 24)));
         assertEquals("1970-01-01", converter.convert(TimeUtil.date(1970, 0, 1)));
         assertEquals("2000-12-31", converter.convert(TimeUtil.date(2000, 11, 31)));

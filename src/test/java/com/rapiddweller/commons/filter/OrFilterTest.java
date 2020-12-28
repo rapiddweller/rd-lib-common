@@ -27,27 +27,27 @@ import org.junit.Test;
 @SuppressWarnings("unchecked")
 public class OrFilterTest {
 	
-	private static final ConstantFilter<Integer> TRUE = new ConstantFilter<Integer>(true);
-	private static final ConstantFilter<Integer> FALSE = new ConstantFilter<Integer>(false);
+	private static final ConstantFilter<Integer> TRUE = new ConstantFilter<>(true);
+	private static final ConstantFilter<Integer> FALSE = new ConstantFilter<>(false);
 	
 	@Test
 	public void testTrueOrTrue() {
-		assertTrue(new OrFilter<Integer>(TRUE, TRUE).accept(0));
+		assertTrue(new OrFilter<>(TRUE, TRUE).accept(0));
 	}
 	
 	@Test
 	public void testTrueOrFalse() {
-		assertTrue(new OrFilter<Integer>(TRUE, FALSE).accept(0));
+		assertTrue(new OrFilter<>(TRUE, FALSE).accept(0));
 	}
 	
 	@Test
 	public void testFalseOrTrue() {
-		assertTrue(new OrFilter<Integer>(FALSE, TRUE).accept(0));
+		assertTrue(new OrFilter<>(FALSE, TRUE).accept(0));
 	}
 	
 	@Test
 	public void testFalseOrFalse() {
-		assertFalse(new OrFilter<Integer>(FALSE, FALSE).accept(0));
+		assertFalse(new OrFilter<>(FALSE, FALSE).accept(0));
 	}
 	
 }

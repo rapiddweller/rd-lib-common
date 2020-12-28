@@ -167,7 +167,7 @@ public final class LocaleUtil {
      */
     private static void readConfigFile() {
         try {
-            specialLetters = new HashMap<Locale, Set<Character>>();
+            specialLetters = new HashMap<>();
             Map<String, String> properties = IOUtil.readProperties(
             		"com/rapiddweller/commons/special-letters.properties", Encodings.UTF_8);
             for (Map.Entry<String, String> entry : properties.entrySet()) {

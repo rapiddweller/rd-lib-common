@@ -44,9 +44,9 @@ public class OrderedSetTest {
 	@Test
 	public void testAddAll() {
 		OrderedSet<Integer> set = create123();
-		assertFalse(set.addAll(CollectionUtil.<Integer>toList(1, 2, 3)));
+		assertFalse(set.addAll(CollectionUtil.toList(1, 2, 3)));
 		assertEquals(3, set.size());
-		assertTrue(set.addAll(CollectionUtil.<Integer>toList(3, 4, 5)));
+		assertTrue(set.addAll(CollectionUtil.toList(3, 4, 5)));
 		assertEquals(5, set.size());
 	}
 
@@ -138,7 +138,7 @@ public class OrderedSetTest {
 	// helper methods --------------------------------------------------------------------------------------------------
 
 	private static OrderedSet<Integer> create123() {
-	    return new OrderedSet<Integer>(CollectionUtil.toList(1, 2, 3));
+	    return new OrderedSet<>(CollectionUtil.toList(1, 2, 3));
     }
 	
 }

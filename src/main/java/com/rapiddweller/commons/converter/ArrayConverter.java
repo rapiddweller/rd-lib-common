@@ -31,9 +31,9 @@ import com.rapiddweller.commons.Converter;
  */
 public class ArrayConverter<S, T> extends MultiConverterWrapper<S, T> implements Converter<S[], T[]> {
 
-    private Class<T> targetComponentType;
-    private Class<S[]> sourceType;
-    private Class<T[]> targetType;
+    private final Class<T> targetComponentType;
+    private final Class<S[]> sourceType;
+    private final Class<T[]> targetType;
 
     @SuppressWarnings("unchecked")
     public ArrayConverter(Class<S> sourceComponentType, Class<T> targetComponentType, Converter<S, T> ... converters) {

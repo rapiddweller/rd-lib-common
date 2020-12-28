@@ -31,8 +31,8 @@ import com.rapiddweller.commons.Parser;
  */
 public class IntervalParser<E> extends Parser<Interval<E>> {
 
-	private Parser<E> endpointParser;
-	private Comparator<E> endpointComparator;
+	private final Parser<E> endpointParser;
+	private final Comparator<E> endpointComparator;
 
 	public static <T> Interval<T> parse(String text, Parser<T> endpointParser, Comparator<T> endpointComparator) {
 		return new IntervalParser<T>(endpointParser, endpointComparator).parseObject(text, new ParsePosition(0));
@@ -84,7 +84,7 @@ public class IntervalParser<E> extends Parser<Interval<E>> {
 		pos.setIndex(pos.getIndex() + 1);
 		skipWhiteSpace(text, pos);
 		
-		return new Interval<E>(min, minInclusive, max, maxInclusive, endpointComparator);
+		return new Interval<>(min, minInclusive, max, maxInclusive, endpointComparator);
 	}
 
 }

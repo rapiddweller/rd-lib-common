@@ -23,7 +23,7 @@ package com.rapiddweller.commons.accessor;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class TypedAccessorChain implements TypedAccessor {
 
-    private TypedAccessor[] subAccessors;
+    private final TypedAccessor[] subAccessors;
 
     public TypedAccessorChain(TypedAccessor[] realAccessors) {
         this.subAccessors = realAccessors;

@@ -26,9 +26,9 @@ import java.util.regex.Pattern;
  */
 public class PatternFileFilter implements FileFilter {
 	
-	private Pattern pattern;
-	private boolean acceptingFiles;
-	private boolean acceptingFolders;
+	private final Pattern pattern;
+	private final boolean acceptingFiles;
+	private final boolean acceptingFolders;
 
 	public PatternFileFilter(String regex, boolean acceptingFiles, boolean acceptingFolders) {
 	    this.pattern = (regex != null ? Pattern.compile(regex) : null);

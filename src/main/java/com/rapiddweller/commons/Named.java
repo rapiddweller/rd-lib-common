@@ -21,5 +21,5 @@ package com.rapiddweller.commons;
  * @author Volker Bergmann
  */
 public interface Named {
-	public String getName();
+	String getName();
 }

@@ -33,7 +33,7 @@ public class FilteringIterator<E> extends BidirectionalIteratorProxy<E> {
     private E previous;
 
     public FilteringIterator(Iterator<E> realIterator, Filter<E> filter) {
-        this(new JDKIteratorWrapper<E>(realIterator), filter);
+        this(new JDKIteratorWrapper<>(realIterator), filter);
     }
 
     public FilteringIterator(BidirectionalIterator<E> realIterator, Filter<E> filter) {

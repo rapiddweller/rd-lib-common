@@ -25,7 +25,7 @@ import com.rapiddweller.commons.converter.ThreadSafeConverter;
  */
 public class BeanToPropertyArrayConverter<E> extends ThreadSafeConverter<E, Object[]> {
 
-    private PropertyAccessor<E, ?>[] accessors;
+    private final PropertyAccessor<E, ?>[] accessors;
 
     public BeanToPropertyArrayConverter(String ... propertyNames) {
         this(null, propertyNames);

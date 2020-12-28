@@ -35,7 +35,7 @@ public class SwingFileChooser extends JFileChooser implements FileChooser {
 	
 	private static final long serialVersionUID = 3258145358496737942L;
 	
-	private FileOperation operation;
+	private final FileOperation operation;
 
 	public SwingFileChooser(FileTypeSupport supportedTypes, FileOperation operation) {
 		Assert.notNull(supportedTypes, "supportedTypes");

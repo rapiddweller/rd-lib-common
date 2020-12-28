@@ -42,10 +42,10 @@ public class ComparatorFactory {
     private static final Logger logger = LogManager.getLogger(ComparatorFactory.class);
     private static final String CONFIG_FILE_URI = "com/rapiddweller/commons/comparator/comparators.txt";
     
-    private static Map<Class<?>, Comparator<?>> comparators;
+    private static final Map<Class<?>, Comparator<?>> comparators;
 
     static {
-        comparators = new HashMap<Class<?>, Comparator<?>>();
+        comparators = new HashMap<>();
         addComparator(String.class, Collator.getInstance());
         readConfigFileIfExists(CONFIG_FILE_URI);
         
@@ -92,6 +92,6 @@ public class ComparatorFactory {
             comparator = new ComparableComparator();
         if (comparator == null)
             throw new RuntimeException("No Comparator defined for " + type.getName());
-        return new NullSafeComparator<T>(comparator);
+        return new NullSafeComparator<>(comparator);
     }
 }

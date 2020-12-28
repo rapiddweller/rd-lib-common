@@ -121,7 +121,7 @@ public class TreeBuilderTest {
 	}
 	
 	@Test
-	public void testParseSimpleXML() throws FileNotFoundException, IOException {
+	public void testParseSimpleXML() throws IOException {
 		TreeBuilder expected = new TreeBuilder(true);
 		expected.addLeafAtAbsolutePath("root/emptyProp", "");
 		expected.addLeafAtAbsolutePath("root/topProp", "topValue");
@@ -131,7 +131,7 @@ public class TreeBuilderTest {
 	}
 
 	@Test
-	public void testParseComplexXML() throws FileNotFoundException, IOException {
+	public void testParseComplexXML() throws IOException {
 		TreeBuilder tree = TreeBuilder.parseXML(new FileInputStream("src/test/resources/com/rapiddweller/commons/xml/complexProps1.xml"));
 		Object itemNodeValue = tree.getNodeValue("root/list/item");
 		assertTrue(itemNodeValue instanceof List);
@@ -139,7 +139,7 @@ public class TreeBuilderTest {
 	}
 	
 	@Test
-	public void testParsePropertiesFile() throws FileNotFoundException, IOException {
+	public void testParsePropertiesFile() throws IOException {
 		TreeBuilder expected = new TreeBuilder(false);
 		expected.addLeafAtAbsolutePath("file/property", "loaded_from_file");
 		expected.addLeafAtAbsolutePath("common/property", "loaded_from_file");

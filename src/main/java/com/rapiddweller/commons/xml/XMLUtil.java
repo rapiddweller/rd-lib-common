@@ -104,7 +104,7 @@ public class XMLUtil {
 		format(document.getDocumentElement(), out);
 		out.close();
 		try {
-			return new String(buffer.toByteArray(), encoding);
+			return buffer.toString(encoding);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
@@ -117,7 +117,7 @@ public class XMLUtil {
 		format(element, out);
 		out.close();
 		try {
-			return new String(buffer.toByteArray(), encoding);
+			return buffer.toString(encoding);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
@@ -169,7 +169,7 @@ public class XMLUtil {
 		if (nodeList == null)
         	return new Element[0];
         int n = nodeList.getLength();
-        ArrayBuilder<Element> builder = new ArrayBuilder<Element>(Element.class, n);
+        ArrayBuilder<Element> builder = new ArrayBuilder<>(Element.class, n);
         for (int i = 0; i < n; i++) {
             Node item = nodeList.item(i);
             if (item instanceof Element)
@@ -179,7 +179,7 @@ public class XMLUtil {
 	}
     
 	public static List<Element> toElementList(NodeList nodeList) {
-		List<Element> list = new ArrayList<Element>(nodeList != null ? nodeList.getLength() : 0);
+		List<Element> list = new ArrayList<>(nodeList != null ? nodeList.getLength() : 0);
 		if (nodeList == null)
         	return list;
         int n = nodeList.getLength();
@@ -192,7 +192,7 @@ public class XMLUtil {
 	}
     
     public static Element[] getChildElements(Element parent, boolean namespaceAware, String name) {
-        ArrayBuilder<Element> builder = new ArrayBuilder<Element>(Element.class);
+        ArrayBuilder<Element> builder = new ArrayBuilder<>(Element.class);
         NodeList childNodes = parent.getChildNodes();
         if (childNodes == null)
         	return new Element[0];
@@ -211,7 +211,7 @@ public class XMLUtil {
     }
 
     public static Element[] getChildElementsAtPath(Element parent, String path, boolean namespaceAware) {
-        ArrayBuilder<Element> builder = new ArrayBuilder<Element>(Element.class);
+        ArrayBuilder<Element> builder = new ArrayBuilder<>(Element.class);
         getChildElementsAtPath(parent, namespaceAware, path.split("/"), 0, builder);
         return builder.toArray();
     }
@@ -326,7 +326,7 @@ public class XMLUtil {
 
     public static Map<String, String> getAttributes(Element element) {
         NamedNodeMap attributes = element.getAttributes();
-        Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<>();
         int n = attributes.getLength();
         for (int i = 0; i < n; i++) {
             Attr attribute = (Attr) attributes.item(i);
@@ -352,12 +352,12 @@ public class XMLUtil {
 	public static Comment[] getChildComments(Node parent) {
 		NodeList children;
 		if (parent instanceof Document)
-			children = ((Document) parent).getChildNodes();
+			children = parent.getChildNodes();
 		else if (parent instanceof Element)
-			children = ((Element) parent).getChildNodes();
+			children = parent.getChildNodes();
 		else
 			throw new UnsupportedOperationException("Not a supported type: " + parent.getClass());
-		ArrayBuilder<Comment> builder = new ArrayBuilder<Comment>(Comment.class);
+		ArrayBuilder<Comment> builder = new ArrayBuilder<>(Comment.class);
 		for (int i = 0; i < children.getLength(); i++) {
 			Node child = children.item(i);
 			if (child instanceof Comment)
@@ -460,14 +460,12 @@ public class XMLUtil {
             	errorHandler = new ErrorHandler("XMLUtil");
             builder.setErrorHandler(createSaxErrorHandler(errorHandler));
             return builder.parse(stream);
-        } catch (ParserConfigurationException e) {
-            throw new ConfigurationError(e);
         } catch (SAXParseException e) {
             throw new ConfigurationError("Error in line " + e.getLineNumber() + " column " + e.getColumnNumber(), e);
-        } catch (SAXException e) {
+        } catch (ParserConfigurationException | SAXException e) {
             throw new ConfigurationError(e);
         }
-	}
+    }
 
     public static String getDefaultDocumentBuilderClassName() {
 		return defaultDocumentBuilderClassName;
@@ -501,7 +499,7 @@ public class XMLUtil {
     }
 
     public static Map<String, String> getNamespaces(Document document) {
-    	Map<String, String> namespaces = new HashMap<String, String>();
+    	Map<String, String> namespaces = new HashMap<>();
         Map<String, String> attributes = XMLUtil.getAttributes(document.getDocumentElement());
         for (Map.Entry<String, String> entry : attributes.entrySet()) {
             String attributeName = entry.getKey();
@@ -534,7 +532,7 @@ public class XMLUtil {
 	}
 
 	public static Date getDateAttribute(Element element, String name) {
-		return new String2DateConverter<Date>().convert(element.getAttribute(name));
+		return new String2DateConverter<>().convert(element.getAttribute(name));
 	}
 	
 	public static ZonedDateTime getZoneDateTimeAttribute(Element element, String attributeName, String pattern) {
@@ -549,7 +547,7 @@ public class XMLUtil {
 	}
 
 	public static void mapAttributesToProperties(Element element, Object bean, boolean unescape) {
-		mapAttributesToProperties(element, bean, unescape, new NoOpConverter<String>());
+		mapAttributesToProperties(element, bean, unescape, new NoOpConverter<>());
 	}
 	
 	public static void mapAttributesToProperties(Element element, Object bean, boolean unescape, Converter<String, String> nameNormalizer) {
@@ -597,7 +595,7 @@ public class XMLUtil {
     }
 
 	public static List<Element> findElementsByName(String name, boolean caseSensitive, Element root) {
-	    return findElementsByName(name, caseSensitive, root, new ArrayList<Element>());
+	    return findElementsByName(name, caseSensitive, root, new ArrayList<>());
     }
 
 	public static String getWholeText(Element element) {
@@ -788,18 +786,17 @@ public class XMLUtil {
 	public static String xpathTo(Node node) {
 		Node[] nodePath = nodePathTo(node);
 		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < nodePath.length; i++) {
-			Node component = nodePath[i];
-			if (component instanceof Document)
-				continue;
-			builder.append("/");
-			builder.append(formatXPathComponent(component));
-		}
+        for (Node component : nodePath) {
+            if (component instanceof Document)
+                continue;
+            builder.append("/");
+            builder.append(formatXPathComponent(component));
+        }
 		return builder.toString();
 	}
 
 	public static Node[] nodePathTo(Node node) {
-		ArrayBuilder<Node> builder = new ArrayBuilder<Node>(Node.class);
+		ArrayBuilder<Node> builder = new ArrayBuilder<>(Node.class);
 		buildPath(node, builder);
 		return builder.toArray();
 	}
@@ -862,11 +859,9 @@ public class XMLUtil {
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}" + "indent-amount", "2");
 			return transformer;
-		} catch (TransformerConfigurationException e) {
-			throw new ConfigurationError("Error creating Transformer", e);
-		} catch (TransformerFactoryConfigurationError e) {
+		} catch (TransformerConfigurationException | TransformerFactoryConfigurationError e) {
 			throw new ConfigurationError("Error creating Transformer", e);
 		}
-	}
+    }
 
 }

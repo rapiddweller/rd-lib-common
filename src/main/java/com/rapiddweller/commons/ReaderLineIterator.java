@@ -27,7 +27,7 @@ import java.io.IOException;
 public class ReaderLineIterator implements HeavyweightIterator<String> {
 
     private BufferedReader reader;
-    private boolean skipEmptyLines;
+    private final boolean skipEmptyLines;
     private String next;
 
     private int lineCount;

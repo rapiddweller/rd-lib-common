@@ -48,7 +48,7 @@ public class Enum2StringConverterTest extends AbstractConverterTest {
     // private helpers -------------------------------------------------------------------------------------------------
 
     private static void check(SomeEnum instance) throws ConversionException {
-    	Enum2StringConverter<SomeEnum> converter = new Enum2StringConverter<SomeEnum>(SomeEnum.class);
+    	Enum2StringConverter<SomeEnum> converter = new Enum2StringConverter<>(SomeEnum.class);
         assertEquals(instance.name(), converter.convert(instance));
     }
     

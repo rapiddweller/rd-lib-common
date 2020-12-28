@@ -28,13 +28,13 @@ import com.rapiddweller.commons.converter.NumberParser;
 public class MinNumberStringOperation implements Operation<String, String> {
 
 	@SuppressWarnings("rawtypes")
-	private MinOperation<ComparableWrapper> operation;
+	private final MinOperation<ComparableWrapper> operation;
 	
-	private Converter<String, ?> parser;
+	private final Converter<String, ?> parser;
 
     @SuppressWarnings("rawtypes")
 	public MinNumberStringOperation() {
-        this.operation = new MinOperation<ComparableWrapper>();
+        this.operation = new MinOperation<>();
         this.parser = new NumberParser();
     }
 

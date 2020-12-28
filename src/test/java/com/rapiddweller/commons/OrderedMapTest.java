@@ -38,13 +38,13 @@ public class OrderedMapTest {
 	@Test
     public void testCopyConstructor() {
         OrderedMap<Integer, Integer> map = createMap123();
-        OrderedMap<Integer, Integer> copy = new OrderedMap<Integer, Integer>(map);
+        OrderedMap<Integer, Integer> copy = new OrderedMap<>(map);
         check(copy, 1, 11, 2, 22, 3, 33);
     }
 
 	@Test
     public void testEmptyMap() {
-        OrderedMap<Integer, Integer> map = new OrderedMap<Integer, Integer>();
+        OrderedMap<Integer, Integer> map = new OrderedMap<>();
         check(map);
     }
 
@@ -93,7 +93,7 @@ public class OrderedMapTest {
 	@Test
     public void testPutAll() {
         OrderedMap<Integer, Integer> map = createMap123();
-        OrderedMap<Integer, Integer> map2 = new OrderedMap<Integer, Integer>();
+        OrderedMap<Integer, Integer> map2 = new OrderedMap<>();
         map2.put(0, 0);
         map2.put(4, 44);
         map.putAll(map2);
@@ -130,7 +130,7 @@ public class OrderedMapTest {
 	@Test
     public void testEqualsIgnoreOrder() {
     	OrderedMap<Integer, Integer> map123 = createMap123();
-    	OrderedMap<Integer, Integer> map321 = new OrderedMap<Integer, Integer>();
+    	OrderedMap<Integer, Integer> map321 = new OrderedMap<>();
     	map321.put(3, 33);
     	map321.put(2, 22);
     	assertFalse(map123.equalsIgnoreOrder(map321));
@@ -151,6 +151,7 @@ public class OrderedMapTest {
 
     // private helpers -------------------------------------------------------------------------------------------------
 
+    @SafeVarargs
     private static <T> void check(OrderedMap<T, T> map, T ... expectedKeyValuePairs) {
         if (expectedKeyValuePairs.length == 0)
             assertTrue("Map is expected to be empty", map.isEmpty());
@@ -186,7 +187,7 @@ public class OrderedMapTest {
     }
 
     private static OrderedMap<Integer, Integer> createMap123() {
-        OrderedMap<Integer, Integer> map = new OrderedMap<Integer, Integer>();
+        OrderedMap<Integer, Integer> map = new OrderedMap<>();
         map.put(1, 11);
         map.put(2, 22);
         map.put(3, 33);

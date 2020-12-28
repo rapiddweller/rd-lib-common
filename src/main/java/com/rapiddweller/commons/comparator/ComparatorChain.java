@@ -28,8 +28,9 @@ import java.util.Comparator;
  */
 public class ComparatorChain<E> implements Comparator<E> {
 
-    private Comparator<E>[] comparators;
+    private final Comparator<E>[] comparators;
 
+    @SafeVarargs
     public ComparatorChain(Comparator<E> ... comparators) {
         this.comparators = comparators;
     }

@@ -38,7 +38,7 @@ public class SimpleContextStack implements ContextStack {
     protected Stack<Context> contexts;
     
     public SimpleContextStack(Context ... contexts) {
-        this.contexts = new Stack<Context>();
+        this.contexts = new Stack<>();
         for (Context c : contexts) 
             this.contexts.push(c);
     }
@@ -65,7 +65,7 @@ public class SimpleContextStack implements ContextStack {
 
     @Override
 	public Set<String> keySet() {
-        Set<String> keySet = new HashSet<String>();
+        Set<String> keySet = new HashSet<>();
         for (int i = contexts.size() - 1; i >= 0; i--) {
             Context c = contexts.get(i);
             keySet.addAll(c.keySet());
@@ -75,9 +75,8 @@ public class SimpleContextStack implements ContextStack {
 
 	@Override
 	public Set<Entry<String, Object>> entrySet() {
-		Set<Entry<String, Object>> entrySet = new HashSet<Entry<String, Object>>();
-        for (int i = 0; i < contexts.size(); i++) {
-            Context c = contexts.get(i);
+		Set<Entry<String, Object>> entrySet = new HashSet<>();
+        for (Context c : contexts) {
             entrySet.addAll(c.entrySet());
         }
         return entrySet;

@@ -26,8 +26,8 @@ import java.util.List;
  */
 public class SplitResult<E> {
 
-    private List<E> matches;
-    private List<E> mismatches;
+    private final List<E> matches;
+    private final List<E> mismatches;
 
     public SplitResult(List<E> matches, List<E> mismatches) {
         this.matches = matches;

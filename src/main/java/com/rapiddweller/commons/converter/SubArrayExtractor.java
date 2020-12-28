@@ -26,7 +26,7 @@ import java.lang.reflect.Array;
  */
 public class SubArrayExtractor extends ThreadSafeConverter<Object[], Object[]> {
 
-    private int[] indexes;
+    private final int[] indexes;
 
     public SubArrayExtractor(int ... indexes) {
     	super(Object[].class, Object[].class);

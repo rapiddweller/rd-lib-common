@@ -28,7 +28,7 @@ import com.rapiddweller.commons.HeavyweightIterator;
  */
 public class HeavyweightIterableAdapter<E> implements HeavyweightIterable<E> {
 	
-	private Iterable<E> source;
+	private final Iterable<E> source;
 
 	public HeavyweightIterableAdapter(Iterable<E> source) {
 		this.source = source;
@@ -36,7 +36,7 @@ public class HeavyweightIterableAdapter<E> implements HeavyweightIterable<E> {
 
 	@Override
 	public HeavyweightIterator<E> iterator() {
-		return new HeavyweightIteratorProxy<E>(source.iterator());
+		return new HeavyweightIteratorProxy<>(source.iterator());
 	}
 
 }

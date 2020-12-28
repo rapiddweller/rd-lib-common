@@ -26,7 +26,7 @@ import com.rapiddweller.commons.Named;
 
 public class NamedWrapper<E> implements Named {
 	
-	private String name;
+	private final String name;
 	private E wrapped;
 	
 	public NamedWrapper(String name, E wrapped) {

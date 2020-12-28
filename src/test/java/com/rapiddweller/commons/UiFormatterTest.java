@@ -32,12 +32,9 @@ public class UiFormatterTest {
 
 	@Test
 	public void test() {
-		LocaleUtil.runInLocale(Locale.GERMAN, new Runnable() {
-			@Override
-			public void run() {
-				assertEquals("1,2%", UiFormatter.formatPct(0.0123));
-				assertEquals("1.234,6%", UiFormatter.formatPct(12.3456));
-			}
+		LocaleUtil.runInLocale(Locale.GERMAN, () -> {
+			assertEquals("1,2%", UiFormatter.formatPct(0.0123));
+			assertEquals("1.234,6%", UiFormatter.formatPct(12.3456));
 		});
 	}
 }

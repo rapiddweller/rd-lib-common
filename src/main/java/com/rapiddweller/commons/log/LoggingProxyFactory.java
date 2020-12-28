@@ -51,9 +51,9 @@ public class LoggingProxyFactory {
 	
 	protected static class LoggingInvocationHandler implements InvocationHandler {
 		
-		private Object realObject;
-		private Logger logger;
-		private Level level;
+		private final Object realObject;
+		private final Logger logger;
+		private final Level level;
 		
         public LoggingInvocationHandler(Object realObject, Level level) {
         	this.realObject = realObject;

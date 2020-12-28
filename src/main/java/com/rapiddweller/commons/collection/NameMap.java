@@ -50,7 +50,8 @@ public class NameMap<E extends Named> extends HashMap<String, E> {
 			super.put(item.getName(), item);
 	}
 	
-	public NameMap(E... elements) {
+	@SafeVarargs
+    public NameMap(E... elements) {
 		super(elements.length);
 		for (E element : elements)
 			super.put(element.getName(), element);

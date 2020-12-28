@@ -31,16 +31,16 @@ public class JavaType {
     // static maps for JavaType lookup by different criteria ---------------------------------------------------------
 
     /** Maps the NumberTypes by name */
-    private static Map<String,JavaType> instancesByName = new HashMap<String,JavaType>();
+    private static final Map<String,JavaType> instancesByName = new HashMap<>();
 
     /** Maps the NumberTypes by primitive class */
-    private static Map<Class<?>,JavaType> instancesByPrimitive = new HashMap<Class<?>,JavaType>();
+    private static final Map<Class<?>,JavaType> instancesByPrimitive = new HashMap<>();
 
     /** Maps the NumberTypes by wrapper class */
-    private static Map<Class<?>,JavaType> instancesByWrapper = new HashMap<Class<?>,JavaType>();
+    private static final Map<Class<?>,JavaType> instancesByWrapper = new HashMap<>();
 
     /** Collects all Number types, primitives and wrappers */
-    private static Set<Class<? extends Number>> numberTypes = new HashSet<Class<? extends Number>>();
+    private static final Set<Class<? extends Number>> numberTypes = new HashSet<>();
 
     // instances -------------------------------------------------------------------------------------------------------
 

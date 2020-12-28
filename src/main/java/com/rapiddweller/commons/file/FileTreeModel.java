@@ -30,8 +30,8 @@ import java.util.Comparator;
  */
 public class FileTreeModel implements TreeModel<File>, Element<File> {
 
-    private File root;
-    private Comparator<File> fileComparator;
+    private final File root;
+    private final Comparator<File> fileComparator;
 
     public FileTreeModel(File root) {
         this(root, new FilenameComparator());

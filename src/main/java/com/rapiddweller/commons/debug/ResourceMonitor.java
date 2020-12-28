@@ -33,10 +33,10 @@ public class ResourceMonitor {
 	
 	private static final Logger LOGGER = LogManager.getLogger(ResourceMonitor.class);
 	
-	private List<MonitoredResource> registrations;
+	private final List<MonitoredResource> registrations;
 	
 	public ResourceMonitor() {
-		registrations = new ArrayList<MonitoredResource>();
+		registrations = new ArrayList<>();
 	}
 
 	public void register(Object object) {

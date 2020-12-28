@@ -29,9 +29,9 @@ public class PadFormat extends Format {
 
     private static final long serialVersionUID = -8263536650454913565L;
     
-    private String nullString;
-	private Format format;
-    private StringPadder padder;
+    private final String nullString;
+	private final Format format;
+    private final StringPadder padder;
 
     public PadFormat(String nullString, int length, Alignment alignment, char padChar) {
         this(null, nullString, length, alignment, padChar);

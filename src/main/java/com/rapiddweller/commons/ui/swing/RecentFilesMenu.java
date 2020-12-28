@@ -40,7 +40,7 @@ public class RecentFilesMenu extends JMenu {
 		setIcon(icon);
 		File[] recentFiles = history.getFiles();
 		for (final File recentFile : recentFiles)
-			add(new ConsumerAction<File>(recentFile.getName(), null, recentFile, consumer));
+			add(new ConsumerAction<>(recentFile.getName(), null, recentFile, consumer));
 	}
 	
 }

@@ -27,7 +27,7 @@ import java.util.Comparator;
  */
 public class StringComparator implements Comparator<String> {
 
-    private Collator collator;
+    private final Collator collator;
 
     public StringComparator() {
         this(Locale.getDefault());

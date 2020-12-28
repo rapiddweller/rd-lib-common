@@ -24,7 +24,7 @@ package com.rapiddweller.commons;
 public class StringCharacterIterator implements CharacterIterator {
 
     /** The String to iterate */
-    private String source;
+    private final String source;
 
     /** The cursor offset */
     private int offset;

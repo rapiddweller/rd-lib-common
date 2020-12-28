@@ -38,7 +38,7 @@ public class RegexValidator extends AbstractConstraintValidator<Pattern, String>
 	private static final Map<Flag, Integer> flagConstants;
 	
 	static {
-		flagConstants = new HashMap<Flag, Integer>();
+		flagConstants = new HashMap<>();
 		flagConstants.put(Flag.CANON_EQ, java.util.regex.Pattern.CANON_EQ);
 		flagConstants.put(Flag.CASE_INSENSITIVE, java.util.regex.Pattern.CASE_INSENSITIVE);
 		flagConstants.put(Flag.COMMENTS, java.util.regex.Pattern.COMMENTS);
@@ -116,7 +116,7 @@ public class RegexValidator extends AbstractConstraintValidator<Pattern, String>
     private int flagsAsNumber() {
 	    int bits = 0;
 	    for (Flag flag : flags)
-	    	bits |= flagConstants.get(flag).intValue();
+	    	bits |= flagConstants.get(flag);
 	    return bits;
     }
     

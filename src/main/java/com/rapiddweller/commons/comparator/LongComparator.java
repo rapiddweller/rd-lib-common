@@ -29,7 +29,7 @@ public class LongComparator implements Comparator<Long> {
     }
 
     public static int compare(long n1, long n2) {
-        return (n1 < n2 ? -1 : (n1 > n2 ? 1 : 0));
+        return (Long.compare(n1, n2));
     }
 
 }

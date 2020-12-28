@@ -34,7 +34,7 @@ import com.rapiddweller.commons.StringUtil;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class String2ConverterConverter extends ThreadSafeConverter<String, Converter> {
 	
-	private static LoggerEscalator escalator = new LoggerEscalator();
+	private static final LoggerEscalator escalator = new LoggerEscalator();
 
     public String2ConverterConverter() {
         super(String.class, Converter.class);

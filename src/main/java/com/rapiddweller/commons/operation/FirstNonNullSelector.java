@@ -24,8 +24,9 @@ import com.rapiddweller.commons.Operation;
  */
 public class FirstNonNullSelector<E> implements Operation<E, E> {
 
+    @SafeVarargs
     @Override
-	public E perform(E ... args) {
+	public final E perform(E... args) {
         if (args.length == 0)
             return null;
         for (E arg : args)

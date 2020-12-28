@@ -34,7 +34,7 @@ public class CopyFromTextFieldAction extends AbstractAction {
 	
 	private static final long serialVersionUID = 1L;
 
-	private JTextField textField;
+	private final JTextField textField;
 	
 	public CopyFromTextFieldAction(JTextField textField) {
 		super("Copy");

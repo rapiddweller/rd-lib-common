@@ -25,6 +25,7 @@ import com.rapiddweller.commons.Validator;
  */
 public class AndValidator<E> extends CompositeValidator<E> {
 
+    @SafeVarargs
     public AndValidator(Validator<E> ... subValidators) {
         super(subValidators);
     }

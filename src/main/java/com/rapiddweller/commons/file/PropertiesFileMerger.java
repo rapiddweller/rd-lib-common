@@ -41,11 +41,11 @@ public class PropertiesFileMerger {
 	
 	private static final Logger LOGGER = LogManager.getLogger(PropertiesFileMerger.class);
 
-	public static void merge(String targetPath, String... sourceFiles) throws FileNotFoundException, IOException {
+	public static void merge(String targetPath, String... sourceFiles) throws IOException {
 		merge(targetPath, true, sourceFiles);
 	}
 
-	public static void merge(String targetPath, boolean vmOverride, String... sourceFiles) throws FileNotFoundException, IOException {
+	public static void merge(String targetPath, boolean vmOverride, String... sourceFiles) throws IOException {
 		LOGGER.debug("Merging the files {} into target file: {}", Arrays.toString(sourceFiles), targetPath);
 		TreeBuilder tree = null;
 		for (String sourceFile : sourceFiles) {
@@ -77,7 +77,7 @@ public class PropertiesFileMerger {
 			return base;
 	}
 
-	static TreeBuilder loadFileIfPresent(String sourceFile, TreeBuilder base) throws FileNotFoundException, IOException {
+	static TreeBuilder loadFileIfPresent(String sourceFile, TreeBuilder base) throws IOException {
 		File file = new File(sourceFile);
 		if (file.exists()) {
 			LOGGER.debug("Loading and merging properties of file '{}' ", sourceFile);

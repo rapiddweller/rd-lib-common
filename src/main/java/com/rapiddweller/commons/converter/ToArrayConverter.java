@@ -30,7 +30,7 @@ import java.util.Collection;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class ToArrayConverter extends ThreadSafeConverter {
 
-    private Class componentType;
+    private final Class componentType;
     private boolean nullToEmpty;
 
     // constructors ----------------------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ public class ToArrayConverter extends ThreadSafeConverter {
         } else if (componentType == byte.class) {
             Method method = BeanUtil.getMethod(sourceValue.getClass(), "getBytes");
             if (method != null)
-                return (byte[]) BeanUtil.invoke(sourceValue, method, null);
+                return BeanUtil.invoke(sourceValue, method, null);
             else
                 throw new UnsupportedOperationException("Conversion not supported: " + sourceValue.getClass() + " -> " + componentType + "[]");
         } else if (sourceValue.getClass().isArray()) {

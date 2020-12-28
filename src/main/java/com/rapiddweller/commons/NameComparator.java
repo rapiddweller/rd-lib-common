@@ -25,10 +25,10 @@ import java.util.Comparator;
  */
 public class NameComparator implements Comparator<Named> {
 	
-	private Comparator<String> nameComparator;
+	private final Comparator<String> nameComparator;
 	
 	public NameComparator() {
-		this.nameComparator = new NullSafeComparator<String>(Collator.getInstance());
+		this.nameComparator = new NullSafeComparator<>(Collator.getInstance());
 	}
 	
 	@Override

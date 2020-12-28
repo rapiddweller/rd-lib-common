@@ -33,7 +33,7 @@ public class BeanToPropertyArrayConverterTest {
     public void test() throws ConversionException {
         Bean bean = new Bean(42, "foobar");
         BeanToPropertyArrayConverter<Bean> converter 
-        	= new BeanToPropertyArrayConverter<Bean>(Bean.class, "number", "text");
+        	= new BeanToPropertyArrayConverter<>(Bean.class, "number", "text");
         Object[] expectedResult = new Object[]{42, "foobar"};
         assertTrue(Arrays.equals(expectedResult, converter.convert(bean)));
     }

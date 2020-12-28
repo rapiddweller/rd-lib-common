@@ -34,8 +34,8 @@ public class I18NSupport {
 	
 	private static final Escalator escalator = new LoggerEscalator();
 	
-	private String name;
-	private ResourceBundle bundle;
+	private final String name;
+	private final ResourceBundle bundle;
 
 	public I18NSupport(String name, Locale locale) {
 		this.name = name;

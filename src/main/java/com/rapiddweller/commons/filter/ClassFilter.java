@@ -26,8 +26,8 @@ import com.rapiddweller.commons.Filter;
  */
 public class ClassFilter<E> implements Filter<E> {
 	
-	private Class<? extends E> acceptedClass;
-	private boolean acceptingSubClasses;
+	private final Class<? extends E> acceptedClass;
+	private final boolean acceptingSubClasses;
 
 	public ClassFilter(Class<? extends E> acceptedClass, boolean acceptingSubClasses) {
 		this.acceptedClass = acceptedClass;

@@ -34,7 +34,7 @@ public class String2CharConverter extends ThreadSafeConverter<String, Character>
 			return null;
     	switch (sourceValue.length()) {
 			case 0 : return null; 
-			case 1 : return Character.valueOf(sourceValue.charAt(0));
+			case 1 : return sourceValue.charAt(0);
 			default: throw new ConversionException("'" + sourceValue + "' cannot be converted to a character");
     	}
     }

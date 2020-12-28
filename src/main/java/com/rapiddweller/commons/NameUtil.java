@@ -38,7 +38,7 @@ public class NameUtil {
     }
 
     public static <T extends Collection<? extends Named>> List<String> getNames(T objects) {
-    	List<String> result = new ArrayList<String>(objects.size());
+    	List<String> result = new ArrayList<>(objects.size());
     	for (Named object : objects)
     		result.add(object.getName());
     	return result;
@@ -57,7 +57,7 @@ public class NameUtil {
     }
 
     public static <T extends Named> void orderByName(List<T> objects) {
-    	Collections.sort(objects, new NameComparator());
+    	objects.sort(new NameComparator());
     }
 
 	public static int indexOf(String name, List<? extends Named> objects) {
@@ -75,11 +75,11 @@ public class NameUtil {
 	}
 
 	public static void sort(List<? extends Named> namedObjects) {
-		Collections.sort(namedObjects, new NameComparator());
+		namedObjects.sort(new NameComparator());
 	}
 	
 	public static <T extends Named> List<T> find(List<T> list, Filter<String> filter) {
-		List<T> result = new ArrayList<T>();
+		List<T> result = new ArrayList<>();
 		for (T object : list)
 			if (filter.accept(object.getName()))
 				result.add(object);

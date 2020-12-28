@@ -30,7 +30,7 @@ public class UnitPrefixNumberFormat {
 	
 	private static final String DEFAULT_PATTERN = "#,##0.####";
 	
-	private NumberFormat numberFormat;
+	private final NumberFormat numberFormat;
 	
 	public UnitPrefixNumberFormat() {
 		this(DEFAULT_PATTERN);

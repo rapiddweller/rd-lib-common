@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class LocalSequenceProvider implements Closeable {
 	
-	private static Map<String, LocalSequenceProvider> INSTANCES = new HashMap<String, LocalSequenceProvider>();
+	private static final Map<String, LocalSequenceProvider> INSTANCES = new HashMap<>();
 	
 	public static LocalSequenceProvider getInstance(String filename) {
 		LocalSequenceProvider result = INSTANCES.get(filename);
@@ -56,7 +56,7 @@ public class LocalSequenceProvider implements Closeable {
 	private LocalSequenceProvider(String fileName, boolean cached) {
 		this.fileName = fileName;
 		this.cached = cached;
-		this.counters = new HashMap<String, AtomicLong>();
+		this.counters = new HashMap<>();
 		load();
 	}
 
@@ -89,7 +89,7 @@ public class LocalSequenceProvider implements Closeable {
 	// static methods --------------------------------------------------------------------------------------------------
 
 	public void save() {
-		Map<String, String> values = new HashMap<String, String>();
+		Map<String, String> values = new HashMap<>();
 		for (Map.Entry<String, AtomicLong> entry : counters.entrySet())
 			values.put(entry.getKey(), String.valueOf(entry.getValue().get()));
 		try {

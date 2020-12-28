@@ -63,7 +63,7 @@ public class DependencyModelTest {
         Dep e = new Dep("e", c);
         Dep f = new Dep("f", d, e);
         // build model
-        DependencyModel<Dep> model = new DependencyModel<Dep>();
+        DependencyModel<Dep> model = new DependencyModel<>();
         model.addNode(f);
         model.addNode(e);
         model.addNode(d);
@@ -105,7 +105,7 @@ public class DependencyModelTest {
    
 	@Test
     public void testAcceptedCycle2() {
-        DependencyModel<Dep> model = new DependencyModel<Dep>();
+        DependencyModel<Dep> model = new DependencyModel<>();
         Dep a = new Dep("a");
         Dep b = new Dep("b", a);
         a.addRequiredProvider(b);
@@ -133,7 +133,7 @@ public class DependencyModelTest {
     }
 
     private static void expectOrder(boolean acceptingCycles, Dep... nodes) {
-        DependencyModel<Dep> model = new DependencyModel<Dep>();
+        DependencyModel<Dep> model = new DependencyModel<>();
         for (int i = 0; i < nodes.length / 2; i++)
             model.addNode(nodes[i]);
         List<Dep> oo = model.dependencyOrderedObjects(acceptingCycles);

@@ -26,7 +26,7 @@ import com.rapiddweller.commons.HeavyweightTypedIterable;
  */
 public class HeadSkippingIterable<T> implements HeavyweightTypedIterable<T> {
 	
-	private HeavyweightTypedIterable<T> source;
+	private final HeavyweightTypedIterable<T> source;
 
 	public HeadSkippingIterable(HeavyweightTypedIterable<T> source) {
 		this.source = source;

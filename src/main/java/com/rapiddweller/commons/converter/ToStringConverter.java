@@ -35,7 +35,7 @@ import org.w3c.dom.Node;
  */
 public class ToStringConverter extends FormatHolder implements Converter<Object, String>, Cloneable {
 	
-	private static ToStringConverter singletonInstance = new ToStringConverter();
+	private static final ToStringConverter singletonInstance = new ToStringConverter();
 
     // constructors ----------------------------------------------------------------------------------------------------
 

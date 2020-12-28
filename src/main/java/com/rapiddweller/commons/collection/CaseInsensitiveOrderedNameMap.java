@@ -79,12 +79,12 @@ public class CaseInsensitiveOrderedNameMap<E> extends OrderedMap<String, E> {
         String normalizedKey = key;
 		E value = super.get(normalizedKey);
         if (value != null)
-        	return new MapEntry<String, E>(key, value);
+        	return new MapEntry<>(key, value);
         for (Map.Entry<String, E> entry : super.entrySet()) {
 	        String tmp = entry.getKey();
 	        if ((tmp == null && key == null) || (tmp != null && tmp.equalsIgnoreCase(key))) {
 				String resultKey = entry.getKey();
-				return new MapEntry<String, E>(resultKey, entry.getValue());
+				return new MapEntry<>(resultKey, entry.getValue());
 			}
         }
 		return null;

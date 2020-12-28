@@ -37,8 +37,8 @@ public class FilterUtilTest {
 	public void test() {
 		EvenFilter evenFilter = new EvenFilter();
 		List<List<Integer>> groups = FilterUtil.filterGroups(
-				new Integer[] { 1, 2, 3}, 
-				new InverseFilter<Integer>(evenFilter), evenFilter);
+				new Integer[] { 1, 2, 3},
+				new InverseFilter<>(evenFilter), evenFilter);
 		assertEquals(2, groups.size());
 		assertEquals(CollectionUtil.toList(1, 3), groups.get(0));
 		assertEquals(CollectionUtil.toList(2), groups.get(1));

@@ -43,17 +43,17 @@ public class TreeBuilder {
 	
 	// attributes ------------------------------------------------------------------------------------------------------
 	
-	private boolean namedRoot;
+	private final boolean namedRoot;
 	private String rootName;
 	private OrderedNameMap<Object> rootMap;
-	private Stack<OrderedNameMap<Object>> currentPath;
+	private final Stack<OrderedNameMap<Object>> currentPath;
 	
 	// constructor -----------------------------------------------------------------------------------------------------
 	
 	public TreeBuilder(boolean namedRoot) {
 		this.namedRoot = namedRoot;
 		this.rootName = null;
-		this.currentPath = new Stack<OrderedNameMap<Object>>();
+		this.currentPath = new Stack<>();
 	}
 	
 	// properties ------------------------------------------------------------------------------------------------------
@@ -71,12 +71,12 @@ public class TreeBuilder {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void openGroupNode(String nodeName) {
 		if (this.rootMap == null) {
-			this.rootMap = new OrderedNameMap<Object>();
+			this.rootMap = new OrderedNameMap<>();
 			this.currentPath.push(rootMap);
 			if (this.namedRoot) {
 				this.rootName = nodeName;
 			} else {
-				OrderedNameMap<Object> node = new OrderedNameMap<Object>();
+				OrderedNameMap<Object> node = new OrderedNameMap<>();
 				this.rootMap.put(nodeName, node);
 				this.currentPath.push(node);
 			}
@@ -85,11 +85,11 @@ public class TreeBuilder {
 			OrderedNameMap<Object> node;
 			Object formerContent = parent.get(nodeName);
 			if (formerContent == null)
-				parent.put(nodeName, node = new OrderedNameMap<Object>());
+				parent.put(nodeName, node = new OrderedNameMap<>());
 			else if (formerContent instanceof Collection)
-				((Collection) formerContent).add(node = new OrderedNameMap<Object>());
+				((Collection) formerContent).add(node = new OrderedNameMap<>());
 			else
-				parent.put(nodeName, CollectionUtil.toList(formerContent, node = new OrderedNameMap<Object>()));
+				parent.put(nodeName, CollectionUtil.toList(formerContent, node = new OrderedNameMap<>()));
 			this.currentPath.push(node);
 		}
 	}
@@ -114,11 +114,11 @@ public class TreeBuilder {
 	public void addLeafAtAbsolutePath(String path, String value) {
 		String[] pathComponents = path.split("/");
 		if (this.rootMap == null) {
-			this.rootMap = new OrderedNameMap<Object>();
+			this.rootMap = new OrderedNameMap<>();
 			if (this.namedRoot) {
 				this.rootName = pathComponents[0];
 			} else {
-				OrderedNameMap<Object> node = new OrderedNameMap<Object>();
+				OrderedNameMap<Object> node = new OrderedNameMap<>();
 				this.rootMap.put(pathComponents[0], node);
 				this.currentPath.push(node);
 			}
@@ -130,7 +130,7 @@ public class TreeBuilder {
 			String subNodeName = pathComponents[i];
 			Map<String, Object> subNode = (Map<String, Object>) node.get(subNodeName);
 			if (subNode == null)
-				node.put(subNodeName, subNode = new OrderedNameMap<Object>());
+				node.put(subNodeName, subNode = new OrderedNameMap<>());
 			node = subNode;
 		}
 		node.put(pathComponents[pathComponents.length - 1], value);
@@ -162,7 +162,7 @@ public class TreeBuilder {
 	}
 
 	public static TreeBuilder parseProperties(InputStream in) throws IOException {
-		try {
+		try (in) {
 			Properties props = new Properties();
 			props.load(in);
 			TreeBuilder builder = new TreeBuilder(false);
@@ -171,19 +171,15 @@ public class TreeBuilder {
 				builder.addLeafAtAbsolutePath(path, entry.getValue().toString());
 			}
 			return builder;
-		} finally {
-			in.close();
 		}
 	}
 	
 	public static TreeBuilder parseXML(InputStream in) throws IOException {
-		try {
+		try (in) {
 			Element root = XMLUtil.parse(in).getDocumentElement();
 			TreeBuilder builder = new TreeBuilder(true);
 			parseXMLElement(root, builder);
 			return builder;
-		} finally {
-			in.close();
 		}
 	}
 

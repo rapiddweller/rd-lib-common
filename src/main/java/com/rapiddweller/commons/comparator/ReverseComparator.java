@@ -27,7 +27,7 @@ import com.rapiddweller.commons.ComparableComparator;
  */
 public class ReverseComparator<E> implements Comparator<E> {
 
-    private Comparator<E> subject;
+    private final Comparator<E> subject;
 
     @SuppressWarnings("unchecked")
     public ReverseComparator() {

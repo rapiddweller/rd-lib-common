@@ -28,10 +28,10 @@ public enum BinaryScale {
 	KILO(1024L, "K"),
 	NONE(1L, ""); 
 
-	private double factor;
-	private String designator;
+	private final double factor;
+	private final String designator;
 
-	private BinaryScale(double factor, String designator) {
+	BinaryScale(double factor, String designator) {
 		this.factor = factor;
 		this.designator = designator;
 	}

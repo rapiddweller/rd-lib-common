@@ -46,9 +46,9 @@ public class ObservableFactory {
 	
 	private static class ObservableBeanInvocationHandler implements InvocationHandler {
 		
-		private Map<String, Object> propertyValues = new HashMap<String, Object>();
+		private final Map<String, Object> propertyValues = new HashMap<>();
 		private PropertyChangeSupport support;
-		private Class<?> type;
+		private final Class<?> type;
 		
 		public ObservableBeanInvocationHandler(Class<?> type) {
 			this.type = type;

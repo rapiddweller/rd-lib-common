@@ -25,8 +25,8 @@ import java.io.File;
  */
 public class MultiFileSuffixFilter implements FileFilter {
 
-    private String[] suffixes;
-    private boolean caseSensitive;
+    private final String[] suffixes;
+    private final boolean caseSensitive;
 
     public MultiFileSuffixFilter(boolean caseSensitive, String ... suffixes) {
         this.suffixes = suffixes;

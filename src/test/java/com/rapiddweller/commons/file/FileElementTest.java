@@ -44,8 +44,8 @@ public class FileElementTest {
 
     class CheckVisitor implements Visitor<File> {
 
-        private File[] expectedFiles;
-        private boolean[] filesFound;
+        private final File[] expectedFiles;
+        private final boolean[] filesFound;
 
         public CheckVisitor(File ... expectedFiles) {
             this.expectedFiles = expectedFiles;

@@ -30,7 +30,7 @@ import com.rapiddweller.commons.StringUtil;
  */
 public class String2TimeConverter extends ThreadSafeConverter<String, Time> {
 
-	private String pattern;
+	private final String pattern;
 	
     public String2TimeConverter() {
         this(null);

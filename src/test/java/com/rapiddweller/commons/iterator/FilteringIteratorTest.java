@@ -40,15 +40,9 @@ public class FilteringIteratorTest {
     public void testNext() {
         List<Character> list = Arrays.asList('1', 'a', '2', 'b', '3');
         BidirectionalIterator<Character> realIterator
-                = new BidirectionalListIterator<Character>(list);
-        Filter<Character> filter = new Filter<Character>() {
-
-            @Override
-			public boolean accept(Character c) {
-                return Character.isDigit(c);
-            }
-        };
-        BidirectionalIterator<Character> iterator = new FilteringIterator<Character>(realIterator, filter);
+                = new BidirectionalListIterator<>(list);
+        Filter<Character> filter = Character::isDigit;
+        BidirectionalIterator<Character> iterator = new FilteringIterator<>(realIterator, filter);
         assertTrue(iterator.hasNext());
         assertTrue(iterator.hasNext());
         assertEquals('1', iterator.next().charValue());

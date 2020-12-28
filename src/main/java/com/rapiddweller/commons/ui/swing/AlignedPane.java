@@ -27,9 +27,9 @@ public class AlignedPane extends JPanel implements SwingConstants {
 
 	private static final long serialVersionUID = -5911452561809191394L;
 	
-	private int orientation;
+	private final int orientation;
     private GridBagConstraints gbc;
-    private int columns;
+    private final int columns;
 
     public static AlignedPane createHorizontalPane() {
         return new AlignedPane(HORIZONTAL, 0);

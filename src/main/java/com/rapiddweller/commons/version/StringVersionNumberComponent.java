@@ -44,7 +44,7 @@ public class StringVersionNumberComponent extends VersionNumberComponent {
 	static final Map<String, Integer> ordinals;
 	
 	static {
-		ordinals = new HashMap<String, Integer>();
+		ordinals = new HashMap<>();
 		for (int i = 0; i < KEY_ORDER.length; i++)
 			ordinals.put(KEY_ORDER[i], i);
 	}
@@ -52,7 +52,7 @@ public class StringVersionNumberComponent extends VersionNumberComponent {
 	static final int FINAL_INDEX = ordinals.get("final");
 	static final int SP_INDEX = ordinals.get("sp");
 	
-	private String key;
+	private final String key;
 	
 	public StringVersionNumberComponent(String key) {
 		super();
@@ -64,7 +64,7 @@ public class StringVersionNumberComponent extends VersionNumberComponent {
 		if (that == null)
 			return -1;
 		Integer thisIndexObject = ordinals.get(this.key.toLowerCase());
-		int thisIndex = (thisIndexObject != null ? thisIndexObject.intValue() : FINAL_INDEX);
+		int thisIndex = (thisIndexObject != null ? thisIndexObject : FINAL_INDEX);
 		if (that instanceof NumberVersionNumberComponent) {
 			boolean number = ((NumberVersionNumberComponent) that).getNumber() == 0;
 			if (number && thisIndex >= SP_INDEX)
@@ -75,7 +75,7 @@ public class StringVersionNumberComponent extends VersionNumberComponent {
 				return -1;
 		}
 		Integer thatIndexObject = ordinals.get((((StringVersionNumberComponent) that).key).toLowerCase());
-		int thatIndex = (thatIndexObject != null ? thatIndexObject.intValue() : FINAL_INDEX);
+		int thatIndex = (thatIndexObject != null ? thatIndexObject : FINAL_INDEX);
 		return IntComparator.compare(thisIndex, thatIndex);
 	}
 	

@@ -31,7 +31,7 @@ import com.rapiddweller.commons.Converter;
  */
 public class StaticTargetClassMethodInvoker<S, T> extends ThreadSafeConverter<S, T> {
 	
-	private Method method;
+	private final Method method;
 
 	protected StaticTargetClassMethodInvoker(Class<S> sourceType, Class<T> targetType, Method method) {
 	    super(sourceType, targetType);

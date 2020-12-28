@@ -26,9 +26,9 @@ import com.rapiddweller.commons.Accessor;
  */
 public class ConditionalAccessor<C, V> implements Accessor<C, V> {
 	
-	private Accessor<C, Boolean> condition;
-	private Accessor<C, V> trueAccessor;
-	private Accessor<C, V> falseAccessor;
+	private final Accessor<C, Boolean> condition;
+	private final Accessor<C, V> trueAccessor;
+	private final Accessor<C, V> falseAccessor;
 	
 	public ConditionalAccessor(Accessor<C, Boolean> condition,
 			Accessor<C, V> trueAccessor, Accessor<C, V> falseAccessor) {

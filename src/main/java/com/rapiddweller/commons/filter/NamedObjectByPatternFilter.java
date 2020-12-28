@@ -26,7 +26,7 @@ import com.rapiddweller.commons.Named;
  */
 public class NamedObjectByPatternFilter<E extends Named> implements Filter<E> {
 	
-	private RegexBasedFilter nameFilter;
+	private final RegexBasedFilter nameFilter;
 	
 	public NamedObjectByPatternFilter(String inclusionPattern, String exclusionPattern) {
 		this.nameFilter = new RegexBasedFilter(inclusionPattern, exclusionPattern);

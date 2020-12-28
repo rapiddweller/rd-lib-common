@@ -30,19 +30,19 @@ public class MinOperationTest {
 
 	@Test
     public void testInteger() {
-        MinOperation<Integer> op = new MinOperation<Integer>();
+        MinOperation<Integer> op = new MinOperation<>();
         assertEquals(Integer.valueOf(-1), op.perform(-1, 0, 1, 2));
     }
 
 	@Test
     public void testString() {
-        MinOperation<String> op = new MinOperation<String>();
+        MinOperation<String> op = new MinOperation<>();
         assertEquals("alpha", op.perform("alpha", "bravo", "charly"));
     }
 
 	@Test
     public void testStringDesc() {
-        MinOperation<String> op = new MinOperation<String>(new ReverseComparator<String>());
+        MinOperation<String> op = new MinOperation<>(new ReverseComparator<>());
         assertEquals("charly", op.perform("alpha", "bravo", "charly"));
     }
 	

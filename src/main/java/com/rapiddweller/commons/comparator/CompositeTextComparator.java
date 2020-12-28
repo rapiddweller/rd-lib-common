@@ -28,11 +28,11 @@ import java.math.BigInteger;
  */
 public class CompositeTextComparator implements Comparator<String> {
 
-    private ArrayComparator<Object> arrayComparator;
+    private final ArrayComparator<Object> arrayComparator;
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public CompositeTextComparator() {
-        this.arrayComparator = new ArrayComparator<Object>(new ComparatorChain<Object>(
+        this.arrayComparator = new ArrayComparator<>(new ComparatorChain<Object>(
                 new ObjectTypeComparator(BigInteger.class, String.class),
                 new ComparableComparator()
         ));

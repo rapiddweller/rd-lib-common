@@ -27,7 +27,7 @@ import java.util.Comparator;
  */
 public class ArrayComparator<E> implements Comparator<E[]> {
 
-    private Comparator<E> elementComparator;
+    private final Comparator<E> elementComparator;
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public ArrayComparator() {
@@ -53,12 +53,8 @@ public class ArrayComparator<E> implements Comparator<E[]> {
                 return elementComparison;
         }
         // All elements from 0 to minLength are equals - return the longer array as greater
-        if (array1.length < array2.length)
-            return -1;
-        else if (array1.length > array2.length)
-            return 1;
-        else // the arrays have equal size and equal elements
-            return 0;
+        // the arrays have equal size and equal elements
+        return Integer.compare(array1.length, array2.length);
     }
     
 }

@@ -33,13 +33,8 @@ public class PropertyArray2JavaBeanConverterTest {
 
 	@Test
 	public void test() {
-		ClassProvider<Object> provider = new ConstantClassProvider<Object>(A.class);
-		ReferenceResolver referenceResolver = new ReferenceResolver() {
-			@Override
-			public Object resolveReferences(Object value, Object target, String featureName) {
-				return value;
-			}
-		};
+		ClassProvider<Object> provider = new ConstantClassProvider<>(A.class);
+		ReferenceResolver referenceResolver = (value, target, featureName) -> value;
 		PropertyArray2JavaBeanConverter converter = new PropertyArray2JavaBeanConverter(provider, new String[] {"name", "b.x", "b.y", "b.c.x", "b.c.y" }, referenceResolver);
 		A result = (A) converter.convert(new Object[] { "theName", "xVal", "yVal", "cxVal", "cyVal" });
 		assertEquals("theName", result.name);

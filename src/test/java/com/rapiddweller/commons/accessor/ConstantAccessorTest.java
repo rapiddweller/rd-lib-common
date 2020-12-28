@@ -30,21 +30,21 @@ public class ConstantAccessorTest {
 
 	@Test
 	public void testGet() {
-		ConstantAccessor<Integer> accessor = new ConstantAccessor<Integer>(1);
+		ConstantAccessor<Integer> accessor = new ConstantAccessor<>(1);
 		assertEquals(1, (int) accessor.getValue(null));
 	}
 
 	@Test
 	public void testEquals() {
-		ConstantAccessor<Integer> a1 = new ConstantAccessor<Integer>(1);
+		ConstantAccessor<Integer> a1 = new ConstantAccessor<>(1);
 		// simple test
 		assertFalse(a1.equals(null));
 		assertFalse(a1.equals(""));
 		assertTrue(a1.equals(a1));
 		// real comparisons
-		assertTrue(a1.equals(new ConstantAccessor<Integer>(1)));
-		ConstantAccessor<Integer> a0 = new ConstantAccessor<Integer>(null);
-		ConstantAccessor<Integer> a2 = new ConstantAccessor<Integer>(2);
+		assertTrue(a1.equals(new ConstantAccessor<>(1)));
+		ConstantAccessor<Integer> a0 = new ConstantAccessor<>(null);
+		ConstantAccessor<Integer> a2 = new ConstantAccessor<>(2);
 		assertFalse(a0.equals(a1));
 		assertFalse(a1.equals(a0));
 		assertFalse(a1.equals(a2));

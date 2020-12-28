@@ -27,7 +27,7 @@ import com.rapiddweller.commons.ArrayFormat;
  */
 public class ArrayWithIdentity {
 
-	private Object[] elements;
+	private final Object[] elements;
 
 	public ArrayWithIdentity(Object[] elements) {
 	    this.elements = elements;

@@ -50,7 +50,7 @@ public class NamedValueListTest {
 		assertEquals(1, list.size());
 		assertEquals("ONE", list.getName(0));
 		assertEquals(1, list.getValue(0).intValue());
-		int index = list.someValueOfName("One").intValue();
+		int index = list.someValueOfName("One");
 		assertEquals(1, index);
 
 		list.add("oNE", 11);

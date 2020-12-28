@@ -34,8 +34,8 @@ public class ConsumerAction<E> extends AbstractAction {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private E object;
-	private Consumer<E> consumer;
+	private final E object;
+	private final Consumer<E> consumer;
 	
 	public ConsumerAction(String label, Icon icon, E object, Consumer<E> consumer) {
 		super(label, icon);

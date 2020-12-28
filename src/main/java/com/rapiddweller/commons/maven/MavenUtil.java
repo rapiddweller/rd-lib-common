@@ -31,7 +31,7 @@ import com.rapiddweller.commons.SystemInfo;
 public class MavenUtil {
 
 	public static void invoke(String goal, File folder, boolean online) {
-		ArrayBuilder<String> cmdBuilder = new ArrayBuilder<String>(String.class);
+		ArrayBuilder<String> cmdBuilder = new ArrayBuilder<>(String.class);
 		
 		// maven invocation
 		if (SystemInfo.isWindows())

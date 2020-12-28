@@ -28,7 +28,7 @@ import com.rapiddweller.commons.SystemInfo;
  */
 public class ByteArray2StringConverter extends ThreadSafeConverter<byte[], String> {
 
-    private String encoding;
+    private final String encoding;
     
     public ByteArray2StringConverter() {
         this(SystemInfo.getFileEncoding());

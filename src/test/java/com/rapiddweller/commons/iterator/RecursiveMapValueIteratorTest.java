@@ -33,7 +33,7 @@ public class RecursiveMapValueIteratorTest extends IteratorTestCase {
 	@Test
 	public void testPlain() {
 		Map<Integer, Integer> map = (Map<Integer, Integer>) CollectionUtil.buildMap(1, 2, 3, 4);
-		RecursiveMapValueIterator<Integer> iterator = new RecursiveMapValueIterator<Integer>(map);
+		RecursiveMapValueIterator<Integer> iterator = new RecursiveMapValueIterator<>(map);
 		expectNextElements(iterator, 2, 4);
 	}
 	
@@ -43,7 +43,7 @@ public class RecursiveMapValueIteratorTest extends IteratorTestCase {
 		Map<Integer, Integer> map1 = (Map<Integer, Integer>) CollectionUtil.buildMap(1, 2, 3, 4);
 		Map<Integer, Integer> map2 = (Map<Integer, Integer>) CollectionUtil.buildMap(5, 6, 7, 8);
 		Map<Integer, ?> map = (Map<Integer, ?>) CollectionUtil.buildMap(11, map1, 13, map2);
-		RecursiveMapValueIterator<Integer> iterator = new RecursiveMapValueIterator<Integer>(map);
+		RecursiveMapValueIterator<Integer> iterator = new RecursiveMapValueIterator<>(map);
 		expectNextElements(iterator, 2, 4, 6, 8).withNoNext();
 	}
 	
@@ -52,12 +52,12 @@ public class RecursiveMapValueIteratorTest extends IteratorTestCase {
 		Map<Integer, ?> map1 = buildMap(1, 2, 3, 4);
 		Map<Integer, ?> map2 = buildMap(5, 6, 7, 8);
 		Map<Integer, ?> map = buildMap(9, 10, 11, map1, 13, 14, 15, map2, 17, 18);
-		RecursiveMapValueIterator<Integer> iterator = new RecursiveMapValueIterator<Integer>(map);
+		RecursiveMapValueIterator<Integer> iterator = new RecursiveMapValueIterator<>(map);
 		expectNextElements(iterator, 10, 2, 4, 14, 6, 8, 18).withNoNext();
 	}
 	
 	private static OrderedMap<Integer, ?> buildMap(Object... keyValuePairs) {
-		OrderedMap<Integer, Object> result = new OrderedMap<Integer, Object>();
+		OrderedMap<Integer, Object> result = new OrderedMap<>();
 		for (int i = 0; i < keyValuePairs.length; i += 2) {
 			Integer key = (Integer) keyValuePairs[i];
 			Object value = keyValuePairs[i + 1];

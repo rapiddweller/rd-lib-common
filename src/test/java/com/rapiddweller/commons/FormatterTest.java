@@ -31,33 +31,27 @@ public class FormatterTest {
 	
 	@Test
 	public void test_DE() {
-		LocaleUtil.runInLocale(Locale.GERMAN, new Runnable() {
-			@Override
-			public void run() {
-				assertEquals("morgen", Formatter.formatDaysFromNow(TimeUtil.tomorrow()));
-				assertEquals("gestern", Formatter.formatDaysFromNow(TimeUtil.yesterday()));
-				assertEquals("heute", Formatter.formatDaysFromNow(TimeUtil.today()));
-				assertEquals("übermorgen", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), 2)));
-				assertEquals("vorgestern", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), -2)));
-				assertEquals("vor 3 Tagen", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), -3)));
-				assertEquals("in 3 Tagen", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), 3)));
-			}
+		LocaleUtil.runInLocale(Locale.GERMAN, () -> {
+			assertEquals("morgen", Formatter.formatDaysFromNow(TimeUtil.tomorrow()));
+			assertEquals("gestern", Formatter.formatDaysFromNow(TimeUtil.yesterday()));
+			assertEquals("heute", Formatter.formatDaysFromNow(TimeUtil.today()));
+			assertEquals("übermorgen", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), 2)));
+			assertEquals("vorgestern", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), -2)));
+			assertEquals("vor 3 Tagen", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), -3)));
+			assertEquals("in 3 Tagen", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), 3)));
 		});
 	}
 	
 	@Test
 	public void test_EN() {
-		LocaleUtil.runInLocale(Locale.ENGLISH, new Runnable() {
-			@Override
-			public void run() {
-				assertEquals("tomorrow", Formatter.formatDaysFromNow(TimeUtil.tomorrow()));
-				assertEquals("yesterday", Formatter.formatDaysFromNow(TimeUtil.yesterday()));
-				assertEquals("today", Formatter.formatDaysFromNow(TimeUtil.today()));
-				assertEquals("the day after tomorrow", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), 2)));
-				assertEquals("the day before yesterday", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), -2)));
-				assertEquals("3 days ago", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), -3)));
-				assertEquals("in 3 days", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), 3)));
-			}
+		LocaleUtil.runInLocale(Locale.ENGLISH, () -> {
+			assertEquals("tomorrow", Formatter.formatDaysFromNow(TimeUtil.tomorrow()));
+			assertEquals("yesterday", Formatter.formatDaysFromNow(TimeUtil.yesterday()));
+			assertEquals("today", Formatter.formatDaysFromNow(TimeUtil.today()));
+			assertEquals("the day after tomorrow", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), 2)));
+			assertEquals("the day before yesterday", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), -2)));
+			assertEquals("3 days ago", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), -3)));
+			assertEquals("in 3 days", Formatter.formatDaysFromNow(TimeUtil.addDays(TimeUtil.today(), 3)));
 		});
 	}
 	

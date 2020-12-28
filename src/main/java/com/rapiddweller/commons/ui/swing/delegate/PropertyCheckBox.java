@@ -36,8 +36,8 @@ public class PropertyCheckBox extends JCheckBox {
 
 	private static final long serialVersionUID = 2502918170512919334L;
 	
-	private Object bean;
-	private String propertyName;
+	private final Object bean;
+	private final String propertyName;
 	boolean locked;
 
 	public PropertyCheckBox(Object bean, String propertyName, String label) {

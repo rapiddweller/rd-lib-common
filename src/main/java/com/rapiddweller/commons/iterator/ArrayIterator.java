@@ -28,7 +28,7 @@ import com.rapiddweller.commons.Assert;
 
 public class ArrayIterator<E> implements Iterator<E> {
 
-	private E[] array;
+	private final E[] array;
 	private int cursor;
 	
     public ArrayIterator(E[] array) {

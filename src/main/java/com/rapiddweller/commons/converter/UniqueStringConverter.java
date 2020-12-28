@@ -28,11 +28,11 @@ import com.rapiddweller.commons.ConversionException;
 public class UniqueStringConverter extends AbstractConverter<String, String> {
 	
 	private static final int MAX_TRIES = 10000;
-	private Set<String> usedStrings;
+	private final Set<String> usedStrings;
 
 	public UniqueStringConverter() {
 		super(String.class, String.class);
-		usedStrings = new HashSet<String>();
+		usedStrings = new HashSet<>();
 	}
 
 	@Override

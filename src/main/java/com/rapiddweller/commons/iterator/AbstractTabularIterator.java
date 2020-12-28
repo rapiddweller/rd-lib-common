@@ -24,7 +24,7 @@ import java.io.IOException;
  */
 public abstract class AbstractTabularIterator implements TabularIterator {
 
-	private String[] columnLabels;
+	private final String[] columnLabels;
 	
 	public AbstractTabularIterator(String... columnLabels) {
 		this.columnLabels = columnLabels;

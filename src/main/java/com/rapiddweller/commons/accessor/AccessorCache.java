@@ -29,8 +29,8 @@ import java.util.ArrayList;
  */
 public class AccessorCache<C, V> implements DependentAccessor<C, V> {
 
-    private String name;
-    private Accessor<C, V> realAccessor;
+    private final String name;
+    private final Accessor<C, V> realAccessor;
     private V cachedValue;
     private boolean valid;
 

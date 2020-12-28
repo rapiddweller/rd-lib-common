@@ -46,9 +46,9 @@ public class XmlNodeTableCellRenderer extends DefaultTableCellRenderer {
 		Node node = (Node) value;
 		String text;
 		if (node instanceof CDATASection)
-			text = "<![CDATA[" + ((CDATASection) node).getTextContent() + "]]>";
+			text = "<![CDATA[" + node.getTextContent() + "]]>";
 		else if (node instanceof CharacterData) 
-			text = ((CharacterData) node).getTextContent();
+			text = node.getTextContent();
 		else if (node instanceof Element)
 			text = XMLUtil.formatStartTag((Element) node).trim();
 		else if (node instanceof Comment)

@@ -25,11 +25,11 @@ import java.util.List;
  */
 public class ListTableRowIterator extends AbstractTabularIterator {
 
-	private List<Object[]> rows;
+	private final List<Object[]> rows;
 	private int cursor;
 	
 	public ListTableRowIterator(String... columnLabels) {
-		this(columnLabels, new ArrayList<Object[]>());
+		this(columnLabels, new ArrayList<>());
 	}
 
 	public ListTableRowIterator(String[] columnLabels, List<Object[]> rows) {

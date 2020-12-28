@@ -41,10 +41,10 @@ public class PropertyTextArea extends JTextArea {
 	
 	// attributes ------------------------------------------------------------------------------------------------------
 	
-	private Object bean;
-	private String propertyName;
+	private final Object bean;
+	private final String propertyName;
 
-	private ToStringConverter toStringConverter;
+	private final ToStringConverter toStringConverter;
 	boolean locked;
 	
 	// constructor -----------------------------------------------------------------------------------------------------

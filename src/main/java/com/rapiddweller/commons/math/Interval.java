@@ -43,7 +43,7 @@ public class Interval<E> implements Serializable {
 	public final Comparator<E> comparator;
 
 	public static <T extends Comparable<T>> Interval<T> forComparable(T min, boolean minInclusive, T max, boolean maxInclusive) {
-		return new Interval<T>(min, minInclusive, max, maxInclusive, new ComparableComparator<T>());
+		return new Interval<>(min, minInclusive, max, maxInclusive, new ComparableComparator<>());
 	}
 	
 	public Interval(E min, boolean minInclusive, E max, boolean maxInclusive,
@@ -56,7 +56,7 @@ public class Interval<E> implements Serializable {
 	}
 	
 	public static <T extends Comparable<T>> Interval<T> createClosedInterval(T min, T max) {
-		return new Interval<T>(min, true, max, true, new ComparableComparator<T>());
+		return new Interval<>(min, true, max, true, new ComparableComparator<>());
 	}
 	
 	public E getMin() {
@@ -76,7 +76,7 @@ public class Interval<E> implements Serializable {
 	}
 	
 	public static <T> Interval<T> createInfiniteInterval() {
-		return new Interval<T>(null, false, null, false, null);
+		return new Interval<>(null, false, null, false, null);
 	}
 
 	public boolean contains(E x) {
@@ -122,7 +122,7 @@ public class Interval<E> implements Serializable {
 		if (min != null && max != null && comparator.compare(min, max) == 0)
 			return String.valueOf(min);
 		else
-			return (minInclusive ? '[' : ']') + String.valueOf(min) + ',' + String.valueOf(max) + (maxInclusive ? ']' : '[');
+			return (minInclusive ? '[' : ']') + String.valueOf(min) + ',' + max + (maxInclusive ? ']' : '[');
 	}
 
 }

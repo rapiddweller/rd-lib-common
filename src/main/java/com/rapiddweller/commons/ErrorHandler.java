@@ -27,8 +27,8 @@ public class ErrorHandler {
 	
 	// attributes ------------------------------------------------------------------------------------------------------
 
-	private Logger logger;
-	private Level level;
+	private final Logger logger;
+	private final Level level;
 	private boolean loggingStackTrace;
 
 	// constructors ----------------------------------------------------------------------------------------------------

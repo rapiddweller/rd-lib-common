@@ -45,12 +45,7 @@ public class TextDialog extends JDialog {
 		buttonBox.add(Box.createHorizontalGlue());
 		buttonBox.add(okButton);
 		buttonBox.add(Box.createHorizontalGlue());
-		okButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent evt) {
-				setVisible(false);
-			}
-		});
+		okButton.addActionListener(evt -> setVisible(false));
 		contentPane.add(buttonBox, BorderLayout.SOUTH);
 	}
 	

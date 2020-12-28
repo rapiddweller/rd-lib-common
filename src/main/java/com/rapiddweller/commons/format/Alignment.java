@@ -25,9 +25,9 @@ public enum Alignment {
     RIGHT('r'), 
     CENTER('c');
     
-    private char id;
+    private final char id;
     
-    private Alignment(char id) {
+    Alignment(char id) {
     	this.id = id;
     }
     

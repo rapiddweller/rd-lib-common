@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 public abstract class IteratorTestCase {
 
     public static <T> void checkUniqueIteration(Iterator<T> iterator, int count) {
-        Set<T> items = new HashSet<T>(count);
+        Set<T> items = new HashSet<>(count);
         for (int i = 0; i < count; i++) {
             assertTrue(iterator.hasNext());
             T item = iterator.next();
@@ -36,6 +36,7 @@ public abstract class IteratorTestCase {
         }
     }
 
+	@SafeVarargs
 	public static <T> NextHelper expectNextElements(Iterator<?> iterator, T... expectedValues) {
 		for (T expected : expectedValues) {
 			assertTrue("Iterator is expected to have a next, but does not", iterator.hasNext());

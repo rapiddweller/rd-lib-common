@@ -102,14 +102,16 @@ public class AlignedPropertyPane<E> extends AlignedPane {
 		return checkBox;
 	}
 
-	public <O> JComboBox<O> createComboBoxRow(String propertyName, O... options) {
+	@SafeVarargs
+	public final <O> JComboBox<O> createComboBoxRow(String propertyName, O... options) {
 		JComboBox<O> comboBox = createComboBox(propertyName, true, true, options);
 		this.endRow();
 		return comboBox;
 	}
 
-	public <O> JComboBox<O> createComboBox(String propertyName, boolean useLabel, boolean contentIi18n, O... options) {
-	    JComboBox<O> comboBox = new PropertyComboBox<O>(bean, propertyName, (contentIi18n ? i18n : null), propertyName + ".", options);
+	@SafeVarargs
+	public final <O> JComboBox<O> createComboBox(String propertyName, boolean useLabel, boolean contentIi18n, O... options) {
+	    JComboBox<O> comboBox = new PropertyComboBox<>(bean, propertyName, (contentIi18n ? i18n : null), propertyName + ".", options);
 	    if (useLabel) {
 			String label = this.i18n.getString(propertyName);
 			this.addElement(label, comboBox);

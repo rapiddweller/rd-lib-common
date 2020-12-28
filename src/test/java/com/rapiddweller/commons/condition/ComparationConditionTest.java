@@ -31,21 +31,21 @@ public class ComparationConditionTest {
 
 	@Test
 	public void testEqual() {
-		ComparationCondition<Integer> condition = new ComparationCondition<Integer>(ComparationCondition.EQUAL);
+		ComparationCondition<Integer> condition = new ComparationCondition<>(ComparationCondition.EQUAL);
 		assertTrue(condition.evaluate(ArrayUtil.toArray(1, 1)));
 		assertFalse(condition.evaluate(ArrayUtil.toArray(1, 2)));
 	}
     
 	@Test
 	public void testNotEqual() {
-		ComparationCondition<Integer> condition = new ComparationCondition<Integer>(ComparationCondition.NOT_EQUAL);
+		ComparationCondition<Integer> condition = new ComparationCondition<>(ComparationCondition.NOT_EQUAL);
 		assertFalse(condition.evaluate(ArrayUtil.toArray(1, 1)));
 		assertTrue(condition.evaluate(ArrayUtil.toArray(1, 2)));
 	}
 
 	@Test
 	public void testGreaterOrEqual() {
-		ComparationCondition<Integer> condition = new ComparationCondition<Integer>(ComparationCondition.GREATER_OR_EQUAL);
+		ComparationCondition<Integer> condition = new ComparationCondition<>(ComparationCondition.GREATER_OR_EQUAL);
 		assertTrue(condition.evaluate(ArrayUtil.toArray(1, 1)));
 		assertFalse(condition.evaluate(ArrayUtil.toArray(1, 2)));
 		assertTrue(condition.evaluate(ArrayUtil.toArray(2, 1)));
@@ -53,7 +53,7 @@ public class ComparationConditionTest {
 
 	@Test
 	public void testGreater() {
-		ComparationCondition<Integer> condition = new ComparationCondition<Integer>(ComparationCondition.GREATER);
+		ComparationCondition<Integer> condition = new ComparationCondition<>(ComparationCondition.GREATER);
 		assertFalse(condition.evaluate(ArrayUtil.toArray(1, 1)));
 		assertFalse(condition.evaluate(ArrayUtil.toArray(1, 2)));
 		assertTrue(condition.evaluate(ArrayUtil.toArray(2, 1)));
@@ -61,7 +61,7 @@ public class ComparationConditionTest {
 
 	@Test
 	public void testLessOrEqual() {
-		ComparationCondition<Integer> condition = new ComparationCondition<Integer>(ComparationCondition.LESS_OR_EQUAL);
+		ComparationCondition<Integer> condition = new ComparationCondition<>(ComparationCondition.LESS_OR_EQUAL);
 		assertTrue(condition.evaluate(ArrayUtil.toArray(1, 1)));
 		assertTrue(condition.evaluate(ArrayUtil.toArray(1, 2)));
 		assertFalse(condition.evaluate(ArrayUtil.toArray(2, 1)));
@@ -69,7 +69,7 @@ public class ComparationConditionTest {
 
 	@Test
 	public void testLess() {
-		ComparationCondition<Integer> condition = new ComparationCondition<Integer>(ComparationCondition.LESS);
+		ComparationCondition<Integer> condition = new ComparationCondition<>(ComparationCondition.LESS);
 		assertFalse(condition.evaluate(ArrayUtil.toArray(1, 1)));
 		assertTrue(condition.evaluate(ArrayUtil.toArray(1, 2)));
 		assertFalse(condition.evaluate(ArrayUtil.toArray(2, 1)));

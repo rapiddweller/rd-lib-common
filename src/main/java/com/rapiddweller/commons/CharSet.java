@@ -30,10 +30,10 @@ public class CharSet implements Named {
 	private String name;
 	
     /** The locale to use for letters */
-    private Locale locale;
+    private final Locale locale;
 
     /** the wrapped set */
-    private Set<Character> set;
+    private final Set<Character> set;
 
     // constructors ----------------------------------------------------------------------------------------------------
 
@@ -45,15 +45,15 @@ public class CharSet implements Named {
     /** Constructor that initializes to an isEmpty Set of characters with the specified locale.
      * @param locale the locale for which to create te set */
     public CharSet(Locale locale) {
-        set = new HashSet<Character>();
+        set = new HashSet<>();
         this.locale = locale;
     }
 
     /** Constructor that initializes to a Set with one character with the fallback locale.
      * @param c the character to include */
     public CharSet(char c) {
-        set = new HashSet<Character>();
-        set.add(Character.valueOf(c));
+        set = new HashSet<>();
+        set.add(c);
         this.locale = LocaleUtil.getFallbackLocale();
     }
 
@@ -67,9 +67,9 @@ public class CharSet implements Named {
      * @param to the last character to include */
     public CharSet(String name, char from, char to) {
     	this.name = name;
-        set = new HashSet<Character>();
+        set = new HashSet<>();
         for (char c = from; c <= to; c++)
-            set.add(Character.valueOf(c));
+            set.add(c);
         this.locale = LocaleUtil.getFallbackLocale();
     }
 
@@ -87,7 +87,7 @@ public class CharSet implements Named {
 
     public CharSet(String name, Set<Character> set) {
     	this.name = name;
-        this.set = new HashSet<Character>(set);
+        this.set = new HashSet<>(set);
         this.locale = LocaleUtil.getFallbackLocale();
     }
     
@@ -259,7 +259,7 @@ public class CharSet implements Named {
      * @return a set of any characters
      */
     public static Set<Character> getAnyCharacters() {
-        Set<Character> set = new HashSet<Character>();
+        Set<Character> set = new HashSet<>();
         for (int c = 0x20; c < 0x7F; c++)
             set.add((char) c);
         return set;
@@ -334,8 +334,7 @@ public class CharSet implements Named {
      * @return this
      */
     public CharSet remove(char c) {
-        if (set.contains(c))
-            set.remove(c);
+        set.remove(c);
         return this;
     }
 
@@ -344,7 +343,7 @@ public class CharSet implements Named {
      * @return a copy of the wrapped Set as HashSet
      */
     public Set<Character> getSet() {
-        return new HashSet<Character>(set);
+        return new HashSet<>(set);
     }
     
     public Iterator<Character> iterator() {

@@ -31,7 +31,7 @@ public abstract class FormatBasedConverter<S, T> extends AbstractConverter<S, T>
 
 	/** The java.text.Format object used for conversion */
     protected Format format;
-	private boolean threadSafe;
+	private final boolean threadSafe;
 
 	public FormatBasedConverter(Class<S> sourceType, Class<T> targetType, Format format, boolean threadSafe) {
 		super(sourceType, targetType);

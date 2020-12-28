@@ -34,8 +34,8 @@ public class String2DateConverter<E extends Date> extends ThreadSafeConverter<St
 	
     // TODO support time zones (like 'Z', '+01:00' or '-01:30')
 
-	private String pattern;
-	private Locale locale;
+	private final String pattern;
+	private final Locale locale;
 
     public String2DateConverter() {
         this(null);

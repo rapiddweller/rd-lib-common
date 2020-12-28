@@ -44,9 +44,9 @@ public class VersionInfo {
 	
 	private static final String VERSION_SUFFIX = "_version";
 
-	private static final Map<String, VersionInfo> INSTANCES = new HashMap<String, VersionInfo>();
+	private static final Map<String, VersionInfo> INSTANCES = new HashMap<>();
 	
-	private static final String VERSION_FILE_PATTERN = "org/databene/{0}/version.properties";
+	private static final String VERSION_FILE_PATTERN = "com/rapiddweller/{0}/version.properties";
 
 	private static boolean development;
 	

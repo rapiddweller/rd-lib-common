@@ -24,6 +24,7 @@ import com.rapiddweller.commons.Converter;
  */
 public class ArrayTypeConverter<T> extends ArrayConverter<Object, T> {
 
+    @SafeVarargs
     public ArrayTypeConverter(Class<T> targetArrayComponentType, Class<? extends T> ... elementTypes) {
         super(Object.class, targetArrayComponentType, createConverters(elementTypes));
     }
@@ -37,12 +38,12 @@ public class ArrayTypeConverter<T> extends ArrayConverter<Object, T> {
     }
     
     public static Object[] convert(Object[] args, Class<?>[] elementTypes) {
-        return new ArrayTypeConverter<Object>(Object.class, elementTypes).convert(args);
+        return new ArrayTypeConverter<>(Object.class, elementTypes).convert(args);
     }
 
     @SuppressWarnings("unchecked")
 	public static <T> T[] convert(Object[] args, Class<T> componentType) {
-        return new ArrayTypeConverter<T>(componentType).convert(args);
+        return new ArrayTypeConverter<>(componentType).convert(args);
     }
     
     @Override

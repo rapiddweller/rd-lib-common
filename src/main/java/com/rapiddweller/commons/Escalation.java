@@ -74,11 +74,8 @@ public class Escalation {
         } else if (!message.equals(other.message))
             return false;
         if (originator == null) {
-            if (other.originator != null)
-                return false;
-        } else if (!originator.equals(other.originator))
-            return false;
-        return true;
+            return other.originator == null;
+        } else return originator.equals(other.originator);
     }
 
     

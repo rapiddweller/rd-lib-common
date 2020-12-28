@@ -32,8 +32,8 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class PropertyFilter<E, P> implements Filter<E> {
 
-    private Method propertyReadMethod;
-    private Condition<P> propertyCondition;
+    private final Method propertyReadMethod;
+    private final Condition<P> propertyCondition;
 
     public PropertyFilter(Class<E> type, String propertyName, Condition<P> propertyCondition) {
         try {
@@ -50,9 +50,7 @@ public class PropertyFilter<E, P> implements Filter<E> {
         try {
             P propertyValue = (P) propertyReadMethod.invoke(candidate);
             return propertyCondition.evaluate(propertyValue);
-        } catch (IllegalAccessException e) {
-            throw ExceptionMapper.configurationException(e, propertyReadMethod);
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             throw ExceptionMapper.configurationException(e, propertyReadMethod);
         }
     }

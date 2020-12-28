@@ -33,7 +33,7 @@ public class MarkedMapTest {
 	public void test() {
 		Map<Integer, Integer> map = CollectionUtil.buildMap(1, 11);
 		// Test bulk construction
-		MarkedMap<Integer, Integer> mmap = new MarkedMap<Integer, Integer>(map);
+		MarkedMap<Integer, Integer> mmap = new MarkedMap<>(map);
 		assertEquals(1, mmap.size());
 		assertEquals(11, mmap.get(1).intValue());
 		// test marking

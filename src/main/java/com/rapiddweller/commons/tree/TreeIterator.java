@@ -26,7 +26,7 @@ import com.rapiddweller.commons.iterator.BidirectionalIterator;
  */
 public class TreeIterator<E> implements BidirectionalIterator<E> {
 
-    private TreeModel<E> treeModel;
+    private final TreeModel<E> treeModel;
     private E cursor;
 
     private Boolean hasNext;

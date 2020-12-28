@@ -120,7 +120,7 @@ public final class StringUtil {
             return new String[] { "" };
         int i = 0;
         int sep;
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         while ((sep = text.indexOf(separator, i)) >= 0) {
             if (sep == i) {
                 list.add("");
@@ -363,7 +363,7 @@ public final class StringUtil {
     }
 
     private static final int BUFFER_SIZE = 1024;
-    private static char[] WHITESPACE_BUFFER;
+    private static final char[] WHITESPACE_BUFFER;
 
     static {
         WHITESPACE_BUFFER = new char[BUFFER_SIZE];
@@ -437,7 +437,7 @@ public final class StringUtil {
         int i = 0;
         while (i < source.length() && source.charAt(i) == padChar)
             i++;
-        return source.substring(i, source.length());
+        return source.substring(i);
     }
 
     public static String trim(String source, char padChar) {
@@ -705,7 +705,7 @@ public final class StringUtil {
 		while (srcIndex < src.length()) {
 			int i = src.indexOf(token, srcIndex);
 			if (i >= 0) {
-				builder.append(src.substring(srcIndex, i));
+				builder.append(src, srcIndex, i);
 				builder.append(values[paramIndex++]);
 				srcIndex = i + token.length();
 			} else {
@@ -801,7 +801,7 @@ public final class StringUtil {
 	public static List<String> splitLines(String text) {
 		if (text == null)
 			return null;
-	    List<String> lines = new ArrayList<String>();
+	    List<String> lines = new ArrayList<>();
 	    int TEXT = 0;
 	    int CR = 1;
 	    int LF = 2;
@@ -834,10 +834,7 @@ public final class StringUtil {
 		if (text == null)
 			return null;
 		List<String> lines = splitLines(text);
-		Iterator<String> iterator = lines.iterator();
-		while (iterator.hasNext())
-			if (iterator.next().trim().length() == 0)
-				iterator.remove();
+        lines.removeIf(s -> s.trim().length() == 0);
 		String sep = lineSeparatorUsedIn(text);
 		return ArrayFormat.format(sep, lines.toArray());
 	}
@@ -890,7 +887,7 @@ public final class StringUtil {
 		else if (maxLength > 3)
 			return text.substring(0, maxLength - 3) + "...";
 		else if (maxLength == 3)
-			return text.substring(0, 1) + "..";
+			return text.charAt(0) + "..";
 		else if (maxLength > 0)
 			return text.substring(0, maxLength - 1) + ".";
 		else

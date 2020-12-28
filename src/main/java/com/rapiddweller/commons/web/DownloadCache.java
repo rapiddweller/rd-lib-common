@@ -34,7 +34,7 @@ public class DownloadCache {
 
 	private static final Logger LOGGER = LogManager.getLogger(DownloadCache.class);
 	
-	private File rootFolder;
+	private final File rootFolder;
 
 	public DownloadCache() {
 		this(new File(DEFAULT_ROOT_FOLDER));

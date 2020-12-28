@@ -4,7 +4,7 @@
 
 	<groupId>com.rapiddweller</groupId>
 	<artifactId>rd-lib-common</artifactId>
-	<version>1.0.14-SNAPSHOT</version>
+	<version>1.1.0+jdk-11</version>
 	<packaging>jar</packaging>
 
 	<name>rapiddweller Common</name>
@@ -12,13 +12,13 @@
 		forked from Databene Commons by Volker Bergmann.
         It provides extensions to the Java core library by utility classes, abstract concepts
         and concrete implementations.</description>
-	<url>https://www.rapiddweller.com/opensource/rd-lib-common</url>
+	<url>https://www.rapiddweller.com/opensource/rd-lib-Common</url>
 	<inceptionYear>2004</inceptionYear>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java_source_version>1.8</java_source_version>
-		<java_target_version>1.8</java_target_version>
+		<java_source_version>11</java_source_version>
+		<java_target_version>11</java_target_version>
 		<finalName>${project.artifactId}-${project.version}</finalName>
 	</properties>
 
@@ -232,11 +232,6 @@
 					<tarLongFileMode>gnu</tarLongFileMode>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.8.1</version>
-			</plugin>
 		</plugins>
 	</build>
 
@@ -328,34 +323,11 @@
 								<goals>
 									<goal>sign</goal>
 								</goals>
-								<configuration>
-									<gpgArguments>
-										<arg>--pinentry-mode</arg>
-										<arg>loopback</arg>
-									</gpgArguments>
-								</configuration>
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.8</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>false</autoReleaseAfterClose>
-						</configuration>
-					</plugin>
 				</plugins>
 			</build>
-			<distributionManagement>
-				<snapshotRepository>
-					<id>ossrh</id>
-					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-				</snapshotRepository>
-			</distributionManagement>
 		</profile>
 	</profiles>
 

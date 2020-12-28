@@ -194,7 +194,7 @@ public class Assert {
 	}
 
 	public static void uniqueLabels(Labeled[] array, String errmsg) {
-		Set<String> labels = new HashSet<String>();
+		Set<String> labels = new HashSet<>();
 		for (Labeled item : array) {
 			String label = item.getLabel();
 			if (labels.contains(label))

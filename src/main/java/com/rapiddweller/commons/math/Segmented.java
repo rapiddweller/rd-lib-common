@@ -10,7 +10,8 @@ package com.rapiddweller.commons.math;
  */
 public class Segmented {
 	
-	private int segment, offset;
+	private final int segment;
+    private final int offset;
 
 	public Segmented(int segment, int offset) {
 		this.segment = segment;

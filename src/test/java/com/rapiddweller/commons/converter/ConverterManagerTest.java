@@ -55,8 +55,8 @@ public class ConverterManagerTest {
 	@Test
 	public void testBooleanToBoolean() {
 		Converter<Boolean, Boolean> converter = mgr.createConverter(Boolean.class, Boolean.class);
-		assertEquals(true, converter.convert(true).booleanValue());
-		assertEquals(false, converter.convert(false).booleanValue());
+		assertEquals(true, converter.convert(true));
+		assertEquals(false, converter.convert(false));
 	}
 
 	@Test
@@ -137,22 +137,22 @@ public class ConverterManagerTest {
 	@Test
     public void testString2Number() {
         check((byte) 1, "1", byte.class);
-        check(Byte.valueOf((byte) 1), "1", Byte.class);
+        check((byte) 1, "1", Byte.class);
         
         check((short) 1, "1", short.class);
-        check(Short.valueOf((short) 1), "1", Short.class);
+        check((short) 1, "1", Short.class);
         
         check(1, "1", int.class);
-        check(Integer.valueOf(1), "1", Integer.class);
+        check(1, "1", Integer.class);
         
         check(1L, "1", long.class);
-        check(Long.valueOf((byte) 1), "1", Long.class);
+        check((long) (byte) 1, "1", Long.class);
         
         check((float) 1, "1", float.class);
-        check(Float.valueOf((byte) 1), "1", Float.class);
+        check((float) (byte) 1, "1", Float.class);
         
         check(1., "1", double.class);
-        check(Double.valueOf((byte) 1), "1", Double.class);
+        check((double) (byte) 1, "1", Double.class);
         
         check(new BigInteger("1"), "1", BigInteger.class);
         check(new BigDecimal("1"), "1", BigDecimal.class);

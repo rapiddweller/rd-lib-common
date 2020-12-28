@@ -32,22 +32,13 @@ import org.junit.Test;
  */
 public class IncludeExcludeFilterTest {
 	
-	private static final Filter<Integer> ODD = new Filter<Integer>() {
-		@Override
-		public boolean accept(Integer n) {
-			return (n % 2) == 1;
-		}
-	};
+	private static final Filter<Integer> ODD = n -> (n % 2) == 1;
 	
-	private static final Filter<Integer> SMALL = new Filter<Integer>() {
-		@Override
-		public boolean accept(Integer n) {
-			return n < 10;
-		}
-	};
+	private static final Filter<Integer> SMALL = n -> n < 10;
 	
-	private static final Filter<Integer> PRIME = new Filter<Integer>() {
+	private static final Filter<Integer> PRIME = new Filter<>() {
 		final Set<Integer> PRIMES = CollectionUtil.toSet(2, 3, 5, 7, 11, 13, 17, 19);
+
 		@Override
 		public boolean accept(Integer n) {
 			return PRIMES.contains(n);
@@ -146,7 +137,7 @@ public class IncludeExcludeFilterTest {
 	// check helper ----------------------------------------------------------------------------------------------------
 	
 	private static void check(IncludeExcludeFilter<Integer> filter, Integer... expected) {
-		List<Integer> actual = new ArrayList<Integer>();
+		List<Integer> actual = new ArrayList<>();
 		for (int i = 0; i < 20; i++)
 			if (filter.accept(i))
 				actual.add(i);

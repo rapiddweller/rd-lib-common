@@ -30,7 +30,7 @@ import org.junit.Test;
  */
 public class NumberComparatorTest {
 	
-	NumberComparator<Number> comparator = new NumberComparator<Number>();
+	NumberComparator<Number> comparator = new NumberComparator<>();
 
 	@Test
 	public void testNull() {

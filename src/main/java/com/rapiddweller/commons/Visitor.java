@@ -21,5 +21,5 @@ package com.rapiddweller.commons;
  * @author Volker Bergmann
  */
 public interface Visitor<E> {
-    public <C extends E> void visit(C element);
+    <C extends E> void visit(C element);
 }

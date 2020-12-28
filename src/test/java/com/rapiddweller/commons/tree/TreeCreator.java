@@ -26,8 +26,8 @@ import com.rapiddweller.commons.tree.DefaultTreeNode;
 public class TreeCreator {
 
     public static TreeModel<DefaultTreeNode<String>> createTreeModel() {
-        DefaultTreeNode<String> root = new DefaultTreeNode<String>(null, "root", false);
-        TreeModel<DefaultTreeNode<String>> model = new DefaultTreeModel<String>(root);
+        DefaultTreeNode<String> root = new DefaultTreeNode<>(null, "root", false);
+        TreeModel<DefaultTreeNode<String>> model = new DefaultTreeModel<>(root);
 
         // create 1st level sub nodes
         root.addChild(DefaultTreeNode.createLeaf(root, "a1l"));

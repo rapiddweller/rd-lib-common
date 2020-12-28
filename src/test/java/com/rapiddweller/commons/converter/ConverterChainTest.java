@@ -29,7 +29,7 @@ public class ConverterChainTest {
 
 	@Test
 	public void testClone() {
-		ConverterChain<Object, Object> chain = new ConverterChain<Object, Object>(new SubCon(), new SubCon());
+		ConverterChain<Object, Object> chain = new ConverterChain<>(new SubCon(), new SubCon());
 		chain.clone();
 		String x = "x";
 		assertEquals(x, chain.convert(x));

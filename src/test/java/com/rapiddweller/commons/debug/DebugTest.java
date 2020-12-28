@@ -35,12 +35,7 @@ public class DebugTest {
 	@Test
 	public void testActive() {
 		System.setProperty("xyz", "");
-		SysUtil.runWithSystemProperty("debug", "", new Runnable() {
-			@Override
-			public void run() {
-				assertTrue(Debug.active());
-			}
-		});
+		SysUtil.runWithSystemProperty("debug", "", () -> assertTrue(Debug.active()));
 	}
 	
 }

@@ -28,8 +28,8 @@ public class NullSafeFormat extends Format {
 	
 	private static final long serialVersionUID = 2203854824964382584L;
 	
-	private Format realFormat;
-	private String nullString;
+	private final Format realFormat;
+	private final String nullString;
 
 	public NullSafeFormat(Format realFormat, String nullString) {
 		this.realFormat = realFormat;

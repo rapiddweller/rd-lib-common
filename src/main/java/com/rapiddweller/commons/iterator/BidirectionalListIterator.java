@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class BidirectionalListIterator<E> implements BidirectionalIterator<E> {
 
-    private List<E> list;
+    private final List<E> list;
     private int index;
 
     public BidirectionalListIterator(List<E> list) {

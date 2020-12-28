@@ -30,7 +30,7 @@ import com.rapiddweller.commons.TypedIterable;
 public class ArrayIterable<E> implements TypedIterable<E> {
 	
 	protected Class<E> type;
-	private E[] source;
+	private final E[] source;
 
     public ArrayIterable(E[] source, Class<E> type) {
 	    this.source = source;
@@ -44,7 +44,7 @@ public class ArrayIterable<E> implements TypedIterable<E> {
 
     @Override
 	public Iterator<E> iterator() {
-	    return new ArrayIterator<E>(source);
+	    return new ArrayIterator<>(source);
     }
 
     @Override

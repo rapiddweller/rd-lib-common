@@ -32,7 +32,7 @@ public class MapAccessor<C extends Map<K, V>, K, V> implements Accessor<C, V> {
     /**
      * the key of the object to look up; null is supported.
      */
-    private K key;
+    private final K key;
 
     public MapAccessor(K key) {
         this.key = key;

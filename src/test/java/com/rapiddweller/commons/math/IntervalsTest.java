@@ -29,10 +29,10 @@ public class IntervalsTest {
 
 	@Test
 	public void test() {
-		Intervals<Integer> collection = new Intervals<Integer>();
-		ComparableComparator<Integer> comparator = new ComparableComparator<Integer>();
-		collection.add(new Interval<Integer>(1, true, 2, true, comparator));
-		collection.add(new Interval<Integer>(3, false, 5, false, comparator));
+		Intervals<Integer> collection = new Intervals<>();
+		ComparableComparator<Integer> comparator = new ComparableComparator<>();
+		collection.add(new Interval<>(1, true, 2, true, comparator));
+		collection.add(new Interval<>(3, false, 5, false, comparator));
 		assertFalse(collection.contains(0));
 		assertTrue( collection.contains(1));
 		assertTrue( collection.contains(2));

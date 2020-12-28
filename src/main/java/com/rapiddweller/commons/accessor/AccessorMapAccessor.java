@@ -28,10 +28,10 @@ import java.util.ArrayList;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class AccessorMapAccessor implements DependentAccessor {
 
-    private static final List<Accessor<?, ?>> EMPTY_LIST = new ArrayList<Accessor<?, ?>>();
+    private static final List<Accessor<?, ?>> EMPTY_LIST = new ArrayList<>();
 
-    private Map<Object, Accessor<?, ?>> map;
-    private Object key;
+    private final Map<Object, Accessor<?, ?>> map;
+    private final Object key;
 
     public AccessorMapAccessor(Map<Object, Accessor<?, ?>> map, Object key) {
         this.map = map;

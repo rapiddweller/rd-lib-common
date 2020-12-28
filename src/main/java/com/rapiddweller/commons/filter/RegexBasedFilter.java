@@ -26,8 +26,8 @@ import com.rapiddweller.commons.Filter;
  */
 public class RegexBasedFilter implements Filter<String> {
 	
-	private Pattern exclusionPattern;
-	private Pattern inclusionPattern;
+	private final Pattern exclusionPattern;
+	private final Pattern inclusionPattern;
 
 	public RegexBasedFilter(String inclusionPattern, String exclusionPattern) {
 		this.inclusionPattern = (inclusionPattern != null ? Pattern.compile(inclusionPattern) : null);

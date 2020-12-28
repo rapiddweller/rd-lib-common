@@ -30,7 +30,7 @@ import org.junit.Test;
  */
 public class CompositeFormatterTest {
 	
-	private CompositeFormatter formatter = new CompositeFormatter();
+	private final CompositeFormatter formatter = new CompositeFormatter();
 	
 	@Test
 	public void testRenderNullComponent() {
@@ -72,7 +72,7 @@ public class CompositeFormatterTest {
 
 	private void checkRendering(String expected, String name, Object value) {
 		StringBuilder builder = new StringBuilder();
-		formatter.renderComponent(builder, "", new MapEntry<String, Object>(name, value));
+		formatter.renderComponent(builder, "", new MapEntry<>(name, value));
 		assertEquals(expected, builder.toString());
 	}
 	

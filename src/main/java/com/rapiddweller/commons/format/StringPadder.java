@@ -29,9 +29,9 @@ import com.rapiddweller.commons.converter.ThreadSafeConverter;
 
 public class StringPadder extends ThreadSafeConverter<String, String> {
 
-	private int length;
-    private Alignment alignment;
-    private char padChar;
+	private final int length;
+    private final Alignment alignment;
+    private final char padChar;
 
     public StringPadder(int length, Alignment alignment, char padChar) {
     	super(String.class, String.class);

@@ -49,7 +49,7 @@ public class RecentFilesPopupButton extends JButton {
 				File[] recentFiles = history.getFiles();
 				if (recentFiles.length > 0) {
 					for (File recentFile : recentFiles)
-						popup.add(new ConsumerAction<File>(recentFile.getName(), null, recentFile, consumer));
+						popup.add(new ConsumerAction<>(recentFile.getName(), null, recentFile, consumer));
 					popup.show(RecentFilesPopupButton.this, e.getX(), e.getY());
 				} else {
 					Toolkit.getDefaultToolkit().beep();

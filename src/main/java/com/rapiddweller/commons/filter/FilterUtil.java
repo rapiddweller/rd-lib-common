@@ -36,7 +36,7 @@ public class FilterUtil {
 
 	@SafeVarargs
     public static <T> List<T> multiFilter(Collection<T> candidates, Filter<T>... filters) {
-		List<T> result = new ArrayList<T>();
+		List<T> result = new ArrayList<>();
 		for (T candidate : candidates)
 			if (acceptedByAll(candidate, filters))
 				result.add(candidate);
@@ -44,7 +44,7 @@ public class FilterUtil {
 	}
 	
 	public static <T> List<T> filter(Collection<T> candidates, Filter<T> filter) {
-		List<T> result = new ArrayList<T>();
+		List<T> result = new ArrayList<>();
 		for (T candidate : candidates)
 			if (filter == null || filter.accept(candidate))
 				result.add(candidate);
@@ -72,34 +72,34 @@ public class FilterUtil {
 	}
 
     public static <T> SplitResult<T> split(T[] items, Filter<T> filter) {
-        List<T> matches = new ArrayList<T>();
-        List<T> mismatches = new ArrayList<T>();
+        List<T> matches = new ArrayList<>();
+        List<T> mismatches = new ArrayList<>();
         for (T item : items) {
             if (filter.accept(item))
                 matches.add(item);
             else
                 mismatches.add(item);
         }
-        return new SplitResult<T>(matches, mismatches);
+        return new SplitResult<>(matches, mismatches);
     }
 
     public static <T> SplitResult<T> split(List<T> list, Filter<T> filter) {
-        List<T> matches = new ArrayList<T>();
-        List<T> mismatches = new ArrayList<T>();
+        List<T> matches = new ArrayList<>();
+        List<T> mismatches = new ArrayList<>();
         for (T item : list) {
             if (filter.accept(item))
                 matches.add(item);
             else
                 mismatches.add(item);
         }
-        return new SplitResult<T>(matches, mismatches);
+        return new SplitResult<>(matches, mismatches);
     }
 
     @SafeVarargs
     public static <T> List<List<T>> filterGroups(T[] items, Filter<T> ... filters) {
-        List<List<T>> results = new ArrayList<List<T>>(filters.length);
+        List<List<T>> results = new ArrayList<>(filters.length);
         for (int i = 0; i < filters.length; i++)
-            results.add(new ArrayList<T>());
+            results.add(new ArrayList<>());
         for (T item : items) {
             for (int i = 0; i < filters.length; i++) {
                 Filter<T> filter = filters[i];
@@ -112,7 +112,7 @@ public class FilterUtil {
 
 	public static <T> T[] filter(T[] items, Filter<T> filter) {
         @SuppressWarnings("unchecked")
-		ArrayBuilder<T> result = new ArrayBuilder<T>((Class<T>) items[0].getClass(), items.length / 3);
+		ArrayBuilder<T> result = new ArrayBuilder<>((Class<T>) items[0].getClass(), items.length / 3);
         for (T item : items)
             if (filter.accept(item))
                 result.add(item);

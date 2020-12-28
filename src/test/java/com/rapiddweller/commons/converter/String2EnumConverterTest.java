@@ -53,7 +53,7 @@ public class String2EnumConverterTest extends AbstractConverterTest {
     // private helpers -------------------------------------------------------------------------------------------------
 
     private static void check(SomeEnum instance) throws ConversionException {
-        String2EnumConverter<SomeEnum> converter = new String2EnumConverter<SomeEnum>(SomeEnum.class);
+        String2EnumConverter<SomeEnum> converter = new String2EnumConverter<>(SomeEnum.class);
         String name = instance.name();
         assertEquals(instance, converter.convert(name));
     }

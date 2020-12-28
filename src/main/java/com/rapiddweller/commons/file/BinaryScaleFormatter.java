@@ -26,9 +26,9 @@ import com.rapiddweller.commons.BinaryScale;
  */
 public class BinaryScaleFormatter {
 	
-	private BinaryScale scale;
-	private DecimalFormat numberFormat;
-	private String unit;
+	private final BinaryScale scale;
+	private final DecimalFormat numberFormat;
+	private final String unit;
 	
 	public BinaryScaleFormatter(BinaryScale scale, String unit) {
 		this.scale = scale;

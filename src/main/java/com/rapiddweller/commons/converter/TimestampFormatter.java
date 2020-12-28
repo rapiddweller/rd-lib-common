@@ -31,8 +31,8 @@ import com.rapiddweller.commons.format.ConcurrentDecimalFormat;
  */
 public class TimestampFormatter extends ThreadSafeConverter<Timestamp, String> {
 	
-	private DateFormat prefixFormat;
-	private ConcurrentDecimalFormat postfixFormat;
+	private final DateFormat prefixFormat;
+	private final ConcurrentDecimalFormat postfixFormat;
 	private long nanoDivisor;
 	
 	// constructors ----------------------------------------------------------------------------------------------------

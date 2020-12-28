@@ -25,7 +25,7 @@ import com.rapiddweller.commons.Accessor;
  */
 public abstract class NullSafeAccessor<C, V> extends AccessorProxy<C, V> {
 
-    private V nullValue;
+    private final V nullValue;
 
     public NullSafeAccessor(Accessor<C, V> realAccessor, V nullValue) {
         super(realAccessor);

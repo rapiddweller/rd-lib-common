@@ -40,12 +40,12 @@ public class ConditionalMutator extends MutatorProxy {
     protected int mode;
     
     @SuppressWarnings("rawtypes")
-	private Comparator comparator;
+	private final Comparator comparator;
 
 	@SuppressWarnings("rawtypes")
-	private Accessor accessor;
+	private final Accessor accessor;
 
-    private static Logger logger = LogManager.getLogger(ConditionalMutator.class);
+    private static final Logger logger = LogManager.getLogger(ConditionalMutator.class);
 
     @SuppressWarnings("rawtypes")
 	public ConditionalMutator(Mutator realMutator, Accessor accessor, int mode) {

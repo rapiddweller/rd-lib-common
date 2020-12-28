@@ -25,7 +25,7 @@ import com.rapiddweller.commons.BeanUtil;
  */
 public class DefaultClassProvider implements ClassProvider {
 	
-	private static DefaultClassProvider instance = new DefaultClassProvider();
+	private static final DefaultClassProvider instance = new DefaultClassProvider();
 
     public static ClassProvider getInstance() {
 	    return instance;

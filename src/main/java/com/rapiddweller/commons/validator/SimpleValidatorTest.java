@@ -26,7 +26,7 @@ import com.rapiddweller.commons.Validator;
 
 public abstract class SimpleValidatorTest<E> {
 
-	private Validator<E> validator;
+	private final Validator<E> validator;
 	
     public SimpleValidatorTest(Validator<E> validator) {
 	    this.validator = validator;

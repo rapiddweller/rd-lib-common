@@ -36,7 +36,7 @@ public class OrderedNameMap<E> extends MapProxy<OrderedMap<String, E>, String, E
 	private static final int CASE_INSENSITIVE = 1;
 	private static final int CASE_IGNORANT    = 2;
 	
-	private int caseSupport;
+	private final int caseSupport;
 	
 	// constructors + factory methods ----------------------------------------------------------------------------------
 	
@@ -45,35 +45,35 @@ public class OrderedNameMap<E> extends MapProxy<OrderedMap<String, E>, String, E
 	}
     
     public OrderedNameMap(int caseSupport) {
-    	super(OrderedNameMap.<E>createRealMap(caseSupport));
+    	super(OrderedNameMap.createRealMap(caseSupport));
 		this.caseSupport = caseSupport;
 	}
 
     public OrderedNameMap(OrderedNameMap<E> that) {
-    	super(OrderedNameMap.<E>createRealMap(that.caseSupport));
+    	super(OrderedNameMap.createRealMap(that.caseSupport));
 		this.caseSupport = that.caseSupport;
 		putAll(that);
 	}
 
     private static <T> OrderedMap<String, T> createRealMap(int caseSupport) {
 		switch (caseSupport) {
-			case CASE_SENSITIVE:   return new CaseSensitiveOrderedNameMap<T>();
-			case CASE_INSENSITIVE: return new CaseInsensitiveOrderedNameMap<T>();
-			case CASE_IGNORANT:    return new CaseIgnorantOrderedNameMap<T>();
+			case CASE_SENSITIVE:   return new CaseSensitiveOrderedNameMap<>();
+			case CASE_INSENSITIVE: return new CaseInsensitiveOrderedNameMap<>();
+			case CASE_IGNORANT:    return new CaseIgnorantOrderedNameMap<>();
 			default: throw new IllegalArgumentException("Illegal caseSupport setting: " + caseSupport);
 		}
 	}
 
 	public static <T> OrderedNameMap<T> createCaseSensitiveMap() {
-    	return new OrderedNameMap<T>(CASE_SENSITIVE);
+    	return new OrderedNameMap<>(CASE_SENSITIVE);
     }
 
     public static <T> OrderedNameMap<T> createCaseInsensitiveMap() {
-    	return new OrderedNameMap<T>(CASE_INSENSITIVE);
+    	return new OrderedNameMap<>(CASE_INSENSITIVE);
     }
 
     public static <T> OrderedNameMap<T> createCaseIgnorantMap() {
-    	return new OrderedNameMap<T>(CASE_IGNORANT);
+    	return new OrderedNameMap<>(CASE_IGNORANT);
     }
     
 	public E valueAt(int index) {

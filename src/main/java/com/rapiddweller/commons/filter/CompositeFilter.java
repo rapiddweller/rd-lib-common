@@ -29,8 +29,9 @@ public abstract class CompositeFilter<E> implements Filter<E> {
 	
 	protected ArrayList<Filter<E>> components;
 	
+	@SafeVarargs
 	protected CompositeFilter(Filter<E>... components) {
-		this.components = new ArrayList<Filter<E>>();
+		this.components = new ArrayList<>();
 		for (Filter<E> component : components)
 			this.components.add(component);
 	}

@@ -48,7 +48,7 @@ public class TagUtil {
 	}
 
 	public static <T extends Tagged> List<T> getElementsWithTag(String tag, Collection<T> elements, boolean ignoreCase, boolean partialMatch) {
-		List<T> result = new ArrayList<T>();
+		List<T> result = new ArrayList<>();
 		for (T element : elements)
 			if (hasTag(tag, element, ignoreCase, partialMatch))
 				result.add(element);

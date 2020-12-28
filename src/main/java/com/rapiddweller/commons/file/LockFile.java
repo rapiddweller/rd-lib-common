@@ -52,12 +52,7 @@ public class LockFile {
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			Runtime.getRuntime().addShutdownHook(new Thread() {
-				@Override
-				public void run() {
-					lockFile.delete();
-				}
-			});
+			Runtime.getRuntime().addShutdownHook(new Thread(() -> lockFile.delete()));
 		}
 	}
 	

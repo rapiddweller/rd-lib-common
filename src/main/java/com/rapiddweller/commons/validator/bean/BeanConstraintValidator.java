@@ -30,7 +30,7 @@ import com.rapiddweller.commons.Validator;
 
 public class BeanConstraintValidator<E> implements Validator<E> {
 	
-	private ConstraintValidator<Annotation, E> constraintValidator;
+	private final ConstraintValidator<Annotation, E> constraintValidator;
 
     public BeanConstraintValidator(ConstraintValidator<Annotation, E> constraintValidator) {
 	    this.constraintValidator = constraintValidator;

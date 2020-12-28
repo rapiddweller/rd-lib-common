@@ -25,6 +25,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -82,7 +83,7 @@ public class IOUtilTest {
         BufferedReader reader;
         try {
 	        stream = IOUtil.getInputStreamForURI("com/rapiddweller/commons/names.csv");
-	        reader = new BufferedReader(new InputStreamReader(stream, "iso-8859-1"));
+	        reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.ISO_8859_1));
 	        assertEquals("Alice,Bob", reader.readLine());
 	        assertEquals("Charly", reader.readLine());
 	        assertNull(reader.readLine());
@@ -101,7 +102,7 @@ public class IOUtilTest {
         BufferedReader reader = null;
         try {
 	        stream = IOUtil.getInputStreamForURI(DatabeneTestUtil.ftpDownloadUrl());
-	        reader = new BufferedReader(new InputStreamReader(stream, "iso-8859-1"));
+	        reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.ISO_8859_1));
 	        assertEquals("test", reader.readLine());
 	        assertNull(reader.readLine());
         } finally {
@@ -168,7 +169,7 @@ public class IOUtilTest {
     }
 
 	@Test    
-    public void testGetReaderForURI_File() throws IOException, UnsupportedEncodingException {
+    public void testGetReaderForURI_File() throws IOException {
         BufferedReader reader = IOUtil.getReaderForURI("com/rapiddweller/commons/names.csv");
         assertEquals("Alice,Bob", reader.readLine());
         assertEquals("Charly", reader.readLine());
@@ -186,7 +187,7 @@ public class IOUtilTest {
     }
 
 	@Test    
-    public void testGetReaderForURI_EmptyFile() throws IOException, UnsupportedEncodingException {
+    public void testGetReaderForURI_EmptyFile() throws IOException {
         BufferedReader reader = IOUtil.getReaderForURI("com/rapiddweller/commons/empty.txt");
         assertEquals(-1, reader.read());
         reader.close();
@@ -223,7 +224,7 @@ public class IOUtilTest {
     public void testWriteProperties() throws IOException {
         File file = File.createTempFile("IOUtilTest", "properties");
         try {
-            Map<String, String> properties = new HashMap<String, String>();
+            Map<String, String> properties = new HashMap<>();
             properties.put("a", "1");
             properties.put("b", "2");
             IOUtil.writeProperties(properties, file.getAbsolutePath());

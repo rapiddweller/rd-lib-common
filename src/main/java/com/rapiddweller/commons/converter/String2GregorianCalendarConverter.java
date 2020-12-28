@@ -32,7 +32,7 @@ public class String2GregorianCalendarConverter extends ConverterWrapper<String, 
 		implements Converter<String, GregorianCalendar> {
 	
     public String2GregorianCalendarConverter() {
-	    super(new String2DateConverter<Date>());
+	    super(new String2DateConverter<>());
     }
 
     @Override

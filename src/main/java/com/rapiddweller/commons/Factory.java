@@ -24,5 +24,5 @@ package com.rapiddweller.commons;
  */
 
 public interface Factory<E> {
-	public E create();
+	E create();
 }

@@ -26,7 +26,8 @@ import com.rapiddweller.commons.Filter;
  */
 public class OrFilter<E> extends CompositeFilter<E> {
 
-	public OrFilter(Filter<E>... components) {
+	@SafeVarargs
+    public OrFilter(Filter<E>... components) {
 		super(components);
 	}
 

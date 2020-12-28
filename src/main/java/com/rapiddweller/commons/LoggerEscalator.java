@@ -27,10 +27,10 @@ import org.apache.logging.log4j.LogManager;
  */
 public class LoggerEscalator implements Escalator {
     
-    private Set<Escalation> escalations;
+    private final Set<Escalation> escalations;
     
     public LoggerEscalator() {
-        this.escalations = new HashSet<Escalation>();
+        this.escalations = new HashSet<>();
     }
     
     @Override

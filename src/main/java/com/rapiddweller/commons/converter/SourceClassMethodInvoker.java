@@ -30,7 +30,7 @@ import com.rapiddweller.commons.Converter;
  */
 public class SourceClassMethodInvoker<S, T> extends ThreadSafeConverter<S, T> {
 	
-	private Method method;
+	private final Method method;
 
 	protected SourceClassMethodInvoker(Class<S> sourceType, Class<T> targetType, Method method) {
 	    super(sourceType, targetType);

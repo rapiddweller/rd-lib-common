@@ -30,7 +30,7 @@ public class CompressedLongSet {
 	protected long size;
 	
 	public CompressedLongSet() {
-	    this.numbers = new TreeMap<Long, LongRange>();
+	    this.numbers = new TreeMap<>();
 	    this.size = 0;
     }
 

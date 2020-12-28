@@ -35,7 +35,7 @@ public class NotAccessor<E> extends AccessorProxy<E, Boolean> {
         Boolean value = super.getValue(target);
         if (value == null)
             return null;
-        else if (value.booleanValue())
+        else if (value)
             return Boolean.FALSE;
         else
             return Boolean.TRUE;

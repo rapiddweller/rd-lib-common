@@ -29,9 +29,9 @@ public class String2BooleanConverter extends ThreadSafeConverter<String, Boolean
 	private static final String DEFAULT_TRUE_STRING = "true";
 	private static final boolean DEFAULT_CASE_SENSITIVE = false;
 	
-	private String trueString;
-	private String falseString;
-	private boolean caseSensitive;
+	private final String trueString;
+	private final String falseString;
+	private final boolean caseSensitive;
 
 	public String2BooleanConverter() {
 	    this(DEFAULT_TRUE_STRING, DEFAULT_FALSE_STRING, DEFAULT_CASE_SENSITIVE);

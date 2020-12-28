@@ -37,13 +37,13 @@ public class ClassCache {
 	
 	private static final Logger LOGGER = LogManager.getLogger(ClassCache.class);
 	
-    private Map<String, Class<?>> classes;
-	private List<String> packages;
-	private Set<String> nonClassNames = new HashSet<String>(1000);
+    private final Map<String, Class<?>> classes;
+	private final List<String> packages;
+	private final Set<String> nonClassNames = new HashSet<>(1000);
 	
     public ClassCache() {
-		classes = new HashMap<String, Class<?>>();
-		packages = new ArrayList<String>();
+		classes = new HashMap<>();
+		packages = new ArrayList<>();
 		importPackage("java.lang");
 	}
 

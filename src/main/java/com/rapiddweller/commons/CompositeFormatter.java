@@ -93,10 +93,9 @@ public class CompositeFormatter extends FormatHolder {
         StringBuilder builder = new StringBuilder();
         indent += INDENT_DELTA;
         Map<String, Object> components = composite.getComponents();
-        Iterator<Map.Entry<String, Object>> iterator = components.entrySet().iterator();
-        while (iterator.hasNext()) {
-			builder.append(lineSeparator);
-            renderComponent(builder, indent, iterator.next());
+        for (Map.Entry<String, Object> stringObjectEntry : components.entrySet()) {
+            builder.append(lineSeparator);
+            renderComponent(builder, indent, stringObjectEntry);
         }
         indent = indent.substring(0, indent.length() - INDENT_DELTA.length());
         if (builder.length() > 1)

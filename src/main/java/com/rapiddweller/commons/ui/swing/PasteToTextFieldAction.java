@@ -40,7 +40,7 @@ public class PasteToTextFieldAction extends AbstractAction {
 
 	private static final Logger LOGGER = LogManager.getLogger(PasteToTextFieldAction.class);
 
-	private JTextField textField;
+	private final JTextField textField;
 	
 	public PasteToTextFieldAction(JTextField textField) {
 		super("Paste");

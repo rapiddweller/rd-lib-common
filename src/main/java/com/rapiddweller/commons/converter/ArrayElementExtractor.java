@@ -27,7 +27,7 @@ import com.rapiddweller.commons.ConversionException;
 
 public class ArrayElementExtractor<E> extends ThreadSafeConverter<E[], E>{
 	
-	private int index;
+	private final int index;
 	
     @SuppressWarnings("unchecked")
     public ArrayElementExtractor(Class<E> componentType, int index) {

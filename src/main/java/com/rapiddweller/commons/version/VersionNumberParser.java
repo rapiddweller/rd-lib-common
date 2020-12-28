@@ -32,8 +32,8 @@ public class VersionNumberParser extends Parser<VersionNumber>{
 
 	@Override
 	public VersionNumber parseObject(String text, ParsePosition pos) {
-		List<VersionNumberComponent> components = new ArrayList<VersionNumberComponent>();
-		List<String> delimiters = new ArrayList<String>();
+		List<VersionNumberComponent> components = new ArrayList<>();
+		List<String> delimiters = new ArrayList<>();
 		if (StringUtil.isEmpty(text)) {
 			components.add(new NumberVersionNumberComponent(1));
 		} else {
@@ -82,7 +82,7 @@ public class VersionNumberParser extends Parser<VersionNumber>{
 
 	private static String parseNonNegativeInteger(String number, ParsePosition pos) {
 		int index = pos.getIndex();
-		StringBuffer result = new StringBuffer(2);
+		StringBuilder result = new StringBuilder(2);
 		char c;
 		while (index < number.length() && Character.isDigit(c = number.charAt(index))) {
 			result.append(c);
@@ -94,7 +94,7 @@ public class VersionNumberParser extends Parser<VersionNumber>{
 	
 	private static String parseLetters(String number, ParsePosition pos) {
 		int index = pos.getIndex();
-		StringBuffer result = new StringBuffer(10);
+		StringBuilder result = new StringBuilder(10);
 		char c;
 		while (index < number.length() && Character.isLetter(c = number.charAt(index))) {
 			result.append(c);

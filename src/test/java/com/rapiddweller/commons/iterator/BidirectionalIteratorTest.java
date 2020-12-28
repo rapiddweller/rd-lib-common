@@ -24,12 +24,13 @@ import static org.junit.Assert.*;
  */
 public abstract class BidirectionalIteratorTest extends IteratorTestCase {
 
+	@SafeVarargs
 	public static <T> PreviousHelper<T> expectPreviousElements(BidirectionalIterator<T> iterator, T... elements) {
 		for (T element : elements) {
 			assertTrue(iterator.hasPrevious());
 			assertEquals(element, iterator.previous());
 		}
-		return new PreviousHelper<T>(iterator);
+		return new PreviousHelper<>(iterator);
 	}
 	
 	public static class PreviousHelper<T> {

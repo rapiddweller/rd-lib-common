@@ -24,22 +24,23 @@ import java.util.*;
  */
 public class ListBasedSet<E> implements Set<E> {
 
-    private List<E> list;
+    private final List<E> list;
 
     public ListBasedSet() {
-        this.list = new ArrayList<E>();
+        this.list = new ArrayList<>();
     }
 
     public ListBasedSet(int initialCapacity) {
-        this.list = new ArrayList<E>(initialCapacity);
+        this.list = new ArrayList<>(initialCapacity);
     }
 
     public ListBasedSet(Collection<E> collection) {
-        this.list = new ArrayList<E>(collection);
+        this.list = new ArrayList<>(collection);
     }
 
+    @SafeVarargs
     public ListBasedSet(E... elements) {
-        this.list = new ArrayList<E>(elements.length);
+        this.list = new ArrayList<>(elements.length);
         for (E element : elements)
         	this.list.add(element);
     }

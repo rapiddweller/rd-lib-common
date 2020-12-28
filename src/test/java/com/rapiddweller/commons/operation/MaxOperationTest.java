@@ -30,19 +30,19 @@ public class MaxOperationTest {
 
 	@Test
     public void testInteger() {
-        MaxOperation<Integer> op = new MaxOperation<Integer>();
+        MaxOperation<Integer> op = new MaxOperation<>();
         assertEquals(Integer.valueOf(2), op.perform(-1, 0, 1, 2));
     }
 
 	@Test
     public void testString() {
-        MaxOperation<String> op = new MaxOperation<String>();
+        MaxOperation<String> op = new MaxOperation<>();
         assertEquals("charly", op.perform("alpha", "bravo", "charly"));
     }
 
 	@Test
     public void testStringDesc() {
-        MaxOperation<String> op = new MaxOperation<String>(new ReverseComparator<String>());
+        MaxOperation<String> op = new MaxOperation<>(new ReverseComparator<>());
         assertEquals("alpha", op.perform("alpha", "bravo", "charly"));
     }
 

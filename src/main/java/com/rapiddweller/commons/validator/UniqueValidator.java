@@ -29,7 +29,7 @@ import java.util.HashSet;
  */
 public class UniqueValidator<E> implements Validator<E>, Resettable {
 
-    private Set<E> instances = new HashSet<E>();
+    private final Set<E> instances = new HashSet<>();
 
     @Override
 	public boolean valid(E object) {

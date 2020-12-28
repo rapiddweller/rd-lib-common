@@ -25,8 +25,8 @@ import java.io.File;
  */
 public class FileSuffixFilter implements FileFilter {
 
-    private String suffix;
-    private boolean caseSensitive;
+    private final String suffix;
+    private final boolean caseSensitive;
 
     public FileSuffixFilter(String suffix, boolean caseSensitive) {
         this.suffix = suffix;

@@ -24,8 +24,8 @@ import com.rapiddweller.commons.Accessor;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class FetchingAccessor implements Accessor {
 
-    private Accessor provider;
-    private Accessor accessor;
+    private final Accessor provider;
+    private final Accessor accessor;
 
     public FetchingAccessor(Accessor provider, Accessor accessor) {
         this.provider = provider;

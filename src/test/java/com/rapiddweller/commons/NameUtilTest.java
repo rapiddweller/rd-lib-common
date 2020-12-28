@@ -60,7 +60,7 @@ public class NameUtilTest {
 	
 	private static final class X implements Named {
 		
-		private String name;
+		private final String name;
 
 		public X(String name) {
 	        this.name = name;

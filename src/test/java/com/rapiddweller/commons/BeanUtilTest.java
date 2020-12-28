@@ -358,7 +358,7 @@ public class BeanUtilTest {
 
     // Test classes ----------------------------------------------------------------------------------------------------
 
-    public static interface I {
+    public interface I {
     }
 
     public static class A implements I {

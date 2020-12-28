@@ -37,11 +37,11 @@ public class FileElement extends WrapperElement<File> {
     @Override
     protected Collection<Element<File>> getChildren(Visitor<File> visitor) {
         if (wrappedObject.isFile())
-            return new ArrayList<Element<File>>();
+            return new ArrayList<>();
         File[] content = wrappedObject.listFiles();
         if (content == null)
         	content = new File[0];
-        List<Element<File>> children = new ArrayList<Element<File>>(content.length);
+        List<Element<File>> children = new ArrayList<>(content.length);
         for (File file : content)
             children.add(new FileElement(file));
         return children;

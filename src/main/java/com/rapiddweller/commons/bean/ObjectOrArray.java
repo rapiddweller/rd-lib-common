@@ -27,7 +27,7 @@ import com.rapiddweller.commons.ArrayFormat;
  */
 public class ObjectOrArray {
 
-	private Object realObject;
+	private final Object realObject;
 
 	public ObjectOrArray(Object realObject) {
 	    this.realObject = realObject;

@@ -36,8 +36,8 @@ public class VersionNumber implements Comparable<VersionNumber>, Serializable {
 	private static final NumberVersionNumberComponent ZERO_COMPONENT = new NumberVersionNumberComponent("0");
 	private static final VersionNumberParser PARSER = new VersionNumberParser();
 	
-	private VersionNumberComponent[] components;
-	private String[] delimiters;
+	private final VersionNumberComponent[] components;
+	private final String[] delimiters;
 	
 	public static VersionNumber valueOf(String text) {
 		return PARSER.parseObject(text, new ParsePosition(0));

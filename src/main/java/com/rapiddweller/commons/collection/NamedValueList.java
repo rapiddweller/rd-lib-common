@@ -35,21 +35,21 @@ public class NamedValueList<E> {
 	public static final int INSENSITIVE = 1;
 	public static final int IGNORANT = 2;
 
-	private int caseHandling;
-	private List<String> names;
-	private List<E> values;
-	private Map<String, Integer> indices;
+	private final int caseHandling;
+	private final List<String> names;
+	private final List<E> values;
+	private final Map<String, Integer> indices;
 
 	public static <T> NamedValueList<T> createCaseSensitiveList() {
-		return new NamedValueList<T>(SENSITIVE);
+		return new NamedValueList<>(SENSITIVE);
 	}
 	
 	public static <T> NamedValueList<T> createCaseInsensitiveList() {
-		return new NamedValueList<T>(INSENSITIVE);
+		return new NamedValueList<>(INSENSITIVE);
 	}
 	
 	public static <T> NamedValueList<T> createCaseIgnorantList() {
-		return new NamedValueList<T>(IGNORANT);
+		return new NamedValueList<>(IGNORANT);
 	}
 
 	public NamedValueList() {
@@ -57,9 +57,9 @@ public class NamedValueList<E> {
 	}
 		
 	public NamedValueList(int caseHandling) {
-		this.names   = new ArrayList<String>();
-		this.values  = new ArrayList<E>();
-		this.indices = new HashMap<String, Integer>();
+		this.names   = new ArrayList<>();
+		this.values  = new ArrayList<>();
+		this.indices = new HashMap<>();
 		this.caseHandling = caseHandling;
 	}
 	

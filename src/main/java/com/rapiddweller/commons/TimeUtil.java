@@ -46,8 +46,8 @@ public final class TimeUtil {
 	public static final int DAY_MILLIS    = 24 * HOUR_MILLIS;
 	public static final int WEEK_MILLIS   =  7 * DAY_MILLIS;
 
-    private static DateFormat DEFAULT_DATE_FORMAT = DateFormat.getDateInstance();
-    private static DateFormat DEFAULT_DATETIME_SECONDS_FORMAT = DateFormat.getDateTimeInstance();
+    private static final DateFormat DEFAULT_DATE_FORMAT = DateFormat.getDateInstance();
+    private static final DateFormat DEFAULT_DATETIME_SECONDS_FORMAT = DateFormat.getDateTimeInstance();
 
 	public static TimeZone GMT = TimeZone.getTimeZone("GMT");
 	public static TimeZone CENTRAL_EUROPEAN_TIME = TimeZone.getTimeZone("CET");
@@ -211,7 +211,7 @@ public final class TimeUtil {
 		}
     }
 
-    private static DateFormat NUMBER_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
+    private static final DateFormat NUMBER_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
 
 	public static String formatAsNumber(Date date) {
 		synchronized (NUMBER_DATE_FORMAT) {
@@ -245,7 +245,7 @@ public final class TimeUtil {
         return formatDate(date);
     }
 
-    private static DateFormat mdf = new SimpleDateFormat("MM/yy");
+    private static final DateFormat mdf = new SimpleDateFormat("MM/yy");
 
     public static String formatMonth(Calendar calendar) {
         return mdf.format(calendar.getTime());

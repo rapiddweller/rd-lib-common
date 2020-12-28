@@ -29,7 +29,7 @@ import com.rapiddweller.commons.converter.ThreadSafeConverter;
 
 public class BeanToFeatureArrayConverter<E> extends ThreadSafeConverter<E, Object[]> {
 
-    private Accessor<E, ?>[] accessors;
+    private final Accessor<E, ?>[] accessors;
 
     public BeanToFeatureArrayConverter(String... featureNames) {
         this(null, featureNames);
@@ -40,7 +40,7 @@ public class BeanToFeatureArrayConverter<E> extends ThreadSafeConverter<E, Objec
     	super(beanClass, Object[].class);
         this.accessors = new Accessor[featureNames.length];
         for (int i = 0; i < featureNames.length; i++)
-            this.accessors[i] = new FeatureAccessor<E, Object>(featureNames[i]);
+            this.accessors[i] = new FeatureAccessor<>(featureNames[i]);
     }
 
     @Override

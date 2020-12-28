@@ -165,7 +165,7 @@ public final class ParseUtil {
 
     public static String[][] parseEmptyLineSeparatedFile(Reader src) throws IOException {
         BufferedReader reader = null;
-        List<List<String>> sections = new ArrayList<List<String>>();
+        List<List<String>> sections = new ArrayList<>();
         List<String> lines = null;
         try {
             reader = new BufferedReader(src);
@@ -174,7 +174,7 @@ public final class ParseUtil {
                 if (line.length() > 0) {
                     if (lines == null) {
                         // start a new section
-                        lines = new ArrayList<String>();
+                        lines = new ArrayList<>();
                         sections.add(lines);
                     }
                     lines.add(line);
@@ -184,7 +184,7 @@ public final class ParseUtil {
                         lines = null;
                     } else {
                         // add empty section
-                        sections.add(new ArrayList<String>());
+                        sections.add(new ArrayList<>());
                     }
                 }
             }
@@ -195,7 +195,7 @@ public final class ParseUtil {
     }
 
     public static Object[] splitNumbers(String text) {
-        List<Object> parts = new ArrayList<Object>();
+        List<Object> parts = new ArrayList<>();
         Boolean numMode = null;
         int start = 0;
         for (int i = 0; i < text.length(); i++) {

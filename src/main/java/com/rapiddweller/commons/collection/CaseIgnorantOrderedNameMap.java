@@ -62,7 +62,7 @@ public class CaseIgnorantOrderedNameMap<E> extends OrderedMap<String, E> {
 	public Map.Entry<String, E> getEntry(String key) {
         String normalizedKey = normalizeKey(key);
 		E value = super.get(normalizedKey);
-        return new MapEntry<String, E>(normalizedKey, value);
+        return new MapEntry<>(normalizedKey, value);
     }
 
     @Override

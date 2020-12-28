@@ -49,22 +49,12 @@ public class ToStringConverterTest extends AbstractConverterTest {
 	
 	@Test
 	public void testDecimal_US() {
-		LocaleUtil.runInLocale(Locale.US, new Runnable() {
-			@Override
-			public void run() {
-				checkDecimalConversions();
-            }
-		});
+		LocaleUtil.runInLocale(Locale.US, () -> checkDecimalConversions());
 	}
 	
 	@Test
 	public void testDecimal_DE() {
-		LocaleUtil.runInLocale(Locale.GERMANY, new Runnable() {
-			@Override
-			public void run() {
-				checkDecimalConversions();
-            }
-		});
+		LocaleUtil.runInLocale(Locale.GERMANY, () -> checkDecimalConversions());
 	}
 	
 	void checkDecimalConversions() {

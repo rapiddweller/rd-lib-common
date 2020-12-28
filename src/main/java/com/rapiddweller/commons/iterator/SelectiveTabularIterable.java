@@ -22,8 +22,8 @@ package com.rapiddweller.commons.iterator;
  */
 public class SelectiveTabularIterable implements TabularIterable {
 	
-	private TabularIterable source;
-	private String[] columnNames;
+	private final TabularIterable source;
+	private final String[] columnNames;
 	
 	public SelectiveTabularIterable(TabularIterable source, String... columnNames) {
 		this.source = source;

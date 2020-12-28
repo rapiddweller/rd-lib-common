@@ -44,14 +44,14 @@ public class ArrayConverterTest {
 	@Test
 	public void testArrayTypeConversion() {
 		@SuppressWarnings("unchecked")
-		ArrayConverter<String, Integer> converter = new ArrayConverter<String, Integer>(String.class, Integer.class);
+		ArrayConverter<String, Integer> converter = new ArrayConverter<>(String.class, Integer.class);
 		assertEqualArrays(INT_1_3, converter.convert(STRING_1_3));
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testArrayElementConversion() {
-		ArrayConverter<String, Integer> converter = new ArrayConverter<String, Integer>(String.class, Integer.class, inc, inc);
+		ArrayConverter<String, Integer> converter = new ArrayConverter<>(String.class, Integer.class, inc, inc);
 		assertEqualArrays(INT_2_4, converter.convert(STRING_1_3));
 	}
 	

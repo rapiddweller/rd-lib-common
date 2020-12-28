@@ -27,7 +27,7 @@ import com.rapiddweller.commons.Converter;
 @SuppressWarnings("rawtypes")
 public abstract class AbstractConverterTest {
 	
-	private Class<? extends Converter> converterClass;
+	private final Class<? extends Converter> converterClass;
 
     public AbstractConverterTest(Class<? extends Converter> converterClass) {
 		this.converterClass = converterClass;

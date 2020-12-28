@@ -62,9 +62,9 @@ public class NodeTest {
         Dep da2 = new Dep("a2");
         Dep db  = new Dep("b", da1, da2);
         
-        Node<Dep> na1 = new Node<Dep>(da1);
-        Node<Dep> na2 = new Node<Dep>(da2);
-        Node<Dep> nb = new Node<Dep>(db).addProvider(na1, true).addProvider(na2, true);
+        Node<Dep> na1 = new Node<>(da1);
+        Node<Dep> na2 = new Node<>(da2);
+        Node<Dep> nb = new Node<>(db).addProvider(na1, true).addProvider(na2, true);
         
         return new Node[] { na1, na2, nb };
     }

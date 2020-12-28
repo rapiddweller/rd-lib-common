@@ -25,11 +25,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ObjectCounter<E> {
 	
-    private Map<E, AtomicInteger> instances;
+    private final Map<E, AtomicInteger> instances;
     long totalCount;
 
     public ObjectCounter(int initialCapacity) {
-        instances = new HashMap<E, AtomicInteger>(initialCapacity);
+        instances = new HashMap<>(initialCapacity);
         totalCount = 0;
     }
 

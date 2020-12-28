@@ -31,7 +31,7 @@ public class ArrayComparatorTest {
 	private static final Integer[] I321 = new Integer[] {3, 2, 1};
 	private static final Integer[] I12 = new Integer[] {1, 2};
 	
-	ArrayComparator<Integer> c = new ArrayComparator<Integer>();
+	ArrayComparator<Integer> c = new ArrayComparator<>();
 
 	@Test
 	public void testNull() {

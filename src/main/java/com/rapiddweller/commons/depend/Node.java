@@ -16,6 +16,7 @@ package com.rapiddweller.commons.depend;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.rapiddweller.commons.depend.NodeState.*;
 
@@ -29,17 +30,17 @@ class Node<E extends Dependent<E>> {
     
     private NodeState state;
     
-    private E subject;
-    private List<Node<E>> providers;
-    private List<Boolean> providerRequired;
-    private List<Node<E>> clients;
+    private final E subject;
+    private final List<Node<E>> providers;
+    private final List<Boolean> providerRequired;
+    private final List<Node<E>> clients;
     
     public Node(E subject) {
         super();
         this.subject = subject;
-        this.providers = new ArrayList<Node<E>>();
-        this.providerRequired = new ArrayList<Boolean>();
-        this.clients = new ArrayList<Node<E>>();
+        this.providers = new ArrayList<>();
+        this.providerRequired = new ArrayList<>();
+        this.clients = new ArrayList<>();
         this.state = INITIALIZABLE; // As long as no providers are added, the node is initializable
     }
     
@@ -204,7 +205,7 @@ class Node<E extends Dependent<E>> {
         if (obj == null || getClass() != obj.getClass())
             return false;
         final Node that = (Node) obj;
-        return (this.subject != null ? this.subject.equals(that.subject) : that.subject == null);
+        return (Objects.equals(this.subject, that.subject));
     }
     
     @Override

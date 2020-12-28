@@ -29,14 +29,14 @@ import java.util.*;
  */
 public class ArrayUtilTest {
 
-    private Integer[] NONE         = {            };
-    private Integer[] ONE          = { 1          };
-    private Integer[] ONE_TWO      = { 1, 2       };
-    private Integer[] TWO_ONE      = { 2, 1       };
-    private Integer[] ONE_TO_THREE = { 1, 2, 3    };
-    private Integer[] THREE_TO_ONE = { 3, 2, 1    };
-    private Integer[] ONE_TO_FOUR  = { 1, 2, 3, 4 };
-    private Integer[] FOUR_TO_ONE  = { 4, 3, 2, 1 };
+    private final Integer[] NONE         = {            };
+    private final Integer[] ONE          = { 1          };
+    private final Integer[] ONE_TWO      = { 1, 2       };
+    private final Integer[] TWO_ONE      = { 2, 1       };
+    private final Integer[] ONE_TO_THREE = { 1, 2, 3    };
+    private final Integer[] THREE_TO_ONE = { 3, 2, 1    };
+    private final Integer[] ONE_TO_FOUR  = { 1, 2, 3, 4 };
+    private final Integer[] FOUR_TO_ONE  = { 4, 3, 2, 1 };
 
 	@Test
     public void testCopyOfRange() {

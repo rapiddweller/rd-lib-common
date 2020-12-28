@@ -32,7 +32,7 @@ public class CompressedIntSet {
 	protected long size;
 	
 	public CompressedIntSet() {
-	    this.numbers = new TreeMap<Integer, IntRange>();
+	    this.numbers = new TreeMap<>();
 	    this.size = 0;
     }
 

@@ -29,26 +29,25 @@ import com.rapiddweller.commons.Filter;
  */
 public class IncludeExcludeFilter<E> implements Filter<E> {
 
-	private List<FilterStep<E>> steps;
+	private final List<FilterStep<E>> steps;
 	
 	public IncludeExcludeFilter() {
-		this.steps = new ArrayList<IncludeExcludeFilter.FilterStep<E>>();
+		this.steps = new ArrayList<>();
 	}
 	
 	public IncludeExcludeFilter<E> addInclusion(Filter<E> filter) {
-		steps.add(new FilterStep<E>(filter, true));
+		steps.add(new FilterStep<>(filter, true));
 		return this;
 	}
 	
 	public IncludeExcludeFilter<E> addExclusion(Filter<E> filter) {
-		steps.add(new FilterStep<E>(filter, false));
+		steps.add(new FilterStep<>(filter, false));
 		return this;
 	}
 	
 	@Override
 	public boolean accept(E candidate) {
-		for (int i = 0; i < steps.size(); i++) {
-			FilterStep<E> step = steps.get(i);
+		for (FilterStep<E> step : steps) {
 			if (step.inclusion && !step.filter.accept(candidate))
 				return false;
 			if (!step.inclusion && step.filter.accept(candidate))

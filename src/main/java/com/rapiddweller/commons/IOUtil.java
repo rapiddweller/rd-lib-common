@@ -41,6 +41,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -88,6 +89,7 @@ public final class IOUtil {
         }
     }
 
+    @SafeVarargs
     public static <T extends Closeable> void closeAll(T... closeables) {
         if (closeables != null) {
         	Throwable t = null;
@@ -184,7 +186,7 @@ public final class IOUtil {
 	}
 
     public static String[] readTextLines(String uri, boolean includeEmptyLines) throws IOException {
-        ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class, 100);
+        ArrayBuilder<String> builder = new ArrayBuilder<>(String.class, 100);
         BufferedReader reader = getReaderForURI(uri);
         String line;
         while ((line = reader.readLine()) != null)
@@ -500,7 +502,7 @@ public final class IOUtil {
     @SuppressWarnings("rawtypes")
 	public static <V> Map<String, V> readProperties(
             String filename, Converter<Map.Entry, Map.Entry> converter, String encoding) throws IOException {
-        return readProperties(new OrderedMap<String, V>(), filename, converter, encoding);
+        return readProperties(new OrderedMap<>(), filename, converter, encoding);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -681,7 +683,7 @@ public final class IOUtil {
    		LOGGER.debug("extractFolderFromJar({}, {}, {}, {})", new Object[] { jarPath, directory, targetDirectory, filenameFilter});
 		JarFile jar = null;
 		try {
-			jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+			jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8));
 			Enumeration<JarEntry> entries = jar.entries();
 			while (entries.hasMoreElements()) {
 				JarEntry entry = entries.nextElement();
@@ -729,9 +731,9 @@ public final class IOUtil {
 			JarFile jar = null;
 			Set<String> result;
 			try {
-				jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
+				jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8));
 				Enumeration<JarEntry> entries = jar.entries();
-				result = new HashSet<String>();
+				result = new HashSet<>();
 				while (entries.hasMoreElements()) {
 					String name = entries.nextElement().getName();
 					if (name.startsWith(relativePath)) {
@@ -796,7 +798,7 @@ public final class IOUtil {
 	// helpers ---------------------------------------------------------------------------------------------------------
 
     private static BufferedReader getFileReader(String filename, String defaultEncoding) 
-    		throws IOException, UnsupportedEncodingException {
+    		throws IOException {
 		if (defaultEncoding == null)
 		    defaultEncoding = SystemInfo.getFileEncoding();
 		InputStream is = getInputStreamForURI(filename);
@@ -806,7 +808,7 @@ public final class IOUtil {
 	}
 
 	private static BufferedReader getHttpReader(URL url, String defaultEncoding) 
-			throws IOException, UnsupportedEncodingException {
+			throws IOException {
 		try {
 		    URLConnection connection = getConnection(url);
 		    connection.connect();

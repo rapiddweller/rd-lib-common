@@ -44,10 +44,10 @@ public class FileField extends Box {
 	private static final long serialVersionUID = 2088339867450647264L;
 	
     boolean fullPathDisplayed;
-    private FilenameFormat filenameFormat;
+    private final FilenameFormat filenameFormat;
     JTextField filenameField;
     FileChooser chooser;
-    private List<ActionListener> actionListeners;
+    private final List<ActionListener> actionListeners;
     FileOperation operation;
     String approveButtonText;
     JButton button;
@@ -63,7 +63,7 @@ public class FileField extends Box {
     }
 
     public FileField(int columns, File file, FileTypeSupport fileTypeSupport) {
-    	this(columns, file, fileTypeSupport, (FileOperation) null);
+    	this(columns, file, fileTypeSupport, null);
     }
 
     public FileField(int columns, File file, FileTypeSupport supportedTypes, FileOperation operation) {
@@ -86,7 +86,7 @@ public class FileField extends Box {
         add(button, BorderLayout.EAST);
         button.addActionListener(new ButtonListener());
         filenameFormat = new FilenameFormat(true);
-        this.actionListeners = new ArrayList<ActionListener>();
+        this.actionListeners = new ArrayList<>();
     }
 
     // properties ------------------------------------------------------------------------------------------------------

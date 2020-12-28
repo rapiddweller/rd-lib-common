@@ -34,7 +34,7 @@ public class ArrayBuilderTest {
     }
     
     private static void check(String[] expected, String ... items) {
-        ArrayBuilder<String> builder = new ArrayBuilder<String>(String.class);
+        ArrayBuilder<String> builder = new ArrayBuilder<>(String.class);
         for (String item : items)
             builder.add(item);
         assertTrue(Arrays.deepEquals(expected, builder.toArray()));

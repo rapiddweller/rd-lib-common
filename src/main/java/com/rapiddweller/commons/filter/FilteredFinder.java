@@ -30,19 +30,19 @@ import java.util.ArrayList;
 public class FilteredFinder {
 
     public static <T> Collection<T> find(Element<T> root, Filter<T> filter) {
-        HelperVisitor<T> visitor = new HelperVisitor<T>(filter);
+        HelperVisitor<T> visitor = new HelperVisitor<>(filter);
         root.accept(visitor);
         return visitor.getMatches();
     }
 
     private static class HelperVisitor<E> implements Visitor<E> {
 
-        private Filter<E> filter;
-        private List<E> matches;
+        private final Filter<E> filter;
+        private final List<E> matches;
 
         public HelperVisitor(Filter<E> filter) {
             this.filter = filter;
-            this.matches = new ArrayList<E>();
+            this.matches = new ArrayList<>();
         }
 
         @Override

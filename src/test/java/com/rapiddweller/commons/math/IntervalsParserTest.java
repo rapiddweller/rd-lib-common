@@ -111,7 +111,7 @@ public class IntervalsParserTest {
 	// helpers ---------------------------------------------------------------------------------------------------------
 	
 	private static Interval<Integer> createIntInterval(Integer min, boolean minInclusive, Integer max, boolean maxInclusive) {
-		return new Interval<Integer>(min, minInclusive, max, maxInclusive, new IntComparator());
+		return new Interval<>(min, minInclusive, max, maxInclusive, new IntComparator());
 	}
 
 	private static Intervals<Integer> parse(String spec) {

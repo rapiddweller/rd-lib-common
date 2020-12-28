@@ -37,9 +37,9 @@ public class String2DateConverterTest extends AbstractConverterTest {
 
 	@Test
     public void testExplicitConfig() {
-		String2DateConverter<Date> usConverter = new String2DateConverter<Date>("dd-MMM-yyyy", Locale.US);
+		String2DateConverter<Date> usConverter = new String2DateConverter<>("dd-MMM-yyyy", Locale.US);
 		assertEquals(TimeUtil.date(2010, 11, 31), usConverter.convert("31-DEC-2010"));
-		String2DateConverter<Date> deConverter = new String2DateConverter<Date>("dd-MMM-yyyy", Locale.GERMANY);
+		String2DateConverter<Date> deConverter = new String2DateConverter<>("dd-MMM-yyyy", Locale.GERMANY);
 		assertEquals(TimeUtil.date(2010, 11, 31), deConverter.convert("31-DEZ-2010"));
     }
 
@@ -62,7 +62,7 @@ public class String2DateConverterTest extends AbstractConverterTest {
     }
 
 	private static Date convert(String stringValue) {
-		return new String2DateConverter<Date>().convert(stringValue);
+		return new String2DateConverter<>().convert(stringValue);
 	}
 
 }

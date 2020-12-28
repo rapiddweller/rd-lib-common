@@ -24,7 +24,7 @@ import com.rapiddweller.commons.Accessor;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class GraphAccessor implements Accessor {
 
-    private Accessor realAccessor;
+    private final Accessor realAccessor;
 
     public GraphAccessor(String path) {
         int separatorIndex = path.lastIndexOf('.');

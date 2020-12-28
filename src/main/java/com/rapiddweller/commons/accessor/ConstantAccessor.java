@@ -16,6 +16,8 @@ package com.rapiddweller.commons.accessor;
 
 import com.rapiddweller.commons.Accessor;
 
+import java.util.Objects;
+
 /**
  * Accessor that always returns the same value, independent of the object it is applied to.
  * Created: 06.03.2006 08:59:02
@@ -53,7 +55,7 @@ public class ConstantAccessor<V> implements Accessor<Object, V> {
         if (o == null || getClass() != o.getClass())
             return false;
         final ConstantAccessor that = (ConstantAccessor) o;
-        return (value != null ? value.equals(that.value) : that.value == null);
+        return (Objects.equals(value, that.value));
     }
 
     @Override

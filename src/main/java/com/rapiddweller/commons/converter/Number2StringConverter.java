@@ -26,8 +26,8 @@ import java.util.Locale;
  */
 public class Number2StringConverter extends ThreadSafeConverter<Number, String> {
 
-    private int minimumFractionDigits;
-    private int maximumFractionDigits;
+    private final int minimumFractionDigits;
+    private final int maximumFractionDigits;
     boolean groupingUsed;
 
     public Number2StringConverter(int minimumFractionDigits, int maximumFractionDigits, boolean groupingUsed) {

@@ -25,6 +25,7 @@ import com.rapiddweller.commons.Condition;
  */
 public class OrCondition<E> extends CompositeCondition<E> {
 
+    @SafeVarargs
     public OrCondition(Condition<E> ... components) {
         super(components);
     }

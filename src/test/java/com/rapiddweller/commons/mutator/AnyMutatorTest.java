@@ -67,7 +67,7 @@ public class AnyMutatorTest {
     
 	@Test
     public void testMap() {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         assertNull(map.get("alpha"));
         AnyMutator.setValue(map, "alpha", "bravo");
         assertEquals("bravo", map.get("alpha"));
@@ -84,7 +84,7 @@ public class AnyMutatorTest {
 	@Test
     public void testGraph() {
         Context context = new DefaultContext();
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         context.set("map", map);
         A a = new A();
         map.put("a", a);

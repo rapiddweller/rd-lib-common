@@ -29,7 +29,7 @@ public class IntComparator implements Comparator<Integer> {
     }
 
     public static int compare(int i1, int i2) {
-        return (i1 < i2 ? -1 : (i1 > i2 ? 1 : 0));
+        return (Integer.compare(i1, i2));
     }
 
 }

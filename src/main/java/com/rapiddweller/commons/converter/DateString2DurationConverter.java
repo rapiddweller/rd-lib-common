@@ -25,7 +25,7 @@ import java.util.Date;
 
 public class DateString2DurationConverter extends ConverterChain<String, Long> {
 	
-	private static DateString2DurationConverter defaultInstance = new DateString2DurationConverter();
+	private static final DateString2DurationConverter defaultInstance = new DateString2DurationConverter();
 	
 	public static DateString2DurationConverter defaultInstance() {
 		return defaultInstance;
@@ -33,7 +33,7 @@ public class DateString2DurationConverter extends ConverterChain<String, Long> {
 	
 	public DateString2DurationConverter() {
 		super(
-			new String2DateConverter<Date>(),
+				new String2DateConverter<>(),
 			new Date2DurationConverter()
 		);
 	}

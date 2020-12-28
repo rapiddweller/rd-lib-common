@@ -23,7 +23,7 @@ import java.util.Comparator;
  */
 public class ObjectTypeComparator implements Comparator<Object> {
 
-    private TypeComparator typeComparator;
+    private final TypeComparator typeComparator;
 
     public ObjectTypeComparator(Class<?> ... orderedClasses) {
     	typeComparator = new TypeComparator(orderedClasses);

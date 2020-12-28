@@ -26,8 +26,8 @@ import com.rapiddweller.commons.StringUtil;
  */
 public class SelectiveTabularIterator extends IteratorProxy<Object[]> implements TabularIterator {
 	
-	private String[] columnNames;
-	private int[] sourceIndexes;
+	private final String[] columnNames;
+	private final int[] sourceIndexes;
 	
 	public SelectiveTabularIterator(TabularIterator source, String[] columnNames) {
 		super(source);

@@ -27,9 +27,9 @@ import com.rapiddweller.commons.ConversionException;
 
 public class BooleanMapper<T> extends ThreadSafeConverter<Boolean, T> {
 
-    private T trueValue;
-	private T falseValue;
-	private T nullValue;
+    private final T trueValue;
+	private final T falseValue;
+	private final T nullValue;
 
 	@SuppressWarnings("unchecked")
     public BooleanMapper() {

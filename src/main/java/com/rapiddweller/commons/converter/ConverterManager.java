@@ -71,8 +71,8 @@ public class ConverterManager implements ContextAware, Resettable {
     }
 
 	protected void init() {
-		this.configuredConverterClasses = new OrderedMap<ConversionTypes, Class<? extends Converter>>();
-        this.converterPrototypes = new HashMap<ConversionTypes, Converter>();
+		this.configuredConverterClasses = new OrderedMap<>();
+        this.converterPrototypes = new HashMap<>();
         try {
             if (IOUtil.isURIAvailable(CUSTOM_SETUP_FILENAME)) {
             	CONFIG_LOGGER.debug("Reading custom converter config: {}", CUSTOM_SETUP_FILENAME);
@@ -216,21 +216,18 @@ public class ConverterManager implements ContextAware, Resettable {
         	else
         		return new FormatFormatConverter(sourceType, new ArrayFormat(), true);
         } else if (sourceType == Time.class) {
-            return new FormatFormatConverter<Time>(Time.class, new SimpleDateFormat(Patterns.DEFAULT_TIME_PATTERN), false);
+            return new FormatFormatConverter<>(Time.class, new SimpleDateFormat(Patterns.DEFAULT_TIME_PATTERN), false);
         } else if (sourceType == Timestamp.class) {
             return new TimestampFormatter();
         } else if (sourceType == Date.class) {
-            return new FormatFormatConverter<Time>(Time.class, new SimpleDateFormat(Patterns.DEFAULT_DATETIME_PATTERN), false);
+            return new FormatFormatConverter<>(Time.class, new SimpleDateFormat(Patterns.DEFAULT_DATETIME_PATTERN), false);
         } else if (sourceType == Class.class) {
             return new Class2StringConverter();
         } else if (Enum.class.isAssignableFrom(sourceType)) {
             return new Enum2StringConverter(sourceType);
         } else {
         	Converter<?, String> result = tryToCreateFactoryConverter(sourceType, String.class);
-	        if (result != null)
-	        	return result;
-	        else
-	            return new ToStringMethodInvoker(sourceType);
+            return Objects.requireNonNullElseGet(result, () -> new ToStringMethodInvoker(sourceType));
         }
     }
 
@@ -238,7 +235,7 @@ public class ConverterManager implements ContextAware, Resettable {
     	{
 	        // find instance method <targetType>Value() in source type
 	        String methodName = StringUtil.uncapitalize(targetType.getSimpleName()) + "Value";
-	        Method typeValueMethod = BeanUtil.findMethod(sourceType, methodName, new Class[0]);
+	        Method typeValueMethod = BeanUtil.findMethod(sourceType, methodName);
 	        if (typeValueMethod != null && (typeValueMethod.getModifiers() & Modifier.STATIC) == 0)
 	            return new SourceClassMethodInvoker(sourceType, targetType, typeValueMethod);
     	}
@@ -290,7 +287,7 @@ public class ConverterManager implements ContextAware, Resettable {
     }
     
     public static <S, T> Collection<T> convertAll(Collection<S> sourceValues, Converter<S, T> converter) {
-    	List<T> result = new ArrayList<T>(sourceValues.size());
+    	List<T> result = new ArrayList<>(sourceValues.size());
         for (S sourceValue : sourceValues)
             result.add(converter.convert(sourceValue));
         return result;
@@ -317,16 +314,13 @@ public class ConverterManager implements ContextAware, Resettable {
     // private helpers -------------------------------------------------------------------------------------------------
 
     private void readConfigFile(String filename) throws IOException {
-        ReaderLineIterator iterator = new ReaderLineIterator(IOUtil.getReaderForURI(filename));
-        try {
-	        while (iterator.hasNext()) {
-	            String className = iterator.next();
-	            registerConverterClass((Class<? extends Converter>) Class.forName(className));
-	        }
+        try (ReaderLineIterator iterator = new ReaderLineIterator(IOUtil.getReaderForURI(filename))) {
+            while (iterator.hasNext()) {
+                String className = iterator.next();
+                registerConverterClass((Class<? extends Converter>) Class.forName(className));
+            }
         } catch (ClassNotFoundException e) {
-	        throw new ConfigurationError(e);
-        } finally {
-	        iterator.close();
+            throw new ConfigurationError(e);
         }
     }
 

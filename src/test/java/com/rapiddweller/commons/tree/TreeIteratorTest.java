@@ -29,17 +29,17 @@ public class TreeIteratorTest extends BidirectionalIteratorTest {
 	@Test
 	@SuppressWarnings("unchecked")
     public void test() {
-		DefaultTreeNode<Integer> root = new DefaultTreeNode<Integer>(0);
-		DefaultTreeNode<Integer> c1 = new DefaultTreeNode<Integer>(root, 1);
+		DefaultTreeNode<Integer> root = new DefaultTreeNode<>(0);
+		DefaultTreeNode<Integer> c1 = new DefaultTreeNode<>(root, 1);
 		root.addChild(c1);
-		DefaultTreeNode<Integer> c11 = new DefaultTreeNode<Integer>(c1, 11);
+		DefaultTreeNode<Integer> c11 = new DefaultTreeNode<>(c1, 11);
 		c1.addChild(c11);
-		DefaultTreeNode<Integer> c2 = new DefaultTreeNode<Integer>(root, 2);
+		DefaultTreeNode<Integer> c2 = new DefaultTreeNode<>(root, 2);
 		root.addChild(c2);
-		DefaultTreeNode<Integer> c3 = new DefaultTreeNode<Integer>(root, 3);
+		DefaultTreeNode<Integer> c3 = new DefaultTreeNode<>(root, 3);
 		root.addChild(c3);
-		TreeModel<DefaultTreeNode<Integer>> model = new DefaultTreeModel<Integer>(root);
-		TreeIterator<DefaultTreeNode<Integer>> iterator = new TreeIterator<DefaultTreeNode<Integer>>(model);
+		TreeModel<DefaultTreeNode<Integer>> model = new DefaultTreeModel<>(root);
+		TreeIterator<DefaultTreeNode<Integer>> iterator = new TreeIterator<>(model);
 		expectNextElements(iterator, root, c1, c11, c2, c3).withNoNext();
 		expectPreviousElements(iterator, c2, c11, c1, root).withNoPrevious();
 	}

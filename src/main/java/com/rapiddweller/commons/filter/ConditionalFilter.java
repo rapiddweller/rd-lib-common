@@ -25,7 +25,7 @@ import com.rapiddweller.commons.Filter;
  */
 public class ConditionalFilter<E> implements Filter<E> {
 
-    private Condition<E> condition;
+    private final Condition<E> condition;
 
     public ConditionalFilter(Condition<E> condition) {
         this.condition = condition;

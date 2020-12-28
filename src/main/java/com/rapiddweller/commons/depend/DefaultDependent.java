@@ -14,6 +14,8 @@
  */
 package com.rapiddweller.commons.depend;
 
+import java.util.Objects;
+
 /**
  * Default implementation of the Dependent interface.
  * @param <S> the type of the objects to process
@@ -23,8 +25,9 @@ package com.rapiddweller.commons.depend;
  */
 public class DefaultDependent<S, E extends Dependent<E>> extends AbstractDependent<E> {
 
-    private S subject;
+    private final S subject;
     
+    @SafeVarargs
     public DefaultDependent(S subject, E ... requiredProviders) {
         super(requiredProviders);
         this.subject = subject;
@@ -52,7 +55,7 @@ public class DefaultDependent<S, E extends Dependent<E>> extends AbstractDepende
         if (obj == null || getClass() != obj.getClass())
             return false;
 		DefaultDependent that = (DefaultDependent) obj;
-        return (this.subject != null ? this.subject.equals(that.subject) : that.subject == null);
+        return (Objects.equals(this.subject, that.subject));
     }
     
     @Override

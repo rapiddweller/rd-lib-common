@@ -71,7 +71,7 @@ public class SwingUtil {
 	
 	public static String formatTree(JTree tree) {
 		StringBuilder builder = new StringBuilder();
-		addTreeNode(tree.getModel().getRoot(), tree, "", new ArrayList<Object>(), builder);
+		addTreeNode(tree.getModel().getRoot(), tree, "", new ArrayList<>(), builder);
 		return builder.toString();
 	}
 	
@@ -128,9 +128,9 @@ public class SwingUtil {
 
 	public static void printTableTabsSeparated(JTable table) {
 		String[][] cells = parseTable(table);
-		for (int rownum = 0; rownum < cells.length; rownum++) {
-			for (int colnum = 0; colnum < cells[rownum].length; colnum++)
-				System.out.print(cells[rownum][colnum] + "\t");
+		for (String[] cell : cells) {
+			for (int colnum = 0; colnum < cell.length; colnum++)
+				System.out.print(cell[colnum] + "\t");
 			System.out.println();
 		}
 	}
@@ -159,12 +159,7 @@ public class SwingUtil {
 	}
 	
 	public static void repaintLater(final Component component) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				component.repaint();
-			}
-		});
+		SwingUtilities.invokeLater(() -> component.repaint());
 	}
 
 	public static void center(Component component) {
@@ -224,8 +219,8 @@ public class SwingUtil {
 		Rectangle2D textBounds = null;
 		JButton button0 = buttons[0];
 		FontMetrics metrics = button0.getFontMetrics(button0.getFont());
-		for (int i = 0; i < labels.length; ++i) {
-			textBounds = metrics.getStringBounds(labels[i], g);
+		for (String label : labels) {
+			textBounds = metrics.getStringBounds(label, g);
 			maxSize.width = Math.max(maxSize.width, (int) textBounds.getWidth());
 			maxSize.height = Math.max(maxSize.height, (int) textBounds.getHeight());
 		}

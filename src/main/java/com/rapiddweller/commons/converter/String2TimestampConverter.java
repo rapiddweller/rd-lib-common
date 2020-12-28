@@ -32,7 +32,7 @@ public class String2TimestampConverter extends ConverterWrapper<String, Date>
 		implements Converter<String, Timestamp> {
 
     public String2TimestampConverter() {
-        super(new String2DateConverter<Date>());
+        super(new String2DateConverter<>());
     }
 
 	@Override

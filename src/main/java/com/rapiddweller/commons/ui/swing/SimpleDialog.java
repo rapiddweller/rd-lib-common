@@ -39,7 +39,7 @@ public class SimpleDialog<E extends Component> extends JDialog {
 
 	protected E mainComponent;
 	protected boolean cancellable;
-	private Component parentComponent;
+	private final Component parentComponent;
 	
 	protected boolean cancelled;
 	
@@ -97,7 +97,7 @@ public class SimpleDialog<E extends Component> extends JDialog {
 	}
 
 	public static <T extends Component> T showModalDialog(T mainComponent, String title, boolean cancellable, Component parentComponent) {
-		SimpleDialog<T> dialog = new SimpleDialog<T>(parentComponent, title, true, cancellable, mainComponent);
+		SimpleDialog<T> dialog = new SimpleDialog<>(parentComponent, title, true, cancellable, mainComponent);
 		dialog.setVisible(true);
 		dialog.dispose();
 		return (dialog.wasCancelled() ? null : dialog.getMainComponent());

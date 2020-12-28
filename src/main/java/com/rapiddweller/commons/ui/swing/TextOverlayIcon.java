@@ -34,11 +34,11 @@ import javax.swing.UIManager;
 
 public class TextOverlayIcon implements Icon {
 
-	private Icon   background;
-	private String text;
-	private Color  color;
-	private Font   font;
-	private FontMetrics metrics;
+	private final Icon   background;
+	private final String text;
+	private final Color  color;
+	private final Font   font;
+	private final FontMetrics metrics;
 	
 	private int backgroundXOffset;
 	private int backgroundYOffset;

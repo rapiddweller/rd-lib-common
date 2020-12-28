@@ -32,7 +32,7 @@ public class CloseWindowAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Window window;
+	private final Window window;
 
 	public CloseWindowAction(Window window) {
 		this.window = window;

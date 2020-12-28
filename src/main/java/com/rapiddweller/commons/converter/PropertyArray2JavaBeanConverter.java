@@ -34,10 +34,10 @@ import com.rapiddweller.commons.mutator.EmptyMutator;
 
 public class PropertyArray2JavaBeanConverter extends UnsafeConverter<Object[], Object> {
 
-	private ClassProvider<Object> beanClassProvider;
-	private String[] attributePaths;
+	private final ClassProvider<Object> beanClassProvider;
+	private final String[] attributePaths;
 	private Mutator[] mutators;
-	private ReferenceResolver referenceResolver;
+	private final ReferenceResolver referenceResolver;
 	
 	public PropertyArray2JavaBeanConverter(ClassProvider<Object> beanClassProvider, String[] attributePaths, ReferenceResolver referenceResolver) {
 		super(Object[].class, Object.class);

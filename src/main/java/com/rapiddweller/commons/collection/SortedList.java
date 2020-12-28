@@ -32,8 +32,8 @@ import java.util.ListIterator;
 public class SortedList<E> implements List<E> {
 
 	private boolean sorted;
-	private List<E> baseList;
-	private Comparator<? super E> comparator;
+	private final List<E> baseList;
+	private final Comparator<? super E> comparator;
 	
 	public SortedList(List<E> baseList, Comparator<? super E> comparator) {
 		this.baseList = baseList;
@@ -176,7 +176,7 @@ public class SortedList<E> implements List<E> {
 	
 	private void validate() {
 		if (!sorted)
-			Collections.sort(baseList, comparator);
+			baseList.sort(comparator);
 	}
 	
 	// java.lang.Object overrides --------------------------------------------------------------------------------------

@@ -27,7 +27,7 @@ import java.util.Comparator;
  */
 public class FilenameComparator implements Comparator<File> {
 
-    private Comparator<String> nameComparator;
+    private final Comparator<String> nameComparator;
 
     public FilenameComparator() {
         this(new CompositeTextComparator());

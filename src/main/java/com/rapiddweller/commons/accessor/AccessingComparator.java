@@ -27,8 +27,8 @@ import java.util.Comparator;
  */
 public class AccessingComparator<C, V> implements Comparator<C> {
 
-    private Accessor<C, V> accessor;
-    private Comparator<V> comparator;
+    private final Accessor<C, V> accessor;
+    private final Comparator<V> comparator;
 
     public AccessingComparator(Accessor<C, V> accessor, Comparator<V> comparator) {
         this.accessor = accessor;

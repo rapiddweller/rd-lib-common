@@ -27,7 +27,7 @@ import com.rapiddweller.commons.accessor.TypedAccessorChain;
 @SuppressWarnings("rawtypes")
 public class PropertyGraphAccessor extends TypedAccessorChain implements PropertyAccessor {
 
-    private String propertyName;
+    private final String propertyName;
 
     public PropertyGraphAccessor(Class<?> beanClass, String propertyName, boolean strict) {
         super(createSubAccessors(beanClass, propertyName, strict));

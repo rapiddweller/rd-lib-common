@@ -28,9 +28,9 @@ import java.util.HashMap;
  */
 public class ChildTreeModel<I, V> implements TreeModel<V> {
 
-    private ChildModel<I, V> childModel;
+    private final ChildModel<I, V> childModel;
     private DefaultTreeNode<V> root;
-    private Map<I, DefaultTreeNode<V>> elements;
+    private final Map<I, DefaultTreeNode<V>> elements;
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public ChildTreeModel() {
@@ -39,7 +39,7 @@ public class ChildTreeModel<I, V> implements TreeModel<V> {
 
     public ChildTreeModel(ChildModel<I, V> childModel) {
         this.childModel = childModel;
-        this.elements = new HashMap<I, DefaultTreeNode<V>>();
+        this.elements = new HashMap<>();
     }
 
     public void add(V element) {
@@ -47,18 +47,18 @@ public class ChildTreeModel<I, V> implements TreeModel<V> {
         I id = childModel.getId(element);
         I parentId = childModel.getParentId(element);
         if (id == null) {
-            elementNode = new DefaultTreeNode<V>(element);
+            elementNode = new DefaultTreeNode<>(element);
             this.root = elementNode;
         } else {
             DefaultTreeNode<V> parentNode = elements.get(parentId);
             if (parentNode == null)
                 if (root == null) {
-                    parentNode = new DefaultTreeNode<V>(null);
+                    parentNode = new DefaultTreeNode<>(null);
                     elements.put(parentId, parentNode);
                     this.root = parentNode;
                 } else
                     throw new IllegalArgumentException("Multiple roots.");
-            elementNode = new DefaultTreeNode<V>(parentNode, element);
+            elementNode = new DefaultTreeNode<>(parentNode, element);
             parentNode.addChild(elementNode);
         }
         elements.put(id, elementNode);
@@ -91,7 +91,7 @@ public class ChildTreeModel<I, V> implements TreeModel<V> {
 
     @Override
 	public int getIndexOfChild(V parent, V child) {
-        return elements.get(childModel.getId(parent)).getIndexOfChild(new DefaultTreeNode<V>(child));
+        return elements.get(childModel.getId(parent)).getIndexOfChild(new DefaultTreeNode<>(child));
     }
     
 }

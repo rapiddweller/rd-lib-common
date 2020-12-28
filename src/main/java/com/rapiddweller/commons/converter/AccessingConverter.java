@@ -27,7 +27,7 @@ import com.rapiddweller.commons.ConversionException;
  */
 public class AccessingConverter<C, V> extends ThreadSafeConverter<C, V> {
 
-    private Accessor<C, V> accessor;
+    private final Accessor<C, V> accessor;
 
     public AccessingConverter(Class<C> sourceType, Class<V> targetType, Accessor<C, V> accessor) {
         super(sourceType, targetType);

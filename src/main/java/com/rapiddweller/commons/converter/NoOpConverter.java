@@ -25,7 +25,7 @@ import com.rapiddweller.commons.ConversionException;
  */
 public class NoOpConverter<E> extends ThreadSafeConverter<E,E> {
 
-    private static final NoOpConverter<?> instance = new NoOpConverter<Object>();
+    private static final NoOpConverter<?> instance = new NoOpConverter<>();
 
     @SuppressWarnings("rawtypes")
 	public static NoOpConverter getInstance() {

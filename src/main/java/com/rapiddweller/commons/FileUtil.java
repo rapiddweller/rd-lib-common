@@ -94,12 +94,12 @@ public final class FileUtil {
 		return list == null || list.length == 0;
 	}
 	
-    public static void copy(File srcFile, File targetFile, boolean overwrite) throws FileNotFoundException, IOException {
+    public static void copy(File srcFile, File targetFile, boolean overwrite) throws IOException {
     	copy(srcFile, targetFile, overwrite, null);
     }
     
     public static void copy(File srcFile, File targetFile, boolean overwrite, FileFilter filter) 
-    		throws FileNotFoundException, IOException {
+    		throws IOException {
     	if (filter != null && !filter.accept(srcFile.getCanonicalFile()))
     		return;
     	if (!srcFile.exists())
@@ -176,7 +176,7 @@ public final class FileUtil {
 	public static List<File> listFiles(File dir, String regex, 
 			boolean recursive, boolean acceptingFiles, boolean acceptingFolders) {
 		PatternFileFilter filter = new PatternFileFilter(regex, acceptingFiles, acceptingFolders);
-		return addFilenames(dir, filter, recursive, new ArrayList<File>());
+		return addFilenames(dir, filter, recursive, new ArrayList<>());
     }
 
 	public static String relativePath(File fromFile, File toFile) {
@@ -317,11 +317,11 @@ public final class FileUtil {
 		return path.substring(0, sep + 1) + fileName;
 	}
 	
-	public static String readTextFileContent(File file) throws FileNotFoundException, IOException {
+	public static String readTextFileContent(File file) throws IOException {
 		return IOUtil.readAndClose(new FileReader(file));
 	}
 
-	public static String readTextFileContent(File file, String encoding) throws FileNotFoundException, IOException {
+	public static String readTextFileContent(File file, String encoding) throws IOException {
 		return IOUtil.readAndClose(new InputStreamReader(new FileInputStream(file), encoding));
 	}
 
@@ -354,7 +354,7 @@ public final class FileUtil {
 	}
 	
 	private static void copyFile(File srcFile, File targetFile)
-			throws FileNotFoundException, IOException {
+			throws IOException {
 		InputStream in = new BufferedInputStream(new FileInputStream(srcFile));
         OutputStream out = null;
         try {
@@ -366,7 +366,7 @@ public final class FileUtil {
         }
 	}
 
-	private static void copyDirectory(File srcDirectory, File targetDirectory, boolean overwrite, FileFilter filter) throws FileNotFoundException, IOException {
+	private static void copyDirectory(File srcDirectory, File targetDirectory, boolean overwrite, FileFilter filter) throws IOException {
 		ensureDirectoryExists(targetDirectory);
 		for (File src : srcDirectory.listFiles()) {
 			File dstFile = new File(targetDirectory, src.getName());

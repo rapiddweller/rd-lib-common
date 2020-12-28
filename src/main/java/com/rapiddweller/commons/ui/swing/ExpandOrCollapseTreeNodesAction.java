@@ -33,9 +33,9 @@ import com.rapiddweller.commons.ArrayUtil;
 @SuppressWarnings("serial")
 public class ExpandOrCollapseTreeNodesAction extends AbstractAction {
 	
-	private JTree tree;
-	private boolean expand;
-	private boolean recursive;
+	private final JTree tree;
+	private final boolean expand;
+	private final boolean recursive;
 
 	public ExpandOrCollapseTreeNodesAction(JTree tree, boolean expand, boolean recursive) {
 		super(expand ? "expand" : "collapse");

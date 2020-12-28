@@ -27,8 +27,8 @@ import com.rapiddweller.commons.HeavyweightTypedIterable;
  */
 public class TypedIterableProxy<E> implements HeavyweightTypedIterable<E> {
 
-    private Class<E> type;
-    private Iterable<E> iterable;
+    private final Class<E> type;
+    private final Iterable<E> iterable;
 
     public TypedIterableProxy(Class<E> type, Iterable<E> iterable) {
         this.type = type;
@@ -43,7 +43,7 @@ public class TypedIterableProxy<E> implements HeavyweightTypedIterable<E> {
     @Override
 	public HeavyweightIterator<E> iterator() {
         Iterator<E> iterator = iterable.iterator();
-    	return new HeavyweightIteratorProxy<E>(iterator);
+    	return new HeavyweightIteratorProxy<>(iterator);
     }
     
     @Override

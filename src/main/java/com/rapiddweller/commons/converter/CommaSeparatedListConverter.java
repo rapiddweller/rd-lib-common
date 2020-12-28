@@ -28,8 +28,8 @@ import com.rapiddweller.commons.Converter;
  */
 public class CommaSeparatedListConverter<T> extends ConverterWrapper<String, T> implements Converter<String, Object> {
 
-	private Class<T> targetComponentType;
-	private Class<T[]> targetType;
+	private final Class<T> targetComponentType;
+	private final Class<T[]> targetType;
 
 	@SuppressWarnings("unchecked")
     protected CommaSeparatedListConverter(Class<T> targetComponentType) {

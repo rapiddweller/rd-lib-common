@@ -29,7 +29,7 @@ public class IntervalTest {
 
 	@Test
 	public void testClosedInterval() {
-		Interval<Integer> interval = new Interval<Integer>(1, true, 2, true, new IntComparator());
+		Interval<Integer> interval = new Interval<>(1, true, 2, true, new IntComparator());
 		assertFalse(interval.contains(0));
 		assertTrue(interval.contains(1));
 		assertTrue(interval.contains(2));
@@ -39,7 +39,7 @@ public class IntervalTest {
 
 	@Test
 	public void testRightUnboundedInterval() {
-		Interval<Integer> interval = new Interval<Integer>(1, true, null, true, new IntComparator());
+		Interval<Integer> interval = new Interval<>(1, true, null, true, new IntComparator());
 		assertFalse(interval.contains(0));
 		assertTrue(interval.contains(1));
 		assertTrue(interval.contains(2));
@@ -49,7 +49,7 @@ public class IntervalTest {
 
 	@Test
 	public void testLeftUnboundedInterval() {
-		Interval<Integer> interval = new Interval<Integer>(null, true, 2, true, new IntComparator());
+		Interval<Integer> interval = new Interval<>(null, true, 2, true, new IntComparator());
 		assertTrue(interval.contains(0));
 		assertTrue(interval.contains(1));
 		assertTrue(interval.contains(2));
@@ -59,7 +59,7 @@ public class IntervalTest {
 
 	@Test
 	public void testRightOpenInterval() {
-		Interval<Integer> interval = new Interval<Integer>(1, true, 2, false, new IntComparator());
+		Interval<Integer> interval = new Interval<>(1, true, 2, false, new IntComparator());
 		assertFalse(interval.contains(0));
 		assertTrue(interval.contains(1));
 		assertFalse(interval.contains(2));
@@ -69,7 +69,7 @@ public class IntervalTest {
 
 	@Test
 	public void testLeftOpenInterval() {
-		Interval<Integer> interval = new Interval<Integer>(1, false, 2, true, new IntComparator());
+		Interval<Integer> interval = new Interval<>(1, false, 2, true, new IntComparator());
 		assertFalse(interval.contains(0));
 		assertFalse(interval.contains(1));
 		assertTrue(interval.contains(2));
@@ -79,7 +79,7 @@ public class IntervalTest {
 
 	@Test
 	public void testOpenInterval() {
-		Interval<Integer> interval = new Interval<Integer>(1, false, 2, false, new IntComparator());
+		Interval<Integer> interval = new Interval<>(1, false, 2, false, new IntComparator());
 		assertFalse(interval.contains(0));
 		assertFalse(interval.contains(1));
 		assertFalse(interval.contains(2));
@@ -89,7 +89,7 @@ public class IntervalTest {
 
 	@Test
 	public void testInfiniteInterval() {
-		Interval<Integer> interval = new Interval<Integer>(null, false, null, false, new IntComparator());
+		Interval<Integer> interval = new Interval<>(null, false, null, false, new IntComparator());
 		assertTrue(interval.contains(0));
 		assertTrue(interval.contains(1));
 		assertTrue(interval.contains(2));

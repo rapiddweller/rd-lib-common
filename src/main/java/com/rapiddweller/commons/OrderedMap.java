@@ -35,24 +35,24 @@ public class OrderedMap<K,V> implements Map<K,V>, Serializable {
 
     private static final long serialVersionUID = -6081918861041975388L;
     
-	private Map<K, Integer> keyIndices;
+	private final Map<K, Integer> keyIndices;
     protected List<V> values;
 
     // constructors ----------------------------------------------------------------------------------------------------
 
     public OrderedMap() {
-        keyIndices = new HashMap<K, Integer>();
-        values = new ArrayList<V>();
+        keyIndices = new HashMap<>();
+        values = new ArrayList<>();
     }
 
     public OrderedMap(int initialCapacity) {
-        keyIndices = new HashMap<K, Integer>(initialCapacity);
-        values = new ArrayList<V>(initialCapacity);
+        keyIndices = new HashMap<>(initialCapacity);
+        values = new ArrayList<>(initialCapacity);
     }
 
     public OrderedMap(int initialCapacity, float loadFactor) {
-        keyIndices = new HashMap<K, Integer>(initialCapacity, loadFactor);
-        values = new ArrayList<V>(initialCapacity);
+        keyIndices = new HashMap<>(initialCapacity, loadFactor);
+        values = new ArrayList<>(initialCapacity);
     }
 
     public OrderedMap(Map<K,V> source) {
@@ -67,7 +67,7 @@ public class OrderedMap<K,V> implements Map<K,V>, Serializable {
     
 	public Map.Entry<K, V> getEntry(K key) {
 		if (containsKey(key))
-			return new MapEntry<K, V>(key, get(key));
+			return new MapEntry<>(key, get(key));
 		else
 			return null;
     }
@@ -146,19 +146,19 @@ public class OrderedMap<K,V> implements Map<K,V>, Serializable {
 
     @Override
 	public Set<K> keySet() {
-        List<K> tmp = new ArrayList<K>(values.size());
+        List<K> tmp = new ArrayList<>(values.size());
         // set the used array size by adding nulls
         for (int i = 0; i < values.size(); i++)
             tmp.add(null);
         // set the array elements themselves
         for (Entry<K, Integer> entry : keyIndices.entrySet())
             tmp.set(entry.getValue(), entry.getKey());
-        return new ListBasedSet<K>(tmp);
+        return new ListBasedSet<>(tmp);
     }
 
     @Override
 	public List<V> values() {
-        return new ArrayList<V>(values);
+        return new ArrayList<>(values);
     }
 
     @Override
@@ -169,7 +169,7 @@ public class OrderedMap<K,V> implements Map<K,V>, Serializable {
             Integer index = entry.getValue();
             tmp[index] = new ProxyEntry(entry.getKey(), index);
         }
-        return new ListBasedSet<Map.Entry<K, V>>(tmp);
+        return new ListBasedSet<>(tmp);
     }
 
     // List/Vector interface -------------------------------------------------------------------------------------------
@@ -228,8 +228,8 @@ public class OrderedMap<K,V> implements Map<K,V>, Serializable {
     
     private class ProxyEntry implements Map.Entry<K, V> {
     	
-    	private K key;
-    	private int index;
+    	private final K key;
+    	private final int index;
     	
 		public ProxyEntry(K key, int index) {
 			this.key = key;

@@ -30,7 +30,7 @@ public class RingBufferTest {
 
 	@Test
 	public void testGet() {
-		RingBuffer<Integer> buffer = new RingBuffer<Integer>(Integer.class, 3);
+		RingBuffer<Integer> buffer = new RingBuffer<>(Integer.class, 3);
 		buffer.add(1);
 		assertEquals(1, (int) buffer.get(0));
 		buffer.add(2);

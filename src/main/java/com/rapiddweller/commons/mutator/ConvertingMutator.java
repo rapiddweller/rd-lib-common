@@ -27,7 +27,7 @@ import com.rapiddweller.commons.UpdateFailedException;
 public class ConvertingMutator extends MutatorWrapper {
 
     @SuppressWarnings("rawtypes")
-	private Converter converter;
+	private final Converter converter;
 
     @SuppressWarnings("rawtypes")
 	public ConvertingMutator(Mutator realMutator, Converter converter) {

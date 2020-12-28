@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.PropertyResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -34,10 +35,10 @@ import com.rapiddweller.commons.LocaleUtil;
 public class PropertyResourceBundleConverter extends ThreadSafeConverter<String, String> {
 
     private final ResourceBundle bundle;
-    private final ResourceBundle.Control control = new UTF8Control();
 
     public PropertyResourceBundleConverter(String baseName, Locale locale) {
     	super(String.class, String.class);
+        ResourceBundle.Control control = new UTF8Control();
         bundle = PropertyResourceBundle.getBundle(baseName, locale, control);
     }
 
@@ -54,7 +55,7 @@ public class PropertyResourceBundleConverter extends ThreadSafeConverter<String,
     		String bundleName = toBundleName(baseName, locale);
     		String resourceName = toResourceName(bundleName, "properties");
     		InputStream stream = IOUtil.getInputStreamForURI(resourceName, true);
-			Charset utf8 = Charset.forName(Encodings.UTF_8);
+			Charset utf8 = StandardCharsets.UTF_8;
 			return new PropertyResourceBundle(new InputStreamReader(stream, utf8)); 
     	}
     	
