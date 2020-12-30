@@ -26,14 +26,46 @@
 
 package com.rapiddweller.commons.converter;
 
+import org.graalvm.polyglot.Value;
+
 /**
  * Convert Graal Values into Java Types
  * https://www.graalvm.org/sdk/javadoc/org/graalvm/polyglot/Value.html
- * Created at 01.10.2009 12:18:59
- * @since 1.1.0
+ * <p>
+ * Created at 30.12.2020
+ *
  * @author Alexander Kell
+ * @since 1.1.0
  */
 
 
 public class GraalValueConverter {
+
+    public static Object Value2JavaConverter(Value value) {
+        return value.fitsInInt() ? value.asInt() :
+                value.fitsInLong() ? value.asLong() :
+                        value.fitsInFloat() ? value.asFloat() :
+                                value.fitsInByte() ? value.asByte() :
+                                        value.fitsInDouble() ? value.asDouble() :
+                                                value.fitsInFloat() ? value.asFloat() :
+                                                        value.isString() ? value.asString() :
+                                                                value.isHostObject() ? value.asHostObject() :
+                                                                        value.isBoolean() ? value.asBoolean() :
+                                                                                value.isDate() ? value.asDate() :
+                                                                                        value.isNativePointer() ? value.asNativePointer() :
+                                                                                                value.hasArrayElements() ?
+                                                                                                        getArrayFromValue(value) :
+                                                                                                        value.canExecute() ? null :
+                                                                                                                null;
+    }
+
+    private static Object getArrayFromValue(Value val) {
+        Object[] out = new Object[(int) val.getArraySize()];
+        for (int i = 0; i < val.getArraySize(); i++) {
+            out[i] = Value2JavaConverter(val.getArrayElement(i));
+        }
+
+        return out;
+    }
+
 }
