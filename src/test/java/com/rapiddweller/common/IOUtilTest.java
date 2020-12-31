@@ -73,9 +73,11 @@ public class IOUtilTest {
 	@Test    
     public void testGetContentOfURI() throws IOException {
 		LOGGER.info(String.format("OS is using following file encoding : %s",SystemInfo.getFileEncoding()));
-        assertEquals("Alice", IOUtil.getContentOfURI("file:com/rapiddweller/common/names.csv"));
-        assertEquals("Alice", IOUtil.getContentOfURI("file://com/rapiddweller/common/names.csv"));
-        assertEquals("Alice", IOUtil.getContentOfURI("com/rapiddweller/common/names.csv"));
+		LOGGER.info(String.format("OS is using following file line seperator : %s",SystemInfo.getLineSeparator()));
+		LOGGER.info(String.format("OS is using following file file seperator : %s",SystemInfo.getFileSeparator()));
+        assertEquals("Alice\r\nBob", IOUtil.getContentOfURI("file:com/rapiddweller/common/names.csv"));
+        assertEquals("Alice\r\nBob", IOUtil.getContentOfURI("file://com/rapiddweller/common/names.csv"));
+        assertEquals("Alice\r\nBob", IOUtil.getContentOfURI("com/rapiddweller/common/names.csv"));
     }
 
 	@Test    
@@ -85,8 +87,8 @@ public class IOUtilTest {
         try {
 	        stream = IOUtil.getInputStreamForURI("com/rapiddweller/common/names.csv");
 	        reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.ISO_8859_1));
-	        assertEquals("Alice,Bob", reader.readLine());
-	        assertEquals("Charly", reader.readLine());
+	        assertEquals("Alice", reader.readLine());
+	        assertEquals("Bob", reader.readLine());
 	        assertNull(reader.readLine());
         } finally {
         	IOUtil.close(stream);
@@ -172,8 +174,8 @@ public class IOUtilTest {
 	@Test    
     public void testGetReaderForURI_File() throws IOException {
         BufferedReader reader = IOUtil.getReaderForURI("com/rapiddweller/common/names.csv");
-        assertEquals("Alice,Bob", reader.readLine());
-        assertEquals("Charly", reader.readLine());
+        assertEquals("Alice", reader.readLine());
+        assertEquals("Bob", reader.readLine());
         assertNull(reader.readLine());
         reader.close();
     }
