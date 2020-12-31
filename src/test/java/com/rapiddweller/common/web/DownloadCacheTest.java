@@ -38,8 +38,8 @@ public class DownloadCacheTest {
 			return;
 		}
 		DownloadCache cache = new DownloadCache();
-		cache.get(new URL("http://bergmann-it.de"));
-		cache.get(new URL("http://bergmann-it.de"));
+		cache.get(new URL("https://benerator.de"));
+		cache.get(new URL("https://rapiddweller.com"));
 	}
 
 }

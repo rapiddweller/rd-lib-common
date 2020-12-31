@@ -42,7 +42,7 @@ public class DatabeneTestUtil {
 	}
 
     private static void init() {
-	    File file = new File(SystemInfo.getUserHome() + File.separator + "databene", DATABENE_TEST_PROPERTIES);
+	    File file = new File(SystemInfo.getUserHome() + File.separator + "rapiddweller", DATABENE_TEST_PROPERTIES);
 	    if (file.exists()) {
 	    	try {
 	            properties = IOUtil.readProperties(file.getAbsolutePath());

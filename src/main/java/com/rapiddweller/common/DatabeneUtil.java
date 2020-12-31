@@ -25,7 +25,7 @@ import java.io.File;
 public class DatabeneUtil {
 
 	public static File getDatabeneUserHome() {
-		return new File(SystemInfo.getUserHome(), "databene");
+		return new File(SystemInfo.getUserHome(), "rapiddweller");
 	}
 	
 }
