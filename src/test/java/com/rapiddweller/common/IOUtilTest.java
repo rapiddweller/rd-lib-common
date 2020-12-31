@@ -75,7 +75,7 @@ public class IOUtilTest {
 		LOGGER.info(String.format("OS is using following file encoding : %s",SystemInfo.getFileEncoding()));
 		LOGGER.info(String.format("OS is using following file line seperator : %s",SystemInfo.getLineSeparator()));
 		LOGGER.info(String.format("OS is using following file file seperator : %s",SystemInfo.getFileSeparator()));
-		String expected = String.format("Alice%sBob",SystemInfo.getLineSeparator());
+		String expected = "Alice\nBob";
 		LOGGER.info(String.format("The following String is expected : %s", expected));
 		String result1 = IOUtil.getContentOfURI("file:com/rapiddweller/common/names.csv");
 		LOGGER.info(String.format("The following String we got : %s",result1));

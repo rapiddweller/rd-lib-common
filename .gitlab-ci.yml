@@ -55,7 +55,7 @@ setup:jdk-11:
 
 build:jdk-11:
   <<: *update-mvn-project
-  image: maven:3.6-adoptopenjdk-11
+  image: maven:3-openjdk-11
   needs:
     - job: setup:jdk-11
       artifacts: true
