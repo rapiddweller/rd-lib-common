@@ -55,7 +55,7 @@ setup:jdk-11:
 
 build:jdk-11:
   <<: *update-mvn-project
-  image: maven:3-openjdk-11
+  image: maven:3.6-adoptopenjdk-11
   needs:
     - job: setup:jdk-11
       artifacts: true
@@ -65,6 +65,7 @@ build:jdk-11:
     paths:
       - target/*.jar
   script:
+    - mvn -v
     - mvn $MAVEN_CLI_OPTS clean package
 
 ###################### Sonarqube ######################

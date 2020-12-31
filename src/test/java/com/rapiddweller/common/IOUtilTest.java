@@ -73,9 +73,9 @@ public class IOUtilTest {
 	@Test    
     public void testGetContentOfURI() throws IOException {
 		LOGGER.info(String.format("OS is using following file encoding : %s",SystemInfo.getFileEncoding()));
-        assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("file:com/rapiddweller/common/names.csv"));
-        assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("file://com/rapiddweller/common/names.csv"));
-        assertEquals("Alice,Bob\r\nCharly", IOUtil.getContentOfURI("com/rapiddweller/common/names.csv"));
+        assertEquals("Alice", IOUtil.getContentOfURI("file:com/rapiddweller/common/names.csv"));
+        assertEquals("Alice", IOUtil.getContentOfURI("file://com/rapiddweller/common/names.csv"));
+        assertEquals("Alice", IOUtil.getContentOfURI("com/rapiddweller/common/names.csv"));
     }
 
 	@Test    
