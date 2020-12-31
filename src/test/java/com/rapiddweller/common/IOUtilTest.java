@@ -75,9 +75,17 @@ public class IOUtilTest {
 		LOGGER.info(String.format("OS is using following file encoding : %s",SystemInfo.getFileEncoding()));
 		LOGGER.info(String.format("OS is using following file line seperator : %s",SystemInfo.getLineSeparator()));
 		LOGGER.info(String.format("OS is using following file file seperator : %s",SystemInfo.getFileSeparator()));
-        assertEquals("Alice\r\nBob", IOUtil.getContentOfURI("file:com/rapiddweller/common/names.csv"));
-        assertEquals("Alice\r\nBob", IOUtil.getContentOfURI("file://com/rapiddweller/common/names.csv"));
-        assertEquals("Alice\r\nBob", IOUtil.getContentOfURI("com/rapiddweller/common/names.csv"));
+		String expected = String.format("Alice%sBob",SystemInfo.getLineSeparator());
+		LOGGER.info(String.format("The following String is expected : %s", expected));
+		String result1 = IOUtil.getContentOfURI("file:com/rapiddweller/common/names.csv");
+		LOGGER.info(String.format("The following String we got : %s",result1));
+		String result2 = IOUtil.getContentOfURI("file://com/rapiddweller/common/names.csv");
+		LOGGER.info(String.format("The following String we got : %s",result2));
+		String result3 = IOUtil.getContentOfURI("com/rapiddweller/common/names.csv");
+		LOGGER.info(String.format("The following String we got : %s",result3));
+		assertEquals(expected, result1);
+        assertEquals(expected, result2);
+        assertEquals(expected, result3);
     }
 
 	@Test    
