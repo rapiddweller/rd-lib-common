@@ -17,6 +17,7 @@ package com.rapiddweller.common.converter;
 import com.rapiddweller.common.CollectionUtil;
 import com.rapiddweller.common.ConversionException;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -51,8 +52,7 @@ public class ToCollectionConverter<C extends Collection> extends ThreadSafeConve
             collection.addAll((Collection) sourceValue);
         else if (sourceValue.getClass().isArray()) {
             Object[] array = (Object[]) sourceValue;
-            for (Object o : array)
-                collection.add(o);
+            collection.addAll(Arrays.asList(array));
         } else
             collection.add(sourceValue);
         return collection;

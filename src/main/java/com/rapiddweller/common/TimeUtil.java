@@ -504,9 +504,9 @@ public final class TimeUtil {
     public static String formatDuration(long duration, boolean simplify, boolean includeMillies) {
     	// calculate parts
     	int hours = (int) (duration / 3600000);
-    	duration -= hours * 3600000;
+    	duration -= hours * 3600000L;
     	int minutes = (int) (duration / 60000);
-    	duration -= 60000 * minutes;
+    	duration -= 60000L * minutes;
     	int seconds = (int) (duration / 1000);
     	int millis = (int) (duration - seconds * 1000);
     	// format string

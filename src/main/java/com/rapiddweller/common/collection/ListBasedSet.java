@@ -41,8 +41,7 @@ public class ListBasedSet<E> implements Set<E> {
     @SafeVarargs
     public ListBasedSet(E... elements) {
         this.list = new ArrayList<>(elements.length);
-        for (E element : elements)
-        	this.list.add(element);
+        this.list.addAll(Arrays.asList(elements));
     }
 
     @Override

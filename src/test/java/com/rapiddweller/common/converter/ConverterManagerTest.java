@@ -79,14 +79,14 @@ public class ConverterManagerTest {
 	public void testLongToDate() {
 		Converter<Long, Date> converter = mgr.createConverter(Long.class, Date.class);
 		Date actual = converter.convert(0L);
-		assertEquals(new Date(0 - TimeZone.getDefault().getRawOffset()),  actual);
+		assertEquals(new Date(-TimeZone.getDefault().getRawOffset()),  actual);
 	}
 
 	@Test
 	public void testIntToDate() {
 		Converter<Integer, Date> converter = mgr.createConverter(Integer.class, Date.class);
 		Date actual = converter.convert(0);
-		assertEquals(new Date(0 - TimeZone.getDefault().getRawOffset()),  actual);
+		assertEquals(new Date(-TimeZone.getDefault().getRawOffset()),  actual);
 	}
 
 	// String to x tests -----------------------------------------------------------------------------------------------

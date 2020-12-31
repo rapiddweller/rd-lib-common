@@ -27,7 +27,7 @@ import com.rapiddweller.common.ThreadAware;
  */
 public abstract class ConverterWrapper<S, T> implements ThreadAware, Cloneable {
 
-	protected Converter<S, T> realConverter;
+	protected final Converter<S, T> realConverter;
 
 	protected ConverterWrapper(Converter<S, T> realConverter) {
 	    this.realConverter = realConverter;

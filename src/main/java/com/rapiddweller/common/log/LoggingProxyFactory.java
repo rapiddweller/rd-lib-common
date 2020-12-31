@@ -70,8 +70,9 @@ public class LoggingProxyFactory {
 				case debug: logger.debug(message); break;
 				case info:  logger.info(message);  break;
 				case warn:  logger.warn(message);  break;
-				case error: logger.error(message); break;
-				case fatal: logger.error(message); break;
+				case error:
+				case fatal:
+					logger.error(message); break;
 			}
 	        return BeanUtil.invoke(realObject, method, args);
         }

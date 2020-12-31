@@ -47,14 +47,6 @@ public class VMInfoTest {
 		assertEquals(value, VMInfo.getJavaHome());
     }
 
-    @Ignore
-	@Test
-    public void testExtDirs() {
-		String value = System.getProperty("java.ext.dirs");
-		assertNotNull(value);
-		assertEquals(value, VMInfo.getExtDirs());
-    }
-
 	@Test
     public void testClassPath() {
 		String value = System.getProperty("java.class.path");

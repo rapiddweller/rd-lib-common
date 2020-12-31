@@ -16,6 +16,7 @@ package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +40,7 @@ public abstract class ManagedAccessor<C, V> implements DependentAccessor<C, V> {
 
     @SuppressWarnings("unchecked")
     protected ManagedAccessor(Accessor<?, ?> dependency) {
-        this(Arrays.asList(dependency));
+        this(Collections.singletonList(dependency));
     }
 
     protected ManagedAccessor(List<? extends Accessor<?, ?>> dependencies) {

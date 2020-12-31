@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <Appenders>
+        <RollingFile name="fileLogger" fileName="./common.log" filePattern="./common-%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingFile>
+
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout   pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
+        </Console>
+    </Appenders>
+    <Loggers>
+        <!-- ================ -->
+        <!-- Limit categories -->
+        <!-- ================ -->
+
+        <Logger name="org.hibernate" level="warn" additivity="true">
+            <appender-ref ref="fileLogger" level="warn" />
+        </Logger>
+
+        <Logger name="org.apache" level="warn" additivity="true">
+            <appender-ref ref="fileLogger" level="info" />
+        </Logger>
+
+        <Logger name="org.jboss" level="warn" additivity="true">
+            <appender-ref ref="fileLogger" level="info" />
+        </Logger>
+
+        <Logger name="net.sf.ehcache" level="info" additivity="true">
+            <appender-ref ref="fileLogger" level="info" />
+        </Logger>
+
+        <Logger name="com.rapiddweller" level="info" additivity="true">
+            <appender-ref ref="fileLogger" level="info" />
+        </Logger>
+
+        <!-- ======================= -->
+        <!-- Setup the Root category -->
+        <!-- ======================= -->
+
+        <Root level="warn" additivity="false">
+            <appender-ref ref="console"/>
+            <appender-ref ref="fileLogger"/>
+        </Root>
+    </Loggers>
+</Configuration>

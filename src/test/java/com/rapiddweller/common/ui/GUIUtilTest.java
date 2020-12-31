@@ -30,7 +30,7 @@ import static org.junit.Assert.assertTrue;
  */
 
 public class GUIUtilTest {
-	@Ignore
+	@Ignore //because fails in docker
 	@Test
 	public void testTakeScreenshot() throws Exception {
 		File file = File.createTempFile("screenshot.png", ".png");

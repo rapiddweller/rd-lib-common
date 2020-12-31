@@ -16,6 +16,7 @@ package com.rapiddweller.common.ui.swing;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
@@ -63,8 +64,7 @@ public class ArrayListModel extends AbstractListModel<File> {
 
 	public void setAll(File ... files) {
 		this.elements.clear();
-		for (File file : files)
-			this.elements.add(file);
+		this.elements.addAll(Arrays.asList(files));
 	}
 
 }

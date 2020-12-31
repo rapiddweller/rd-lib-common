@@ -60,16 +60,14 @@ public final class CollectionUtil {
     public static <T> Set<T> toSet(T ... elements) {
         HashSet<T> set = new HashSet<>();
         if (elements != null)
-	        for (T element : elements)
-	            set.add(element);
+            set.addAll(Arrays.asList(elements));
         return set;
     }
 
     @SafeVarargs
     public static <T, U extends T> SortedSet<T> toSortedSet(U ... elements) {
         TreeSet<T> set = new TreeSet<>();
-        for (T element : elements)
-            set.add(element);
+        set.addAll(Arrays.asList(elements));
         return set;
     }
     
@@ -97,8 +95,7 @@ public final class CollectionUtil {
      */
     @SafeVarargs
     public static <T, U extends T, C extends Collection<? super T>> C add(C target, U ... values) {
-        for (T item : values)
-            target.add(item);
+        target.addAll(Arrays.asList(values));
         return target;
     }
 
@@ -206,8 +203,7 @@ public final class CollectionUtil {
         if (a1.size() != a2.size())
             return false;
         List<T> l1 = new ArrayList<>(a1.size());
-        for (T item : a1)
-            l1.add(item);
+        l1.addAll(a1);
         for (int i = a1.size() - 1; i >= 0; i--)
             if (a2.contains(a1.get(i)))
                 l1.remove(i);

@@ -367,8 +367,7 @@ public final class StringUtil {
 
     static {
         WHITESPACE_BUFFER = new char[BUFFER_SIZE];
-        for (int i = 0; i < WHITESPACE_BUFFER.length; i++)
-            WHITESPACE_BUFFER[i] = ' ';
+        Arrays.fill(WHITESPACE_BUFFER, ' ');
     }
 
     public static char[] fill(char[] chars, int fromIndex, int toIndex, char c) {

@@ -15,6 +15,7 @@
 package com.rapiddweller.common.filter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.rapiddweller.common.Filter;
 
@@ -32,8 +33,7 @@ public abstract class CompositeFilter<E> implements Filter<E> {
 	@SafeVarargs
 	protected CompositeFilter(Filter<E>... components) {
 		this.components = new ArrayList<>();
-		for (Filter<E> component : components)
-			this.components.add(component);
+		this.components.addAll(Arrays.asList(components));
 	}
 	
 	public CompositeFilter<E> add(Filter<E> filter) {

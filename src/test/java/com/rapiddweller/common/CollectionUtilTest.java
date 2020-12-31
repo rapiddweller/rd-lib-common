@@ -16,17 +16,11 @@ package com.rapiddweller.common;
 
 import org.junit.Test;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Tests the {@link CollectionUtil} class.
@@ -66,7 +60,7 @@ public class CollectionUtilTest {
     public void testAdd() {
         List<Integer> list = new ArrayList<>();
         CollectionUtil.add(list, 1);
-        assertEquals(Arrays.asList(1), list);
+        assertEquals(Collections.singletonList(1), list);
         CollectionUtil.add(list, 2);
         assertEquals(Arrays.asList(1, 2), list);
     }
@@ -74,8 +68,8 @@ public class CollectionUtilTest {
 	@Test
     public void testCopy() {
         List<Integer> list = Arrays.asList(1, 2, 3);
-        assertEquals(Arrays.asList(), CollectionUtil.copy(list, 0, 0));
-        assertEquals(Arrays.asList(1), CollectionUtil.copy(list, 0, 1));
+        assertEquals(Collections.emptyList(), CollectionUtil.copy(list, 0, 0));
+        assertEquals(Collections.singletonList(1), CollectionUtil.copy(list, 0, 1));
         assertEquals(Arrays.asList(1, 2), CollectionUtil.copy(list, 0, 2));
         assertEquals(Arrays.asList(2, 3), CollectionUtil.copy(list, 1, 2));
     }
@@ -85,12 +79,12 @@ public class CollectionUtilTest {
         assertTrue(CollectionUtil.isEmpty(null));
         assertTrue(CollectionUtil.isEmpty(new HashSet<String>()));
         assertTrue(CollectionUtil.isEmpty(new ArrayList<String>()));
-        assertFalse(CollectionUtil.isEmpty(Arrays.asList(1)));
+        assertFalse(CollectionUtil.isEmpty(Collections.singletonList(1)));
     }
 
 	@Test
     public void testToArray() {
-        assertTrue(Arrays.equals(new Integer[] { 1 }, CollectionUtil.toArray(Arrays.asList(1), Integer.class)));
+        assertTrue(Arrays.equals(new Integer[] { 1 }, CollectionUtil.toArray(Collections.singletonList(1), Integer.class)));
         assertTrue(Arrays.equals(new Integer[] { 1, 2, 3 }, CollectionUtil.toArray(Arrays.asList(1, 2, 3), Integer.class)));
     }
 	

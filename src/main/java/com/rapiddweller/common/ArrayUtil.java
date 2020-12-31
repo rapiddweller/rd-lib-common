@@ -15,11 +15,7 @@
 package com.rapiddweller.common;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import com.rapiddweller.common.iterator.ArrayIterator;
 
@@ -185,8 +181,7 @@ public final class ArrayUtil {
         if (a1.length != a2.length)
             return false;
         List<T> l1 = new ArrayList<>(a1.length);
-        for (T item : a1)
-            l1.add(item);
+        Collections.addAll(l1, a1);
         for (int i = a1.length - 1; i >= 0; i--)
             if (contains(a1[i], a2))
                 l1.remove(i);

@@ -20,6 +20,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.rapiddweller.common.file.DirectoryFileFilter;
@@ -213,8 +214,7 @@ public final class FileUtil {
 	private static List<File> addFilenames(File dir, FileFilter filter, boolean recursive, List<File> buffer) {
 		File[] matches = dir.listFiles(filter);
 		if (matches != null)
-			for (File match : matches)
-				buffer.add(match);
+            buffer.addAll(Arrays.asList(matches));
 		if (recursive) {
 	        File[] subDirs = dir.listFiles(DirectoryFileFilter.instance());
 	        if (subDirs != null)

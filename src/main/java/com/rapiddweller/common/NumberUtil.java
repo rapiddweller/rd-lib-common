@@ -45,7 +45,7 @@ public class NumberUtil {
 				Float.class,      Float.MIN_VALUE, 
 				double.class,     - Double.MAX_VALUE, 
 				Double.class,     - Double.MAX_VALUE, 
-				BigDecimal.class, new BigDecimal(- Double.MAX_VALUE), 
+				BigDecimal.class, BigDecimal.valueOf(-Double.MAX_VALUE),
 				BigInteger.class, BigInteger.valueOf(Long.MIN_VALUE) 
 		);
 	

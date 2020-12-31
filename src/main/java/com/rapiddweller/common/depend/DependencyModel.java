@@ -145,11 +145,10 @@ public class DependencyModel<E extends Dependent<E>> {
         while (iterator.hasNext()) {
             Node<E> node = iterator.next();
             switch (node.getState()) {
-                case PARTIALLY_INITIALIZABLE: 	LOGGER.debug("Initializing {} partially", node);
+                case PARTIALLY_INITIALIZABLE:
+                case INITIALIZED:
+                    LOGGER.debug("Initializing {} partially", node);
                 								node.initializePartially();
-                								break;
-                case INITIALIZED: 				LOGGER.debug("Initializing {} partially", node);
-                								node.initializePartially(); 
                 								break;
                 case INITIALIZABLE: 			LOGGER.debug("Initializing {}", node);
                 								node.initialize(); 
