@@ -93,7 +93,7 @@ coverage:jdk-11:
     # read the <source></source> tag and prepend the path to every filename attribute
     - 'python /opt/source2filename.py target/site/cobertura.xml'
   needs:
-    - job: test:jdk11
+    - job: test:jdk-11
       artifacts: true
   artifacts:
     reports:
