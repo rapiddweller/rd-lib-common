@@ -221,13 +221,6 @@ public class IOUtilTest {
     }
 
     @Test
-    public void testGetInputStreamForURL() throws IOException {
-        assertTrue(IOUtil.getInputStreamForURL(Paths.get(System.getProperty("java.io.tmpdir"), "test.txt")
-                .toUri()
-                .toURL()) instanceof java.io.ByteArrayInputStream);
-    }
-
-    @Test
     public void testGetInputStreamForUriReference() throws IOException {
         assertThrows(ConfigurationError.class,
                 () -> IOUtil.getInputStreamForUriReference("Local Uri", "Context Uri", true));
