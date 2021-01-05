@@ -17,6 +17,8 @@ package com.rapiddweller.common.converter;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 
 import java.util.Locale;
 
@@ -26,15 +28,40 @@ import com.rapiddweller.common.converter.CaseConverter;
 /**
  * Tests the CaseConverter.
  * Created: 29.09.2006 15:50:03
+ *
  * @author Volker Bergmann
  */
 public class CaseConverterTest extends AbstractConverterTest {
 
-	public CaseConverterTest() {
-	    super(CaseConverter.class);
+    @Test
+    public void testConstructor() {
+        CaseConverter actualCaseConverter = new CaseConverter();
+        Class<String> expectedTargetType = actualCaseConverter.targetType;
+        Class<String> targetType = actualCaseConverter.getTargetType();
+        assertSame(expectedTargetType, targetType);
+        assertSame(targetType, actualCaseConverter.getSourceType());
     }
 
-	@Test
+    @Test
+    public void testConstructor2() {
+        CaseConverter actualCaseConverter = new CaseConverter(true);
+        Class<String> expectedTargetType = actualCaseConverter.targetType;
+        Class<String> targetType = actualCaseConverter.getTargetType();
+        assertSame(expectedTargetType, targetType);
+        assertSame(targetType, actualCaseConverter.getSourceType());
+    }
+
+    @Test
+    public void testConvert() {
+        assertEquals("SOURCE", (new CaseConverter()).convert("Source"));
+        assertNull((new CaseConverter()).convert(null));
+    }
+
+    public CaseConverterTest() {
+        super(CaseConverter.class);
+    }
+
+    @Test
     public void testToUpper() throws ConversionException {
         CaseConverter converter = new CaseConverter(true, Locale.ENGLISH);
         assertEquals("ABC,123", converter.convert("ABC,123"));
@@ -43,7 +70,7 @@ public class CaseConverterTest extends AbstractConverterTest {
         assertEquals(null, converter.convert(null));
     }
 
-	@Test
+    @Test
     public void testToLower() throws ConversionException {
         CaseConverter converter = new CaseConverter(false, Locale.ENGLISH);
         assertEquals("abc,123", converter.convert("abc,123"));
@@ -51,5 +78,5 @@ public class CaseConverterTest extends AbstractConverterTest {
         assertEquals("", converter.convert(""));
         assertEquals(null, converter.convert(null));
     }
-	
+
 }

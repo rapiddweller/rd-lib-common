@@ -15,7 +15,9 @@
 
 package com.rapiddweller.common;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -23,20 +25,29 @@ import org.junit.Test;
 /**
  * Testing {@link RegexUtilTest}.<br><br>
  * Created: 23.10.2019 09:45:40
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
 
 public class RegexUtilTest {
-	
-	private static final String PATTERN = "[A-Z]{4}Y";
 
-	@Test
-	public void testMatches() {
-		assertTrue(RegexUtil.matches(PATTERN, "ABCDY"));
-		assertFalse(RegexUtil.matches(PATTERN, "ABCY"));
-		assertFalse(RegexUtil.matches(PATTERN, "abcdY"));
-		assertFalse(RegexUtil.matches(PATTERN, "ABCDE"));
-	}
-	
+    private static final String PATTERN = "[A-Z]{4}Y";
+
+    @Test
+    public void testParse() {
+        assertNull(RegexUtil.parse("Text", "Regex"));
+        assertEquals(0, RegexUtil.parse("Regex", "Regex").length);
+    }
+
+    @Test
+    public void testMatches() {
+        assertTrue(RegexUtil.matches(PATTERN, "ABCDY"));
+        assertFalse(RegexUtil.matches(PATTERN, "ABCY"));
+        assertFalse(RegexUtil.matches(PATTERN, "abcdY"));
+        assertFalse(RegexUtil.matches(PATTERN, "ABCDE"));
+        assertFalse(RegexUtil.matches("Regex", "Text"));
+        assertTrue(RegexUtil.matches("Regex", "Regex"));
+    }
+
 }

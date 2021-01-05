@@ -17,6 +17,10 @@ package com.rapiddweller.common;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Locale;
 
 import org.junit.Test;
@@ -24,17 +28,49 @@ import org.junit.Test;
 /**
  * Tests the {@link UiFormatter}.<br><br>
  * Created: 22.12.2017 17:20:51
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
 
 public class UiFormatterTest {
 
-	@Test
-	public void test() {
-		LocaleUtil.runInLocale(Locale.GERMAN, () -> {
-			assertEquals("1,2%", UiFormatter.formatPct(0.0123));
-			assertEquals("1.234,6%", UiFormatter.formatPct(12.3456));
-		});
-	}
+    @Test
+    public void test() {
+        LocaleUtil.runInLocale(Locale.GERMAN, () -> {
+            assertEquals("1,2%", UiFormatter.formatPct(0.0123));
+            assertEquals("1.234,6%", UiFormatter.formatPct(12.3456));
+        });
+    }
+
+    @Test
+    public void testFormat() {
+        assertEquals("10.00", UiFormatter.format(10.0));
+    }
+
+    @Test
+    public void testFormat2() {
+        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
+        assertEquals("Jan 1, 1970",
+                UiFormatter.format(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant())));
+    }
+
+    @Test
+    public void testFormat3() {
+        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
+        assertEquals("#,##0.0%",
+                UiFormatter.format(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant()), "#,##0.0%"));
+    }
+
+    @Test
+    public void testFormatShort() {
+        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
+        assertEquals("1/1/70",
+                UiFormatter.formatShort(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant())));
+    }
+
+    @Test
+    public void testFormatPct() {
+        assertEquals("1,000.0%", UiFormatter.formatPct(10.0));
+    }
 }
