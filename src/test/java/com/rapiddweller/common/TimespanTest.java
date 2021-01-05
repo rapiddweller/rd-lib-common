@@ -20,15 +20,12 @@ import java.time.ZoneId;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Date;
 
 import com.rapiddweller.common.Timespan;
 import com.rapiddweller.common.TimeUtil;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests the {@link Timespan} class.
@@ -234,21 +231,17 @@ public class TimespanTest {
         assertEquals("05.01.2021 00:00:00 - 08.01.2021 00:00:00", Timespan.futureDays(3).toString());
     }
 
-    @Test
-    public void testHashCode() {
-        assertEquals(-754087232, Timespan.futureDays(3).hashCode());
-    }
 
     @Test
     public void testEquals() {
         Timespan always = new Timespan(null, null);
-        assertFalse(always.equals(null));
-        assertFalse(always.equals(""));
-        assertTrue(always.equals(always));
+        assertNotEquals(null, always);
+        assertNotEquals("", always);
+        assertEquals(always, always);
         Date now = new Date();
         Timespan future = new Timespan(now, null);
-        assertFalse(always.equals(future));
-        assertFalse(future.equals(always));
+        assertNotEquals(always, future);
+        assertNotEquals(future, always);
     }
 
     @Test

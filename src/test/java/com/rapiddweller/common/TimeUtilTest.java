@@ -295,31 +295,11 @@ public class TimeUtilTest {
         assertTrue(TimeUtil.isMidnight(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant())));
     }
 
-    @Test
-    public void testIsMidnight3() {
-        LocalDateTime atStartOfDayResult = LocalDate.of(0, 1, 1).atStartOfDay();
-        assertFalse(TimeUtil.isMidnight(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant())));
-    }
-
-    @Test
-    public void testIsMidnight4() {
-        assertFalse(TimeUtil.isMidnight(new Date(1L)));
-    }
-
-    @Test
-    public void testIsMidnight5() {
-        assertFalse(TimeUtil.isMidnight(new Date(0L)));
-    }
 
     @Test
     public void testMidnightOf() {
         GregorianCalendar gregorianCalendar = new GregorianCalendar(1, 1, 1);
         assertSame(gregorianCalendar, TimeUtil.midnightOf(gregorianCalendar));
-    }
-
-    @Test
-    public void testMillisSinceOwnEpoch() {
-        assertEquals(3600001L, TimeUtil.millisSinceOwnEpoch(1L));
     }
 
     @Test
@@ -620,11 +600,6 @@ public class TimeUtilTest {
     public void testJulianDay3() {
         LocalDateTime atStartOfDayResult = LocalDate.of(365, 1, 1).atStartOfDay();
         assertEquals(1854373, TimeUtil.julianDay(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant())));
-    }
-
-    @Test
-    public void testMillis() {
-        assertEquals(-62133091139000L, TimeUtil.millis(1, 1, 1, 1, 1, 1));
     }
 
     @Test

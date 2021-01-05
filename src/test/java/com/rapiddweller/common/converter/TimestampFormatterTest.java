@@ -117,7 +117,7 @@ public class TimestampFormatterTest extends AbstractConverterTest {
 
     @Test
     public void testNull() {
-        assertEquals(null, new TimestampFormatter().format(null));
+        assertNull(new TimestampFormatter().format(null));
     }
 
 }

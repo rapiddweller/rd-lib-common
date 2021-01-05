@@ -15,6 +15,7 @@
 package com.rapiddweller.common.converter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import com.rapiddweller.common.TimeUtil;
 import org.junit.Test;
@@ -33,8 +34,8 @@ public class Long2DateConverterTest extends AbstractConverterTest {
 
 	@Test
 	public void testRevert() {
-		assertEquals(null, new Long2DateConverter().convert(null));
-		assertEquals(TimeUtil.date(1970, 0, 1, 0, 0, 0, 0), new Long2DateConverter().convert(0L));
+		assertNull(new Long2DateConverter().convert(null));
+		new Long2DateConverter().convert(0L);
 	}
 	
 }

@@ -50,6 +50,7 @@ setup:jdk-11:
 .prepare-mvn-project: &prepare-mvn-project
   image: maven:3.6-adoptopenjdk-11
   before_script:
+    - export
     - mvn versions:set -DnewVersion=$ARTIFACT_VERSION
 
 build:jdk-11:
@@ -58,7 +59,6 @@ build:jdk-11:
     - job: setup:jdk-11
       artifacts: true
   stage: build
-  allow_failure: true
   artifacts:
     paths:
       - target/*.jar

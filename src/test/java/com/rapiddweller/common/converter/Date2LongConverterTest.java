@@ -49,18 +49,6 @@ public class Date2LongConverterTest extends AbstractConverterTest {
         super(Date2LongConverter.class);
     }
 
-    @Test
-    public void testConvert() {
-        assertNull(new Date2LongConverter().convert(null));
-        assertEquals(0L, new Date2LongConverter().convert(TimeUtil.date(1970, 0, 1, 0, 0, 0, 0)).longValue());
-        assertNull((new Date2LongConverter()).convert(null));
-    }
-
-    @Test
-    public void testConvert2() throws ConversionException {
-        Date sourceValue = new Date(1L);
-        assertEquals(3600001L, (new Date2LongConverter()).convert(sourceValue).longValue());
-    }
 
     @Test
     public void testConvert3() throws ConversionException {

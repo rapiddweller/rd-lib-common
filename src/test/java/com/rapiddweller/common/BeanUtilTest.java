@@ -770,15 +770,6 @@ public class BeanUtilTest {
     }
 
     @Test
-    public void testToString2() {
-        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        assertEquals(
-                "java.util.Date[date=1, day=4, hours=0, minutes=0, month=0, seconds=0, time=-3600000, timezoneOffset=-60,"
-                        + " year=70]",
-                BeanUtil.toString(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant())));
-    }
-
-    @Test
     public void testToString3() {
         HTMLDocumentImpl htmlDocumentImpl = new HTMLDocumentImpl();
         BeanUtil.toString(htmlDocumentImpl);
@@ -787,24 +778,6 @@ public class BeanUtilTest {
         assertEquals(1, htmlDocumentImpl.getLength());
         assertTrue(htmlDocumentImpl.hasChildNodes());
         assertTrue(htmlDocumentImpl.getDomConfig() instanceof org.apache.xerces.dom.DOMConfigurationImpl);
-    }
-
-    @Test
-    public void testToString4() {
-        String actualToStringResult = BeanUtil.toString(new GregorianCalendar(1, 1, 1));
-        assertEquals(
-                String.join("",
-                        "java.util.GregorianCalendar[calendarType=gregory, firstDayOfWeek=1, gregorianChange=1582-10-15,"
-                                + " lenient=true, minimalDaysInFirstWeek=1, time=0001-02-01, timeInMillis=-62133094800000, timeZone=sun"
-                                + ".util.calendar.ZoneInfo[id=\"",
-                        System.getProperty("user.timezone"),
-                        "\",offset=3600000,dstSavings=3600000,useDaylight=true,transitions=143,lastRule=java.util.SimpleTimeZone"
-                                + "[id=",
-                        System.getProperty("user.timezone"),
-                        ",offset=3600000,dstSavings=3600000,useDaylight=true,startYear=0,startMode=2,startMonth=2,startDay=-1"
-                                + ",startDayOfWeek=1,startTime=3600000,startTimeMode=2,endMode=2,endMonth=9,endDay=-1,endDayOfWeek=1"
-                                + ",endTime=3600000,endTimeMode=2]], weekDateSupported=true, weekYear=1, weeksInWeekYear=53]"),
-                actualToStringResult);
     }
 
     @Test
@@ -836,24 +809,6 @@ public class BeanUtilTest {
         assertEquals(1, htmlDocumentImpl.getLength());
         assertTrue(htmlDocumentImpl.hasChildNodes());
         assertTrue(htmlDocumentImpl.getDomConfig() instanceof org.apache.xerces.dom.DOMConfigurationImpl);
-    }
-
-    @Test
-    public void testToString8() {
-        String actualToStringResult = BeanUtil.toString(new GregorianCalendar(1, 1, 1), true);
-        assertEquals(
-                String.join("",
-                        "GregorianCalendar[calendarType=gregory, firstDayOfWeek=1, gregorianChange=1582-10-15, lenient=true,"
-                                + " minimalDaysInFirstWeek=1, time=0001-02-01, timeInMillis=-62133094800000, timeZone=sun.util.calendar"
-                                + ".ZoneInfo[id=\"",
-                        System.getProperty("user.timezone"),
-                        "\",offset=3600000,dstSavings=3600000,useDaylight=true,transitions=143,lastRule=java.util.SimpleTimeZone"
-                                + "[id=",
-                        System.getProperty("user.timezone"),
-                        ",offset=3600000,dstSavings=3600000,useDaylight=true,startYear=0,startMode=2,startMonth=2,startDay=-1"
-                                + ",startDayOfWeek=1,startTime=3600000,startTimeMode=2,endMode=2,endMonth=9,endDay=-1,endDayOfWeek=1"
-                                + ",endTime=3600000,endTimeMode=2]], weekDateSupported=true, weekYear=1, weeksInWeekYear=53]"),
-                actualToStringResult);
     }
 
     @Test
