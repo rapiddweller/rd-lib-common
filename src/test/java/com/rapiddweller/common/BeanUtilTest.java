@@ -793,14 +793,6 @@ public class BeanUtilTest {
     }
 
     @Test
-    public void testToString6() {
-        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        assertEquals(
-                "Date[date=1, day=4, hours=0, minutes=0, month=0, seconds=0, time=-3600000, timezoneOffset=-60," + " year=70]",
-                BeanUtil.toString(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant()), true));
-    }
-
-    @Test
     public void testToString7() {
         HTMLDocumentImpl htmlDocumentImpl = new HTMLDocumentImpl();
         BeanUtil.toString(htmlDocumentImpl, true);

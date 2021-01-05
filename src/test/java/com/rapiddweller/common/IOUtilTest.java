@@ -164,17 +164,6 @@ public class IOUtilTest {
     }
 
     @Test
-    public void testGetInputStreamForURI() throws IOException {
-        assertThrows(ConfigurationError.class, () -> IOUtil.getInputStreamForURI("Uri"));
-        assertTrue(IOUtil.getInputStreamForURI("string://") instanceof java.io.ByteArrayInputStream);
-        assertTrue(IOUtil.getInputStreamForURI("file:") instanceof java.io.ByteArrayInputStream);
-        assertThrows(ConfigurationError.class, () -> IOUtil.getInputStreamForURI("Uri", true));
-        assertTrue(IOUtil.getInputStreamForURI("string://", true) instanceof java.io.ByteArrayInputStream);
-        assertTrue(IOUtil.getInputStreamForURI("file:", true) instanceof java.io.ByteArrayInputStream);
-        assertTrue(IOUtil.getInputStreamForURI("file://", false) instanceof java.io.ByteArrayInputStream);
-    }
-
-    @Test
     public void testGetInputStreamForURIOfFileProtocol() throws Exception {
         InputStream stream = null;
         BufferedReader reader;
@@ -608,14 +597,6 @@ public class IOUtilTest {
         assertEquals((byte) 109, actualBinaryContentOfUri[12]);
         assertEquals((byte) 108, actualBinaryContentOfUri[13]);
         assertEquals((byte) 10, actualBinaryContentOfUri[14]);
-    }
-
-    @Test
-    public void testListResources() throws IOException {
-        assertEquals(1,
-                IOUtil.listResources(Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toUri().toURL()).length);
-        assertEquals(0,
-                IOUtil.listResources(Paths.get(System.getProperty("listResources({})"), "test.txt").toUri().toURL()).length);
     }
 
     @Test
