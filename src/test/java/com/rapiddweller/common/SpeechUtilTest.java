@@ -14,14 +14,24 @@
  */
 package com.rapiddweller.common;
 
+import static org.junit.Assert.assertFalse;
+
+import org.junit.Test;
+
 
 /**
  * Tests the {@link SpeechUtil}.
  * Created: 14.09.2010 12:52:22
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class SpeechUtilTest {
+
+    @Test
+    public void testSpeechSupported() {
+        assertFalse(SpeechUtil.speechSupported());
+    }
 /* TODO this currently hangs when compiling with Maven
 	@Test
 	public void test() {

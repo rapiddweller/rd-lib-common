@@ -14,7 +14,9 @@
  */
 package com.rapiddweller.common;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -22,17 +24,35 @@ import org.junit.Test;
 /**
  * Tests the Period class.
  * Created at 02.05.2008 15:39:31
- * @since 0.4.3
+ *
  * @author Volker Bergmann
+ * @since 0.4.3
  */
 public class PeriodTest {
 
-	@Test
-	public void testEquals() {
-		Period second = Period.SECOND;
-		assertFalse(second.equals(null));
-		assertFalse(second.equals(""));
-		assertTrue(second.equals(second));
-		assertFalse(second.equals(Period.MINUTE));
-	}
+    @Test
+    public void testGetInstances() {
+        assertEquals(9, Period.getInstances().size());
+    }
+
+    @Test
+    public void testEquals() {
+        Period second = Period.SECOND;
+        assertFalse(second.equals(null));
+        assertFalse(second.equals(""));
+        assertTrue(second.equals(second));
+        assertFalse(second.equals(Period.MINUTE));
+    }
+
+    @Test
+    public void testMinInstance() {
+        Period actualMinInstanceResult = Period.minInstance();
+        assertSame(actualMinInstanceResult.MILLISECOND, actualMinInstanceResult);
+    }
+
+    @Test
+    public void testMaxInstance() {
+        Period actualMaxInstanceResult = Period.maxInstance();
+        assertSame(actualMaxInstanceResult.YEAR, actualMaxInstanceResult);
+    }
 }

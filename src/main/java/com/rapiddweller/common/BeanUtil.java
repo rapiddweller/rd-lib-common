@@ -67,7 +67,7 @@ public final class BeanUtil {
     
     private static final HashSet<String> NON_CLASS_NAMES = new HashSet<>(100);
     
-    private static final Escalator escalator = new LoggerEscalator();
+    private static Escalator escalator = new LoggerEscalator();
 
     // (static) attributes ---------------------------------------------------------------------------------------------
 
@@ -120,27 +120,27 @@ public final class BeanUtil {
     /**
      * Map of integral Java number types
      */
-    private static final Map<String, Class<?>> integralNumberTypeMap;
+    private static Map<String, Class<?>> integralNumberTypeMap;
 
     /**
      * Map of decimal Java number types
      */
-    private static final Map<String, Class<?>> decimalNumberTypeMap;
+    private static Map<String, Class<?>> decimalNumberTypeMap;
 
     /**
      * Map of simple Java types
      */
-    private static final Map<String, Class<?>> simpleTypeMap;
+    private static Map<String, Class<?>> simpleTypeMap;
 
     /**
      * Map of primitive Java types
      */
-    private static final Map<String, Class<?>> primitiveTypeMap;
+    private static Map<String, Class<?>> primitiveTypeMap;
 
     /**
      * Map of primitive Java number types
      */
-    private static final Map<String, Class<?>> primitiveNumberTypeMap;
+    private static Map<String, Class<?>> primitiveNumberTypeMap;
 
     // initialization --------------------------------------------------------------------------------------------------
 
@@ -810,7 +810,7 @@ public final class BeanUtil {
 
     public static boolean hasWriteableProperty(Class<?> beanClass, String propertyName) {
         PropertyDescriptor descriptor = getPropertyDescriptor(beanClass, propertyName);
-		return (descriptor != null && descriptor.getWriteMethod() != null);
+		return (descriptor != null ? descriptor.getWriteMethod() != null : false);
     }
 
     /**
@@ -1297,7 +1297,7 @@ public final class BeanUtil {
 				findClassesInDirectory(file, packagePath + "." + fileName, classes);
 			else if (fileName.endsWith(".class") && !fileName.contains("$")) {
 				String className = packagePath + '.' + fileName.substring(0, fileName.length() - 6);
-				classes.add(BeanUtil.forName(className));
+				classes.add(BeanUtil.<Object>forName(className));
 			}
 		}
 		return classes;

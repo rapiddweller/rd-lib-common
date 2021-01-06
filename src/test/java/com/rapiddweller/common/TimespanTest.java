@@ -14,40 +14,48 @@
  */
 package com.rapiddweller.common;
 
-import org.junit.Test;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.util.Date;
 
 import com.rapiddweller.common.Timespan;
 import com.rapiddweller.common.TimeUtil;
 
+import static org.junit.Assert.*;
+
 /**
  * Tests the {@link Timespan} class.
  * Created: 17.02.2005 21:29:24
+ *
  * @author Volker Bergmann
  */
 public class TimespanTest {
 
-	@Test
+    @Test
     public void testDuration() {
         Date now = new Date();
         Date tomorrow = new Date(now.getTime() + Period.DAY.getMillis());
         Timespan timespan = new Timespan(now, tomorrow);
-        assertEquals((Long)Period.DAY.getMillis(), timespan.duration());
+        assertEquals((Long) Period.DAY.getMillis(), timespan.duration());
     }
 
-	@Test
+    @Test
+    public void testDuration2() {
+        assertEquals(259200000L, Timespan.futureDays(3).duration().longValue());
+    }
+
+    @Test
     public void testContains() {
         Date d1 = TimeUtil.date(2005, 0, 1);
         Date d2 = TimeUtil.date(2005, 0, 2);
         Date d3 = TimeUtil.date(2005, 0, 3);
         Date d4 = TimeUtil.date(2005, 0, 4);
 
-        Timespan l  = new Timespan(d1, d4);
+        Timespan l = new Timespan(d1, d4);
         Timespan m1 = new Timespan(d1, d3);
         Timespan m2 = new Timespan(d2, d4);
         Timespan s2 = new Timespan(d2, d3);
@@ -61,14 +69,57 @@ public class TimespanTest {
         assertFalse(s2.contains(l));
     }
 
-	@Test
+    @Test
+    public void testContains2() {
+        Timespan futureDaysResult = Timespan.futureDays(3);
+        assertTrue(futureDaysResult.contains(Timespan.futureDays(3)));
+    }
+
+    @Test
+    public void testContains3() {
+        Timespan futureDaysResult = Timespan.futureDays(0);
+        assertFalse(futureDaysResult.contains(Timespan.futureDays(3)));
+    }
+
+    @Test
+    public void testContains4() {
+        Timespan futureDaysResult = Timespan.futureDays(3);
+        assertFalse(futureDaysResult.contains(new Date(1L)));
+    }
+
+    @Test
+    public void testContains5() {
+        Timespan futureDaysResult = Timespan.futureDays(3);
+        assertFalse(futureDaysResult.contains(new Date(9223372036854775807L)));
+    }
+
+    @Test
+    public void testIntersection() {
+        Timespan span1 = Timespan.futureDays(3);
+        assertNotNull(
+                Timespan.intersection(span1, Timespan.futureDays(3)).toString());
+    }
+
+    @Test
+    public void testIntersection2() {
+        Timespan span1 = Timespan.futureDays(0);
+        assertNull(Timespan.intersection(span1, Timespan.futureDays(3)));
+    }
+
+    @Test
+    public void testIntersection3() {
+        Timespan span1 = Timespan.futureDays(3);
+        assertNull(Timespan.intersection(span1, Timespan.futureDays(0)));
+    }
+
+    @Test
     public void testOverlaps() {
         Date d1 = TimeUtil.date(2005, 0, 1);
         Date d2 = TimeUtil.date(2005, 0, 2);
         Date d3 = TimeUtil.date(2005, 0, 3);
         Date d4 = TimeUtil.date(2005, 0, 4);
 
-        Timespan l  = new Timespan(d1, d4);
+        Timespan l = new Timespan(d1, d4);
         Timespan m1 = new Timespan(d1, d3);
         Timespan m2 = new Timespan(d2, d4);
         Timespan s1 = new Timespan(d1, d2);
@@ -89,8 +140,46 @@ public class TimespanTest {
         assertFalse(s1.overlaps(s3));
         assertFalse(s3.overlaps(s1));
     }
-    
-	@Test
+
+    @Test
+    public void testOverlaps2() {
+        Timespan futureDaysResult = Timespan.futureDays(3);
+        assertTrue(futureDaysResult.overlaps(Timespan.futureDays(3)));
+    }
+
+    @Test
+    public void testOverlaps3() {
+        Timespan futureDaysResult = Timespan.futureDays(0);
+        assertFalse(futureDaysResult.overlaps(Timespan.futureDays(3)));
+    }
+
+    @Test
+    public void testOverlaps4() {
+        Timespan futureDaysResult = Timespan.futureDays(3);
+        assertFalse(futureDaysResult.overlaps(Timespan.futureDays(0)));
+    }
+
+    @Test
+    public void testOverlaps5() {
+        Timespan timespan = new Timespan(null, new Date(1L));
+        assertFalse(timespan.overlaps(Timespan.futureDays(3)));
+    }
+
+    @Test
+    public void testOverlaps6() {
+        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
+        Date startDate = Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant());
+        Timespan timespan = new Timespan(startDate, new Date(1L));
+        assertFalse(timespan.overlaps(Timespan.futureDays(3)));
+    }
+
+    @Test
+    public void testOverlaps7() {
+        Timespan timespan = new Timespan(null, null);
+        assertTrue(timespan.overlaps(Timespan.futureDays(3)));
+    }
+
+    @Test
     public void testUnite() {
         Date d1 = TimeUtil.date(2005, 0, 1);
         Date d2 = TimeUtil.date(2005, 0, 2);
@@ -107,18 +196,63 @@ public class TimespanTest {
         Timespan always = new Timespan(null, null);
         assertEquals(always, Timespan.unite(past, future));
     }
-    
-	@Test
-    public void testEquals() {
-    	Timespan always = new Timespan(null, null);
-    	assertFalse(always.equals(null));
-    	assertFalse(always.equals(""));
-    	assertTrue(always.equals(always));
-    	Date now = new Date();
-    	Timespan future = new Timespan(now, null);
-    	assertFalse(always.equals(future));
-    	assertFalse(future.equals(always));
+
+    @Test
+    public void testUnite2() {
+        Timespan span1 = Timespan.futureDays(3);
+        assertNotNull(Timespan.unite(span1, Timespan.futureDays(3)).toString());
     }
-	
+
+    @Test
+    public void testUnite3() {
+        Timespan span1 = Timespan.futureDays(0);
+        assertNotNull(Timespan.unite(span1, Timespan.futureDays(3)).toString());
+    }
+
+    @Test
+    public void testUnite4() {
+        Timespan actualUniteResult = Timespan.unite(new Timespan(null, null), null);
+        assertNull(actualUniteResult.endDate);
+        assertNull(actualUniteResult.startDate);
+    }
+
+    @Test
+    public void testRecentDays() {
+        assertNotNull(Timespan.recentDays(3).toString());
+    }
+
+    @Test
+    public void testFutureDays() {
+        assertNotNull(Timespan.futureDays(3).toString());
+    }
+
+    @Test
+    public void testToString() {
+        assertNotNull(Timespan.futureDays(3).toString());
+    }
+
+
+    @Test
+    public void testEquals() {
+        Timespan always = new Timespan(null, null);
+        assertNotEquals(null, always);
+        assertNotEquals("", always);
+        assertEquals(always, always);
+        Date now = new Date();
+        Timespan future = new Timespan(now, null);
+        assertNotEquals(always, future);
+        assertNotEquals(future, always);
+    }
+
+    @Test
+    public void testEquals2() {
+        assertFalse(Timespan.futureDays(3).equals("obj"));
+    }
+
+    @Test
+    public void testEquals3() {
+        assertFalse(Timespan.futureDays(3).equals(null));
+    }
+
 }
 
