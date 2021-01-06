@@ -232,11 +232,6 @@ public class TimeUtilTest {
     }
 
     @Test
-    public void testFormatMonth() {
-        assertEquals("02/01", TimeUtil.formatMonth(new GregorianCalendar(1, Calendar.FEBRUARY, 1)));
-    }
-
-    @Test
     public void testYear() {
         LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
         assertEquals(1970, TimeUtil.year(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant())));

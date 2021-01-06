@@ -105,26 +105,6 @@ public class FormatterTest {
         assertEquals("null", Formatter.formatLocal(null));
     }
 
-    @Test
-    public void testFormatDaysFromNow() {
-        LocalDateTime atStartOfDayResult = LocalDate.of(1970, 1, 1).atStartOfDay();
-        assertEquals("18,632 days ago",
-                Formatter.formatDaysFromNow(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant())));
-    }
-
-    @Test
-    public void testFormatDaysFromNow2() {
-        LocalDateTime atStartOfDayResult = LocalDate.of(4800, 1, 1).atStartOfDay();
-        assertEquals("in 1,015,004 days",
-                Formatter.formatDaysFromNow(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant())));
-    }
-
-    @Test
-    public void testFormatDaysFromNow3() {
-        LocalDateTime atStartOfDayResult = LocalDate.of(3, 1, 1).atStartOfDay();
-        assertEquals("737,062 days ago",
-                Formatter.formatDaysFromNow(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant())));
-    }
 
     @Test
     public void testFormatDate() {
