@@ -11,7 +11,7 @@ env:
     echo "ARTIFACT_ID=$ARTIFACT_ID" >> $GITHUB_ENV;
     if [ GITHUB_REF == refs/tags/* ];
     then
-      ARTIFACT_VERSION=$ARTIFACT_VERSION_BASE-$JAVA_JDKVERSION_TAG-SNAPSHOT;
+      ARTIFACT_VERSION=${GITHUB_REF/refs\/tags\//}-$JAVA_JDKVERSION_TAG-SNAPSHOT;
       echo ARTIFACT_VERSION=$ARTIFACT_VERSION  >> $GITHUB_ENV;
       echo ARTIFACT_FULLNAME=$ARTIFACT_ID-$ARTIFACT_VERSION >> $GITHUB_ENV;
     else
@@ -127,7 +127,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     container: maven:3.6-adoptopenjdk-11
-    needs: [ assembly_jdk11 ]
+#    needs: [ assembly_jdk11 ]
 #    if: github.ref == 'refs/tags/*'
     steps:
       - name: Checkout code
