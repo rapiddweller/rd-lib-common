@@ -26,6 +26,7 @@ jobs:
 
   build_jdk11:
     runs-on: ubuntu-latest
+    container: maven:3.6-adoptopenjdk-11
     steps:
       - uses: actions/checkout@v2
       - name: Cache Maven packages
@@ -34,10 +35,6 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Set up Java for publishing to GitHub Packages and autogenerate .m2/settings.xml
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
       - run: eval $SET_VERSION
         shell: bash
       - run: mvn versions:set -DnewVersion=$ARTIFACT_VERSION
@@ -52,6 +49,7 @@ jobs:
 
   test_jdk11:
     runs-on: ubuntu-latest
+    container: maven:3.6-adoptopenjdk-11
     steps:
       - uses: actions/checkout@v2
       - name: Cache Maven packages
@@ -60,10 +58,6 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Set up Java for publishing to GitHub Packages and autogenerate .m2/settings.xml
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11
       - run: eval $SET_VERSION
         shell: bash
       - run: mvn versions:set -DnewVersion=$ARTIFACT_VERSION
@@ -79,10 +73,9 @@ jobs:
     needs: [ test_jdk11,build_jdk11 ]
     container: maven:3.6-adoptopenjdk-11
     steps:
+      - uses: actions/checkout@v2
       - run: eval $SET_VERSION
         shell: bash
-        timeout-minutes: 3
-      - uses: actions/checkout@v2
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
@@ -123,6 +116,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - run: eval $SET_VERSION
+        shell: bash
       - name: Publish package
         run: mvn --batch-mode deploy -Dmaven.test.skip=true
         env:
