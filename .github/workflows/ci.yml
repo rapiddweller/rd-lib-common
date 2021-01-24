@@ -9,7 +9,7 @@ env:
   JAVA_JDKVERSION_TAG: "jdk-11"
   SET_VERSION: |
     ARTIFACT_ID=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.artifactId}' --non-recursive exec:exec);
-    echo "ARTIFACT_ID=$ARTIFACT_ID" >> build.env;
+    echo "ARTIFACT_ID=$ARTIFACT_ID" >> $GITHUB_ENV;
     if [ GITHUB_REF == refs/tags/* ];
     then
       ARTIFACT_VERSION=$ARTIFACT_VERSION_BASE-$JAVA_JDKVERSION_TAG-SNAPSHOT;
