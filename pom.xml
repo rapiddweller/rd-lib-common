@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.rapiddweller</groupId>
     <artifactId>rd-lib-common</artifactId>
-    <version>1.1.0+jdk-11-SNAPSHOT</version>
+    <version>1.1.0-jdk-11-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>rapiddweller Common</name>
     <description>'rapiddweller Common' is an open source Java library
@@ -425,25 +425,22 @@
 
     <repositories>
         <repository>
-            <id>gitlab-maven</id>
-            <url>${env.CI_SERVER_URL}/api/v4/groups/${env.CI_PROJECT_GROUP_ID}/-/packages/maven</url>
+            <id>github</id>
+            <url>https://maven.pkg.github.com/rapiddweller</url>
         </repository>
     </repositories>
 
     <distributionManagement>
         <repository>
-            <id>gitlab-maven</id>
-            <url>${env.CI_SERVER_URL}/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven/</url>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/rapiddweller/rd-lib-common</url>
         </repository>
-        <snapshotRepository>
-            <id>gitlab-maven</id>
-            <url>${env.CI_SERVER_URL}/api/v4/projects/${env.CI_PROJECT_ID}/packages/maven/</url>
-        </snapshotRepository>
     </distributionManagement>
 
     <scm>
-        <url>${env.CI_PROJECT_URL}</url>
-        <connection>scm:git:${env.CI_REPOSITORY_URL}</connection>
-        <developerConnection>scm:git:${env.CI_REPOSITORY_URL}</developerConnection>
+        <url>https://github.com/rapiddweller/rd-lib-common</url>
+        <connection>scm:git:github.com/rapiddweller/rd-lib-common</connection>
+        <developerConnection>scm:git:github.com/rapiddweller/rd-lib-common</developerConnection>
     </scm>
 </project>
