@@ -119,7 +119,7 @@ jobs:
       - run: eval $SET_VERSION
         shell: bash
       - name: Publish package
-        run: mvn --batch-mode deploy -Dmaven.test.skip=true
+        run: mvn --batch-mode deploy -Dmaven.test.skip=true -Dregistry=https://maven.pkg.github.com/rapiddweller -Dtoken=$GITHUB_TOKEN
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
