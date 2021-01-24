@@ -48,7 +48,6 @@ jobs:
 
   test_jdk11:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/tags/*'
     container: maven:3.6-adoptopenjdk-11
     steps:
       - uses: actions/checkout@v2
@@ -71,7 +70,7 @@ jobs:
   assembly_jdk11:
     runs-on: ubuntu-latest
     needs: [ test_jdk11,build_jdk11 ]
-#    if: github.ref == 'refs/tags/*'
+    if: github.ref == 'refs/tags/*'
     container: maven:3.6-adoptopenjdk-11
     steps:
       - uses: actions/checkout@v2
@@ -130,7 +129,7 @@ jobs:
     runs-on: ubuntu-latest
     container: maven:3.6-adoptopenjdk-11
     needs: [ assembly_jdk11 ]
-#    if: github.ref == 'refs/tags/*'
+    if: github.ref == 'refs/tags/*'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
