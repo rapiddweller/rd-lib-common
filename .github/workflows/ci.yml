@@ -12,8 +12,8 @@ env:
   MAVEN_CLI_OPTS: "--batch-mode --update-snapshots"
   JAVA_JDKVERSION_TAG: "jdk-11"
   SET_VERSION: |
-    ARTIFACT_ID=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.artifactId}' --non-recursive exec:exec)
-    echo "ARTIFACT_ID=$ARTIFACT_ID" >> build.env
+    ARTIFACT_ID=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.artifactId}' --non-recursive exec:exec);
+    echo "ARTIFACT_ID=$ARTIFACT_ID" >> build.env;
     if [ GITHUB_REF == refs/tags/* ];
     then
       ARTIFACT_VERSION=$ARTIFACT_VERSION_BASE-$JAVA_JDKVERSION_TAG-SNAPSHOT;
@@ -125,7 +125,6 @@ jobs:
   ###################### Release ######################
 
   release:
-    name: Create Release
     runs-on: ubuntu-latest
     needs: [ test_jdk11,build_jdk11 ]
 #    if: github.ref == 'refs/tags/*'
