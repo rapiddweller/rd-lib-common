@@ -118,8 +118,11 @@ jobs:
           java-version: 11
       - run: eval $SET_VERSION
         shell: bash
+      - name: setup settings.xml
+        run: |
+
       - name: Publish package
-        run: mvn --batch-mode deploy -Dmaven.test.skip=true -Dregistry=https://maven.pkg.github.com/rapiddweller -Dtoken=$GITHUB_TOKEN
+        run: mvn --batch-mode deploy --settings .m2/settings.xml -Dmaven.test.skip=true -Dtoken=$GITHUB_TOKEN
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
