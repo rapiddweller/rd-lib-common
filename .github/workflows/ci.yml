@@ -116,7 +116,7 @@ jobs:
       - run: eval $SET_VERSION
         shell: bash
       - name: Publish package
-        run: mvn --batch-mode deploy --settings .m2/settings.xml -Dmaven.test.skip=true -Dtoken=$GITHUB_TOKEN
+        run: mvn --batch-mode deploy --settings .m2/settings.xml -Dmaven.test.skip=true -Dmaven.install.skip=true
         env:
           NEXUS_USER: ${{ secrets.NEXUS_USER }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
