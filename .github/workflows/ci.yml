@@ -23,13 +23,10 @@ jobs:
   ###################### Setup ######################
   setup:
     runs-on: ubuntu-latest
+    container: maven:3.6-adoptopenjdk-11
     steps:
       - uses: actions/checkout@v2
-      - name: Download dot.env
-        uses: actions/download-artifact@v2
-        with:
-          name: setup
-      - run: bash dot.env
+      - run: eval $SET_VERSION
       - run: |
           echo "echo ARTIFACT_ID=${ARTIFACT_ID} >> \$GITHUB_ENV" >> dot.env
           echo "echo ARTIFACT_VERSION=${ARTIFACT_VERSION} >> \$GITHUB_ENV" >> dot.env
