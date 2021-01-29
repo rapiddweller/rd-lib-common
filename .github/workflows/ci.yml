@@ -35,6 +35,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: setup
+          path: dot.env
           if-no-files-found: error
           retention-days: 1
 
