@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.lang.reflect.Method;
-
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
+
+import java.lang.reflect.Method;
 
 /**
  * {@link Converter} implementation which invokes a static method of an arbitrary class 

@@ -14,12 +14,12 @@
  */
 package com.rapiddweller.common.collection;
 
+import com.rapiddweller.common.OrderedMap;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import com.rapiddweller.common.OrderedMap;
 
 /**
  * {@link Map} proxy which allow to attach a mark to each entry.

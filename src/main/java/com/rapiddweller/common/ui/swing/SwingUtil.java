@@ -14,24 +14,10 @@
  */
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.awt.geom.Rectangle2D;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.rapiddweller.common.BeanUtil;
+import com.rapiddweller.common.SystemInfo;
+import com.rapiddweller.common.format.Alignment;
+import com.rapiddweller.common.format.PadFormat;
 
 import javax.swing.Action;
 import javax.swing.Icon;
@@ -52,11 +38,24 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.TreeModel;
-
-import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.SystemInfo;
-import com.rapiddweller.common.format.Alignment;
-import com.rapiddweller.common.format.PadFormat;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.geom.Rectangle2D;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides Swing utilities.

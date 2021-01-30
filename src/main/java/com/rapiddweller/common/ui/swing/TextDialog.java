@@ -15,14 +15,13 @@
 
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import java.awt.BorderLayout;
+import java.awt.Container;
 
 /**
  * Displays a text in a dialog window.

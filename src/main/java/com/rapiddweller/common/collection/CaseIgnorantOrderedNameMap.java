@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.collection;
 
-import java.util.Map;
-
 import com.rapiddweller.common.OrderedMap;
+
+import java.util.Map;
 
 /**
  * Maps name strings to objects ignoring the capitalization of the name.

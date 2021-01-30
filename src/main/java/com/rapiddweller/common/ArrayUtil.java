@@ -14,10 +14,15 @@
  */
 package com.rapiddweller.common;
 
-import java.lang.reflect.Array;
-import java.util.*;
-
 import com.rapiddweller.common.iterator.ArrayIterator;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Provides array-related operations.

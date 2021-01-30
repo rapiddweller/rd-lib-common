@@ -14,7 +14,12 @@
  */
 package com.rapiddweller.common.collection;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Implements a Set based on a List. This provides for ensuring element uniqueness

@@ -15,14 +15,13 @@
 
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.Color;
+import com.rapiddweller.common.xml.XPathUtil;
 
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
-
-import com.rapiddweller.common.xml.XPathUtil;
+import java.awt.Color;
 
 /**
  * Allows the user to enter an XPath definition, rendering illegal expressions in red.

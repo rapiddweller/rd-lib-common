@@ -15,9 +15,9 @@
 
 package com.rapiddweller.common.converter;
 
-import java.time.YearMonth;
-
 import com.rapiddweller.common.ConversionException;
+
+import java.time.YearMonth;
 
 /**
  * Parses a string as {@link YearMonth}.<br><br>

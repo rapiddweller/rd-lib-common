@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.ConversionException;
+
 import java.sql.Timestamp;
 import java.util.Date;
-
-import com.rapiddweller.common.ConversionException;
 
 /**
  * Converts {@link Timestamp}s to {@link Date}s.

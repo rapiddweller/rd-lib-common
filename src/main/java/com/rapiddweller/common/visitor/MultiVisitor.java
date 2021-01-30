@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.visitor;
 
-import java.util.List;
-
 import com.rapiddweller.common.CollectionUtil;
 import com.rapiddweller.common.Visitor;
+
+import java.util.List;
 
 /**
  * Groups multiple visitors into the interface of a single one.

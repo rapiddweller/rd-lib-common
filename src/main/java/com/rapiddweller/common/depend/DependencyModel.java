@@ -14,16 +14,19 @@
  */
 package com.rapiddweller.common.depend;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
-import static com.rapiddweller.common.depend.NodeState.*;
+import static com.rapiddweller.common.depend.NodeState.FORCEABLE;
+import static com.rapiddweller.common.depend.NodeState.INITIALIZABLE;
+import static com.rapiddweller.common.depend.NodeState.INITIALIZED;
+import static com.rapiddweller.common.depend.NodeState.PARTIALLY_INITIALIZABLE;
 
 /**
  * Orders objects by dependency.

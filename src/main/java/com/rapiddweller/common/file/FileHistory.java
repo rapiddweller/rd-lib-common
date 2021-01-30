@@ -15,15 +15,15 @@
 
 package com.rapiddweller.common.file;
 
+import com.rapiddweller.common.Assert;
+import com.rapiddweller.common.CollectionUtil;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-
-import com.rapiddweller.common.Assert;
-import com.rapiddweller.common.CollectionUtil;
 
 /**
  * Provides a file history using the Preferences API.<br><br>

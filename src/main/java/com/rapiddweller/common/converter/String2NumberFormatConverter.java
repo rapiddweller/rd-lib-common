@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.ConversionException;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-
-import com.rapiddweller.common.ConversionException;
 
 /**
  * Parses a {@link String} as {@link NumberFormat}.

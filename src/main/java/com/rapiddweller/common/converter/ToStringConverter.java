@@ -14,17 +14,17 @@
  */
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.Capitalization;
+import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.Converter;
+import org.w3c.dom.Node;
+
 import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import com.rapiddweller.common.Capitalization;
-import com.rapiddweller.common.ConversionException;
-import com.rapiddweller.common.Converter;
-import org.w3c.dom.Node;
 
 /**
  * Converts an object to a String by using its toString() method.

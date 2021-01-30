@@ -14,19 +14,18 @@
  */
 package com.rapiddweller.common.ui.swing.delegate;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import com.rapiddweller.common.BeanUtil;
+import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.bean.ObservableBean;
+import com.rapiddweller.common.converter.ToStringConverter;
 
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
-
-import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.StringUtil;
-import com.rapiddweller.common.bean.ObservableBean;
-import com.rapiddweller.common.converter.ToStringConverter;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * {@link JTextArea} implementation that serves as delegate of a property of a JavaBean object.

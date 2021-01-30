@@ -15,10 +15,9 @@
 
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.Component;
-
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+import java.awt.Component;
 
 /**
  * Renders classes by using their simple class names.<br><br>

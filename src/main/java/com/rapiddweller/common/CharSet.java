@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common;
 
-import java.util.Iterator;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * Represents a Set of characters and provides locale-dependent character sets

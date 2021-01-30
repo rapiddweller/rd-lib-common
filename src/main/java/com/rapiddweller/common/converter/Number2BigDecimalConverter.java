@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.math.BigDecimal;
-
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.NumberUtil;
+
+import java.math.BigDecimal;
 
 /**
  * Converts arbitrary {@link Number}s to {@link BigDecimal}s.

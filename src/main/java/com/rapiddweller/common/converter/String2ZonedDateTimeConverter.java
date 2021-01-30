@@ -16,12 +16,12 @@
 
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.Patterns;
+import com.rapiddweller.common.StringUtil;
+
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-
-import com.rapiddweller.common.Patterns;
-import com.rapiddweller.common.StringUtil;
 
 /**
  * Parses Strings into {@link ZonedDateTime} objects.<br><br>

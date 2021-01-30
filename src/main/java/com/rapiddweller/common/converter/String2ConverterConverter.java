@@ -14,14 +14,14 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.text.Format;
-
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.LoggerEscalator;
 import com.rapiddweller.common.StringUtil;
+
+import java.text.Format;
 
 /**
  * Converts Strings to Converters and vice versa.

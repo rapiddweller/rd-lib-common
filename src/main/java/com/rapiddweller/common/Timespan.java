@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.text.SimpleDateFormat;
 
 /**
  * Represents a timespan between two dates.

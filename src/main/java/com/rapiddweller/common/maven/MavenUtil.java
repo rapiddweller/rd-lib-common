@@ -14,12 +14,12 @@
  */
 package com.rapiddweller.common.maven;
 
-import java.io.File;
-
 import com.rapiddweller.common.ArrayBuilder;
 import com.rapiddweller.common.ErrorHandler;
 import com.rapiddweller.common.ShellUtil;
 import com.rapiddweller.common.SystemInfo;
+
+import java.io.File;
 
 /**
  * Provides utility methods for Maven invocation and repository access.

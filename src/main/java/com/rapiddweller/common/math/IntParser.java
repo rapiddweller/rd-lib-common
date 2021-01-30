@@ -14,12 +14,12 @@
  */
 package com.rapiddweller.common.math;
 
+import com.rapiddweller.common.Parser;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParsePosition;
 import java.util.Locale;
-
-import com.rapiddweller.common.Parser;
 
 /**
  * {@link Parser} implementation which parses {@link Integer}s.

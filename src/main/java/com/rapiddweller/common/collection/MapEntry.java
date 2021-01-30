@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.collection;
 
-import java.util.Map;
-
 import com.rapiddweller.common.NullSafeComparator;
+
+import java.util.Map;
 
 /**
  * Simple implementation of the Map.Entry interface.

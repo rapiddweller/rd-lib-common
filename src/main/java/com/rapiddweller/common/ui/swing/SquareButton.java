@@ -15,11 +15,10 @@
 
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.Dimension;
-
 import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import java.awt.Dimension;
 
 /**
  * Provides a square button.<br><br>

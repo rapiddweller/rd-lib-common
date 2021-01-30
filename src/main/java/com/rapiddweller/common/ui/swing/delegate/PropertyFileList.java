@@ -14,19 +14,18 @@
  */
 package com.rapiddweller.common.ui.swing.delegate;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.util.List;
-
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
-
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.CollectionUtil;
 import com.rapiddweller.common.bean.ObservableBean;
 import com.rapiddweller.common.ui.I18NSupport;
 import com.rapiddweller.common.ui.swing.FileList;
+
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.util.List;
 
 /**
  * {@link FileList} implementation that serves as delegate of a property of a JavaBean object.

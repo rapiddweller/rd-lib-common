@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.text.Format;
-
 import com.rapiddweller.common.ConversionException;
+
+import java.text.Format;
 
 /**
  * Converts an object to a String by using a java.lang.Format object's format() method.

@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.net.URLEncoder;
-
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Encodings;
 import com.rapiddweller.common.StringUtil;
+
+import java.net.URLEncoder;
 
 /**
  * Decodes a String from the <code>application/x-www-form-urlencoded</code>  MIME format.

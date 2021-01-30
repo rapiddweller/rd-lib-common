@@ -18,10 +18,10 @@ import com.rapiddweller.common.Element;
 import com.rapiddweller.common.Visitor;
 import com.rapiddweller.common.visitor.WrapperElement;
 
-import java.util.Collection;
-import java.util.ArrayList;
-import java.util.List;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Element implementation (of the Visitor Design Pattern) for a File.

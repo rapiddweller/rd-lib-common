@@ -14,12 +14,11 @@
  */
 package com.rapiddweller.common.validator.bean;
 
-import java.lang.annotation.Annotation;
-
-import javax.validation.ConstraintValidator;
-
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.Validator;
+
+import javax.validation.ConstraintValidator;
+import java.lang.annotation.Annotation;
 
 /**
  * Abstract implementation of the {@link ConstraintValidator} interface. 

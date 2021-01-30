@@ -14,12 +14,11 @@
  */
 package com.rapiddweller.common.ui.swing;
 
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
-
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
 
 /**
  * Renders the canonical path of a {@link File} in a {@link JList}.

@@ -18,7 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.rapiddweller.common.depend.NodeState.*;
+import static com.rapiddweller.common.depend.NodeState.FORCEABLE;
+import static com.rapiddweller.common.depend.NodeState.FORCED;
+import static com.rapiddweller.common.depend.NodeState.INACTIVE;
+import static com.rapiddweller.common.depend.NodeState.INITIALIZABLE;
+import static com.rapiddweller.common.depend.NodeState.INITIALIZED;
+import static com.rapiddweller.common.depend.NodeState.PARTIALLY_INITIALIZABLE;
+import static com.rapiddweller.common.depend.NodeState.PARTIALLY_INITIALIZED;
 
 /**
  * Helper class for calculating dependencies.

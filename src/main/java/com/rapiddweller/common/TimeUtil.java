@@ -14,12 +14,6 @@
  */
 package com.rapiddweller.common;
 
-import static com.rapiddweller.common.Patterns.DEFAULT_DATETIME_MILLIS_PATTERN;
-import static com.rapiddweller.common.Patterns.DEFAULT_DATETIME_MINUTES_PATTERN;
-import static com.rapiddweller.common.Patterns.DEFAULT_DATETIME_SECONDS_PATTERN;
-import static com.rapiddweller.common.Patterns.DEFAULT_DATE_PATTERN;
-import static com.rapiddweller.common.Patterns.DEFAULT_TIME_PATTERN;
-
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -31,6 +25,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.util.concurrent.Callable;
+
+import static com.rapiddweller.common.Patterns.DEFAULT_DATETIME_MILLIS_PATTERN;
+import static com.rapiddweller.common.Patterns.DEFAULT_DATETIME_MINUTES_PATTERN;
+import static com.rapiddweller.common.Patterns.DEFAULT_DATETIME_SECONDS_PATTERN;
+import static com.rapiddweller.common.Patterns.DEFAULT_DATE_PATTERN;
+import static com.rapiddweller.common.Patterns.DEFAULT_TIME_PATTERN;
 
 /**
  * Provides utility methods for creating and manipulating Dates and Calendars.

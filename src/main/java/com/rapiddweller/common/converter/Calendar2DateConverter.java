@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.ConversionException;
+
 import java.util.Calendar;
 import java.util.Date;
-
-import com.rapiddweller.common.ConversionException;
 
 /**
  * Converts {@link Calendar} objects to {@link Date}s.

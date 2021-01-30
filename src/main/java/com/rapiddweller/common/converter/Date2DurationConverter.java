@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.ConversionException;
+
 import java.util.Date;
 import java.util.TimeZone;
-
-import com.rapiddweller.common.ConversionException;
 
 /**
  * Interprets a Date as duration specification, e.g. '0000-00-00T00:00:00.001' as one millisecond, 

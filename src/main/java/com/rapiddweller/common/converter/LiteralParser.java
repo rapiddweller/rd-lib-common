@@ -14,12 +14,12 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.sql.Time;
-import java.util.Date;
-
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.StringCharacterIterator;
 import com.rapiddweller.common.TimeUtil;
+
+import java.sql.Time;
+import java.util.Date;
 
 /**
  * Parses the literal representation a simple type into an appropriate Java object of type 

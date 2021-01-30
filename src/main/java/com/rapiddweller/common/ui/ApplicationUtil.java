@@ -14,9 +14,10 @@
  */
 package com.rapiddweller.common.ui;
 
-import javax.swing.UIManager;
 import com.rapiddweller.common.SystemInfo;
 import com.rapiddweller.common.ui.osx.OSXUtil;
+
+import javax.swing.UIManager;
 
 /**
  * Provides utility methods for Java applications.

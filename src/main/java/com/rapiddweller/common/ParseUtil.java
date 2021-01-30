@@ -15,15 +15,15 @@
 
 package com.rapiddweller.common;
 
-import java.io.PushbackReader;
-import java.io.IOException;
-import java.io.Reader;
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PushbackReader;
+import java.io.Reader;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.ParsePosition;
-import java.util.List;
 import java.util.ArrayList;
-import java.math.BigInteger;
+import java.util.List;
 
 /**
  * Provides methods for parsing PushbackReaders and Strings.

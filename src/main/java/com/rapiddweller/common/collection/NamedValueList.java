@@ -14,13 +14,13 @@
  */
 package com.rapiddweller.common.collection;
 
+import com.rapiddweller.common.StringUtil;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.rapiddweller.common.StringUtil;
 
 /**
  * Maintains a list of named objects supporting duplicate names and missing names.

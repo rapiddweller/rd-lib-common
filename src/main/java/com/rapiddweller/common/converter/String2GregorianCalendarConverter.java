@@ -14,12 +14,13 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.TimeUtil;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Parses a {@link String} as a {@link Calendar}.

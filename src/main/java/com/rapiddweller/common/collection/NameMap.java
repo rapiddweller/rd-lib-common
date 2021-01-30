@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.collection;
 
+import com.rapiddweller.common.Named;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.rapiddweller.common.Named;
 
 /**
  * A {@link Map} which offers convenience methods for managing {@link Named} objects

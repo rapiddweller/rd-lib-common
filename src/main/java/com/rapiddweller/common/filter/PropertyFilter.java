@@ -19,8 +19,8 @@ import com.rapiddweller.common.Condition;
 import com.rapiddweller.common.ExceptionMapper;
 import com.rapiddweller.common.Filter;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Filter that matches a JavaBean by checking a Condition for one of its property values.

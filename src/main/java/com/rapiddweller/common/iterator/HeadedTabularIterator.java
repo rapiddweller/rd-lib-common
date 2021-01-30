@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.iterator;
 
-import java.util.Iterator;
-
 import com.rapiddweller.common.converter.ArrayTypeConverter;
+
+import java.util.Iterator;
 
 /**
  * Forwards the output of another array {@link Iterator}, 

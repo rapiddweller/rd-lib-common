@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.ui.swing;
 
-import javax.swing.tree.TreePath;
-
 import com.rapiddweller.common.TreeModel;
+
+import javax.swing.tree.TreePath;
 
 /**
  * Adaptor that maps Databene {@link TreeModel}s to Swing {@link javax.swing.tree.TreeModel}.

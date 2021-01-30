@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.collection;
 
-import java.util.Map;
-
 import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.OrderedMap;
+
+import java.util.Map;
 
 /**
  * {@link OrderedMap} implementation which assigns name strings to objects preserving the capitalization 

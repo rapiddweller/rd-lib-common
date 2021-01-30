@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.ui.osx;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.ui.JavaApplication;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 
 /**
  * InvocationHandler interface for Mac OS X.

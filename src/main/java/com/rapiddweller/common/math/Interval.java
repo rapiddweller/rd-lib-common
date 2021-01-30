@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.math;
 
-import java.io.Serializable;
-import java.util.Comparator;
-
 import com.rapiddweller.common.ComparableComparator;
 import com.rapiddweller.common.NullSafeComparator;
+
+import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * Represents an interval between to endpoints. 

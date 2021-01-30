@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.iterator;
 
-import java.util.Iterator;
-
 import com.rapiddweller.common.ArrayFormat;
 import com.rapiddweller.common.TypedIterable;
+
+import java.util.Iterator;
 
 /**
  * Implementation of the {@link Iterable} interface which creates {@link Iterator} that iterate over an array.

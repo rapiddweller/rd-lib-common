@@ -14,8 +14,8 @@
  */
 package com.rapiddweller.common.tree;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Default implementation of a tree node.

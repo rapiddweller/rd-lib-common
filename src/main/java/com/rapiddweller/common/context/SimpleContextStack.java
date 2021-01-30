@@ -14,15 +14,15 @@
  */
 package com.rapiddweller.common.context;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
-import java.util.Map.Entry;
-
 import com.rapiddweller.common.Assert;
 import com.rapiddweller.common.Context;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.HashSet;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.Stack;
 
 /**
  * Combines several contexts to a {@link Stack}, querying recursively in the {@link #get(String)} method 

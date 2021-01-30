@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.filter;
 
+import com.rapiddweller.common.Filter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import com.rapiddweller.common.Filter;
 
 /**
  * Abstract parent filter which combines several filter components.

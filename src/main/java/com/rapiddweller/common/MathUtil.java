@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common;
 
-import java.util.List;
-
 import com.rapiddweller.common.math.IntDoublePair;
 import com.rapiddweller.common.math.Segmented;
+
+import java.util.List;
 
 /**
  * Provides mathematical utility methods.

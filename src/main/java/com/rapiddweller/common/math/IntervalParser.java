@@ -14,12 +14,13 @@
  */
 package com.rapiddweller.common.math;
 
+import com.rapiddweller.common.ParseException;
+import com.rapiddweller.common.Parser;
+
 import java.text.ParsePosition;
 import java.util.Comparator;
 
-import com.rapiddweller.common.ParseException;
 import static com.rapiddweller.common.ParseUtil.skipWhiteSpace;
-import com.rapiddweller.common.Parser;
 
 /**
  * Parses an {@link Interval} generically using an endpoint parser and an endpoint comparator.

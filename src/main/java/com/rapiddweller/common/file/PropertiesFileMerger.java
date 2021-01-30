@@ -14,6 +14,13 @@
  */
 package com.rapiddweller.common.file;
 
+import com.rapiddweller.common.Encodings;
+import com.rapiddweller.common.IOUtil;
+import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.collection.TreeBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -21,13 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Map;
-
-import com.rapiddweller.common.Encodings;
-import com.rapiddweller.common.IOUtil;
-import com.rapiddweller.common.StringUtil;
-import com.rapiddweller.common.collection.TreeBuilder;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 /**
  * Merges properties files with priority and allows for override by VM parameters.

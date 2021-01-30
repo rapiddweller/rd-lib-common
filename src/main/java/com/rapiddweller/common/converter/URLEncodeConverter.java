@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.net.URLEncoder;
-
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Encodings;
+
+import java.net.URLEncoder;
 
 /**
  * Converts Strings to their URL-encoded representation.

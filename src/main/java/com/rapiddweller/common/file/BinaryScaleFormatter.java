@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.file;
 
-import java.text.DecimalFormat;
-
 import com.rapiddweller.common.BinaryScale;
+
+import java.text.DecimalFormat;
 
 /**
  * Formats a number in a human-friendly manner, e.g. a file size in megabytes.

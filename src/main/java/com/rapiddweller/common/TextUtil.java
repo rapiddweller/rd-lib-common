@@ -15,9 +15,9 @@
 
 package com.rapiddweller.common;
 
-import java.util.List;
-
 import com.rapiddweller.common.converter.ToStringConverter;
+
+import java.util.List;
 
 /**
  * Provides text utilities.<br><br>

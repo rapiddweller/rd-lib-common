@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.lang.reflect.Constructor;
-
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
+
+import java.lang.reflect.Constructor;
 
 /**
  * {@link Converter} implementation which invokes a constructor of the target class 

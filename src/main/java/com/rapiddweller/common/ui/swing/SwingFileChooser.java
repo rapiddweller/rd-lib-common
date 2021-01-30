@@ -14,15 +14,14 @@
  */
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.Component;
-import java.io.File;
-
-import javax.swing.JFileChooser;
-
 import com.rapiddweller.common.Assert;
 import com.rapiddweller.common.ui.FileChooser;
 import com.rapiddweller.common.ui.FileOperation;
 import com.rapiddweller.common.ui.FileTypeSupport;
+
+import javax.swing.JFileChooser;
+import java.awt.Component;
+import java.io.File;
 
 /**
  * Swing implementation of the {@link FileChooser} interface.

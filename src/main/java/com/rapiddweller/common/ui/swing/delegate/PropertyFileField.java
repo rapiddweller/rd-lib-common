@@ -14,18 +14,18 @@
  */
 package com.rapiddweller.common.ui.swing.delegate;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.File;
-
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.bean.ObservableBean;
 import com.rapiddweller.common.ui.FileOperation;
 import com.rapiddweller.common.ui.FileTypeSupport;
 import com.rapiddweller.common.ui.swing.FileField;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
 
 /**
  * {@link FileField} implementation that serves as delegate of a property of a JavaBean object.

@@ -14,16 +14,15 @@
  */
 package com.rapiddweller.common.validator;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.rapiddweller.common.Validator;
+import com.rapiddweller.common.validator.bean.AbstractConstraintValidator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Pattern.Flag;
-
-import com.rapiddweller.common.Validator;
-import com.rapiddweller.common.validator.bean.AbstractConstraintValidator;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Databene {@link Validator} and JSR 303 {@link ConstraintValidator} implementation 

@@ -14,13 +14,13 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.io.Closeable;
-
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.HeavyweightIterator;
 import com.rapiddweller.common.HeavyweightTypedIterable;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.iterator.ConvertingIterator;
+
+import java.io.Closeable;
 
 /**
  * Iterable that provides {@link ConvertingIterator}s.

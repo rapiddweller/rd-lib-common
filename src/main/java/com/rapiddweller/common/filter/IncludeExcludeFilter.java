@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.filter;
 
+import com.rapiddweller.common.Filter;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.rapiddweller.common.Filter;
 
 /**
  * Multi-step inclusion/exclusion filter. Note that a sequence of inclusions forms an intersection, not a union.

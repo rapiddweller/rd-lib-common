@@ -14,12 +14,12 @@
  */
 package com.rapiddweller.common.version;
 
+import com.rapiddweller.common.CollectionUtil;
+
 import java.io.Serializable;
 import java.text.ParsePosition;
 import java.util.Arrays;
 import java.util.List;
-
-import com.rapiddweller.common.CollectionUtil;
 
 /**
  * Represents a software version number.

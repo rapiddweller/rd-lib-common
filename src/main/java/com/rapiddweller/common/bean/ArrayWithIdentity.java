@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.bean;
 
-import java.util.Arrays;
-
 import com.rapiddweller.common.ArrayFormat;
+
+import java.util.Arrays;
 
 /**
  * Wrapper for an array which implements {@link #equals(Object)}, {@link #hashCode()} and {@link #toString()}

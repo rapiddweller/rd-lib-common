@@ -14,8 +14,6 @@
  */
 package com.rapiddweller.common.iterator;
 
-import java.io.IOException;
-
 /**
  * Abstract implementation of the {@link TabularIterator} interface.
  * Created: 27.10.2011 08:46:11

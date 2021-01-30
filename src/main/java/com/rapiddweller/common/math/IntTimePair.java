@@ -2,9 +2,9 @@
 
 package com.rapiddweller.common.math;
 
-import java.time.LocalTime;
-
 import com.rapiddweller.common.RegexUtil;
+
+import java.time.LocalTime;
 
 /**
  * Combines an int and a {@link LocalTime} to a pair.<br/><br/>

@@ -14,12 +14,12 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.StringUtil;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Parses Strings converting them to {@link Timestamp}s.

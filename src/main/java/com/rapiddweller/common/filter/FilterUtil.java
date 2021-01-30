@@ -15,13 +15,13 @@
 
 package com.rapiddweller.common.filter;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import com.rapiddweller.common.ArrayBuilder;
 import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.Filter;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Utility class which provides convenience methods related to {@link Filter}s.

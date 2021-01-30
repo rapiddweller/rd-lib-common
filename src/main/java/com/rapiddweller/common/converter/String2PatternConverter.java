@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.util.regex.Pattern;
-
 import com.rapiddweller.common.ConversionException;
+
+import java.util.regex.Pattern;
 
 /**
  * Converts a String to a {@link Pattern}.

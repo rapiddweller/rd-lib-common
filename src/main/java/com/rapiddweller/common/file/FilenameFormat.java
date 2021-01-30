@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.file;
 
-import java.text.Format;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.io.File;
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
 
 /**
  * Formats file names as local names or absolute path.

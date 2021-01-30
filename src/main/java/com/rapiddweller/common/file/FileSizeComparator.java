@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.file;
 
+import com.rapiddweller.common.comparator.LongComparator;
+
 import java.io.File;
 import java.util.Comparator;
-
-import com.rapiddweller.common.comparator.LongComparator;
 
 /**
  * {@link Comparator} implementation which compares two {@link File}s by their size.

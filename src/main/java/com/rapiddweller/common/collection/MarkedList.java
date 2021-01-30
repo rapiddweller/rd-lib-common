@@ -14,12 +14,12 @@
  */
 package com.rapiddweller.common.collection;
 
+import com.rapiddweller.common.NullSafeComparator;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import com.rapiddweller.common.NullSafeComparator;
 
 /**
  * Implementation of the {@link List} interface which supports 

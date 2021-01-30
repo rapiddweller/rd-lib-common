@@ -16,8 +16,8 @@ package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.ArrayUtil;
 import com.rapiddweller.common.ConversionException;
-import com.rapiddweller.common.converter.ThreadSafeConverter;
 import com.rapiddweller.common.converter.AnyConverter;
+import com.rapiddweller.common.converter.ThreadSafeConverter;
 
 /**
  * Extracts property values from an array of JavaBeans in a way that

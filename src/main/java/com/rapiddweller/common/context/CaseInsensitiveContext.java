@@ -14,13 +14,13 @@
  */
 package com.rapiddweller.common.context;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
-
 import com.rapiddweller.common.CollectionUtil;
 import com.rapiddweller.common.Context;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * {@link Context} implementation which is case insensitive regarding key Strings.

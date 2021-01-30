@@ -15,15 +15,14 @@
 
 package com.rapiddweller.common.ui.swing;
 
+import javax.swing.Icon;
+import javax.swing.UIManager;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-
-import javax.swing.Icon;
-import javax.swing.UIManager;
 
 /**
  * Paints a text over another icon.

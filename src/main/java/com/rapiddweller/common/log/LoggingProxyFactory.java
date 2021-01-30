@@ -14,15 +14,15 @@
  */
 package com.rapiddweller.common.log;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
 import com.rapiddweller.common.ArrayFormat;
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.Level;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 /**
  * Creates a proxy to a class which logs all invocations of parent interface methods.

@@ -21,17 +21,20 @@ import com.rapiddweller.common.ui.FileOperation;
 import com.rapiddweller.common.ui.FileTypeSupport;
 import com.rapiddweller.common.ui.awt.AwtFileChooser;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
-import java.io.File;
 import java.awt.BorderLayout;
 import java.awt.TextField;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.List;
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Lets the user choose a {@link File} with {@link TextField} and {@link JFileChooser}.

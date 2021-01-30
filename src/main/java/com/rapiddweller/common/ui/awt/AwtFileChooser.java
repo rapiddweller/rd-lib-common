@@ -14,16 +14,16 @@
  */
 package com.rapiddweller.common.ui.awt;
 
+import com.rapiddweller.common.Assert;
+import com.rapiddweller.common.SystemInfo;
+import com.rapiddweller.common.ui.FileChooser;
+import com.rapiddweller.common.ui.FileOperation;
+import com.rapiddweller.common.ui.FileTypeSupport;
+
 import java.awt.Component;
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.File;
-
-import com.rapiddweller.common.Assert;
-import com.rapiddweller.common.SystemInfo;
-import com.rapiddweller.common.ui.FileOperation;
-import com.rapiddweller.common.ui.FileTypeSupport;
-import com.rapiddweller.common.ui.FileChooser;
 
 /**
  * AWT based implementation of the {@link FileChooser} interface.

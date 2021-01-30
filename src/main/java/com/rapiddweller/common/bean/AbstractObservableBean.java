@@ -14,13 +14,13 @@
  */
 package com.rapiddweller.common.bean;
 
+import com.rapiddweller.common.NullSafeComparator;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-
-import com.rapiddweller.common.NullSafeComparator;
 
 /**
  * Default implementation for {@link ObservableBean}.
