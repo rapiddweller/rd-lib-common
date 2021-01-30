@@ -23,7 +23,6 @@ import java.util.PropertyResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import com.rapiddweller.common.Encodings;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.LocaleUtil;
 

@@ -35,49 +35,49 @@ public class RingBufferTest {
 
     @Test
     public void testGetCapacity() {
-        assertEquals(3, (new RingBuffer<Object>(Object.class, 3)).getCapacity());
+        assertEquals(3, (new RingBuffer<>(Object.class, 3)).getCapacity());
     }
 
     @Test
     public void testIsFilled() {
-        assertFalse((new RingBuffer<Object>(Object.class, 3)).isFilled());
-        assertTrue((new RingBuffer<Object>(Object.class, 0)).isFilled());
+        assertFalse((new RingBuffer<>(Object.class, 3)).isFilled());
+        assertTrue((new RingBuffer<>(Object.class, 0)).isFilled());
     }
 
     @Test
     public void testContains() {
-        assertFalse((new RingBuffer<Object>(Object.class, 3)).contains("object"));
+        assertFalse((new RingBuffer<>(Object.class, 3)).contains("object"));
     }
 
     @Test
     public void testAdd() {
-        RingBuffer<Object> ringBuffer = new RingBuffer<Object>(Object.class, 3);
+        RingBuffer<Object> ringBuffer = new RingBuffer<>(Object.class, 3);
         assertNull(ringBuffer.add("object"));
         assertEquals(1, ringBuffer.size());
     }
 
     @Test
     public void testAdd2() {
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> (new RingBuffer<Object>(Object.class, 0)).add("object"));
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> (new RingBuffer<>(Object.class, 0)).add("object"));
     }
 
     @Test
     public void testAdd3() {
-        RingBuffer<Object> ringBuffer = new RingBuffer<Object>(Object.class, 1);
+        RingBuffer<Object> ringBuffer = new RingBuffer<>(Object.class, 1);
         assertNull(ringBuffer.add("object"));
         assertEquals(1, ringBuffer.size());
     }
 
     @Test
     public void testConstructor() {
-        RingBuffer<Object> actualRingBuffer = new RingBuffer<Object>(Object.class, 3);
+        RingBuffer<Object> actualRingBuffer = new RingBuffer<>(Object.class, 3);
         assertEquals(3, actualRingBuffer.buffer.length);
         assertEquals(0, actualRingBuffer.size());
     }
 
     @Test
     public void testConstructor2() {
-        RingBuffer<Object> actualRingBuffer = new RingBuffer<Object>(Object.class, 0);
+        RingBuffer<Object> actualRingBuffer = new RingBuffer<>(Object.class, 0);
         assertEquals(0, actualRingBuffer.buffer.length);
         assertEquals(0, actualRingBuffer.size());
     }
@@ -102,18 +102,18 @@ public class RingBufferTest {
 
     @Test
     public void testGet2() {
-        assertNull((new RingBuffer<Object>(Object.class, 3)).get(1));
+        assertNull((new RingBuffer<>(Object.class, 3)).get(1));
     }
 
     @Test
     public void testGet3() {
-        assertNull((new RingBuffer<Object>(Object.class, 3)).get(-1));
+        assertNull((new RingBuffer<>(Object.class, 3)).get(-1));
     }
 
     @Test
     public void testGet4() {
         assertThrows(ArrayIndexOutOfBoundsException.class,
-                () -> (new RingBuffer<Object>(Object.class, 3)).get(-2147483648));
+                () -> (new RingBuffer<>(Object.class, 3)).get(-2147483648));
     }
 
 }

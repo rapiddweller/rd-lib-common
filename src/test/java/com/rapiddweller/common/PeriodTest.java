@@ -47,12 +47,12 @@ public class PeriodTest {
     @Test
     public void testMinInstance() {
         Period actualMinInstanceResult = Period.minInstance();
-        assertSame(actualMinInstanceResult.MILLISECOND, actualMinInstanceResult);
+        assertSame(Period.MILLISECOND, actualMinInstanceResult);
     }
 
     @Test
     public void testMaxInstance() {
         Period actualMaxInstanceResult = Period.maxInstance();
-        assertSame(actualMaxInstanceResult.YEAR, actualMaxInstanceResult);
+        assertSame(Period.YEAR, actualMaxInstanceResult);
     }
 }

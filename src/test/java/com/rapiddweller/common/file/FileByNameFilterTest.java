@@ -14,25 +14,25 @@ import org.junit.Test;
 public class FileByNameFilterTest {
     @Test
     public void testAccept() {
-        OrFilter<String> orFilter = new OrFilter<String>(null, null, null);
-        OrFilter<String> orFilter1 = new OrFilter<String>(null, null, null);
+        OrFilter<String> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<String> orFilter1 = new OrFilter<>(null, null, null);
         FileByNameFilter fileByNameFilter = new FileByNameFilter(
-                new OrFilter<String>(new IncludeExcludeFilter<String>(), orFilter, orFilter1));
+                new OrFilter<>(new IncludeExcludeFilter<>(), orFilter, orFilter1));
         assertTrue(fileByNameFilter.accept(Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toFile()));
     }
 
     @Test
     public void testAccept10() {
-        ConstantFilter<String> constantFilter = new ConstantFilter<String>(true);
-        OrFilter<String> orFilter = new OrFilter<String>(null, null, null);
+        ConstantFilter<String> constantFilter = new ConstantFilter<>(true);
+        OrFilter<String> orFilter = new OrFilter<>(null, null, null);
         FileByNameFilter fileByNameFilter = new FileByNameFilter(
-                new OrFilter<String>(constantFilter, orFilter, new OrFilter<String>(null, null, null)));
+                new OrFilter<>(constantFilter, orFilter, new OrFilter<>(null, null, null)));
         assertTrue(fileByNameFilter.accept(Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toFile()));
     }
 
     @Test
     public void testAccept11() {
-        FileByNameFilter fileByNameFilter = new FileByNameFilter(new OrFilter<String>());
+        FileByNameFilter fileByNameFilter = new FileByNameFilter(new OrFilter<>());
         assertFalse(fileByNameFilter.accept(Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toFile()));
     }
 
@@ -44,16 +44,16 @@ public class FileByNameFilterTest {
 
     @Test
     public void testAccept2() {
-        ConstantFilter<String> constantFilter = new ConstantFilter<String>(true);
-        OrFilter<String> orFilter = new OrFilter<String>(null, null, null);
+        ConstantFilter<String> constantFilter = new ConstantFilter<>(true);
+        OrFilter<String> orFilter = new OrFilter<>(null, null, null);
         FileByNameFilter fileByNameFilter = new FileByNameFilter(
-                new OrFilter<String>(constantFilter, orFilter, new OrFilter<String>(null, null, null)));
+                new OrFilter<>(constantFilter, orFilter, new OrFilter<>(null, null, null)));
         assertTrue(fileByNameFilter.accept(Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toFile()));
     }
 
     @Test
     public void testAccept3() {
-        FileByNameFilter fileByNameFilter = new FileByNameFilter(new OrFilter<String>());
+        FileByNameFilter fileByNameFilter = new FileByNameFilter(new OrFilter<>());
         assertFalse(fileByNameFilter.accept(Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toFile()));
     }
 
@@ -65,25 +65,25 @@ public class FileByNameFilterTest {
 
     @Test
     public void testAccept5() {
-        OrFilter<String> orFilter = new OrFilter<String>(null, null, null);
-        OrFilter<String> orFilter1 = new OrFilter<String>(null, null, null);
+        OrFilter<String> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<String> orFilter1 = new OrFilter<>(null, null, null);
         FileByNameFilter fileByNameFilter = new FileByNameFilter(
-                new OrFilter<String>(new IncludeExcludeFilter<String>(), orFilter, orFilter1));
+                new OrFilter<>(new IncludeExcludeFilter<>(), orFilter, orFilter1));
         assertTrue(fileByNameFilter.accept(Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toFile()));
     }
 
     @Test
     public void testAccept6() {
-        ConstantFilter<String> constantFilter = new ConstantFilter<String>(true);
-        OrFilter<String> orFilter = new OrFilter<String>(null, null, null);
+        ConstantFilter<String> constantFilter = new ConstantFilter<>(true);
+        OrFilter<String> orFilter = new OrFilter<>(null, null, null);
         FileByNameFilter fileByNameFilter = new FileByNameFilter(
-                new OrFilter<String>(constantFilter, orFilter, new OrFilter<String>(null, null, null)));
+                new OrFilter<>(constantFilter, orFilter, new OrFilter<>(null, null, null)));
         assertTrue(fileByNameFilter.accept(Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toFile()));
     }
 
     @Test
     public void testAccept7() {
-        FileByNameFilter fileByNameFilter = new FileByNameFilter(new OrFilter<String>());
+        FileByNameFilter fileByNameFilter = new FileByNameFilter(new OrFilter<>());
         assertFalse(fileByNameFilter.accept(Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toFile()));
     }
 
@@ -95,10 +95,10 @@ public class FileByNameFilterTest {
 
     @Test
     public void testAccept9() {
-        OrFilter<String> orFilter = new OrFilter<String>(null, null, null);
-        OrFilter<String> orFilter1 = new OrFilter<String>(null, null, null);
+        OrFilter<String> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<String> orFilter1 = new OrFilter<>(null, null, null);
         FileByNameFilter fileByNameFilter = new FileByNameFilter(
-                new OrFilter<String>(new IncludeExcludeFilter<String>(), orFilter, orFilter1));
+                new OrFilter<>(new IncludeExcludeFilter<>(), orFilter, orFilter1));
         assertTrue(fileByNameFilter.accept(Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toFile()));
     }
 }

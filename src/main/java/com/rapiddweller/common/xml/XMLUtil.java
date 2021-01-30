@@ -648,17 +648,15 @@ public class XMLUtil {
 	    return result;
     }
 
-	private static Schema activateXmlSchemaValidation(DocumentBuilderFactory factory, String schemaUrl) {
+	private static void activateXmlSchemaValidation(DocumentBuilderFactory factory, String schemaUrl) {
 		try {
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = schemaFactory.newSchema(new URL(schemaUrl));
 			factory.setSchema(schema);
-			return schema;
-		} catch (Exception e) {
+        } catch (Exception e) {
 			// some XML parsers may not support attributes in general or especially XML Schema 
-			LOGGER.error("Error activating schema validation, possibly you are offline or behind a proxy?", e.getMessage());
-			return null;
-		}
+			LOGGER.error("Error activating schema validation for schema " + schemaUrl + ", possibly you are offline or behind a proxy?", e.getMessage());
+        }
 	}
 
 	private static org.xml.sax.ErrorHandler createSaxErrorHandler(

@@ -413,8 +413,7 @@ public final class TimeUtil {
 		int a = (14 - month) / 12;
 		int y = year + 4800 - a;
 		int m = month + 12 * a - 3;
-		int jdn = day + (153 * m + 2)/5 + 365*y + y/4 - y/100 + y/400 - 32045;
-		return jdn;
+        return day + (153 * m + 2)/5 + 365*y + y/4 - y/100 + y/400 - 32045;
 	}
     
     public static long millis(int year, int month, int day, int hour, int minute, int second) {
@@ -483,12 +482,12 @@ public final class TimeUtil {
     	}
     }
 
-    public static <T> T callInTimeZone(TimeZone timeZone, Callable<T> action) throws Exception {
+    public static <T> void callInTimeZone(TimeZone timeZone, Callable<T> action) throws Exception {
     	TimeZone originalZone = TimeZone.getDefault();
     	try {
     		TimeZone.setDefault(timeZone);
-    		return action.call();
-    	} finally {
+            action.call();
+        } finally {
     		TimeZone.setDefault(originalZone);
     	}
     }

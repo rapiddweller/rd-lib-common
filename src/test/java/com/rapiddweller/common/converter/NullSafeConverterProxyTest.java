@@ -21,7 +21,7 @@ public class NullSafeConverterProxyTest {
 
     @Test
     public void testGetTargetType2() {
-        Class<Object> actualTargetType = (new NullSafeConverterProxy<Object, Object>(
+        Class<Object> actualTargetType = (new NullSafeConverterProxy<>(
                 new NullSafeConverterProxy<Object, Object>(new ToCollectionConverter(), "nullResult"), "nullResult"))
                 .getTargetType();
         assertSame(List.class, actualTargetType);
@@ -35,7 +35,7 @@ public class NullSafeConverterProxyTest {
                 ((ArrayList) (new NullSafeConverterProxy<Object, Object>(new ToCollectionConverter(Collection.class),
                         "nullResult")).convert("sourceValue")).size());
         assertEquals(1,
-                ((ArrayList) (new NullSafeConverterProxy<Object, Object>(
+                ((ArrayList) (new NullSafeConverterProxy<>(
                         new NullSafeConverterProxy<Object, Object>(new ToCollectionConverter(), "nullResult"), "nullResult"))
                         .convert("sourceValue")).size());
         assertEquals("sourceValue",

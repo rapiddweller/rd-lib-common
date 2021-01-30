@@ -15,8 +15,6 @@
 package com.rapiddweller.common;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -60,7 +58,7 @@ public class FormatterTest {
         assertEquals("1970-01-02", Formatter.format(LocalDate.ofEpochDay(1L)));
         assertNull(Formatter.format((LocalDate) null));
         assertEquals("null", Formatter.format((Date) null));
-        assertEquals("null", Formatter.format((Date) null, "Pattern"));
+        assertEquals("null", Formatter.format(null, "Pattern"));
     }
 
     @Test

@@ -12,12 +12,12 @@ import org.junit.Test;
 public class AccessorMapAccessorTest {
     @Test
     public void testGetDependencies() {
-        assertTrue((new AccessorMapAccessor(new HashMap<Object, Accessor<?, ?>>(), "key")).getDependencies().isEmpty());
+        assertTrue((new AccessorMapAccessor(new HashMap<>(), "key")).getDependencies().isEmpty());
     }
 
     @Test
     public void testGetAccessor() {
-        assertNull((new AccessorMapAccessor(new HashMap<Object, Accessor<?, ?>>(), "key")).getAccessor());
+        assertNull((new AccessorMapAccessor(new HashMap<>(), "key")).getAccessor());
     }
 }
 

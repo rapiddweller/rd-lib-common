@@ -345,8 +345,7 @@ public final class IOUtil {
     	try {
     		URL contextUrl = new URL(contextUri);
     		URL absoluteUrl = new URL(contextUrl, relativeUri);
-    		String result = absoluteUrl.toString();
-			return result;
+            return absoluteUrl.toString();
     	} catch (MalformedURLException e) {
     		throw new IllegalArgumentException(e);
     	}

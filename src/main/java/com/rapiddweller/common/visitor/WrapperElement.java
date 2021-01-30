@@ -49,7 +49,7 @@ public abstract class WrapperElement<E> extends AbstractElement<E> {
         if (o == null || getClass() != o.getClass())
             return false;
 		final WrapperElement that = (WrapperElement) o;
-        return !(!Objects.equals(wrappedObject, that.wrappedObject));
+        return Objects.equals(wrappedObject, that.wrappedObject);
     }
 
     @Override

@@ -12,16 +12,16 @@ import org.junit.Test;
 public class MapAccessorTest {
     @Test
     public void testGetValue() {
-        MapAccessor<Map<Object, Object>, Object, Object> mapAccessor = new MapAccessor<Map<Object, Object>, Object, Object>(
+        MapAccessor<Map<Object, Object>, Object, Object> mapAccessor = new MapAccessor<>(
                 "key");
-        assertNull(mapAccessor.getValue(new HashMap<Object, Object>()));
+        assertNull(mapAccessor.getValue(new HashMap<>()));
     }
 
     @Test
     public void testGetValue2() {
-        MapAccessor<Map<Object, Object>, Object, Object> mapAccessor = new MapAccessor<Map<Object, Object>, Object, Object>(
+        MapAccessor<Map<Object, Object>, Object, Object> mapAccessor = new MapAccessor<>(
                 0);
-        assertNull(mapAccessor.getValue(new HashMap<Object, Object>(1)));
+        assertNull(mapAccessor.getValue(new HashMap<>(1)));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class MapAccessorTest {
     @Test
     public void testHashCode() {
         assertEquals(106079, (new MapAccessor<Map<Object, Object>, Object, Object>("key")).hashCode());
-        assertEquals(0, (new MapAccessor<Map<Object, Object>, Object, Object>(null)).hashCode());
+        assertEquals(0, (new MapAccessor<>(null)).hashCode());
     }
 }
 

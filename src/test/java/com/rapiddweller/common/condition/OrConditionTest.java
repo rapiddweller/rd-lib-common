@@ -8,34 +8,34 @@ import org.junit.Test;
 public class OrConditionTest {
     @Test
     public void testEvaluate() {
-        EqualsCondition<Object> equalsCondition = new EqualsCondition<Object>("reference");
-        EqualsCondition<Object> equalsCondition1 = new EqualsCondition<Object>("reference");
-        assertFalse((new OrCondition<Object>(equalsCondition, equalsCondition1, new EqualsCondition<Object>("reference")))
+        EqualsCondition<Object> equalsCondition = new EqualsCondition<>("reference");
+        EqualsCondition<Object> equalsCondition1 = new EqualsCondition<>("reference");
+        assertFalse((new OrCondition<>(equalsCondition, equalsCondition1, new EqualsCondition<>("reference")))
                 .evaluate("argument"));
     }
 
     @Test
     public void testEvaluate2() {
-        EqualsCondition<Object> equalsCondition = new EqualsCondition<Object>("argument");
-        EqualsCondition<Object> equalsCondition1 = new EqualsCondition<Object>("reference");
-        assertTrue((new OrCondition<Object>(equalsCondition, equalsCondition1, new EqualsCondition<Object>("reference")))
+        EqualsCondition<Object> equalsCondition = new EqualsCondition<>("argument");
+        EqualsCondition<Object> equalsCondition1 = new EqualsCondition<>("reference");
+        assertTrue((new OrCondition<>(equalsCondition, equalsCondition1, new EqualsCondition<>("reference")))
                 .evaluate("argument"));
     }
 
     @Test
     public void testEvaluate3() {
-        EqualsCondition<Object> equalsCondition = new EqualsCondition<Object>("reference");
-        EqualsCondition<Object> equalsCondition1 = new EqualsCondition<Object>("reference");
-        OrCondition<Object> orCondition = new OrCondition<Object>(equalsCondition, equalsCondition1,
-                new EqualsCondition<Object>("reference"));
-        EqualsCondition<Object> equalsCondition2 = new EqualsCondition<Object>("reference");
-        assertFalse((new OrCondition<Object>(orCondition, equalsCondition2, new EqualsCondition<Object>("reference")))
+        EqualsCondition<Object> equalsCondition = new EqualsCondition<>("reference");
+        EqualsCondition<Object> equalsCondition1 = new EqualsCondition<>("reference");
+        OrCondition<Object> orCondition = new OrCondition<>(equalsCondition, equalsCondition1,
+                new EqualsCondition<>("reference"));
+        EqualsCondition<Object> equalsCondition2 = new EqualsCondition<>("reference");
+        assertFalse((new OrCondition<>(orCondition, equalsCondition2, new EqualsCondition<>("reference")))
                 .evaluate("argument"));
     }
 
     @Test
     public void testEvaluate4() {
-        assertFalse((new OrCondition<Object>(new EqualsCondition<Object>("reference"))).evaluate("argument"));
+        assertFalse((new OrCondition<>(new EqualsCondition<>("reference"))).evaluate("argument"));
     }
 }
 

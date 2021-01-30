@@ -6,8 +6,6 @@ import static org.junit.Assert.assertTrue;
 import com.rapiddweller.common.ui.FileOperation;
 import com.rapiddweller.common.ui.FileTypeSupport;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 
 import org.junit.Test;

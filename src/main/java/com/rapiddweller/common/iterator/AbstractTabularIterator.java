@@ -42,7 +42,7 @@ public abstract class AbstractTabularIterator implements TabularIterator {
 
 	@Override
 	@SuppressWarnings("unused")
-	public void close() throws IOException {
+	public void close() {
 		// empty implementation
 	}
 

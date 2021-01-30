@@ -62,7 +62,7 @@ public class LoggingProxyFactory {
         }
 
 		@Override
-		public Object invoke(Object object, Method method, Object[] args) throws Throwable {
+		public Object invoke(Object object, Method method, Object[] args) {
 			String message = method.getName() + '(' + ArrayFormat.format(args) + ')';
 			switch (level) {
 				case ignore: break;

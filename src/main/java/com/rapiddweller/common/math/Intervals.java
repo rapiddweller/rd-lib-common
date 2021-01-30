@@ -36,10 +36,9 @@ public class Intervals<E> implements Serializable {
 		this.intervals = new ArrayList<>();
 	}
 	
-	public Intervals<E> add(Interval<E> interval) {
+	public void add(Interval<E> interval) {
 		intervals.add(interval);
-		return this;
-	}
+    }
 	
 	public boolean contains(E x) {
 		for (Interval<E> interval : intervals)

@@ -21,7 +21,7 @@ import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.LogCategories;
+import com.rapiddweller.common.LogCategoriesConstants;
 import com.rapiddweller.common.OrderedMap;
 import com.rapiddweller.common.Patterns;
 import com.rapiddweller.common.ReaderLineIterator;
@@ -54,7 +54,7 @@ import java.lang.reflect.Modifier;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class ConverterManager implements ContextAware, Resettable {
 
-	private static final Logger CONFIG_LOGGER = LogManager.getLogger(LogCategories.CONFIG);
+	private static final Logger CONFIG_LOGGER = LogManager.getLogger(LogCategoriesConstants.CONFIG);
 
     private static final String DEFAULT_SETUP_FILENAME = "com/rapiddweller/common/converter/converters.txt";
     private static final String CUSTOM_SETUP_FILENAME = "converters.txt";

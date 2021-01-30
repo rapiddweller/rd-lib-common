@@ -40,8 +40,7 @@ public class ObservableFactory {
 			throw new ConfigurationError("Not an interface: " + type);
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		ObservableBeanInvocationHandler handler = new ObservableBeanInvocationHandler(type);
-		E bean = (E) Proxy.newProxyInstance(classLoader, new Class[] { type }, handler);
-		return bean;
+        return (E) Proxy.newProxyInstance(classLoader, new Class[] { type }, handler);
 	}
 	
 	private static class ObservableBeanInvocationHandler implements InvocationHandler {
@@ -55,7 +54,7 @@ public class ObservableFactory {
 		}
 
 		@Override
-		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		public Object invoke(Object proxy, Method method, Object[] args) {
 			if (support == null)
 				this.support = new PropertyChangeSupport(proxy);
 			String methodName = method.getName();

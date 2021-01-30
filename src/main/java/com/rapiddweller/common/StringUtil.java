@@ -17,7 +17,6 @@ package com.rapiddweller.common;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -146,10 +145,10 @@ public final class StringUtil {
 	
 	public static String[] split(String list, char separator) {
 		String separatorRegex = String.valueOf(separator);
-		switch (separator) {
-			case '*' : separatorRegex = '\\' + separatorRegex; break; // TODO support other regex meta characters 
-			default: // nothing to do
-		}
+        // nothing to do
+        if (separator == '*') {
+            separatorRegex = "\\" + separatorRegex; // TODO support other regex meta characters
+        }
 		return list.split(separatorRegex);
 	}
 	
@@ -167,8 +166,7 @@ public final class StringUtil {
     public static StringBuilder appendLeftAligned(StringBuilder builder, String text, int columns) {
         builder.append(text);
         int columnsToInsert = columns - text.length();
-        for (int i = 0; i < columnsToInsert; i++)
-            builder.append(' ');
+        builder.append(" ".repeat(Math.max(0, columnsToInsert)));
         return builder;
     }
 

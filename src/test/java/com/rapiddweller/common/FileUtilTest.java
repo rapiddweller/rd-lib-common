@@ -126,7 +126,7 @@ public class FileUtilTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void testFileOfLimitedPathLength_invalid() throws Exception {
+	public void testFileOfLimitedPathLength_invalid() {
 		File root = new File((SystemInfo.isWindows() ? "C:\\" : "/") + "01234567890123456789");
 		FileUtil.fileOfLimitedPathLength(root, "test", ".xml", 10, false);
 	}

@@ -48,8 +48,7 @@ public final class ArrayUtil {
 	@SuppressWarnings("unchecked")
     public static <T> Class<T> componentType(T[] array) {
 	    Class<T[]> resultType = (Class<T[]>) array.getClass();
-        Class<T> componentType = (Class<T>) resultType.getComponentType();
-	    return componentType;
+        return (Class<T>) resultType.getComponentType();
     }
 
     @SuppressWarnings("unchecked")

@@ -47,9 +47,9 @@ public class MarkedMap<K, V> implements Map<K, V> {
 
 	// marker interface ------------------------------------------------------------------------------------------------
 	
-	public boolean mark(K key) {
-		return marks.put(key, true);
-	}
+	public void mark(K key) {
+        marks.put(key, true);
+    }
 
 	public boolean unmark(K key) {
 		return marks.put(key, false);

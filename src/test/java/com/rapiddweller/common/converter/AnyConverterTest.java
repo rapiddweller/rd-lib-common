@@ -42,7 +42,7 @@ public class AnyConverterTest extends AbstractConverterTest {
 
     @Test
     public void testConstructor() {
-        AnyConverter<Object> actualAnyConverter = new AnyConverter<Object>(Object.class);
+        AnyConverter<Object> actualAnyConverter = new AnyConverter<>(Object.class);
         assertNull(actualAnyConverter.getStringQuote());
         assertNull(actualAnyConverter.decimalConverter);
         assertNull(actualAnyConverter.integralConverter);
@@ -60,7 +60,7 @@ public class AnyConverterTest extends AbstractConverterTest {
 
     @Test
     public void testConstructor2() {
-        AnyConverter<Object> actualAnyConverter = new AnyConverter<Object>(Object.class, "2020-03-01");
+        AnyConverter<Object> actualAnyConverter = new AnyConverter<>(Object.class, "2020-03-01");
         assertNull(actualAnyConverter.getStringQuote());
         assertNull(actualAnyConverter.decimalConverter);
         assertNull(actualAnyConverter.integralConverter);
@@ -151,22 +151,22 @@ public class AnyConverterTest extends AbstractConverterTest {
 
     @Test
     public void testConvert() throws ConversionException {
-        assertEquals("sourceValue", (new AnyConverter<Object>(Object.class)).convert("sourceValue"));
-        assertEquals("sourceValue", (new AnyConverter<Object>(Object.class, "2020-03-01")).convert("sourceValue"));
-        assertNull((new AnyConverter<Object>(Object.class)).convert(null));
-        assertEquals("source", AnyConverter.<Object>convert("source", Object.class));
-        assertNull(AnyConverter.<Object>convert(null, Object.class));
+        assertEquals("sourceValue", (new AnyConverter<>(Object.class)).convert("sourceValue"));
+        assertEquals("sourceValue", (new AnyConverter<>(Object.class, "2020-03-01")).convert("sourceValue"));
+        assertNull((new AnyConverter<>(Object.class)).convert(null));
+        assertEquals("source", AnyConverter.convert("source", Object.class));
+        assertNull(AnyConverter.convert(null, Object.class));
         assertEquals("source",
-                AnyConverter.<Object>convert("source", Object.class, "2020-03-01", "Time Pattern", "Timestamp Pattern"));
-        assertNull(AnyConverter.<Object>convert(null, Object.class, "2020-03-01", "Time Pattern", "Timestamp Pattern"));
+                AnyConverter.convert("source", Object.class, "2020-03-01", "Time Pattern", "Timestamp Pattern"));
+        assertNull(AnyConverter.convert(null, Object.class, "2020-03-01", "Time Pattern", "Timestamp Pattern"));
         assertEquals("source",
-                AnyConverter.<Object>convert("source", Object.class, "2020/03/01", "Time Pattern", "Timestamp Pattern"));
+                AnyConverter.convert("source", Object.class, "2020/03/01", "Time Pattern", "Timestamp Pattern"));
     }
 
     @Test
     public void testToString() {
-        assertEquals("AnyConverter(Object)", (new AnyConverter<Object>(Object.class)).toString());
-        assertEquals("AnyConverter(Object)", (new AnyConverter<Object>(Object.class, "2020-03-01")).toString());
+        assertEquals("AnyConverter(Object)", (new AnyConverter<>(Object.class)).toString());
+        assertEquals("AnyConverter(Object)", (new AnyConverter<>(Object.class, "2020-03-01")).toString());
     }
 
 }

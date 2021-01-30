@@ -44,7 +44,7 @@ public class DownloadCache {
 		this.rootFolder = rootFolder;
     }
 	
-	public File get(URL url) throws IOException {
+	public void get(URL url) throws IOException {
 	    File cacheSubDir = new File(rootFolder, url.getHost());
 	    String filename = url.getFile();
 	    if (filename.endsWith("/"))
@@ -54,7 +54,6 @@ public class DownloadCache {
 			IOUtil.download(url, cacheFile);
 		else
 			LOGGER.info("providing {} from cache file {}", url, cacheFile.getAbsolutePath());
-		return cacheFile;
-	}
+    }
 
 }

@@ -14,14 +14,11 @@
  */
 package com.rapiddweller.common;
 
-import java.nio.charset.Charset;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -42,7 +39,7 @@ public class SystemInfoTest {
 
     @Test
     public void testOsName() {
-        assertEquals("Linux", SystemInfo.osName());
+        assertEquals("Linux", SystemInfo.getOsName());
     }
 
     @Test
@@ -52,7 +49,7 @@ public class SystemInfoTest {
 
     @Test
     public void testOsArchitecture() {
-        assertEquals("amd64", SystemInfo.osArchitecture());
+        assertEquals("amd64", SystemInfo.getOsArchitecture());
     }
 
     @Test
@@ -63,7 +60,7 @@ public class SystemInfoTest {
     @Test
     public void testOsVersion() {
         String expectedOsVersionResult = System.getProperty("os.version");
-        assertEquals(expectedOsVersionResult, SystemInfo.osVersion());
+        assertEquals(expectedOsVersionResult, SystemInfo.getOsVersion());
     }
 
     @Test
@@ -84,7 +81,7 @@ public class SystemInfoTest {
 
     @Test
     public void testFileSeparator2() {
-        assertEquals('/', SystemInfo.fileSeparator());
+        assertEquals('/', SystemInfo.getFileSeparator());
     }
 
     @Test
@@ -95,7 +92,7 @@ public class SystemInfoTest {
     @Test
     public void testCurrentDir2() {
         String expectedCurrentDirResult = System.getProperty("user.dir");
-        assertEquals(expectedCurrentDirResult, SystemInfo.currentDir());
+        assertEquals(expectedCurrentDirResult, SystemInfo.getCurrentDir());
     }
 
     @Test
@@ -108,7 +105,7 @@ public class SystemInfoTest {
     @Test
     public void testUserHome2() {
         String expectedUserHomeResult = System.getProperty("user.home");
-        assertEquals(expectedUserHomeResult, SystemInfo.userHome());
+        assertEquals(expectedUserHomeResult, SystemInfo.getUserHome());
     }
 
     @Test
@@ -119,7 +116,7 @@ public class SystemInfoTest {
 
     @Test
     public void testTempDir2() {
-        assertEquals("/tmp", SystemInfo.tempDir());
+        assertEquals("/tmp", SystemInfo.getTempDir());
     }
 
     @Test
@@ -129,7 +126,7 @@ public class SystemInfoTest {
 
     @Test
     public void testFileEncoding() {
-        assertEquals("UTF-8", SystemInfo.fileEncoding());
+        assertEquals("UTF-8", SystemInfo.getFileEncoding());
     }
 
     @Test
@@ -139,7 +136,7 @@ public class SystemInfoTest {
 
     @Test
     public void testUserLanguage2() {
-        assertEquals("en", SystemInfo.userLanguage());
+        assertEquals("en", SystemInfo.getUserLanguage());
     }
 
     @Test

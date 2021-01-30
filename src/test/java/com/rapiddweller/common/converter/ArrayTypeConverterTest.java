@@ -66,8 +66,8 @@ public class ArrayTypeConverterTest {
 
     @Test
     public void testConvert() {
-        assertEquals(1, ArrayTypeConverter.<Object>convert(new Object[]{"args"}, Object.class).length);
-        assertEquals(1, ArrayTypeConverter.<Object>convert(
+        assertEquals(1, ArrayTypeConverter.convert(new Object[]{"args"}, Object.class).length);
+        assertEquals(1, ArrayTypeConverter.convert(
                 new Object[]{new ConversionTypes(new ToCollectionConverter(Collection.class))}, Object.class).length);
         assertEquals(1, ArrayTypeConverter.convert(new Object[]{"args"}, new Class[]{Object.class}).length);
         assertEquals(0, ArrayTypeConverter.convert(new Object[]{}, new Class[]{null}).length);
@@ -79,7 +79,7 @@ public class ArrayTypeConverterTest {
         Class<?> forNameResult = Object.class;
         Class<?> forNameResult1 = Object.class;
         assertEquals("ArrayTypeConverter[class [Ljava.lang.Object;]",
-                (new ArrayTypeConverter<Object>(targetArrayComponentType, forNameResult, forNameResult1, Object.class))
+                (new ArrayTypeConverter<>(targetArrayComponentType, forNameResult, forNameResult1, Object.class))
                         .toString());
     }
 }

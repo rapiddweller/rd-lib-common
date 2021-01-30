@@ -10,7 +10,7 @@ import org.junit.Test;
 public class ConsumerActionTest {
     @Test
     public void testConstructor() {
-        ConsumerAction<Object> actualConsumerAction = new ConsumerAction<Object>("Label",
+        ConsumerAction<Object> actualConsumerAction = new ConsumerAction<>("Label",
                 MetalIconFactory.getHorizontalSliderThumbIcon(), "object", null);
         assertEquals(2, actualConsumerAction.getKeys().length);
         assertTrue(actualConsumerAction.isEnabled());

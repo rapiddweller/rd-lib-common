@@ -57,8 +57,7 @@ public class XmlNodeTableCellRenderer extends DefaultTableCellRenderer {
 			text = XMLUtil.format((Document) node);
 		else
 			text = ToStringConverter.convert(node, "");
-		Component component = super.getTableCellRendererComponent(table, text, isSelected, hasFocus, row, column);
-		return component;
+        return super.getTableCellRendererComponent(table, text, isSelected, hasFocus, row, column);
 	}
 	
 }

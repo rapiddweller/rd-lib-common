@@ -15,8 +15,6 @@
 package com.rapiddweller.common;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 import java.io.File;
 import java.io.Reader;

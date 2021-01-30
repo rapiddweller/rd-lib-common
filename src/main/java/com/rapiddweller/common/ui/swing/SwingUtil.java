@@ -129,8 +129,7 @@ public class SwingUtil {
 	public static void printTableTabsSeparated(JTable table) {
 		String[][] cells = parseTable(table);
 		for (String[] cell : cells) {
-			for (int colnum = 0; colnum < cell.length; colnum++)
-				System.out.print(cell[colnum] + "\t");
+			for (String s : cell) System.out.print(s + "\t");
 			System.out.println();
 		}
 	}
@@ -159,7 +158,7 @@ public class SwingUtil {
 	}
 	
 	public static void repaintLater(final Component component) {
-		SwingUtilities.invokeLater(() -> component.repaint());
+		SwingUtilities.invokeLater(component::repaint);
 	}
 
 	public static void center(Component component) {
@@ -255,7 +254,7 @@ public class SwingUtil {
 		toolBar.add(button);
 	}
 
-	private static JButton configureTransparentButton(JButton button, boolean withText) {
+	private static void configureTransparentButton(JButton button, boolean withText) {
 		if (withText) {
 			button.setVerticalTextPosition(SwingConstants.BOTTOM);
 			button.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -266,8 +265,7 @@ public class SwingUtil {
 		button.setOpaque(false);
 		button.setContentAreaFilled(false);
 		button.setBorderPainted(false);
-		return button;
-	}
+    }
  
 	public static Color getUIPanelBackground() {
 		return getUIColor("Panel.background");

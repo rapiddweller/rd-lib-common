@@ -125,8 +125,8 @@ public class FileField extends Box {
     
     // private helpers -------------------------------------------------------------------------------------------------
 
-    void fireAction(String command) {
-        ActionEvent e = new ActionEvent(this, 0, command);
+    void fireAction() {
+        ActionEvent e = new ActionEvent(this, 0, "files");
         for (int i = actionListeners.size() - 1; i >= 0; i--)
             actionListeners.get(i).actionPerformed(e);
     }
@@ -148,7 +148,7 @@ public class FileField extends Box {
             File selectedFile = chooser.chooseFile(FileField.this);
             if (selectedFile != null) {
                 filenameField.setText(selectedFile.getAbsolutePath());
-                fireAction("files");
+                fireAction();
             }
         }
     }
@@ -171,7 +171,7 @@ public class FileField extends Box {
 		}
 
 		private void update(DocumentEvent e) {
-			fireAction("files");
+			fireAction();
 		}
 
 	}

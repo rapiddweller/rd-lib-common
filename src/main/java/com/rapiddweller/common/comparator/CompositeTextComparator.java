@@ -30,7 +30,7 @@ public class CompositeTextComparator implements Comparator<String> {
 
     private final ArrayComparator<Object> arrayComparator;
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"rawtypes" })
     public CompositeTextComparator() {
         this.arrayComparator = new ArrayComparator<>(new ComparatorChain<Object>(
                 new ObjectTypeComparator(BigInteger.class, String.class),

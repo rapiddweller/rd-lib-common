@@ -245,8 +245,8 @@ public class ParseUtilTest {
 
     @Test
     public void testIsHex() {
-        checkHexChars("0123456789abcdefABCDEF");
-        checkNonHexChars("gG!%-.");
+        checkHexChars();
+        checkNonHexChars();
     }
 
     @Test
@@ -404,13 +404,13 @@ public class ParseUtilTest {
         return new PushbackReader(reader);
     }
 
-    private static void checkHexChars(String chars) {
-        for (int i = 0; i < chars.length(); i++)
-            assertTrue(ParseUtil.isHex(chars.charAt(i)));
+    private static void checkHexChars() {
+        for (int i = 0; i < "0123456789abcdefABCDEF".length(); i++)
+            assertTrue(ParseUtil.isHex("0123456789abcdefABCDEF".charAt(i)));
     }
 
-    private static void checkNonHexChars(String chars) {
-        for (int i = 0; i < chars.length(); i++)
-            assertFalse(ParseUtil.isHex(chars.charAt(i)));
+    private static void checkNonHexChars() {
+        for (int i = 0; i < "gG!%-.".length(); i++)
+            assertFalse(ParseUtil.isHex("gG!%-.".charAt(i)));
     }
 }

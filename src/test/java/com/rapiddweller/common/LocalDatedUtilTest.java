@@ -9,7 +9,7 @@ import org.junit.Test;
 public class LocalDatedUtilTest {
     @Test
     public void testSoonestFutureElement() {
-        assertNull(LocalDatedUtil.<LocalDated>soonestFutureElement(new ArrayList<LocalDated>()));
+        assertNull(LocalDatedUtil.soonestFutureElement(new ArrayList<>()));
     }
 }
 

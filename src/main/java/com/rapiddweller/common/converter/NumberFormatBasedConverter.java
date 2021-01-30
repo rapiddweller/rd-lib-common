@@ -117,8 +117,7 @@ public abstract class NumberFormatBasedConverter<S, T> extends AbstractConverter
 		if (input == null || NullSafeComparator.equals(input, nullString))
 			return null;
 		try {
-			Number result = format.parse(input);
-			return result;
+            return format.parse(input);
 		} catch (ParseException e) {
 			throw new ConversionException("Error parsing " + input + " as number");
 		}

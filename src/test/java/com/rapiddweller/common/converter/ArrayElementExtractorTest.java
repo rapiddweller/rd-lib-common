@@ -10,7 +10,7 @@ import org.junit.Test;
 public class ArrayElementExtractorTest {
     @Test
     public void testConstructor() {
-        ArrayElementExtractor<Object> actualArrayElementExtractor = new ArrayElementExtractor<Object>(Object.class, 1);
+        ArrayElementExtractor<Object> actualArrayElementExtractor = new ArrayElementExtractor<>(Object.class, 1);
         Class<Object> expectedTargetType = actualArrayElementExtractor.targetType;
         assertSame(expectedTargetType, actualArrayElementExtractor.getTargetType());
         assertEquals("[Ljava.lang.Object;", actualArrayElementExtractor.getSourceType().getName());
@@ -19,9 +19,9 @@ public class ArrayElementExtractorTest {
     @Test
     public void testConvert() throws ConversionException {
         assertEquals("foo",
-                (new ArrayElementExtractor<Object>(Object.class, 1)).convert(new Object[]{"foo", "foo", "foo"}));
+                (new ArrayElementExtractor<>(Object.class, 1)).convert(new Object[]{"foo", "foo", "foo"}));
         assertThrows(ArrayIndexOutOfBoundsException.class,
-                () -> (new ArrayElementExtractor<Object>(Object.class, -1)).convert(new Object[]{"foo", "foo", "foo"}));
+                () -> (new ArrayElementExtractor<>(Object.class, -1)).convert(new Object[]{"foo", "foo", "foo"}));
     }
 }
 

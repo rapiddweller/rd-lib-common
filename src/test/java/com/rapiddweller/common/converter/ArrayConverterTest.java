@@ -15,10 +15,6 @@
 package com.rapiddweller.common.converter;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,23 +40,23 @@ public class ArrayConverterTest {
 
     @Test(expected = NullPointerException.class)
     public void testConvert() throws ConversionException {
-        Class<?> sourceComponentType = Object.class;
-        assertEquals(3, (new ArrayConverter<Object, Object>((Class<Object>) sourceComponentType, Object.class, null))
+        Class<Object> sourceComponentType = Object.class;
+        assertEquals(3, (new ArrayConverter<>(sourceComponentType, Object.class, null))
                 .convert(new Object[]{"foo", "foo", "foo"}).length);
     }
 
     @Test
     public void testConvert2() throws ConversionException {
-        Class<?> sourceComponentType = Object.class;
-        assertEquals(3, (new ArrayConverter<Object, Object>((Class<Object>) sourceComponentType, Object.class))
+        Class<Object> sourceComponentType = Object.class;
+        assertEquals(3, (new ArrayConverter<>(sourceComponentType, Object.class))
                 .convert(new Object[]{"foo", "foo", "foo"}).length);
     }
 
     @Test
     public void testConvert3() throws ConversionException {
-        Class<?> sourceComponentType = Object.class;
+        Class<Object> sourceComponentType = Object.class;
         assertThrows(IllegalArgumentException.class,
-                () -> (new ArrayConverter<Object, Object>((Class<Object>) sourceComponentType, Object.class, null, null))
+                () -> (new ArrayConverter<>(sourceComponentType, Object.class, null, null))
                         .convert(new Object[]{"foo", "foo", "foo"}));
     }
 
@@ -69,15 +65,15 @@ public class ArrayConverterTest {
     public void testConvertWith() {
         assertEqualArrays(INT_2_4, ArrayConverter.convertWith(inc, Integer.class, STRING_1_3));
         assertEquals(1,
-                ArrayConverter.<Object, Object>convertWith(null, Object.class, new Object[]{"sourceValues"}).length);
+                ArrayConverter.convertWith(null, Object.class, new Object[]{"sourceValues"}).length);
         assertEquals(1,
-                ArrayConverter.<Object, Object>convertWith(null, Object.class, new Object[]{"sourceValues"}).length);
+                ArrayConverter.convertWith(null, Object.class, new Object[]{"sourceValues"}).length);
     }
 
     @Test
     public void testConvertWith2() throws ConversionException {
         Class<?> componentType = Object.class;
-        Object[] actualConvertWithResult = ArrayConverter.<Object, Object>convertWith(new ToCollectionConverter(),
+        Object[] actualConvertWithResult = ArrayConverter.convertWith(new ToCollectionConverter(),
                 (Class<Object>) componentType, new Object[]{"sourceValues"});
         assertEquals(1, actualConvertWithResult.length);
         assertEquals(1, ((ArrayList) actualConvertWithResult[0]).size());
@@ -90,7 +86,6 @@ public class ArrayConverterTest {
         assertEqualArrays(INT_1_3, converter.convert(STRING_1_3));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testArrayElementConversion() {
         ArrayConverter<String, Integer> converter = new ArrayConverter<>(String.class, Integer.class, inc, inc);
@@ -102,7 +97,7 @@ public class ArrayConverterTest {
                 Arrays.equals(array1, array2));
     }
 
-    public class IncrementConverter extends UnsafeConverter<String, Integer> {
+    public static class IncrementConverter extends UnsafeConverter<String, Integer> {
         protected IncrementConverter() {
             super(String.class, Integer.class);
         }

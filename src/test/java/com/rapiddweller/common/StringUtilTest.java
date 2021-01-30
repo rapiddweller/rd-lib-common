@@ -193,33 +193,33 @@ public class StringUtilTest {
 
     @Test
     public void testToArray() {
-        assertEquals(0, StringUtil.toArray(new ArrayList<String>()).length);
+        assertEquals(0, StringUtil.toArray(new ArrayList<>()).length);
     }
 
     @Test
     public void testToArray2() {
-        ArrayList<String> stringList = new ArrayList<String>();
+        ArrayList<String> stringList = new ArrayList<>();
         stringList.add("E");
         assertEquals(1, StringUtil.toArray(stringList).length);
     }
 
     @Test
     public void testToArrayArray() {
-        assertEquals(0, StringUtil.toArrayArray(new ArrayList<List<String>>()).length);
+        assertEquals(0, StringUtil.toArrayArray(new ArrayList<>()).length);
     }
 
     @Test
     public void testToArrayArray2() {
-        ArrayList<List<String>> listList = new ArrayList<List<String>>();
-        listList.add(new ArrayList<String>());
+        ArrayList<List<String>> listList = new ArrayList<>();
+        listList.add(new ArrayList<>());
         assertEquals(1, StringUtil.toArrayArray(listList).length);
     }
 
     @Test
     public void testToArrayArray3() {
-        ArrayList<String> stringList = new ArrayList<String>();
+        ArrayList<String> stringList = new ArrayList<>();
         stringList.add("E");
-        ArrayList<List<String>> listList = new ArrayList<List<String>>();
+        ArrayList<List<String>> listList = new ArrayList<>();
         listList.add(stringList);
         assertEquals(1, StringUtil.toArrayArray(listList).length);
     }
@@ -631,7 +631,7 @@ public class StringUtilTest {
     @Test
     public void testEqualsIgnoreCase() {
         assertFalse(StringUtil.equalsIgnoreCase("S1", "S2"));
-        assertFalse(StringUtil.equalsIgnoreCase((String) null, "S2"));
+        assertFalse(StringUtil.equalsIgnoreCase(null, "S2"));
         assertTrue(StringUtil.equalsIgnoreCase((String) null, null));
         assertFalse(StringUtil.equalsIgnoreCase(new String[]{"A1"}, new String[]{"A2"}));
         assertFalse(StringUtil.equalsIgnoreCase(new String[]{null}, new String[]{"A2"}));
@@ -642,61 +642,61 @@ public class StringUtilTest {
 
     @Test
     public void testEqualsIgnoreCase2() {
-        HashSet<String> set1 = new HashSet<String>();
-        assertTrue(StringUtil.equalsIgnoreCase(set1, new HashSet<String>()));
+        HashSet<String> set1 = new HashSet<>();
+        assertTrue(StringUtil.equalsIgnoreCase(set1, new HashSet<>()));
     }
 
     @Test
     public void testEqualsIgnoreCase3() {
-        HashSet<String> stringSet = new HashSet<String>();
+        HashSet<String> stringSet = new HashSet<>();
         stringSet.add("E");
-        assertFalse(StringUtil.equalsIgnoreCase(stringSet, new HashSet<String>()));
+        assertFalse(StringUtil.equalsIgnoreCase(stringSet, new HashSet<>()));
     }
 
     @Test
     public void testEqualsIgnoreCase4() {
-        HashSet<String> stringSet = new HashSet<String>();
+        HashSet<String> stringSet = new HashSet<>();
         stringSet.add("E");
-        HashSet<String> stringSet1 = new HashSet<String>();
+        HashSet<String> stringSet1 = new HashSet<>();
         stringSet1.add("E");
         assertTrue(StringUtil.equalsIgnoreCase(stringSet, stringSet1));
     }
 
     @Test
     public void testEqualsIgnoreCase5() {
-        HashSet<String> stringSet = new HashSet<String>();
+        HashSet<String> stringSet = new HashSet<>();
         stringSet.add(null);
-        HashSet<String> stringSet1 = new HashSet<String>();
+        HashSet<String> stringSet1 = new HashSet<>();
         stringSet1.add("E");
         assertFalse(StringUtil.equalsIgnoreCase(stringSet, stringSet1));
     }
 
     @Test
     public void testEqualsIgnoreCase6() {
-        HashSet<String> stringSet = new HashSet<String>();
+        HashSet<String> stringSet = new HashSet<>();
         stringSet.add(null);
-        HashSet<String> stringSet1 = new HashSet<String>();
+        HashSet<String> stringSet1 = new HashSet<>();
         stringSet1.add(null);
         assertTrue(StringUtil.equalsIgnoreCase(stringSet, stringSet1));
     }
 
     @Test
     public void testContainsIgnoreCase() {
-        assertFalse(StringUtil.containsIgnoreCase("Searched Word", new ArrayList<String>()));
+        assertFalse(StringUtil.containsIgnoreCase("Searched Word", new ArrayList<>()));
         assertFalse(StringUtil.containsIgnoreCase("Searched Word", new String[]{"Words"}));
         assertTrue(StringUtil.containsIgnoreCase("", new String[]{""}));
     }
 
     @Test
     public void testContainsIgnoreCase2() {
-        ArrayList<String> stringList = new ArrayList<String>();
+        ArrayList<String> stringList = new ArrayList<>();
         stringList.add("E");
         assertFalse(StringUtil.containsIgnoreCase("Searched Word", stringList));
     }
 
     @Test
     public void testContainsIgnoreCase3() {
-        ArrayList<String> stringList = new ArrayList<String>();
+        ArrayList<String> stringList = new ArrayList<>();
         stringList.add("");
         assertTrue(StringUtil.containsIgnoreCase("", stringList));
     }

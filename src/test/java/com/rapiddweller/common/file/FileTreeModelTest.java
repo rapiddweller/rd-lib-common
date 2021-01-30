@@ -3,7 +3,6 @@ package com.rapiddweller.common.file;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThrows;
 
 import com.rapiddweller.common.NullSafeComparator;
 
@@ -23,7 +22,7 @@ public class FileTreeModelTest {
     @Test
     public void testConstructor4() {
         File toFileResult = Paths.get(System.getProperty("java.io.tmpdir"), "").toFile();
-        assertSame((new FileTreeModel(toFileResult, new NullSafeComparator<File>())).getRoot(), toFileResult);
+        assertSame((new FileTreeModel(toFileResult, new NullSafeComparator<>())).getRoot(), toFileResult);
     }
 
     @Test
@@ -36,7 +35,7 @@ public class FileTreeModelTest {
     @Test
     public void testConstructor7() {
         File toFileResult = Paths.get(System.getProperty("java.io.tmpdir"), "").toFile();
-        assertSame((new FileTreeModel(toFileResult, new NullSafeComparator<File>())).getRoot(), toFileResult);
+        assertSame((new FileTreeModel(toFileResult, new NullSafeComparator<>())).getRoot(), toFileResult);
     }
 
 

@@ -27,7 +27,6 @@ import org.junit.Test;
 public class TreeIteratorTest extends BidirectionalIteratorTest {
 	
 	@Test
-	@SuppressWarnings("unchecked")
     public void test() {
 		DefaultTreeNode<Integer> root = new DefaultTreeNode<>(0);
 		DefaultTreeNode<Integer> c1 = new DefaultTreeNode<>(root, 1);

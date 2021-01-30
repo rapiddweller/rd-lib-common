@@ -16,16 +16,6 @@ package com.rapiddweller.common;
 
 import com.rapiddweller.common.converter.NoOpConverter;
 
-import java.io.ByteArrayInputStream;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.Writer;
-import java.nio.file.Paths;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -115,7 +105,7 @@ public class IOUtilTest {
     }
 
     @Test
-    public void testGetContentOfURI2() throws IOException {
+    public void testGetContentOfURI2() {
         assertThrows(ConfigurationError.class, () -> IOUtil.getContentOfURI("Uri"));
     }
 
@@ -130,7 +120,7 @@ public class IOUtilTest {
     }
 
     @Test
-    public void testGetContentOfURI5() throws IOException {
+    public void testGetContentOfURI5() {
         assertThrows(ConfigurationError.class, () -> IOUtil.getContentOfURI("Uri", "UTF-8"));
     }
 
@@ -145,7 +135,7 @@ public class IOUtilTest {
     }
 
     @Test
-    public void testGetContentOfURI8() throws IOException {
+    public void testGetContentOfURI8() {
         assertThrows(ConfigurationError.class, () -> IOUtil.getContentOfURI("Uri", null));
     }
 
@@ -250,7 +240,7 @@ public class IOUtilTest {
     }
 
     @Test
-    public void testResolveRelativeUri() throws Exception {
+    public void testResolveRelativeUri() {
         String SEP = File.separator;
         assertEquals("test.html", IOUtil.resolveRelativeUri("test.html", null));
         assertEquals("test.html", IOUtil.resolveRelativeUri("test.html", ""));
@@ -441,7 +431,7 @@ public class IOUtilTest {
 
     @Test
     public void testTransfer3() throws IOException {
-        assertEquals(0, IOUtil.transfer(new ByteArrayInputStream(new byte[]{}), (OutputStream) null));
+        assertEquals(0, IOUtil.transfer(new ByteArrayInputStream(new byte[]{}), null));
     }
 
     @Test
@@ -460,7 +450,7 @@ public class IOUtilTest {
     public void testTransfer6() throws IOException {
         StringReader stringReader = new StringReader("S");
         stringReader.read(new char[]{'\u0000', '\u0000', '\u0000', '\u0000'}, 0, 3);
-        assertEquals(0, IOUtil.transfer(stringReader, (Writer) null));
+        assertEquals(0, IOUtil.transfer(stringReader, null));
     }
 
     @Test
@@ -484,16 +474,16 @@ public class IOUtilTest {
 
     @Test
     public void testReadProperties10() throws IOException {
-        assertTrue(IOUtil.<Object>readProperties("file:", new NoOpConverter(), "UTF-8").isEmpty());
+        assertTrue(IOUtil.readProperties("file:", new NoOpConverter(), "UTF-8").isEmpty());
     }
 
     @Test
-    public void testReadProperties11() throws IOException {
-        assertThrows(ConfigurationError.class, () -> IOUtil.<Object>readProperties("foo.txt", new NoOpConverter(), null));
+    public void testReadProperties11() {
+        assertThrows(ConfigurationError.class, () -> IOUtil.readProperties("foo.txt", new NoOpConverter(), null));
     }
 
     @Test
-    public void testReadProperties12() throws IOException {
+    public void testReadProperties12() {
         assertThrows(ConfigurationError.class, () -> IOUtil.readProperties("foo.txt", "UTF-8"));
     }
 
@@ -508,7 +498,7 @@ public class IOUtilTest {
     }
 
     @Test
-    public void testReadProperties2() throws IOException {
+    public void testReadProperties2() {
         assertThrows(ConfigurationError.class, () -> IOUtil.readProperties("foo.txt"));
     }
 
@@ -523,29 +513,29 @@ public class IOUtilTest {
     }
 
     @Test
-    public void testReadProperties5() throws IOException {
-        assertThrows(ConfigurationError.class, () -> IOUtil.<Object>readProperties("foo.txt", new NoOpConverter()));
+    public void testReadProperties5() {
+        assertThrows(ConfigurationError.class, () -> IOUtil.readProperties("foo.txt", new NoOpConverter()));
     }
 
     @Test
     public void testReadProperties6() throws IOException {
-        assertTrue(IOUtil.<Object>readProperties("string://", new NoOpConverter()).isEmpty());
+        assertTrue(IOUtil.readProperties("string://", new NoOpConverter()).isEmpty());
     }
 
     @Test
     public void testReadProperties7() throws IOException {
-        assertTrue(IOUtil.<Object>readProperties("file:", new NoOpConverter()).isEmpty());
+        assertTrue(IOUtil.readProperties("file:", new NoOpConverter()).isEmpty());
     }
 
     @Test
-    public void testReadProperties8() throws IOException {
+    public void testReadProperties8() {
         assertThrows(ConfigurationError.class,
-                () -> IOUtil.<Object>readProperties("foo.txt", new NoOpConverter(), "UTF-8"));
+                () -> IOUtil.readProperties("foo.txt", new NoOpConverter(), "UTF-8"));
     }
 
     @Test
     public void testReadProperties9() throws IOException {
-        assertTrue(IOUtil.<Object>readProperties("string://", new NoOpConverter(), "UTF-8").isEmpty());
+        assertTrue(IOUtil.readProperties("string://", new NoOpConverter(), "UTF-8").isEmpty());
     }
 
     @Test
@@ -660,7 +650,7 @@ public class IOUtilTest {
         }
     }
 
-    private class URLConnectionMock extends URLConnection {
+    private static class URLConnectionMock extends URLConnection {
 
         String encoding;
         String contentTypeHeader;

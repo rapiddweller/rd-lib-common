@@ -9,14 +9,14 @@ import org.junit.Test;
 public class ConditionalConverterTest {
     @Test
     public void testConvert() throws ConversionException {
-        EqualsCondition<Object> condition = new EqualsCondition<Object>("reference");
+        EqualsCondition<Object> condition = new EqualsCondition<>("reference");
         assertEquals("sourceValue",
                 (new ConditionalConverter(condition, new Base64ToByteArrayConverter())).convert("sourceValue"));
     }
 
     @Test
     public void testConvert2() throws ConversionException {
-        EqualsCondition<Object> condition = new EqualsCondition<Object>("sourceValue");
+        EqualsCondition<Object> condition = new EqualsCondition<>("sourceValue");
         assertEquals("SOURCEVALUE", (new ConditionalConverter(condition, new CaseConverter())).convert("sourceValue"));
     }
 }

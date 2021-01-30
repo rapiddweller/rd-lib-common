@@ -14,10 +14,8 @@
  */
 package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import com.rapiddweller.common.TimeUtil;
 import org.junit.Test;
 
 /**

@@ -86,17 +86,15 @@ public final class CollectionUtil {
 	
     /**
      * Adds the content of an array to a collection
-     * @param target the collection to be extended
-     * @param values the values to add
      * @param <C> the collection type
      * @param <T> the element type
      * @param <U> the common supertype of the values
-     * @return the collection, extended by the contents of the array
+     * @param target the collection to be extended
+     * @param values the values to add
      */
     @SafeVarargs
-    public static <T, U extends T, C extends Collection<? super T>> C add(C target, U ... values) {
+    public static <T, U extends T, C extends Collection<? super T>> void add(C target, U ... values) {
         target.addAll(Arrays.asList(values));
-        return target;
     }
 
     public static <T> List<T> copy(List<? extends T> src, int offset, int length) {

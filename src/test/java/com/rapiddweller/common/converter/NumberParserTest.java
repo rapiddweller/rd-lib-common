@@ -49,12 +49,12 @@ public class NumberParserTest extends AbstractConverterTest {
 	
 	@Test
 	public void testConvert_US() {
-		LocaleUtil.runInLocale(Locale.US, () -> checkConversion());
+		LocaleUtil.runInLocale(Locale.US, this::checkConversion);
 	}
 	
 	@Test
 	public void testConvert_DE() {
-		LocaleUtil.runInLocale(Locale.GERMANY, () -> checkConversion());
+		LocaleUtil.runInLocale(Locale.GERMANY, this::checkConversion);
 	}
 	
 	void checkConversion() {

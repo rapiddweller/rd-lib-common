@@ -108,8 +108,8 @@ public class CharSet implements Named {
         return addAll(getDigits());
     }
 
-    public CharSet removeDigits() {
-        return removeAll(getDigits());
+    public void removeDigits() {
+        removeAll(getDigits());
     }
 
     public CharSet addHexDigits() {
@@ -267,11 +267,9 @@ public class CharSet implements Named {
 
     /**
      * Clears the set.
-     * @return this
      */
-    public CharSet removeAll() {
+    public void removeAll() {
         set.clear();
-        return this;
     }
 
     /**
@@ -331,11 +329,9 @@ public class CharSet implements Named {
     /**
      * Removes one character.
      * @param c the character to remove
-     * @return this
      */
-    public CharSet remove(char c) {
+    public void remove(char c) {
         set.remove(c);
-        return this;
     }
 
     /**

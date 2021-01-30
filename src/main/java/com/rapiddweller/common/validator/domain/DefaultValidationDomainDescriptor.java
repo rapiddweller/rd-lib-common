@@ -49,7 +49,7 @@ public class DefaultValidationDomainDescriptor extends AbstractValidationDomainD
 		this.validatorClasses = (List) FilterUtil.filter(candidates, new ValidatorClassFilter());
 	}
 
-	public class ValidatorClassFilter implements Filter<Class<?>> {
+	public static class ValidatorClassFilter implements Filter<Class<?>> {
 		@Override
 		public boolean accept(Class<?> candidate) {
 			return Validator.class.isAssignableFrom(candidate) 

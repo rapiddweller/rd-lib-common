@@ -19,7 +19,7 @@ public class FilenameComparatorTest {
 
     @Test
     public void testCompare2() {
-        FilenameComparator filenameComparator = new FilenameComparator(new NullSafeComparator<String>());
+        FilenameComparator filenameComparator = new FilenameComparator(new NullSafeComparator<>());
         File o1 = Paths.get("", "").toFile();
         assertEquals(-8,
                 filenameComparator.compare(o1, Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toFile()));
@@ -34,7 +34,7 @@ public class FilenameComparatorTest {
 
     @Test
     public void testCompare4() {
-        FilenameComparator filenameComparator = new FilenameComparator(new NullSafeComparator<String>());
+        FilenameComparator filenameComparator = new FilenameComparator(new NullSafeComparator<>());
         File o1 = Paths.get("", "").toFile();
         assertEquals(-8,
                 filenameComparator.compare(o1, Paths.get(System.getProperty("java.io.tmpdir"), "test.txt").toFile()));

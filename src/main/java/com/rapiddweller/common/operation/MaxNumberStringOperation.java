@@ -31,8 +31,7 @@ public class MaxNumberStringOperation implements Operation<String, String> {
 	private final MaxOperation<ComparableWrapper> operation;
 	private final Converter<String, ?> parser;
 
-    @SuppressWarnings("rawtypes")
-	public MaxNumberStringOperation() {
+    public MaxNumberStringOperation() {
         this.operation = new MaxOperation<>();
         this.parser = new NumberParser();
     }
