@@ -15,13 +15,12 @@
 
 package com.rapiddweller.common.ui.swing;
 
-import java.io.File;
+import com.rapiddweller.common.Consumer;
+import com.rapiddweller.common.file.FileHistory;
 
 import javax.swing.Icon;
 import javax.swing.JMenu;
-
-import com.rapiddweller.common.Consumer;
-import com.rapiddweller.common.file.FileHistory;
+import java.io.File;
 
 /**
  * {@link JMenu} that exhibits a list of files provided by a {@link FileHistory}, 

@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.util.Locale;
-
 import com.rapiddweller.common.ConversionException;
+
+import java.util.Locale;
 
 /**
  * Converts a {@link Locale} to its {@link String} representation.

@@ -20,9 +20,9 @@ package com.rapiddweller.common;
  * @since 0.4.5
  * @author Volker Bergmann
  */
-public class LogCategories {
-	public static final String JDBC    = "org.databene.JDBC";
-	public static final String SQL     = "org.databene.SQL";
-	public static final String CONFIG  = "org.databene.CONFIG";
-	public static final String COMMENT = "org.databene.COMMENT";
+public class LogCategoriesConstants {
+	public static final String JDBC    = "com.rapiddweller.JDBC";
+	public static final String SQL     = "com.rapiddweller.SQL";
+	public static final String CONFIG  = "com.rapiddweller.CONFIG";
+	public static final String COMMENT = "com.rapiddweller.COMMENT";
 }

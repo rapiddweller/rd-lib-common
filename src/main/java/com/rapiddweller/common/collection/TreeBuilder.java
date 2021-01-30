@@ -14,14 +14,6 @@
  */
 package com.rapiddweller.common.collection;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Stack;
-
 import com.rapiddweller.common.Assert;
 import com.rapiddweller.common.CollectionUtil;
 import com.rapiddweller.common.NullSafeComparator;
@@ -30,6 +22,14 @@ import com.rapiddweller.common.xml.SimpleXMLWriter;
 import com.rapiddweller.common.xml.XMLUtil;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Stack;
 
 /**
  * Allows for recursive and absolute tree construction and navigation 

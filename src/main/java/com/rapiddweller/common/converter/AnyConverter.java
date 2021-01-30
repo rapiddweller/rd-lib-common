@@ -17,8 +17,8 @@ package com.rapiddweller.common.converter;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.Patterns;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Converts any source type to any target type. It also makes use of the ConverterManager.
@@ -30,7 +30,7 @@ public class AnyConverter<E> extends FormatHolder implements Converter<Object, E
 	
     private static final Logger logger = LogManager.getLogger(AnyConverter.class);
 
-    private Class<E> targetType;
+    private final Class<E> targetType;
     
     public AnyConverter(Class<E> targetType) {
         this(targetType, Patterns.DEFAULT_DATE_PATTERN);

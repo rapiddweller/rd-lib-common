@@ -14,12 +14,12 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.util.Formatter;
-import java.util.Locale;
-
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.IOUtil;
+
+import java.util.Formatter;
+import java.util.Locale;
 
 /**
  * {@link Converter} implementation that uses a {@link Formatter} 

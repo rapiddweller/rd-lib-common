@@ -64,7 +64,7 @@ public abstract class MultiConverterWrapper<S, T> implements Cloneable {
 		return true;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"rawtypes" })
     @Override
     public Object clone() {
         try {

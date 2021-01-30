@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.ConversionException;
+
 import java.util.Date;
 import java.util.TimeZone;
-
-import com.rapiddweller.common.ConversionException;
 
 /**
  * Interprets {@link Long} values as milliseconds since 1970-01-01 and 

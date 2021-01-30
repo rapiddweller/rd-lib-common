@@ -15,7 +15,6 @@
 package com.rapiddweller.common.xml;
 
 import com.rapiddweller.common.*;
-import com.rapiddweller.common.SyntaxError;
 import com.rapiddweller.common.converter.URLEncodeConverter;
 import com.rapiddweller.common.filter.OrFilter;
 
@@ -34,7 +33,6 @@ import org.apache.xerces.dom.TextImpl;
 import org.apache.xerces.impl.xs.opti.AttrImpl;
 import org.apache.xerces.impl.xs.opti.DefaultElement;
 import org.junit.Test;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.*;
 
@@ -49,15 +47,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.w3c.dom.Node;
-
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the XMLUtil class.
@@ -634,7 +624,7 @@ public class XMLUtilTest {
 
     @Test
     public void testFindFirstAccepted() {
-        OrFilter<Element> filter = new OrFilter<Element>();
+        OrFilter<Element> filter = new OrFilter<>();
         assertNull(XMLUtil.findFirstAccepted(filter, new ElementImpl(new CoreDocumentImpl(), "foo")));
     }
 

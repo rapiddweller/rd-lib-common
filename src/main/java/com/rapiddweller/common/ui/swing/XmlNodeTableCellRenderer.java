@@ -15,11 +15,6 @@
 
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.Component;
-
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-
 import com.rapiddweller.common.converter.ToStringConverter;
 import com.rapiddweller.common.xml.XMLUtil;
 import org.w3c.dom.CDATASection;
@@ -28,6 +23,10 @@ import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.Component;
 
 /**
  * Renders {@link org.w3c.dom.Node} and its child classes in Swing table cells.<br><br>
@@ -57,8 +56,7 @@ public class XmlNodeTableCellRenderer extends DefaultTableCellRenderer {
 			text = XMLUtil.format((Document) node);
 		else
 			text = ToStringConverter.convert(node, "");
-		Component component = super.getTableCellRendererComponent(table, text, isSelected, hasFocus, row, column);
-		return component;
+        return super.getTableCellRendererComponent(table, text, isSelected, hasFocus, row, column);
 	}
 	
 }

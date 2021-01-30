@@ -16,7 +16,7 @@ package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
 
-import java.text.*;
+import java.text.NumberFormat;
 import java.util.Locale;
 
 /**

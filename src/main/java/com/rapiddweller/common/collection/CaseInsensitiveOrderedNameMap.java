@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.collection;
 
-import java.util.Map;
-
 import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.OrderedMap;
+
+import java.util.Map;
 
 /**
  * {@link OrderedMap} implementation which assigns name strings to objects preserving the capitalization 
@@ -76,8 +76,7 @@ public class CaseInsensitiveOrderedNameMap<E> extends OrderedMap<String, E> {
 
 	@Override
 	public Map.Entry<String, E> getEntry(String key) {
-        String normalizedKey = key;
-		E value = super.get(normalizedKey);
+        E value = super.get(key);
         if (value != null)
         	return new MapEntry<>(key, value);
         for (Map.Entry<String, E> entry : super.entrySet()) {

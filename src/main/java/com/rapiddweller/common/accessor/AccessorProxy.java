@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.accessor;
 
+import com.rapiddweller.common.Accessor;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.rapiddweller.common.Accessor;
 
 /**
  * Proxy of an accessor.

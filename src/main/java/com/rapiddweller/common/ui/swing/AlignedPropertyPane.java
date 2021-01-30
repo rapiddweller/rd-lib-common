@@ -14,7 +14,12 @@
  */
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.event.ActionListener;
+import com.rapiddweller.common.ui.I18NSupport;
+import com.rapiddweller.common.ui.swing.delegate.PropertyCheckBox;
+import com.rapiddweller.common.ui.swing.delegate.PropertyComboBox;
+import com.rapiddweller.common.ui.swing.delegate.PropertyPasswordField;
+import com.rapiddweller.common.ui.swing.delegate.PropertyTextArea;
+import com.rapiddweller.common.ui.swing.delegate.PropertyTextField;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -23,13 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import com.rapiddweller.common.ui.I18NSupport;
-import com.rapiddweller.common.ui.swing.delegate.PropertyCheckBox;
-import com.rapiddweller.common.ui.swing.delegate.PropertyComboBox;
-import com.rapiddweller.common.ui.swing.delegate.PropertyPasswordField;
-import com.rapiddweller.common.ui.swing.delegate.PropertyTextArea;
-import com.rapiddweller.common.ui.swing.delegate.PropertyTextField;
+import java.awt.event.ActionListener;
 
 /**
  * {@link AlignedPane} implementation that supports property-based input elements.

@@ -14,23 +14,22 @@
  */
 package com.rapiddweller.common.ui.swing.delegate;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import com.rapiddweller.common.BeanUtil;
+import com.rapiddweller.common.NullSafeComparator;
+import com.rapiddweller.common.bean.ObservableBean;
+import com.rapiddweller.common.converter.ToStringConverter;
+import com.rapiddweller.common.ui.I18NSupport;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
-
-import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.NullSafeComparator;
-import com.rapiddweller.common.bean.ObservableBean;
-import com.rapiddweller.common.converter.ToStringConverter;
-import com.rapiddweller.common.ui.I18NSupport;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /**
  * {@link JComboBox} implementation that serves as delegate of a property of a JavaBean object.

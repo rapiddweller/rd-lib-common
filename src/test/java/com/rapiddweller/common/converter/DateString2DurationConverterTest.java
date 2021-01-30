@@ -50,7 +50,7 @@ public class DateString2DurationConverterTest extends AbstractConverterTest {
     }
 
     @Test
-    public void testSG() throws Exception {
+    public void testSG() {
         TimeZone timeZone = TimeZone.getDefault();
         try {
             TimeZone.setDefault(TimeZone.getTimeZone("Asia/Singapore"));

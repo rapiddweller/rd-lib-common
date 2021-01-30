@@ -15,13 +15,12 @@
 
 package com.rapiddweller.common.ui.swing;
 
+import javax.swing.AbstractAction;
+import javax.swing.JTextField;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-import javax.swing.JTextField;
 
 /**
  * Copies the selected content of a {@link JTextField} component to the clipboard. 

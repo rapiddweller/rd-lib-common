@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.filter;
 
-import java.util.regex.Pattern;
-
 import com.rapiddweller.common.Filter;
+
+import java.util.regex.Pattern;
 
 /**
  * {@link Filter} implementation which filters strings by regular expressions for inclusion and exclusion.

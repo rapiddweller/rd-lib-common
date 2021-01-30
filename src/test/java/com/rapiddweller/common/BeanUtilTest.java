@@ -19,19 +19,11 @@ import com.rapiddweller.common.converter.Base64ToByteArrayConverter;
 import java.lang.annotation.Annotation;
 
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.html.dom.HTMLDocumentImpl;
 
 import org.junit.Test;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.*;
 
@@ -216,7 +208,7 @@ public class BeanUtilTest {
     // instantiation tests ---------------------------------------------------------------------------------------------
 
     @Test
-    public void testFindClasses() throws Exception {
+    public void testFindClasses() {
         List<Class<?>> classes;
         // test directory in class path
         classes = BeanUtil.getClasses(BeanUtil.class.getPackage().getName());
@@ -232,13 +224,13 @@ public class BeanUtilTest {
 
     @Test
     public void testForName2() {
-        Class<Object> actualForNameResult = BeanUtil.<Object>forName("com.rapiddweller.common.BeanUtil");
+        Class<Object> actualForNameResult = BeanUtil.forName("com.rapiddweller.common.BeanUtil");
         assertSame(BeanUtil.class, actualForNameResult);
     }
 
     @Test
     public void testForName3() {
-        Class<Object> actualForNameResult = BeanUtil.<Object>forName("java.lang.Boolean");
+        Class<Object> actualForNameResult = BeanUtil.forName("java.lang.Boolean");
         assertSame(Boolean.class, actualForNameResult);
     }
 
@@ -273,13 +265,13 @@ public class BeanUtilTest {
     @Test
     public void testNewInstance() {
         assertThrows(ConfigurationError.class,
-                () -> BeanUtil.<Object>newInstance(Object.class, true, new Object[]{"parameters"}));
-        assertNull(BeanUtil.<Object>newInstance((Class<Object>) null, true, null));
-        assertNull(BeanUtil.<Object>newInstance((Class<Object>) null, true, new Object[]{}));
+                () -> BeanUtil.newInstance(Object.class, true, new Object[]{"parameters"}));
+        assertNull(BeanUtil.newInstance((Class<Object>) null, true, null));
+        assertNull(BeanUtil.newInstance((Class<Object>) null, true, new Object[]{}));
         assertThrows(ConfigurationError.class,
-                () -> BeanUtil.<Object>newInstance(Object.class, new Object[]{"parameters"}));
-        assertNull(BeanUtil.<Object>newInstance((Class<Object>) null, null));
-        assertNull(BeanUtil.<Object>newInstance((Class<Object>) null, new Object[]{}));
+                () -> BeanUtil.newInstance(Object.class, new Object[]{"parameters"}));
+        assertNull(BeanUtil.newInstance((Class<Object>) null, null));
+        assertNull(BeanUtil.newInstance((Class<Object>) null, new Object[]{}));
         assertTrue(BeanUtil.newInstance("com.rapiddweller.common.BeanUtil") instanceof BeanUtil);
     }
 
@@ -298,8 +290,8 @@ public class BeanUtilTest {
 
     @Test
     public void testCloneAll() {
-        assertThrows(RuntimeException.class, () -> BeanUtil.<Object>cloneAll(new Object[]{"input"}));
-        assertEquals(0, BeanUtil.<Object>cloneAll(new Object[]{}).length);
+        assertThrows(RuntimeException.class, () -> BeanUtil.cloneAll(new Object[]{"input"}));
+        assertEquals(0, BeanUtil.cloneAll(new Object[]{}).length);
     }
 
     // method tests ----------------------------------------------------------------------------------------------------
@@ -356,7 +348,7 @@ public class BeanUtilTest {
     @Test
     public void testFindConstructor() {
         Class<?> type = Object.class;
-        assertNull(BeanUtil.<Object>findConstructor((Class<Object>) type, Object.class));
+        assertNull(BeanUtil.findConstructor((Class<Object>) type, Object.class));
     }
 
     @Test
@@ -369,13 +361,13 @@ public class BeanUtilTest {
     @Test
     public void testFindConstructor4() {
         Class<?> type = Boolean.class;
-        assertNull(BeanUtil.<Object>findConstructor((Class<Object>) type, Byte.class));
+        assertNull(BeanUtil.findConstructor((Class<Object>) type, Byte.class));
     }
 
     @Test
     public void testFindConstructor5() {
         Class<?> type = Boolean.class;
-        assertNull(BeanUtil.<Object>findConstructor((Class<Object>) type, Double.class));
+        assertNull(BeanUtil.findConstructor((Class<Object>) type, Double.class));
     }
 
     @Test
@@ -628,53 +620,53 @@ public class BeanUtilTest {
 
     @Test
     public void testExtractProperties() {
-        assertTrue(BeanUtil.<Object, Object>extractProperties(new ArrayList<Object>(), "Property Name").isEmpty());
+        assertTrue(BeanUtil.extractProperties(new ArrayList<>(), "Property Name").isEmpty());
         assertThrows(ConfigurationError.class,
-                () -> BeanUtil.<Object, Object>extractProperties(new Object[]{"beans"}, "Property Name", Object.class));
-        assertEquals(0, BeanUtil.<Object, Object>extractProperties(new Object[]{}, "Property Name", Object.class).length);
-        assertEquals(1, BeanUtil.<Object, Object>extractProperties(new Object[]{"beans"}, "blank", Object.class).length);
-        assertEquals(1, BeanUtil.<Object, Object>extractProperties(new Object[]{"beans"}, "bytes", Object.class).length);
+                () -> BeanUtil.extractProperties(new Object[]{"beans"}, "Property Name", Object.class));
+        assertEquals(0, BeanUtil.extractProperties(new Object[]{}, "Property Name", Object.class).length);
+        assertEquals(1, BeanUtil.extractProperties(new Object[]{"beans"}, "blank", Object.class).length);
+        assertEquals(1, BeanUtil.extractProperties(new Object[]{"beans"}, "bytes", Object.class).length);
         assertThrows(ConfigurationError.class,
-                () -> BeanUtil.<Object, Object>extractProperties(new Object[]{"beans"}, ".class", Object.class));
+                () -> BeanUtil.extractProperties(new Object[]{"beans"}, ".class", Object.class));
     }
 
     @Test
     public void testExtractProperties2() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
         assertThrows(ConfigurationError.class,
-                () -> BeanUtil.<Object, Object>extractProperties(objectList, "Property Name"));
+                () -> BeanUtil.extractProperties(objectList, "Property Name"));
     }
 
     @Test
     public void testExtractProperties3() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
         objectList.add(null);
         objectList.add("e");
         assertThrows(ConfigurationError.class,
-                () -> BeanUtil.<Object, Object>extractProperties(objectList, "Property Name"));
+                () -> BeanUtil.extractProperties(objectList, "Property Name"));
     }
 
     @Test
     public void testExtractProperties4() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        assertEquals(1, BeanUtil.<Object, Object>extractProperties(objectList, "blank").size());
+        assertEquals(1, BeanUtil.extractProperties(objectList, "blank").size());
     }
 
     @Test
     public void testExtractProperties5() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        assertEquals(1, BeanUtil.<Object, Object>extractProperties(objectList, "bytes").size());
+        assertEquals(1, BeanUtil.extractProperties(objectList, "bytes").size());
     }
 
     @Test
     public void testExtractProperties6() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        assertThrows(ConfigurationError.class, () -> BeanUtil.<Object, Object>extractProperties(objectList, ".class"));
+        assertThrows(ConfigurationError.class, () -> BeanUtil.extractProperties(objectList, ".class"));
     }
 
     // class tests -----------------------------------------------------------------------------------------------------
@@ -715,14 +707,14 @@ public class BeanUtilTest {
 
     @Test
     public void testClassName() {
-        assertEquals("java.lang.String", BeanUtil.<Object>className("o"));
-        assertNull(BeanUtil.<Object>className(null));
+        assertEquals("java.lang.String", BeanUtil.className("o"));
+        assertNull(BeanUtil.className(null));
     }
 
     @Test
     public void testSimpleClassName() {
-        assertEquals("String", BeanUtil.<Object>simpleClassName("o"));
-        assertNull(BeanUtil.<Object>simpleClassName(null));
+        assertEquals("String", BeanUtil.simpleClassName("o"));
+        assertNull(BeanUtil.simpleClassName(null));
     }
 
     @Test

@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common;
 
-import java.util.Iterator;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * Represents a Set of characters and provides locale-dependent character sets
@@ -108,8 +108,8 @@ public class CharSet implements Named {
         return addAll(getDigits());
     }
 
-    public CharSet removeDigits() {
-        return removeAll(getDigits());
+    public void removeDigits() {
+        removeAll(getDigits());
     }
 
     public CharSet addHexDigits() {
@@ -267,11 +267,9 @@ public class CharSet implements Named {
 
     /**
      * Clears the set.
-     * @return this
      */
-    public CharSet removeAll() {
+    public void removeAll() {
         set.clear();
-        return this;
     }
 
     /**
@@ -331,11 +329,9 @@ public class CharSet implements Named {
     /**
      * Removes one character.
      * @param c the character to remove
-     * @return this
      */
-    public CharSet remove(char c) {
+    public void remove(char c) {
         set.remove(c);
-        return this;
     }
 
     /**

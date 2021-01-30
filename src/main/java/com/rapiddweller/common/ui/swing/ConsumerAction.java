@@ -15,12 +15,11 @@
 
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.event.ActionEvent;
+import com.rapiddweller.common.Consumer;
 
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
-
-import com.rapiddweller.common.Consumer;
+import java.awt.event.ActionEvent;
 
 /**
  * {@link Runnable} implementation which consumes an object using a {@link Consumer}.

@@ -14,13 +14,13 @@
  */
 package com.rapiddweller.common.version;
 
-import java.text.ParsePosition;
-
 import com.rapiddweller.common.ComparableComparator;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.math.Interval;
 import com.rapiddweller.common.math.Intervals;
 import com.rapiddweller.common.math.IntervalsParser;
+
+import java.text.ParsePosition;
 
 /**
  * {@link Intervals} implementation for {@link VersionNumber}s.

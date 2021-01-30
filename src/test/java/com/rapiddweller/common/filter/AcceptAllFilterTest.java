@@ -7,7 +7,7 @@ import org.junit.Test;
 public class AcceptAllFilterTest {
     @Test
     public void testAccept() {
-        assertTrue((new AcceptAllFilter<Object>()).accept("candidate"));
+        assertTrue((new AcceptAllFilter<>()).accept("candidate"));
     }
 }
 

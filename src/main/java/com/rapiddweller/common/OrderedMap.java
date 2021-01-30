@@ -14,12 +14,16 @@
  */
 package com.rapiddweller.common;
 
-import java.io.Serializable;
-import java.util.*;
-
 import com.rapiddweller.common.collection.ListBasedSet;
 import com.rapiddweller.common.collection.MapEntry;
 import com.rapiddweller.common.collection.MapProxy;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Map implementation that tracks the order in which elements where added

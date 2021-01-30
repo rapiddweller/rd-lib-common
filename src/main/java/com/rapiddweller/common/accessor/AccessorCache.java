@@ -16,8 +16,8 @@ package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Accessor implementation that caches the value it retrieves first 

@@ -14,13 +14,13 @@
  */
 package com.rapiddweller.common.web;
 
+import com.rapiddweller.common.IOUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-
-import com.rapiddweller.common.IOUtil;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 /**
  * Provides file download and caches files in the file system.
@@ -44,7 +44,7 @@ public class DownloadCache {
 		this.rootFolder = rootFolder;
     }
 	
-	public File get(URL url) throws IOException {
+	public void get(URL url) throws IOException {
 	    File cacheSubDir = new File(rootFolder, url.getHost());
 	    String filename = url.getFile();
 	    if (filename.endsWith("/"))
@@ -54,7 +54,6 @@ public class DownloadCache {
 			IOUtil.download(url, cacheFile);
 		else
 			LOGGER.info("providing {} from cache file {}", url, cacheFile.getAbsolutePath());
-		return cacheFile;
-	}
+    }
 
 }

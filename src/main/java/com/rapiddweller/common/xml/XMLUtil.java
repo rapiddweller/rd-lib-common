@@ -14,6 +14,51 @@
  */
 package com.rapiddweller.common.xml;
 
+import com.rapiddweller.common.ArrayBuilder;
+import com.rapiddweller.common.BeanUtil;
+import com.rapiddweller.common.ConfigurationError;
+import com.rapiddweller.common.Converter;
+import com.rapiddweller.common.Encodings;
+import com.rapiddweller.common.ErrorHandler;
+import com.rapiddweller.common.Filter;
+import com.rapiddweller.common.IOUtil;
+import com.rapiddweller.common.Level;
+import com.rapiddweller.common.ParseUtil;
+import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.SyntaxError;
+import com.rapiddweller.common.SystemInfo;
+import com.rapiddweller.common.Visitor;
+import com.rapiddweller.common.converter.NoOpConverter;
+import com.rapiddweller.common.converter.String2DateConverter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Comment;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.ProcessingInstruction;
+import org.w3c.dom.Text;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -35,52 +80,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.sax.SAXTransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-
-import com.rapiddweller.common.ArrayBuilder;
-import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.ConfigurationError;
-import com.rapiddweller.common.Converter;
-import com.rapiddweller.common.Encodings;
-import com.rapiddweller.common.ErrorHandler;
-import com.rapiddweller.common.Filter;
-import com.rapiddweller.common.IOUtil;
-import com.rapiddweller.common.Level;
-import com.rapiddweller.common.ParseUtil;
-import com.rapiddweller.common.StringUtil;
-import com.rapiddweller.common.SyntaxError;
-import com.rapiddweller.common.SystemInfo;
-import com.rapiddweller.common.Visitor;
-import com.rapiddweller.common.converter.NoOpConverter;
-import com.rapiddweller.common.converter.String2DateConverter;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Comment;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.ProcessingInstruction;
-import org.w3c.dom.Text;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 /**
  * Provides XML Utility methods.
@@ -648,17 +647,15 @@ public class XMLUtil {
 	    return result;
     }
 
-	private static Schema activateXmlSchemaValidation(DocumentBuilderFactory factory, String schemaUrl) {
+	private static void activateXmlSchemaValidation(DocumentBuilderFactory factory, String schemaUrl) {
 		try {
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = schemaFactory.newSchema(new URL(schemaUrl));
 			factory.setSchema(schema);
-			return schema;
-		} catch (Exception e) {
+        } catch (Exception e) {
 			// some XML parsers may not support attributes in general or especially XML Schema 
-			LOGGER.error("Error activating schema validation, possibly you are offline or behind a proxy?", e.getMessage());
-			return null;
-		}
+			LOGGER.error("Error activating schema validation for schema " + schemaUrl + ", possibly you are offline or behind a proxy?", e.getMessage());
+        }
 	}
 
 	private static org.xml.sax.ErrorHandler createSaxErrorHandler(

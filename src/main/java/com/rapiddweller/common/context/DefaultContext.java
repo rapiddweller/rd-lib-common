@@ -16,9 +16,9 @@ package com.rapiddweller.common.context;
 
 import com.rapiddweller.common.Context;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Properties;
 import java.util.Set;
 

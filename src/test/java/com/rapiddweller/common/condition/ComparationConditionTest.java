@@ -40,15 +40,15 @@ public class ComparationConditionTest {
 
     @Test
     public void testSetOperator() {
-        ComparationCondition<Object> comparationCondition = new ComparationCondition<Object>();
+        ComparationCondition<Object> comparationCondition = new ComparationCondition<>();
         comparationCondition.setOperator(1);
         assertEquals(1, comparationCondition.getOperator());
     }
 
     @Test
     public void testSetComparator() {
-        ComparationCondition<Object> comparationCondition = new ComparationCondition<Object>();
-        NullSafeComparator<Object> nullSafeComparator = new NullSafeComparator<Object>();
+        ComparationCondition<Object> comparationCondition = new ComparationCondition<>();
+        NullSafeComparator<Object> nullSafeComparator = new NullSafeComparator<>();
         comparationCondition.setComparator(nullSafeComparator);
         assertSame(nullSafeComparator, comparationCondition.getComparator());
     }
@@ -56,37 +56,37 @@ public class ComparationConditionTest {
     @Test
     public void testEvaluate() {
         assertThrows(IllegalArgumentException.class,
-                () -> (new ComparationCondition<Object>()).evaluate(new Object[]{"foo", "foo", "foo"}));
-        assertTrue((new ComparationCondition<Object>()).evaluate(new Object[]{"arguments", "arguments"}));
-        assertFalse((new ComparationCondition<Object>(1)).evaluate(new Object[]{"arguments", "arguments"}));
-        assertTrue((new ComparationCondition<Object>(2)).evaluate(new Object[]{"arguments", "arguments"}));
-        assertFalse((new ComparationCondition<Object>(3)).evaluate(new Object[]{"arguments", "arguments"}));
-        assertTrue((new ComparationCondition<Object>(4)).evaluate(new Object[]{"arguments", "arguments"}));
-        assertFalse((new ComparationCondition<Object>(5)).evaluate(new Object[]{"arguments", "arguments"}));
+                () -> (new ComparationCondition<>()).evaluate(new Object[]{"foo", "foo", "foo"}));
+        assertTrue((new ComparationCondition<>()).evaluate(new Object[]{"arguments", "arguments"}));
+        assertFalse((new ComparationCondition<>(1)).evaluate(new Object[]{"arguments", "arguments"}));
+        assertTrue((new ComparationCondition<>(2)).evaluate(new Object[]{"arguments", "arguments"}));
+        assertFalse((new ComparationCondition<>(3)).evaluate(new Object[]{"arguments", "arguments"}));
+        assertTrue((new ComparationCondition<>(4)).evaluate(new Object[]{"arguments", "arguments"}));
+        assertFalse((new ComparationCondition<>(5)).evaluate(new Object[]{"arguments", "arguments"}));
         assertThrows(IllegalStateException.class,
-                () -> (new ComparationCondition<Object>(-1)).evaluate(new Object[]{"arguments", "arguments"}));
-        assertTrue((new ComparationCondition<Object>(1)).evaluate(new Object[]{"Arguments", "arguments"}));
-        assertFalse((new ComparationCondition<Object>(2)).evaluate(new Object[]{"Arguments", "arguments"}));
-        assertFalse((new ComparationCondition<Object>(4)).evaluate(new Object[]{"java.lang.Object[]", "arguments"}));
+                () -> (new ComparationCondition<>(-1)).evaluate(new Object[]{"arguments", "arguments"}));
+        assertTrue((new ComparationCondition<>(1)).evaluate(new Object[]{"Arguments", "arguments"}));
+        assertFalse((new ComparationCondition<>(2)).evaluate(new Object[]{"Arguments", "arguments"}));
+        assertFalse((new ComparationCondition<>(4)).evaluate(new Object[]{"java.lang.Object[]", "arguments"}));
     }
 
     @Test
     public void testEvaluate2() throws ParseException {
         NumberVersionNumberComponent numberVersionNumberComponent = new NumberVersionNumberComponent(10);
-        assertFalse((new ComparationCondition<Object>())
+        assertFalse((new ComparationCondition<>())
                 .evaluate(new Object[]{numberVersionNumberComponent, new DateVersionNumberComponent("2020-03-01")}));
     }
 
     @Test
     public void testConstructor() {
-        ComparationCondition<Object> actualComparationCondition = new ComparationCondition<Object>();
+        ComparationCondition<Object> actualComparationCondition = new ComparationCondition<>();
         assertEquals(0, actualComparationCondition.getOperator());
         assertTrue(actualComparationCondition.getComparator() instanceof com.rapiddweller.common.ComparableComparator);
     }
 
     @Test
     public void testConstructor2() {
-        ComparationCondition<Object> actualComparationCondition = new ComparationCondition<Object>(1);
+        ComparationCondition<Object> actualComparationCondition = new ComparationCondition<>(1);
         assertEquals(1, actualComparationCondition.getOperator());
         assertTrue(actualComparationCondition.getComparator() instanceof com.rapiddweller.common.ComparableComparator);
     }

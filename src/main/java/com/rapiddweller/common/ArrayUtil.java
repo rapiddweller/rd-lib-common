@@ -14,10 +14,15 @@
  */
 package com.rapiddweller.common;
 
-import java.lang.reflect.Array;
-import java.util.*;
-
 import com.rapiddweller.common.iterator.ArrayIterator;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Provides array-related operations.
@@ -48,8 +53,7 @@ public final class ArrayUtil {
 	@SuppressWarnings("unchecked")
     public static <T> Class<T> componentType(T[] array) {
 	    Class<T[]> resultType = (Class<T[]>) array.getClass();
-        Class<T> componentType = (Class<T>) resultType.getComponentType();
-	    return componentType;
+        return (Class<T>) resultType.getComponentType();
     }
 
     @SuppressWarnings("unchecked")

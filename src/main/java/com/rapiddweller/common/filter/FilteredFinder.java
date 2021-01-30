@@ -18,9 +18,9 @@ import com.rapiddweller.common.Element;
 import com.rapiddweller.common.Filter;
 import com.rapiddweller.common.Visitor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Iterates through a tree for searching items that match a filter.

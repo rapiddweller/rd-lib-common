@@ -17,8 +17,8 @@ package com.rapiddweller.common.bean;
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.ConfigurationError;
 
-import java.lang.reflect.Method;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
 /**
  * Retrieves the value of a JavaBean property with knowledge of the bean type.

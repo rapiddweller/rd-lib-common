@@ -14,7 +14,7 @@ public class SynchronizedConverterProxyTest {
         assertEquals(1, ((ArrayList) (new SynchronizedConverterProxy<Object, Object>(new ToCollectionConverter()))
                 .convert("sourceValue")).size());
         assertEquals(1,
-                ((ArrayList) (new SynchronizedConverterProxy<Object, Object>(
+                ((ArrayList) (new SynchronizedConverterProxy<>(
                         new SynchronizedConverterProxy<Object, Object>(new ToCollectionConverter()))).convert("sourceValue"))
                         .size());
         assertEquals("sourceValue",

@@ -24,7 +24,6 @@ import org.junit.Test;
  * @since 0.5.16
  * @author Volker Bergmann
  */
-@SuppressWarnings("unchecked")
 public class OrFilterTest {
 	
 	private static final ConstantFilter<Integer> TRUE = new ConstantFilter<>(true);

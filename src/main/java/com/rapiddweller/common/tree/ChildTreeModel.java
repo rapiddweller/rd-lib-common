@@ -16,8 +16,8 @@ package com.rapiddweller.common.tree;
 
 import com.rapiddweller.common.TreeModel;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Adapts a ChildModel to a TreeModel.

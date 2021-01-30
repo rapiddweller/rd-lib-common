@@ -17,8 +17,8 @@ package com.rapiddweller.common.comparator;
 import com.rapiddweller.common.ComparableComparator;
 import com.rapiddweller.common.ParseUtil;
 
-import java.util.Comparator;
 import java.math.BigInteger;
+import java.util.Comparator;
 
 /**
  * Splits texts into tokens of words and numbers and compares them element-wise.
@@ -30,7 +30,7 @@ public class CompositeTextComparator implements Comparator<String> {
 
     private final ArrayComparator<Object> arrayComparator;
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"rawtypes" })
     public CompositeTextComparator() {
         this.arrayComparator = new ArrayComparator<>(new ComparatorChain<Object>(
                 new ObjectTypeComparator(BigInteger.class, String.class),

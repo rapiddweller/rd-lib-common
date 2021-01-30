@@ -42,82 +42,81 @@ public class FilterUtilTest {
 
     @Test
     public void testMultiFilter() {
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
         assertTrue(
                 FilterUtil
-                        .<Object>multiFilter(new ArrayList<Object>(),
-                                new OrFilter<Object>(orFilter, orFilter1, new OrFilter<Object>(null, null, null)))
+                        .multiFilter(new ArrayList<>(),
+                                new OrFilter<>(orFilter, orFilter1, new OrFilter<>(null, null, null)))
                         .isEmpty());
     }
 
     @Test
     public void testMultiFilter2() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
         assertEquals(1,
                 FilterUtil
-                        .<Object>multiFilter(objectList, new OrFilter<Object>(new AcceptAllFilter<Object>(), orFilter, orFilter1))
+                        .multiFilter(objectList, new OrFilter<>(new AcceptAllFilter<>(), orFilter, orFilter1))
                         .size());
     }
 
     @Test
     public void testMultiFilter3() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        assertTrue(FilterUtil.<Object>multiFilter(objectList, new OrFilter<Object>()).isEmpty());
+        assertTrue(FilterUtil.multiFilter(objectList, new OrFilter<>()).isEmpty());
     }
 
     @Test
     public void testFilter() {
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> filter = new OrFilter<Object>(orFilter, orFilter1, new OrFilter<Object>(null, null, null));
-        assertTrue(FilterUtil.<Object>filter(new ArrayList<Object>(), filter).isEmpty());
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
+        OrFilter<Object> filter = new OrFilter<>(orFilter, orFilter1, new OrFilter<>(null, null, null));
+        assertTrue(FilterUtil.filter(new ArrayList<>(), filter).isEmpty());
     }
 
     @Test
     public void testFilter2() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
         assertEquals(1,
-                FilterUtil.<Object>filter(objectList, new OrFilter<Object>(new AcceptAllFilter<Object>(), orFilter, orFilter1))
+                FilterUtil.filter(objectList, new OrFilter<>(new AcceptAllFilter<>(), orFilter, orFilter1))
                         .size());
     }
 
     @Test
     public void testFilter3() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        assertTrue(FilterUtil.<Object>filter(objectList, new OrFilter<Object>()).isEmpty());
+        assertTrue(FilterUtil.filter(objectList, new OrFilter<>()).isEmpty());
     }
 
     @Test
     public void testFilter4() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        assertEquals(1, FilterUtil.<Object>filter(objectList, null).size());
+        assertEquals(1, FilterUtil.filter(objectList, null).size());
     }
 
     @Test
     public void testFilter5() {
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> FilterUtil.<Object>filter(new Object[]{},
-                new OrFilter<Object>(orFilter, orFilter1, new OrFilter<Object>(null, null, null))));
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> FilterUtil.filter(new Object[]{},
+                new OrFilter<>(orFilter, orFilter1, new OrFilter<>(null, null, null))));
     }
 
     @Test
     public void testFilter6() {
-        assertEquals(0, FilterUtil.<Object>filter(new Object[]{"items"}, new OrFilter<Object>()).length);
+        assertEquals(0, FilterUtil.filter(new Object[]{"items"}, new OrFilter<>()).length);
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void test() {
         EvenFilter evenFilter = new EvenFilter();
         List<List<Integer>> groups = FilterUtil.filterGroups(
@@ -130,131 +129,131 @@ public class FilterUtilTest {
 
     @Test
     public void testAcceptedByAll() {
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
-        assertTrue(FilterUtil.<Object>acceptedByAll("candidate",
-                new OrFilter<Object>(new IncludeExcludeFilter<Object>(), orFilter, orFilter1)));
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
+        assertTrue(FilterUtil.acceptedByAll("candidate",
+                new OrFilter<>(new IncludeExcludeFilter<>(), orFilter, orFilter1)));
     }
 
     @Test
     public void testAcceptedByAll2() {
-        ConstantFilter<Object> constantFilter = new ConstantFilter<Object>(true);
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        assertTrue(FilterUtil.<Object>acceptedByAll("candidate",
-                new OrFilter<Object>(constantFilter, orFilter, new OrFilter<Object>(null, null, null))));
+        ConstantFilter<Object> constantFilter = new ConstantFilter<>(true);
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        assertTrue(FilterUtil.acceptedByAll("candidate",
+                new OrFilter<>(constantFilter, orFilter, new OrFilter<>(null, null, null))));
     }
 
     @Test
     public void testAcceptedByAll3() {
-        assertFalse(FilterUtil.<Object>acceptedByAll("candidate", new OrFilter<Object>()));
+        assertFalse(FilterUtil.acceptedByAll("candidate", new OrFilter<Object>()));
     }
 
     @Test
     public void testFindSingleMatch() {
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> filter = new OrFilter<Object>(orFilter, orFilter1, new OrFilter<Object>(null, null, null));
-        assertNull(FilterUtil.<Object>findSingleMatch(new ArrayList<Object>(), filter));
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
+        OrFilter<Object> filter = new OrFilter<>(orFilter, orFilter1, new OrFilter<>(null, null, null));
+        assertNull(FilterUtil.findSingleMatch(new ArrayList<>(), filter));
     }
 
     @Test
     public void testFindSingleMatch2() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
-        assertEquals("e", FilterUtil.<Object>findSingleMatch(objectList,
-                new OrFilter<Object>(new IncludeExcludeFilter<Object>(), orFilter, orFilter1)));
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
+        assertEquals("e", FilterUtil.findSingleMatch(objectList,
+                new OrFilter<>(new IncludeExcludeFilter<>(), orFilter, orFilter1)));
     }
 
     @Test
     public void testFindSingleMatch3() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        ConstantFilter<Object> constantFilter = new ConstantFilter<Object>(true);
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        assertEquals("e", FilterUtil.<Object>findSingleMatch(objectList,
-                new OrFilter<Object>(constantFilter, orFilter, new OrFilter<Object>(null, null, null))));
+        ConstantFilter<Object> constantFilter = new ConstantFilter<>(true);
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        assertEquals("e", FilterUtil.findSingleMatch(objectList,
+                new OrFilter<>(constantFilter, orFilter, new OrFilter<>(null, null, null))));
     }
 
     @Test
     public void testFindSingleMatch4() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        assertNull(FilterUtil.<Object>findSingleMatch(objectList, new OrFilter<Object>()));
+        assertNull(FilterUtil.findSingleMatch(objectList, new OrFilter<>()));
     }
 
     @Test
     public void testFindSingleMatch5() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
         objectList.add("e");
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
-        assertThrows(ConfigurationError.class, () -> FilterUtil.<Object>findSingleMatch(objectList,
-                new OrFilter<Object>(new IncludeExcludeFilter<Object>(), orFilter, orFilter1)));
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
+        assertThrows(ConfigurationError.class, () -> FilterUtil.findSingleMatch(objectList,
+                new OrFilter<>(new IncludeExcludeFilter<>(), orFilter, orFilter1)));
     }
 
     @Test
     public void testSplit() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
         assertEquals(1,
-                FilterUtil.<Object>split(objectList, new OrFilter<Object>(new AcceptAllFilter<Object>(), orFilter, orFilter1))
+                FilterUtil.split(objectList, new OrFilter<>(new AcceptAllFilter<>(), orFilter, orFilter1))
                         .getMatches()
                         .size());
     }
 
     @Test
     public void testSplit2() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        assertEquals(1, FilterUtil.<Object>split(objectList, new OrFilter<Object>()).getMismatches().size());
+        assertEquals(1, FilterUtil.split(objectList, new OrFilter<>()).getMismatches().size());
     }
 
     @Test
     public void testSplit3() {
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
         assertEquals(1, FilterUtil
-                .<Object>split(new Object[]{"items"}, new OrFilter<Object>(new AcceptAllFilter<Object>(), orFilter, orFilter1))
+                .split(new Object[]{"items"}, new OrFilter<>(new AcceptAllFilter<>(), orFilter, orFilter1))
                 .getMatches()
                 .size());
     }
 
     @Test
     public void testSplit4() {
-        assertEquals(1, FilterUtil.<Object>split(new Object[]{"items"}, new OrFilter<Object>()).getMismatches().size());
+        assertEquals(1, FilterUtil.split(new Object[]{"items"}, new OrFilter<>()).getMismatches().size());
     }
 
     @Test
     public void testFilterGroups() {
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
         assertEquals(1,
                 FilterUtil
-                        .<Object>filterGroups(new Object[]{},
-                                new OrFilter<Object>(orFilter, orFilter1, new OrFilter<Object>(null, null, null)))
+                        .filterGroups(new Object[]{},
+                                new OrFilter<>(orFilter, orFilter1, new OrFilter<>(null, null, null)))
                         .size());
     }
 
     @Test
     public void testFilterGroups3() {
-        assertEquals(1, FilterUtil.<Object>filterGroups(new Object[]{"items"}, new OrFilter<Object>()).size());
+        assertEquals(1, FilterUtil.filterGroups(new Object[]{"items"}, new OrFilter<>()).size());
     }
 
     @Test
     public void testFilterGroups4() {
         assertEquals(1,
                 FilterUtil
-                        .<Object>filterGroups(new Object[]{"items"},
-                                new ConditionalFilter<Object>(new EqualsCondition<Object>("reference")))
+                        .filterGroups(new Object[]{"items"},
+                                new ConditionalFilter<>(new EqualsCondition<>("reference")))
                         .size());
     }
 
-    public class EvenFilter implements Filter<Integer> {
+    public static class EvenFilter implements Filter<Integer> {
         @Override
         public boolean accept(Integer i) {
             return ((i % 2) == 0);

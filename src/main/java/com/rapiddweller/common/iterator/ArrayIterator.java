@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.iterator;
 
-import java.util.Iterator;
-
 import com.rapiddweller.common.Assert;
+
+import java.util.Iterator;
 
 /**
  * {@link Iterator} implementation that iterates the elements of an array.

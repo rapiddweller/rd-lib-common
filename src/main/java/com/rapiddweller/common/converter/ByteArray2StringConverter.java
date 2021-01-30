@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.io.UnsupportedEncodingException;
-
 import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.SystemInfo;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Converts byte arrays to Strings based on a character encoding, e.g. UTF-8.

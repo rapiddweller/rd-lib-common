@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
-import java.util.concurrent.Callable;
 
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Period;

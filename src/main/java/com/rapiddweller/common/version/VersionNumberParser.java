@@ -14,13 +14,13 @@
  */
 package com.rapiddweller.common.version;
 
+import com.rapiddweller.common.Parser;
+import com.rapiddweller.common.StringUtil;
+
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.rapiddweller.common.Parser;
-import com.rapiddweller.common.StringUtil;
 
 /**
  * Parses a {@link VersionNumber}.

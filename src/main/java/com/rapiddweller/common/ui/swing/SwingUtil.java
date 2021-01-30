@@ -14,24 +14,10 @@
  */
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dialog;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.awt.geom.Rectangle2D;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.rapiddweller.common.BeanUtil;
+import com.rapiddweller.common.SystemInfo;
+import com.rapiddweller.common.format.Alignment;
+import com.rapiddweller.common.format.PadFormat;
 
 import javax.swing.Action;
 import javax.swing.Icon;
@@ -52,11 +38,24 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.TreeModel;
-
-import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.SystemInfo;
-import com.rapiddweller.common.format.Alignment;
-import com.rapiddweller.common.format.PadFormat;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.geom.Rectangle2D;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides Swing utilities.
@@ -129,8 +128,7 @@ public class SwingUtil {
 	public static void printTableTabsSeparated(JTable table) {
 		String[][] cells = parseTable(table);
 		for (String[] cell : cells) {
-			for (int colnum = 0; colnum < cell.length; colnum++)
-				System.out.print(cell[colnum] + "\t");
+			for (String s : cell) System.out.print(s + "\t");
 			System.out.println();
 		}
 	}
@@ -159,7 +157,7 @@ public class SwingUtil {
 	}
 	
 	public static void repaintLater(final Component component) {
-		SwingUtilities.invokeLater(() -> component.repaint());
+		SwingUtilities.invokeLater(component::repaint);
 	}
 
 	public static void center(Component component) {
@@ -255,7 +253,7 @@ public class SwingUtil {
 		toolBar.add(button);
 	}
 
-	private static JButton configureTransparentButton(JButton button, boolean withText) {
+	private static void configureTransparentButton(JButton button, boolean withText) {
 		if (withText) {
 			button.setVerticalTextPosition(SwingConstants.BOTTOM);
 			button.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -266,8 +264,7 @@ public class SwingUtil {
 		button.setOpaque(false);
 		button.setContentAreaFilled(false);
 		button.setBorderPainted(false);
-		return button;
-	}
+    }
  
 	public static Color getUIPanelBackground() {
 		return getUIColor("Panel.background");

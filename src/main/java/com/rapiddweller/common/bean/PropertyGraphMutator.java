@@ -18,8 +18,8 @@ import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.UpdateFailedException;
 import com.rapiddweller.common.mutator.NamedMutator;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Mutates JavaBean object graphs.

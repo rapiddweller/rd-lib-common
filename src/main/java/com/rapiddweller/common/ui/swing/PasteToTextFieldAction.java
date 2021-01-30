@@ -15,17 +15,16 @@
 
 package com.rapiddweller.common.ui.swing;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.swing.AbstractAction;
+import javax.swing.JTextField;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-import javax.swing.JTextField;
-
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 /**
  * Pastes the clipboard content to a {@link JTextField} component, replacing its current selection. 

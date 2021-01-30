@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.ConversionException;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
-import com.rapiddweller.common.ConversionException;
 
 /**
  * Parses a {@link String} as {@link DateFormat}.

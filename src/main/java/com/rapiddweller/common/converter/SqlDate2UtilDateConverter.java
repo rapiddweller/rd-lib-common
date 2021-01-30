@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.util.Date;
-
 import com.rapiddweller.common.ConversionException;
+
+import java.util.Date;
 
 /**
  * Converts {@link java.sql.Date} objects to {@link java.util.Date} objects.

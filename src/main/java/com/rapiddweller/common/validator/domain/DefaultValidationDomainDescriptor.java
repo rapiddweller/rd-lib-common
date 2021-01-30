@@ -14,14 +14,14 @@
  */
 package com.rapiddweller.common.validator.domain;
 
-import java.lang.reflect.Modifier;
-import java.util.List;
-
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.Filter;
 import com.rapiddweller.common.ValidationDomainDescriptor;
 import com.rapiddweller.common.Validator;
 import com.rapiddweller.common.filter.FilterUtil;
+
+import java.lang.reflect.Modifier;
+import java.util.List;
 
 /**
  * Default implementation of the {@link ValidationDomainDescriptor} interface.
@@ -49,7 +49,7 @@ public class DefaultValidationDomainDescriptor extends AbstractValidationDomainD
 		this.validatorClasses = (List) FilterUtil.filter(candidates, new ValidatorClassFilter());
 	}
 
-	public class ValidatorClassFilter implements Filter<Class<?>> {
+	public static class ValidatorClassFilter implements Filter<Class<?>> {
 		@Override
 		public boolean accept(Class<?> candidate) {
 			return Validator.class.isAssignableFrom(candidate) 

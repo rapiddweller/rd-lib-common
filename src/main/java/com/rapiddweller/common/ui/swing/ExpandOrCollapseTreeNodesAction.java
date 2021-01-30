@@ -14,15 +14,14 @@
  */
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.event.ActionEvent;
+import com.rapiddweller.common.ArrayUtil;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JTree;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-
-import com.rapiddweller.common.ArrayUtil;
+import java.awt.event.ActionEvent;
 
 /**
  * {@link Action} class which expands or collapses nodes of a {@link JTree}.

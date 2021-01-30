@@ -14,14 +14,13 @@
  */
 package com.rapiddweller.common.ui.osx;
 
+import com.rapiddweller.common.BeanUtil;
+import com.rapiddweller.common.ui.JavaApplication;
+
+import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Proxy;
-
-import javax.imageio.ImageIO;
-
-import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.ui.JavaApplication;
 
 /**
  * Provides utility methods for Mac OS X.

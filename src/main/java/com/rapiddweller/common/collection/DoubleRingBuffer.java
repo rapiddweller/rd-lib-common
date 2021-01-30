@@ -15,12 +15,12 @@
 
 package com.rapiddweller.common.collection;
 
+import com.rapiddweller.common.MathUtil;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import com.rapiddweller.common.MathUtil;
 
 /**
  * Provides a ring buffer for double values.<br><br>

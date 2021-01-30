@@ -15,8 +15,8 @@
 package com.rapiddweller.common.log;
 
 import com.rapiddweller.common.ui.InfoPrinter;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * {@link InfoPrinter} implementation that writes text to a logger category.

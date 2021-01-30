@@ -14,11 +14,7 @@
  */
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.util.List;
+import com.rapiddweller.common.ui.I18NSupport;
 
 import javax.swing.AbstractAction;
 import javax.swing.Box;
@@ -31,8 +27,11 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-import com.rapiddweller.common.ui.I18NSupport;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.util.List;
 
 /**
  * Component that allows for defining an ordered list of files.

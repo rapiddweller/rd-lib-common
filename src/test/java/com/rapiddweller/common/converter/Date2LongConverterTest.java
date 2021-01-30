@@ -14,15 +14,11 @@
  */
 package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 
 import com.rapiddweller.common.ConversionException;
-import com.rapiddweller.common.TimeUtil;
 
-import java.util.Date;
 import java.util.SimpleTimeZone;
 
 import org.junit.Test;

@@ -15,9 +15,9 @@
 
 package com.rapiddweller.common.converter;
 
-import java.time.LocalDate;
-
 import com.rapiddweller.common.ConversionException;
+
+import java.time.LocalDate;
 
 /**
  * Parses a String as {@link LocalDate}.<br><br>

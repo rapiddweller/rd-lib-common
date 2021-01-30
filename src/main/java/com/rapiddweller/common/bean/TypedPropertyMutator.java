@@ -20,8 +20,8 @@ import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.UpdateFailedException;
 import com.rapiddweller.common.converter.AnyConverter;
 
-import java.lang.reflect.Method;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
 /**
  * Mutates the value of a JavaBean property with knowledge of the property type.

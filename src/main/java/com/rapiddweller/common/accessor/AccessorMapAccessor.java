@@ -16,9 +16,9 @@ package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
 
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Uses an accessor which is stored in a Map for accessing the target object.

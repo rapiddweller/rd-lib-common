@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.collection;
 
-import java.util.Iterator;
-import java.util.TreeMap;
-import java.util.Map.Entry;
-
 import com.rapiddweller.common.math.IntRange;
+
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 /**
  * Collects int values in a compressed way.

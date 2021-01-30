@@ -15,17 +15,16 @@
 
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
+import com.rapiddweller.common.Consumer;
+import com.rapiddweller.common.file.FileHistory;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
-
-import com.rapiddweller.common.Consumer;
-import com.rapiddweller.common.file.FileHistory;
+import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
 
 /**
  * Button that opens a pop-up window with files provided by a {@link FileHistory}, 

@@ -9,7 +9,7 @@ import org.junit.Test;
 public class CommaSeparatedListConverterTest {
     @Test
     public void testConstructor() {
-        CommaSeparatedListConverter<Object> actualCommaSeparatedListConverter = new CommaSeparatedListConverter<Object>(
+        CommaSeparatedListConverter<Object> actualCommaSeparatedListConverter = new CommaSeparatedListConverter<>(
                 Object.class);
         assertTrue(actualCommaSeparatedListConverter.isParallelizable());
         assertEquals("[Ljava.lang.Object;", actualCommaSeparatedListConverter.getTargetType().getName());
@@ -18,7 +18,7 @@ public class CommaSeparatedListConverterTest {
     @Test
     public void testConvert() throws ConversionException {
         assertEquals(1,
-                ((Object[]) (new CommaSeparatedListConverter<Object>(Object.class)).convert("Source Value")).length);
+                ((Object[]) (new CommaSeparatedListConverter<>(Object.class)).convert("Source Value")).length);
     }
 }
 

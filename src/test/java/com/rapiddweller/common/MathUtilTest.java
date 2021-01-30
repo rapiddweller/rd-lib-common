@@ -61,9 +61,9 @@ public class MathUtilTest {
 
     @Test
     public void testNanToNull() {
-        assertEquals(10.0, MathUtil.nanToNull(10.0).doubleValue(), 0.0);
+        assertEquals(10.0, MathUtil.nanToNull(10.0), 0.0);
         assertNull(MathUtil.nanToNull(Double.NaN));
-        assertEquals(10.0, MathUtil.nanToNull(10.0).doubleValue(), 0.0);
+        assertEquals(10.0, MathUtil.nanToNull(10.0), 0.0);
         assertNull(MathUtil.nanToNull(Double.NaN));
     }
 
@@ -136,47 +136,47 @@ public class MathUtilTest {
 
     @Test
     public void testSum() {
-        assertEquals(40.0, MathUtil.sum(new double[]{10.0, 10.0, 10.0, 10.0}).doubleValue(), 0.0);
-        assertEquals(40.0, MathUtil.sum(new double[]{10.0, 10.0, 10.0, 10.0}).doubleValue(), 0.0);
+        assertEquals(40.0, MathUtil.sum(new double[]{10.0, 10.0, 10.0, 10.0}), 0.0);
+        assertEquals(40.0, MathUtil.sum(new double[]{10.0, 10.0, 10.0, 10.0}), 0.0);
     }
 
     @Test
     public void testMax() {
         assertEquals(10.0, MathUtil.max(10.0, 10.0, 10.0, 10.0), 0.0);
         assertEquals(10.0, MathUtil.max(1.0E-7, 10.0, 10.0, 10.0), 0.0);
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> MathUtil.max());
+        assertThrows(ArrayIndexOutOfBoundsException.class, MathUtil::max);
         assertEquals(1, MathUtil.max(1, 1, 1, 1));
         assertEquals(1, MathUtil.max(0, 1, 1, 1));
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> MathUtil.max());
+        assertThrows(ArrayIndexOutOfBoundsException.class, MathUtil::max);
         assertEquals(10.0, MathUtil.max(10.0, 10.0, 10.0, 10.0), 0.0);
         assertEquals(10.0, MathUtil.max(1.0E-7, 10.0, 10.0, 10.0), 0.0);
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> MathUtil.max());
+        assertThrows(ArrayIndexOutOfBoundsException.class, MathUtil::max);
         assertEquals(1, MathUtil.max(1, 1, 1, 1));
         assertEquals(1, MathUtil.max(0, 1, 1, 1));
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> MathUtil.max());
+        assertThrows(ArrayIndexOutOfBoundsException.class, MathUtil::max);
     }
 
     @Test
     public void testMin() {
         assertEquals(10.0, MathUtil.min(10.0, 10.0, 10.0, 10.0), 0.0);
         assertEquals(1.0E-7, MathUtil.min(10.0, 1.0E-7, 10.0, 10.0), 0.0);
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> MathUtil.min());
+        assertThrows(ArrayIndexOutOfBoundsException.class, MathUtil::min);
         assertEquals(10.0, MathUtil.min(10.0, 10.0, 10.0, 10.0), 0.0);
         assertEquals(1.0E-7, MathUtil.min(10.0, 1.0E-7, 10.0, 10.0), 0.0);
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> MathUtil.min());
+        assertThrows(ArrayIndexOutOfBoundsException.class, MathUtil::min);
     }
 
     @Test(expected = NullPointerException.class)
     public void testNullableProduct() {
-        assertEquals(10.0, MathUtil.nullableProduct(10.0).doubleValue(), 0.0);
+        assertEquals(10.0, MathUtil.nullableProduct(10.0), 0.0);
         assertNull(MathUtil.nullableProduct());
-        assertEquals(100.0, MathUtil.nullableProduct(10.0, 10.0).doubleValue(), 0.0);
+        assertEquals(100.0, MathUtil.nullableProduct(10.0, 10.0), 0.0);
         assertNull(MathUtil.nullableProduct(10.0, null));
         assertNull(MathUtil.nullableProduct(null));
-        assertEquals(10.0, MathUtil.nullableProduct(10.0).doubleValue(), 0.0);
+        assertEquals(10.0, MathUtil.nullableProduct(10.0), 0.0);
         assertNull(MathUtil.nullableProduct(null));
         assertNull(MathUtil.nullableProduct());
-        assertEquals(100.0, MathUtil.nullableProduct(10.0, 10.0).doubleValue(), 0.0);
+        assertEquals(100.0, MathUtil.nullableProduct(10.0, 10.0), 0.0);
         assertNull(MathUtil.nullableProduct(10.0, null));
     }
 
@@ -187,7 +187,7 @@ public class MathUtilTest {
         assertNull(MathUtil.nullableDivision(10.0));
         assertNull(MathUtil.nullableDivision(10.0, 10.0, null));
         assertNull(MathUtil.nullableDivision(null, 10.0));
-        assertEquals(1.0, MathUtil.nullableDivision(10.0, 10.0).doubleValue(), 0.0);
+        assertEquals(1.0, MathUtil.nullableDivision(10.0, 10.0), 0.0);
         assertNull(MathUtil.nullableDivision(null, 10.0));
         assertNull(MathUtil.nullableDivision(10.0, null));
         assertNull(MathUtil.nullableDivision(10.0));
@@ -200,9 +200,9 @@ public class MathUtilTest {
         assertNull(MathUtil.nullableSum());
         assertEquals(20.0, MathUtil.nullableSum(10.0, 10.0), 0.0);
         assertNull(MathUtil.nullableSum(10.0, null));
-        assertEquals(10.0, MathUtil.nullableSum(10.0).doubleValue(), 0.0);
+        assertEquals(10.0, MathUtil.nullableSum(10.0), 0.0);
         assertNull(MathUtil.nullableSum());
-        assertEquals(20.0, MathUtil.nullableSum(10.0, 10.0).doubleValue(), 0.0);
+        assertEquals(20.0, MathUtil.nullableSum(10.0, 10.0), 0.0);
         assertNull(MathUtil.nullableSum(10.0, null));
         assertNull(MathUtil.nullableSum(null));
     }
@@ -211,7 +211,7 @@ public class MathUtilTest {
     public void testNullableSubtraction() {
         assertEquals(0.0, MathUtil.nullableSubtraction(10.0, 10.0), 0.0);
         assertNull(MathUtil.nullableSubtraction(10.0, null));
-        assertEquals(0.0, MathUtil.nullableSubtraction(10.0, 10.0).doubleValue(), 0.0);
+        assertEquals(0.0, MathUtil.nullableSubtraction(10.0, 10.0), 0.0);
         assertNull(MathUtil.nullableSubtraction(null, 10.0));
         assertNull(MathUtil.nullableSubtraction(10.0, null));
         assertNull(MathUtil.nullableSubtraction(10.0));
@@ -269,7 +269,7 @@ public class MathUtilTest {
     @Test
     public void testMinValue() {
         IntDoublePair intDoublePair = new IntDoublePair(1, 10.0);
-        ArrayList<IntDoublePair> intDoublePairList = new ArrayList<IntDoublePair>();
+        ArrayList<IntDoublePair> intDoublePairList = new ArrayList<>();
         intDoublePairList.add(intDoublePair);
         assertSame(intDoublePair, MathUtil.minValue(intDoublePairList));
     }
@@ -277,7 +277,7 @@ public class MathUtilTest {
     @Test
     public void testMinValue2() {
         IntDoublePair intDoublePair = new IntDoublePair(1, 10.0);
-        ArrayList<IntDoublePair> intDoublePairList = new ArrayList<IntDoublePair>();
+        ArrayList<IntDoublePair> intDoublePairList = new ArrayList<>();
         intDoublePairList.add(intDoublePair);
         assertSame(intDoublePair, MathUtil.minValue(intDoublePairList));
     }
@@ -285,7 +285,7 @@ public class MathUtilTest {
     @Test
     public void testMaxValue() {
         IntDoublePair intDoublePair = new IntDoublePair(1, 10.0);
-        ArrayList<IntDoublePair> intDoublePairList = new ArrayList<IntDoublePair>();
+        ArrayList<IntDoublePair> intDoublePairList = new ArrayList<>();
         intDoublePairList.add(intDoublePair);
         assertSame(intDoublePair, MathUtil.maxValue(intDoublePairList));
     }
@@ -293,7 +293,7 @@ public class MathUtilTest {
     @Test
     public void testMaxValue2() {
         IntDoublePair intDoublePair = new IntDoublePair(1, 10.0);
-        ArrayList<IntDoublePair> intDoublePairList = new ArrayList<IntDoublePair>();
+        ArrayList<IntDoublePair> intDoublePairList = new ArrayList<>();
         intDoublePairList.add(intDoublePair);
         assertSame(intDoublePair, MathUtil.maxValue(intDoublePairList));
     }

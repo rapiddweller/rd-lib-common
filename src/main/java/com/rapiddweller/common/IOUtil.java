@@ -14,6 +14,14 @@
  */
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.collection.MapEntry;
+import com.rapiddweller.common.converter.ToStringConverter;
+import com.rapiddweller.common.file.FileByNameFilter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -49,15 +57,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-
-import com.rapiddweller.common.collection.MapEntry;
-import com.rapiddweller.common.converter.ToStringConverter;
-import com.rapiddweller.common.file.FileByNameFilter;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 /**
  * Provides stream operations.
@@ -345,8 +344,7 @@ public final class IOUtil {
     	try {
     		URL contextUrl = new URL(contextUri);
     		URL absoluteUrl = new URL(contextUrl, relativeUri);
-    		String result = absoluteUrl.toString();
-			return result;
+            return absoluteUrl.toString();
     	} catch (MalformedURLException e) {
     		throw new IllegalArgumentException(e);
     	}

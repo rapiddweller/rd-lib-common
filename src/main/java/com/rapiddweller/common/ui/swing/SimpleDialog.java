@@ -14,11 +14,6 @@
  */
 package com.rapiddweller.common.ui.swing;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-
 import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -26,6 +21,10 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 /**
  * {@link JDialog} which applies useful standard behaviour.

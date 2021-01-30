@@ -14,6 +14,11 @@
  */
 package com.rapiddweller.common.ui;
 
+import com.rapiddweller.common.SystemInfo;
+import com.rapiddweller.common.ui.awt.AwtFileChooser;
+import com.rapiddweller.common.ui.swing.SwingFileChooser;
+
+import javax.imageio.ImageIO;
 import java.awt.AWTException;
 import java.awt.Rectangle;
 import java.awt.Robot;
@@ -21,15 +26,6 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import com.rapiddweller.common.SystemInfo;
-import com.rapiddweller.common.ui.FileChooser;
-import com.rapiddweller.common.ui.FileOperation;
-import com.rapiddweller.common.ui.FileTypeSupport;
-import com.rapiddweller.common.ui.awt.AwtFileChooser;
-import com.rapiddweller.common.ui.swing.SwingFileChooser;
 
 /**
  * Provides GUI utility methods.

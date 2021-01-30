@@ -14,8 +14,6 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.util.Date;
-
 /**
  * Converts a date in String format to a duration in milliseconds. This takes the dates 1970-01-01 or 0000-00-00 as base.
  * Created at 05.01.2009 18:37:23

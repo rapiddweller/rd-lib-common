@@ -14,12 +14,12 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.sql.Time;
-import java.util.Date;
-
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.StringCharacterIterator;
 import com.rapiddweller.common.TimeUtil;
+
+import java.sql.Time;
+import java.util.Date;
 
 /**
  * Parses the literal representation a simple type into an appropriate Java object of type 
@@ -81,12 +81,12 @@ public class LiteralParser extends ThreadSafeConverter<String, Object> {
         StringCharacterIterator iterator = new StringCharacterIterator(trimmed);
         char c = iterator.next();
         if (c == '-') {
-        	Object number = parseNonNegativeNumber(iterator, true, false);
+        	Object number = parseNonNegativeNumber(iterator, true);
         	return (number != null ? number : text);
         }
         else if (c >= '0' && c <= '9') {
             iterator.pushBack();
-            Object tmp = parseNonNegativeNumber(iterator, false, false);
+            Object tmp = parseNonNegativeNumber(iterator, false);
             if (tmp != null)
                 return tmp;
             tmp = parseDate(trimmed);
@@ -197,9 +197,9 @@ public class LiteralParser extends ThreadSafeConverter<String, Object> {
         return n;
     }
 
-    private static Object parseNonNegativeNumber(StringCharacterIterator iterator, boolean negative, boolean leadingZeros) {
+    private static Object parseNonNegativeNumber(StringCharacterIterator iterator, boolean negative) {
         // parse integral number (part)
-        Long n = parseNonNegativeIntegerPart(iterator, leadingZeros);
+        Long n = parseNonNegativeIntegerPart(iterator, false);
         if (n == null)
         	return null;
         // handle numbers without fraction digits

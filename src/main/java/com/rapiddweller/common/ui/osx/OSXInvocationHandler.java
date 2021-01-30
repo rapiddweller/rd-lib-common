@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.ui.osx;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.ui.JavaApplication;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 
 /**
  * InvocationHandler interface for Mac OS X.
@@ -35,7 +35,7 @@ public class OSXInvocationHandler implements InvocationHandler {
     }
 
 	@Override
-	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+	public Object invoke(Object proxy, Method method, Object[] args) {
 		if ("handleQuit".equals(method.getName())) {
 			application.exit();
 		} else if ("handleAbout".equals(method.getName())) {

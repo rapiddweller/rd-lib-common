@@ -15,9 +15,9 @@
 
 package com.rapiddweller.common.comparator;
 
-import java.util.Comparator;
-
 import com.rapiddweller.common.DateTimed;
+
+import java.util.Comparator;
 
 /**
  * Comparator for objects of classes that implement the {@link DateTimed} interface.<br><br>

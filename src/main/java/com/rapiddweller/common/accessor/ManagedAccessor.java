@@ -16,10 +16,9 @@ package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * DependentAccessor implementation that manages the dependencies in a List.
@@ -38,7 +37,6 @@ public abstract class ManagedAccessor<C, V> implements DependentAccessor<C, V> {
         this(new ArrayList<>());
     }
 
-    @SuppressWarnings("unchecked")
     protected ManagedAccessor(Accessor<?, ?> dependency) {
         this(Collections.singletonList(dependency));
     }

@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.bean;
 
-import java.util.Arrays;
-
 import com.rapiddweller.common.ArrayFormat;
+
+import java.util.Arrays;
 
 /**
  * Wraps a plain object or an array and provides equals() and hashCode() 

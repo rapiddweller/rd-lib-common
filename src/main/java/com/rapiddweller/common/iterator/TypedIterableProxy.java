@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.iterator;
 
-import java.util.Iterator;
-
 import com.rapiddweller.common.HeavyweightIterator;
 import com.rapiddweller.common.HeavyweightTypedIterable;
+
+import java.util.Iterator;
 
 /**
  * {@link Iterable} proxy that wraps an untyped Iterable and adds type information.

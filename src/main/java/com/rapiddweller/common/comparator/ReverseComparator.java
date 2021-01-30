@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.comparator;
 
-import java.util.Comparator;
-
 import com.rapiddweller.common.ComparableComparator;
+
+import java.util.Comparator;
 
 /**
  * Reverts the result of another Comparator.

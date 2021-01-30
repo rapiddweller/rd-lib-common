@@ -8,9 +8,9 @@ import org.junit.Test;
 public class ClassFilterTest {
     @Test
     public void testAccept() {
-        assertTrue((new ClassFilter<Object>(Object.class, true)).accept("candidate"));
-        assertFalse((new ClassFilter<Object>(Object.class, false)).accept("candidate"));
-        assertFalse((new ClassFilter<Object>(Object.class, true)).accept(null));
+        assertTrue((new ClassFilter<>(Object.class, true)).accept("candidate"));
+        assertFalse((new ClassFilter<>(Object.class, false)).accept("candidate"));
+        assertFalse((new ClassFilter<>(Object.class, true)).accept(null));
     }
 }
 

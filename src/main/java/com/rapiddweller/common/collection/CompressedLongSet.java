@@ -15,8 +15,8 @@
 package com.rapiddweller.common.collection;
 
 import java.util.Iterator;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 /**
  * Set of {@link Long} values which stores subsequent values in a compressed format.

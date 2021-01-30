@@ -14,9 +14,13 @@
  */
 package com.rapiddweller.common.xml;
 
-import java.io.Closeable;
-import java.io.OutputStream;
-import java.util.Map;
+import com.rapiddweller.common.ConfigurationError;
+import com.rapiddweller.common.IOUtil;
+import com.rapiddweller.common.StringUtil;
+import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
@@ -25,14 +29,9 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
-
-import com.rapiddweller.common.ConfigurationError;
-import com.rapiddweller.common.IOUtil;
-import com.rapiddweller.common.StringUtil;
-import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.AttributesImpl;
+import java.io.Closeable;
+import java.io.OutputStream;
+import java.util.Map;
 
 /**
  * Writes XML to a stream. The interface is similar to {@link Transformer}, 

@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.tag;
 
+import com.rapiddweller.common.Tagged;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import com.rapiddweller.common.Tagged;
 
 /**
  * Provides tag-related utility methods.

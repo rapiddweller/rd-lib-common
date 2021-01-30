@@ -41,8 +41,7 @@ public class ArrayTypeConverter<T> extends ArrayConverter<Object, T> {
         return new ArrayTypeConverter<>(Object.class, elementTypes).convert(args);
     }
 
-    @SuppressWarnings("unchecked")
-	public static <T> T[] convert(Object[] args, Class<T> componentType) {
+    public static <T> T[] convert(Object[] args, Class<T> componentType) {
         return new ArrayTypeConverter<>(componentType).convert(args);
     }
     

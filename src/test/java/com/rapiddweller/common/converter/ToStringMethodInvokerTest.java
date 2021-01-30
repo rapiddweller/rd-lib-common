@@ -9,8 +9,8 @@ import org.junit.Test;
 public class ToStringMethodInvokerTest {
     @Test
     public void testConvert() throws ConversionException {
-        assertEquals("sourceValue", (new ToStringMethodInvoker<Object>(Object.class)).convert("sourceValue"));
-        assertNull((new ToStringMethodInvoker<Object>(Object.class)).convert(null));
+        assertEquals("sourceValue", (new ToStringMethodInvoker<>(Object.class)).convert("sourceValue"));
+        assertNull((new ToStringMethodInvoker<>(Object.class)).convert(null));
     }
 }
 

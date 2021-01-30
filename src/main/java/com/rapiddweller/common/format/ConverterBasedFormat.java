@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.format;
 
+import com.rapiddweller.common.Converter;
+
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
-
-import com.rapiddweller.common.Converter;
 
 /**
  * Format implementation that uses a to-String-Converter for formatting objects.

@@ -16,8 +16,8 @@ package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
 
-import java.math.BigInteger;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * Converts Number objects of one type to another Number type.

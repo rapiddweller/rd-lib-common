@@ -14,6 +14,8 @@
  */
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.converter.PercentageFormatter;
+
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -26,8 +28,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-
-import com.rapiddweller.common.converter.PercentageFormatter;
 
 /**
  * Provides text formatting features for different data types.

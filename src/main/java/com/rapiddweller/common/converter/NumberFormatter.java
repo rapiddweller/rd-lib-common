@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.text.NumberFormat;
-
 import com.rapiddweller.common.ConversionException;
+
+import java.text.NumberFormat;
 
 /**
  * Formats {@link Number} objects as {@link String} using {@link NumberFormat}.

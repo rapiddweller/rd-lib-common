@@ -15,6 +15,12 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.converter.AnyConverter;
+import com.rapiddweller.common.converter.ConverterManager;
+import com.rapiddweller.common.converter.ToStringConverter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -49,12 +55,6 @@ import java.util.concurrent.Callable;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-import com.rapiddweller.common.converter.AnyConverter;
-import com.rapiddweller.common.converter.ConverterManager;
-import com.rapiddweller.common.converter.ToStringConverter;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 /**
  * Bundles reflection and introspection related operations.
  * Created: 01.07.2006 08:44:33
@@ -67,7 +67,7 @@ public final class BeanUtil {
     
     private static final HashSet<String> NON_CLASS_NAMES = new HashSet<>(100);
     
-    private static Escalator escalator = new LoggerEscalator();
+    private static final Escalator escalator = new LoggerEscalator();
 
     // (static) attributes ---------------------------------------------------------------------------------------------
 
@@ -120,27 +120,27 @@ public final class BeanUtil {
     /**
      * Map of integral Java number types
      */
-    private static Map<String, Class<?>> integralNumberTypeMap;
+    private static final Map<String, Class<?>> integralNumberTypeMap;
 
     /**
      * Map of decimal Java number types
      */
-    private static Map<String, Class<?>> decimalNumberTypeMap;
+    private static final Map<String, Class<?>> decimalNumberTypeMap;
 
     /**
      * Map of simple Java types
      */
-    private static Map<String, Class<?>> simpleTypeMap;
+    private static final Map<String, Class<?>> simpleTypeMap;
 
     /**
      * Map of primitive Java types
      */
-    private static Map<String, Class<?>> primitiveTypeMap;
+    private static final Map<String, Class<?>> primitiveTypeMap;
 
     /**
      * Map of primitive Java number types
      */
-    private static Map<String, Class<?>> primitiveNumberTypeMap;
+    private static final Map<String, Class<?>> primitiveNumberTypeMap;
 
     // initialization --------------------------------------------------------------------------------------------------
 
@@ -810,7 +810,7 @@ public final class BeanUtil {
 
     public static boolean hasWriteableProperty(Class<?> beanClass, String propertyName) {
         PropertyDescriptor descriptor = getPropertyDescriptor(beanClass, propertyName);
-		return (descriptor != null ? descriptor.getWriteMethod() != null : false);
+		return (descriptor != null && descriptor.getWriteMethod() != null);
     }
 
     /**
@@ -1101,8 +1101,6 @@ public final class BeanUtil {
 			return classes;
 		} catch (IOException | URISyntaxException e) {
 			throw new RuntimeException(e);
-		} catch (ClassNotFoundException e) {
-			throw new ObjectNotFoundException(e);
 		}
     }
 
@@ -1282,14 +1280,13 @@ public final class BeanUtil {
         if (deprecated(type))
             escalator.escalate("Instantiating a deprecated class: " + type.getName(), BeanUtil.class, null);
         try {
-            return type.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+            return type.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             throw ExceptionMapper.configurationException(e, type);
         }
     }
 
-	private static List<Class<?>> findClassesInDirectory(File directory, String packagePath, List<Class<?>> classes) 
-			throws ClassNotFoundException {
+	private static void findClassesInDirectory(File directory, String packagePath, List<Class<?>> classes) {
 		File[] files = directory.listFiles();
 		for (File file : files) {
 			String fileName = file.getName();
@@ -1297,13 +1294,12 @@ public final class BeanUtil {
 				findClassesInDirectory(file, packagePath + "." + fileName, classes);
 			else if (fileName.endsWith(".class") && !fileName.contains("$")) {
 				String className = packagePath + '.' + fileName.substring(0, fileName.length() - 6);
-				classes.add(BeanUtil.<Object>forName(className));
+				classes.add(BeanUtil.forName(className));
 			}
 		}
-		return classes;
-	}
+    }
     
-	private static List<Class<?>> findClassesInJar(String path, String packagePath, List<Class<?>> classes) 
+	private static void findClassesInJar(String path, String packagePath, List<Class<?>> classes)
 			throws IOException, URISyntaxException {
 		// extract jar file name
 		String fileName = path;
@@ -1326,8 +1322,7 @@ public final class BeanUtil {
 		} finally {
 			IOUtil.close(jarFile);
 		}
-		return classes;
-	}
+    }
 
 	private static Object[] convertArray(Object[] values, Class<?>[] targetTypes) {
 		Object[] result = new Object[values.length];

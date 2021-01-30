@@ -38,9 +38,9 @@ public class RoundedNumberFormatTest {
 
     @Test
     public void testFormat() {
-        assertEquals("42", RoundedNumberFormat.format(new Integer(42), 1));
-        assertEquals("-1", RoundedNumberFormat.format(new Integer(-1), 1));
-        assertEquals("-2,100,000,000", RoundedNumberFormat.format(new Integer(-2147483648), 1));
+        assertEquals("42", RoundedNumberFormat.format(42, 1));
+        assertEquals("-1", RoundedNumberFormat.format(-1, 1));
+        assertEquals("-2,100,000,000", RoundedNumberFormat.format(-2147483648, 1));
     }
 
 }

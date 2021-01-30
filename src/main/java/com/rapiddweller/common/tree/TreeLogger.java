@@ -16,8 +16,8 @@ package com.rapiddweller.common.tree;
 
 import com.rapiddweller.common.Filter;
 import com.rapiddweller.common.TreeModel;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Logs the structure represented by a {@link com.rapiddweller.common.TreeModel} implementor.

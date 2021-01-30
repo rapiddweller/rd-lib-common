@@ -20,13 +20,6 @@ import com.rapiddweller.common.iterator.JDKIteratorWrapper;
 import com.rapiddweller.common.iterator.RecursiveMapValueIterator;
 import com.rapiddweller.common.iterator.ReverseIterator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-
 import org.apache.logging.log4j.core.util.ObjectArrayIterator;
 
 import org.junit.Test;
@@ -83,7 +76,7 @@ public class CollectionUtilTest {
 
     @Test
     public void testToSet3() {
-        assertTrue(CollectionUtil.<Object>toSet(null).isEmpty());
+        assertTrue(CollectionUtil.toSet(null).isEmpty());
     }
 
     @Test
@@ -127,32 +120,32 @@ public class CollectionUtilTest {
 
     @Test
     public void testCopy2() {
-        RecursiveMapValueIterator<Object> src = new RecursiveMapValueIterator<Object>(new HashMap<Object, Object>());
-        ArrayList<Object> objectList = new ArrayList<Object>();
-        Collection<Object> actualCopyResult = CollectionUtil.<Object>copy(src, objectList);
+        RecursiveMapValueIterator<Object> src = new RecursiveMapValueIterator<>(new HashMap<>());
+        ArrayList<Object> objectList = new ArrayList<>();
+        Collection<Object> actualCopyResult = CollectionUtil.copy(src, objectList);
         assertSame(objectList, actualCopyResult);
         assertTrue(actualCopyResult.isEmpty());
     }
 
     @Test
     public void testCopy3() {
-        ReverseIterator<Object> realIterator = new ReverseIterator<Object>(new ReverseIterator<Object>(
-                new JDKIteratorWrapper<Object>(new RecursiveMapValueIterator<Object>(new HashMap<Object, Object>()))));
-        OrFilter<Object> orFilter = new OrFilter<Object>(null, null, null);
-        OrFilter<Object> orFilter1 = new OrFilter<Object>(null, null, null);
-        FilteringIterator<Object> src = new FilteringIterator<Object>(realIterator,
-                new OrFilter<Object>(orFilter, orFilter1, new OrFilter<Object>(null, null, null)));
-        ArrayList<Object> objectList = new ArrayList<Object>();
-        Collection<Object> actualCopyResult = CollectionUtil.<Object>copy(src, objectList);
+        ReverseIterator<Object> realIterator = new ReverseIterator<>(new ReverseIterator<>(
+                new JDKIteratorWrapper<>(new RecursiveMapValueIterator<>(new HashMap<>()))));
+        OrFilter<Object> orFilter = new OrFilter<>(null, null, null);
+        OrFilter<Object> orFilter1 = new OrFilter<>(null, null, null);
+        FilteringIterator<Object> src = new FilteringIterator<>(realIterator,
+                new OrFilter<>(orFilter, orFilter1, new OrFilter<>(null, null, null)));
+        ArrayList<Object> objectList = new ArrayList<>();
+        Collection<Object> actualCopyResult = CollectionUtil.copy(src, objectList);
         assertSame(objectList, actualCopyResult);
         assertTrue(actualCopyResult.isEmpty());
     }
 
     @Test
     public void testCopy4() {
-        ObjectArrayIterator<Object> objectArrayIterator = new ObjectArrayIterator<Object>("foo", "foo", "foo");
-        ArrayList<Object> objectList = new ArrayList<Object>();
-        Collection<Object> actualCopyResult = CollectionUtil.<Object>copy(objectArrayIterator, objectList);
+        ObjectArrayIterator<Object> objectArrayIterator = new ObjectArrayIterator<>("foo", "foo", "foo");
+        ArrayList<Object> objectList = new ArrayList<>();
+        Collection<Object> actualCopyResult = CollectionUtil.copy(objectArrayIterator, objectList);
         assertSame(objectList, actualCopyResult);
         assertEquals(3, actualCopyResult.size());
         assertFalse(objectArrayIterator.hasNext());
@@ -165,18 +158,18 @@ public class CollectionUtilTest {
 
     @Test
     public void testRevert() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
-        List<Object> actualRevertResult = CollectionUtil.<Object>revert(objectList);
+        ArrayList<Object> objectList = new ArrayList<>();
+        List<Object> actualRevertResult = CollectionUtil.revert(objectList);
         assertSame(objectList, actualRevertResult);
         assertTrue(actualRevertResult.isEmpty());
     }
 
     @Test
     public void testRevert2() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
         objectList.add("e");
-        List<Object> actualRevertResult = CollectionUtil.<Object>revert(objectList);
+        List<Object> actualRevertResult = CollectionUtil.revert(objectList);
         assertSame(objectList, actualRevertResult);
         assertEquals(2, actualRevertResult.size());
     }
@@ -199,29 +192,29 @@ public class CollectionUtilTest {
     @Test
     public void testToArray2() {
         Class<Object> componentType = Object.class;
-        assertEquals(0, CollectionUtil.<Object>toArray(new ArrayList<Integer>(), componentType).length);
+        assertEquals(0, CollectionUtil.toArray(new ArrayList<Integer>(), componentType).length);
     }
 
     @Test
     public void testToDoubleArray() {
-        assertEquals(0, CollectionUtil.toDoubleArray(new ArrayList<Double>()).length);
+        assertEquals(0, CollectionUtil.toDoubleArray(new ArrayList<>()).length);
     }
 
     @Test
     public void testToDoubleArray2() {
-        ArrayList<Double> resultDoubleList = new ArrayList<Double>();
+        ArrayList<Double> resultDoubleList = new ArrayList<>();
         resultDoubleList.add(10.0);
         assertEquals(1, CollectionUtil.toDoubleArray(resultDoubleList).length);
     }
 
     @Test
     public void testToCharArray() {
-        assertEquals(0, CollectionUtil.toCharArray(new ArrayList<Character>()).length);
+        assertEquals(0, CollectionUtil.toCharArray(new ArrayList<>()).length);
     }
 
     @Test
     public void testToCharArray2() {
-        ArrayList<Character> characterList = new ArrayList<Character>();
+        ArrayList<Character> characterList = new ArrayList<>();
         characterList.add('\u0000');
         assertEquals(1, CollectionUtil.toCharArray(characterList).length);
     }
@@ -243,94 +236,94 @@ public class CollectionUtilTest {
 
     @Test
     public void testEqualsIgnoreOrder() {
-        ArrayList<Object> a1 = new ArrayList<Object>();
-        assertTrue(CollectionUtil.<Object>equalsIgnoreOrder(a1, new ArrayList<Object>()));
+        ArrayList<Object> a1 = new ArrayList<>();
+        assertTrue(CollectionUtil.equalsIgnoreOrder(a1, new ArrayList<>()));
     }
 
     @Test
     public void testEqualsIgnoreOrder2() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add(null);
-        assertFalse(CollectionUtil.<Object>equalsIgnoreOrder(objectList, new ArrayList<Object>()));
+        assertFalse(CollectionUtil.equalsIgnoreOrder(objectList, new ArrayList<>()));
     }
 
     @Test
     public void testEqualsIgnoreOrder3() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add(null);
-        ArrayList<Object> objectList1 = new ArrayList<Object>();
+        ArrayList<Object> objectList1 = new ArrayList<>();
         objectList1.add(null);
-        assertTrue(CollectionUtil.<Object>equalsIgnoreOrder(objectList, objectList1));
+        assertTrue(CollectionUtil.equalsIgnoreOrder(objectList, objectList1));
     }
 
     @Test
     public void testEqualsIgnoreOrder4() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add(2);
-        ArrayList<Object> objectList1 = new ArrayList<Object>();
+        ArrayList<Object> objectList1 = new ArrayList<>();
         objectList1.add(null);
-        assertFalse(CollectionUtil.<Object>equalsIgnoreOrder(objectList, objectList1));
+        assertFalse(CollectionUtil.equalsIgnoreOrder(objectList, objectList1));
     }
 
     @Test
     public void testGetCaseInsensitive() {
-        assertNull(CollectionUtil.<Object>getCaseInsensitive("Key", new HashMap<String, Object>()));
-        assertNull(CollectionUtil.<Object>getCaseInsensitive(null, new HashMap<String, Object>()));
-        assertNull(CollectionUtil.<Object>getCaseInsensitive("Key", new HashMap<String, Object>(1)));
+        assertNull(CollectionUtil.getCaseInsensitive("Key", new HashMap<>()));
+        assertNull(CollectionUtil.getCaseInsensitive(null, new HashMap<>()));
+        assertNull(CollectionUtil.getCaseInsensitive("Key", new HashMap<>(1)));
     }
 
     @Test
     public void testContainsCaseInsensitive() {
-        assertFalse(CollectionUtil.<Object>containsCaseInsensitive("Key", new HashMap<String, Object>()));
-        assertFalse(CollectionUtil.<Object>containsCaseInsensitive("java.util.SortedSet", new HashMap<String, Object>()));
+        assertFalse(CollectionUtil.containsCaseInsensitive("Key", new HashMap<>()));
+        assertFalse(CollectionUtil.containsCaseInsensitive("java.util.SortedSet", new HashMap<>()));
     }
 
     @Test
     public void testOfEqualContent() {
-        assertFalse(CollectionUtil.<Object>ofEqualContent(new ArrayList<Object>(), new Object[]{"array"}));
-        assertTrue(CollectionUtil.<Object>ofEqualContent(new ArrayList<Object>(), null));
-        assertTrue(CollectionUtil.<Object>ofEqualContent(new ArrayList<Object>(), new Object[]{}));
+        assertFalse(CollectionUtil.ofEqualContent(new ArrayList<>(), new Object[]{"array"}));
+        assertTrue(CollectionUtil.ofEqualContent(new ArrayList<>(), null));
+        assertTrue(CollectionUtil.ofEqualContent(new ArrayList<>(), new Object[]{}));
     }
 
     @Test
     public void testOfEqualContent2() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add(null);
-        assertFalse(CollectionUtil.<Object>ofEqualContent(objectList, new Object[]{"array"}));
+        assertFalse(CollectionUtil.ofEqualContent(objectList, new Object[]{"array"}));
     }
 
     @Test
     public void testOfEqualContent3() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add(null);
         objectList.add(null);
-        assertFalse(CollectionUtil.<Object>ofEqualContent(objectList, new Object[]{"array"}));
+        assertFalse(CollectionUtil.ofEqualContent(objectList, new Object[]{"array"}));
     }
 
     @Test
     public void testOfEqualContent4() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add(null);
-        assertTrue(CollectionUtil.<Object>ofEqualContent(objectList, new Object[]{null}));
+        assertTrue(CollectionUtil.ofEqualContent(objectList, new Object[]{null}));
     }
 
     @Test
     public void testOfEqualContent5() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add(null);
-        assertFalse(CollectionUtil.<Object>ofEqualContent(objectList, null));
+        assertFalse(CollectionUtil.ofEqualContent(objectList, null));
     }
 
     @Test
     public void testLastElement() {
-        ArrayList<Object> objectList = new ArrayList<Object>();
+        ArrayList<Object> objectList = new ArrayList<>();
         objectList.add("e");
-        assertEquals("e", CollectionUtil.<Object>lastElement(objectList));
+        assertEquals("e", CollectionUtil.lastElement(objectList));
     }
 
     @Test
     public void testEmptyList() {
-        assertTrue(CollectionUtil.<Object>emptyList().isEmpty());
+        assertTrue(CollectionUtil.emptyList().isEmpty());
     }
 
     @Test

@@ -15,15 +15,14 @@
 
 package com.rapiddweller.common.ui.swing;
 
+import javax.swing.Icon;
+import javax.swing.UIManager;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-
-import javax.swing.Icon;
-import javax.swing.UIManager;
 
 /**
  * Paints a text over another icon.
@@ -55,7 +54,7 @@ public class TextOverlayIcon implements Icon {
 	}
 
 	public TextOverlayIcon(Icon background, String text, Color color) {
-		this(background, text, color, defaultFont(false));
+		this(background, text, color, defaultFont());
 	}
 
 	public TextOverlayIcon(Icon background, String text, Color color, Font font) {
@@ -125,10 +124,10 @@ public class TextOverlayIcon implements Icon {
 
 	// private helpers -------------------------------------------------------------------------------------------------
 
-	private static Font defaultFont(boolean bold) {
+	private static Font defaultFont() {
 		Font tableFont = UIManager.getDefaults().getFont("Table.font");
-		if (tableFont.isBold() != bold)
-			return new Font(tableFont.getFamily(), (bold ? Font.BOLD : Font.PLAIN), tableFont.getSize());
+		if (tableFont.isBold())
+			return new Font(tableFont.getFamily(), (Font.PLAIN), tableFont.getSize());
 		else
 			return tableFont;
 	}

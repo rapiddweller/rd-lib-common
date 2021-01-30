@@ -11,7 +11,7 @@ public class NullSafeTypedAccessorTest {
         assertNull(
                 (new NullSafeTypedAccessor<Object, Object>(new UntypedPropertyAccessor("Property Name", true), "nullValue"))
                         .getValueType());
-        assertNull((new NullSafeTypedAccessor<Object, Object>(
+        assertNull((new NullSafeTypedAccessor<>(
                 new NullSafeTypedAccessor<Object, Object>(new UntypedPropertyAccessor("Property Name", true), "nullValue"),
                 "nullValue")).getValueType());
     }

@@ -14,12 +14,12 @@
  */
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.Patterns;
+
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import com.rapiddweller.common.ConversionException;
-import com.rapiddweller.common.Patterns;
 
 /**
  * Converts {@link Time} objects to {@link String}s.

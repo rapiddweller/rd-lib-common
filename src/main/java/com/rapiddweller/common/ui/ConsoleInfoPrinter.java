@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.ui;
 
-import java.io.IOException;
-
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.ReaderLineIterator;
+
+import java.io.IOException;
 
 /**
  * {@link InfoPrinter} implementation that prints info to the console.

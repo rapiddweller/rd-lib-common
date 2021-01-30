@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.version;
 
+import com.rapiddweller.common.comparator.IntComparator;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.rapiddweller.common.comparator.IntComparator;
 
 /**
  * {@link VersionNumberComponent} implementation for String-type number components.

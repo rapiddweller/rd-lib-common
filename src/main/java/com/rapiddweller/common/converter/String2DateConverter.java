@@ -18,11 +18,11 @@ import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Patterns;
 import com.rapiddweller.common.StringUtil;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.text.ParseException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 /**
  * Converts Strings of standard date(time) format (yyyy-MM-dd[Thh:mm[:ss[.SSS]]]) to dates.

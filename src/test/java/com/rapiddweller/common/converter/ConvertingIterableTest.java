@@ -11,7 +11,7 @@ import org.junit.Test;
 public class ConvertingIterableTest {
     @Test
     public void testGetType() {
-        ArrayList<Object> iterable = new ArrayList<Object>();
+        ArrayList<Object> iterable = new ArrayList<>();
         Class<Object> actualType = (new ConvertingIterable<Object, Object>(iterable, new ToCollectionConverter()))
                 .getType();
         assertSame(List.class, actualType);
@@ -19,7 +19,7 @@ public class ConvertingIterableTest {
 
     @Test
     public void testIterator() {
-        ArrayList<Object> iterable = new ArrayList<Object>();
+        ArrayList<Object> iterable = new ArrayList<>();
         assertFalse((new ConvertingIterable<Object, Object>(iterable, new ToCollectionConverter())).iterator().hasNext());
     }
 }

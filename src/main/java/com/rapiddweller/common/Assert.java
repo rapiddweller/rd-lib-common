@@ -149,11 +149,10 @@ public class Assert {
 		 return object;
 	}
 
-	public static <E extends Number> E notNegative(E value, String role) {
+	public static <E extends Number> void notNegative(E value, String role) {
 		if (value.doubleValue() < 0)
 			 throw new IllegalArgumentException(role + " is less than zero: " + value);
-		return value;
-	}
+    }
 
 	public static <E extends Number> E positive(E value, String role) {
 		if (value.doubleValue() <= 0)

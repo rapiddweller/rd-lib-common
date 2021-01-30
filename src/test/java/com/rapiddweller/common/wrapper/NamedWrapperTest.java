@@ -7,7 +7,7 @@ import org.junit.Test;
 public class NamedWrapperTest {
     @Test
     public void testSetWrapped() {
-        NamedWrapper<Object> namedWrapper = new NamedWrapper<Object>("Name", "wrapped");
+        NamedWrapper<Object> namedWrapper = new NamedWrapper<>("Name", "wrapped");
         namedWrapper.setWrapped("wrapped");
         assertTrue(namedWrapper.getWrapped() instanceof String);
     }

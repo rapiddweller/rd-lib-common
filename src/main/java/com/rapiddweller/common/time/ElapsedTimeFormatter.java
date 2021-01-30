@@ -14,13 +14,17 @@
  */
 package com.rapiddweller.common.time;
 
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
-
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.converter.PropertyResourceBundleConverter;
 import com.rapiddweller.common.converter.ThreadSafeConverter;
-import static com.rapiddweller.common.TimeUtil.*;
+
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
+
+import static com.rapiddweller.common.TimeUtil.DAY_MILLIS;
+import static com.rapiddweller.common.TimeUtil.HOUR_MILLIS;
+import static com.rapiddweller.common.TimeUtil.MINUTE_MILLIS;
+import static com.rapiddweller.common.TimeUtil.SECOND_MILLIS;
 
 /**
  * Formats millisecond values in a rounded and for humans convenient form.

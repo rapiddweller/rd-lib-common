@@ -31,8 +31,8 @@ public class CompositeFormatter extends FormatHolder {
     
 	private static final String INDENT_DELTA = "    ";
     
-	boolean flat;
-	boolean renderNames;
+	private boolean flat;
+    private final boolean renderNames;
 
     public CompositeFormatter() {
     	this(true, true);
@@ -97,7 +97,6 @@ public class CompositeFormatter extends FormatHolder {
             builder.append(lineSeparator);
             renderComponent(builder, indent, stringObjectEntry);
         }
-        indent = indent.substring(0, indent.length() - INDENT_DELTA.length());
         if (builder.length() > 1)
             builder.append(lineSeparator);
         return builder.toString();

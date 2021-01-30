@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.iterator;
 
+import com.rapiddweller.common.HeavyweightIterator;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Iterator;
-
-import com.rapiddweller.common.HeavyweightIterator;
 
 /**
  * Proxy for an {@link Iterator} with additional support for 

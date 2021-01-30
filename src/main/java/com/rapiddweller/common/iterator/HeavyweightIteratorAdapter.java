@@ -14,11 +14,11 @@
  */
 package com.rapiddweller.common.iterator;
 
-import java.io.Closeable;
-import java.util.Iterator;
-
 import com.rapiddweller.common.HeavyweightIterator;
 import com.rapiddweller.common.IOUtil;
+
+import java.io.Closeable;
+import java.util.Iterator;
 
 /**
  * Wraps an {@link Iterator} with a {@link HeavyweightIterator}. 

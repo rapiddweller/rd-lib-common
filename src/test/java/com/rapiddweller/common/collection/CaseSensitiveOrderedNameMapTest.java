@@ -9,8 +9,8 @@ import org.junit.Test;
 public class CaseSensitiveOrderedNameMapTest {
     @Test
     public void testConstructor() {
-        assertTrue((new CaseSensitiveOrderedNameMap<Object>()).isEmpty());
-        assertTrue((new CaseSensitiveOrderedNameMap<Object>(new HashMap<String, Object>())).isEmpty());
+        assertTrue((new CaseSensitiveOrderedNameMap<>()).isEmpty());
+        assertTrue((new CaseSensitiveOrderedNameMap<>(new HashMap<>())).isEmpty());
     }
 }
 

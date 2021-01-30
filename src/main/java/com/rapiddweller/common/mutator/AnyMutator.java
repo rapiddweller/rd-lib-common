@@ -14,11 +14,6 @@
  */
 package com.rapiddweller.common.mutator;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Map;
-
 import com.rapiddweller.common.Assert;
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.Composite;
@@ -30,6 +25,11 @@ import com.rapiddweller.common.LoggerEscalator;
 import com.rapiddweller.common.UpdateFailedException;
 import com.rapiddweller.common.accessor.FeatureAccessor;
 import com.rapiddweller.common.converter.AnyConverter;
+
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * Mutator implementation for graphs of any object types.

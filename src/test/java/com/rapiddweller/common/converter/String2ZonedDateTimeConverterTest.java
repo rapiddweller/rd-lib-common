@@ -1,12 +1,10 @@
 package com.rapiddweller.common.converter;
 
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 
 import org.junit.Test;
 

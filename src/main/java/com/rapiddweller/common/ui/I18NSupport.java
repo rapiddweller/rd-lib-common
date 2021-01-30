@@ -14,15 +14,15 @@
  */
 package com.rapiddweller.common.ui;
 
+import com.rapiddweller.common.BeanUtil;
+import com.rapiddweller.common.Escalator;
+import com.rapiddweller.common.LoggerEscalator;
+
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-
-import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.Escalator;
-import com.rapiddweller.common.LoggerEscalator;
 
 /**
  * Internationalization utilities.

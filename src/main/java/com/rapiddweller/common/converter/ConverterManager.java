@@ -15,31 +15,37 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ArrayFormat;
+import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.Context;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.IOUtil;
-import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.LogCategories;
+import com.rapiddweller.common.LogCategoriesConstants;
 import com.rapiddweller.common.OrderedMap;
 import com.rapiddweller.common.Patterns;
 import com.rapiddweller.common.ReaderLineIterator;
 import com.rapiddweller.common.Resettable;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.context.ContextAware;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.*;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Manages converters. A default configuration is provided and can be overwritten by a local file 'converters.txt',
@@ -54,7 +60,7 @@ import java.lang.reflect.Modifier;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class ConverterManager implements ContextAware, Resettable {
 
-	private static final Logger CONFIG_LOGGER = LogManager.getLogger(LogCategories.CONFIG);
+	private static final Logger CONFIG_LOGGER = LogManager.getLogger(LogCategoriesConstants.CONFIG);
 
     private static final String DEFAULT_SETUP_FILENAME = "com/rapiddweller/common/converter/converters.txt";
     private static final String CUSTOM_SETUP_FILENAME = "converters.txt";

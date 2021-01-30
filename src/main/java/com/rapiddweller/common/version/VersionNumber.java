@@ -14,12 +14,12 @@
  */
 package com.rapiddweller.common.version;
 
+import com.rapiddweller.common.CollectionUtil;
+
 import java.io.Serializable;
 import java.text.ParsePosition;
 import java.util.Arrays;
 import java.util.List;
-
-import com.rapiddweller.common.CollectionUtil;
 
 /**
  * Represents a software version number.
@@ -42,30 +42,7 @@ public class VersionNumber implements Comparable<VersionNumber>, Serializable {
 	public static VersionNumber valueOf(String text) {
 		return PARSER.parseObject(text, new ParsePosition(0));
 	}
-	
-	/*
-	public VersionNumber(String number) {
-		if (StringUtil.isEmpty(number)) {
-			components = new VersionNumberComponent[] { new NumberVersionNumberComponent("1") };
-			delimiters = new String[0];
-		} else {
-			ParsePosition pos = new ParsePosition(0);
-			String delimiter;
-			ArrayBuilder<VersionNumberComponent> componentBuilder 
-				= new ArrayBuilder<VersionNumberComponent>(VersionNumberComponent.class);
-			ArrayBuilder<String> delimBuilder = new ArrayBuilder<String>(String.class);
-			do {
-				componentBuilder.add(parseComponent(number, pos));
-				delimiter = parseDelimiter(number, pos);
-				if (delimiter != null)
-					delimBuilder.add(delimiter);
-			} while (delimiter != null);
-			this.components = componentBuilder.toArray();
-			this.delimiters = delimBuilder.toArray();
-		}
-	}
-	*/
-	
+
 	public VersionNumber(List<Object> components) {
 		this.components = new VersionNumberComponent[components.size() / 2 + 1];
 		this.delimiters = new String[components.size() / 2];

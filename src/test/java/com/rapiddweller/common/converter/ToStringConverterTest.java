@@ -55,12 +55,12 @@ public class ToStringConverterTest extends AbstractConverterTest {
 
     @Test
     public void testDecimal_US() {
-        LocaleUtil.runInLocale(Locale.US, () -> checkDecimalConversions());
+        LocaleUtil.runInLocale(Locale.US, this::checkDecimalConversions);
     }
 
     @Test
     public void testDecimal_DE() {
-        LocaleUtil.runInLocale(Locale.GERMANY, () -> checkDecimalConversions());
+        LocaleUtil.runInLocale(Locale.GERMANY, this::checkDecimalConversions);
     }
 
     void checkDecimalConversions() {
@@ -148,7 +148,7 @@ public class ToStringConverterTest extends AbstractConverterTest {
         assertEquals("", (new ToStringConverter()).convert(null));
         assertEquals("0", (new ToStringConverter()).convert(0));
         assertEquals("source", ToStringConverter.<Object>convert("source", "Null String"));
-        assertEquals("Null String", ToStringConverter.<Object>convert(null, "Null String"));
+        assertEquals("Null String", ToStringConverter.convert(null, "Null String"));
         assertEquals("0", ToStringConverter.<Object>convert(0, "Null String"));
     }
 

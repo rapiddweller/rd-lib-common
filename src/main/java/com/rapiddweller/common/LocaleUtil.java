@@ -14,10 +14,13 @@
  */
 package com.rapiddweller.common;
 
-import java.text.DecimalFormat;
-import java.util.*;
-import java.util.concurrent.Callable;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Callable;
 
 /**
  * Provides locale operations like determining the parent of a locale,

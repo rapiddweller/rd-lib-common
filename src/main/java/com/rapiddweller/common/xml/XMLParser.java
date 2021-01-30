@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.xml;
 
+import org.w3c.dom.Document;
+
 import java.io.File;
 import java.io.IOException;
-
-import org.w3c.dom.Document;
 
 /**
  * XML Parser which is able to parse strings, files and content provides from URIs.

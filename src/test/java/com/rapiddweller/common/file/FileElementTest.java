@@ -42,7 +42,7 @@ public class FileElementTest {
         assertTrue(visitor.allFound());
     }
 
-    class CheckVisitor implements Visitor<File> {
+    static class CheckVisitor implements Visitor<File> {
 
         private final File[] expectedFiles;
         private final boolean[] filesFound;

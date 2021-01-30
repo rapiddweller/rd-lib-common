@@ -15,13 +15,13 @@
 package com.rapiddweller.common.mutator;
 
 import com.rapiddweller.common.Accessor;
+import com.rapiddweller.common.ComparableComparator;
 import com.rapiddweller.common.Mutator;
 import com.rapiddweller.common.NullSafeComparator;
-import com.rapiddweller.common.ComparableComparator;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.UpdateFailedException;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Comparator;
 

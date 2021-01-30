@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.text.DecimalFormat;
-
 import com.rapiddweller.common.ConversionException;
+
+import java.text.DecimalFormat;
 
 /**
  * Converts Strings to Numbers using a {@link DecimalFormat}.

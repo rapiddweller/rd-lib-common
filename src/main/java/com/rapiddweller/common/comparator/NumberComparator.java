@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.comparator;
 
-import java.util.Comparator;
-import java.math.BigInteger;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Comparator;
 
 /**
  * Generic comparator for Number objects of different type.

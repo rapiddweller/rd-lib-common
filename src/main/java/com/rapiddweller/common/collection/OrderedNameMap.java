@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.collection;
 
+import com.rapiddweller.common.OrderedMap;
+
 import java.util.List;
 import java.util.Map;
-
-import com.rapiddweller.common.OrderedMap;
 
 /**
  * A map that assigns names to Objects and keeps entries 

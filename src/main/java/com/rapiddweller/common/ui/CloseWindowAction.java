@@ -14,12 +14,11 @@
  */
 package com.rapiddweller.common.ui;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 
 /**
  * {@link Action} that closes a Window.

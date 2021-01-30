@@ -14,12 +14,12 @@
  */
 package com.rapiddweller.common.collection;
 
+import com.rapiddweller.common.OrderedMap;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
-import com.rapiddweller.common.OrderedMap;
 
 /**
  * {@link Map} proxy which allow to attach a mark to each entry.
@@ -47,9 +47,9 @@ public class MarkedMap<K, V> implements Map<K, V> {
 
 	// marker interface ------------------------------------------------------------------------------------------------
 	
-	public boolean mark(K key) {
-		return marks.put(key, true);
-	}
+	public void mark(K key) {
+        marks.put(key, true);
+    }
 
 	public boolean unmark(K key) {
 		return marks.put(key, false);

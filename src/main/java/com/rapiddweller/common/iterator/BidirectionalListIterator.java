@@ -14,8 +14,6 @@
  */
 package com.rapiddweller.common.iterator;
 
-import com.rapiddweller.common.iterator.BidirectionalIterator;
-
 import java.util.List;
 
 /**

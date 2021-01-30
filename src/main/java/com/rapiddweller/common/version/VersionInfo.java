@@ -14,22 +14,21 @@
  */
 package com.rapiddweller.common.version;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.validation.constraints.NotNull;
-
 import com.rapiddweller.common.Assert;
 import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.DeploymentError;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.xml.XMLUtil;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Provides a mechanism to access an application's version number and 

@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.file;
 
+import com.rapiddweller.common.Filter;
+
 import java.io.File;
 import java.io.FilenameFilter;
-
-import com.rapiddweller.common.Filter;
 
 /**
  * Wraps a {@link FilenameFilter} with a {@link FileFilter}.

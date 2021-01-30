@@ -18,9 +18,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.nio.file.Paths;
-
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -40,7 +37,7 @@ public class VMInfoTest {
     @Test
     public void testJavaVendor2() {
         String expectedJavaVendorResult = System.getProperty("java.vm.vendor");
-        assertEquals(expectedJavaVendorResult, VMInfo.javaVendor());
+        assertEquals(expectedJavaVendorResult, VMInfo.getJavaVendor());
     }
 
     @Test
@@ -52,7 +49,7 @@ public class VMInfoTest {
     @Test
     public void testJavaVendorUrl2() {
         String expectedJavaVendorUrlResult = System.getProperty("java.vendor.url");
-        assertEquals(expectedJavaVendorUrlResult, VMInfo.javaVendorUrl());
+        assertEquals(expectedJavaVendorUrlResult, VMInfo.getJavaVendorUrl());
     }
 
     @Test
@@ -63,7 +60,7 @@ public class VMInfoTest {
 
     @Test
     public void testJavaSpecificationVersion2() {
-        assertEquals("11", VMInfo.javaSpecificationVersion());
+        assertEquals("11", VMInfo.getJavaSpecificationVersion());
     }
 
     @Test
@@ -74,7 +71,7 @@ public class VMInfoTest {
     @Test
     public void testJavaSpecificationVendor2() {
         String expectedJavaSpecificationVendorResult = System.getProperty("java.specification.vendor");
-        assertEquals(expectedJavaSpecificationVendorResult, VMInfo.javaSpecificationVendor());
+        assertEquals(expectedJavaSpecificationVendorResult, VMInfo.getJavaSpecificationVendor());
     }
 
     @Test
@@ -86,7 +83,7 @@ public class VMInfoTest {
     @Test
     public void testJavaSpecificationName2() {
         String expectedJavaSpecificationNameResult = System.getProperty("java.specification.name");
-        assertEquals(expectedJavaSpecificationNameResult, VMInfo.javaSpecificationName());
+        assertEquals(expectedJavaSpecificationNameResult, VMInfo.getJavaSpecificationName());
     }
 
     @Test
@@ -97,7 +94,7 @@ public class VMInfoTest {
 
     @Test
     public void testJavaClassVersion2() {
-        assertEquals("55.0", VMInfo.javaClassVersion());
+        assertEquals("55.0", VMInfo.getJavaClassVersion());
     }
 
     @Test
@@ -107,7 +104,7 @@ public class VMInfoTest {
 
     @Test
     public void testJavaCompiler2() {
-        assertNull(VMInfo.javaCompiler());
+        assertNull(VMInfo.getJavaCompiler());
     }
 
     @Test
@@ -118,7 +115,7 @@ public class VMInfoTest {
     @Test
     public void testJavaHome2() {
         String expectedJavaHomeResult = System.getProperty("java.home");
-        assertEquals(expectedJavaHomeResult, VMInfo.javaHome());
+        assertEquals(expectedJavaHomeResult, VMInfo.getJavaHome());
     }
 
     @Test
@@ -129,7 +126,7 @@ public class VMInfoTest {
 
     @Test
     public void testExtDirs() {
-        assertNull(VMInfo.extDirs());
+        assertNull(VMInfo.getExtDirs());
     }
 
     @Test
@@ -140,7 +137,7 @@ public class VMInfoTest {
     @Test
     public void testLibraryPath2() {
         String expectedLibraryPathResult = System.getProperty("java.library.path");
-        assertEquals(expectedLibraryPathResult, VMInfo.libraryPath());
+        assertEquals(expectedLibraryPathResult, VMInfo.getLibraryPath());
     }
 
     @Test
@@ -151,7 +148,7 @@ public class VMInfoTest {
 
     @Test
     public void testJavaVmSpecificationVersion() {
-        assertEquals("11", VMInfo.javaVmSpecificationVersion());
+        assertEquals("11", VMInfo.getJavaVmSpecificationVersion());
     }
 
     @Test
@@ -162,7 +159,7 @@ public class VMInfoTest {
     @Test
     public void testJavaVmSpecificationVendor() {
         String expectedJavaVmSpecificationVendorResult = System.getProperty("java.specification.vendor");
-        assertEquals(expectedJavaVmSpecificationVendorResult, VMInfo.javaVmSpecificationVendor());
+        assertEquals(expectedJavaVmSpecificationVendorResult, VMInfo.getJavaVmSpecificationVendor());
     }
 
     @Test
@@ -174,7 +171,7 @@ public class VMInfoTest {
     @Test
     public void testJavaVmSpecificationName() {
         String expectedJavaVmSpecificationNameResult = System.getProperty("java.vm.specification.name");
-        assertEquals(expectedJavaVmSpecificationNameResult, VMInfo.javaVmSpecificationName());
+        assertEquals(expectedJavaVmSpecificationNameResult, VMInfo.getJavaVmSpecificationName());
     }
 
     @Test
@@ -186,7 +183,7 @@ public class VMInfoTest {
     @Test
     public void testJavaVmVersion() {
         String expectedJavaVmVersionResult = System.getProperty("java.runtime.version");
-        assertEquals(expectedJavaVmVersionResult, VMInfo.javaVmVersion());
+        assertEquals(expectedJavaVmVersionResult, VMInfo.getJavaVmVersion());
     }
 
     @Test
@@ -198,7 +195,7 @@ public class VMInfoTest {
     @Test
     public void testJavaVmVendor() {
         String expectedJavaVmVendorResult = System.getProperty("java.vm.vendor");
-        assertEquals(expectedJavaVmVendorResult, VMInfo.javaVmVendor());
+        assertEquals(expectedJavaVmVendorResult, VMInfo.getJavaVmVendor());
     }
 
     @Test
@@ -210,7 +207,7 @@ public class VMInfoTest {
     @Test
     public void testJavaVmName() {
         String expectedJavaVmNameResult = System.getProperty("java.vm.name");
-        assertEquals(expectedJavaVmNameResult, VMInfo.javaVmName());
+        assertEquals(expectedJavaVmNameResult, VMInfo.getJavaVmName());
     }
 
     @Test

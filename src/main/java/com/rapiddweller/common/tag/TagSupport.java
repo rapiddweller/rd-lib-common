@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.tag;
 
+import com.rapiddweller.common.Tagged;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import com.rapiddweller.common.Tagged;
 
 /**
  * Provides tag management, to be used as delegate object.

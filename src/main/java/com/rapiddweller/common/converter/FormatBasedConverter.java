@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.text.Format;
-
 import com.rapiddweller.common.Converter;
+
+import java.text.Format;
 
 /**
  * Parent class for {@link Converter}s that use a {@link java.text.Format} instance for 
@@ -49,7 +49,7 @@ public abstract class FormatBasedConverter<S, T> extends AbstractConverter<S, T>
         return threadSafe;
     }
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"rawtypes" })
     @Override
     public Object clone() {
         try {

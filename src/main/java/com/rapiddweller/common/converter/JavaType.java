@@ -14,13 +14,13 @@
  */
 package com.rapiddweller.common.converter;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.math.BigInteger;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Utility class for operations related to Java types, e.g. mapping number types and their wrappers.

@@ -20,9 +20,9 @@ public class NameMapTest {
 
     @Test
     public void testConstructor2() {
-        ArrayList<Named> namedList = new ArrayList<Named>();
+        ArrayList<Named> namedList = new ArrayList<>();
         namedList.add(new CharSet());
-        assertEquals(1, (new NameMap<Named>(namedList)).size());
+        assertEquals(1, (new NameMap<>(namedList)).size());
     }
 
     @Test

@@ -14,9 +14,9 @@
  */
 package com.rapiddweller.common.tag;
 
-import java.util.Set;
-
 import com.rapiddweller.common.Tagged;
+
+import java.util.Set;
 
 /**
  * Parent class which provides tag support by inheritance.

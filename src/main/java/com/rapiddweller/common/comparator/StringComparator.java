@@ -15,8 +15,8 @@
 package com.rapiddweller.common.comparator;
 
 import java.text.Collator;
-import java.util.Locale;
 import java.util.Comparator;
+import java.util.Locale;
 
 /**
  * Compares two Strings with a Collator. If no Collator is specified, 

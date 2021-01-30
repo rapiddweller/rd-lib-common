@@ -32,8 +32,7 @@ public class MinNumberStringOperation implements Operation<String, String> {
 	
 	private final Converter<String, ?> parser;
 
-    @SuppressWarnings("rawtypes")
-	public MinNumberStringOperation() {
+    public MinNumberStringOperation() {
         this.operation = new MinOperation<>();
         this.parser = new NumberParser();
     }

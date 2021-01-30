@@ -135,6 +135,13 @@
             <version>${dependency_xercesImpl.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <!--  codeanalyze dependencies -->
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

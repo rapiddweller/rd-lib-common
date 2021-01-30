@@ -7,7 +7,7 @@ import org.junit.Test;
 public class FallbackAccessorTest {
     @Test
     public void testGetValue() {
-        assertNull((new FallbackAccessor<Object, Object>()).getValue("target"));
+        assertNull((new FallbackAccessor<>()).getValue("target"));
     }
 }
 

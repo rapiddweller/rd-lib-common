@@ -14,14 +14,14 @@
  */
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.Patterns;
+import com.rapiddweller.common.StringUtil;
+
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import com.rapiddweller.common.ConversionException;
-import com.rapiddweller.common.Patterns;
-import com.rapiddweller.common.StringUtil;
 
 /**
  * Parses a String as a time value.

@@ -18,7 +18,9 @@ import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.converter.ToStringConverter;
 
-import java.text.*;
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
 
 /**
  * {@link Format} implementation that applies padding for formatting Strings with a fixed width.

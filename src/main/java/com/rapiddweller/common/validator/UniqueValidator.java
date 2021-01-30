@@ -17,8 +17,8 @@ package com.rapiddweller.common.validator;
 import com.rapiddweller.common.Resettable;
 import com.rapiddweller.common.Validator;
 
-import java.util.Set;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Validator implementation that requires each argument 

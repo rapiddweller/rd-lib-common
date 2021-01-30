@@ -141,13 +141,6 @@ public class TreeIterator<E> implements BidirectionalIterator<E> {
                     return candidate;
             }
         }
-        /*
-        // check sibling of parent
-        if (!treeModel.getRoot().equals(parent))
-            return nodeBefore(parent, treeModel);
-        else // return root
-        	return treeModel.getRoot();
-        */
         return parent;
     }
 

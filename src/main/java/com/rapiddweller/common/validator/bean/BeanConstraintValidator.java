@@ -14,11 +14,10 @@
  */
 package com.rapiddweller.common.validator.bean;
 
-import java.lang.annotation.Annotation;
+import com.rapiddweller.common.Validator;
 
 import javax.validation.ConstraintValidator;
-
-import com.rapiddweller.common.Validator;
+import java.lang.annotation.Annotation;
 
 /**
  * Wraps a JSR 303 {@link ConstraintValidator} with a databene common {@link Validator}.

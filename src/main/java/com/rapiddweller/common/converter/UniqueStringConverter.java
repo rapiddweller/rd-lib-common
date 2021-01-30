@@ -14,10 +14,10 @@
  */
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.ConversionException;
+
 import java.util.HashSet;
 import java.util.Set;
-
-import com.rapiddweller.common.ConversionException;
 
 /**
  * Assures uniqueness for all processed Strings by appending unique numbers to recurring instances.
