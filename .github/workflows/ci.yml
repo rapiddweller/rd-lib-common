@@ -93,7 +93,7 @@ jobs:
       - run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report
         shell: bash
         env: 
-          CODACY_PROJECT_TOKEN: ${{ secret.CODACY_PROJECT_TOKEN }}
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
   ###################### Assembly and Deploy ######################
 
