@@ -216,7 +216,7 @@ public final class CollectionUtil {
     		return result;
     	String lcKey = key.toLowerCase();
     	for (Map.Entry<String, V> entry : map.entrySet())
-			if (entry.getKey() != null && lcKey.equals(entry.getKey().toLowerCase()))
+			if (entry.getKey() != null && lcKey.equalsIgnoreCase(entry.getKey()))
 				return entry.getValue();
 		return null;
     }
@@ -225,8 +225,8 @@ public final class CollectionUtil {
     	if (map.containsKey(key))
     		return true;
     	String lcKey = key.toLowerCase();
-    	for (String candidate : map.keySet())
-			if (candidate != null && lcKey.equals(candidate.toLowerCase()))
+    	for (Map.Entry<String, V> entry : map.entrySet())
+			if (lcKey.equalsIgnoreCase(entry.getKey()))
 				return true;
 		return false;
     }

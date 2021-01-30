@@ -126,8 +126,8 @@ public class TextOverlayIcon implements Icon {
 
 	private static Font defaultFont() {
 		Font tableFont = UIManager.getDefaults().getFont("Table.font");
-		if (tableFont.isBold() != false)
-			return new Font(tableFont.getFamily(), (false ? Font.BOLD : Font.PLAIN), tableFont.getSize());
+		if (tableFont.isBold())
+			return new Font(tableFont.getFamily(), (Font.PLAIN), tableFont.getSize());
 		else
 			return tableFont;
 	}
