@@ -46,7 +46,7 @@ public class GraalValueConverter extends ThreadSafeConverter<Value, Object> {
         super(Value.class, Object.class);
     }
 
-    public static Object Value2JavaConverter(Value value) {
+    public static Object value2JavaConverter(Value value) {
         return value.fitsInInt() ? value.asInt() :
                 value.fitsInLong() ? value.asLong() :
                         value.fitsInFloat() ? value.asFloat() :
@@ -67,7 +67,7 @@ public class GraalValueConverter extends ThreadSafeConverter<Value, Object> {
     private static Object getArrayFromValue(Value val) {
         Object[] out = new Object[(int) val.getArraySize()];
         for (int i = 0; i < val.getArraySize(); i++) {
-            out[i] = Value2JavaConverter(val.getArrayElement(i));
+            out[i] = value2JavaConverter(val.getArrayElement(i));
         }
 
         return out;
@@ -75,6 +75,6 @@ public class GraalValueConverter extends ThreadSafeConverter<Value, Object> {
 
     @Override
     public Object convert(Value sourceValue) throws ConversionException {
-        return Value2JavaConverter(sourceValue);
+        return value2JavaConverter(sourceValue);
     }
 }

@@ -215,9 +215,9 @@ public final class CollectionUtil {
     	if (result != null || key == null)
     		return result;
     	String lcKey = key.toLowerCase();
-    	for (String candidate : map.keySet())
-			if (candidate != null && lcKey.equals(candidate.toLowerCase()))
-				return map.get(candidate);
+    	for (Map.Entry<String, V> entry : map.entrySet())
+			if (entry.getKey() != null && lcKey.equals(entry.getKey().toLowerCase()))
+				return entry.getValue();
 		return null;
     }
 

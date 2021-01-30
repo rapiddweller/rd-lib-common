@@ -74,8 +74,8 @@ public class PropertyPasswordField extends JPasswordField {
 			Object propertyValue = BeanUtil.getPropertyValue(bean, propertyName);
 			String text = toStringConverter.convert(propertyValue);
 			text = StringUtil.escape(text);
-			if (!getPassword().equals(text))
-				setText(text);
+			getPassword();
+			setText(text);
 			locked = false;
 		}
 	}
