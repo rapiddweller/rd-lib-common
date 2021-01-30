@@ -92,6 +92,8 @@ jobs:
       - run: awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' target/site/jacoco/jacoco.csv
       - run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report
         shell: bash
+        env: 
+          CODACY_PROJECT_TOKEN: ${{ secret.CODACY_PROJECT_TOKEN }}
 
   ###################### Assembly and Deploy ######################
 
