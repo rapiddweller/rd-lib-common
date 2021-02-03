@@ -43,16 +43,6 @@ import org.junit.Test;
 public class TimeUtilTest {
 
     @Test
-    public void testCurrentMonth() {
-        assertEquals(0, TimeUtil.currentMonth());
-    }
-
-    @Test
-    public void testCurrentYear() {
-        assertEquals(2021, TimeUtil.currentYear());
-    }
-
-    @Test
     public void testMonthLength() {
         assertEquals(31, TimeUtil.monthLength(Calendar.JANUARY, 2013));
         assertEquals(28, TimeUtil.monthLength(Calendar.FEBRUARY, 2013));
@@ -224,11 +214,6 @@ public class TimeUtilTest {
     public void testIsNow() {
         assertFalse(TimeUtil.isNow(10L, 1L));
         assertFalse(TimeUtil.isNow(9223372036854775807L, 1L));
-    }
-
-    @Test
-    public void testFormatMillis() {
-        assertEquals("Jan 1, 1970", TimeUtil.formatMillis(1L));
     }
 
     @Test
@@ -528,20 +513,6 @@ public class TimeUtilTest {
                 .monthOf(Date.from(atStartOfDayResult.atZone(ZoneId.systemDefault()).toInstant()));
         assertEquals(0, actualMonthOfResult.month);
         assertEquals(1970, actualMonthOfResult.year);
-    }
-
-    @Test
-    public void testThisMonth() {
-        Month actualThisMonthResult = TimeUtil.thisMonth();
-        assertEquals(0, actualThisMonthResult.month);
-        assertEquals(2021, actualThisMonthResult.year);
-    }
-
-    @Test
-    public void testNextMonth() {
-        Month actualNextMonthResult = TimeUtil.nextMonth();
-        assertEquals(1, actualNextMonthResult.month);
-        assertEquals(2021, actualNextMonthResult.year);
     }
 
     @Test

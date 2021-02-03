@@ -438,15 +438,9 @@
     </repositories>
 
     <distributionManagement>
-        <repository>
-            <id>rdd-nexus</id>
-            <name>Releases</name>
-            <url>https://nexus.dwellerlab.com/repository/releases</url>
-        </repository>
         <snapshotRepository>
-            <id>rdd-nexus</id>
-            <name>Snapshot</name>
-            <url>https://nexus.dwellerlab.com/repository/snapshots</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
