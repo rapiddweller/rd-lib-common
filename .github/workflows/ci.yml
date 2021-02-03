@@ -155,8 +155,10 @@ jobs:
         with:
           name: setup
       - run: bash dot.env
+      - run: apt update && apt -y install gnupg
       - name: generate key
         run: gpg --batch --import <(echo "$GPG_PRIVATE_KEY_ENCODED" | base64 -d)
+        shell: bash
         env:
           GPG_PRIVATE_KEY_ENCODED: ${{ secrets.GPG_PRIVATE_KEY_ENCODED }}
       - name: Publish package
