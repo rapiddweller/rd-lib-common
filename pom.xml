@@ -432,17 +432,12 @@
 
     <repositories>
         <repository>
-            <id>rdd-nexus</id>
-            <url>https://nexus.dwellerlab.com/repository/maven-rdd</url>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
+            <releases><enabled>true</enabled></releases>
+            <snapshots><enabled>true</enabled></snapshots>
         </repository>
     </repositories>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <scm>
         <url>https://github.com/rapiddweller/rd-lib-common</url>
