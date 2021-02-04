@@ -204,7 +204,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build_jdk11
-          path: target
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -226,6 +225,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: target/${{ env.ARTIFACT_FULLNAME }}-dist.zip
+          asset_path: ./${{ env.ARTIFACT_FULLNAME }}-dist.zip
           asset_name: ${{ env.ARTIFACT_FULLNAME }}-dist.zip
           asset_content_type: application/zip
