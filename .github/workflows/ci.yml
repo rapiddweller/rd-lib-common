@@ -111,7 +111,7 @@ jobs:
 
   ###################### Assembly and Deploy ######################
 
-  assembly_jdk11:
+  release_jdk11:
     runs-on: ubuntu-latest
     needs:
       #- test_jdk11
@@ -175,35 +175,35 @@ jobs:
           asset_name: ${{ env.ARTIFACT_FULLNAME }}-dist.tar.gz
           asset_content_type: application/zip
 
-  publish_jdk11:
-    runs-on: ubuntu-latest
-    needs:
-      - test_jdk11
-      - build_jdk11
-    container: maven:3.6-adoptopenjdk-11
-    steps:
-      - uses: actions/checkout@v2
-      - name: Cache Maven packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Download dot.env
-        uses: actions/download-artifact@v2
-        with:
-          name: setup
-      - run: bash dot.env
-      - run: mvn versions:set -DnewVersion=$ARTIFACT_VERSION
-      - run: apt update && apt -y install gnupg
-      - name: generate key
-        run: gpg --batch --import <(echo "$GPG_PRIVATE_KEY_ENCODED" | base64 -d)
-        shell: bash
-        env:
-          GPG_PRIVATE_KEY_ENCODED: ${{ secrets.GPG_PRIVATE_KEY_ENCODED }}
-      - name: Publish package
-        run: mvn -s .m2/settings.xml  clean deploy -P release -Dmaven.test.skip=true -Dmaven.install.skip=true
-        env:
-          OSSRH_USERTOKEN: ${{ secrets.OSSRH_USERTOKEN }}
-          OSSRH_USERTOKEN_KEY: ${{ secrets.OSSRH_USERTOKEN_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+#  publish_jdk11:
+#    runs-on: ubuntu-latest
+#    needs:
+#      - test_jdk11
+#      - build_jdk11
+#    container: maven:3.6-adoptopenjdk-11
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Cache Maven packages
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.m2
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-m2
+#      - name: Download dot.env
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: setup
+#      - run: bash dot.env
+#      - run: mvn versions:set -DnewVersion=$ARTIFACT_VERSION
+#      - run: apt update && apt -y install gnupg
+#      - name: generate key
+#        run: gpg --batch --import <(echo "$GPG_PRIVATE_KEY_ENCODED" | base64 -d)
+#        shell: bash
+#        env:
+#          GPG_PRIVATE_KEY_ENCODED: ${{ secrets.GPG_PRIVATE_KEY_ENCODED }}
+#      - name: Publish package
+#        run: mvn -s .m2/settings.xml  clean deploy -P release -Dmaven.test.skip=true -Dmaven.install.skip=true
+#        env:
+#          OSSRH_USERTOKEN: ${{ secrets.OSSRH_USERTOKEN }}
+#          OSSRH_USERTOKEN_KEY: ${{ secrets.OSSRH_USERTOKEN_KEY }}
+#          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
