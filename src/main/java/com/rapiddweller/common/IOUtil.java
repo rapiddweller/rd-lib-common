@@ -273,7 +273,7 @@ public final class IOUtil {
 
         if (localUri.startsWith("file:") && !localUri.startsWith("file://"))
             return getFileOrResourceAsStream(localUri.substring("file:".length()), true);
-        if (!localUri.contains("://"))
+        if (!localUri.contains("://") && !localUri.contains("~"))
             localUri = "file://" + localUri;
         if (localUri.startsWith("file://"))
             return getFileOrResourceAsStream(localUri.substring("file://".length()), true);
