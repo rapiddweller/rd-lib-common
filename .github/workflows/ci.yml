@@ -136,6 +136,7 @@ jobs:
         with:
           name: build_jdk11
           path: target
+      - run: mvn versions:set -DnewVersion=$ARTIFACT_VERSION
       - name: check content of target
         run: cd target && ls
       - run: mvn $MAVEN_CLI_OPTS site:site assembly:single -Dmaven.test.skip=true
@@ -169,6 +170,7 @@ jobs:
         with:
           name: setup
       - run: bash dot.env
+      - run: mvn versions:set -DnewVersion=$ARTIFACT_VERSION
       - run: apt update && apt -y install gnupg
       - name: generate key
         run: gpg --batch --import <(echo "$GPG_PRIVATE_KEY_ENCODED" | base64 -d)
