@@ -35,7 +35,7 @@ jobs:
           ARTIFACT_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec);
           echo ARTIFACT_VERSION=$ARTIFACT_VERSION  >> $GITHUB_ENV;
           echo ARTIFACT_FULLNAME=$ARTIFACT_ID-$ARTIFACT_VERSION >> $GITHUB_ENV;
-        if: !${{ github.event.ref }} == 'refs/tags/*'
+        if: ${{ github.event.ref }} == !'refs/tags/*'
       - run: |
           echo "echo ARTIFACT_ID=${ARTIFACT_ID} >> \$GITHUB_ENV" >> dot.env
           echo "echo ARTIFACT_VERSION=${ARTIFACT_VERSION} >> \$GITHUB_ENV" >> dot.env
