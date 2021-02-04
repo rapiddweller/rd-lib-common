@@ -83,40 +83,40 @@ jobs:
           if-no-files-found: error
           retention-days: 5
 
-  test_jdk11:
-    runs-on: ubuntu-latest
-    needs:
-      - setup
-    container: maven:3.6-adoptopenjdk-11
-    steps:
-      - uses: actions/checkout@v2
-      - name: Cache Maven packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Download dot.env
-        uses: actions/download-artifact@v2
-        with:
-          name: setup
-      - run: bash dot.env
-      - run: mvn versions:set -DnewVersion=$ARTIFACT_VERSION
-      - run: mvn $MAVEN_CLI_OPTS clean org.jacoco:jacoco-maven-plugin:prepare-agent test jacoco:report
-      - run: awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' target/site/jacoco/jacoco.csv
-      - run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report
-        shell: bash
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+#  test_jdk11:
+#    runs-on: ubuntu-latest
+#    needs:
+#      - setup
+#    container: maven:3.6-adoptopenjdk-11
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Cache Maven packages
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.m2
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-m2
+#      - name: Download dot.env
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: setup
+#      - run: bash dot.env
+#      - run: mvn versions:set -DnewVersion=$ARTIFACT_VERSION
+#      - run: mvn $MAVEN_CLI_OPTS clean org.jacoco:jacoco-maven-plugin:prepare-agent test jacoco:report
+#      - run: awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' target/site/jacoco/jacoco.csv
+#      - run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report
+#        shell: bash
+#        env:
+#          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
   ###################### Assembly and Deploy ######################
 
   assembly_jdk11:
     runs-on: ubuntu-latest
     needs:
-      - test_jdk11
+      #- test_jdk11
       - build_jdk11
-    if: startsWith(github.ref, 'refs/tags/')
+    #if: startsWith(github.ref, 'refs/tags/')
     container: maven:3.6-adoptopenjdk-11
     steps:
       - uses: actions/checkout@v2
@@ -151,38 +151,38 @@ jobs:
           if-no-files-found: error
           retention-days: 5
 
-  publish_jdk11:
-    runs-on: ubuntu-latest
-    needs:
-      - test_jdk11
-      - build_jdk11
-    container: maven:3.6-adoptopenjdk-11
-    steps:
-      - uses: actions/checkout@v2
-      - name: Cache Maven packages
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Download dot.env
-        uses: actions/download-artifact@v2
-        with:
-          name: setup
-      - run: bash dot.env
-      - run: mvn versions:set -DnewVersion=$ARTIFACT_VERSION
-      - run: apt update && apt -y install gnupg
-      - name: generate key
-        run: gpg --batch --import <(echo "$GPG_PRIVATE_KEY_ENCODED" | base64 -d)
-        shell: bash
-        env:
-          GPG_PRIVATE_KEY_ENCODED: ${{ secrets.GPG_PRIVATE_KEY_ENCODED }}
-      - name: Publish package
-        run: mvn -s .m2/settings.xml  clean deploy -P release -Dmaven.test.skip=true -Dmaven.install.skip=true
-        env:
-          OSSRH_USERTOKEN: ${{ secrets.OSSRH_USERTOKEN }}
-          OSSRH_USERTOKEN_KEY: ${{ secrets.OSSRH_USERTOKEN_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+#  publish_jdk11:
+#    runs-on: ubuntu-latest
+#    needs:
+#      - test_jdk11
+#      - build_jdk11
+#    container: maven:3.6-adoptopenjdk-11
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Cache Maven packages
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.m2
+#          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+#          restore-keys: ${{ runner.os }}-m2
+#      - name: Download dot.env
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: setup
+#      - run: bash dot.env
+#      - run: mvn versions:set -DnewVersion=$ARTIFACT_VERSION
+#      - run: apt update && apt -y install gnupg
+#      - name: generate key
+#        run: gpg --batch --import <(echo "$GPG_PRIVATE_KEY_ENCODED" | base64 -d)
+#        shell: bash
+#        env:
+#          GPG_PRIVATE_KEY_ENCODED: ${{ secrets.GPG_PRIVATE_KEY_ENCODED }}
+#      - name: Publish package
+#        run: mvn -s .m2/settings.xml  clean deploy -P release -Dmaven.test.skip=true -Dmaven.install.skip=true
+#        env:
+#          OSSRH_USERTOKEN: ${{ secrets.OSSRH_USERTOKEN }}
+#          OSSRH_USERTOKEN_KEY: ${{ secrets.OSSRH_USERTOKEN_KEY }}
+#          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
   ###################### Release ######################
 
@@ -191,7 +191,7 @@ jobs:
     container: maven:3.6-adoptopenjdk-11
     needs:
       - assembly_jdk11
-    if: startsWith(github.ref, 'refs/tags/')
+    #if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
