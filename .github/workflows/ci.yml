@@ -12,16 +12,6 @@ env:
   SET_VERSION: |
     ARTIFACT_ID=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.artifactId}' --non-recursive exec:exec);
     echo "ARTIFACT_ID=$ARTIFACT_ID" >> $GITHUB_ENV;
-    if [ $GITHUB_REF == refs/tags/* ];
-    then
-      ARTIFACT_VERSION=${GITHUB_REF/refs\/tags\//}-$JAVA_JDKVERSION_TAG;
-      echo ARTIFACT_VERSION=$ARTIFACT_VERSION  >> $GITHUB_ENV;
-      echo ARTIFACT_FULLNAME=$ARTIFACT_ID-$ARTIFACT_VERSION >> $GITHUB_ENV;
-    else
-      ARTIFACT_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec);
-      echo ARTIFACT_VERSION=$ARTIFACT_VERSION  >> $GITHUB_ENV;
-      echo ARTIFACT_FULLNAME=$ARTIFACT_ID-$ARTIFACT_VERSION >> $GITHUB_ENV;
-    fi
 jobs:
   ###################### Setup ######################
   setup:
@@ -31,8 +21,21 @@ jobs:
       run:
         shell: bash
     steps:
+      - run: export
       - uses: actions/checkout@v2
-      - run: eval $SET_VERSION
+      - run: |
+          ARTIFACT_ID=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.artifactId}' --non-recursive exec:exec);
+          echo "ARTIFACT_ID=$ARTIFACT_ID" >> $GITHUB_ENV;
+      - run: |
+          ARTIFACT_VERSION=${GITHUB_REF/refs\/tags\//}-$JAVA_JDKVERSION_TAG;
+          echo ARTIFACT_VERSION=$ARTIFACT_VERSION  >> $GITHUB_ENV;
+          echo ARTIFACT_FULLNAME=$ARTIFACT_ID-$ARTIFACT_VERSION >> $GITHUB_ENV;
+        if: ${{ github.event.ref }} == 'refs/tags/*'
+      - run: |
+          ARTIFACT_VERSION=$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec);
+          echo ARTIFACT_VERSION=$ARTIFACT_VERSION  >> $GITHUB_ENV;
+          echo ARTIFACT_FULLNAME=$ARTIFACT_ID-$ARTIFACT_VERSION >> $GITHUB_ENV;
+        if: !${{ github.event.ref }} == 'refs/tags/*'
       - run: |
           echo "echo ARTIFACT_ID=${ARTIFACT_ID} >> \$GITHUB_ENV" >> dot.env
           echo "echo ARTIFACT_VERSION=${ARTIFACT_VERSION} >> \$GITHUB_ENV" >> dot.env
