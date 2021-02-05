@@ -1,6 +1,7 @@
 # rd-lib-common
 
 ![.github/workflows/ci.yml](https://github.com/rapiddweller/rd-lib-common/workflows/.github/workflows/ci.yml/badge.svg)[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f1e0c887d8ca410e8de4d3cbbc977416)](https://www.codacy.com/gh/rapiddweller/rd-lib-common/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=rapiddweller/rd-lib-common&amp;utm_campaign=Badge_Grade)[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/f1e0c887d8ca410e8de4d3cbbc977416)](https://www.codacy.com/gh/rapiddweller/rd-lib-common/dashboard?utm_source=github.com&utm_medium=referral&utm_content=rapiddweller/rd-lib-common&utm_campaign=Badge_Coverage)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.rapiddweller/rd-lib-common/badge.svg)](https://search.maven.org/artifact/com.rapiddweller/rd-lib-common)
 
 'rapiddweller Common' is an open source Java library forked from Databene Commons by Volker Bergmann.
 
