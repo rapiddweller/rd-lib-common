@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.rapiddweller</groupId>
     <artifactId>rd-lib-common</artifactId>
-    <version>1.1.0-jdk-11-SNAPSHOT</version>
+    <version>1.1.2-jdk-11-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>rapiddweller Common</name>
     <description>'rapiddweller Common' is an open source Java library
@@ -16,7 +16,7 @@
     <inceptionYear>2004</inceptionYear>
 
     <properties>
-        <dependency_graalvm.version>20.3.0</dependency_graalvm.version>
+        <dependency_graalvm.version>21.0.0.2</dependency_graalvm.version>
         <dependency_junit.version>4.13.1</dependency_junit.version>
         <dependency_log4j-api.version>2.14.0</dependency_log4j-api.version>
         <dependency_log4j-core.version>2.14.0</dependency_log4j-core.version>
