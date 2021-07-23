@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.filter;
 
 import com.rapiddweller.common.Filter;
@@ -20,21 +21,28 @@ import com.rapiddweller.common.Named;
 /**
  * {@link Filter} implementation which filters implementors of the {@link Named} interface by their name.
  * Created: 11.06.2011 15:44:44
+ *
  * @param <E> the type of objects to filter
- * @since 0.5.8
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class NamedObjectByPatternFilter<E extends Named> implements Filter<E> {
-	
-	private final RegexBasedFilter nameFilter;
-	
-	public NamedObjectByPatternFilter(String inclusionPattern, String exclusionPattern) {
-		this.nameFilter = new RegexBasedFilter(inclusionPattern, exclusionPattern);
-	}
 
-	@Override
-	public boolean accept(Named candidate) {
-	    return nameFilter.accept(candidate.getName());
-	}
+  private final RegexBasedFilter nameFilter;
+
+  /**
+   * Instantiates a new Named object by pattern filter.
+   *
+   * @param inclusionPattern the inclusion pattern
+   * @param exclusionPattern the exclusion pattern
+   */
+  public NamedObjectByPatternFilter(String inclusionPattern, String exclusionPattern) {
+    this.nameFilter = new RegexBasedFilter(inclusionPattern, exclusionPattern);
+  }
+
+  @Override
+  public boolean accept(Named candidate) {
+    return nameFilter.accept(candidate.getName());
+  }
 
 }

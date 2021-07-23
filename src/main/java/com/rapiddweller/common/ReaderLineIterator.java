@@ -12,88 +12,108 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.io.BufferedReader;
-import java.io.Reader;
 import java.io.IOException;
+import java.io.Reader;
 
 /**
  * Iterator implementation that returns text lines provided by a reader.
  * Created: 01.05.2007 08:06:46
- * @since 0.1
+ *
  * @author Volker Bergmann
+ * @since 0.1
  */
 public class ReaderLineIterator implements HeavyweightIterator<String> {
 
-    private BufferedReader reader;
-    private final boolean skipEmptyLines;
-    private String next;
+  private BufferedReader reader;
+  private final boolean skipEmptyLines;
+  private String next;
 
-    private int lineCount;
+  private int lineCount;
 
-    public ReaderLineIterator(Reader reader) {
-    	this(reader, false);
+  /**
+   * Instantiates a new Reader line iterator.
+   *
+   * @param reader the reader
+   */
+  public ReaderLineIterator(Reader reader) {
+    this(reader, false);
+  }
+
+  /**
+   * Instantiates a new Reader line iterator.
+   *
+   * @param reader         the reader
+   * @param skipEmptyLines the skip empty lines
+   */
+  public ReaderLineIterator(Reader reader, boolean skipEmptyLines) {
+    if (reader instanceof BufferedReader) {
+      this.reader = (BufferedReader) reader;
+    } else {
+      this.reader = new BufferedReader(reader);
     }
-    
-    public ReaderLineIterator(Reader reader, boolean skipEmptyLines) {
-        if (reader instanceof BufferedReader)
-            this.reader = (BufferedReader) reader;
-        else
-            this.reader = new BufferedReader(reader);
-        this.skipEmptyLines = skipEmptyLines;
-        this.lineCount = 0;
-        fetchNext();
-    }
+    this.skipEmptyLines = skipEmptyLines;
+    this.lineCount = 0;
+    fetchNext();
+  }
 
-    @Override
-	public void close() {
-        if (reader != null) {
-            IOUtil.close(reader);
-            reader = null;
+  @Override
+  public void close() {
+    if (reader != null) {
+      IOUtil.close(reader);
+      reader = null;
+    }
+  }
+
+  /**
+   * Line count int.
+   *
+   * @return the int
+   */
+  public int lineCount() {
+    return lineCount;
+  }
+
+  // Iterator interface ----------------------------------------------------------------------------------------------
+
+  @Override
+  public boolean hasNext() {
+    return reader != null && next != null;
+  }
+
+  @Override
+  public String next() {
+    String result = next;
+    fetchNext();
+    return result;
+  }
+
+  @Override
+  public void remove() {
+    throw new UnsupportedOperationException("Not supported");
+  }
+
+  // helpers ---------------------------------------------------------------------------------------------------------
+
+  private void fetchNext() {
+    try {
+      if (reader != null) {
+        do {
+          next = reader.readLine();
+        } while (skipEmptyLines && next != null && next.trim().length() == 0);
+        if (next == null) {
+          close();
         }
+        lineCount++;
+      } else {
+        next = null;
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-
-    public int lineCount() {
-        return lineCount;
-    }
-
-    // Iterator interface ----------------------------------------------------------------------------------------------
-
-    @Override
-	public boolean hasNext() {
-        return reader != null && next != null;
-    }
-
-    @Override
-	public String next() {
-        String result = next;
-        fetchNext();
-        return result;
-    }
-
-    @Override
-	public void remove() {
-        throw new UnsupportedOperationException("Not supported");
-    }
-
-    // helpers ---------------------------------------------------------------------------------------------------------
-
-    private void fetchNext() {
-        try {
-            if (reader != null) {
-            	do {
-            		next = reader.readLine();
-            	} while (skipEmptyLines && next != null && next.trim().length() == 0);
-                if (next == null)
-                    close();
-                lineCount++;
-            } else {
-                next = null;
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+  }
 
 }

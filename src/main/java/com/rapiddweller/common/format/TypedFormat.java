@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.format;
 
 import java.text.Format;
@@ -19,12 +20,18 @@ import java.text.Format;
 /**
  * {@link Format} that exhibits the information which Java class it can format and parse.
  * Created: 11.05.2005 22:04:05
+ *
  * @param <S> the source type
- * @since 0.1
  * @author Volker Bergmann
+ * @since 0.1
  */
 @SuppressWarnings("serial")
 public abstract class TypedFormat<S> extends Format {
-	
-	public abstract Class<S> getSourceType();
+
+  /**
+   * Gets source type.
+   *
+   * @return the source type
+   */
+  public abstract Class<S> getSourceType();
 }

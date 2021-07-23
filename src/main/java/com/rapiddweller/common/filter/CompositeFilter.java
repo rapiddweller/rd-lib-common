@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.filter;
 
 import com.rapiddweller.common.Filter;
@@ -22,23 +23,38 @@ import java.util.Arrays;
 /**
  * Abstract parent filter which combines several filter components.
  * Created: 08.06.2012 20:29:58
+ *
  * @param <E> the type of objects to be filtered
- * @since 0.5.16
  * @author Volker Bergmann
+ * @since 0.5.16
  */
 public abstract class CompositeFilter<E> implements Filter<E> {
-	
-	protected ArrayList<Filter<E>> components;
-	
-	@SafeVarargs
-	protected CompositeFilter(Filter<E>... components) {
-		this.components = new ArrayList<>();
-		this.components.addAll(Arrays.asList(components));
-	}
-	
-	public CompositeFilter<E> add(Filter<E> filter) {
-		this.components.add(filter);
-		return this;
-	}
-	
+
+  /**
+   * The Components.
+   */
+  protected ArrayList<Filter<E>> components;
+
+  /**
+   * Instantiates a new Composite filter.
+   *
+   * @param components the components
+   */
+  @SafeVarargs
+  protected CompositeFilter(Filter<E>... components) {
+    this.components = new ArrayList<>();
+    this.components.addAll(Arrays.asList(components));
+  }
+
+  /**
+   * Add composite filter.
+   *
+   * @param filter the filter
+   * @return the composite filter
+   */
+  public CompositeFilter<E> add(Filter<E> filter) {
+    this.components.add(filter);
+    return this;
+  }
+
 }

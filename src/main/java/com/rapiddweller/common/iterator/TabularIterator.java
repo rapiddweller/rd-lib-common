@@ -12,17 +12,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.HeavyweightIterator;
 import com.rapiddweller.common.Tabular;
 
 /**
- * Iterator for table-like structures, providing column labels in the getColumnLables() 
+ * Iterator for table-like structures, providing column labels in the getColumnLables()
  * method and providing the rows as Object[] in the next() method.
  * Created: 27.10.2010 09:52:18
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public interface TabularIterator extends Cloneable, Tabular, HeavyweightIterator<Object[]> {
 }

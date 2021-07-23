@@ -12,48 +12,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 /**
  * Iterates through a {@link BidirectionalIterator} in reverse order.
  * Created: 12.05.2007 23:18:08
+ *
  * @param <E> the type to iterate
  * @author Volker Bergmann
  */
 public class ReverseIterator<E> extends BidirectionalIteratorProxy<E> {
 
-    public ReverseIterator(BidirectionalIterator<E> realIterator) {
-        super(realIterator);
-    }
+  /**
+   * Instantiates a new Reverse iterator.
+   *
+   * @param realIterator the real iterator
+   */
+  public ReverseIterator(BidirectionalIterator<E> realIterator) {
+    super(realIterator);
+  }
 
-    @Override
-    public E first() {
-        return super.last();
-    }
+  @Override
+  public E first() {
+    return super.last();
+  }
 
-    @Override
-    public boolean hasPrevious() {
-        return super.hasNext();
-    }
+  @Override
+  public boolean hasPrevious() {
+    return super.hasNext();
+  }
 
-    @Override
-    public E previous() {
-        return super.next();
-    }
+  @Override
+  public E previous() {
+    return super.next();
+  }
 
-    @Override
-    public E last() {
-        return super.first();
-    }
+  @Override
+  public E last() {
+    return super.first();
+  }
 
-    @Override
-    public boolean hasNext() {
-        return super.hasPrevious();
-    }
+  @Override
+  public boolean hasNext() {
+    return super.hasPrevious();
+  }
 
-    @Override
-    public E next() {
-        return super.previous();
-    }
+  @Override
+  public E next() {
+    return super.previous();
+  }
 
 }

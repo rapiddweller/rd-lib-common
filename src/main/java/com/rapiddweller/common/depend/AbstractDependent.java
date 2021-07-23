@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.depend;
 
 import java.util.ArrayList;
@@ -19,44 +20,64 @@ import java.util.List;
 
 /**
  * Abstract class that provides partial featur implementation of the Dependent interface.
+ *
  * @param <E> the type of the objects to process
  * @author Volker Bergmann
  * @since 0.3.04
  */
 public abstract class AbstractDependent<E extends Dependent<E>> implements Dependent<E> {
 
-    protected List<ProviderInfo<E>> providers;
+  /**
+   * The Providers.
+   */
+  protected List<ProviderInfo<E>> providers;
 
-    @SafeVarargs
-    public AbstractDependent(E ... requiredProviders) {
-        this.providers = new ArrayList<>();
-        for (E requiredProvider : requiredProviders)
-            addRequiredProvider(requiredProvider);
+  /**
+   * Instantiates a new Abstract dependent.
+   *
+   * @param requiredProviders the required providers
+   */
+  @SafeVarargs
+  public AbstractDependent(E... requiredProviders) {
+    this.providers = new ArrayList<>();
+    for (E requiredProvider : requiredProviders) {
+      addRequiredProvider(requiredProvider);
     }
-    
-    public void addRequiredProvider(E provider) {
-        providers.add(new ProviderInfo<>(provider, true));
-    }
+  }
 
-    public void addOptionalProvider(E provider) {
-        providers.add(new ProviderInfo<>(provider, false));
-    }
+  /**
+   * Add required provider.
+   *
+   * @param provider the provider
+   */
+  public void addRequiredProvider(E provider) {
+    providers.add(new ProviderInfo<>(provider, true));
+  }
 
-    // Dependent interface --------------------------------------------------------------------------
-    
-    @Override
-	public int countProviders() {
-        return providers.size();
-    }
+  /**
+   * Add optional provider.
+   *
+   * @param provider the provider
+   */
+  public void addOptionalProvider(E provider) {
+    providers.add(new ProviderInfo<>(provider, false));
+  }
 
-    @Override
-	public E getProvider(int index) {
-        return providers.get(index).getProvider();
-    }
+  // Dependent interface --------------------------------------------------------------------------
 
-    @Override
-	public boolean requiresProvider(int index) {
-        return providers.get(index).isRequired();
-    }
+  @Override
+  public int countProviders() {
+    return providers.size();
+  }
+
+  @Override
+  public E getProvider(int index) {
+    return providers.get(index).getProvider();
+  }
+
+  @Override
+  public boolean requiresProvider(int index) {
+    return providers.get(index).isRequired();
+  }
 
 }

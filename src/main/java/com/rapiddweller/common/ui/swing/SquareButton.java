@@ -23,35 +23,53 @@ import java.awt.Dimension;
 /**
  * Provides a square button.<br><br>
  * Created: 25.05.2016 17:28:12
- * @since 1.0.10
+ *
  * @author Volker Bergmann
+ * @since 1.0.10
  */
-
 public class SquareButton extends JButton {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public SquareButton() {
-		super();
-	}
+  /**
+   * Instantiates a new Square button.
+   */
+  public SquareButton() {
+    super();
+  }
 
-	public SquareButton(Action action) {
-		super(action);
-	}
+  /**
+   * Instantiates a new Square button.
+   *
+   * @param action the action
+   */
+  public SquareButton(Action action) {
+    super(action);
+  }
 
-	public SquareButton(String text) {
-		super(text);
-	}
+  /**
+   * Instantiates a new Square button.
+   *
+   * @param text the text
+   */
+  public SquareButton(String text) {
+    super(text);
+  }
 
-	public SquareButton(Icon icon) {
-		super(icon);
-	}
+  /**
+   * Instantiates a new Square button.
+   *
+   * @param icon the icon
+   */
+  public SquareButton(Icon icon) {
+    super(icon);
+  }
 
-	@Override
-	public Dimension getPreferredSize() {
-		Dimension preferredSize = super.getPreferredSize();
-		preferredSize.width = preferredSize.height;
-		return preferredSize;
-	}
+  @Override
+  public Dimension getPreferredSize() {
+    Dimension preferredSize = super.getPreferredSize();
+    preferredSize.width = preferredSize.height;
+    return preferredSize;
+  }
 
 }

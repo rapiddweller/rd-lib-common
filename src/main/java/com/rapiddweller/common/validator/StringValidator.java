@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.Validator;
@@ -19,42 +20,68 @@ import com.rapiddweller.common.Validator;
 /**
  * Validates a String by length and characters.
  * Created at 14.08.2008 09:19:51
- * @since 0.4.5
+ *
  * @author Volker Bergmann
+ * @since 0.4.5
  */
 public class StringValidator extends StringLengthValidator {
-	
-	private final Validator<Character> charValidator;
-	
-	// constructors ----------------------------------------------------------------------------------------------------
 
-	public StringValidator() {
-		this(null);
-	}
+  private final Validator<Character> charValidator;
 
-	public StringValidator(Validator<Character> charValidator) {
-		this(charValidator, 0, null);
-	}
+  // constructors ----------------------------------------------------------------------------------------------------
 
-	public StringValidator(int minLength, Integer maxLength) {
-		this(null, minLength, maxLength);
-	}
+  /**
+   * Instantiates a new String validator.
+   */
+  public StringValidator() {
+    this(null);
+  }
 
-	public StringValidator(Validator<Character> charValidator, int minLength, Integer maxLength) {
-		super(minLength, maxLength);
-		this.charValidator = charValidator;
-	}
+  /**
+   * Instantiates a new String validator.
+   *
+   * @param charValidator the char validator
+   */
+  public StringValidator(Validator<Character> charValidator) {
+    this(charValidator, 0, null);
+  }
 
-	// Validator implementation ----------------------------------------------------------------------------------------
+  /**
+   * Instantiates a new String validator.
+   *
+   * @param minLength the min length
+   * @param maxLength the max length
+   */
+  public StringValidator(int minLength, Integer maxLength) {
+    this(null, minLength, maxLength);
+  }
 
-	@Override
-	public boolean valid(String text) {
-		if (!super.valid(text))
-			return false;
-		if (charValidator != null)
-			for (int i = 0 ; i < text.length(); i++)
-				if (!charValidator.valid(text.charAt(i)))
-					return false;
-		return true;
-	}
+  /**
+   * Instantiates a new String validator.
+   *
+   * @param charValidator the char validator
+   * @param minLength     the min length
+   * @param maxLength     the max length
+   */
+  public StringValidator(Validator<Character> charValidator, int minLength, Integer maxLength) {
+    super(minLength, maxLength);
+    this.charValidator = charValidator;
+  }
+
+  // Validator implementation ----------------------------------------------------------------------------------------
+
+  @Override
+  public boolean valid(String text) {
+    if (!super.valid(text)) {
+      return false;
+    }
+    if (charValidator != null) {
+      for (int i = 0; i < text.length(); i++) {
+        if (!charValidator.valid(text.charAt(i))) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 }

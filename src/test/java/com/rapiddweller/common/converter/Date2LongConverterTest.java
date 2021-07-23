@@ -12,16 +12,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-
 import com.rapiddweller.common.ConversionException;
+import org.junit.Test;
 
 import java.util.SimpleTimeZone;
 
-import org.junit.Test;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 
 /**
  * Tests the {@link Date2LongConverter}.
@@ -33,24 +33,24 @@ import org.junit.Test;
 
 public class Date2LongConverterTest extends AbstractConverterTest {
 
-    @Test
-    public void testSetTimeZone() {
-        SimpleTimeZone simpleTimeZone = new SimpleTimeZone(1, "ID");
-        Date2LongConverter date2LongConverter = new Date2LongConverter();
-        date2LongConverter.setTimeZone(simpleTimeZone);
-        assertSame(simpleTimeZone, date2LongConverter.getTimeZone());
-    }
+  @Test
+  public void testSetTimeZone() {
+    SimpleTimeZone simpleTimeZone = new SimpleTimeZone(1, "ID");
+    Date2LongConverter date2LongConverter = new Date2LongConverter();
+    date2LongConverter.setTimeZone(simpleTimeZone);
+    assertSame(simpleTimeZone, date2LongConverter.getTimeZone());
+  }
 
-    public Date2LongConverterTest() {
-        super(Date2LongConverter.class);
-    }
+  public Date2LongConverterTest() {
+    super(Date2LongConverter.class);
+  }
 
 
-    @Test
-    public void testConvert3() throws ConversionException {
-        Date2LongConverter date2LongConverter = new Date2LongConverter();
-        date2LongConverter.setTimeZone(null);
-        assertNull(date2LongConverter.convert(null));
-    }
+  @Test
+  public void testConvert3() throws ConversionException {
+    Date2LongConverter date2LongConverter = new Date2LongConverter();
+    date2LongConverter.setTimeZone(null);
+    assertNull(date2LongConverter.convert(null));
+  }
 
 }

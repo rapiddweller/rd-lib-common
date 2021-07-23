@@ -12,16 +12,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
-
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import com.rapiddweller.common.ArrayFormat;
 import com.rapiddweller.common.ConversionException;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the ArrayConverter.
@@ -32,80 +35,80 @@ import org.junit.Test;
  */
 public class ArrayConverterTest {
 
-    private static final Integer[] INT_1_3 = new Integer[]{1, 3};
-    private static final Integer[] INT_2_4 = new Integer[]{2, 4};
-    private static final String[] STRING_1_3 = new String[]{"1", "3"};
+  private static final Integer[] INT_1_3 = new Integer[] {1, 3};
+  private static final Integer[] INT_2_4 = new Integer[] {2, 4};
+  private static final String[] STRING_1_3 = new String[] {"1", "3"};
 
-    private final IncrementConverter inc = new IncrementConverter();
+  private final IncrementConverter inc = new IncrementConverter();
 
-    @Test(expected = NullPointerException.class)
-    public void testConvert() throws ConversionException {
-        Class<Object> sourceComponentType = Object.class;
-        assertEquals(3, (new ArrayConverter<>(sourceComponentType, Object.class, null))
-                .convert(new Object[]{"foo", "foo", "foo"}).length);
+  @Test(expected = NullPointerException.class)
+  public void testConvert() throws ConversionException {
+    Class<Object> sourceComponentType = Object.class;
+    assertEquals(3, (new ArrayConverter<>(sourceComponentType, Object.class, null))
+        .convert(new Object[] {"foo", "foo", "foo"}).length);
+  }
+
+  @Test
+  public void testConvert2() throws ConversionException {
+    Class<Object> sourceComponentType = Object.class;
+    assertEquals(3, (new ArrayConverter<>(sourceComponentType, Object.class))
+        .convert(new Object[] {"foo", "foo", "foo"}).length);
+  }
+
+  @Test
+  public void testConvert3() throws ConversionException {
+    Class<Object> sourceComponentType = Object.class;
+    assertThrows(IllegalArgumentException.class,
+        () -> (new ArrayConverter<>(sourceComponentType, Object.class, null, null))
+            .convert(new Object[] {"foo", "foo", "foo"}));
+  }
+
+
+  @Test
+  public void testConvertWith() {
+    assertEqualArrays(INT_2_4, ArrayConverter.convertWith(inc, Integer.class, STRING_1_3));
+    assertEquals(1,
+        ArrayConverter.convertWith(null, Object.class, new Object[] {"sourceValues"}).length);
+    assertEquals(1,
+        ArrayConverter.convertWith(null, Object.class, new Object[] {"sourceValues"}).length);
+  }
+
+  @Test
+  public void testConvertWith2() throws ConversionException {
+    Class<?> componentType = Object.class;
+    Object[] actualConvertWithResult = ArrayConverter.convertWith(new ToCollectionConverter(),
+        (Class<Object>) componentType, new Object[] {"sourceValues"});
+    assertEquals(1, actualConvertWithResult.length);
+    assertEquals(1, ((ArrayList) actualConvertWithResult[0]).size());
+  }
+
+  @Test
+  public void testArrayTypeConversion() {
+    @SuppressWarnings("unchecked")
+    ArrayConverter<String, Integer> converter = new ArrayConverter<>(String.class, Integer.class);
+    assertEqualArrays(INT_1_3, converter.convert(STRING_1_3));
+  }
+
+  @Test
+  public void testArrayElementConversion() {
+    ArrayConverter<String, Integer> converter = new ArrayConverter<>(String.class, Integer.class, inc, inc);
+    assertEqualArrays(INT_2_4, converter.convert(STRING_1_3));
+  }
+
+  private static void assertEqualArrays(Object[] array1, Object[] array2) {
+    assertTrue("Expected [" + ArrayFormat.format(array1) + "] but was [" + ArrayFormat.format(array2) + "]",
+        Arrays.equals(array1, array2));
+  }
+
+  public static class IncrementConverter extends UnsafeConverter<String, Integer> {
+    protected IncrementConverter() {
+      super(String.class, Integer.class);
     }
 
-    @Test
-    public void testConvert2() throws ConversionException {
-        Class<Object> sourceComponentType = Object.class;
-        assertEquals(3, (new ArrayConverter<>(sourceComponentType, Object.class))
-                .convert(new Object[]{"foo", "foo", "foo"}).length);
+    @Override
+    public Integer convert(String sourceValue) throws ConversionException {
+      return Integer.parseInt(sourceValue) + 1;
     }
-
-    @Test
-    public void testConvert3() throws ConversionException {
-        Class<Object> sourceComponentType = Object.class;
-        assertThrows(IllegalArgumentException.class,
-                () -> (new ArrayConverter<>(sourceComponentType, Object.class, null, null))
-                        .convert(new Object[]{"foo", "foo", "foo"}));
-    }
-
-
-    @Test
-    public void testConvertWith() {
-        assertEqualArrays(INT_2_4, ArrayConverter.convertWith(inc, Integer.class, STRING_1_3));
-        assertEquals(1,
-                ArrayConverter.convertWith(null, Object.class, new Object[]{"sourceValues"}).length);
-        assertEquals(1,
-                ArrayConverter.convertWith(null, Object.class, new Object[]{"sourceValues"}).length);
-    }
-
-    @Test
-    public void testConvertWith2() throws ConversionException {
-        Class<?> componentType = Object.class;
-        Object[] actualConvertWithResult = ArrayConverter.convertWith(new ToCollectionConverter(),
-                (Class<Object>) componentType, new Object[]{"sourceValues"});
-        assertEquals(1, actualConvertWithResult.length);
-        assertEquals(1, ((ArrayList) actualConvertWithResult[0]).size());
-    }
-
-    @Test
-    public void testArrayTypeConversion() {
-        @SuppressWarnings("unchecked")
-        ArrayConverter<String, Integer> converter = new ArrayConverter<>(String.class, Integer.class);
-        assertEqualArrays(INT_1_3, converter.convert(STRING_1_3));
-    }
-
-    @Test
-    public void testArrayElementConversion() {
-        ArrayConverter<String, Integer> converter = new ArrayConverter<>(String.class, Integer.class, inc, inc);
-        assertEqualArrays(INT_2_4, converter.convert(STRING_1_3));
-    }
-
-    private static void assertEqualArrays(Object[] array1, Object[] array2) {
-        assertTrue("Expected [" + ArrayFormat.format(array1) + "] but was [" + ArrayFormat.format(array2) + "]",
-                Arrays.equals(array1, array2));
-    }
-
-    public static class IncrementConverter extends UnsafeConverter<String, Integer> {
-        protected IncrementConverter() {
-            super(String.class, Integer.class);
-        }
-
-        @Override
-        public Integer convert(String sourceValue) throws ConversionException {
-            return Integer.parseInt(sourceValue) + 1;
-        }
-    }
+  }
 
 }

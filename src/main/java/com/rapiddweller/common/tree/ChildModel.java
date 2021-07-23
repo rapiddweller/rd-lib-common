@@ -12,16 +12,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.tree;
 
 /**
  * Defines a contract of mapping arbitrary objects to a parent/child structure.
  * Created: 31.07.2007 06:32:11
+ *
  * @param <I> the id type
  * @param <V> the element type
  * @author Volker Bergmann
  */
 public interface ChildModel<I, V> {
-    I getId(V element);
-    I getParentId(V child);
+  /**
+   * Gets id.
+   *
+   * @param element the element
+   * @return the id
+   */
+  I getId(V element);
+
+  /**
+   * Gets parent id.
+   *
+   * @param child the child
+   * @return the parent id
+   */
+  I getParentId(V child);
 }

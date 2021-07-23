@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -22,23 +23,26 @@ import java.text.SimpleDateFormat;
 /**
  * Parses a {@link String} as {@link DateFormat}.
  * Created at 13.07.2009 18:38:54
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class String2DateFormatConverter extends ThreadSafeConverter<String, DateFormat> {
 
-    public String2DateFormatConverter() {
-	    super(String.class, DateFormat.class);
-    }
+  /**
+   * Instantiates a new String 2 date format converter.
+   */
+  public String2DateFormatConverter() {
+    super(String.class, DateFormat.class);
+  }
 
-    @Override
-	public DateFormat convert(String pattern) throws ConversionException {
-	    try {
-	        return new SimpleDateFormat(pattern);
-        } catch (Exception e) {
-        	throw new ConversionException("Error in SimpleDateFormat creation", e);
-        }
+  @Override
+  public DateFormat convert(String pattern) throws ConversionException {
+    try {
+      return new SimpleDateFormat(pattern);
+    } catch (Exception e) {
+      throw new ConversionException("Error in SimpleDateFormat creation", e);
     }
+  }
 
 }

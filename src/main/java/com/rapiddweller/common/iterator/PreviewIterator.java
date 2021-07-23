@@ -12,51 +12,63 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import java.util.Iterator;
 
 /**
- * {@link Iterator} implementation which allows to preview the {@link #next()} value 
+ * {@link Iterator} implementation which allows to preview the {@link #next()} value
  * without actually consuming it using the {@link #peek()} method.
  * Created: 25.01.2012 14:11:17
+ *
  * @param <E> the type to iterate
- * @since 0.5.14
  * @author Volker Bergmann
+ * @since 0.5.14
  */
 public class PreviewIterator<E> extends IteratorProxy<E> {
-	
-	private boolean hasNext;
-	private E next;
 
-	public PreviewIterator(Iterator<E> source) {
-		super(source);
-		fetchNext();
-	}
-	
-	public E peek() {
-		return this.next;
-	}
+  private boolean hasNext;
+  private E next;
 
-	// Iterator interface implementation -------------------------------------------------------------------------------
-	
-	@Override
-	public boolean hasNext() {
-		return hasNext;
-	}
-	
-	@Override
-	public E next() {
-		E result = this.next;
-		fetchNext();
-		return result;
-	}
-	
-	// private helpers -------------------------------------------------------------------------------------------------
-	
-	private void fetchNext() {
-		this.hasNext = source.hasNext();
-		this.next = (this.hasNext ? source.next() : null);
-	}
-	
+  /**
+   * Instantiates a new Preview iterator.
+   *
+   * @param source the source
+   */
+  public PreviewIterator(Iterator<E> source) {
+    super(source);
+    fetchNext();
+  }
+
+  /**
+   * Peek e.
+   *
+   * @return the e
+   */
+  public E peek() {
+    return this.next;
+  }
+
+  // Iterator interface implementation -------------------------------------------------------------------------------
+
+  @Override
+  public boolean hasNext() {
+    return hasNext;
+  }
+
+  @Override
+  public E next() {
+    E result = this.next;
+    fetchNext();
+    return result;
+  }
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private void fetchNext() {
+    this.hasNext = source.hasNext();
+    this.next = (this.hasNext ? source.next() : null);
+  }
+
 }

@@ -12,45 +12,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.debug;
 
-import static org.junit.Assert.*;
-
-import com.rapiddweller.common.debug.ResourceMonitor;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link ResourceMonitor}.
  * Created: 14.04.2011 17:25:03
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class ResourceMonitorTest {
 
-	@Test
-	public void testAccess() {
-		ResourceMonitor monitor = new ResourceMonitor();
-		Object x = new Object();
-		monitor.register(x);
-		assertEquals(1, monitor.getRegistrations().size());
-		monitor.unregister(x);
-		assertEquals(0, monitor.getRegistrations().size());
-	}
-	
-	@Test
-	public void testAssert_non_critical() {
-		ResourceMonitor monitor = new ResourceMonitor();
-		Object x = new Object();
-		monitor.register(x);
-		monitor.assertNoRegistrations(false);
-	}
-	
-	@Test(expected = IllegalStateException.class)
-	public void testAssert_critical() {
-		ResourceMonitor monitor = new ResourceMonitor();
-		Object x = new Object();
-		monitor.register(x);
-		monitor.assertNoRegistrations(true);
-	}
-	
+  @Test
+  public void testAccess() {
+    ResourceMonitor monitor = new ResourceMonitor();
+    Object x = new Object();
+    monitor.register(x);
+    assertEquals(1, monitor.getRegistrations().size());
+    monitor.unregister(x);
+    assertEquals(0, monitor.getRegistrations().size());
+  }
+
+  @Test
+  public void testAssert_non_critical() {
+    ResourceMonitor monitor = new ResourceMonitor();
+    Object x = new Object();
+    monitor.register(x);
+    monitor.assertNoRegistrations(false);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testAssert_critical() {
+    ResourceMonitor monitor = new ResourceMonitor();
+    Object x = new Object();
+    monitor.register(x);
+    monitor.assertNoRegistrations(true);
+  }
+
 }

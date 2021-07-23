@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.io.Serializable;
@@ -20,17 +21,18 @@ import java.util.Comparator;
 /**
  * Implementation of Comparator&lt;Comparable&gt;.
  * Created: 06.01.2005 20:12:40
+ *
  * @param <E> the type of objects to compare
  * @author Volker Bergmann
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class ComparableComparator<E extends Comparable> implements Comparator<E>, Serializable {
 
-    private static final long serialVersionUID = 8000187188587657603L;
+  private static final long serialVersionUID = 8000187188587657603L;
 
-	@Override
-	public int compare(E o1, E o2) {
-        return o1.compareTo(o2);
-    }
-	
+  @Override
+  public int compare(E o1, E o2) {
+    return o1.compareTo(o2);
+  }
+
 }

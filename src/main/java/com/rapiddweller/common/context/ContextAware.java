@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.context;
 
 import com.rapiddweller.common.Context;
@@ -19,10 +20,15 @@ import com.rapiddweller.common.Context;
 /**
  * Interface for all classes that can make use of a {@link Context}.
  * Created at 20.07.2009 09:11:28
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public interface ContextAware {
-	void setContext(Context context);
+  /**
+   * Sets context.
+   *
+   * @param context the context
+   */
+  void setContext(Context context);
 }

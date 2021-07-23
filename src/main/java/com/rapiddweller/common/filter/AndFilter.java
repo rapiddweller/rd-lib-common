@@ -12,31 +12,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.filter;
 
 import com.rapiddweller.common.Filter;
 
 /**
- * Combines {@link Filter} components in an AND manner: A candidate value is only accepted if each of the 
+ * Combines {@link Filter} components in an AND manner: A candidate value is only accepted if each of the
  * components accepts it.
  * Created: 08.06.2012 20:36:23
+ *
  * @param <E> the type of objects to be filtered
- * @since 0.5.16
  * @author Volker Bergmann
+ * @since 0.5.16
  */
 public class AndFilter<E> extends CompositeFilter<E> {
 
-	@SafeVarargs
-    public AndFilter(Filter<E>... components) {
-		super(components);
-	}
+  /**
+   * Instantiates a new And filter.
+   *
+   * @param components the components
+   */
+  @SafeVarargs
+  public AndFilter(Filter<E>... components) {
+    super(components);
+  }
 
-	@Override
-	public boolean accept(E candidate) {
-		for (Filter<E> component : components)
-			if (!component.accept(candidate))
-				return false;
-		return true;
-	}
+  @Override
+  public boolean accept(E candidate) {
+    for (Filter<E> component : components) {
+      if (!component.accept(candidate)) {
+        return false;
+      }
+    }
+    return true;
+  }
 
 }

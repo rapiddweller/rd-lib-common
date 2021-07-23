@@ -12,15 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui;
 
 /**
  * Abstraction of file type support.
  * Created at 14.12.2008 14:41:10
- * @since 0.4.7
+ *
  * @author Volker Bergmann
+ * @since 0.4.7
  */
-
 public enum FileTypeSupport {
-	filesOnly, directoriesOnly, filesAndDirectories
+  /**
+   * Files only file type support.
+   */
+  filesOnly,
+  /**
+   * Directories only file type support.
+   */
+  directoriesOnly,
+  /**
+   * Files and directories file type support.
+   */
+  filesAndDirectories
 }

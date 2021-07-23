@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.io.File;
@@ -19,13 +20,19 @@ import java.io.File;
 /**
  * Provides utility methods related to overall Databene functionality.
  * Created: 27.10.2012 08:53:22
- * @since 0.5.20
+ *
  * @author Volker Bergmann
+ * @since 0.5.20
  */
 public class DatabeneUtil {
 
-	public static File getDatabeneUserHome() {
-		return new File(SystemInfo.getUserHome(), "rapiddweller");
-	}
-	
+  /**
+   * Gets databene user home.
+   *
+   * @return the databene user home
+   */
+  public static File getDatabeneUserHome() {
+    return new File(SystemInfo.getUserHome(), "rapiddweller");
+  }
+
 }

@@ -18,24 +18,44 @@ package com.rapiddweller.common;
 /**
  * Indicates that an import operation failed.
  * Created: 06.01.2007 19:22:42
+ *
  * @author Volker Bergmann
  */
 public class ImportFailedException extends OperationFailedException {
-    
-	private static final long serialVersionUID = -4839998961258420313L;
 
-	public ImportFailedException() {
-    }
+  private static final long serialVersionUID = -4839998961258420313L;
 
-    public ImportFailedException(String message) {
-        super(message);
-    }
+  /**
+   * Instantiates a new Import failed exception.
+   */
+  public ImportFailedException() {
+  }
 
-    public ImportFailedException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  /**
+   * Instantiates a new Import failed exception.
+   *
+   * @param message the message
+   */
+  public ImportFailedException(String message) {
+    super(message);
+  }
 
-    public ImportFailedException(Throwable cause) {
-        super(cause);
-    }
+  /**
+   * Instantiates a new Import failed exception.
+   *
+   * @param message the message
+   * @param cause   the cause
+   */
+  public ImportFailedException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  /**
+   * Instantiates a new Import failed exception.
+   *
+   * @param cause the cause
+   */
+  public ImportFailedException(Throwable cause) {
+    super(cause);
+  }
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -21,26 +22,35 @@ import java.text.NumberFormat;
 /**
  * Formats {@link Number} objects as {@link String} using {@link NumberFormat}.
  * Created: 26.02.2010 08:36:36
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class NumberFormatter extends NumberFormatBasedConverter<Number, String> {
-	
-    // constructors ----------------------------------------------------------------------------------------------------
 
-    public NumberFormatter() {
-		super(Number.class, String.class);
-	}
+  // constructors ----------------------------------------------------------------------------------------------------
 
-	public NumberFormatter(String pattern) {
-		super(Number.class, String.class, pattern);
-	}
-	
-	// Converter interface implementation ------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Number formatter.
+   */
+  public NumberFormatter() {
+    super(Number.class, String.class);
+  }
 
-	@Override
-	public String convert(Number value) throws ConversionException {
-		return format(value);
-	}
-	
+  /**
+   * Instantiates a new Number formatter.
+   *
+   * @param pattern the pattern
+   */
+  public NumberFormatter(String pattern) {
+    super(Number.class, String.class, pattern);
+  }
+
+  // Converter interface implementation ------------------------------------------------------------------------------
+
+  @Override
+  public String convert(Number value) throws ConversionException {
+    return format(value);
+  }
+
 }

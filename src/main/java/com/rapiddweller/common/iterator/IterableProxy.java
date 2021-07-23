@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import java.util.Iterator;
@@ -19,26 +20,35 @@ import java.util.Iterator;
 /**
  * Proxy implementation for an {@link Iterable}.
  * Created: 08.03.2011 11:48:21
+ *
  * @param <E> the type to iterate
- * @since 0.5.8
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public abstract class IterableProxy<E> implements Iterable<E> {
 
-	protected Iterable<E> source;
-	
-	public IterableProxy(Iterable<E> source) {
-		this.source = source;
-	}
+  /**
+   * The Source.
+   */
+  protected Iterable<E> source;
 
-	@Override
-	public Iterator<E> iterator() {
-		return source.iterator();
-	}
+  /**
+   * Instantiates a new Iterable proxy.
+   *
+   * @param source the source
+   */
+  public IterableProxy(Iterable<E> source) {
+    this.source = source;
+  }
 
-	@Override
-	public String toString() {
-		return source.toString();
-	}
-	
+  @Override
+  public Iterator<E> iterator() {
+    return source.iterator();
+  }
+
+  @Override
+  public String toString() {
+    return source.toString();
+  }
+
 }

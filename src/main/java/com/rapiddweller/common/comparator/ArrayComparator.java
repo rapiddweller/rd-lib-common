@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
 import com.rapiddweller.common.ComparableComparator;
@@ -21,40 +22,52 @@ import java.util.Comparator;
 /**
  * Compares two arrays by the first 'min-length' array elements with a Comparator.
  * Created: 22.05.2007 07:07:17
+ *
  * @param <E> the component type of the arrays to be compared
- * @since 0.1
  * @author Volker Bergmann
+ * @since 0.1
  */
 public class ArrayComparator<E> implements Comparator<E[]> {
 
-    private final Comparator<E> elementComparator;
+  private final Comparator<E> elementComparator;
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public ArrayComparator() {
-        this(new ComparableComparator());
-    }
+  /**
+   * Instantiates a new Array comparator.
+   */
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  public ArrayComparator() {
+    this(new ComparableComparator());
+  }
 
-    public ArrayComparator(Comparator<E> elementComparator) {
-        this.elementComparator = elementComparator;
-    }
+  /**
+   * Instantiates a new Array comparator.
+   *
+   * @param elementComparator the element comparator
+   */
+  public ArrayComparator(Comparator<E> elementComparator) {
+    this.elementComparator = elementComparator;
+  }
 
-    @Override
-	public int compare(E[] array1, E[] array2) {
-    	if (array1 == null)
-    		return (array2 == null ? 0 : -1);
-    	if (array2 == null)
-    		return 1;
-        // iterate through the elements and compara them one by one
-        int minLength = Math.min(array1.length, array2.length);
-        for (int i = 0; i < minLength; i++) {
-            int elementComparison = elementComparator.compare(array1[i], array2[i]);
-            // if element #i differs then return the difference
-            if (elementComparison != 0)
-                return elementComparison;
-        }
-        // All elements from 0 to minLength are equals - return the longer array as greater
-        // the arrays have equal size and equal elements
-        return Integer.compare(array1.length, array2.length);
+  @Override
+  public int compare(E[] array1, E[] array2) {
+    if (array1 == null) {
+      return (array2 == null ? 0 : -1);
     }
-    
+    if (array2 == null) {
+      return 1;
+    }
+    // iterate through the elements and compara them one by one
+    int minLength = Math.min(array1.length, array2.length);
+    for (int i = 0; i < minLength; i++) {
+      int elementComparison = elementComparator.compare(array1[i], array2[i]);
+      // if element #i differs then return the difference
+      if (elementComparison != 0) {
+        return elementComparison;
+      }
+    }
+    // All elements from 0 to minLength are equals - return the longer array as greater
+    // the arrays have equal size and equal elements
+    return Integer.compare(array1.length, array2.length);
+  }
+
 }

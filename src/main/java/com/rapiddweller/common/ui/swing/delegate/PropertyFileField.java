@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui.swing.delegate;
 
 import com.rapiddweller.common.BeanUtil;
@@ -30,82 +31,102 @@ import java.io.File;
 /**
  * {@link FileField} implementation that serves as delegate of a property of a JavaBean object.
  * Created at 30.11.2008 00:22:14
- * @since 0.5.13
+ *
  * @author Volker Bergmann
+ * @since 0.5.13
  */
 public class PropertyFileField extends FileField {
-	
-	// attributes ------------------------------------------------------------------------------------------------------
-	
-	private static final long serialVersionUID = -3970525222511845399L;
-	
-	private Object bean;
-	private String propertyName;
 
-	boolean locked;
-	
-	// constructors ----------------------------------------------------------------------------------------------------
-	
-	public PropertyFileField(Object bean, String propertyName, int length, FileTypeSupport typeSupport, FileOperation operation) {
-		super(length, null, typeSupport, operation);
-		init(bean, propertyName);
-	}
+  // attributes ------------------------------------------------------------------------------------------------------
 
-	private void init(Object bean, String propertyName) {
-		this.bean = bean;
-		this.propertyName = propertyName;
-		this.locked = true;
-		refresh();
-		Listener listener = new Listener();
-		if (bean instanceof ObservableBean)
-			((ObservableBean) bean).addPropertyChangeListener(propertyName, listener);
-		this.addActionListener(listener);
-		this.locked = false;
-		File value = (File) BeanUtil.getPropertyValue(bean, propertyName);
-		if (value != null)
-			setFile(value);
-	}
-	
-	// event handlers --------------------------------------------------------------------------------------------------
+  private static final long serialVersionUID = -3970525222511845399L;
 
-	/**
-	 * reads the current property value and writes it to the file field.
-	 */
-	void refresh() {
-		if (!locked) {
-			locked = true;
-			Object propertyValue = BeanUtil.getPropertyValue(bean, propertyName);
-			File file = (File) propertyValue;
-			if (!NullSafeComparator.equals(getFile(), file))
-				setFile(file);
-			locked = false;
-		}
-	}
-	
-	/**
-	 * writes the current file field content to the property.
-	 */
-	void update() {
-		if (!locked) {
-			locked = true;
-			File file = getFile();
-			if (!NullSafeComparator.equals(file, BeanUtil.getPropertyValue(bean, propertyName)))
-				BeanUtil.setPropertyValue(bean, propertyName, file);
-			locked = false;
-		}
-	}
-	
-	class Listener implements PropertyChangeListener, ActionListener {
+  private Object bean;
+  private String propertyName;
 
-		@Override
-		public void propertyChange(PropertyChangeEvent evt) {
-			refresh();
-		}
+  /**
+   * The Locked.
+   */
+  boolean locked;
 
-		@Override
-		public void actionPerformed(ActionEvent evt) {
-			update();
-		}
+  // constructors ----------------------------------------------------------------------------------------------------
 
-	}
+  /**
+   * Instantiates a new Property file field.
+   *
+   * @param bean         the bean
+   * @param propertyName the property name
+   * @param length       the length
+   * @param typeSupport  the type support
+   * @param operation    the operation
+   */
+  public PropertyFileField(Object bean, String propertyName, int length, FileTypeSupport typeSupport, FileOperation operation) {
+    super(length, null, typeSupport, operation);
+    init(bean, propertyName);
+  }
+
+  private void init(Object bean, String propertyName) {
+    this.bean = bean;
+    this.propertyName = propertyName;
+    this.locked = true;
+    refresh();
+    Listener listener = new Listener();
+    if (bean instanceof ObservableBean) {
+      ((ObservableBean) bean).addPropertyChangeListener(propertyName, listener);
+    }
+    this.addActionListener(listener);
+    this.locked = false;
+    File value = (File) BeanUtil.getPropertyValue(bean, propertyName);
+    if (value != null) {
+      setFile(value);
+    }
+  }
+
+  // event handlers --------------------------------------------------------------------------------------------------
+
+  /**
+   * reads the current property value and writes it to the file field.
+   */
+  void refresh() {
+    if (!locked) {
+      locked = true;
+      Object propertyValue = BeanUtil.getPropertyValue(bean, propertyName);
+      File file = (File) propertyValue;
+      if (!NullSafeComparator.equals(getFile(), file)) {
+        setFile(file);
+      }
+      locked = false;
+    }
+  }
+
+  /**
+   * writes the current file field content to the property.
+   */
+  void update() {
+    if (!locked) {
+      locked = true;
+      File file = getFile();
+      if (!NullSafeComparator.equals(file, BeanUtil.getPropertyValue(bean, propertyName))) {
+        BeanUtil.setPropertyValue(bean, propertyName, file);
+      }
+      locked = false;
+    }
+  }
+
+  /**
+   * The type Listener.
+   */
+  class Listener implements PropertyChangeListener, ActionListener {
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+      refresh();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+      update();
+    }
+
+  }
 }

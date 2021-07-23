@@ -12,15 +12,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.depend;
 
 /**
  * Helper class for testing dependency handling.
+ *
  * @author Volker Bergmann
  * @since 0.3.04
  */
 public class Dep extends DefaultDependent<String, Dep> {
-    public Dep(String name, Dep ... deps) {
-        super(name, deps);
-    }
+  public Dep(String name, Dep... deps) {
+    super(name, deps);
+  }
 }

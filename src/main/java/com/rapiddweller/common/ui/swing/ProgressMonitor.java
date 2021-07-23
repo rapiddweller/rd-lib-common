@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui.swing;
 
 import java.awt.Component;
@@ -19,32 +20,41 @@ import java.awt.Component;
 /**
  * Adds convenience methods to the {@link javax.swing.ProgressMonitor}.
  * Created at 01.12.2008 09:46:04
- * @since 0.5.13
+ *
  * @author Volker Bergmann
+ * @since 0.5.13
  */
-
 public class ProgressMonitor extends javax.swing.ProgressMonitor implements com.rapiddweller.common.ui.ProgressMonitor {
-	
-	private int progress;
 
-	public ProgressMonitor(Component parentComponent, Object message, String note, int min, int max) {
-		super(parentComponent, message, note, min, max);
-		this.progress = min;
-	}
+  private int progress;
 
-	@Override
-	public void setProgress(int progress) {
-		super.setProgress(progress);
-		this.progress = progress;
-	}
-	
-	@Override
-	public int getProgress() {
-		return progress;
-	}
-	
-	@Override
-	public void advance() {
-		setProgress(progress + 1);
-	}
+  /**
+   * Instantiates a new Progress monitor.
+   *
+   * @param parentComponent the parent component
+   * @param message         the message
+   * @param note            the note
+   * @param min             the min
+   * @param max             the max
+   */
+  public ProgressMonitor(Component parentComponent, Object message, String note, int min, int max) {
+    super(parentComponent, message, note, min, max);
+    this.progress = min;
+  }
+
+  @Override
+  public void setProgress(int progress) {
+    super.setProgress(progress);
+    this.progress = progress;
+  }
+
+  @Override
+  public int getProgress() {
+    return progress;
+  }
+
+  @Override
+  public void advance() {
+    setProgress(progress + 1);
+  }
 }

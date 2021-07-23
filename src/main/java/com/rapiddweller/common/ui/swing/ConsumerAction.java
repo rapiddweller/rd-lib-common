@@ -24,27 +24,35 @@ import java.awt.event.ActionEvent;
 /**
  * {@link Runnable} implementation which consumes an object using a {@link Consumer}.
  * Created: 20.06.2016 16:40:19
+ *
  * @param <E> The generic type of the objects to consume
- * @since 1.0.11
  * @author Volker Bergmann
+ * @since 1.0.11
  */
-
 public class ConsumerAction<E> extends AbstractAction {
-	
-	private static final long serialVersionUID = 1L;
-	
-	private final E object;
-	private final Consumer<E> consumer;
-	
-	public ConsumerAction(String label, Icon icon, E object, Consumer<E> consumer) {
-		super(label, icon);
-		this.object = object;
-		this.consumer = consumer;
-	}
 
-	@Override
-	public void actionPerformed(ActionEvent evt) {
-		consumer.consume(object);
-	}
+  private static final long serialVersionUID = 1L;
+
+  private final E object;
+  private final Consumer<E> consumer;
+
+  /**
+   * Instantiates a new Consumer action.
+   *
+   * @param label    the label
+   * @param icon     the icon
+   * @param object   the object
+   * @param consumer the consumer
+   */
+  public ConsumerAction(String label, Icon icon, E object, Consumer<E> consumer) {
+    super(label, icon);
+    this.object = object;
+    this.consumer = consumer;
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent evt) {
+    consumer.consume(object);
+  }
 
 }

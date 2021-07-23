@@ -12,26 +12,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.format;
 
 /**
  * Provides constants for horizontal aligning.
  * Created: 29.06.2007 18:20:45
+ *
  * @author Volker Bergmann
  */
 public enum Alignment {
-	
-    LEFT('l'), 
-    RIGHT('r'), 
-    CENTER('c');
-    
-    private final char id;
-    
-    Alignment(char id) {
-    	this.id = id;
-    }
-    
-    public char getId() {
-    	return id;
-    }
+
+  /**
+   * Left alignment.
+   */
+  LEFT('l'),
+  /**
+   * Right alignment.
+   */
+  RIGHT('r'),
+  /**
+   * Center alignment.
+   */
+  CENTER('c');
+
+  private final char id;
+
+  Alignment(char id) {
+    this.id = id;
+  }
+
+  /**
+   * Gets id.
+   *
+   * @return the id
+   */
+  public char getId() {
+    return id;
+  }
 }

@@ -22,17 +22,17 @@ import java.util.Comparator;
 /**
  * Compares Intervals of {@link ZonedDateTime}s.<br><br>
  * Created: 26.04.2019 23:32:29
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public class ZonedDateTimeIntervalComparator implements Comparator<Interval<ZonedDateTime>> {
 
-	@Override
-	public int compare(Interval<ZonedDateTime> i1, Interval<ZonedDateTime> i2) {
-		ZonedDateTime zdt1 = i1.getMin().withZoneSameInstant(ZoneId.systemDefault());
-		ZonedDateTime zdt2 = i2.getMin().withZoneSameInstant(ZoneId.systemDefault());
-		return zdt1.compareTo(zdt2);
-	}
+  @Override
+  public int compare(Interval<ZonedDateTime> i1, Interval<ZonedDateTime> i2) {
+    ZonedDateTime zdt1 = i1.getMin().withZoneSameInstant(ZoneId.systemDefault());
+    ZonedDateTime zdt2 = i2.getMin().withZoneSameInstant(ZoneId.systemDefault());
+    return zdt1.compareTo(zdt2);
+  }
 
 }

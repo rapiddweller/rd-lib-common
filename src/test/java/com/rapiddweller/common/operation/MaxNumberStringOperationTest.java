@@ -12,46 +12,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common.operation;
 
-import static org.junit.Assert.assertEquals;
+package com.rapiddweller.common.operation;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Tests the {@link MaxNumberStringOperation}.
  * Created: 26.02.2010 09:53:34
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class MaxNumberStringOperationTest {
 
-	private MaxNumberStringOperation max;
+  private MaxNumberStringOperation max;
 
-	@Before
-	public void setUp() {
-		max = new MaxNumberStringOperation();
-	}
-	
-	@Test
-	public void testInt() {
-		assertEquals("3", max.perform("1", "2", "3"));
-	}
-	
-	@Test
-	public void testDouble() {
-		assertEquals("3.", max.perform("1.", "2.", "3."));
-	}
-	
-	@Test
-	public void testFormatSustained() {
-		assertEquals("3.", max.perform("1.000", "2.00", "3."));
-	}
-	
-	@Test
-	public void testMixed() {
-		assertEquals("2", max.perform("1.000", "2"));
-	}
-	
+  @Before
+  public void setUp() {
+    max = new MaxNumberStringOperation();
+  }
+
+  @Test
+  public void testInt() {
+    assertEquals("3", max.perform("1", "2", "3"));
+  }
+
+  @Test
+  public void testDouble() {
+    assertEquals("3.", max.perform("1.", "2.", "3."));
+  }
+
+  @Test
+  public void testFormatSustained() {
+    assertEquals("3.", max.perform("1.000", "2.00", "3."));
+  }
+
+  @Test
+  public void testMixed() {
+    assertEquals("2", max.perform("1.000", "2"));
+  }
+
 }

@@ -26,97 +26,179 @@ import java.util.List;
 /**
  * Utility class which provides convenience methods related to {@link Filter}s.
  * Created: 05.06.2011 22:58:00
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class FilterUtil {
-	
-	/** private constructor for preventing instantiation of this utility class. */
-	private FilterUtil() { }
 
-	@SafeVarargs
-    public static <T> List<T> multiFilter(Collection<T> candidates, Filter<T>... filters) {
-		List<T> result = new ArrayList<>();
-		for (T candidate : candidates)
-			if (acceptedByAll(candidate, filters))
-				result.add(candidate);
-		return result;
-	}
-	
-	public static <T> List<T> filter(Collection<T> candidates, Filter<T> filter) {
-		List<T> result = new ArrayList<>();
-		for (T candidate : candidates)
-			if (filter == null || filter.accept(candidate))
-				result.add(candidate);
-		return result;
-	}
-	
-	@SafeVarargs
-    public static <T> boolean acceptedByAll(T candidate, Filter<T>... filters) {
-		for (Filter<T> filter : filters)
-			if (!filter.accept(candidate))
-				return false;
-		return true;
-	}
+  /**
+   * private constructor for preventing instantiation of this utility class.
+   */
+  private FilterUtil() {
+  }
 
-	public static <T> T findSingleMatch(Collection<T> candidates, Filter<T> filter) {
-		T result = null;
-		for (T candidate : candidates)
-			if (filter.accept(candidate)) {
-				if (result == null)
-					result = candidate;
-				else
-					throw new ConfigurationError("Found multiple matches: " + candidates);
-			}
-		return result;
-	}
-
-    public static <T> SplitResult<T> split(T[] items, Filter<T> filter) {
-        List<T> matches = new ArrayList<>();
-        List<T> mismatches = new ArrayList<>();
-        for (T item : items) {
-            if (filter.accept(item))
-                matches.add(item);
-            else
-                mismatches.add(item);
-        }
-        return new SplitResult<>(matches, mismatches);
+  /**
+   * Multi filter list.
+   *
+   * @param <T>        the type parameter
+   * @param candidates the candidates
+   * @param filters    the filters
+   * @return the list
+   */
+  @SafeVarargs
+  public static <T> List<T> multiFilter(Collection<T> candidates, Filter<T>... filters) {
+    List<T> result = new ArrayList<>();
+    for (T candidate : candidates) {
+      if (acceptedByAll(candidate, filters)) {
+        result.add(candidate);
+      }
     }
+    return result;
+  }
 
-    public static <T> SplitResult<T> split(List<T> list, Filter<T> filter) {
-        List<T> matches = new ArrayList<>();
-        List<T> mismatches = new ArrayList<>();
-        for (T item : list) {
-            if (filter.accept(item))
-                matches.add(item);
-            else
-                mismatches.add(item);
-        }
-        return new SplitResult<>(matches, mismatches);
+  /**
+   * Filter list.
+   *
+   * @param <T>        the type parameter
+   * @param candidates the candidates
+   * @param filter     the filter
+   * @return the list
+   */
+  public static <T> List<T> filter(Collection<T> candidates, Filter<T> filter) {
+    List<T> result = new ArrayList<>();
+    for (T candidate : candidates) {
+      if (filter == null || filter.accept(candidate)) {
+        result.add(candidate);
+      }
     }
+    return result;
+  }
 
-    @SafeVarargs
-    public static <T> List<List<T>> filterGroups(T[] items, Filter<T> ... filters) {
-        List<List<T>> results = new ArrayList<>(filters.length);
-        for (int i = 0; i < filters.length; i++)
-            results.add(new ArrayList<>());
-        for (T item : items) {
-            for (int i = 0; i < filters.length; i++) {
-                Filter<T> filter = filters[i];
-                if (filter.accept(item))
-                    results.get(i).add(item);
-            }
-        }
-        return results;
+  /**
+   * Accepted by all boolean.
+   *
+   * @param <T>       the type parameter
+   * @param candidate the candidate
+   * @param filters   the filters
+   * @return the boolean
+   */
+  @SafeVarargs
+  public static <T> boolean acceptedByAll(T candidate, Filter<T>... filters) {
+    for (Filter<T> filter : filters) {
+      if (!filter.accept(candidate)) {
+        return false;
+      }
     }
+    return true;
+  }
 
-	public static <T> T[] filter(T[] items, Filter<T> filter) {
-        @SuppressWarnings("unchecked")
-		ArrayBuilder<T> result = new ArrayBuilder<>((Class<T>) items[0].getClass(), items.length / 3);
-        for (T item : items)
-            if (filter.accept(item))
-                result.add(item);
-        return result.toArray();
-	}
+  /**
+   * Find single match t.
+   *
+   * @param <T>        the type parameter
+   * @param candidates the candidates
+   * @param filter     the filter
+   * @return the t
+   */
+  public static <T> T findSingleMatch(Collection<T> candidates, Filter<T> filter) {
+    T result = null;
+    for (T candidate : candidates) {
+      if (filter.accept(candidate)) {
+        if (result == null) {
+          result = candidate;
+        } else {
+          throw new ConfigurationError("Found multiple matches: " + candidates);
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Split split result.
+   *
+   * @param <T>    the type parameter
+   * @param items  the items
+   * @param filter the filter
+   * @return the split result
+   */
+  public static <T> SplitResult<T> split(T[] items, Filter<T> filter) {
+    List<T> matches = new ArrayList<>();
+    List<T> mismatches = new ArrayList<>();
+    for (T item : items) {
+      if (filter.accept(item)) {
+        matches.add(item);
+      } else {
+        mismatches.add(item);
+      }
+    }
+    return new SplitResult<>(matches, mismatches);
+  }
+
+  /**
+   * Split split result.
+   *
+   * @param <T>    the type parameter
+   * @param list   the list
+   * @param filter the filter
+   * @return the split result
+   */
+  public static <T> SplitResult<T> split(List<T> list, Filter<T> filter) {
+    List<T> matches = new ArrayList<>();
+    List<T> mismatches = new ArrayList<>();
+    for (T item : list) {
+      if (filter.accept(item)) {
+        matches.add(item);
+      } else {
+        mismatches.add(item);
+      }
+    }
+    return new SplitResult<>(matches, mismatches);
+  }
+
+  /**
+   * Filter groups list.
+   *
+   * @param <T>     the type parameter
+   * @param items   the items
+   * @param filters the filters
+   * @return the list
+   */
+  @SafeVarargs
+  public static <T> List<List<T>> filterGroups(T[] items, Filter<T>... filters) {
+    List<List<T>> results = new ArrayList<>(filters.length);
+    for (int i = 0; i < filters.length; i++) {
+      results.add(new ArrayList<>());
+    }
+    for (T item : items) {
+      for (int i = 0; i < filters.length; i++) {
+        Filter<T> filter = filters[i];
+        if (filter.accept(item)) {
+          results.get(i).add(item);
+        }
+      }
+    }
+    return results;
+  }
+
+  /**
+   * Filter t [ ].
+   *
+   * @param <T>    the type parameter
+   * @param items  the items
+   * @param filter the filter
+   * @return the t [ ]
+   */
+  public static <T> T[] filter(T[] items, Filter<T> filter) {
+    @SuppressWarnings("unchecked")
+    ArrayBuilder<T> result = new ArrayBuilder<>((Class<T>) items[0].getClass(), items.length / 3);
+    for (T item : items) {
+      if (filter.accept(item)) {
+        result.add(item);
+      }
+    }
+    return result.toArray();
+  }
 
 }

@@ -27,33 +27,42 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 
 /**
- * Button that opens a pop-up window with files provided by a {@link FileHistory}, 
+ * Button that opens a pop-up window with files provided by a {@link FileHistory},
  * lets the user click one and sends the clicked file to a {@link Consumer}.
  * Created: 20.06.2016 16:32:11
- * @since 1.0.11
+ *
  * @author Volker Bergmann
+ * @since 1.0.11
  */
-
 public class RecentFilesPopupButton extends JButton {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public RecentFilesPopupButton(String label, Icon icon, final FileHistory history, final Consumer<File> consumer) {
-		super(icon);
-		setToolTipText(label);
-		addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JPopupMenu popup = new JPopupMenu();
-				File[] recentFiles = history.getFiles();
-				if (recentFiles.length > 0) {
-					for (File recentFile : recentFiles)
-						popup.add(new ConsumerAction<>(recentFile.getName(), null, recentFile, consumer));
-					popup.show(RecentFilesPopupButton.this, e.getX(), e.getY());
-				} else {
-					Toolkit.getDefaultToolkit().beep();
-				}
-			}
-		});
-	}
+  /**
+   * Instantiates a new Recent files popup button.
+   *
+   * @param label    the label
+   * @param icon     the icon
+   * @param history  the history
+   * @param consumer the consumer
+   */
+  public RecentFilesPopupButton(String label, Icon icon, final FileHistory history, final Consumer<File> consumer) {
+    super(icon);
+    setToolTipText(label);
+    addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        JPopupMenu popup = new JPopupMenu();
+        File[] recentFiles = history.getFiles();
+        if (recentFiles.length > 0) {
+          for (File recentFile : recentFiles) {
+            popup.add(new ConsumerAction<>(recentFile.getName(), null, recentFile, consumer));
+          }
+          popup.show(RecentFilesPopupButton.this, e.getX(), e.getY());
+        } else {
+          Toolkit.getDefaultToolkit().beep();
+        }
+      }
+    });
+  }
 }

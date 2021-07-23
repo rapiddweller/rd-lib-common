@@ -12,34 +12,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
 
 /**
- * Accessor that consecutively queries a chain of accessors 
+ * Accessor that consecutively queries a chain of accessors
  * until one provides the requested value.
+ *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
- * @since 0.3.0
  * @author Volker Bergmann
+ * @since 0.3.0
  */
 public class FallbackAccessor<C, V> implements Accessor<C, V> {
 
-    private final Accessor<C, V>[] realAccessors;
-    
-    @SafeVarargs
-    public FallbackAccessor(Accessor<C, V> ... realAccessors) {
-        this.realAccessors = realAccessors;
-    }
+  private final Accessor<C, V>[] realAccessors;
 
-    @Override
-	public V getValue(C target) {
-        for (Accessor<C, V> realAccessor : realAccessors) {
-            V value = realAccessor.getValue(target);
-            if (value != null)
-                return value;
-        }
-        return null;
+  /**
+   * Instantiates a new Fallback accessor.
+   *
+   * @param realAccessors the real accessors
+   */
+  @SafeVarargs
+  public FallbackAccessor(Accessor<C, V>... realAccessors) {
+    this.realAccessors = realAccessors;
+  }
+
+  @Override
+  public V getValue(C target) {
+    for (Accessor<C, V> realAccessor : realAccessors) {
+      V value = realAccessor.getValue(target);
+      if (value != null) {
+        return value;
+      }
     }
+    return null;
+  }
 }

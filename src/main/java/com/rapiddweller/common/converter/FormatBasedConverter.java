@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
@@ -19,46 +20,57 @@ import com.rapiddweller.common.Converter;
 import java.text.Format;
 
 /**
- * Parent class for {@link Converter}s that use a {@link java.text.Format} instance for 
+ * Parent class for {@link Converter}s that use a {@link java.text.Format} instance for
  * parsing Strings or formatting other objects.
  * Created: 26.02.2010 14:52:25
+ *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public abstract class FormatBasedConverter<S, T> extends AbstractConverter<S, T> implements Cloneable {
 
-	/** The java.text.Format object used for conversion */
-    protected Format format;
-	private final boolean threadSafe;
+  /**
+   * The java.text.Format object used for conversion
+   */
+  protected Format format;
+  private final boolean threadSafe;
 
-	public FormatBasedConverter(Class<S> sourceType, Class<T> targetType, Format format, boolean threadSafe) {
-		super(sourceType, targetType);
-		this.format = format;
-		this.threadSafe = threadSafe;
-	}
+  /**
+   * Instantiates a new Format based converter.
+   *
+   * @param sourceType the source type
+   * @param targetType the target type
+   * @param format     the format
+   * @param threadSafe the thread safe
+   */
+  public FormatBasedConverter(Class<S> sourceType, Class<T> targetType, Format format, boolean threadSafe) {
+    super(sourceType, targetType);
+    this.format = format;
+    this.threadSafe = threadSafe;
+  }
 
-	@Override
-	public boolean isParallelizable() {
-        return true;
+  @Override
+  public boolean isParallelizable() {
+    return true;
+  }
+
+  @Override
+  public boolean isThreadSafe() {
+    return threadSafe;
+  }
+
+  @SuppressWarnings({"rawtypes"})
+  @Override
+  public Object clone() {
+    try {
+      FormatBasedConverter copy = (FormatBasedConverter) super.clone();
+      copy.format = (Format) format.clone();
+      return copy;
+    } catch (CloneNotSupportedException e) {
+      throw new RuntimeException(e);
     }
-
-	@Override
-	public boolean isThreadSafe() {
-        return threadSafe;
-    }
-
-	@SuppressWarnings({"rawtypes" })
-    @Override
-    public Object clone() {
-        try {
-        	FormatBasedConverter copy = (FormatBasedConverter) super.clone();
-        	copy.format = (Format) format.clone();
-    		return copy;
-        } catch (CloneNotSupportedException e) {
-        	throw new RuntimeException(e);
-        }
-    }
+  }
 
 }

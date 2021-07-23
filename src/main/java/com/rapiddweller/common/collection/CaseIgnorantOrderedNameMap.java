@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.collection;
 
 import com.rapiddweller.common.OrderedMap;
@@ -21,63 +22,90 @@ import java.util.Map;
 /**
  * Maps name strings to objects ignoring the capitalization of the name.
  * Created: 12.12.2012 11:08:44
+ *
  * @param <E> the type of the collection's elements
- * @since 0.5.21
  * @author Volker Bergmann
+ * @since 0.5.21
  */
 public class CaseIgnorantOrderedNameMap<E> extends OrderedMap<String, E> {
-	
-    private static final long serialVersionUID = -3134506770888057108L;
 
-	// constructors + factory methods ----------------------------------------------------------------------------------
-	
-	public CaseIgnorantOrderedNameMap() {
-	}
-    
-    public CaseIgnorantOrderedNameMap(Map<String, E> that) {
-		super(that);
-	}
+  private static final long serialVersionUID = -3134506770888057108L;
 
-    // Map interface implementation ------------------------------------------------------------------------------------
-    
-	@Override
-	public boolean containsKey(Object key) {
-        return containsKey((String) key);
-    }
+  // constructors + factory methods ----------------------------------------------------------------------------------
 
-	public boolean containsKey(String key) {
-        return super.containsKey(normalizeKey(key));
-    }
+  /**
+   * Instantiates a new Case ignorant ordered name map.
+   */
+  public CaseIgnorantOrderedNameMap() {
+  }
 
-	@Override
-	public E get(Object key) {
-		return get((String) key);
-	}
-	
-	public E get(String key) {
-        return super.get(normalizeKey(key));
-    }
+  /**
+   * Instantiates a new Case ignorant ordered name map.
+   *
+   * @param that the that
+   */
+  public CaseIgnorantOrderedNameMap(Map<String, E> that) {
+    super(that);
+  }
 
-	@Override
-	public Map.Entry<String, E> getEntry(String key) {
-        String normalizedKey = normalizeKey(key);
-		E value = super.get(normalizedKey);
-        return new MapEntry<>(normalizedKey, value);
-    }
+  // Map interface implementation ------------------------------------------------------------------------------------
 
-    @Override
-    public E put(String key, E value) {
-        return super.put(normalizeKey(key), value); 
-    }
+  @Override
+  public boolean containsKey(Object key) {
+    return containsKey((String) key);
+  }
 
-    public E remove(String key) {
-        return super.remove(normalizeKey(key));
-    }
+  /**
+   * Contains key boolean.
+   *
+   * @param key the key
+   * @return the boolean
+   */
+  public boolean containsKey(String key) {
+    return super.containsKey(normalizeKey(key));
+  }
 
-    // private helpers -------------------------------------------------------------------------------------------------
-    
-    private static String normalizeKey(String key) {
-		return (key != null ? key.toLowerCase() : key);
-	}
-    
+  @Override
+  public E get(Object key) {
+    return get((String) key);
+  }
+
+  /**
+   * Get e.
+   *
+   * @param key the key
+   * @return the e
+   */
+  public E get(String key) {
+    return super.get(normalizeKey(key));
+  }
+
+  @Override
+  public Map.Entry<String, E> getEntry(String key) {
+    String normalizedKey = normalizeKey(key);
+    E value = super.get(normalizedKey);
+    return new MapEntry<>(normalizedKey, value);
+  }
+
+  @Override
+  public E put(String key, E value) {
+    return super.put(normalizeKey(key), value);
+  }
+
+  /**
+   * Remove e.
+   *
+   * @param key the key
+   * @return the e
+   */
+  public E remove(String key) {
+    return super.remove(normalizeKey(key));
+  }
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private static String normalizeKey(String key) {
+    return (key != null ? key.toLowerCase() : key);
+  }
+
 }

@@ -12,11 +12,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the RoundedNumberFormat class.
@@ -26,21 +27,21 @@ import org.junit.Test;
  */
 public class RoundedNumberFormatTest {
 
-    @Test
-    public void test() {
-        assertEquals("1,200", RoundedNumberFormat.format(1234, 0));
-        assertEquals("1,200", RoundedNumberFormat.format(1234.45, 0));
-        assertEquals("1,200", RoundedNumberFormat.format(1234.567, 0));
-        assertEquals("1,200.00", RoundedNumberFormat.format(1234.567, 2));
-        assertEquals("1,200,000", RoundedNumberFormat.format(1234567, 0));
-        assertEquals("1,200,000", RoundedNumberFormat.format(1234567, 2));
-    }
+  @Test
+  public void test() {
+    assertEquals("1,200", RoundedNumberFormat.format(1234, 0));
+    assertEquals("1,200", RoundedNumberFormat.format(1234.45, 0));
+    assertEquals("1,200", RoundedNumberFormat.format(1234.567, 0));
+    assertEquals("1,200.00", RoundedNumberFormat.format(1234.567, 2));
+    assertEquals("1,200,000", RoundedNumberFormat.format(1234567, 0));
+    assertEquals("1,200,000", RoundedNumberFormat.format(1234567, 2));
+  }
 
-    @Test
-    public void testFormat() {
-        assertEquals("42", RoundedNumberFormat.format(42, 1));
-        assertEquals("-1", RoundedNumberFormat.format(-1, 1));
-        assertEquals("-2,100,000,000", RoundedNumberFormat.format(-2147483648, 1));
-    }
+  @Test
+  public void testFormat() {
+    assertEquals("42", RoundedNumberFormat.format(42, 1));
+    assertEquals("-1", RoundedNumberFormat.format(-1, 1));
+    assertEquals("-2,100,000,000", RoundedNumberFormat.format(-2147483648, 1));
+  }
 
 }

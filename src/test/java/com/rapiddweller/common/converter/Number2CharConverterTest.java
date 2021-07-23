@@ -12,47 +12,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.*;
+package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Tests the {@link Number2CharConverter}.
  * Created: 19.01.2011 15:35:12
- * @since 0.5.5
+ *
  * @author Volker Bergmann
+ * @since 0.5.5
  */
 public class Number2CharConverterTest extends AbstractConverterTest {
-	
-	public Number2CharConverterTest() {
-		super(Number2CharConverter.class);
-	}
 
-	@Test
-	public void testNull() {
-		Number2CharConverter converter = new Number2CharConverter();
-		assertEquals(null, converter.convert(null));
-	}
+  public Number2CharConverterTest() {
+    super(Number2CharConverter.class);
+  }
 
-	@Test
-	public void testInstance() {
-		checkNumberTypes(new Number2CharConverter());
-	}
+  @Test
+  public void testNull() {
+    Number2CharConverter converter = new Number2CharConverter();
+    assertEquals(null, converter.convert(null));
+  }
 
-	@Test
-	public void testConverterManagerIntegration() {
-		Converter<Number, Character> converter = ConverterManager.getInstance().createConverter(Number.class, Character.class);
-		checkNumberTypes(converter);
-	}
+  @Test
+  public void testInstance() {
+    checkNumberTypes(new Number2CharConverter());
+  }
 
-	private static void checkNumberTypes(Converter<Number, Character> converter) {
-		assertEquals('A', (char) converter.convert((byte) 65));
-		assertEquals('A', (char) converter.convert(65));
-		assertEquals('A', (char) converter.convert((short) 65));
-		assertEquals('A', (char) converter.convert((long) 65));
-	}
+  @Test
+  public void testConverterManagerIntegration() {
+    Converter<Number, Character> converter = ConverterManager.getInstance().createConverter(Number.class, Character.class);
+    checkNumberTypes(converter);
+  }
+
+  private static void checkNumberTypes(Converter<Number, Character> converter) {
+    assertEquals('A', (char) converter.convert((byte) 65));
+    assertEquals('A', (char) converter.convert(65));
+    assertEquals('A', (char) converter.convert((short) 65));
+    assertEquals('A', (char) converter.convert((long) 65));
+  }
 
 }

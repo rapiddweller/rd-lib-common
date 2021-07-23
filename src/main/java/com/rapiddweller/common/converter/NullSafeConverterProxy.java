@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -20,27 +21,37 @@ import com.rapiddweller.common.Converter;
 /**
  * Wraps another Converter and adds the feature of converting null values to a predefined value.
  * Created: 26.07.2007 06:59:35
+ *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
  */
 public class NullSafeConverterProxy<S, T> extends ConverterProxy<S, T> {
 
-    protected T nullResult;
+  /**
+   * The Null result.
+   */
+  protected T nullResult;
 
-    public NullSafeConverterProxy(Converter<S, T> realConverter, T nullResult) {
-        super(realConverter);
-        this.nullResult = nullResult;
-    }
+  /**
+   * Instantiates a new Null safe converter proxy.
+   *
+   * @param realConverter the real converter
+   * @param nullResult    the null result
+   */
+  public NullSafeConverterProxy(Converter<S, T> realConverter, T nullResult) {
+    super(realConverter);
+    this.nullResult = nullResult;
+  }
 
-    @Override
-	public Class<T> getTargetType() {
-        return realConverter.getTargetType();
-    }
+  @Override
+  public Class<T> getTargetType() {
+    return realConverter.getTargetType();
+  }
 
-	@Override
-	public T convert(S sourceValue) throws ConversionException {
-        return (sourceValue != null ? realConverter.convert(sourceValue) : nullResult);
-    }
+  @Override
+  public T convert(S sourceValue) throws ConversionException {
+    return (sourceValue != null ? realConverter.convert(sourceValue) : nullResult);
+  }
 
 }

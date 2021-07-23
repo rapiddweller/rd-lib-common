@@ -27,109 +27,148 @@ import java.awt.Graphics;
 /**
  * Paints a text over another icon.
  * Created: 19.05.2016 17:28:08
- * @since 1.0.10
+ *
  * @author Volker Bergmann
+ * @since 1.0.10
  */
-
 public class TextOverlayIcon implements Icon {
 
-	private final Icon   background;
-	private final String text;
-	private final Color  color;
-	private final Font   font;
-	private final FontMetrics metrics;
-	
-	private int backgroundXOffset;
-	private int backgroundYOffset;
-	private int textXOffset;
-	private int textYOffset;
+  private final Icon background;
+  private final String text;
+  private final Color color;
+  private final Font font;
+  private final FontMetrics metrics;
 
-	private int width;
-	private int height;
+  private int backgroundXOffset;
+  private int backgroundYOffset;
+  private int textXOffset;
+  private int textYOffset;
 
-	// constructors ----------------------------------------------------------------------------------------------------
+  private int width;
+  private int height;
 
-	public TextOverlayIcon(Icon background, String text) {
-		this(background, text, Color.BLACK);
-	}
+  // constructors ----------------------------------------------------------------------------------------------------
 
-	public TextOverlayIcon(Icon background, String text, Color color) {
-		this(background, text, color, defaultFont());
-	}
+  /**
+   * Instantiates a new Text overlay icon.
+   *
+   * @param background the background
+   * @param text       the text
+   */
+  public TextOverlayIcon(Icon background, String text) {
+    this(background, text, Color.BLACK);
+  }
 
-	public TextOverlayIcon(Icon background, String text, Color color, Font font) {
-		this.background = background;
-		this.text = text;
-		this.color = color;
-		this.font = font;
-		this.metrics = new Canvas().getFontMetrics(font);
+  /**
+   * Instantiates a new Text overlay icon.
+   *
+   * @param background the background
+   * @param text       the text
+   * @param color      the color
+   */
+  public TextOverlayIcon(Icon background, String text, Color color) {
+    this(background, text, color, defaultFont());
+  }
 
-		int textWidth = metrics.stringWidth(text);
-		int iconWidth = background.getIconWidth();
-		setIconWidth(Math.max(textWidth, iconWidth));
-		
-		int textHeight = font.getSize();
-		int iconHeight = background.getIconHeight();
-		setIconHeight(Math.max(textHeight, iconHeight));
-	}
+  /**
+   * Instantiates a new Text overlay icon.
+   *
+   * @param background the background
+   * @param text       the text
+   * @param color      the color
+   * @param font       the font
+   */
+  public TextOverlayIcon(Icon background, String text, Color color, Font font) {
+    this.background = background;
+    this.text = text;
+    this.color = color;
+    this.font = font;
+    this.metrics = new Canvas().getFontMetrics(font);
 
+    int textWidth = metrics.stringWidth(text);
+    int iconWidth = background.getIconWidth();
+    setIconWidth(Math.max(textWidth, iconWidth));
 
-	// properties ------------------------------------------------------------------------------------------------------
-
-	public TextOverlayIcon withSize(int size) {
-		setIconWidth(size);
-		setIconHeight(size);
-		return this;
-	}
-	
-	@Override
-	public int getIconWidth() {
-		return width;
-	}
-
-	public void setIconWidth(int iconWidth) {
-		this.width = iconWidth;
-		int textWidth = metrics.stringWidth(text);
-		this.textXOffset = (this.width - textWidth) / 2;
-		this.backgroundXOffset = (this.width - background.getIconWidth()) / 2;
-	}
-
-	@Override
-	public int getIconHeight() {
-		return height;
-	}
-
-	public void setIconHeight(int iconHeight) {
-		this.height = iconHeight;
-		int textHeight = font.getSize();
-		int ascent = metrics.getAscent();
-		this.textYOffset = (iconHeight - textHeight) / 2  + ascent - 1;
-		this.backgroundYOffset = (this.height - background.getIconHeight()) / 2;
-	}
+    int textHeight = font.getSize();
+    int iconHeight = background.getIconHeight();
+    setIconHeight(Math.max(textHeight, iconHeight));
+  }
 
 
-	// rendering methods -----------------------------------------------------------------------------------------------
+  // properties ------------------------------------------------------------------------------------------------------
 
-	@Override
-	public void paintIcon(Component c, Graphics g, int x, int y) {
-		if (background != null)
-			background.paintIcon(c, g, x + backgroundXOffset, y + backgroundYOffset);
-		g.setColor(color);
-		Font origFont = g.getFont();
-		g.setFont(font);
-		g.drawString(text, x + textXOffset, y + textYOffset);
-		g.setFont(origFont);
-	}
+  /**
+   * With size text overlay icon.
+   *
+   * @param size the size
+   * @return the text overlay icon
+   */
+  public TextOverlayIcon withSize(int size) {
+    setIconWidth(size);
+    setIconHeight(size);
+    return this;
+  }
+
+  @Override
+  public int getIconWidth() {
+    return width;
+  }
+
+  /**
+   * Sets icon width.
+   *
+   * @param iconWidth the icon width
+   */
+  public void setIconWidth(int iconWidth) {
+    this.width = iconWidth;
+    int textWidth = metrics.stringWidth(text);
+    this.textXOffset = (this.width - textWidth) / 2;
+    this.backgroundXOffset = (this.width - background.getIconWidth()) / 2;
+  }
+
+  @Override
+  public int getIconHeight() {
+    return height;
+  }
+
+  /**
+   * Sets icon height.
+   *
+   * @param iconHeight the icon height
+   */
+  public void setIconHeight(int iconHeight) {
+    this.height = iconHeight;
+    int textHeight = font.getSize();
+    int ascent = metrics.getAscent();
+    this.textYOffset = (iconHeight - textHeight) / 2 + ascent - 1;
+    this.backgroundYOffset = (this.height - background.getIconHeight()) / 2;
+  }
 
 
-	// private helpers -------------------------------------------------------------------------------------------------
+  // rendering methods -----------------------------------------------------------------------------------------------
 
-	private static Font defaultFont() {
-		Font tableFont = UIManager.getDefaults().getFont("Table.font");
-		if (tableFont.isBold())
-			return new Font(tableFont.getFamily(), (Font.PLAIN), tableFont.getSize());
-		else
-			return tableFont;
-	}
+  @Override
+  public void paintIcon(Component c, Graphics g, int x, int y) {
+    if (background != null) {
+      background.paintIcon(c, g, x + backgroundXOffset, y + backgroundYOffset);
+    }
+    g.setColor(color);
+    Font origFont = g.getFont();
+    g.setFont(font);
+    g.drawString(text, x + textXOffset, y + textYOffset);
+    g.setFont(origFont);
+  }
+
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private static Font defaultFont() {
+    Font tableFont = UIManager.getDefaults().getFont("Table.font");
+    if (tableFont.isBold()) {
+      return new Font(tableFont.getFamily(), (Font.PLAIN), tableFont.getSize());
+    } else {
+      return tableFont;
+    }
+  }
 
 }

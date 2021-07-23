@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import java.util.Locale;
@@ -19,18 +20,26 @@ import java.util.Locale;
 /**
  * Converts Strings to upper case.
  * Created at 26.05.2009 09:10:24
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class ToUpperCaseConverter extends CaseConverter {
 
-	public ToUpperCaseConverter() {
-	    super(true);
-    }
+  /**
+   * Instantiates a new To upper case converter.
+   */
+  public ToUpperCaseConverter() {
+    super(true);
+  }
 
-	public ToUpperCaseConverter(Locale locale) {
-	    super(true, locale);
-    }
+  /**
+   * Instantiates a new To upper case converter.
+   *
+   * @param locale the locale
+   */
+  public ToUpperCaseConverter(Locale locale) {
+    super(true, locale);
+  }
 
 }

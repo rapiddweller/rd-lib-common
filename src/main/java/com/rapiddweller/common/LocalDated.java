@@ -20,10 +20,15 @@ import java.time.LocalDate;
 /**
  * Interface for classes with a 'date' property of type {@link LocalDate}.<br><br>
  * Created: 28.07.2019 19:51:09
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public interface LocalDated {
-	LocalDate getDate();
+  /**
+   * Gets date.
+   *
+   * @return the date
+   */
+  LocalDate getDate();
 }

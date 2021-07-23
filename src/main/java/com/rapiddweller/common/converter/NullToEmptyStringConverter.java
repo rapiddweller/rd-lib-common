@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -20,18 +21,22 @@ import com.rapiddweller.common.Converter;
 /**
  * {@link Converter} implementation that converts a null value to an empty {@link String}.
  * Created: 08.03.2011 14:59:34
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class NullToEmptyStringConverter extends ThreadSafeConverter<String, String> {
 
-	protected NullToEmptyStringConverter() {
-		super(String.class, String.class);
-	}
+  /**
+   * Instantiates a new Null to empty string converter.
+   */
+  protected NullToEmptyStringConverter() {
+    super(String.class, String.class);
+  }
 
-	@Override
-	public String convert(String sourceValue) throws ConversionException {
-		return (sourceValue == null ? "" : sourceValue);
-	}
+  @Override
+  public String convert(String sourceValue) throws ConversionException {
+    return (sourceValue == null ? "" : sourceValue);
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.tree;
 
 import com.rapiddweller.common.TreeModel;
@@ -21,26 +22,27 @@ import org.junit.Test;
 /**
  * Tests the {@link TreeIterator}.
  * Created at 04.05.2008 09:17:07
- * @since 0.4.3
+ *
  * @author Volker Bergmann
+ * @since 0.4.3
  */
 public class TreeIteratorTest extends BidirectionalIteratorTest {
-	
-	@Test
-    public void test() {
-		DefaultTreeNode<Integer> root = new DefaultTreeNode<>(0);
-		DefaultTreeNode<Integer> c1 = new DefaultTreeNode<>(root, 1);
-		root.addChild(c1);
-		DefaultTreeNode<Integer> c11 = new DefaultTreeNode<>(c1, 11);
-		c1.addChild(c11);
-		DefaultTreeNode<Integer> c2 = new DefaultTreeNode<>(root, 2);
-		root.addChild(c2);
-		DefaultTreeNode<Integer> c3 = new DefaultTreeNode<>(root, 3);
-		root.addChild(c3);
-		TreeModel<DefaultTreeNode<Integer>> model = new DefaultTreeModel<>(root);
-		TreeIterator<DefaultTreeNode<Integer>> iterator = new TreeIterator<>(model);
-		expectNextElements(iterator, root, c1, c11, c2, c3).withNoNext();
-		expectPreviousElements(iterator, c2, c11, c1, root).withNoPrevious();
-	}
-	
+
+  @Test
+  public void test() {
+    DefaultTreeNode<Integer> root = new DefaultTreeNode<>(0);
+    DefaultTreeNode<Integer> c1 = new DefaultTreeNode<>(root, 1);
+    root.addChild(c1);
+    DefaultTreeNode<Integer> c11 = new DefaultTreeNode<>(c1, 11);
+    c1.addChild(c11);
+    DefaultTreeNode<Integer> c2 = new DefaultTreeNode<>(root, 2);
+    root.addChild(c2);
+    DefaultTreeNode<Integer> c3 = new DefaultTreeNode<>(root, 3);
+    root.addChild(c3);
+    TreeModel<DefaultTreeNode<Integer>> model = new DefaultTreeModel<>(root);
+    TreeIterator<DefaultTreeNode<Integer>> iterator = new TreeIterator<>(model);
+    expectNextElements(iterator, root, c1, c11, c2, c3).withNoNext();
+    expectPreviousElements(iterator, c2, c11, c1, root).withNoPrevious();
+  }
+
 }

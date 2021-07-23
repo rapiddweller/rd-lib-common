@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -19,24 +20,32 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts {@link String}s of length 1 to {@link Character}s, Strings of length 0 to <code>null</code>.
  * Created: 27.02.2010 10:16:03
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class String2CharConverter extends ThreadSafeConverter<String, Character> {
 
-	public String2CharConverter() {
-	    super(String.class, Character.class);
-    }
+  /**
+   * Instantiates a new String 2 char converter.
+   */
+  public String2CharConverter() {
+    super(String.class, Character.class);
+  }
 
-	@Override
-	public Character convert(String sourceValue) throws ConversionException {
-		if (sourceValue == null)
-			return null;
-    	switch (sourceValue.length()) {
-			case 0 : return null; 
-			case 1 : return sourceValue.charAt(0);
-			default: throw new ConversionException("'" + sourceValue + "' cannot be converted to a character");
-    	}
+  @Override
+  public Character convert(String sourceValue) throws ConversionException {
+    if (sourceValue == null) {
+      return null;
     }
+    switch (sourceValue.length()) {
+      case 0:
+        return null;
+      case 1:
+        return sourceValue.charAt(0);
+      default:
+        throw new ConversionException("'" + sourceValue + "' cannot be converted to a character");
+    }
+  }
 
 }

@@ -12,30 +12,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.Validator;
 
 /**
- * Composite validator that requires all component to return true. 
+ * Composite validator that requires all component to return true.
  * If no components exists, true is returned.
  * Created: 20.11.2007 09:50:13
+ *
  * @param <E> the type to by checked by this validator
  * @author Volker Bergmann
  */
 public class AndValidator<E> extends CompositeValidator<E> {
 
-    @SafeVarargs
-    public AndValidator(Validator<E> ... subValidators) {
-        super(subValidators);
-    }
+  /**
+   * Instantiates a new And validator.
+   *
+   * @param subValidators the sub validators
+   */
+  @SafeVarargs
+  public AndValidator(Validator<E>... subValidators) {
+    super(subValidators);
+  }
 
-    @Override
-	public boolean valid(E object) {
-        for (Validator<E> validator : subValidators)
-            if (!validator.valid(object))
-                return false;
-        return true;
+  @Override
+  public boolean valid(E object) {
+    for (Validator<E> validator : subValidators) {
+      if (!validator.valid(object)) {
+        return false;
+      }
     }
+    return true;
+  }
 
 }

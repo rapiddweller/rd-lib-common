@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
@@ -22,46 +23,63 @@ import com.rapiddweller.common.accessor.TypedAccessorChain;
 /**
  * Accesses JavaBean object graphs.
  * Created: 21.07.2007 10:18:17
+ *
  * @author Volker Bergmann
  */
 @SuppressWarnings("rawtypes")
 public class PropertyGraphAccessor extends TypedAccessorChain implements PropertyAccessor {
 
-    private final String propertyName;
+  private final String propertyName;
 
-    public PropertyGraphAccessor(Class<?> beanClass, String propertyName, boolean strict) {
-        super(createSubAccessors(beanClass, propertyName, strict));
-        this.propertyName = propertyName;
-    }
-    
-    @Override
-	public String getPropertyName() {
-        return propertyName;
-    }
+  /**
+   * Instantiates a new Property graph accessor.
+   *
+   * @param beanClass    the bean class
+   * @param propertyName the property name
+   * @param strict       the strict
+   */
+  public PropertyGraphAccessor(Class<?> beanClass, String propertyName, boolean strict) {
+    super(createSubAccessors(beanClass, propertyName, strict));
+    this.propertyName = propertyName;
+  }
 
-    
-    // static utility methods ------------------------------------------------------------------------------------------
-    
-    public static Object getPropertyGraph(String path, Object bean) {
-    	String[] tokens = StringUtil.splitOnFirstSeparator(path, '.');
-    	Object tmp = BeanUtil.getPropertyValue(bean, tokens[0]);
-    	if (tokens[1] != null && tmp != null)
-    		return getPropertyGraph(tokens[1], tmp);
-    	else
-    		return tmp;
-    }
+  @Override
+  public String getPropertyName() {
+    return propertyName;
+  }
 
-    private static TypedAccessor[] createSubAccessors(Class<?> beanClass, String propertyName, boolean strict) {
-        String[] nodeNames = StringUtil.tokenize(propertyName, '.');
-        PropertyAccessor[] nodes = new PropertyAccessor[nodeNames.length];
-        Class<?> intermediateClass = beanClass;
-        for (int i = 0; i < nodeNames.length; i++) {
-            PropertyAccessor node = PropertyAccessorFactory.getAccessor(intermediateClass, nodeNames[i], strict);
-            nodes[i] = node;
-            if (intermediateClass != null)
-                intermediateClass = node.getValueType();
-        }
-        return nodes;
+
+  // static utility methods ------------------------------------------------------------------------------------------
+
+  /**
+   * Gets property graph.
+   *
+   * @param path the path
+   * @param bean the bean
+   * @return the property graph
+   */
+  public static Object getPropertyGraph(String path, Object bean) {
+    String[] tokens = StringUtil.splitOnFirstSeparator(path, '.');
+    Object tmp = BeanUtil.getPropertyValue(bean, tokens[0]);
+    if (tokens[1] != null && tmp != null) {
+      return getPropertyGraph(tokens[1], tmp);
+    } else {
+      return tmp;
     }
-    
+  }
+
+  private static TypedAccessor[] createSubAccessors(Class<?> beanClass, String propertyName, boolean strict) {
+    String[] nodeNames = StringUtil.tokenize(propertyName, '.');
+    PropertyAccessor[] nodes = new PropertyAccessor[nodeNames.length];
+    Class<?> intermediateClass = beanClass;
+    for (int i = 0; i < nodeNames.length; i++) {
+      PropertyAccessor node = PropertyAccessorFactory.getAccessor(intermediateClass, nodeNames[i], strict);
+      nodes[i] = node;
+      if (intermediateClass != null) {
+        intermediateClass = node.getValueType();
+      }
+    }
+    return nodes;
+  }
+
 }

@@ -22,19 +22,22 @@ import java.time.YearMonth;
 /**
  * Parses a string as {@link YearMonth}.<br><br>
  * Created: 28.07.2019 20:34:04
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public class String2YearMonthConverter extends ThreadSafeConverter<String, YearMonth> {
 
-    public String2YearMonthConverter() {
-        super(String.class, YearMonth.class);
-    }
+  /**
+   * Instantiates a new String 2 year month converter.
+   */
+  public String2YearMonthConverter() {
+    super(String.class, YearMonth.class);
+  }
 
-    @Override
-	public YearMonth convert(String target) throws ConversionException {
-        return YearMonth.parse(target);
-    }
-    
+  @Override
+  public YearMonth convert(String target) throws ConversionException {
+    return YearMonth.parse(target);
+  }
+
 }

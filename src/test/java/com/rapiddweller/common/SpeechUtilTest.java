@@ -12,11 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
-import static org.junit.Assert.assertFalse;
-
+import org.junit.Assume;
 import org.junit.Test;
+
+import static com.rapiddweller.common.SystemInfo.isLinux;
+import static org.junit.Assert.assertFalse;
 
 
 /**
@@ -28,10 +31,11 @@ import org.junit.Test;
  */
 public class SpeechUtilTest {
 
-    @Test
-    public void testSpeechSupported() {
-        assertFalse(SpeechUtil.speechSupported());
-    }
+  @Test
+  public void testSpeechSupported() {
+    Assume.assumeTrue(isLinux());
+    assertFalse(SpeechUtil.speechSupported());
+  }
 /* TODO this currently hangs when compiling with Maven
 	@Test
 	public void test() {

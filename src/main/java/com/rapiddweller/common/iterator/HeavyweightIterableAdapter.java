@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.HeavyweightIterable;
@@ -19,24 +20,30 @@ import com.rapiddweller.common.HeavyweightIterator;
 
 /**
  * Wraps an {@link Iterable} with a {@link HeavyweightIterable}.
- * On calls to <code>iterator()</code>, Iterators of the wrapped 
+ * On calls to <code>iterator()</code>, Iterators of the wrapped
  * Iterable will be wrapped to be {@link HeavyweightIterator}s.
  * Created at 17.10.2008 01:29:37
+ *
  * @param <E> the type to iterate
- * @since 0.4.6
  * @author Volker Bergmann
+ * @since 0.4.6
  */
 public class HeavyweightIterableAdapter<E> implements HeavyweightIterable<E> {
-	
-	private final Iterable<E> source;
 
-	public HeavyweightIterableAdapter(Iterable<E> source) {
-		this.source = source;
-	}
+  private final Iterable<E> source;
 
-	@Override
-	public HeavyweightIterator<E> iterator() {
-		return new HeavyweightIteratorProxy<>(source.iterator());
-	}
+  /**
+   * Instantiates a new Heavyweight iterable adapter.
+   *
+   * @param source the source
+   */
+  public HeavyweightIterableAdapter(Iterable<E> source) {
+    this.source = source;
+  }
+
+  @Override
+  public HeavyweightIterator<E> iterator() {
+    return new HeavyweightIteratorProxy<>(source.iterator());
+  }
 
 }

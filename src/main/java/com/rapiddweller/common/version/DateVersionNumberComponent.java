@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.version;
 
 import java.text.ParseException;
@@ -22,51 +23,66 @@ import java.util.Date;
  * Date-related implementation of the {@link VersionNumberComponent} interface,
  * which exhibits the same ordinal behavior as a snapshot version.
  * Created: 12.02.2010 09:50:06
- * @since 0.6.0
+ *
  * @author Volker Bergmann
+ * @since 0.6.0
  */
 public class DateVersionNumberComponent extends VersionNumberComponent {
 
-	private static final long serialVersionUID = 6057638663166486859L;
-	
-	private final String dateString;
-	private final Date date;
+  private static final long serialVersionUID = 6057638663166486859L;
 
-	public DateVersionNumberComponent(String dateString) throws ParseException {
-		this.dateString = dateString;
-		this.date = new SimpleDateFormat("yyyyMMdd").parse(dateString);
-	}
+  private final String dateString;
+  private final Date date;
 
-	@Override
-	public int compareTo(VersionNumberComponent that) {
-		if (that instanceof DateVersionNumberComponent)
-			return this.date.compareTo(((DateVersionNumberComponent) that).date);
-		else
-			return StringVersionNumberComponent.SNAPSHOT.compareTo(that);
-	}
-	
-	public Date getDate() {
-		return date;
-	}
-	
-	@Override
-	public String toString() {
-		return dateString;
-	}
+  /**
+   * Instantiates a new Date version number component.
+   *
+   * @param dateString the date string
+   * @throws ParseException the parse exception
+   */
+  public DateVersionNumberComponent(String dateString) throws ParseException {
+    this.dateString = dateString;
+    this.date = new SimpleDateFormat("yyyyMMdd").parse(dateString);
+  }
 
-	@Override
-	public int hashCode() {
-		return date.hashCode();
-	}
+  @Override
+  public int compareTo(VersionNumberComponent that) {
+    if (that instanceof DateVersionNumberComponent) {
+      return this.date.compareTo(((DateVersionNumberComponent) that).date);
+    } else {
+      return StringVersionNumberComponent.SNAPSHOT.compareTo(that);
+    }
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null || this.getClass() != obj.getClass())
-			return false;
-		DateVersionNumberComponent that = (DateVersionNumberComponent) obj;
-		return this.date.equals(that.date);
-	}
-	
+  /**
+   * Gets date.
+   *
+   * @return the date
+   */
+  public Date getDate() {
+    return date;
+  }
+
+  @Override
+  public String toString() {
+    return dateString;
+  }
+
+  @Override
+  public int hashCode() {
+    return date.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || this.getClass() != obj.getClass()) {
+      return false;
+    }
+    DateVersionNumberComponent that = (DateVersionNumberComponent) obj;
+    return this.date.equals(that.date);
+  }
+
 }

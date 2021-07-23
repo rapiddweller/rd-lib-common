@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -21,18 +22,22 @@ import java.util.Date;
 /**
  * Converts {@link java.sql.Date} objects to {@link java.util.Date} objects.
  * Created: 25.02.2010 23:22:14
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class SqlDate2UtilDateConverter extends ThreadSafeConverter<java.sql.Date, Date> {
 
-	public SqlDate2UtilDateConverter() {
-		super(java.sql.Date.class, Date.class);
-	}
+  /**
+   * Instantiates a new Sql date 2 util date converter.
+   */
+  public SqlDate2UtilDateConverter() {
+    super(java.sql.Date.class, Date.class);
+  }
 
-    @Override
-	public Date convert(java.sql.Date target) throws ConversionException {
-        return new java.util.Date(target.getTime());
-    }
+  @Override
+  public Date convert(java.sql.Date target) throws ConversionException {
+    return new java.util.Date(target.getTime());
+  }
 
 }

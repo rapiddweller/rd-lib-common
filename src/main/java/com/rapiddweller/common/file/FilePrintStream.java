@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.file;
 
 import java.io.File;
@@ -19,23 +20,38 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
 /**
- * {@link PrintStream} implementation that writes to a file 
+ * {@link PrintStream} implementation that writes to a file
  * and exhibits the file name to client code.
  * Created: 15.11.2010 07:38:28
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class FilePrintStream extends PrintStream {
 
-	protected File file;
-	
-	public FilePrintStream(File file) throws FileNotFoundException {
-		super(file);
-		this.file = file;
-	}
+  /**
+   * The File.
+   */
+  protected File file;
 
-	public File getFile() {
-		return file;
-	}
-	
+  /**
+   * Instantiates a new File print stream.
+   *
+   * @param file the file
+   * @throws FileNotFoundException the file not found exception
+   */
+  public FilePrintStream(File file) throws FileNotFoundException {
+    super(file);
+    this.file = file;
+  }
+
+  /**
+   * Gets file.
+   *
+   * @return the file
+   */
+  public File getFile() {
+    return file;
+  }
+
 }

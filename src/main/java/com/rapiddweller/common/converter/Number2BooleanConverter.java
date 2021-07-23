@@ -12,27 +12,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
 
 /**
- * Converts {@link Number}s to {@link Boolean}s, 
+ * Converts {@link Number}s to {@link Boolean}s,
  * interpreting zero as false, any other value as true.
  * Created: 27.02.2010 09:55:30
+ *
  * @param <S> the number type to convert from
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-public class Number2BooleanConverter<S extends Number> extends ThreadSafeConverter<S, Boolean>{
+public class Number2BooleanConverter<S extends Number> extends ThreadSafeConverter<S, Boolean> {
 
-	protected Number2BooleanConverter(Class<S> sourceType) {
-	    super(sourceType, Boolean.class);
-    }
+  /**
+   * Instantiates a new Number 2 boolean converter.
+   *
+   * @param sourceType the source type
+   */
+  protected Number2BooleanConverter(Class<S> sourceType) {
+    super(sourceType, Boolean.class);
+  }
 
-	@Override
-	public Boolean convert(S sourceValue) throws ConversionException {
-	    return (sourceValue.doubleValue() != 0);
-    }
+  @Override
+  public Boolean convert(S sourceValue) throws ConversionException {
+    return (sourceValue.doubleValue() != 0);
+  }
 
 }

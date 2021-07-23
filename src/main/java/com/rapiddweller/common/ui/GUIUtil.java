@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui;
 
 import com.rapiddweller.common.SystemInfo;
@@ -30,31 +31,50 @@ import java.io.IOException;
 /**
  * Provides GUI utility methods.
  * Created: 01.12.2010 13:55:23
- * @since 0.2.4
+ *
  * @author Volker Bergmann
+ * @since 0.2.4
  */
 public class GUIUtil {
 
-	public static FileChooser createFileChooser(
-			File selectedFile, FileTypeSupport supportedTypes, FileOperation operation) {
-		FileChooser chooser;
-        if (SystemInfo.isMacOsx())
-        	chooser = new AwtFileChooser(null, operation, supportedTypes);
-        else
-	        chooser = new SwingFileChooser(supportedTypes, operation);
-        if (selectedFile != null && selectedFile.exists()) {
-        	if (selectedFile.isDirectory())
-        		chooser.setCurrentDirectory(selectedFile);
-        	else
-        		chooser.setSelectedFile(selectedFile);
-        }
-        return chooser;
-	}
-	
-	public static void takeScreenshot(String fileName, String formatName) throws IOException, AWTException {
-		Rectangle screenBounds = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-		BufferedImage image = new Robot().createScreenCapture(screenBounds);
-		ImageIO.write(image, formatName, new File(fileName));
-	}
-	
+  /**
+   * Create file chooser file chooser.
+   *
+   * @param selectedFile   the selected file
+   * @param supportedTypes the supported types
+   * @param operation      the operation
+   * @return the file chooser
+   */
+  public static FileChooser createFileChooser(
+      File selectedFile, FileTypeSupport supportedTypes, FileOperation operation) {
+    FileChooser chooser;
+    if (SystemInfo.isMacOsx()) {
+      chooser = new AwtFileChooser(null, operation, supportedTypes);
+    } else {
+      chooser = new SwingFileChooser(supportedTypes, operation);
+    }
+    if (selectedFile != null && selectedFile.exists()) {
+      if (selectedFile.isDirectory()) {
+        chooser.setCurrentDirectory(selectedFile);
+      } else {
+        chooser.setSelectedFile(selectedFile);
+      }
+    }
+    return chooser;
+  }
+
+  /**
+   * Take screenshot.
+   *
+   * @param fileName   the file name
+   * @param formatName the format name
+   * @throws IOException  the io exception
+   * @throws AWTException the awt exception
+   */
+  public static void takeScreenshot(String fileName, String formatName) throws IOException, AWTException {
+    Rectangle screenBounds = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+    BufferedImage image = new Robot().createScreenCapture(screenBounds);
+    ImageIO.write(image, formatName, new File(fileName));
+  }
+
 }

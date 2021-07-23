@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator.domain;
 
 import com.rapiddweller.common.validator.AbstractValidator;
@@ -19,14 +20,15 @@ import com.rapiddweller.common.validator.AbstractValidator;
 /**
  * Simple validator class for testing.
  * Created: 20.12.2011 17:07:47
- * @since 0.5.14
+ *
  * @author Volker Bergmann
+ * @since 0.5.14
  */
 public class OneValidator extends AbstractValidator<Integer> {
 
-	@Override
-	public boolean valid(Integer candidate) {
-		return (1 == candidate);
-	}
+  @Override
+  public boolean valid(Integer candidate) {
+    return (1 == candidate);
+  }
 
 }

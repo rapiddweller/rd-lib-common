@@ -12,43 +12,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.math;
 
 /**
  * Simple non-thread-save implementation of a mutable double object.
  * Created at 17.07.2009 06:13:53
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class MutableDouble {
 
-	public double value;
+  /**
+   * The Value.
+   */
+  public double value;
 
-	public MutableDouble(double value) {
-	    super();
-	    this.value = value;
+  /**
+   * Instantiates a new Mutable double.
+   *
+   * @param value the value
+   */
+  public MutableDouble(double value) {
+    super();
+    this.value = value;
+  }
+
+  @Override
+  public int hashCode() {
+    long temp = Double.doubleToLongBits(value);
+    return (int) (temp ^ (temp >>> 32));
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-	
-	@Override
-    public int hashCode() {
-	    long temp = Double.doubleToLongBits(value);
-	    return (int) (temp ^ (temp >>> 32));
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
     }
-
-	@Override
-    public boolean equals(Object obj) {
-	    if (this == obj)
-		    return true;
-	    if (obj == null || getClass() != obj.getClass())
-		    return false;
-	    MutableDouble that = (MutableDouble) obj;
-	    return (Double.doubleToLongBits(value) != Double.doubleToLongBits(that.value));
-    }
+    MutableDouble that = (MutableDouble) obj;
+    return (Double.doubleToLongBits(value) != Double.doubleToLongBits(that.value));
+  }
 
 
-	@Override
-	public String toString() {
-	    return String.valueOf(value);
-	}
+  @Override
+  public String toString() {
+    return String.valueOf(value);
+  }
 }

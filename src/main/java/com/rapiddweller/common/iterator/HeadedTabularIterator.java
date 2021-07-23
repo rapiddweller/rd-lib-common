@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.converter.ArrayTypeConverter;
@@ -19,25 +20,32 @@ import com.rapiddweller.common.converter.ArrayTypeConverter;
 import java.util.Iterator;
 
 /**
- * Forwards the output of another array {@link Iterator}, 
+ * Forwards the output of another array {@link Iterator},
  * interpreting its first provided array as column names.
  * Created: 26.01.2012 17:24:53
- * @since 0.5.14
+ *
  * @author Volker Bergmann
+ * @since 0.5.14
  */
 public class HeadedTabularIterator extends IteratorProxy<Object[]> implements TabularIterator {
-	
-	private String[] columnNames;
 
-	public HeadedTabularIterator(Iterator<Object[]> source) {
-		super(source);
-		if (source.hasNext())
-			this.columnNames = ArrayTypeConverter.convert(source.next(), String.class);
-	}
+  private String[] columnNames;
 
-	@Override
-	public String[] getColumnNames() {
-		return columnNames;
-	}
-	
+  /**
+   * Instantiates a new Headed tabular iterator.
+   *
+   * @param source the source
+   */
+  public HeadedTabularIterator(Iterator<Object[]> source) {
+    super(source);
+    if (source.hasNext()) {
+      this.columnNames = ArrayTypeConverter.convert(source.next(), String.class);
+    }
+  }
+
+  @Override
+  public String[] getColumnNames() {
+    return columnNames;
+  }
+
 }

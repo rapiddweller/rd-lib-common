@@ -12,25 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.operation;
 
 import com.rapiddweller.common.Operation;
 
 /**
- * Combines boolean arguments with an 'and' condition ignoring null arguments. 
+ * Combines boolean arguments with an 'and' condition ignoring null arguments.
  * If the number of arguments is zero, true is returned.
  * Created: 05.03.2008 07:56:59
- * @since 0.4.0
+ *
  * @author Volker Bergmann
+ * @since 0.4.0
  */
 public class OrOperation implements Operation<Boolean, Boolean> {
 
-    @Override
-	public Boolean perform(Boolean... args) {
-        for (Boolean arg : args)
-            if (arg != null && !arg)
-                return Boolean.FALSE;
-        return Boolean.TRUE;
+  @Override
+  public Boolean perform(Boolean... args) {
+    for (Boolean arg : args) {
+      if (arg != null && !arg) {
+        return Boolean.FALSE;
+      }
     }
+    return Boolean.TRUE;
+  }
 
 }

@@ -12,20 +12,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui;
 
 /**
  * Common abstraction for all classes that can provide information output to a human user.
  * Created at 21.12.2008 11:33:26
- * @since 0.4.7
+ *
  * @author Volker Bergmann
+ * @since 0.4.7
  */
-
 public abstract class InfoPrinter {
-	
-	public void printLines(String... lines) {
-		printLines(null, lines);
-	}
-	
-	public abstract void printLines(Object owner, String... lines);
+
+  /**
+   * Print lines.
+   *
+   * @param lines the lines
+   */
+  public void printLines(String... lines) {
+    printLines(null, lines);
+  }
+
+  /**
+   * Print lines.
+   *
+   * @param owner the owner
+   * @param lines the lines
+   */
+  public abstract void printLines(Object owner, String... lines);
 }

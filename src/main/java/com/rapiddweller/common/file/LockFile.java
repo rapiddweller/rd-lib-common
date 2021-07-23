@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.file;
 
 import java.io.File;
@@ -19,50 +20,64 @@ import java.io.IOException;
 
 /**
  * <p>Utility for preventing the start of more than one process of a given application.
- * The lock is acquired calling {@link #acquireLock(File)} with a File instance. 
- * The method creates the file and registers a shutdown hook that deletes the file 
- * when the process finishes. When a second acquireLock is tried while the file exists 
- * (no matter if by this or another process), a {@link LockAlreadyAcquiredException} 
+ * The lock is acquired calling {@link #acquireLock(File)} with a File instance.
+ * The method creates the file and registers a shutdown hook that deletes the file
+ * when the process finishes. When a second acquireLock is tried while the file exists
+ * (no matter if by this or another process), a {@link LockAlreadyAcquiredException}
  * is thrown.</p>
  * It can be used like this:
  * <pre>
  * 		try {
- *			LockFile.acquireLock("MyApp.lock");
- *		} catch (LockFile.LockAlreadyAcquiredException e) {
- *			JOptionPane.showMessageDialog(null, "MyApp is already running", "Error", JOptionPane.ERROR_MESSAGE);
- *			System.exit(-1);
- *		}
+ * 			LockFile.acquireLock("MyApp.lock");
+ *        } catch (LockFile.LockAlreadyAcquiredException e) {
+ * 			JOptionPane.showMessageDialog(null, "MyApp is already running", "Error", JOptionPane.ERROR_MESSAGE);
+ * 			System.exit(-1);
+ *        }
  * </pre>
- * 
+ * <p>
  * Created: 29.11.2013 08:16:23
- * @since 0.5.25
+ *
  * @author Volker Bergmann
+ * @since 0.5.25
  */
-
 public class LockFile {
 
-	public static void acquireLock(final File lockFile) throws LockAlreadyAcquiredException {
-		if (lockFile.exists()) {
-			throw new LockAlreadyAcquiredException(lockFile.getPath());
-		} else {
-			try {
-				File parent = lockFile.getParentFile();
-				parent.mkdirs();
-				lockFile.createNewFile();
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-			Runtime.getRuntime().addShutdownHook(new Thread(lockFile::delete));
-		}
-	}
-	
-	public static class LockAlreadyAcquiredException extends Exception {
+  /**
+   * Acquire lock.
+   *
+   * @param lockFile the lock file
+   * @throws LockAlreadyAcquiredException the lock already acquired exception
+   */
+  public static void acquireLock(final File lockFile) throws LockAlreadyAcquiredException {
+    if (lockFile.exists()) {
+      throw new LockAlreadyAcquiredException(lockFile.getPath());
+    } else {
+      try {
+        File parent = lockFile.getParentFile();
+        parent.mkdirs();
+        lockFile.createNewFile();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      Runtime.getRuntime().addShutdownHook(new Thread(lockFile::delete));
+    }
+  }
 
-		private static final long serialVersionUID = 1L;
+  /**
+   * The type Lock already acquired exception.
+   */
+  public static class LockAlreadyAcquiredException extends Exception {
 
-		public LockAlreadyAcquiredException(String fileName) {
-			super("Lock file already acquired: " + fileName);
-		}
-	}
-	
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Instantiates a new Lock already acquired exception.
+     *
+     * @param fileName the file name
+     */
+    public LockAlreadyAcquiredException(String fileName) {
+      super("Lock file already acquired: " + fileName);
+    }
+  }
+
 }

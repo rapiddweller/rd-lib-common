@@ -12,34 +12,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 /**
  * Simple JavaBean for testing.
  * Created: 21.07.2007 09:14:00
+ *
  * @author Volker Bergmann
  */
 public class CBean extends AbstractObservableBean {
-	
-    private static final long serialVersionUID = 4800190274353650504L;
-    
-	public String name;
-    public int n;
 
-    public String getName() {
-        return name;
-    }
+  private static final long serialVersionUID = 4800190274353650504L;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String name;
+  public int n;
 
-    public int getN() {
-        return n;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setN(int n) {
-        this.n = n;
-    }
-    
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public int getN() {
+    return n;
+  }
+
+  public void setN(int n) {
+    this.n = n;
+  }
+
 }

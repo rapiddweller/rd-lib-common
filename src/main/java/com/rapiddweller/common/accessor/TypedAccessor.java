@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
@@ -19,10 +20,16 @@ import com.rapiddweller.common.Accessor;
 /**
  * Accessor that tells the type of Object it returns.
  * Created: 22.02.2006 20:03:44
+ *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
  */
 public interface TypedAccessor<C, V> extends Accessor<C, V> {
-    Class<? extends V> getValueType();
+  /**
+   * Gets value type.
+   *
+   * @return the value type
+   */
+  Class<? extends V> getValueType();
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui.swing.delegate;
 
 import com.rapiddweller.common.BeanUtil;
@@ -30,89 +31,104 @@ import java.util.List;
 /**
  * {@link FileList} implementation that serves as delegate of a property of a JavaBean object.
  * Created at 30.11.2008 15:06:20
- * @since 0.5.13
+ *
  * @author Volker Bergmann
+ * @since 0.5.13
  */
-
 public class PropertyFileList extends FileList {
 
-	// attributes ------------------------------------------------------------------------------------------------------
-	
-	private static final long serialVersionUID = -1259803129031396860L;
-	
-	private final Object bean;
-	private final String propertyName;
+  // attributes ------------------------------------------------------------------------------------------------------
 
-	boolean locked;
-	
-	// constructor -----------------------------------------------------------------------------------------------------
-	
-	public PropertyFileList(Object bean, String propertyName, I18NSupport i18n) {
-		super(i18n);
-		this.bean = bean;
-		this.propertyName = propertyName;
-		this.locked = true;
-		refresh();
-		Listener listener = new Listener();
-		model.addListDataListener(listener);
-		if (bean instanceof ObservableBean)
-			((ObservableBean) bean).addPropertyChangeListener(propertyName, listener);
-		this.locked = false;
-	}
-	
-	// event handlers --------------------------------------------------------------------------------------------------
+  private static final long serialVersionUID = -1259803129031396860L;
 
-	/**
-	 * reads the current property value and writes it to the file list.
-	 */
-	void refresh() {
-		if (!locked) {
-			locked = true;
-			Object propertyValue = BeanUtil.getPropertyValue(bean, propertyName);
-			File[] files = (File[]) propertyValue;
-			if (!CollectionUtil.ofEqualContent(getFiles(), files))
-				setFiles(files);
-			locked = false;
-		}
-	}
-	
-	/**
-	 * writes the current file field content to the property.
-	 */
-	void update() {
-		if (!locked) {
-			locked = true;
-			File[] modelFiles = (File[]) BeanUtil.getPropertyValue(bean, propertyName);
-			List<File> viewFiles = getFiles();
-			if (!CollectionUtil.ofEqualContent(viewFiles, modelFiles)) {
-				File[] files = CollectionUtil.toArray(viewFiles, File.class);
-				BeanUtil.setPropertyValue(bean, propertyName, files);
-			}
-			locked = false;
-		}
-	}
-	
-	class Listener implements PropertyChangeListener, ListDataListener {
+  private final Object bean;
+  private final String propertyName;
 
-		@Override
-		public void propertyChange(PropertyChangeEvent evt) {
-			refresh();
-		}
+  /**
+   * The Locked.
+   */
+  boolean locked;
 
-		@Override
-		public void contentsChanged(ListDataEvent evt) {
-			update();
-		}
+  // constructor -----------------------------------------------------------------------------------------------------
 
-		@Override
-		public void intervalAdded(ListDataEvent evt) {
-			update();
-		}
+  /**
+   * Instantiates a new Property file list.
+   *
+   * @param bean         the bean
+   * @param propertyName the property name
+   * @param i18n         the 18 n
+   */
+  public PropertyFileList(Object bean, String propertyName, I18NSupport i18n) {
+    super(i18n);
+    this.bean = bean;
+    this.propertyName = propertyName;
+    this.locked = true;
+    refresh();
+    Listener listener = new Listener();
+    model.addListDataListener(listener);
+    if (bean instanceof ObservableBean) {
+      ((ObservableBean) bean).addPropertyChangeListener(propertyName, listener);
+    }
+    this.locked = false;
+  }
 
-		@Override
-		public void intervalRemoved(ListDataEvent evt) {
-			update();
-		}
+  // event handlers --------------------------------------------------------------------------------------------------
 
-	}
+  /**
+   * reads the current property value and writes it to the file list.
+   */
+  void refresh() {
+    if (!locked) {
+      locked = true;
+      Object propertyValue = BeanUtil.getPropertyValue(bean, propertyName);
+      File[] files = (File[]) propertyValue;
+      if (!CollectionUtil.ofEqualContent(getFiles(), files)) {
+        setFiles(files);
+      }
+      locked = false;
+    }
+  }
+
+  /**
+   * writes the current file field content to the property.
+   */
+  void update() {
+    if (!locked) {
+      locked = true;
+      File[] modelFiles = (File[]) BeanUtil.getPropertyValue(bean, propertyName);
+      List<File> viewFiles = getFiles();
+      if (!CollectionUtil.ofEqualContent(viewFiles, modelFiles)) {
+        File[] files = CollectionUtil.toArray(viewFiles, File.class);
+        BeanUtil.setPropertyValue(bean, propertyName, files);
+      }
+      locked = false;
+    }
+  }
+
+  /**
+   * The type Listener.
+   */
+  class Listener implements PropertyChangeListener, ListDataListener {
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+      refresh();
+    }
+
+    @Override
+    public void contentsChanged(ListDataEvent evt) {
+      update();
+    }
+
+    @Override
+    public void intervalAdded(ListDataEvent evt) {
+      update();
+    }
+
+    @Override
+    public void intervalRemoved(ListDataEvent evt) {
+      update();
+    }
+
+  }
 }

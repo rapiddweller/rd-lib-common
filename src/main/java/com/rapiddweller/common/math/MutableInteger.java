@@ -12,45 +12,59 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.math;
 
 /**
  * Simple non-thread-save implementation of a mutable integer object.
  * Created at 12.07.2009 00:34:24
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class MutableInteger {
 
-	public int value;
+  /**
+   * The Value.
+   */
+  public int value;
 
-	public MutableInteger(int value) {
-		this.value = value;
-    }
-	
-	public void increment() {
-		this.value++;
-	}
-	
-	@Override
-    public int hashCode() {
-	    return value;
-    }
+  /**
+   * Instantiates a new Mutable integer.
+   *
+   * @param value the value
+   */
+  public MutableInteger(int value) {
+    this.value = value;
+  }
 
-	@Override
-    public boolean equals(Object obj) {
-	    if (this == obj)
-		    return true;
-	    if (obj == null || getClass() != obj.getClass())
-		    return false;
-	    MutableInteger that = (MutableInteger) obj;
-	    return (this.value == that.value);
-    }
+  /**
+   * Increment.
+   */
+  public void increment() {
+    this.value++;
+  }
 
-	@Override
-	public String toString() {
-	    return String.valueOf(value);
-	}
-	
+  @Override
+  public int hashCode() {
+    return value;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    MutableInteger that = (MutableInteger) obj;
+    return (this.value == that.value);
+  }
+
+  @Override
+  public String toString() {
+    return String.valueOf(value);
+  }
+
 }

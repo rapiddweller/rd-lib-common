@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -26,39 +27,50 @@ import org.w3c.dom.Element;
 /**
  * Converts content elements of org.w3c.Document to strings.
  * Created: 20.11.2015 18:00:16
- * @since 1.0.6
+ *
  * @author Volker Bergmann
+ * @since 1.0.6
  */
-
 public class XMLNode2StringConverter extends UnsafeConverter<Object, String> {
-	
-	private static final String LF = SystemInfo.getLineSeparator();
-	private static final XMLNode2StringConverter DEFAULT_INSTANCE = new XMLNode2StringConverter();
 
-	public XMLNode2StringConverter() {
-		super(Object.class, String.class);
-	}
+  private static final String LF = SystemInfo.getLineSeparator();
+  private static final XMLNode2StringConverter DEFAULT_INSTANCE = new XMLNode2StringConverter();
 
-	@Override
-	public String convert(Object node) throws ConversionException {
-		if (node instanceof CDATASection)
-			return "<![CDATA[" + ((CDATASection) node).getTextContent() + "]]>";
-		else if (node instanceof CharacterData) 
-			return "'" + ((CharacterData) node).getTextContent() + "'";
-		else if (node instanceof Element)
-			return LF + XMLUtil.format((Element) node).trim() + LF;
-		else if (node instanceof Comment)
-			return LF + ((Comment) node).getData() + LF;
-		else if (node instanceof Document)
-			return XMLUtil.format((Document) node);
-		else if (node instanceof String)
-			return "'" + node + "'";
-		else
-			return ToStringConverter.convert(node, "");
-	}
+  /**
+   * Instantiates a new Xml node 2 string converter.
+   */
+  public XMLNode2StringConverter() {
+    super(Object.class, String.class);
+  }
 
-	public static String format(Object node) throws ConversionException {
-		return DEFAULT_INSTANCE.convert(node);
-	}
+  @Override
+  public String convert(Object node) throws ConversionException {
+    if (node instanceof CDATASection) {
+      return "<![CDATA[" + ((CDATASection) node).getTextContent() + "]]>";
+    } else if (node instanceof CharacterData) {
+      return "'" + ((CharacterData) node).getTextContent() + "'";
+    } else if (node instanceof Element) {
+      return LF + XMLUtil.format((Element) node).trim() + LF;
+    } else if (node instanceof Comment) {
+      return LF + ((Comment) node).getData() + LF;
+    } else if (node instanceof Document) {
+      return XMLUtil.format((Document) node);
+    } else if (node instanceof String) {
+      return "'" + node + "'";
+    } else {
+      return ToStringConverter.convert(node, "");
+    }
+  }
+
+  /**
+   * Format string.
+   *
+   * @param node the node
+   * @return the string
+   * @throws ConversionException the conversion exception
+   */
+  public static String format(Object node) throws ConversionException {
+    return DEFAULT_INSTANCE.convert(node);
+  }
 
 }

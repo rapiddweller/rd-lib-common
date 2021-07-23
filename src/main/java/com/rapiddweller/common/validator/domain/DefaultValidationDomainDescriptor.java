@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator.domain;
 
 import com.rapiddweller.common.BeanUtil;
@@ -26,40 +27,51 @@ import java.util.List;
 /**
  * Default implementation of the {@link ValidationDomainDescriptor} interface.
  * Created: 20.12.2011 16:53:55
- * @since 0.5.14
+ *
  * @author Volker Bergmann
+ * @since 0.5.14
  */
 public class DefaultValidationDomainDescriptor extends AbstractValidationDomainDescriptor {
-	
-	private List<Class<? extends Validator<?>>> validatorClasses;
-	
-	/** This constructor is assumed to be used by child classes - it used the child class' package name
-	 * to search Validator instances. */
-	protected DefaultValidationDomainDescriptor() {
-		init(getClass().getPackage().getName());
-	}
-	
-	public DefaultValidationDomainDescriptor(String packageName) {
-		init(packageName);
-	}
-	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private void init(String packageName) {
-		List<Class<?>> candidates = BeanUtil.getClasses(packageName);
-		this.validatorClasses = (List) FilterUtil.filter(candidates, new ValidatorClassFilter());
-	}
 
-	public static class ValidatorClassFilter implements Filter<Class<?>> {
-		@Override
-		public boolean accept(Class<?> candidate) {
-			return Validator.class.isAssignableFrom(candidate) 
-				&& !Modifier.isAbstract(candidate.getModifiers());
-		}
-	}
+  private List<Class<? extends Validator<?>>> validatorClasses;
 
-	@Override
-	public List<Class<? extends Validator<?>>> getValidatorClasses() {
-		return validatorClasses;
-	}
+  /**
+   * This constructor is assumed to be used by child classes - it used the child class' package name
+   * to search Validator instances.
+   */
+  protected DefaultValidationDomainDescriptor() {
+    init(getClass().getPackage().getName());
+  }
+
+  /**
+   * Instantiates a new Default validation domain descriptor.
+   *
+   * @param packageName the package name
+   */
+  public DefaultValidationDomainDescriptor(String packageName) {
+    init(packageName);
+  }
+
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  private void init(String packageName) {
+    List<Class<?>> candidates = BeanUtil.getClasses(packageName);
+    this.validatorClasses = (List) FilterUtil.filter(candidates, new ValidatorClassFilter());
+  }
+
+  /**
+   * The type Validator class filter.
+   */
+  public static class ValidatorClassFilter implements Filter<Class<?>> {
+    @Override
+    public boolean accept(Class<?> candidate) {
+      return Validator.class.isAssignableFrom(candidate)
+          && !Modifier.isAbstract(candidate.getModifiers());
+    }
+  }
+
+  @Override
+  public List<Class<? extends Validator<?>>> getValidatorClasses() {
+    return validatorClasses;
+  }
 
 }

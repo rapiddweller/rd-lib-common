@@ -12,33 +12,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.filter;
 
 import java.util.List;
 
 /**
- * The items of a splitted list: 
- * <code>matches</code> contains the List items that matched the filter, 
+ * The items of a splitted list:
+ * <code>matches</code> contains the List items that matched the filter,
  * <code>mismatches</code> contains the other ones.
  * Created: 10.04.2007 08:09:06
+ *
  * @param <E> The type of elements processed
  * @author Volker Bergmann
  */
 public class SplitResult<E> {
 
-    private final List<E> matches;
-    private final List<E> mismatches;
+  private final List<E> matches;
+  private final List<E> mismatches;
 
-    public SplitResult(List<E> matches, List<E> mismatches) {
-        this.matches = matches;
-        this.mismatches = mismatches;
-    }
+  /**
+   * Instantiates a new Split result.
+   *
+   * @param matches    the matches
+   * @param mismatches the mismatches
+   */
+  public SplitResult(List<E> matches, List<E> mismatches) {
+    this.matches = matches;
+    this.mismatches = mismatches;
+  }
 
-    public List<E> getMatches() {
-        return matches;
-    }
+  /**
+   * Gets matches.
+   *
+   * @return the matches
+   */
+  public List<E> getMatches() {
+    return matches;
+  }
 
-    public List<E> getMismatches() {
-        return mismatches;
-    }
+  /**
+   * Gets mismatches.
+   *
+   * @return the mismatches
+   */
+  public List<E> getMismatches() {
+    return mismatches;
+  }
 }

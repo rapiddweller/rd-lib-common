@@ -12,27 +12,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 /**
  * Special sub type of {@link Iterable} which creates {@link SelectiveTabularIterator}s.
  * Created: 26.01.2012 18:31:04
- * @since 0.5.14
+ *
  * @author Volker Bergmann
+ * @since 0.5.14
  */
 public class SelectiveTabularIterable implements TabularIterable {
-	
-	private final TabularIterable source;
-	private final String[] columnNames;
-	
-	public SelectiveTabularIterable(TabularIterable source, String... columnNames) {
-		this.source = source;
-		this.columnNames = columnNames;
-	}
 
-	@Override
-	public TabularIterator iterator() {
-		return new SelectiveTabularIterator(source.iterator(), columnNames);
-	}
-	
+  private final TabularIterable source;
+  private final String[] columnNames;
+
+  /**
+   * Instantiates a new Selective tabular iterable.
+   *
+   * @param source      the source
+   * @param columnNames the column names
+   */
+  public SelectiveTabularIterable(TabularIterable source, String... columnNames) {
+    this.source = source;
+    this.columnNames = columnNames;
+  }
+
+  @Override
+  public TabularIterator iterator() {
+    return new SelectiveTabularIterator(source.iterator(), columnNames);
+  }
+
 }

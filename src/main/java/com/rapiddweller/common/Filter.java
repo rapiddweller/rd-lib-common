@@ -12,14 +12,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Models a generic Filter of similar logic as, yet abstracting, the java.io.FileFilter.
  * Created: 04.02.2007 00:38:42
+ *
  * @param <E> the type of objects to filter
  * @author Volker Bergmann
  */
 public interface Filter<E> {
-    boolean accept(E candidate);
+  /**
+   * Accept boolean.
+   *
+   * @param candidate the candidate
+   * @return the boolean
+   */
+  boolean accept(E candidate);
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.file;
 
 import com.rapiddweller.common.Encodings;
@@ -32,113 +33,162 @@ import java.util.Map;
 /**
  * Merges properties files with priority and allows for override by VM parameters.
  * Created: 01.08.2013 10:37:30
- * @since 0.5.24
+ *
  * @author Volker Bergmann
+ * @since 0.5.24
  */
-
 public class PropertiesFileMerger {
-	
-	private static final Logger LOGGER = LogManager.getLogger(PropertiesFileMerger.class);
 
-	public static void merge(String targetPath, String... sourceFiles) throws IOException {
-		merge(targetPath, true, sourceFiles);
-	}
+  private static final Logger LOGGER = LogManager.getLogger(PropertiesFileMerger.class);
 
-	public static void merge(String targetPath, boolean vmOverride, String... sourceFiles) throws IOException {
-		LOGGER.debug("Merging the files {} into target file: {}", Arrays.toString(sourceFiles), targetPath);
-		TreeBuilder tree = null;
-		for (String sourceFile : sourceFiles) {
-			tree = loadClasspathResourceIfPresent(sourceFile, tree); // find resource on class path
-			tree = loadFileIfPresent(sourceFile, tree); // find resource on file system
-		}
-		if (tree != null) {
-			if (vmOverride)
-				overwritePropertiesWithVMParams(tree);
-			// write properties in UTF-8
-			if (targetPath.toLowerCase().endsWith(".xml"))
-				tree.saveAsXML(new FileOutputStream(targetPath), Encodings.UTF_8);
-			else
-				tree.saveAsProperties(new FileOutputStream(targetPath));
-		}
-	}
+  /**
+   * Merge.
+   *
+   * @param targetPath  the target path
+   * @param sourceFiles the source files
+   * @throws IOException the io exception
+   */
+  public static void merge(String targetPath, String... sourceFiles) throws IOException {
+    merge(targetPath, true, sourceFiles);
+  }
 
-	static TreeBuilder loadClasspathResourceIfPresent(String resourceName, TreeBuilder base) throws IOException {
-		InputStream in = IOUtil.getResourceAsStream(resourceName, false);
-		if (in != null) {
-			LOGGER.debug("Loading and merging structure of classpath resource '{}' ", resourceName);
-			try {
-				TreeBuilder newTree = TreeBuilder.loadFromStream(in, resourceName);
-				return overwriteProperties(base, newTree);
-			} finally {
-				IOUtil.close(in);
-			}
-		} else
-			return base;
-	}
+  /**
+   * Merge.
+   *
+   * @param targetPath  the target path
+   * @param vmOverride  the vm override
+   * @param sourceFiles the source files
+   * @throws IOException the io exception
+   */
+  public static void merge(String targetPath, boolean vmOverride, String... sourceFiles) throws IOException {
+    LOGGER.debug("Merging the files {} into target file: {}", Arrays.toString(sourceFiles), targetPath);
+    TreeBuilder tree = null;
+    for (String sourceFile : sourceFiles) {
+      tree = loadClasspathResourceIfPresent(sourceFile, tree); // find resource on class path
+      tree = loadFileIfPresent(sourceFile, tree); // find resource on file system
+    }
+    if (tree != null) {
+      if (vmOverride) {
+        overwritePropertiesWithVMParams(tree);
+      }
+      // write properties in UTF-8
+      if (targetPath.toLowerCase().endsWith(".xml")) {
+        tree.saveAsXML(new FileOutputStream(targetPath), Encodings.UTF_8);
+      } else {
+        tree.saveAsProperties(new FileOutputStream(targetPath));
+      }
+    }
+  }
 
-	static TreeBuilder loadFileIfPresent(String sourceFile, TreeBuilder base) throws IOException {
-		File file = new File(sourceFile);
-		if (file.exists()) {
-			LOGGER.debug("Loading and merging properties of file '{}' ", sourceFile);
-			FileInputStream in = new FileInputStream(file);
-			try {
-				TreeBuilder newTree = TreeBuilder.loadFromStream(in, sourceFile);
-				return overwriteProperties(base, newTree);
-			} finally {
-				IOUtil.close(in);
-			}
-		} else 
-			return base;
-	}
+  /**
+   * Load classpath resource if present tree builder.
+   *
+   * @param resourceName the resource name
+   * @param base         the base
+   * @return the tree builder
+   * @throws IOException the io exception
+   */
+  static TreeBuilder loadClasspathResourceIfPresent(String resourceName, TreeBuilder base) throws IOException {
+    InputStream in = IOUtil.getResourceAsStream(resourceName, false);
+    if (in != null) {
+      LOGGER.debug("Loading and merging structure of classpath resource '{}' ", resourceName);
+      try {
+        TreeBuilder newTree = TreeBuilder.loadFromStream(in, resourceName);
+        return overwriteProperties(base, newTree);
+      } finally {
+        IOUtil.close(in);
+      }
+    } else {
+      return base;
+    }
+  }
 
-	static TreeBuilder overwriteProperties(TreeBuilder base, TreeBuilder overwrites) {
-		if (base == null)
-			return overwrites;
-		if (overwrites == null)
-			return base;
-		overwrite(base.getRootNode(), overwrites.getRootNode());
-		return base;
-	}
+  /**
+   * Load file if present tree builder.
+   *
+   * @param sourceFile the source file
+   * @param base       the base
+   * @return the tree builder
+   * @throws IOException the io exception
+   */
+  static TreeBuilder loadFileIfPresent(String sourceFile, TreeBuilder base) throws IOException {
+    File file = new File(sourceFile);
+    if (file.exists()) {
+      LOGGER.debug("Loading and merging properties of file '{}' ", sourceFile);
+      FileInputStream in = new FileInputStream(file);
+      try {
+        TreeBuilder newTree = TreeBuilder.loadFromStream(in, sourceFile);
+        return overwriteProperties(base, newTree);
+      } finally {
+        IOUtil.close(in);
+      }
+    } else {
+      return base;
+    }
+  }
 
-	@SuppressWarnings("unchecked")
-	private static void overwrite(Map<String, Object> baseNode, Map<String, Object> overwriteNode) {
-		for (Map.Entry<String, Object> overEntry : overwriteNode.entrySet()) {
-			String key = overEntry.getKey();
-			Object oldValue = baseNode.get(key);
-			if (oldValue == null) {
-				baseNode.put(key, overEntry.getValue());
-			} else if (oldValue instanceof Map) {
-				overwrite((Map<String, Object>) oldValue, (Map<String, Object>) overEntry.getValue());
-			} else {
-				baseNode.put(key, overEntry.getValue());
-			}
-		}
-	}
+  /**
+   * Overwrite properties tree builder.
+   *
+   * @param base       the base
+   * @param overwrites the overwrites
+   * @return the tree builder
+   */
+  static TreeBuilder overwriteProperties(TreeBuilder base, TreeBuilder overwrites) {
+    if (base == null) {
+      return overwrites;
+    }
+    if (overwrites == null) {
+      return base;
+    }
+    overwrite(base.getRootNode(), overwrites.getRootNode());
+    return base;
+  }
 
-	static void overwritePropertiesWithVMParams(TreeBuilder tree) {
-		LOGGER.debug("Checking properties against VM settings override");
-		overwritePropertiesWithVMParams(tree.getRootNode(), tree.getRootName());
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static void overwritePropertiesWithVMParams(Map<String, Object> node, String path) {
-		for (Map.Entry<String, Object> entry : node.entrySet()) {
-			String subPath = subPath(path, entry.getKey(), '.');
-			Object child = entry.getValue();
-			if (child instanceof Map) {
-				overwritePropertiesWithVMParams((Map<String, Object>) child, subPath);
-			} else if (child instanceof String) {
-				String vmSetting = System.getProperty(subPath);
-				if (vmSetting != null && vmSetting.length() > 0) {
-					LOGGER.debug("Overwriting '{}' property with '{}'", subPath, vmSetting);
-					entry.setValue(vmSetting);
-				}
-			}
-		}
-	}
-	
-	private static String subPath(String parentPath, String childName, char separator) {
-		return (StringUtil.isEmpty(parentPath) ? "" : parentPath + separator)  + childName;
-	}
-	
+  @SuppressWarnings("unchecked")
+  private static void overwrite(Map<String, Object> baseNode, Map<String, Object> overwriteNode) {
+    for (Map.Entry<String, Object> overEntry : overwriteNode.entrySet()) {
+      String key = overEntry.getKey();
+      Object oldValue = baseNode.get(key);
+      if (oldValue == null) {
+        baseNode.put(key, overEntry.getValue());
+      } else if (oldValue instanceof Map) {
+        overwrite((Map<String, Object>) oldValue, (Map<String, Object>) overEntry.getValue());
+      } else {
+        baseNode.put(key, overEntry.getValue());
+      }
+    }
+  }
+
+  /**
+   * Overwrite properties with vm params.
+   *
+   * @param tree the tree
+   */
+  static void overwritePropertiesWithVMParams(TreeBuilder tree) {
+    LOGGER.debug("Checking properties against VM settings override");
+    overwritePropertiesWithVMParams(tree.getRootNode(), tree.getRootName());
+  }
+
+  @SuppressWarnings("unchecked")
+  private static void overwritePropertiesWithVMParams(Map<String, Object> node, String path) {
+    for (Map.Entry<String, Object> entry : node.entrySet()) {
+      String subPath = subPath(path, entry.getKey(), '.');
+      Object child = entry.getValue();
+      if (child instanceof Map) {
+        overwritePropertiesWithVMParams((Map<String, Object>) child, subPath);
+      } else if (child instanceof String) {
+        String vmSetting = System.getProperty(subPath);
+        if (vmSetting != null && vmSetting.length() > 0) {
+          LOGGER.debug("Overwriting '{}' property with '{}'", subPath, vmSetting);
+          entry.setValue(vmSetting);
+        }
+      }
+    }
+  }
+
+  private static String subPath(String parentPath, String childName, char separator) {
+    return (StringUtil.isEmpty(parentPath) ? "" : parentPath + separator) + childName;
+  }
+
 }

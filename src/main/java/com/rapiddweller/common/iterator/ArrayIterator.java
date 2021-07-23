@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.Assert;
@@ -21,35 +22,40 @@ import java.util.Iterator;
 /**
  * {@link Iterator} implementation that iterates the elements of an array.
  * Created at 30.06.2009 09:26:55
+ *
  * @param <E> the type to iterate
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class ArrayIterator<E> implements Iterator<E> {
 
-	private final E[] array;
-	private int cursor;
-	
-    public ArrayIterator(E[] array) {
-    	Assert.notNull(array, "array");
-	    this.array = array;
-	    this.cursor = 0;
-    }
+  private final E[] array;
+  private int cursor;
 
-    @Override
-	public boolean hasNext() {
-	    return (cursor < array.length);
-    }
+  /**
+   * Instantiates a new Array iterator.
+   *
+   * @param array the array
+   */
+  public ArrayIterator(E[] array) {
+    Assert.notNull(array, "array");
+    this.array = array;
+    this.cursor = 0;
+  }
 
-    @Override
-	public E next() {
-	    return array[cursor++];
-    }
+  @Override
+  public boolean hasNext() {
+    return (cursor < array.length);
+  }
 
-    @Override
-	public void remove() {
-	    throw new UnsupportedOperationException("remove() is not supported by " + getClass());
-    }
+  @Override
+  public E next() {
+    return array[cursor++];
+  }
+
+  @Override
+  public void remove() {
+    throw new UnsupportedOperationException("remove() is not supported by " + getClass());
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
 import java.text.Collator;
@@ -19,27 +20,36 @@ import java.util.Comparator;
 import java.util.Locale;
 
 /**
- * Compares two Strings with a Collator. If no Collator is specified, 
+ * Compares two Strings with a Collator. If no Collator is specified,
  * it uses the default Collator of the default Locale.
  * Created: 03.06.2005 16:13:15
- * @since 0.1
+ *
  * @author Volker Bergmann
+ * @since 0.1
  */
 public class StringComparator implements Comparator<String> {
 
-    private final Collator collator;
+  private final Collator collator;
 
-    public StringComparator() {
-        this(Locale.getDefault());
-    }
+  /**
+   * Instantiates a new String comparator.
+   */
+  public StringComparator() {
+    this(Locale.getDefault());
+  }
 
-    public StringComparator(Locale locale) {
-        this.collator = Collator.getInstance(locale);
-    }
+  /**
+   * Instantiates a new String comparator.
+   *
+   * @param locale the locale
+   */
+  public StringComparator(Locale locale) {
+    this.collator = Collator.getInstance(locale);
+  }
 
-    @Override
-	public int compare(String o1, String o2) {
-        return collator.compare(o1, o2);
-    }
+  @Override
+  public int compare(String o1, String o2) {
+    return collator.compare(o1, o2);
+  }
 
 }

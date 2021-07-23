@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -20,29 +21,35 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Interprets a Date as duration specification, e.g. '0000-00-00T00:00:00.001' as one millisecond, 
+ * Interprets a Date as duration specification, e.g. '0000-00-00T00:00:00.001' as one millisecond,
  * '0001-00-00T00:00:00.000' as one year. Dates after 1970-01-01 will be interpreted relative to that date.
  * Created at 11.01.2009 06:39:28
- * @since 0.5.7
+ *
  * @author Volker Bergmann
+ * @since 0.5.7
  */
-
 public class Date2DurationConverter extends ThreadSafeConverter<Date, Long> {
 
-	public Date2DurationConverter() {
-		super(Date.class, Long.class);
-	}
+  /**
+   * Instantiates a new Date 2 duration converter.
+   */
+  public Date2DurationConverter() {
+    super(Date.class, Long.class);
+  }
 
-	@Override
-	public Long convert(Date sourceValue) throws ConversionException {
-		if (sourceValue == null)
-			return null;
-		long source = sourceValue.getTime();
-		// for time zone problems, see http://mail-archives.apache.org/mod_mbox/struts-user/200502.mbox/%3C42158AA9.3050001@gridnode.com%3E 
-		Long result = source + TimeZone.getDefault().getOffset(0L); // That's relative to 1970-01-01
-		if (result < 0) // if it's before 1970-01-01, interpret it relative to 0001-01-01
-			result = source + TimeZone.getDefault().getOffset(-62170156800000L) + 62170156800000L;
-		return result;
-	}
+  @Override
+  public Long convert(Date sourceValue) throws ConversionException {
+    if (sourceValue == null) {
+      return null;
+    }
+    long source = sourceValue.getTime();
+    // for time zone problems, see http://mail-archives.apache.org/mod_mbox/struts-user/200502.mbox/%3C42158AA9.3050001@gridnode.com%3E
+    Long result = source + TimeZone.getDefault().getOffset(0L); // That's relative to 1970-01-01
+    if (result < 0) // if it's before 1970-01-01, interpret it relative to 0001-01-01
+    {
+      result = source + TimeZone.getDefault().getOffset(-62170156800000L) + 62170156800000L;
+    }
+    return result;
+  }
 
 }

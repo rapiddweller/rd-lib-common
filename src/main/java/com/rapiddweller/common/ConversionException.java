@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
@@ -19,21 +20,40 @@ package com.rapiddweller.common;
  * Created: 08.03.2006 14:56:58
  */
 public class ConversionException extends RuntimeException {
-    
-	private static final long serialVersionUID = -932701445466221255L;
 
-	public ConversionException() {
-    }
+  private static final long serialVersionUID = -932701445466221255L;
 
-    public ConversionException(String message) {
-        super(message);
-    }
+  /**
+   * Instantiates a new Conversion exception.
+   */
+  public ConversionException() {
+  }
 
-    public ConversionException(Throwable cause) {
-        super(cause);
-    }
+  /**
+   * Instantiates a new Conversion exception.
+   *
+   * @param message the message
+   */
+  public ConversionException(String message) {
+    super(message);
+  }
 
-    public ConversionException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  /**
+   * Instantiates a new Conversion exception.
+   *
+   * @param cause the cause
+   */
+  public ConversionException(Throwable cause) {
+    super(cause);
+  }
+
+  /**
+   * Instantiates a new Conversion exception.
+   *
+   * @param message the message
+   * @param cause   the cause
+   */
+  public ConversionException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }

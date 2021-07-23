@@ -12,16 +12,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * {@link Iterable} that creates {@link HeavyweightIterator}s.
  * Created at 17.10.2008 00:58:30
+ *
  * @param <E> the type of objects to iterate
- * @since 0.4.6
  * @author Volker Bergmann
+ * @since 0.4.6
  */
 public interface HeavyweightIterable<E> extends Iterable<E> {
-    @Override
-	HeavyweightIterator<E> iterator();
+  @Override
+  HeavyweightIterator<E> iterator();
 }

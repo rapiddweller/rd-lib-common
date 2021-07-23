@@ -22,37 +22,53 @@ import java.util.List;
 /**
  * Provides text utilities.<br><br>
  * Created: 21.11.2019 11:53:38
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public class TextUtil {
 
-	public static String formatList(List<?> list) {
-		StringBuilder text = new StringBuilder();
-		for (Object item : list)
-			text.append(format(item)).append(SystemInfo.LF);
-		return text.toString();
-	}
+  /**
+   * Format list string.
+   *
+   * @param list the list
+   * @return the string
+   */
+  public static String formatList(List<?> list) {
+    StringBuilder text = new StringBuilder();
+    for (Object item : list) {
+      text.append(format(item)).append(SystemInfo.LF);
+    }
+    return text.toString();
+  }
 
-	public static String formatTable(Object[][] table, char separator) {
-		StringBuilder text = new StringBuilder();
-		for (Object[] row : table) {
-			for (int i = 0; i < row.length; i++) {
-				text.append(format(row[i]));
-				if (i < row.length - 1)
-					text.append(separator);
-			}
-			text.append(SystemInfo.LF);
-		}
-		return text.toString();
-	}
+  /**
+   * Format table string.
+   *
+   * @param table     the table
+   * @param separator the separator
+   * @return the string
+   */
+  public static String formatTable(Object[][] table, char separator) {
+    StringBuilder text = new StringBuilder();
+    for (Object[] row : table) {
+      for (int i = 0; i < row.length; i++) {
+        text.append(format(row[i]));
+        if (i < row.length - 1) {
+          text.append(separator);
+        }
+      }
+      text.append(SystemInfo.LF);
+    }
+    return text.toString();
+  }
 
-	private static String format(Object object) {
-		if (object instanceof Number)
-			return HF.format(((Number) object).doubleValue());
-		else
-			return ToStringConverter.convert(object, "");
-	}
+  private static String format(Object object) {
+    if (object instanceof Number) {
+      return HF.format(((Number) object).doubleValue());
+    } else {
+      return ToStringConverter.convert(object, "");
+    }
+  }
 
 }

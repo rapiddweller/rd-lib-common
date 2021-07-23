@@ -21,28 +21,44 @@ import java.util.regex.Pattern;
 /**
  * Provides utility methods regarding regular expressions.<br><br>
  * Created: 22.09.2019 07:21:55
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public class RegexUtil {
 
-	public static String[] parse(String text, String regex) {
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(text);
-		if (!matcher.find())
-			return null;
-		int groupCount = matcher.groupCount();
-		String[] result = new String[groupCount];
-		for (int i = 0; i < groupCount; i++)
-			result[i] = matcher.group(i + 1);
-		return result;
-	}
+  /**
+   * Parse string [ ].
+   *
+   * @param text  the text
+   * @param regex the regex
+   * @return the string [ ]
+   */
+  public static String[] parse(String text, String regex) {
+    Pattern pattern = Pattern.compile(regex);
+    Matcher matcher = pattern.matcher(text);
+    if (!matcher.find()) {
+      return null;
+    }
+    int groupCount = matcher.groupCount();
+    String[] result = new String[groupCount];
+    for (int i = 0; i < groupCount; i++) {
+      result[i] = matcher.group(i + 1);
+    }
+    return result;
+  }
 
-	public static boolean matches(String regex, String text) {
-		Pattern pattern = Pattern.compile(regex);
-		Matcher matcher = pattern.matcher(text);
-		return matcher.matches();
-	}
+  /**
+   * Matches boolean.
+   *
+   * @param regex the regex
+   * @param text  the text
+   * @return the boolean
+   */
+  public static boolean matches(String regex, String text) {
+    Pattern pattern = Pattern.compile(regex);
+    Matcher matcher = pattern.matcher(text);
+    return matcher.matches();
+  }
 
 }

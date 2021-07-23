@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import java.util.Iterator;
@@ -19,12 +20,36 @@ import java.util.Iterator;
 /**
  * Iterator that may iterate forward and backward.
  * Created: 08.05.2007 18:03:52
+ *
  * @param <E> the type to iterate
  * @author Volker Bergmann
  */
 public interface BidirectionalIterator<E> extends Iterator<E> {
-    E first();
-    boolean hasPrevious();
-    E previous();
-    E last();
+  /**
+   * First e.
+   *
+   * @return the e
+   */
+  E first();
+
+  /**
+   * Has previous boolean.
+   *
+   * @return the boolean
+   */
+  boolean hasPrevious();
+
+  /**
+   * Previous e.
+   *
+   * @return the e
+   */
+  E previous();
+
+  /**
+   * Last e.
+   *
+   * @return the e
+   */
+  E last();
 }

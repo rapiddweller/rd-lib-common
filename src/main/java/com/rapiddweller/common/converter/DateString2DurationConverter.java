@@ -12,28 +12,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 /**
  * Converts a date in String format to a duration in milliseconds. This takes the dates 1970-01-01 or 0000-00-00 as base.
  * Created at 05.01.2009 18:37:23
- * @since 0.4.7
+ *
  * @author Volker Bergmann
+ * @since 0.4.7
  */
-
 public class DateString2DurationConverter extends ConverterChain<String, Long> {
-	
-	private static final DateString2DurationConverter defaultInstance = new DateString2DurationConverter();
-	
-	public static DateString2DurationConverter defaultInstance() {
-		return defaultInstance;
-	}
-	
-	public DateString2DurationConverter() {
-		super(
-				new String2DateConverter<>(),
-			new Date2DurationConverter()
-		);
-	}
+
+  private static final DateString2DurationConverter defaultInstance = new DateString2DurationConverter();
+
+  /**
+   * Default instance date string 2 duration converter.
+   *
+   * @return the date string 2 duration converter
+   */
+  public static DateString2DurationConverter defaultInstance() {
+    return defaultInstance;
+  }
+
+  /**
+   * Instantiates a new Date string 2 duration converter.
+   */
+  public DateString2DurationConverter() {
+    super(
+        new String2DateConverter<>(),
+        new Date2DurationConverter()
+    );
+  }
 
 }

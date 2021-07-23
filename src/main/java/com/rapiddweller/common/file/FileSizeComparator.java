@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.file;
 
 import com.rapiddweller.common.comparator.LongComparator;
@@ -22,14 +23,15 @@ import java.util.Comparator;
 /**
  * {@link Comparator} implementation which compares two {@link File}s by their size.
  * Created: 06.03.2011 15:11:11
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class FileSizeComparator implements Comparator<File> {
 
-	@Override
-	public int compare(File file1, File file2) {
-		return LongComparator.compare(file1.length(), file2.length());
-	}
+  @Override
+  public int compare(File file1, File file2) {
+    return LongComparator.compare(file1.length(), file2.length());
+  }
 
 }

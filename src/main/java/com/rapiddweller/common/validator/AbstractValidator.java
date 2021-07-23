@@ -12,20 +12,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.Validator;
 
 /**
- * Abstract implementation of the {@link Validator} interface. 
+ * Abstract implementation of the {@link Validator} interface.
  * This serves as parent class for deriving custom {@link Validator}
- * implementations. If the {@link Validator} interface will change in 
- * future versions, the AbstractValidator class will try to compensate 
+ * implementations. If the {@link Validator} interface will change in
+ * future versions, the AbstractValidator class will try to compensate
  * the change for its child classes.
  * Created at 08.11.2008 07:52:34
- * @since 0.4.6
- * @author Volker Bergmann
+ *
  * @param <E> the type of object to be validated
+ * @author Volker Bergmann
+ * @since 0.4.6
  */
 public abstract class AbstractValidator<E> implements Validator<E> {
 

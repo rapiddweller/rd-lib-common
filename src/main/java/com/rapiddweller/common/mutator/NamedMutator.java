@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.mutator;
 
 import com.rapiddweller.common.Mutator;
@@ -20,8 +21,9 @@ import com.rapiddweller.common.Named;
 /**
  * Mutator class to which a name is assigned.
  * Created at 04.11.2008 09:18:34
- * @since 0.4.6
+ *
  * @author Volker Bergmann
+ * @since 0.4.6
  */
 public interface NamedMutator extends Named, Mutator {
 }

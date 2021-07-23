@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
 import com.rapiddweller.common.ComparableComparator;
@@ -22,25 +23,34 @@ import java.util.Comparator;
  * Reverts the result of another Comparator.
  * Use this for sorting in descending order.
  * Created: 19.06.2005 18:26:47
+ *
  * @param <E> the type of objects to be compared
  * @author Volker Bergmann
  */
 public class ReverseComparator<E> implements Comparator<E> {
 
-    private final Comparator<E> subject;
+  private final Comparator<E> subject;
 
-    @SuppressWarnings("unchecked")
-    public ReverseComparator() {
-        this((Comparator<E>)new ComparableComparator<Comparable<E>>());
-    }
+  /**
+   * Instantiates a new Reverse comparator.
+   */
+  @SuppressWarnings("unchecked")
+  public ReverseComparator() {
+    this((Comparator<E>) new ComparableComparator<Comparable<E>>());
+  }
 
-    public ReverseComparator(Comparator<E> subject) {
-        this.subject = subject;
-    }
+  /**
+   * Instantiates a new Reverse comparator.
+   *
+   * @param subject the subject
+   */
+  public ReverseComparator(Comparator<E> subject) {
+    this.subject = subject;
+  }
 
-    @Override
-	public int compare(E o1, E o2) {
-        return (- subject.compare(o1, o2));
-    }
-    
+  @Override
+  public int compare(E o1, E o2) {
+    return (-subject.compare(o1, o2));
+  }
+
 }

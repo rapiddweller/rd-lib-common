@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -20,49 +21,69 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Interprets {@link Long} values as milliseconds since 1970-01-01 and 
+ * Interprets {@link Long} values as milliseconds since 1970-01-01 and
  * converts them to {@link Date} objects.
  * Created: 26.02.2010 08:19:48
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-public class Long2DateConverter extends ThreadSafeConverter<Long, Date>{
+public class Long2DateConverter extends ThreadSafeConverter<Long, Date> {
 
-	private TimeZone timeZone;
-	
-	// constructors ----------------------------------------------------------------------------------------------------
+  private TimeZone timeZone;
 
-	public Long2DateConverter() {
-		this(TimeZone.getDefault());
-	}
+  // constructors ----------------------------------------------------------------------------------------------------
 
-	public Long2DateConverter(TimeZone timeZone) {
-		super(Long.class, Date.class);
-		this.timeZone = timeZone;
-	}
-	
-	// properties ------------------------------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Long 2 date converter.
+   */
+  public Long2DateConverter() {
+    this(TimeZone.getDefault());
+  }
 
-	public TimeZone getTimeZone() {
-		return timeZone;
-	}
+  /**
+   * Instantiates a new Long 2 date converter.
+   *
+   * @param timeZone the time zone
+   */
+  public Long2DateConverter(TimeZone timeZone) {
+    super(Long.class, Date.class);
+    this.timeZone = timeZone;
+  }
 
-	public void setTimeZone(TimeZone timeZone) {
-		this.timeZone = timeZone;
-	}
-	
-	// BidirectionalConverter interface implementation -----------------------------------------------------------------
+  // properties ------------------------------------------------------------------------------------------------------
 
-	@Override
-	public Class<Date> getTargetType() {
-		return Date.class;
-	}
+  /**
+   * Gets time zone.
+   *
+   * @return the time zone
+   */
+  public TimeZone getTimeZone() {
+    return timeZone;
+  }
 
-	@Override
-	public Date convert(Long target) throws ConversionException {
-		if (target == null)
-			return null;
-		return new Date(target - timeZone.getRawOffset());
-	}
+  /**
+   * Sets time zone.
+   *
+   * @param timeZone the time zone
+   */
+  public void setTimeZone(TimeZone timeZone) {
+    this.timeZone = timeZone;
+  }
+
+  // BidirectionalConverter interface implementation -----------------------------------------------------------------
+
+  @Override
+  public Class<Date> getTargetType() {
+    return Date.class;
+  }
+
+  @Override
+  public Date convert(Long target) throws ConversionException {
+    if (target == null) {
+      return null;
+    }
+    return new Date(target - timeZone.getRawOffset());
+  }
 
 }

@@ -12,29 +12,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.condition;
 
 import com.rapiddweller.common.Condition;
 
 /**
- * Composite condition that requires each sub condition to be true. 
+ * Composite condition that requires each sub condition to be true.
  * If no sub conditions exist, true is returned by default.
  * Created: 04.02.2007 00:42:31
+ *
  * @param <E> the type of argument to evaluate
  * @author Volker Bergmann
  */
 public class AndCondition<E> extends CompositeCondition<E> {
 
-    @SafeVarargs
-    public AndCondition(Condition<E>... components) {
-        super(components);
-    }
+  /**
+   * Instantiates a new And condition.
+   *
+   * @param components the components
+   */
+  @SafeVarargs
+  public AndCondition(Condition<E>... components) {
+    super(components);
+  }
 
-    @Override
-	public boolean evaluate(E argument) {
-        for (Condition<E> condition : components)
-            if (!condition.evaluate(argument))
-                return false;
-        return true;
+  @Override
+  public boolean evaluate(E argument) {
+    for (Condition<E> condition : components) {
+      if (!condition.evaluate(argument)) {
+        return false;
+      }
     }
+    return true;
+  }
 }

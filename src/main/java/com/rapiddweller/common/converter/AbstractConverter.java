@@ -12,35 +12,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
 
 /**
  * Abstract implementation of the {@link Converter} interface, providing management of source and target type.
- * @author Volker Bergmann
+ *
  * @param <S> the type to convert from
  * @param <T> the type to convert to
+ * @author Volker Bergmann
  */
 public abstract class AbstractConverter<S, T> implements Converter<S, T> {
 
-	protected Class<S> sourceType;
+  /**
+   * The Source type.
+   */
+  protected Class<S> sourceType;
 
-	protected Class<T> targetType;
+  /**
+   * The Target type.
+   */
+  protected Class<T> targetType;
 
-	protected AbstractConverter(Class<S> sourceType, Class<T> targetType) {
-	    this.sourceType = sourceType;
-	    this.targetType = targetType;
-    }
+  /**
+   * Instantiates a new Abstract converter.
+   *
+   * @param sourceType the source type
+   * @param targetType the target type
+   */
+  protected AbstractConverter(Class<S> sourceType, Class<T> targetType) {
+    this.sourceType = sourceType;
+    this.targetType = targetType;
+  }
 
-	@Override
-	public Class<T> getTargetType() {
-		return targetType;
-	}
+  @Override
+  public Class<T> getTargetType() {
+    return targetType;
+  }
 
-	@Override
-	public Class<S> getSourceType() {
-		return sourceType;
-	}
+  @Override
+  public Class<S> getSourceType() {
+    return sourceType;
+  }
 
 }

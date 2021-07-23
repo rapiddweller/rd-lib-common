@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -24,18 +25,22 @@ import java.util.Date;
 /**
  * Converts {@link Time} objects to {@link String}s.
  * Created: 26.02.2010 07:59:11
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class Time2StringConverter extends ThreadSafeConverter<Time, String> {
 
-    public Time2StringConverter() {
-        super(Time.class, String.class);
-    }
+  /**
+   * Instantiates a new Time 2 string converter.
+   */
+  public Time2StringConverter() {
+    super(Time.class, String.class);
+  }
 
-    @Override
-	public String convert(Time target) throws ConversionException {
-        return new SimpleDateFormat(Patterns.DEFAULT_TIME_MILLIS_PATTERN).format(new Date(target.getTime()));
-    }
+  @Override
+  public String convert(Time target) throws ConversionException {
+    return new SimpleDateFormat(Patterns.DEFAULT_TIME_MILLIS_PATTERN).format(new Date(target.getTime()));
+  }
 
 }

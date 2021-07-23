@@ -18,10 +18,15 @@ package com.rapiddweller.common;
 /**
  * Common interface for classes that have a getLabel() method.<br><br>
  * Created: 20.03.2019 16:59:40
- * @since 1.0
+ *
  * @author Volker Bergmann
+ * @since 1.0
  */
-
 public interface Labeled {
-	String getLabel();
+  /**
+   * Gets label.
+   *
+   * @return the label
+   */
+  String getLabel();
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -20,19 +21,25 @@ import com.rapiddweller.common.Converter;
 /**
  * {@link Converter} implementation which invokes the toString() method on the source object.
  * Created: 27.02.2010 09:44:10
+ *
  * @param <E> the object type to convert
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class ToStringMethodInvoker<E> extends ThreadSafeConverter<E, String> {
 
-	protected ToStringMethodInvoker(Class<E> sourceType) {
-	    super(sourceType, String.class);
-    }
+  /**
+   * Instantiates a new To string method invoker.
+   *
+   * @param sourceType the source type
+   */
+  protected ToStringMethodInvoker(Class<E> sourceType) {
+    super(sourceType, String.class);
+  }
 
-	@Override
-	public String convert(E sourceValue) throws ConversionException {
-	    return (sourceValue != null ? sourceValue.toString() : null);
-    }
+  @Override
+  public String convert(E sourceValue) throws ConversionException {
+    return (sourceValue != null ? sourceValue.toString() : null);
+  }
 
 }

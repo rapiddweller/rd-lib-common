@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.BeanUtil;
@@ -26,32 +27,38 @@ import java.text.Format;
 /**
  * Converts Strings to Converters and vice versa.
  * Created: 15.03.2008 12:49:10
- * @since 0.4.0
+ *
  * @author Volker Bergmann
+ * @since 0.4.0
  * @deprecated The class is obsolete and will be removed soon
  */
 @Deprecated
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class String2ConverterConverter extends ThreadSafeConverter<String, Converter> {
-	
-	private static final LoggerEscalator escalator = new LoggerEscalator();
 
-    public String2ConverterConverter() {
-        super(String.class, Converter.class);
-        escalator.escalate("Class is deprecated: " + getClass(), this, null);
-    }
+  private static final LoggerEscalator escalator = new LoggerEscalator();
 
-	@Override
-	public Converter convert(String sourceValue) throws ConversionException {
-        if (StringUtil.isEmpty(sourceValue))
-            return null;
-        Object result = BeanUtil.newInstance(sourceValue);
-        if (result instanceof Format)
-            return new ParseFormatConverter(Object.class, (Format) result, false);
-        else if (result instanceof Converter)
-            return (Converter) result;
-        else
-            throw new ConfigurationError("Class is neither Converter nor Format: " + result.getClass());
+  /**
+   * Instantiates a new String 2 converter converter.
+   */
+  public String2ConverterConverter() {
+    super(String.class, Converter.class);
+    escalator.escalate("Class is deprecated: " + getClass(), this, null);
+  }
+
+  @Override
+  public Converter convert(String sourceValue) throws ConversionException {
+    if (StringUtil.isEmpty(sourceValue)) {
+      return null;
     }
+    Object result = BeanUtil.newInstance(sourceValue);
+    if (result instanceof Format) {
+      return new ParseFormatConverter(Object.class, (Format) result, false);
+    } else if (result instanceof Converter) {
+      return (Converter) result;
+    } else {
+      throw new ConfigurationError("Class is neither Converter nor Format: " + result.getClass());
+    }
+  }
 
 }

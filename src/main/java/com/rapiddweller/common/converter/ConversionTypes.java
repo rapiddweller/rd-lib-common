@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
@@ -20,41 +21,61 @@ import com.rapiddweller.common.bean.HashCodeBuilder;
 /**
  * Converter id class for the ConverterManager.
  * Created: 27.02.2010 05:45:43
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 class ConversionTypes {
 
-	public final Class<?> sourceType;
-	public final Class<?> targetType;
-	
-	public ConversionTypes(Converter<?,?> converter) {
-	    this(converter.getSourceType(), converter.getTargetType());
-    }
-	
-	public ConversionTypes(Class<?> sourceType, Class<?> targetType) {
-	    this.sourceType = sourceType;
-	    this.targetType = targetType;
-    }
+  /**
+   * The Source type.
+   */
+  public final Class<?> sourceType;
+  /**
+   * The Target type.
+   */
+  public final Class<?> targetType;
 
-	@Override
-    public int hashCode() {
-	    return HashCodeBuilder.hashCode(sourceType, targetType);
-    }
+  /**
+   * Instantiates a new Conversion types.
+   *
+   * @param converter the converter
+   */
+  public ConversionTypes(Converter<?, ?> converter) {
+    this(converter.getSourceType(), converter.getTargetType());
+  }
 
-	@Override
-    public boolean equals(Object obj) {
-	    if (this == obj)
-		    return true;
-	    if (obj == null)
-		    return false;
-	    ConversionTypes that = (ConversionTypes) obj;
-	    return (this.sourceType == that.sourceType && this.targetType == that.targetType);
+  /**
+   * Instantiates a new Conversion types.
+   *
+   * @param sourceType the source type
+   * @param targetType the target type
+   */
+  public ConversionTypes(Class<?> sourceType, Class<?> targetType) {
+    this.sourceType = sourceType;
+    this.targetType = targetType;
+  }
+
+  @Override
+  public int hashCode() {
+    return HashCodeBuilder.hashCode(sourceType, targetType);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-	
-	@Override
-	public String toString() {
-	    return sourceType.getName() + "->" + targetType.getName();
-	}
-	
+    if (obj == null) {
+      return false;
+    }
+    ConversionTypes that = (ConversionTypes) obj;
+    return (this.sourceType == that.sourceType && this.targetType == that.targetType);
+  }
+
+  @Override
+  public String toString() {
+    return sourceType.getName() + "->" + targetType.getName();
+  }
+
 }

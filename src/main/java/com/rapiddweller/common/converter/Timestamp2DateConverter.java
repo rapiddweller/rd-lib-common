@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -22,18 +23,22 @@ import java.util.Date;
 /**
  * Converts {@link Timestamp}s to {@link Date}s.
  * Created: 25.02.2010 23:26:35
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class Timestamp2DateConverter extends ThreadSafeConverter<Timestamp, Date> {
 
-    public Timestamp2DateConverter() {
-        super(Timestamp.class, Date.class);
-    }
+  /**
+   * Instantiates a new Timestamp 2 date converter.
+   */
+  public Timestamp2DateConverter() {
+    super(Timestamp.class, Date.class);
+  }
 
-    @Override
-	public Date convert(Timestamp target) throws ConversionException {
-        return new Date(target.getTime());
-    }
+  @Override
+  public Date convert(Timestamp target) throws ConversionException {
+    return new Date(target.getTime());
+  }
 
 }

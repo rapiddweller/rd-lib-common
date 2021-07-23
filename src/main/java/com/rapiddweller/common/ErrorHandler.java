@@ -12,110 +12,195 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Provides for error handling by logging and eventually raising an exception.
  * Created at 02.08.2008 13:39:11
- * @since 0.4.5
+ *
  * @author Volker Bergmann
+ * @since 0.4.5
  */
 public class ErrorHandler {
-	
-	// attributes ------------------------------------------------------------------------------------------------------
 
-	private final Logger logger;
-	private final Level level;
-	private boolean loggingStackTrace;
+  // attributes ------------------------------------------------------------------------------------------------------
 
-	// constructors ----------------------------------------------------------------------------------------------------
-	
-	public ErrorHandler(Class<?> category) {
-		this(category.getName());
-	}
-	
-	public ErrorHandler(String category) {
-		this(category, Level.fatal);
-	}
-	
-	public ErrorHandler(String category, Level level) {
-		this.logger = LogManager.getLogger(category);
-		this.level = level;
-		this.loggingStackTrace = true;
-	}
-	
-	// interface -------------------------------------------------------------------------------------------------------
-	
-	public void handleError(String message) {
-		switch (level) {
-			// yes, this could be more efficient, but it's just for error handling
-			// and you're not supposed to have a number of errors that impacts performance
-			case trace : logger.trace(message); break;
-			case debug : logger.debug(message); break;
-			case info  : logger.info( message); break;
-			case warn  : logger.warn( message); break;
-			case error : logger.error(message); break;
-			case fatal : logger.error(message);
-						 throw new RuntimeException(message);
-			case ignore: // ignore
-		}
-	}
+  private final Logger logger;
+  private final Level level;
+  private boolean loggingStackTrace;
 
-	public void handleError(String message, Throwable t) {
-		if (loggingStackTrace) {
-			switch (level) {
-				// yes, this could be more efficient, but it's just for error handling
-				// and you're not supposed to have a number of errors that impacts performance
-				case trace : logger.trace(message); break;
-				case debug : logger.debug(message); break;
-				case info  : logger.info( message); break;
-				case warn  : logger.warn( message); break;
-				case error : logger.error(message, t); break;
-				case fatal : if (t instanceof RuntimeException)
-								throw (RuntimeException) t;
-							 else
-								throw new RuntimeException(t);
-				case ignore: break; // ignore
-			}
-		} else
-			handleError(message + SystemInfo.getLineSeparator() + t.toString());
-	}
+  // constructors ----------------------------------------------------------------------------------------------------
 
-	// properties ------------------------------------------------------------------------------------------------------
-	
-	public Level getLevel() {
-		return level;
-	}
+  /**
+   * Instantiates a new Error handler.
+   *
+   * @param category the category
+   */
+  public ErrorHandler(Class<?> category) {
+    this(category.getName());
+  }
 
-	public boolean isLoggingStackTrace() {
-		return loggingStackTrace;
-	}
+  /**
+   * Instantiates a new Error handler.
+   *
+   * @param category the category
+   */
+  public ErrorHandler(String category) {
+    this(category, Level.fatal);
+  }
 
-	public void setLoggingStackTrace(boolean loggingStackTrace) {
-		this.loggingStackTrace = loggingStackTrace;
-	}
-	
-	// static utilities ------------------------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Error handler.
+   *
+   * @param category the category
+   * @param level    the level
+   */
+  public ErrorHandler(String category, Level level) {
+    this.logger = LogManager.getLogger(category);
+    this.level = level;
+    this.loggingStackTrace = true;
+  }
 
-	private static ErrorHandler defaultInstance = new ErrorHandler(ErrorHandler.class);
-	
-	public static ErrorHandler getDefault() {
-		return defaultInstance;
+  // interface -------------------------------------------------------------------------------------------------------
+
+  /**
+   * Handle error.
+   *
+   * @param message the message
+   */
+  public void handleError(String message) {
+    switch (level) {
+      // yes, this could be more efficient, but it's just for error handling
+      // and you're not supposed to have a number of errors that impacts performance
+      case trace:
+        logger.trace(message);
+        break;
+      case debug:
+        logger.debug(message);
+        break;
+      case info:
+        logger.info(message);
+        break;
+      case warn:
+        logger.warn(message);
+        break;
+      case error:
+        logger.error(message);
+        break;
+      case fatal:
+        logger.error(message);
+        throw new RuntimeException(message);
+      case ignore: // ignore
     }
+  }
 
-	private static Level defaultLevel = Level.fatal;
-	
-	public static Level getDefaultLevel() {
-		return defaultLevel;
-	}
-	
-	public static void setDefaultLevel(Level level) {
-		defaultLevel = level;
-		if (defaultInstance.getLevel() != level)
-			defaultInstance = new ErrorHandler(defaultInstance.logger.getName(), level);
-	}
+  /**
+   * Handle error.
+   *
+   * @param message the message
+   * @param t       the t
+   */
+  public void handleError(String message, Throwable t) {
+    if (loggingStackTrace) {
+      switch (level) {
+        // yes, this could be more efficient, but it's just for error handling
+        // and you're not supposed to have a number of errors that impacts performance
+        case trace:
+          logger.trace(message);
+          break;
+        case debug:
+          logger.debug(message);
+          break;
+        case info:
+          logger.info(message);
+          break;
+        case warn:
+          logger.warn(message);
+          break;
+        case error:
+          logger.error(message, t);
+          break;
+        case fatal:
+          if (t instanceof RuntimeException) {
+            throw (RuntimeException) t;
+          } else {
+            throw new RuntimeException(t);
+          }
+        case ignore:
+          break; // ignore
+      }
+    } else {
+      handleError(message + SystemInfo.getLineSeparator() + t.toString());
+    }
+  }
+
+  // properties ------------------------------------------------------------------------------------------------------
+
+  /**
+   * Gets level.
+   *
+   * @return the level
+   */
+  public Level getLevel() {
+    return level;
+  }
+
+  /**
+   * Is logging stack trace boolean.
+   *
+   * @return the boolean
+   */
+  public boolean isLoggingStackTrace() {
+    return loggingStackTrace;
+  }
+
+  /**
+   * Sets logging stack trace.
+   *
+   * @param loggingStackTrace the logging stack trace
+   */
+  public void setLoggingStackTrace(boolean loggingStackTrace) {
+    this.loggingStackTrace = loggingStackTrace;
+  }
+
+  // static utilities ------------------------------------------------------------------------------------------------
+
+  private static ErrorHandler defaultInstance = new ErrorHandler(ErrorHandler.class);
+
+  /**
+   * Gets default.
+   *
+   * @return the default
+   */
+  public static ErrorHandler getDefault() {
+    return defaultInstance;
+  }
+
+  private static Level defaultLevel = Level.fatal;
+
+  /**
+   * Gets default level.
+   *
+   * @return the default level
+   */
+  public static Level getDefaultLevel() {
+    return defaultLevel;
+  }
+
+  /**
+   * Sets default level.
+   *
+   * @param level the level
+   */
+  public static void setDefaultLevel(Level level) {
+    defaultLevel = level;
+    if (defaultInstance.getLevel() != level) {
+      defaultInstance = new ErrorHandler(defaultInstance.logger.getName(), level);
+    }
+  }
 
 }

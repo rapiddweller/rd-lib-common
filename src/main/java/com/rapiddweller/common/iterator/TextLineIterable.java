@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.HeavyweightIterator;
@@ -24,28 +25,34 @@ import java.io.IOException;
 /**
  * Creates Iterator object that iterate through the lines of a text file from the specified uri.
  * Created: 27.08.2007 19:13:40
+ *
  * @author Volker Bergmann
  */
 public class TextLineIterable implements HeavyweightTypedIterable<String> {
 
-    private final String uri;
+  private final String uri;
 
-    public TextLineIterable(String uri) {
-        this.uri = uri;
-    }
+  /**
+   * Instantiates a new Text line iterable.
+   *
+   * @param uri the uri
+   */
+  public TextLineIterable(String uri) {
+    this.uri = uri;
+  }
 
-    @Override
-	public Class<String> getType() {
-        return String.class;
-    }
+  @Override
+  public Class<String> getType() {
+    return String.class;
+  }
 
-    @Override
-	public HeavyweightIterator<String> iterator() {
-        try {
-            return new ReaderLineIterator(IOUtil.getReaderForURI(uri));
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to create an Iterator for URI '" + uri + "'", e);
-        }
+  @Override
+  public HeavyweightIterator<String> iterator() {
+    try {
+      return new ReaderLineIterator(IOUtil.getReaderForURI(uri));
+    } catch (IOException e) {
+      throw new RuntimeException("Unable to create an Iterator for URI '" + uri + "'", e);
     }
-    
+  }
+
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui.swing;
 
 import javax.swing.event.TreeModelEvent;
@@ -23,50 +24,87 @@ import java.util.List;
 /**
  * Provides handling for {@link TreeModelListener}s.
  * Created: 22.08.2012 17:13:08
- * @since 0.5.18
+ *
  * @author Volker Bergmann
+ * @since 0.5.18
  */
 public abstract class AbstractTreeModel implements TreeModel {
 
-	private final List<TreeModelListener> listeners;
-	
-	public AbstractTreeModel() {
-		this.listeners = new ArrayList<>();
-	}
-	
-	@Override
-	public void addTreeModelListener(TreeModelListener listener) {
-		listeners.add(listener);
-	}
+  private final List<TreeModelListener> listeners;
 
-	@Override
-	public void removeTreeModelListener(TreeModelListener listener) {
-		listeners.remove(listener);
-	}
-	
-	protected void fireTreeStructureChanged(Object source, Object[] path) {
-		TreeModelEvent event = new TreeModelEvent(source, path);
-		for (int i = listeners.size() - 1; i >= 0; i--)
-			listeners.get(i).treeStructureChanged(event);
-	}
-	
-	protected void fireTreeNodesChanged(Object source, Object[] path, int[] childIndices, Object[] children) {
-		TreeModelEvent event = new TreeModelEvent(source, path, childIndices, children);
-		for (int i = listeners.size() - 1; i >= 0; i--)
-			listeners.get(i).treeNodesChanged(event);
-	}
+  /**
+   * Instantiates a new Abstract tree model.
+   */
+  public AbstractTreeModel() {
+    this.listeners = new ArrayList<>();
+  }
 
-	protected void fireTreeNodesInserted(Object source, Object[] path, int[] childIndices, Object[] children) {
-		TreeModelEvent e = new TreeModelEvent(source, path, childIndices, children);
-		for (int i = listeners.size() - 1; i >= 0; i--) {
-			listeners.get(i).treeNodesInserted(e);
-		}
-	}
-    
-	protected void fireTreeNodesRemoved(Object source, Object[] path, int[] childIndices, Object[] children) {
-		TreeModelEvent e = new TreeModelEvent(source, path, childIndices, children);
-		for (int i = listeners.size() - 1; i >= 0; i --)
-			listeners.get(i).treeNodesRemoved(e);
-	}
-	
+  @Override
+  public void addTreeModelListener(TreeModelListener listener) {
+    listeners.add(listener);
+  }
+
+  @Override
+  public void removeTreeModelListener(TreeModelListener listener) {
+    listeners.remove(listener);
+  }
+
+  /**
+   * Fire tree structure changed.
+   *
+   * @param source the source
+   * @param path   the path
+   */
+  protected void fireTreeStructureChanged(Object source, Object[] path) {
+    TreeModelEvent event = new TreeModelEvent(source, path);
+    for (int i = listeners.size() - 1; i >= 0; i--) {
+      listeners.get(i).treeStructureChanged(event);
+    }
+  }
+
+  /**
+   * Fire tree nodes changed.
+   *
+   * @param source       the source
+   * @param path         the path
+   * @param childIndices the child indices
+   * @param children     the children
+   */
+  protected void fireTreeNodesChanged(Object source, Object[] path, int[] childIndices, Object[] children) {
+    TreeModelEvent event = new TreeModelEvent(source, path, childIndices, children);
+    for (int i = listeners.size() - 1; i >= 0; i--) {
+      listeners.get(i).treeNodesChanged(event);
+    }
+  }
+
+  /**
+   * Fire tree nodes inserted.
+   *
+   * @param source       the source
+   * @param path         the path
+   * @param childIndices the child indices
+   * @param children     the children
+   */
+  protected void fireTreeNodesInserted(Object source, Object[] path, int[] childIndices, Object[] children) {
+    TreeModelEvent e = new TreeModelEvent(source, path, childIndices, children);
+    for (int i = listeners.size() - 1; i >= 0; i--) {
+      listeners.get(i).treeNodesInserted(e);
+    }
+  }
+
+  /**
+   * Fire tree nodes removed.
+   *
+   * @param source       the source
+   * @param path         the path
+   * @param childIndices the child indices
+   * @param children     the children
+   */
+  protected void fireTreeNodesRemoved(Object source, Object[] path, int[] childIndices, Object[] children) {
+    TreeModelEvent e = new TreeModelEvent(source, path, childIndices, children);
+    for (int i = listeners.size() - 1; i >= 0; i--) {
+      listeners.get(i).treeNodesRemoved(e);
+    }
+  }
+
 }

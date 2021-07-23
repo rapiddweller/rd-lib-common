@@ -12,32 +12,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * {@link RuntimeException} child class that indicates a fault made by the programmer.
  * Created: 23.03.2011 12:18:46
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class ProgrammerError extends RuntimeException {
 
-	private static final long serialVersionUID = -5982302088793372294L;
+  private static final long serialVersionUID = -5982302088793372294L;
 
-	public ProgrammerError() {
-		super();
-	}
+  /**
+   * Instantiates a new Programmer error.
+   */
+  public ProgrammerError() {
+    super();
+  }
 
-	public ProgrammerError(String message, Throwable cause) {
-		super(message, cause);
-	}
+  /**
+   * Instantiates a new Programmer error.
+   *
+   * @param message the message
+   * @param cause   the cause
+   */
+  public ProgrammerError(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-	public ProgrammerError(String message) {
-		super(message);
-	}
+  /**
+   * Instantiates a new Programmer error.
+   *
+   * @param message the message
+   */
+  public ProgrammerError(String message) {
+    super(message);
+  }
 
-	public ProgrammerError(Throwable cause) {
-		super(cause);
-	}
+  /**
+   * Instantiates a new Programmer error.
+   *
+   * @param cause the cause
+   */
+  public ProgrammerError(Throwable cause) {
+    super(cause);
+  }
 
 }

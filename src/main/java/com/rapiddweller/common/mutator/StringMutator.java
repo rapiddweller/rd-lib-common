@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.mutator;
 
 import com.rapiddweller.common.Mutator;
@@ -20,24 +21,31 @@ import com.rapiddweller.common.UpdateFailedException;
 /**
  * Mutator proxy that converts the 'value' argument to a String before calling the real proxy.
  * Created: 18.12.2005 21:05:59
- * @deprecated 
+ *
+ * @deprecated
  */
 @Deprecated
 public class StringMutator extends MutatorProxy {
 
-    public StringMutator(Mutator realMutator) {
-        super(realMutator);
-    }
+  /**
+   * Instantiates a new String mutator.
+   *
+   * @param realMutator the real mutator
+   */
+  public StringMutator(Mutator realMutator) {
+    super(realMutator);
+  }
 
-    @Override
-    public void setValue(Object target, Object value) throws UpdateFailedException {
-        String s;
-        if (value == null)
-            s = null;
-        else if (value instanceof String)
-            s = (String) value;
-        else
-            s = value.toString();
-        realMutator.setValue(target, s);
+  @Override
+  public void setValue(Object target, Object value) throws UpdateFailedException {
+    String s;
+    if (value == null) {
+      s = null;
+    } else if (value instanceof String) {
+      s = (String) value;
+    } else {
+      s = value.toString();
     }
+    realMutator.setValue(target, s);
+  }
 }

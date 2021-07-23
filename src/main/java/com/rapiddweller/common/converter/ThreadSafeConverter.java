@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
@@ -19,34 +20,41 @@ import com.rapiddweller.common.Converter;
 /**
  * Parent class for {@link Converter} implementations which support all modes of threaded usage.
  * Created: 26.02.2010 12:47:56
+ *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public abstract class ThreadSafeConverter<S, T> extends AbstractConverter<S, T> implements Cloneable {
-	
-	protected ThreadSafeConverter(Class<S> sourceType, Class<T> targetType) {
-	    super(sourceType, targetType);
-    }
 
-	@Override
-	final public boolean isThreadSafe() {
-	    return true;
-	}
-	
-	@Override
-	final public boolean isParallelizable() {
-	    return true;
-	}
-	
-	@Override
-    public Object clone() {
-		try {
-	        return super.clone();
-        } catch (CloneNotSupportedException e) {
-        	throw new RuntimeException(e);
-        }
-	}
+  /**
+   * Instantiates a new Thread safe converter.
+   *
+   * @param sourceType the source type
+   * @param targetType the target type
+   */
+  protected ThreadSafeConverter(Class<S> sourceType, Class<T> targetType) {
+    super(sourceType, targetType);
+  }
+
+  @Override
+  final public boolean isThreadSafe() {
+    return true;
+  }
+
+  @Override
+  final public boolean isParallelizable() {
+    return true;
+  }
+
+  @Override
+  public Object clone() {
+    try {
+      return super.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
 }

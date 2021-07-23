@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.BeanUtil;
@@ -23,24 +24,32 @@ import java.lang.reflect.Method;
 /**
  * {@link Converter} implementation which invokes a no-arg method on the source object.
  * Created: 27.02.2010 06:53:27
+ *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class SourceClassMethodInvoker<S, T> extends ThreadSafeConverter<S, T> {
-	
-	private final Method method;
 
-	protected SourceClassMethodInvoker(Class<S> sourceType, Class<T> targetType, Method method) {
-	    super(sourceType, targetType);
-	    this.method = method;
-    }
+  private final Method method;
 
-	@Override
-	@SuppressWarnings("unchecked")
-    public T convert(S sourceValue) throws ConversionException {
-		return (T) BeanUtil.invoke(sourceValue, method, null);
-	}
+  /**
+   * Instantiates a new Source class method invoker.
+   *
+   * @param sourceType the source type
+   * @param targetType the target type
+   * @param method     the method
+   */
+  protected SourceClassMethodInvoker(Class<S> sourceType, Class<T> targetType, Method method) {
+    super(sourceType, targetType);
+    this.method = method;
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public T convert(S sourceValue) throws ConversionException {
+    return (T) BeanUtil.invoke(sourceValue, method, null);
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.math;
 
 import com.rapiddweller.common.ParseException;
@@ -26,66 +27,93 @@ import static com.rapiddweller.common.ParseUtil.skipWhiteSpace;
  * Parses an {@link Interval} generically using an endpoint parser and an endpoint comparator.
  * The endpoint parser has to be able to parse the interval endpoint values.
  * Created: 10.03.2011 15:33:01
+ *
  * @param <E> the type of the bounds that define the interval
- * @since 0.5.8
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class IntervalParser<E> extends Parser<Interval<E>> {
 
-	private final Parser<E> endpointParser;
-	private final Comparator<E> endpointComparator;
+  private final Parser<E> endpointParser;
+  private final Comparator<E> endpointComparator;
 
-	public static <T> Interval<T> parse(String text, Parser<T> endpointParser, Comparator<T> endpointComparator) {
-		return new IntervalParser<T>(endpointParser, endpointComparator).parseObject(text, new ParsePosition(0));
-	}
-	
-	public IntervalParser(Parser<E> endPointParser, Comparator<E> endpointComparator) {
-		this.endpointParser = endPointParser;
-		this.endpointComparator = endpointComparator;
-	}
+  /**
+   * Parse interval.
+   *
+   * @param <T>                the type parameter
+   * @param text               the text
+   * @param endpointParser     the endpoint parser
+   * @param endpointComparator the endpoint comparator
+   * @return the interval
+   */
+  public static <T> Interval<T> parse(String text, Parser<T> endpointParser, Comparator<T> endpointComparator) {
+    return new IntervalParser<T>(endpointParser, endpointComparator).parseObject(text, new ParsePosition(0));
+  }
 
-	@Override
-	public Interval<E> parseObject(String text, ParsePosition pos) throws ParseException {
-		skipWhiteSpace(text, pos);
+  /**
+   * Instantiates a new Interval parser.
+   *
+   * @param endPointParser     the end point parser
+   * @param endpointComparator the endpoint comparator
+   */
+  public IntervalParser(Parser<E> endPointParser, Comparator<E> endpointComparator) {
+    this.endpointParser = endPointParser;
+    this.endpointComparator = endpointComparator;
+  }
 
-		// parse left bracket
-		boolean minInclusive;
-		char c = text.charAt(pos.getIndex());
-		switch (c) {
-			case '[' : minInclusive = true; break;
-			case ']' : minInclusive = false; break;
-			default  : throw new ParseException("Expected '[' or ']', found: " + c, text);
-		}
-		pos.setIndex(pos.getIndex() + 1);
-		skipWhiteSpace(text, pos);
-		
-		// parse lower endpoint
-		E min = endpointParser.parseObject(text, pos);
-		skipWhiteSpace(text, pos);
+  @Override
+  public Interval<E> parseObject(String text, ParsePosition pos) throws ParseException {
+    skipWhiteSpace(text, pos);
 
-		// parse comma
-		c = text.charAt(pos.getIndex());
-		if (c != ',')
-			throw new ParseException("Expected ',', found '" + c + "'", text);
-		pos.setIndex(pos.getIndex() + 1);
-		skipWhiteSpace(text, pos);
-		
-		// parse upper endpoint
-		E max = endpointParser.parseObject(text, pos);
-		skipWhiteSpace(text, pos);
-		
-		// parse right bracket
-		boolean maxInclusive;
-		c = text.charAt(pos.getIndex());
-		switch (c) {
-			case ']' : maxInclusive = true; break;
-			case '[' : maxInclusive = false; break;
-			default  : throw new ParseException("Expected '[' or ']', found: " + c, text);
-		}
-		pos.setIndex(pos.getIndex() + 1);
-		skipWhiteSpace(text, pos);
-		
-		return new Interval<>(min, minInclusive, max, maxInclusive, endpointComparator);
-	}
+    // parse left bracket
+    boolean minInclusive;
+    char c = text.charAt(pos.getIndex());
+    switch (c) {
+      case '[':
+        minInclusive = true;
+        break;
+      case ']':
+        minInclusive = false;
+        break;
+      default:
+        throw new ParseException("Expected '[' or ']', found: " + c, text);
+    }
+    pos.setIndex(pos.getIndex() + 1);
+    skipWhiteSpace(text, pos);
+
+    // parse lower endpoint
+    E min = endpointParser.parseObject(text, pos);
+    skipWhiteSpace(text, pos);
+
+    // parse comma
+    c = text.charAt(pos.getIndex());
+    if (c != ',') {
+      throw new ParseException("Expected ',', found '" + c + "'", text);
+    }
+    pos.setIndex(pos.getIndex() + 1);
+    skipWhiteSpace(text, pos);
+
+    // parse upper endpoint
+    E max = endpointParser.parseObject(text, pos);
+    skipWhiteSpace(text, pos);
+
+    // parse right bracket
+    boolean maxInclusive;
+    c = text.charAt(pos.getIndex());
+    switch (c) {
+      case ']':
+        maxInclusive = true;
+        break;
+      case '[':
+        maxInclusive = false;
+        break;
+      default:
+        throw new ParseException("Expected '[' or ']', found: " + c, text);
+    }
+    pos.setIndex(pos.getIndex() + 1);
+    skipWhiteSpace(text, pos);
+
+    return new Interval<>(min, minInclusive, max, maxInclusive, endpointComparator);
+  }
 
 }

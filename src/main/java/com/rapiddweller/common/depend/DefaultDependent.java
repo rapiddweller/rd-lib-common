@@ -12,12 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.depend;
 
 import java.util.Objects;
 
 /**
  * Default implementation of the Dependent interface.
+ *
  * @param <S> the type of the objects to process
  * @param <E> the provider type
  * @author Volker Bergmann
@@ -25,41 +27,51 @@ import java.util.Objects;
  */
 public class DefaultDependent<S, E extends Dependent<E>> extends AbstractDependent<E> {
 
-    private final S subject;
-    
-    @SafeVarargs
-    public DefaultDependent(S subject, E ... requiredProviders) {
-        super(requiredProviders);
-        this.subject = subject;
-    }
+  private final S subject;
 
-    /**
-     * @return the subject
-     */
-    public S getSubject() {
-        return subject;
-    }
-    
-    // java.lang.Object overrides ---------------------------------------------------------------------------
+  /**
+   * Instantiates a new Default dependent.
+   *
+   * @param subject           the subject
+   * @param requiredProviders the required providers
+   */
+  @SafeVarargs
+  public DefaultDependent(S subject, E... requiredProviders) {
+    super(requiredProviders);
+    this.subject = subject;
+  }
 
-    @Override
-    public int hashCode() {
-        return subject.hashCode();
-    }
+  /**
+   * Gets subject.
+   *
+   * @return the subject
+   */
+  public S getSubject() {
+    return subject;
+  }
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-		DefaultDependent that = (DefaultDependent) obj;
-        return (Objects.equals(this.subject, that.subject));
+  // java.lang.Object overrides ---------------------------------------------------------------------------
+
+  @Override
+  public int hashCode() {
+    return subject.hashCode();
+  }
+
+  @SuppressWarnings("rawtypes")
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-    
-    @Override
-    public String toString() {
-        return subject.toString();
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
     }
+    DefaultDependent that = (DefaultDependent) obj;
+    return (Objects.equals(this.subject, that.subject));
+  }
+
+  @Override
+  public String toString() {
+    return subject.toString();
+  }
 }

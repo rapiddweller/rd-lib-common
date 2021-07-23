@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.math;
 
 import com.rapiddweller.common.Parser;
@@ -24,22 +25,29 @@ import java.util.Locale;
 /**
  * {@link Parser} implementation which parses {@link Integer}s.
  * Created: 10.03.2011 19:41:30
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class IntParser extends Parser<Integer> {
 
-	DecimalFormat fmt;
-	
-	public IntParser() {
-		fmt = new DecimalFormat();
-		fmt.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
-		fmt.setGroupingUsed(false);
-	}
-	
-	@Override
-	public Integer parseObject(String text, ParsePosition pos) {
-		return ((Number) fmt.parseObject(text, pos)).intValue();
-	}
-	
+  /**
+   * The Fmt.
+   */
+  DecimalFormat fmt;
+
+  /**
+   * Instantiates a new Int parser.
+   */
+  public IntParser() {
+    fmt = new DecimalFormat();
+    fmt.setDecimalFormatSymbols(DecimalFormatSymbols.getInstance(Locale.US));
+    fmt.setGroupingUsed(false);
+  }
+
+  @Override
+  public Integer parseObject(String text, ParsePosition pos) {
+    return ((Number) fmt.parseObject(text, pos)).intValue();
+  }
+
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import org.apache.logging.log4j.LogManager;
@@ -31,72 +32,95 @@ import java.util.zip.ZipOutputStream;
 /**
  * Provides ZIP-related convenience methods.
  * Created: 20.10.2011 15:19:07
- * @since 0.5.10
+ *
  * @author Volker Bergmann
+ * @since 0.5.10
  */
 public class ZipUtil {
 
-	private static final int BUFFER_SIZE = 2048;
-	
-	private static final Logger LOGGER = LogManager.getLogger(ZipUtil.class);
-	
-	public static void compressAndDelete(File source, File zipFile) {
-		try {
-			compress(source, zipFile);
-			source.delete();
-		} catch (IOException e) {
-			throw new RuntimeException("Unexpected error", e);
-		}
-	}
-	
-	public static void compress(File source, File zipFile) throws IOException {
-		ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
-		out.setMethod(ZipOutputStream.DEFLATED);
-		try {
-			addFileOrDirectory(source, source, out);
-			out.close();
-		} catch (IOException e) {
-			throw new RuntimeException("Zipping the report failed");
-		}
-	}
-	
-	public static void printContent(File zipFile) {
-		ZipInputStream in = null;
-		try {
-			in = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
-			ZipEntry entry;
-			while ((entry = in.getNextEntry()) != null)
-				System.out.println(entry.getName());
-		} catch (IOException e) {
-			LOGGER.error("Error listing archive content of file " + zipFile, e);
-		} finally {
-			IOUtil.close(in);
-		}
-	}
-	
-	// private helpers -------------------------------------------------------------------------------------------------
+  private static final int BUFFER_SIZE = 2048;
 
-	private static void addFileOrDirectory(File source, File root, ZipOutputStream out) throws IOException {
-		if (source.isFile())
-			addFile(source, root, out);
-		else if (source.isDirectory())
-			addDirectory(source, root, out);
-	}
+  private static final Logger LOGGER = LogManager.getLogger(ZipUtil.class);
 
-	private static void addDirectory(File source, File root, ZipOutputStream out) throws IOException {
-		for (File file : source.listFiles())
-			addFileOrDirectory(file, root, out);
-	}
+  /**
+   * Compress and delete.
+   *
+   * @param source  the source
+   * @param zipFile the zip file
+   */
+  public static void compressAndDelete(File source, File zipFile) {
+    try {
+      compress(source, zipFile);
+      source.delete();
+    } catch (IOException e) {
+      throw new RuntimeException("Unexpected error", e);
+    }
+  }
 
-	private static void addFile(File source, File root, ZipOutputStream out) throws IOException {
-		byte[] buffer = new byte[BUFFER_SIZE];
-		InputStream in = new BufferedInputStream(new FileInputStream(source));
-		ZipEntry entry = new ZipEntry(FileUtil.relativePath(root, source));
-		out.putNextEntry(entry);
-		int count;
-		while ((count = in.read(buffer, 0, BUFFER_SIZE)) != -1)
-			out.write(buffer, 0, count);
-		in.close();
-	}
-	
+  /**
+   * Compress.
+   *
+   * @param source  the source
+   * @param zipFile the zip file
+   * @throws IOException the io exception
+   */
+  public static void compress(File source, File zipFile) throws IOException {
+    ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
+    out.setMethod(ZipOutputStream.DEFLATED);
+    try {
+      addFileOrDirectory(source, source, out);
+      out.close();
+    } catch (IOException e) {
+      throw new RuntimeException("Zipping the report failed");
+    }
+  }
+
+  /**
+   * Print content.
+   *
+   * @param zipFile the zip file
+   */
+  public static void printContent(File zipFile) {
+    ZipInputStream in = null;
+    try {
+      in = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
+      ZipEntry entry;
+      while ((entry = in.getNextEntry()) != null) {
+        System.out.println(entry.getName());
+      }
+    } catch (IOException e) {
+      LOGGER.error("Error listing archive content of file " + zipFile, e);
+    } finally {
+      IOUtil.close(in);
+    }
+  }
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private static void addFileOrDirectory(File source, File root, ZipOutputStream out) throws IOException {
+    if (source.isFile()) {
+      addFile(source, root, out);
+    } else if (source.isDirectory()) {
+      addDirectory(source, root, out);
+    }
+  }
+
+  private static void addDirectory(File source, File root, ZipOutputStream out) throws IOException {
+    for (File file : source.listFiles()) {
+      addFileOrDirectory(file, root, out);
+    }
+  }
+
+  private static void addFile(File source, File root, ZipOutputStream out) throws IOException {
+    byte[] buffer = new byte[BUFFER_SIZE];
+    InputStream in = new BufferedInputStream(new FileInputStream(source));
+    ZipEntry entry = new ZipEntry(FileUtil.relativePath(root, source));
+    out.putNextEntry(entry);
+    int count;
+    while ((count = in.read(buffer, 0, BUFFER_SIZE)) != -1) {
+      out.write(buffer, 0, count);
+    }
+    in.close();
+  }
+
 }

@@ -12,17 +12,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator.domain;
 
 import com.rapiddweller.common.ValidationDomainDescriptor;
 
 /**
- * Abstract implementation of the {@link ValidationDomainDescriptor}. 
- * Whenever possible inherit from this class for implementing future-safe 
+ * Abstract implementation of the {@link ValidationDomainDescriptor}.
+ * Whenever possible inherit from this class for implementing future-safe
  * {@link ValidationDomainDescriptor}s
  * Created: 20.12.2011 17:25:47
- * @since 0.5.14
+ *
  * @author Volker Bergmann
+ * @since 0.5.14
  */
 public abstract class AbstractValidationDomainDescriptor implements ValidationDomainDescriptor {
 

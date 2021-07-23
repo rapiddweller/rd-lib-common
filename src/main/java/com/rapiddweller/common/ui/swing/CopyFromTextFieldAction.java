@@ -23,31 +23,37 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 
 /**
- * Copies the selected content of a {@link JTextField} component to the clipboard. 
+ * Copies the selected content of a {@link JTextField} component to the clipboard.
  * Created: 10.04.2016 11:29:03
- * @since 1.0.9
+ *
  * @author Volker Bergmann
+ * @since 1.0.9
  */
-
 public class CopyFromTextFieldAction extends AbstractAction {
-	
-	private static final long serialVersionUID = 1L;
 
-	private final JTextField textField;
-	
-	public CopyFromTextFieldAction(JTextField textField) {
-		super("Copy");
-		this.textField = textField;
-	}
+  private static final long serialVersionUID = 1L;
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		String textToCopy = textField.getSelectedText();
-		if (textToCopy == null)
-			textToCopy = textField.getText();
-		StringSelection selection = new StringSelection(textToCopy);
-	    clipboard.setContents(selection, selection);
-	}
-	
+  private final JTextField textField;
+
+  /**
+   * Instantiates a new Copy from text field action.
+   *
+   * @param textField the text field
+   */
+  public CopyFromTextFieldAction(JTextField textField) {
+    super("Copy");
+    this.textField = textField;
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+    String textToCopy = textField.getSelectedText();
+    if (textToCopy == null) {
+      textToCopy = textField.getText();
+    }
+    StringSelection selection = new StringSelection(textToCopy);
+    clipboard.setContents(selection, selection);
+  }
+
 }

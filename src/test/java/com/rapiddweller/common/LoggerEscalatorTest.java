@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import org.junit.Test;
@@ -19,21 +20,22 @@ import org.junit.Test;
 /**
  * Tests the {@link LoggerEscalator}.
  * Created at 02.05.2008 15:16:22
- * @since 0.4.3
+ *
  * @author Volker Bergmann
+ * @since 0.4.3
  */
 public class LoggerEscalatorTest {
-	
-	@Test
-	public void test() {
-		LoggerEscalator escalator = new LoggerEscalator();
-		escalator.escalate("mess", this, "cause");
-		// identical escalation should be ignored 
-		escalator.escalate("mess", this, "cause");
-		// escalation that differs only in cause should be ignored 
-		escalator.escalate("mess", this, "other cause");
-		// escalation with other message is added
-		escalator.escalate("mess2", this, "cause");
-	}
-	
+
+  @Test
+  public void test() {
+    LoggerEscalator escalator = new LoggerEscalator();
+    escalator.escalate("mess", this, "cause");
+    // identical escalation should be ignored
+    escalator.escalate("mess", this, "cause");
+    // escalation that differs only in cause should be ignored
+    escalator.escalate("mess", this, "other cause");
+    // escalation with other message is added
+    escalator.escalate("mess2", this, "cause");
+  }
+
 }

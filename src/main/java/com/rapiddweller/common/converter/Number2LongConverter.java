@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -19,18 +20,22 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts arbitrary {@link Number}s to {@link Long}s.
  * Created: 15.11.2012 08:25:09
- * @since 0.5.20
+ *
  * @author Volker Bergmann
+ * @since 0.5.20
  */
 public class Number2LongConverter extends ThreadSafeConverter<Number, Long> {
 
-	protected Number2LongConverter() {
-		super(Number.class, Long.class);
-	}
+  /**
+   * Instantiates a new Number 2 long converter.
+   */
+  protected Number2LongConverter() {
+    super(Number.class, Long.class);
+  }
 
-	@Override
-	public Long convert(Number sourceValue) throws ConversionException {
-		return (sourceValue != null ? sourceValue.longValue() : null);
-	}
+  @Override
+  public Long convert(Number sourceValue) throws ConversionException {
+    return (sourceValue != null ? sourceValue.longValue() : null);
+  }
 
 }

@@ -12,48 +12,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import org.junit.Test;
-import com.rapiddweller.common.SystemInfo;
 
+import java.io.Reader;
 import java.io.StringReader;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.Reader;
-
 /**
  * Tests the {@link ReaderLineIterator}.
  * Created: 01.05.2007 09:36:47
+ *
  * @author Volker Bergmann
  */
 public class ReaderLineIteratorTest {
 
-    private static final String SEP = SystemInfo.getLineSeparator();
+  private static final String SEP = SystemInfo.getLineSeparator();
 
-	@Test
-    public void testDefaultIteration() {
-        Reader reader = new StringReader("alpha " + SEP + " beta" + SEP);
-        ReaderLineIterator iterator = new ReaderLineIterator(reader);
-        checkIteration(iterator);
-    }
-    
-	@Test
-    public void testSkipEmptyLines() {
-        Reader reader = new StringReader("alpha " + SEP + SEP + " beta" + SEP);
-        ReaderLineIterator iterator = new ReaderLineIterator(reader, true);
-        checkIteration(iterator);
-    }
+  @Test
+  public void testDefaultIteration() {
+    Reader reader = new StringReader("alpha " + SEP + " beta" + SEP);
+    ReaderLineIterator iterator = new ReaderLineIterator(reader);
+    checkIteration(iterator);
+  }
 
-    private static void checkIteration(ReaderLineIterator iterator) {
-	    assertTrue(iterator.hasNext());
-        assertEquals("alpha ", iterator.next());
-        assertTrue(iterator.hasNext());
-        assertEquals(" beta", iterator.next());
-        assertFalse(iterator.hasNext());
-    }
-    
+  @Test
+  public void testSkipEmptyLines() {
+    Reader reader = new StringReader("alpha " + SEP + SEP + " beta" + SEP);
+    ReaderLineIterator iterator = new ReaderLineIterator(reader, true);
+    checkIteration(iterator);
+  }
+
+  private static void checkIteration(ReaderLineIterator iterator) {
+    assertTrue(iterator.hasNext());
+    assertEquals("alpha ", iterator.next());
+    assertTrue(iterator.hasNext());
+    assertEquals(" beta", iterator.next());
+    assertFalse(iterator.hasNext());
+  }
+
 }

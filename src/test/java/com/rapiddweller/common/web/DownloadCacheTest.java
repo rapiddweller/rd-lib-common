@@ -12,34 +12,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.web;
 
-import java.net.URL;
-
 import com.rapiddweller.common.DatabeneTestUtil;
-import org.junit.Test;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
+
+import java.net.URL;
 
 /**
  * Tests the {@link DownloadCache}.
  * Created: 15.08.2010 10:34:15
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class DownloadCacheTest {
-	
-	Logger LOGGER = LogManager.getLogger(DownloadCacheTest.class);
-	
-	@Test
-	public void test() throws Exception {
-		if (!DatabeneTestUtil.isOnline()) {
-			LOGGER.warn("Skipping " + getClass().getName() + " since we're offline");
-			return;
-		}
-		DownloadCache cache = new DownloadCache();
-		cache.get(new URL("https://benerator.de"));
-		cache.get(new URL("https://rapiddweller.com"));
-	}
+
+  Logger LOGGER = LogManager.getLogger(DownloadCacheTest.class);
+
+  @Test
+  public void test() throws Exception {
+    if (!DatabeneTestUtil.isOnline()) {
+      LOGGER.warn("Skipping " + getClass().getName() + " since we're offline");
+      return;
+    }
+    DownloadCache cache = new DownloadCache();
+    cache.get(new URL("https://benerator.de"));
+    cache.get(new URL("https://rapiddweller.com"));
+  }
 
 }

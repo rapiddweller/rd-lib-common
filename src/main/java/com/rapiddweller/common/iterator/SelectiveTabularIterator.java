@@ -12,56 +12,67 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.StringUtil;
 
 /**
- * Iterates through another {@link TabularIterator}, 
+ * Iterates through another {@link TabularIterator},
  * picking and possibly reordering a sub set of its columns.
  * Created: 26.01.2012 18:33:10
- * @since 0.5.14
+ *
  * @author Volker Bergmann
+ * @since 0.5.14
  */
 public class SelectiveTabularIterator extends IteratorProxy<Object[]> implements TabularIterator {
-	
-	private final String[] columnNames;
-	private final int[] sourceIndexes;
-	
-	public SelectiveTabularIterator(TabularIterator source, String[] columnNames) {
-		super(source);
-		String[] sourceColumnNames = source.getColumnNames();
-		if (columnNames != null) {
-			this.columnNames = columnNames;
-			this.sourceIndexes = new int[columnNames.length];
-			for (int i = 0; i < columnNames.length; i++) {
-				String columnName = columnNames[i];
-				int sourceIndex = StringUtil.indexOfIgnoreCase(columnName, sourceColumnNames);
-				if (sourceIndex < 0)
-					throw new ConfigurationError("Column '" + columnName + "' not defined in source: " + source);
-				this.sourceIndexes[i] = sourceIndex;
-			}
-		} else {
-			this.columnNames = sourceColumnNames;
-			this.sourceIndexes = null;
-		}
-	}
 
-	@Override
-	public String[] getColumnNames() {
-		return columnNames;
-	}
+  private final String[] columnNames;
+  private final int[] sourceIndexes;
 
-	@Override
-	public Object[] next() {
-		Object[] sourceArray = super.next();
-		if (sourceIndexes == null)
-			return sourceArray;
-		Object[] result = new Object[sourceIndexes.length];
-		for (int i = 0; i < sourceIndexes.length; i++)
-			result[i] = (i < sourceArray.length ? sourceArray[sourceIndexes[i]] : null);
-		return result;
-	}
+  /**
+   * Instantiates a new Selective tabular iterator.
+   *
+   * @param source      the source
+   * @param columnNames the column names
+   */
+  public SelectiveTabularIterator(TabularIterator source, String[] columnNames) {
+    super(source);
+    String[] sourceColumnNames = source.getColumnNames();
+    if (columnNames != null) {
+      this.columnNames = columnNames;
+      this.sourceIndexes = new int[columnNames.length];
+      for (int i = 0; i < columnNames.length; i++) {
+        String columnName = columnNames[i];
+        int sourceIndex = StringUtil.indexOfIgnoreCase(columnName, sourceColumnNames);
+        if (sourceIndex < 0) {
+          throw new ConfigurationError("Column '" + columnName + "' not defined in source: " + source);
+        }
+        this.sourceIndexes[i] = sourceIndex;
+      }
+    } else {
+      this.columnNames = sourceColumnNames;
+      this.sourceIndexes = null;
+    }
+  }
+
+  @Override
+  public String[] getColumnNames() {
+    return columnNames;
+  }
+
+  @Override
+  public Object[] next() {
+    Object[] sourceArray = super.next();
+    if (sourceIndexes == null) {
+      return sourceArray;
+    }
+    Object[] result = new Object[sourceIndexes.length];
+    for (int i = 0; i < sourceIndexes.length; i++) {
+      result[i] = (i < sourceArray.length ? sourceArray[sourceIndexes[i]] : null);
+    }
+    return result;
+  }
 
 }

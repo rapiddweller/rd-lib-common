@@ -18,10 +18,15 @@ package com.rapiddweller.common;
 /**
  * Parent interfaces for classes which hold a String id and exhibit it with a {@link #getId()} method.<br/><br/>
  * Created: 27.12.2015 18:22:52
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public interface IdHolder {
-	String getId();
+  /**
+   * Gets id.
+   *
+   * @return the id
+   */
+  String getId();
 }

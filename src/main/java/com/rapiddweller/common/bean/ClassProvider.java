@@ -12,14 +12,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 /**
  * Abstraction of a utility that provides class definitions by name.
  * Created at 16.11.2008 07:03:52
- * @since 0.4.6
+ *
  * @author Volker Bergmann
+ * @since 0.4.6
  */
 public interface ClassProvider {
-	Class<?> forName(String className);
+  /**
+   * For name class.
+   *
+   * @param className the class name
+   * @return the class
+   */
+  Class<?> forName(String className);
 }

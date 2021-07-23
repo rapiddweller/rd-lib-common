@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.operation;
 
 import com.rapiddweller.common.ComparableComparator;
@@ -23,32 +24,44 @@ import java.util.Comparator;
  * Returns the minimum of two values. If a Comparaotr is provided, that one is used,
  * else it is assumed that E implements Comparable.
  * Created: 03.08.2007 07:40:14
+ *
  * @param <E> the argument and result type of the operation
  * @author Volker Bergmann
  */
 public class MinOperation<E> implements Operation<E, E> {
 
-    private final Comparator<E> comparator;
+  private final Comparator<E> comparator;
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public MinOperation() {
-        this(new ComparableComparator());
-    }
+  /**
+   * Instantiates a new Min operation.
+   */
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  public MinOperation() {
+    this(new ComparableComparator());
+  }
 
-    public MinOperation(Comparator<E> comparator) {
-        this.comparator = comparator;
-    }
+  /**
+   * Instantiates a new Min operation.
+   *
+   * @param comparator the comparator
+   */
+  public MinOperation(Comparator<E> comparator) {
+    this.comparator = comparator;
+  }
 
-    @SafeVarargs
-    @Override
-	public final E perform(E... args) {
-        if (args.length == 0)
-            return null;
-        E result = args[0];
-        for (int i = 1; i < args.length; i++)
-            if (comparator.compare(result, args[i]) > 0)
-                result = args[i];
-        return result;
+  @SafeVarargs
+  @Override
+  public final E perform(E... args) {
+    if (args.length == 0) {
+      return null;
     }
-    
+    E result = args[0];
+    for (int i = 1; i < args.length; i++) {
+      if (comparator.compare(result, args[i]) > 0) {
+        result = args[i];
+      }
+    }
+    return result;
+  }
+
 }

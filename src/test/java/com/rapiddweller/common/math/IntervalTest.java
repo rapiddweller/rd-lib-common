@@ -12,89 +12,93 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common.math;
 
-import static org.junit.Assert.*;
+package com.rapiddweller.common.math;
 
 import com.rapiddweller.common.comparator.IntComparator;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests the {@link Interval} class.
  * Created: 10.03.2011 15:28:39
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class IntervalTest {
 
-	@Test
-	public void testClosedInterval() {
-		Interval<Integer> interval = new Interval<>(1, true, 2, true, new IntComparator());
-		assertFalse(interval.contains(0));
-		assertTrue(interval.contains(1));
-		assertTrue(interval.contains(2));
-		assertFalse(interval.contains(3));
-		assertEquals("[1,2]", interval.toString());
-	}
+  @Test
+  public void testClosedInterval() {
+    Interval<Integer> interval = new Interval<>(1, true, 2, true, new IntComparator());
+    assertFalse(interval.contains(0));
+    assertTrue(interval.contains(1));
+    assertTrue(interval.contains(2));
+    assertFalse(interval.contains(3));
+    assertEquals("[1,2]", interval.toString());
+  }
 
-	@Test
-	public void testRightUnboundedInterval() {
-		Interval<Integer> interval = new Interval<>(1, true, null, true, new IntComparator());
-		assertFalse(interval.contains(0));
-		assertTrue(interval.contains(1));
-		assertTrue(interval.contains(2));
-		assertTrue(interval.contains(3));
-		assertEquals("[1,null]", interval.toString());
-	}
+  @Test
+  public void testRightUnboundedInterval() {
+    Interval<Integer> interval = new Interval<>(1, true, null, true, new IntComparator());
+    assertFalse(interval.contains(0));
+    assertTrue(interval.contains(1));
+    assertTrue(interval.contains(2));
+    assertTrue(interval.contains(3));
+    assertEquals("[1,null]", interval.toString());
+  }
 
-	@Test
-	public void testLeftUnboundedInterval() {
-		Interval<Integer> interval = new Interval<>(null, true, 2, true, new IntComparator());
-		assertTrue(interval.contains(0));
-		assertTrue(interval.contains(1));
-		assertTrue(interval.contains(2));
-		assertFalse(interval.contains(3));
-		assertEquals("[null,2]", interval.toString());
-	}
+  @Test
+  public void testLeftUnboundedInterval() {
+    Interval<Integer> interval = new Interval<>(null, true, 2, true, new IntComparator());
+    assertTrue(interval.contains(0));
+    assertTrue(interval.contains(1));
+    assertTrue(interval.contains(2));
+    assertFalse(interval.contains(3));
+    assertEquals("[null,2]", interval.toString());
+  }
 
-	@Test
-	public void testRightOpenInterval() {
-		Interval<Integer> interval = new Interval<>(1, true, 2, false, new IntComparator());
-		assertFalse(interval.contains(0));
-		assertTrue(interval.contains(1));
-		assertFalse(interval.contains(2));
-		assertFalse(interval.contains(3));
-		assertEquals("[1,2[", interval.toString());
-	}
+  @Test
+  public void testRightOpenInterval() {
+    Interval<Integer> interval = new Interval<>(1, true, 2, false, new IntComparator());
+    assertFalse(interval.contains(0));
+    assertTrue(interval.contains(1));
+    assertFalse(interval.contains(2));
+    assertFalse(interval.contains(3));
+    assertEquals("[1,2[", interval.toString());
+  }
 
-	@Test
-	public void testLeftOpenInterval() {
-		Interval<Integer> interval = new Interval<>(1, false, 2, true, new IntComparator());
-		assertFalse(interval.contains(0));
-		assertFalse(interval.contains(1));
-		assertTrue(interval.contains(2));
-		assertFalse(interval.contains(3));
-		assertEquals("]1,2]", interval.toString());
-	}
+  @Test
+  public void testLeftOpenInterval() {
+    Interval<Integer> interval = new Interval<>(1, false, 2, true, new IntComparator());
+    assertFalse(interval.contains(0));
+    assertFalse(interval.contains(1));
+    assertTrue(interval.contains(2));
+    assertFalse(interval.contains(3));
+    assertEquals("]1,2]", interval.toString());
+  }
 
-	@Test
-	public void testOpenInterval() {
-		Interval<Integer> interval = new Interval<>(1, false, 2, false, new IntComparator());
-		assertFalse(interval.contains(0));
-		assertFalse(interval.contains(1));
-		assertFalse(interval.contains(2));
-		assertFalse(interval.contains(3));
-		assertEquals("]1,2[", interval.toString());
-	}
+  @Test
+  public void testOpenInterval() {
+    Interval<Integer> interval = new Interval<>(1, false, 2, false, new IntComparator());
+    assertFalse(interval.contains(0));
+    assertFalse(interval.contains(1));
+    assertFalse(interval.contains(2));
+    assertFalse(interval.contains(3));
+    assertEquals("]1,2[", interval.toString());
+  }
 
-	@Test
-	public void testInfiniteInterval() {
-		Interval<Integer> interval = new Interval<>(null, false, null, false, new IntComparator());
-		assertTrue(interval.contains(0));
-		assertTrue(interval.contains(1));
-		assertTrue(interval.contains(2));
-		assertTrue(interval.contains(3));
-		assertEquals("]null,null[", interval.toString());
-	}
+  @Test
+  public void testInfiniteInterval() {
+    Interval<Integer> interval = new Interval<>(null, false, null, false, new IntComparator());
+    assertTrue(interval.contains(0));
+    assertTrue(interval.contains(1));
+    assertTrue(interval.contains(2));
+    assertTrue(interval.contains(3));
+    assertEquals("]null,null[", interval.toString());
+  }
 
 }

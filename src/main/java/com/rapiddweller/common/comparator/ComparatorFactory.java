@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
 import com.rapiddweller.common.BeanUtil;
@@ -34,63 +35,80 @@ import java.util.Map;
 /**
  * Creates comparators by the type of the objects to be compared.
  * Created: 22.10.2005 21:29:08
+ *
  * @author Volker Bergmann
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class ComparatorFactory {
 
-    private static final Logger logger = LogManager.getLogger(ComparatorFactory.class);
-    private static final String CONFIG_FILE_URI = "com/rapiddweller/common/comparator/comparators.txt";
-    
-    private static final Map<Class<?>, Comparator<?>> comparators;
+  private static final Logger logger = LogManager.getLogger(ComparatorFactory.class);
+  private static final String CONFIG_FILE_URI = "com/rapiddweller/common/comparator/comparators.txt";
 
-    static {
-        comparators = new HashMap<>();
-        addComparator(String.class, Collator.getInstance());
-        readConfigFileIfExists();
-        
-        // this is the fallback if no specific Comparator was found
-        addComparator(Comparable.class, new ComparableComparator());
+  private static final Map<Class<?>, Comparator<?>> comparators;
+
+  static {
+    comparators = new HashMap<>();
+    addComparator(String.class, Collator.getInstance());
+    readConfigFileIfExists();
+
+    // this is the fallback if no specific Comparator was found
+    addComparator(Comparable.class, new ComparableComparator());
+  }
+
+  /**
+   * Add comparator.
+   *
+   * @param comparedClass the compared class
+   * @param comparator    the comparator
+   */
+  public static void addComparator(Class comparedClass, Comparator comparator) {
+    comparators.put(comparedClass, comparator);
+  }
+
+  private static void readConfigFileIfExists() {
+    if (!IOUtil.isURIAvailable(ComparatorFactory.CONFIG_FILE_URI)) {
+      logger.info("No custom Comparator setup defined, (" + ComparatorFactory.CONFIG_FILE_URI + "), using defaults");
+      return;
     }
-
-    public static void addComparator(Class comparedClass, Comparator comparator) {
-        comparators.put(comparedClass, comparator);
-    }
-
-    private static void readConfigFileIfExists() {
-        if (!IOUtil.isURIAvailable(ComparatorFactory.CONFIG_FILE_URI)) {
-            logger.info("No custom Comparator setup defined, (" + ComparatorFactory.CONFIG_FILE_URI + "), using defaults");
-            return;
+    BufferedReader reader = null;
+    try {
+      reader = IOUtil.getReaderForURI(ComparatorFactory.CONFIG_FILE_URI);
+      String line;
+      while ((line = reader.readLine()) != null) {
+        line = line.trim();
+        if (!StringUtil.isEmpty(line)) {
+          createComparator(line);
         }
-        BufferedReader reader = null;
-        try {
-            reader = IOUtil.getReaderForURI(ComparatorFactory.CONFIG_FILE_URI);
-            String line;
-            while ((line = reader.readLine()) != null) {
-                line = line.trim();
-                if (!StringUtil.isEmpty(line))
-                    createComparator(line);
-            }
-        } catch (IOException e) {
-            throw new ConfigurationError(e);
-        } finally {
-            IOUtil.close(reader);
-        }
+      }
+    } catch (IOException e) {
+      throw new ConfigurationError(e);
+    } finally {
+      IOUtil.close(reader);
     }
+  }
 
-    private static <T> void createComparator(String className) {
-        Class<Comparator<T>> cls = BeanUtil.forName(className);
-        Comparator<T> comparator = BeanUtil.newInstance(cls);
-        Type[] genTypes = BeanUtil.getGenericInterfaceParams(cls, Comparator.class);
-        addComparator((Class<T>) genTypes[0], comparator);
+  private static <T> void createComparator(String className) {
+    Class<Comparator<T>> cls = BeanUtil.forName(className);
+    Comparator<T> comparator = BeanUtil.newInstance(cls);
+    Type[] genTypes = BeanUtil.getGenericInterfaceParams(cls, Comparator.class);
+    addComparator((Class<T>) genTypes[0], comparator);
+  }
+
+  /**
+   * Gets comparator.
+   *
+   * @param <T>  the type parameter
+   * @param type the type
+   * @return the comparator
+   */
+  public static <T> Comparator<T> getComparator(Class<T> type) {
+    Comparator<T> comparator = (Comparator<T>) comparators.get(type);
+    if (comparator == null && Comparable.class.isAssignableFrom(type)) {
+      comparator = new ComparableComparator();
     }
-    
-    public static <T> Comparator<T> getComparator(Class<T> type) {
-        Comparator<T> comparator = (Comparator<T>) comparators.get(type);
-        if (comparator == null && Comparable.class.isAssignableFrom(type))
-            comparator = new ComparableComparator();
-        if (comparator == null)
-            throw new RuntimeException("No Comparator defined for " + type.getName());
-        return new NullSafeComparator<>(comparator);
+    if (comparator == null) {
+      throw new RuntimeException("No Comparator defined for " + type.getName());
     }
+    return new NullSafeComparator<>(comparator);
+  }
 }

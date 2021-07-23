@@ -12,18 +12,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui;
 
 /**
  * Platform-neutral abstraction of a Java application.
  * Created: 31.07.2010 07:35:35
- * @since 0.5.13
+ *
  * @author Volker Bergmann
+ * @since 0.5.13
  */
 public interface JavaApplication {
-	String iconPath();
-	void about();
-	void exit();
-	boolean supportsPreferences();
-	void preferences();
+  /**
+   * Icon path string.
+   *
+   * @return the string
+   */
+  String iconPath();
+
+  /**
+   * About.
+   */
+  void about();
+
+  /**
+   * Exit.
+   */
+  void exit();
+
+  /**
+   * Supports preferences boolean.
+   *
+   * @return the boolean
+   */
+  boolean supportsPreferences();
+
+  /**
+   * Preferences.
+   */
+  void preferences();
 }

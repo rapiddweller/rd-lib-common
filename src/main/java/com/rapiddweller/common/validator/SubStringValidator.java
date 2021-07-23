@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.Converter;
@@ -21,25 +22,40 @@ import com.rapiddweller.common.converter.SubstringExtractor;
 /**
  * Uses another validator to validate sub strings.
  * Created: 02.08.2011 07:19:04
- * @since 0.5.9
+ *
  * @author Volker Bergmann
+ * @since 0.5.9
  */
 public class SubStringValidator extends AbstractValidator<String> {
 
-	protected Converter<String, String> substringExtractor;
-	protected Validator<String> realValidator;
+  /**
+   * The Substring extractor.
+   */
+  protected Converter<String, String> substringExtractor;
+  /**
+   * The Real validator.
+   */
+  protected Validator<String> realValidator;
 
-	public SubStringValidator(int from, Integer to, Validator<String> realValidator) {
-		this.substringExtractor = new SubstringExtractor(from, to);
-		this.realValidator = realValidator;
-	}
+  /**
+   * Instantiates a new Sub string validator.
+   *
+   * @param from          the from
+   * @param to            the to
+   * @param realValidator the real validator
+   */
+  public SubStringValidator(int from, Integer to, Validator<String> realValidator) {
+    this.substringExtractor = new SubstringExtractor(from, to);
+    this.realValidator = realValidator;
+  }
 
 
-	@Override
-	public boolean valid(String value) {
-		if (value == null)
-			return false;
-		return realValidator.valid(substringExtractor.convert(value));
-	}
+  @Override
+  public boolean valid(String value) {
+    if (value == null) {
+      return false;
+    }
+    return realValidator.valid(substringExtractor.convert(value));
+  }
 
 }

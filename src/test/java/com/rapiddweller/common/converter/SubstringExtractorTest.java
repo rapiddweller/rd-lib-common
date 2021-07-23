@@ -12,12 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.*;
+package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests the {@link SubstringExtractor}.
@@ -28,50 +30,50 @@ import org.junit.Test;
  */
 public class SubstringExtractorTest extends AbstractConverterTest {
 
-    @Test
-    public void testConvert() throws ConversionException {
-        assertEquals("Source Value", (new SubstringExtractor()).convert("Source Value"));
-        assertEquals("", (new SubstringExtractor(1, 1)).convert("Source Value"));
-        assertNull((new SubstringExtractor()).convert(null));
-        assertEquals("", (new SubstringExtractor()).convert(""));
-        assertEquals("", (new SubstringExtractor(-1, 1)).convert("Source Value"));
-    }
+  @Test
+  public void testConvert() throws ConversionException {
+    assertEquals("Source Value", (new SubstringExtractor()).convert("Source Value"));
+    assertEquals("", (new SubstringExtractor(1, 1)).convert("Source Value"));
+    assertNull((new SubstringExtractor()).convert(null));
+    assertEquals("", (new SubstringExtractor()).convert(""));
+    assertEquals("", (new SubstringExtractor(-1, 1)).convert("Source Value"));
+  }
 
-    public SubstringExtractorTest() {
-        super(SubstringExtractor.class);
-    }
+  public SubstringExtractorTest() {
+    super(SubstringExtractor.class);
+  }
 
-    @Test
-    public void testDefault() {
-        assertEquals("ABC", new SubstringExtractor().convert("ABC"));
-    }
+  @Test
+  public void testDefault() {
+    assertEquals("ABC", new SubstringExtractor().convert("ABC"));
+  }
 
-    @Test
-    public void testWithoutTo() {
-        assertEquals("ABC", new SubstringExtractor(0).convert("ABC"));
-        assertEquals("BC", new SubstringExtractor(1).convert("ABC"));
-        assertEquals("BC", new SubstringExtractor(-2).convert("ABC"));
-        assertEquals("", new SubstringExtractor(3).convert("ABC"));
-    }
+  @Test
+  public void testWithoutTo() {
+    assertEquals("ABC", new SubstringExtractor(0).convert("ABC"));
+    assertEquals("BC", new SubstringExtractor(1).convert("ABC"));
+    assertEquals("BC", new SubstringExtractor(-2).convert("ABC"));
+    assertEquals("", new SubstringExtractor(3).convert("ABC"));
+  }
 
-    @Test
-    public void testWithTo() {
-        assertEquals("ABC", new SubstringExtractor(0, 3).convert("ABC"));
-        assertEquals("", new SubstringExtractor(0, 0).convert("ABC"));
-        assertEquals("", new SubstringExtractor(3, 3).convert("ABC"));
-        assertEquals("AB", new SubstringExtractor(0, 2).convert("ABC"));
-        assertEquals("B", new SubstringExtractor(1, 2).convert("ABC"));
-        assertEquals("B", new SubstringExtractor(-2, 2).convert("ABC"));
-        assertEquals("C", new SubstringExtractor(-1, 3).convert("ABC"));
-        assertEquals("AB", new SubstringExtractor(-3, -1).convert("ABC"));
-    }
+  @Test
+  public void testWithTo() {
+    assertEquals("ABC", new SubstringExtractor(0, 3).convert("ABC"));
+    assertEquals("", new SubstringExtractor(0, 0).convert("ABC"));
+    assertEquals("", new SubstringExtractor(3, 3).convert("ABC"));
+    assertEquals("AB", new SubstringExtractor(0, 2).convert("ABC"));
+    assertEquals("B", new SubstringExtractor(1, 2).convert("ABC"));
+    assertEquals("B", new SubstringExtractor(-2, 2).convert("ABC"));
+    assertEquals("C", new SubstringExtractor(-1, 3).convert("ABC"));
+    assertEquals("AB", new SubstringExtractor(-3, -1).convert("ABC"));
+  }
 
-    @Test
-    public void testTooShortArgument() {
-        assertEquals("", new SubstringExtractor(0, 3).convert(""));
-        assertEquals("AB", new SubstringExtractor(0, 3).convert("AB"));
-        assertEquals("", new SubstringExtractor(4, 11).convert(""));
-        assertEquals("ICE", new SubstringExtractor(2, 8).convert("ALICE"));
-    }
+  @Test
+  public void testTooShortArgument() {
+    assertEquals("", new SubstringExtractor(0, 3).convert(""));
+    assertEquals("AB", new SubstringExtractor(0, 3).convert("AB"));
+    assertEquals("", new SubstringExtractor(4, 11).convert(""));
+    assertEquals("ICE", new SubstringExtractor(2, 8).convert("ALICE"));
+  }
 
 }

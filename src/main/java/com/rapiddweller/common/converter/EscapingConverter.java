@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -21,18 +22,22 @@ import com.rapiddweller.common.StringUtil;
 /**
  * {@link Converter} that escapes strings in C- and Java-style syntax, e.g. TAB -&gt; '\t'.
  * Created: 19.01.2011 15:49:24
- * @since 0.5.5
+ *
  * @author Volker Bergmann
+ * @since 0.5.5
  */
 public class EscapingConverter extends ThreadSafeConverter<String, String> {
 
-	public EscapingConverter() {
-		super(String.class, String.class);
-	}
+  /**
+   * Instantiates a new Escaping converter.
+   */
+  public EscapingConverter() {
+    super(String.class, String.class);
+  }
 
-	@Override
-	public String convert(String sourceValue) throws ConversionException {
-		return StringUtil.escape(sourceValue);
-	}
+  @Override
+  public String convert(String sourceValue) throws ConversionException {
+    return StringUtil.escape(sourceValue);
+  }
 
 }

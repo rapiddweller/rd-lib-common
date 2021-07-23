@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
@@ -22,44 +23,52 @@ import java.util.Map;
 /**
  * Accesses Values from a Map.
  * Created: 11.03.2006 12:39:07
+ *
  * @param <C> the object type to access
- * @param <V> the key type
  * @param <K> the the value type
+ * @param <V> the key type
  * @author Volker Bergmann
  */
 public class MapAccessor<C extends Map<K, V>, K, V> implements Accessor<C, V> {
 
-    /**
-     * the key of the object to look up; null is supported.
-     */
-    private final K key;
+  /**
+   * the key of the object to look up; null is supported.
+   */
+  private final K key;
 
-    public MapAccessor(K key) {
-        this.key = key;
-    }
-    
-    // Accessor interface ----------------------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Map accessor.
+   *
+   * @param key the key
+   */
+  public MapAccessor(K key) {
+    this.key = key;
+  }
 
-    @Override
-	public V getValue(C item) {
-        return item.get(key);
-    }
-    
-    // java.lang.Object overrides --------------------------------------------------------------------------------------
+  // Accessor interface ----------------------------------------------------------------------------------------------
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        final MapAccessor that = (MapAccessor) o;
-        return NullSafeComparator.equals(this.key, that.key);
-    }
+  @Override
+  public V getValue(C item) {
+    return item.get(key);
+  }
 
-    @Override
-    public int hashCode() {
-        return (key != null ? key.hashCode() : 0);
+  // java.lang.Object overrides --------------------------------------------------------------------------------------
+
+  @SuppressWarnings("rawtypes")
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final MapAccessor that = (MapAccessor) o;
+    return NullSafeComparator.equals(this.key, that.key);
+  }
+
+  @Override
+  public int hashCode() {
+    return (key != null ? key.hashCode() : 0);
+  }
 }

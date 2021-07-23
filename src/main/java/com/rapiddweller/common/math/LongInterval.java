@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.math;
 
 import com.rapiddweller.common.comparator.LongComparator;
@@ -19,19 +20,34 @@ import com.rapiddweller.common.comparator.LongComparator;
 /**
  * {@link Interval} implementation using {@link Long} as generic type.
  * Created: 30.12.2011 22:08:21
- * @since 0.5.14
+ *
  * @author Volker Bergmann
+ * @since 0.5.14
  */
 public class LongInterval extends Interval<Long> {
 
-	private static final long serialVersionUID = -7172324515734804326L;
+  private static final long serialVersionUID = -7172324515734804326L;
 
-	public LongInterval(long min, long max) {
-		this(min, true, max, true);
-	}
+  /**
+   * Instantiates a new Long interval.
+   *
+   * @param min the min
+   * @param max the max
+   */
+  public LongInterval(long min, long max) {
+    this(min, true, max, true);
+  }
 
-	public LongInterval(long min, boolean minInclusive, long max, boolean maxInclusive) {
-		super(min, minInclusive, max, maxInclusive, new LongComparator());
-	}
+  /**
+   * Instantiates a new Long interval.
+   *
+   * @param min          the min
+   * @param minInclusive the min inclusive
+   * @param max          the max
+   * @param maxInclusive the max inclusive
+   */
+  public LongInterval(long min, boolean minInclusive, long max, boolean maxInclusive) {
+    super(min, minInclusive, max, maxInclusive, new LongComparator());
+  }
 
 }

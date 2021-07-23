@@ -18,13 +18,18 @@ package com.rapiddweller.common;
 import java.time.LocalDateTime;
 
 /**
- * Parent interface for classes that have a 'dateTime' property 
+ * Parent interface for classes that have a 'dateTime' property
  * of type {@link LocalDateTime}.<br><br>
  * Created: 09.11.2019 11:07:38
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public interface DateTimed {
-	LocalDateTime getDateTime();
+  /**
+   * Gets date time.
+   *
+   * @return the date time
+   */
+  LocalDateTime getDateTime();
 }

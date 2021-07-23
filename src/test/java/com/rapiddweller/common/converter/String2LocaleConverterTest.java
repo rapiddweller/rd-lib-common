@@ -12,35 +12,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common.converter;
 
-import org.junit.Test;
+package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
-import com.rapiddweller.common.converter.String2LocaleConverter;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.util.Locale;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link String2LocaleConverter}.
  * Created: 05.08.2007 06:32:38
+ *
  * @author Volker Bergmann
  */
 public class String2LocaleConverterTest extends AbstractConverterTest {
 
-	public String2LocaleConverterTest() {
-	    super(String2LocaleConverter.class);
-    }
+  public String2LocaleConverterTest() {
+    super(String2LocaleConverter.class);
+  }
 
-	@Test
-    public void testConvert() throws ConversionException {
-        Converter<String, Locale> converter = new String2LocaleConverter();
-        assertEquals(Locale.GERMAN, converter.convert("de"));
-        assertEquals(Locale.GERMANY, converter.convert("de_DE"));
-        assertEquals(new Locale("de", "DE", "BY"), converter.convert("de_DE_BY"));
-    }
+  @Test
+  public void testConvert() throws ConversionException {
+    Converter<String, Locale> converter = new String2LocaleConverter();
+    assertEquals(Locale.GERMAN, converter.convert("de"));
+    assertEquals(Locale.GERMANY, converter.convert("de_DE"));
+    assertEquals(new Locale("de", "DE", "BY"), converter.convert("de_DE_BY"));
+  }
 
 }

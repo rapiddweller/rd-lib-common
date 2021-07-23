@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
@@ -19,21 +20,28 @@ import com.rapiddweller.common.Accessor;
 /**
  * Accessor wrapper that returns a predefined value if getValue() is invoked with a 'null' source.
  * Created: 26.06.2005 08:22:21
+ *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
  */
 public abstract class NullSafeAccessor<C, V> extends AccessorProxy<C, V> {
 
-    private final V nullValue;
+  private final V nullValue;
 
-    public NullSafeAccessor(Accessor<C, V> realAccessor, V nullValue) {
-        super(realAccessor);
-        this.nullValue = nullValue;
-    }
+  /**
+   * Instantiates a new Null safe accessor.
+   *
+   * @param realAccessor the real accessor
+   * @param nullValue    the null value
+   */
+  public NullSafeAccessor(Accessor<C, V> realAccessor, V nullValue) {
+    super(realAccessor);
+    this.nullValue = nullValue;
+  }
 
-    @Override
-    public V getValue(C source) {
-        return (source != null ? super.getValue(source) : nullValue);
-    }
+  @Override
+  public V getValue(C source) {
+    return (source != null ? super.getValue(source) : nullValue);
+  }
 }

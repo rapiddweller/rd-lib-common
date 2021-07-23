@@ -12,48 +12,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 /**
  * Logs escalations to a logger.
- * @since 0.2.04
+ *
  * @author Volker Bergmann
+ * @since 0.2.04
  */
 public class LoggerEscalator implements Escalator {
-    
-    private final Set<Escalation> escalations;
-    
-    public LoggerEscalator() {
-        this.escalations = new HashSet<>();
+
+  private final Set<Escalation> escalations;
+
+  /**
+   * Instantiates a new Logger escalator.
+   */
+  public LoggerEscalator() {
+    this.escalations = new HashSet<>();
+  }
+
+  @Override
+  public void escalate(String message, Object originator, Object cause) {
+    // determine logger by the originator
+    Class<?> category = null;
+    if (originator != null) {
+      if (originator instanceof Class) {
+        category = (Class<?>) originator;
+      } else {
+        category = originator.getClass();
+      }
+    } else {
+      originator = this.getClass();
     }
-    
-    @Override
-	public void escalate(String message, Object originator, Object cause) {
-        // determine logger by the originator
-        Class<?> category = null;
-        if (originator != null)
-            if (originator instanceof Class)
-                category = (Class<?>) originator;
-            else
-                category = originator.getClass();
-        else
-            originator = this.getClass();
-        Logger logger = LogManager.getLogger(category);
-        // create escalation
-        Escalation escalation = new Escalation(message, originator, cause);
-        // if the escalation is new, send it
-        if (!escalations.contains(escalation)) {
-            escalations.add(escalation);
-            if (cause instanceof Throwable)
-                logger.warn(escalation.toString(), (Throwable) cause);
-            else
-                logger.warn(escalation.toString());
-        }
+    Logger logger = LogManager.getLogger(category);
+    // create escalation
+    Escalation escalation = new Escalation(message, originator, cause);
+    // if the escalation is new, send it
+    if (!escalations.contains(escalation)) {
+      escalations.add(escalation);
+      if (cause instanceof Throwable) {
+        logger.warn(escalation.toString(), (Throwable) cause);
+      } else {
+        logger.warn(escalation.toString());
+      }
     }
+  }
 }

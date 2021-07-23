@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.text.Collator;
@@ -20,20 +21,24 @@ import java.util.Comparator;
 /**
  * Compares to {@link Named} objects by their name.
  * Created: 12.08.2010 09:26:04
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class NameComparator implements Comparator<Named> {
-	
-	private final Comparator<String> nameComparator;
-	
-	public NameComparator() {
-		this.nameComparator = new NullSafeComparator<>(Collator.getInstance());
-	}
-	
-	@Override
-	public int compare(Named named1, Named named2) {
-	    return nameComparator.compare(named1.getName(), named2.getName());
-    }
+
+  private final Comparator<String> nameComparator;
+
+  /**
+   * Instantiates a new Name comparator.
+   */
+  public NameComparator() {
+    this.nameComparator = new NullSafeComparator<>(Collator.getInstance());
+  }
+
+  @Override
+  public int compare(Named named1, Named named2) {
+    return nameComparator.compare(named1.getName(), named2.getName());
+  }
 
 }

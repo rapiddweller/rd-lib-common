@@ -1,13 +1,13 @@
 package com.rapiddweller.common.accessor;
 
-import static org.junit.Assert.assertNull;
-
 import org.junit.Test;
 
+import static org.junit.Assert.assertNull;
+
 public class FallbackAccessorTest {
-    @Test
-    public void testGetValue() {
-        assertNull((new FallbackAccessor<>()).getValue("target"));
-    }
+  @Test
+  public void testGetValue() {
+    assertNull((new FallbackAccessor<>()).getValue("target"));
+  }
 }
 

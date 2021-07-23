@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -19,18 +20,22 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts arbitrary {@link Number}s to {@link Float}s.
  * Created: 15.11.2012 08:26:50
- * @since 0.5.20
+ *
  * @author Volker Bergmann
+ * @since 0.5.20
  */
 public class Number2FloatConverter extends ThreadSafeConverter<Number, Float> {
 
-	protected Number2FloatConverter() {
-		super(Number.class, Float.class);
-	}
+  /**
+   * Instantiates a new Number 2 float converter.
+   */
+  protected Number2FloatConverter() {
+    super(Number.class, Float.class);
+  }
 
-	@Override
-	public Float convert(Number sourceValue) throws ConversionException {
-		return (sourceValue != null ? sourceValue.floatValue() : null);
-	}
+  @Override
+  public Float convert(Number sourceValue) throws ConversionException {
+    return (sourceValue != null ? sourceValue.floatValue() : null);
+  }
 
 }

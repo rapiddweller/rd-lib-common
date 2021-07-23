@@ -12,20 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Child class of {@link java.lang.AssertionError} that indicates the failure of an assertion.
  * Created: 19.05.2011 16:25:34
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class AssertionError extends java.lang.AssertionError {
 
-	private static final long serialVersionUID = -1564741282379380659L;
+  private static final long serialVersionUID = -1564741282379380659L;
 
-	public AssertionError(String message) {
-		super(message);
-	}
-	
+  /**
+   * Instantiates a new Assertion error.
+   *
+   * @param message the message
+   */
+  public AssertionError(String message) {
+    super(message);
+  }
+
 }

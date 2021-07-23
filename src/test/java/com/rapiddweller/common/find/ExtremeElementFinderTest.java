@@ -12,34 +12,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.find;
-
-import org.junit.Test;
-
-import java.util.Collection;
-
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
 
 import com.rapiddweller.common.Element;
 import com.rapiddweller.common.visitor.CollectionElement;
 import com.rapiddweller.common.visitor.ExtremeElementFinder;
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link ExtremeElementFinder}.
  * Created: 04.02.2007 09:33:01
+ *
  * @author Volker Bergmann
  */
 public class ExtremeElementFinderTest {
 
-	@Test
-    public void test() {
-        Collection<String> collection = Arrays.asList("Alpha", "Bravo");
-        Element<String> wrapper = new CollectionElement<>(collection);
-        String min = ExtremeElementFinder.findMin(wrapper);
-        assertEquals("Alpha", min);
-        assertEquals("Bravo", ExtremeElementFinder.findMax(wrapper));
-    }
-	
+  @Test
+  public void test() {
+    Collection<String> collection = Arrays.asList("Alpha", "Bravo");
+    Element<String> wrapper = new CollectionElement<>(collection);
+    String min = ExtremeElementFinder.findMin(wrapper);
+    assertEquals("Alpha", min);
+    assertEquals("Bravo", ExtremeElementFinder.findMax(wrapper));
+  }
+
 }

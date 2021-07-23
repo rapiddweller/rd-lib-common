@@ -12,45 +12,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
+
+import org.junit.Test;
+
+import javax.validation.constraints.Pattern;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import javax.validation.constraints.Pattern;
-
-import org.junit.Test;
-
 /**
  * Tests the {@link RegexValidator}.
  * Created at 15.07.2009 15:51:36
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 
 public class RegexValidatorTest {
 
-	@Test
-	public void testDefault() {
-		RegexValidator validator = new RegexValidator("[0-9]");
-		assertTrue(validator.valid("3"));
-		assertFalse(validator.valid("a"));
-		assertFalse(validator.valid("a"));
-	}
-	
-	@Test
-	public void testBeanSetup() {
-		RegexValidator validator = new RegexValidator();
-		validator.setRegexp("[0-9]");
-		assertTrue(validator.valid("3"));
-		assertFalse(validator.valid("a"));
-	}
-	
-	@Test
-	public void testCommentFlag() {
-		RegexValidator validator = new RegexValidator(" [0-9] # comment", Pattern.Flag.COMMENTS);
-		assertTrue(validator.valid("3"));
-		assertFalse(validator.valid("a"));
-	}
-	
+  @Test
+  public void testDefault() {
+    RegexValidator validator = new RegexValidator("[0-9]");
+    assertTrue(validator.valid("3"));
+    assertFalse(validator.valid("a"));
+    assertFalse(validator.valid("a"));
+  }
+
+  @Test
+  public void testBeanSetup() {
+    RegexValidator validator = new RegexValidator();
+    validator.setRegexp("[0-9]");
+    assertTrue(validator.valid("3"));
+    assertFalse(validator.valid("a"));
+  }
+
+  @Test
+  public void testCommentFlag() {
+    RegexValidator validator = new RegexValidator(" [0-9] # comment", Pattern.Flag.COMMENTS);
+    assertTrue(validator.valid("3"));
+    assertFalse(validator.valid("a"));
+  }
+
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.format;
 
 import java.text.FieldPosition;
@@ -21,33 +22,42 @@ import java.text.ParsePosition;
 /**
  * Wraps another {@link Format} and overrides the mapping from a null value to a string and vice versa.
  * Created: 28.02.2013 16:20:55
- * @since 0.5.21
+ *
  * @author Volker Bergmann
+ * @since 0.5.21
  */
 public class NullSafeFormat extends Format {
-	
-	private static final long serialVersionUID = 2203854824964382584L;
-	
-	private final Format realFormat;
-	private final String nullString;
 
-	public NullSafeFormat(Format realFormat, String nullString) {
-		this.realFormat = realFormat;
-		this.nullString = nullString;
-	}
+  private static final long serialVersionUID = 2203854824964382584L;
 
-	@Override
-	public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
-		if (obj == null)
-			return toAppendTo.append(nullString);
-		return realFormat.format(obj, toAppendTo, pos);
-	}
+  private final Format realFormat;
+  private final String nullString;
 
-	@Override
-	public Object parseObject(String source, ParsePosition pos) {
-		if (source == null || nullString.equals(source.substring(pos.getIndex())))
-			return null;
-		return realFormat.parseObject(source, pos);
-	}
-	
+  /**
+   * Instantiates a new Null safe format.
+   *
+   * @param realFormat the real format
+   * @param nullString the null string
+   */
+  public NullSafeFormat(Format realFormat, String nullString) {
+    this.realFormat = realFormat;
+    this.nullString = nullString;
+  }
+
+  @Override
+  public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
+    if (obj == null) {
+      return toAppendTo.append(nullString);
+    }
+    return realFormat.format(obj, toAppendTo, pos);
+  }
+
+  @Override
+  public Object parseObject(String source, ParsePosition pos) {
+    if (source == null || nullString.equals(source.substring(pos.getIndex()))) {
+      return null;
+    }
+    return realFormat.parseObject(source, pos);
+  }
+
 }

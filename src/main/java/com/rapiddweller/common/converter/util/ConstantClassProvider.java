@@ -12,27 +12,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter.util;
 
 /**
  * {@link ClassProvider} implementation which provides the same bean class on any call.
  * Created: 18.09.2014 18:15:27
+ *
  * @param <E> the class to provide
- * @since 1.0.0
  * @author Volker Bergmann
+ * @since 1.0.0
  */
-
 public class ConstantClassProvider<E> implements ClassProvider<E> {
 
-	private final Class<?> beanClass;
+  private final Class<?> beanClass;
 
-	public ConstantClassProvider(Class<?> beanClass) {
-		this.beanClass = beanClass;
-	}
+  /**
+   * Instantiates a new Constant class provider.
+   *
+   * @param beanClass the bean class
+   */
+  public ConstantClassProvider(Class<?> beanClass) {
+    this.beanClass = beanClass;
+  }
 
-	@Override
-	public Class<?> classFor(Object data) {
-		return beanClass;
-	}
+  @Override
+  public Class<?> classFor(Object data) {
+    return beanClass;
+  }
 
 }

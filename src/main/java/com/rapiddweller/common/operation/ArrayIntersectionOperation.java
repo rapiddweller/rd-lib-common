@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.operation;
 
 import com.rapiddweller.common.ArrayUtil;
@@ -19,22 +20,28 @@ import com.rapiddweller.common.Operation;
 
 /**
  * Determines the elements common to all array arguments.
+ *
  * @param <E> the argument and result type of the operation
- * @since 0.4.0
  * @author Volker Bergmann
+ * @since 0.4.0
  */
-public class ArrayIntersectionOperation<E> implements Operation<E[], E[]>{
+public class ArrayIntersectionOperation<E> implements Operation<E[], E[]> {
 
-    private final Class<E> componentType;
+  private final Class<E> componentType;
 
-    public ArrayIntersectionOperation(Class<E> componentType) {
-        this.componentType = componentType;
-    }
+  /**
+   * Instantiates a new Array intersection operation.
+   *
+   * @param componentType the component type
+   */
+  public ArrayIntersectionOperation(Class<E> componentType) {
+    this.componentType = componentType;
+  }
 
-    @SafeVarargs
-    @Override
-	public final E[] perform(E[]... sources) {
-        return ArrayUtil.commonElements(componentType, sources);
-    }
-    
+  @SafeVarargs
+  @Override
+  public final E[] perform(E[]... sources) {
+    return ArrayUtil.commonElements(componentType, sources);
+  }
+
 }

@@ -12,50 +12,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
+
+import com.rapiddweller.common.ConfigurationError;
+import com.rapiddweller.common.UpdateFailedException;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import com.rapiddweller.common.ConfigurationError;
-import com.rapiddweller.common.UpdateFailedException;
-import com.rapiddweller.common.bean.PropertyGraphMutator;
-import com.rapiddweller.common.bean.PropertyMutatorFactory;
-import com.rapiddweller.common.bean.TypedPropertyMutator;
-import com.rapiddweller.common.bean.UntypedPropertyMutator;
-import org.junit.Test;
-
 /**
  * Tests the {@link PropertyMutatorFactory}.
  * Created: 20.02.2007 08:52:49
+ *
  * @author Volker Bergmann
  */
 public class PropertyMutatorFactoryTest {
 
-	@Test
-    public void testSimpleProperty() {
-        assertEquals(TypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "name", true, false).getClass());
-        assertEquals(TypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesntExsist", false, true).getClass());
-        try {
-            PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesntExsist");
-            fail("ConfigurationError expected");
-        } catch (ConfigurationError e) {
-            // this is the desired behaviour
-        }
-        assertEquals(UntypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator("name").getClass());
+  @Test
+  public void testSimpleProperty() {
+    assertEquals(TypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "name", true, false).getClass());
+    assertEquals(TypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesntExsist", false, true).getClass());
+    try {
+      PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesntExsist");
+      fail("ConfigurationError expected");
+    } catch (ConfigurationError e) {
+      // this is the desired behaviour
     }
+    assertEquals(UntypedPropertyMutator.class, PropertyMutatorFactory.getPropertyMutator("name").getClass());
+  }
 
-	@Test
-    public void testNavigatedProperty() throws UpdateFailedException {
-        assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "b.name").getClass());
-        assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator("b.name").getClass());
-        assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesnt.exist", false, true).getClass());
-        try {
-            PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesnt.exist", true, false);
-            fail("ConfigurationError expected");
-        } catch(ConfigurationError e) {
-            // this is the desired behaviour
-        }
+  @Test
+  public void testNavigatedProperty() throws UpdateFailedException {
+    assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "b.name").getClass());
+    assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator("b.name").getClass());
+    assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesnt.exist", false, true).getClass());
+    try {
+      PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesnt.exist", true, false);
+      fail("ConfigurationError expected");
+    } catch (ConfigurationError e) {
+      // this is the desired behaviour
     }
+  }
 
 }

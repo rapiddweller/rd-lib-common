@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -19,18 +20,22 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts arbitrary {@link Number}s to {@link Byte}s.
  * Created: 15.11.2012 08:25:45
- * @since 0.5.20
+ *
  * @author Volker Bergmann
+ * @since 0.5.20
  */
 public class Number2ByteConverter extends ThreadSafeConverter<Number, Byte> {
 
-	protected Number2ByteConverter() {
-		super(Number.class, Byte.class);
-	}
+  /**
+   * Instantiates a new Number 2 byte converter.
+   */
+  protected Number2ByteConverter() {
+    super(Number.class, Byte.class);
+  }
 
-	@Override
-	public Byte convert(Number sourceValue) throws ConversionException {
-		return (sourceValue != null ? sourceValue.byteValue() : null);
-	}
+  @Override
+  public Byte convert(Number sourceValue) throws ConversionException {
+    return (sourceValue != null ? sourceValue.byteValue() : null);
+  }
 
 }

@@ -18,25 +18,45 @@ package com.rapiddweller.common;
 /**
  * Indicates that the update of some data failed.
  * Created: 18.01.2007 20:35:12
+ *
  * @author Volker Bergmann
  */
 public class UpdateFailedException extends OperationFailedException {
 
-	private static final long serialVersionUID = 1301603724337727327L;
+  private static final long serialVersionUID = 1301603724337727327L;
 
-	public UpdateFailedException() {
-    }
+  /**
+   * Instantiates a new Update failed exception.
+   */
+  public UpdateFailedException() {
+  }
 
-    public UpdateFailedException(String message) {
-        super(message);
-    }
+  /**
+   * Instantiates a new Update failed exception.
+   *
+   * @param message the message
+   */
+  public UpdateFailedException(String message) {
+    super(message);
+  }
 
-    public UpdateFailedException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  /**
+   * Instantiates a new Update failed exception.
+   *
+   * @param message the message
+   * @param cause   the cause
+   */
+  public UpdateFailedException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public UpdateFailedException(Throwable cause) {
-        super(cause);
-    }
-    
+  /**
+   * Instantiates a new Update failed exception.
+   *
+   * @param cause the cause
+   */
+  public UpdateFailedException(Throwable cause) {
+    super(cause);
+  }
+
 }

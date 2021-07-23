@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import com.rapiddweller.common.collection.OrderedNameMap;
@@ -19,10 +20,30 @@ import com.rapiddweller.common.collection.OrderedNameMap;
 /**
  * Models an Object that is composed of other objects.
  * Created: 26.08.2007 08:08:02
+ *
  * @author Volker Bergmann
  */
 public interface Composite {
-    Object getComponent(String key);
-    void setComponent(String key, Object value);
-    OrderedNameMap<Object> getComponents();
+  /**
+   * Gets component.
+   *
+   * @param key the key
+   * @return the component
+   */
+  Object getComponent(String key);
+
+  /**
+   * Sets component.
+   *
+   * @param key   the key
+   * @param value the value
+   */
+  void setComponent(String key, Object value);
+
+  /**
+   * Gets components.
+   *
+   * @return the components
+   */
+  OrderedNameMap<Object> getComponents();
 }

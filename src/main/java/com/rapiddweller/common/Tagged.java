@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.util.Set;
@@ -19,12 +20,37 @@ import java.util.Set;
 /**
  * Common interface for any classes that can have tags.
  * Created: 18.06.2012 10:17:25
- * @since 0.5.16
+ *
  * @author Volker Bergmann
+ * @since 0.5.16
  */
 public interface Tagged {
-	Set<String> getTags();
-	boolean hasTag(String tag);
-	void addTag(String tag);
-	void removeTag(String tag);
+  /**
+   * Gets tags.
+   *
+   * @return the tags
+   */
+  Set<String> getTags();
+
+  /**
+   * Has tag boolean.
+   *
+   * @param tag the tag
+   * @return the boolean
+   */
+  boolean hasTag(String tag);
+
+  /**
+   * Add tag.
+   *
+   * @param tag the tag
+   */
+  void addTag(String tag);
+
+  /**
+   * Remove tag.
+   *
+   * @param tag the tag
+   */
+  void removeTag(String tag);
 }

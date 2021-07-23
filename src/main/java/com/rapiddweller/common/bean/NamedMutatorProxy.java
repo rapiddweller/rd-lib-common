@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.Mutator;
@@ -20,21 +21,31 @@ import com.rapiddweller.common.UpdateFailedException;
 /**
  * Wraps a Mutator, forwards calls to {@link #setValue(Object, Object)} and adds a name property.
  * Created: 28.02.2013 16:42:38
- * @since 0.5.21
+ *
  * @author Volker Bergmann
+ * @since 0.5.21
  */
 public class NamedMutatorProxy extends AbstractNamedMutator {
-	
-	protected Mutator realMutator;
-	
-	public NamedMutatorProxy(String name, Mutator realMutator) {
-		super(name);
-		this.realMutator = realMutator;
-	}
 
-	@Override
-	public void setValue(Object target, Object value) throws UpdateFailedException {
-		realMutator.setValue(target, value);
-	}
+  /**
+   * The Real mutator.
+   */
+  protected Mutator realMutator;
+
+  /**
+   * Instantiates a new Named mutator proxy.
+   *
+   * @param name        the name
+   * @param realMutator the real mutator
+   */
+  public NamedMutatorProxy(String name, Mutator realMutator) {
+    super(name);
+    this.realMutator = realMutator;
+  }
+
+  @Override
+  public void setValue(Object target, Object value) throws UpdateFailedException {
+    realMutator.setValue(target, value);
+  }
 
 }

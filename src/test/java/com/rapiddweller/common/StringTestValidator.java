@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import com.rapiddweller.common.validator.AbstractValidator;
@@ -19,14 +20,15 @@ import com.rapiddweller.common.validator.AbstractValidator;
 /**
  * Trivial validator class for testing.
  * Created: 02.01.2012 19:37:17
- * @since 0.5.14
+ *
  * @author Volker Bergmann
+ * @since 0.5.14
  */
 public class StringTestValidator extends AbstractValidator<String> {
 
-	@Override
-	public boolean valid(String object) {
-		return true;
-	}
+  @Override
+  public boolean valid(String object) {
+    return true;
+  }
 
 }

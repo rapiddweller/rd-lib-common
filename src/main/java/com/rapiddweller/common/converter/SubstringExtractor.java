@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -19,57 +20,86 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Extracts a sub string from a string.
  * Created: 26.02.2010 10:55:11
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class SubstringExtractor extends ThreadSafeConverter<String, String> {
-	
-	private int from;
-	private Integer to;
 
-	public SubstringExtractor() {
-	    this(0);
-    }
+  private int from;
+  private Integer to;
 
-	public SubstringExtractor(int from) {
-	    this(from, null);
-    }
+  /**
+   * Instantiates a new Substring extractor.
+   */
+  public SubstringExtractor() {
+    this(0);
+  }
 
-	public SubstringExtractor(int from, Integer to) {
-	    super(String.class, String.class);
-	    this.from = from;
-	    this.to = to;
-    }
+  /**
+   * Instantiates a new Substring extractor.
+   *
+   * @param from the from
+   */
+  public SubstringExtractor(int from) {
+    this(from, null);
+  }
 
-	public void setFrom(int from) {
-    	this.from = from;
-    }
+  /**
+   * Instantiates a new Substring extractor.
+   *
+   * @param from the from
+   * @param to   the to
+   */
+  public SubstringExtractor(int from, Integer to) {
+    super(String.class, String.class);
+    this.from = from;
+    this.to = to;
+  }
 
-	public void setTo(Integer to) {
-    	this.to = to;
-    }
+  /**
+   * Sets from.
+   *
+   * @param from the from
+   */
+  public void setFrom(int from) {
+    this.from = from;
+  }
 
-	@Override
-	public String convert(String sourceValue) throws ConversionException {
-		if (sourceValue == null)
-			return null;
-		int startIndex = relativeIndex(from, sourceValue);
-		if (startIndex >= sourceValue.length())
-			return "";
-		if (to == null) {
-			return sourceValue.substring(startIndex);
-		} else {
-			int endIndex = relativeIndex(to, sourceValue);
-			if (endIndex < startIndex)
-				return "";
-			if (endIndex > sourceValue.length())
-				endIndex = sourceValue.length();
-			return sourceValue.substring(startIndex, endIndex);
-		}
-    }
+  /**
+   * Sets to.
+   *
+   * @param to the to
+   */
+  public void setTo(Integer to) {
+    this.to = to;
+  }
 
-	private static int relativeIndex(int index, String sourceValue) {
-	    return (index >= 0 ? index : sourceValue.length() + index);
+  @Override
+  public String convert(String sourceValue) throws ConversionException {
+    if (sourceValue == null) {
+      return null;
     }
+    int startIndex = relativeIndex(from, sourceValue);
+    if (startIndex >= sourceValue.length()) {
+      return "";
+    }
+    if (to == null) {
+      return sourceValue.substring(startIndex);
+    } else {
+      int endIndex = relativeIndex(to, sourceValue);
+      if (endIndex < startIndex) {
+        return "";
+      }
+      if (endIndex > sourceValue.length()) {
+        endIndex = sourceValue.length();
+      }
+      return sourceValue.substring(startIndex, endIndex);
+    }
+  }
+
+  private static int relativeIndex(int index, String sourceValue) {
+    return (index >= 0 ? index : sourceValue.length() + index);
+  }
 
 }

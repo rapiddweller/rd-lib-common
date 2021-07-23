@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.visitor;
 
 import com.rapiddweller.common.Visitor;
@@ -21,44 +22,60 @@ import java.util.Objects;
 /**
  * Element implementation that serves as proxy for another Element.
  * Created: 04.02.2007 08:17:20
+ *
  * @param <E> The type of the wrapped element
  * @author Volker Bergmann
  */
 public abstract class WrapperElement<E> extends AbstractElement<E> {
 
-    protected E wrappedObject;
+  /**
+   * The Wrapped object.
+   */
+  protected E wrappedObject;
 
-    protected WrapperElement(E wrappedObject) {
-        this.wrappedObject = wrappedObject;
-    }
+  /**
+   * Instantiates a new Wrapper element.
+   *
+   * @param wrappedObject the wrapped object
+   */
+  protected WrapperElement(E wrappedObject) {
+    this.wrappedObject = wrappedObject;
+  }
 
-    public E getWrappedObject() {
-        return wrappedObject;
-    }
+  /**
+   * Gets wrapped object.
+   *
+   * @return the wrapped object
+   */
+  public E getWrappedObject() {
+    return wrappedObject;
+  }
 
-    @Override
-    protected void acceptImpl(Visitor<E> visitor) {
-        visitor.visit(wrappedObject);
-    }
+  @Override
+  protected void acceptImpl(Visitor<E> visitor) {
+    visitor.visit(wrappedObject);
+  }
 
-    @SuppressWarnings("rawtypes")
-	@Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-		final WrapperElement that = (WrapperElement) o;
-        return Objects.equals(wrappedObject, that.wrappedObject);
+  @SuppressWarnings("rawtypes")
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final WrapperElement that = (WrapperElement) o;
+    return Objects.equals(wrappedObject, that.wrappedObject);
+  }
 
-    @Override
-    public int hashCode() {
-        return (wrappedObject != null ? wrappedObject.hashCode() : 0);
-    }
+  @Override
+  public int hashCode() {
+    return (wrappedObject != null ? wrappedObject.hashCode() : 0);
+  }
 
-    @Override
-    public String toString() {
-        return wrappedObject.toString();
-    }
+  @Override
+  public String toString() {
+    return wrappedObject.toString();
+  }
 }

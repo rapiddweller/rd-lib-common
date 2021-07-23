@@ -12,117 +12,167 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
+
+import com.rapiddweller.common.converter.FormatHolder;
+import com.rapiddweller.common.converter.ToStringConverter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.rapiddweller.common.converter.FormatHolder;
-import com.rapiddweller.common.converter.ToStringConverter;
-
 /**
  * Formats a Composite as a String.
  * Created: 14.03.2008 22:47:57
+ *
  * @author Volker Bergmann
  */
 public class CompositeFormatter extends FormatHolder {
-    
-	private static final String INDENT_DELTA = "    ";
-    
-	private boolean flat;
-    private final boolean renderNames;
 
-    public CompositeFormatter() {
-    	this(true, true);
-    }
-    
-    public CompositeFormatter(boolean flat, boolean renderNames) {
-    	super("[null]");
-    	this.flat = flat;
-    	this.renderNames = renderNames;
-    }
-    
-	public boolean isFlat() {
-		return flat;
-	}
-	
-	public void setFlat(boolean flat) {
-		this.flat = flat;
-	}
-	
-    // interface -------------------------------------------------------------------------------------------------------
+  private static final String INDENT_DELTA = "    ";
 
-   	public String render(String head, Composite composite, String tail) {
-        if (flat)
-            return renderFlat(head, composite, tail);
-        else
-            return renderHierarchical(head, composite, tail);
-    }
-    
-    public String renderHierarchical(String head, Composite composite, String tail, String indent) {
-        return head + renderComponentsHierarchical(composite, indent) + tail;
-    }
-    
-    // private helpers -------------------------------------------------------------------------------------------------
-    
-	private String renderFlat(String head, Composite composite, String tail) {
-        return head + renderComponentsFlat(composite) + tail;
-    }
-    
-    private String renderHierarchical(String head, Composite composite, String tail) {
-        return renderHierarchical(head, composite, tail, "");
-    }
-    
-    private String renderComponentsFlat(Composite composite) {
-        StringBuilder builder = new StringBuilder();
-        Map<String, Object> components = composite.getComponents();
-        Iterator<Map.Entry<String, Object>> iterator = components.entrySet().iterator();
-        if (iterator.hasNext())
-            renderComponent(builder, "", iterator.next());
-        while (iterator.hasNext()) {
-            builder.append(", ");
-            renderComponent(builder, "", iterator.next());
-        }
-        return builder.toString();
-    }
+  private boolean flat;
+  private final boolean renderNames;
 
-    private String renderComponentsHierarchical(Composite composite, String indent) {
-        String lineSeparator = SystemInfo.getLineSeparator();
-        StringBuilder builder = new StringBuilder();
-        indent += INDENT_DELTA;
-        Map<String, Object> components = composite.getComponents();
-        for (Map.Entry<String, Object> stringObjectEntry : components.entrySet()) {
-            builder.append(lineSeparator);
-            renderComponent(builder, indent, stringObjectEntry);
-        }
-        if (builder.length() > 1)
-            builder.append(lineSeparator);
-        return builder.toString();
-    }
+  /**
+   * Instantiates a new Composite formatter.
+   */
+  public CompositeFormatter() {
+    this(true, true);
+  }
 
-    void renderComponent(StringBuilder builder, String indent, Map.Entry<String, ?> component) {
-        builder.append(indent);
-        if (renderNames)
-            builder.append(component.getKey()).append('=');
-        Object value = component.getValue();
-        if (value == null) {
-            value = nullString;
-        } else if (value instanceof Date) {
-            Date date = (Date) value;
-            if (TimeUtil.isMidnight(date))
-                value = new SimpleDateFormat(datePattern).format((Date) value);
-            else
-                value = new SimpleDateFormat(dateTimePattern).format((Date) value);
-        } else if (value instanceof Composite) {
-            value = render("[", (Composite) value, "]") ;
-        } else if (value.getClass().isArray()) {
-        	value = "[" + ToStringConverter.convert(value, "null") + "]";
-        } else {
-            value = ToStringConverter.convert(value, "null");
-        }
-        builder.append(value);
+  /**
+   * Instantiates a new Composite formatter.
+   *
+   * @param flat        the flat
+   * @param renderNames the render names
+   */
+  public CompositeFormatter(boolean flat, boolean renderNames) {
+    super("[null]");
+    this.flat = flat;
+    this.renderNames = renderNames;
+  }
+
+  /**
+   * Is flat boolean.
+   *
+   * @return the boolean
+   */
+  public boolean isFlat() {
+    return flat;
+  }
+
+  /**
+   * Sets flat.
+   *
+   * @param flat the flat
+   */
+  public void setFlat(boolean flat) {
+    this.flat = flat;
+  }
+
+  // interface -------------------------------------------------------------------------------------------------------
+
+  /**
+   * Render string.
+   *
+   * @param head      the head
+   * @param composite the composite
+   * @param tail      the tail
+   * @return the string
+   */
+  public String render(String head, Composite composite, String tail) {
+    if (flat) {
+      return renderFlat(head, composite, tail);
+    } else {
+      return renderHierarchical(head, composite, tail);
     }
+  }
+
+  /**
+   * Render hierarchical string.
+   *
+   * @param head      the head
+   * @param composite the composite
+   * @param tail      the tail
+   * @param indent    the indent
+   * @return the string
+   */
+  public String renderHierarchical(String head, Composite composite, String tail, String indent) {
+    return head + renderComponentsHierarchical(composite, indent) + tail;
+  }
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private String renderFlat(String head, Composite composite, String tail) {
+    return head + renderComponentsFlat(composite) + tail;
+  }
+
+  private String renderHierarchical(String head, Composite composite, String tail) {
+    return renderHierarchical(head, composite, tail, "");
+  }
+
+  private String renderComponentsFlat(Composite composite) {
+    StringBuilder builder = new StringBuilder();
+    Map<String, Object> components = composite.getComponents();
+    Iterator<Map.Entry<String, Object>> iterator = components.entrySet().iterator();
+    if (iterator.hasNext()) {
+      renderComponent(builder, "", iterator.next());
+    }
+    while (iterator.hasNext()) {
+      builder.append(", ");
+      renderComponent(builder, "", iterator.next());
+    }
+    return builder.toString();
+  }
+
+  private String renderComponentsHierarchical(Composite composite, String indent) {
+    String lineSeparator = SystemInfo.getLineSeparator();
+    StringBuilder builder = new StringBuilder();
+    indent += INDENT_DELTA;
+    Map<String, Object> components = composite.getComponents();
+    for (Map.Entry<String, Object> stringObjectEntry : components.entrySet()) {
+      builder.append(lineSeparator);
+      renderComponent(builder, indent, stringObjectEntry);
+    }
+    if (builder.length() > 1) {
+      builder.append(lineSeparator);
+    }
+    return builder.toString();
+  }
+
+  /**
+   * Render component.
+   *
+   * @param builder   the builder
+   * @param indent    the indent
+   * @param component the component
+   */
+  void renderComponent(StringBuilder builder, String indent, Map.Entry<String, ?> component) {
+    builder.append(indent);
+    if (renderNames) {
+      builder.append(component.getKey()).append('=');
+    }
+    Object value = component.getValue();
+    if (value == null) {
+      value = nullString;
+    } else if (value instanceof Date) {
+      Date date = (Date) value;
+      if (TimeUtil.isMidnight(date)) {
+        value = new SimpleDateFormat(datePattern).format((Date) value);
+      } else {
+        value = new SimpleDateFormat(dateTimePattern).format((Date) value);
+      }
+    } else if (value instanceof Composite) {
+      value = render("[", (Composite) value, "]");
+    } else if (value.getClass().isArray()) {
+      value = "[" + ToStringConverter.convert(value, "null") + "]";
+    } else {
+      value = ToStringConverter.convert(value, "null");
+    }
+    builder.append(value);
+  }
 
 }

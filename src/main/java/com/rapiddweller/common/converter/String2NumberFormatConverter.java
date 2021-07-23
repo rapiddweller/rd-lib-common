@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -22,19 +23,22 @@ import java.text.NumberFormat;
 /**
  * Parses a {@link String} as {@link NumberFormat}.
  * Created at 13.07.2009 18:45:20
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class String2NumberFormatConverter extends ThreadSafeConverter<String, NumberFormat> {
 
-    public String2NumberFormatConverter() {
-	    super(String.class, NumberFormat.class);
-    }
+  /**
+   * Instantiates a new String 2 number format converter.
+   */
+  public String2NumberFormatConverter() {
+    super(String.class, NumberFormat.class);
+  }
 
-	@Override
-	public NumberFormat convert(String pattern) throws ConversionException {
-	    return new DecimalFormat(pattern);
-    }
+  @Override
+  public NumberFormat convert(String pattern) throws ConversionException {
+    return new DecimalFormat(pattern);
+  }
 
 }

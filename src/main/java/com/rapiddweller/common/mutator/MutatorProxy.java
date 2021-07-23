@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.mutator;
 
 import com.rapiddweller.common.Mutator;
@@ -23,16 +24,21 @@ import com.rapiddweller.common.UpdateFailedException;
  */
 public abstract class MutatorProxy extends MutatorWrapper {
 
-    public MutatorProxy(Mutator realMutator) {
-        super(realMutator);
-    }
+  /**
+   * Instantiates a new Mutator proxy.
+   *
+   * @param realMutator the real mutator
+   */
+  public MutatorProxy(Mutator realMutator) {
+    super(realMutator);
+  }
 
-    /**
-     * @see com.rapiddweller.common.Mutator#setValue(java.lang.Object, java.lang.Object)
-     */
-    @Override
-	public void setValue(Object target, Object value) throws UpdateFailedException {
-        realMutator.setValue(target, value);
-    }
+  /**
+   * @see com.rapiddweller.common.Mutator#setValue(java.lang.Object, java.lang.Object)
+   */
+  @Override
+  public void setValue(Object target, Object value) throws UpdateFailedException {
+    realMutator.setValue(target, value);
+  }
 
 }

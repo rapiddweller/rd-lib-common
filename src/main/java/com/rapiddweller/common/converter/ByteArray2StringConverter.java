@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConfigurationError;
@@ -23,29 +24,38 @@ import java.io.UnsupportedEncodingException;
 /**
  * Converts byte arrays to Strings based on a character encoding, e.g. UTF-8.
  * Created: 26.02.2010 08:26:55
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class ByteArray2StringConverter extends ThreadSafeConverter<byte[], String> {
 
-    private final String encoding;
-    
-    public ByteArray2StringConverter() {
-        this(SystemInfo.getFileEncoding());
-    }
+  private final String encoding;
 
-    public ByteArray2StringConverter(String encoding) {
-        super(byte[].class, String.class);
-        this.encoding = encoding;
-    }
+  /**
+   * Instantiates a new Byte array 2 string converter.
+   */
+  public ByteArray2StringConverter() {
+    this(SystemInfo.getFileEncoding());
+  }
 
-    @Override
-	public String convert(byte[] target) throws ConversionException {
-        try {
-            return new String(target, encoding);
-        } catch (UnsupportedEncodingException e) {
-            throw new ConfigurationError(e);
-        }
+  /**
+   * Instantiates a new Byte array 2 string converter.
+   *
+   * @param encoding the encoding
+   */
+  public ByteArray2StringConverter(String encoding) {
+    super(byte[].class, String.class);
+    this.encoding = encoding;
+  }
+
+  @Override
+  public String convert(byte[] target) throws ConversionException {
+    try {
+      return new String(target, encoding);
+    } catch (UnsupportedEncodingException e) {
+      throw new ConfigurationError(e);
     }
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ArrayUtil;
@@ -20,24 +21,30 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Retrieves the value at a given array index from an array.
  * Created at 30.06.2009 18:02:10
+ *
  * @param <E> the component type of the arrays to process
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
+public class ArrayElementExtractor<E> extends ThreadSafeConverter<E[], E> {
 
-public class ArrayElementExtractor<E> extends ThreadSafeConverter<E[], E>{
-	
-	private final int index;
-	
-    @SuppressWarnings("unchecked")
-    public ArrayElementExtractor(Class<E> componentType, int index) {
-    	super(ArrayUtil.arrayType(componentType), componentType);
-	    this.index = index;
-    }
+  private final int index;
 
-    @Override
-	public E convert(E[] sourceValue) throws ConversionException {
-	    return sourceValue[index];
-    }
+  /**
+   * Instantiates a new Array element extractor.
+   *
+   * @param componentType the component type
+   * @param index         the index
+   */
+  @SuppressWarnings("unchecked")
+  public ArrayElementExtractor(Class<E> componentType, int index) {
+    super(ArrayUtil.arrayType(componentType), componentType);
+    this.index = index;
+  }
+
+  @Override
+  public E convert(E[] sourceValue) throws ConversionException {
+    return sourceValue[index];
+  }
 
 }

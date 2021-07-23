@@ -12,25 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.tree;
 
 /**
  * The default implementation of the ChildModel interface
  * which expects its elements to implement the Child interface.
  * Created: 31.07.2007 06:55:23
+ *
  * @param <I> the id type
  * @param <V> the element type
  * @author Volker Bergmann
  */
 public class DefaultChildModel<I, V extends Child<I>> implements ChildModel<I, V> {
 
-    @Override
-	public I getId(V element) {
-        return (element != null ? element.getId() : null);
-    }
+  @Override
+  public I getId(V element) {
+    return (element != null ? element.getId() : null);
+  }
 
-    @Override
-	public I getParentId(V child) {
-        return child.getParentId();
-    }
+  @Override
+  public I getParentId(V child) {
+    return child.getParentId();
+  }
 }

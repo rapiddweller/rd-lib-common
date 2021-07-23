@@ -12,41 +12,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.assertEquals;
+package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Tests the {@link Char2StringConverter}.
  * Created: 19.01.2011 22:08:07
- * @since 0.5.5
+ *
  * @author Volker Bergmann
+ * @since 0.5.5
  */
 public class Char2StringConverterTest extends AbstractConverterTest {
-	
-	public Char2StringConverterTest() {
-		super(Char2StringConverter.class);
-	}
 
-	@Test
-	public void testNull() {
-		Char2StringConverter converter = new Char2StringConverter();
-		assertEquals(null, converter.convert(null));
-	}
+  public Char2StringConverterTest() {
+    super(Char2StringConverter.class);
+  }
 
-	@Test
-	public void testInstance() {
-		Converter<Character, String> converter = new Char2StringConverter();
-		assertEquals("A", converter.convert('A'));
-	}
+  @Test
+  public void testNull() {
+    Char2StringConverter converter = new Char2StringConverter();
+    assertEquals(null, converter.convert(null));
+  }
 
-	@Test
-	public void testConverterManagerIntegration() {
-		Converter<Character, String> converter = ConverterManager.getInstance().createConverter(Character.class, String.class);
-		assertEquals("A", converter.convert('A'));
-	}
+  @Test
+  public void testInstance() {
+    Converter<Character, String> converter = new Char2StringConverter();
+    assertEquals("A", converter.convert('A'));
+  }
+
+  @Test
+  public void testConverterManagerIntegration() {
+    Converter<Character, String> converter = ConverterManager.getInstance().createConverter(Character.class, String.class);
+    assertEquals("A", converter.convert('A'));
+  }
 
 }

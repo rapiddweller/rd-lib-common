@@ -12,24 +12,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 /**
  * Typed Accessor that returns a default value if invoked on argument null.
+ *
  * @param <C> the object type to access
- * @param <V> the type of the value to get from the object
- * Created: 22.02.2006 20:08:36
+ * @param <V> the type of the value to get from the object            Created: 22.02.2006 20:08:36
  * @author Volker Bergmann
  */
 public class NullSafeTypedAccessor<C, V> extends NullSafeAccessor<C, V> implements TypedAccessor<C, V> {
 
-    public NullSafeTypedAccessor(TypedAccessor<C, V> realAccessor, V nullValue) {
-        super(realAccessor, nullValue);
-    }
+  /**
+   * Instantiates a new Null safe typed accessor.
+   *
+   * @param realAccessor the real accessor
+   * @param nullValue    the null value
+   */
+  public NullSafeTypedAccessor(TypedAccessor<C, V> realAccessor, V nullValue) {
+    super(realAccessor, nullValue);
+  }
 
-    @Override
-	public Class<? extends V> getValueType() {
-        return ((TypedAccessor<C, V>) realAccessor).getValueType();
-    }
+  @Override
+  public Class<? extends V> getValueType() {
+    return ((TypedAccessor<C, V>) realAccessor).getValueType();
+  }
 
 }

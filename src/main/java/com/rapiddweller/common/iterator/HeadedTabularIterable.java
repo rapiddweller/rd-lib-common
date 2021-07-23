@@ -12,26 +12,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import java.util.Iterator;
 
 /**
- * Special type of {@link Iterable} which proxies another {@link Iterable} and 
+ * Special type of {@link Iterable} which proxies another {@link Iterable} and
  * wraps its produced {@link Iterator}s into {@link TabularIterator}s.
  * Created: 26.01.2012 18:28:06
- * @since 0.5.14
+ *
  * @author Volker Bergmann
+ * @since 0.5.14
  */
 public class HeadedTabularIterable extends IterableProxy<Object[]> implements TabularIterable {
 
-	public HeadedTabularIterable(Iterable<Object[]> source) {
-		super(source);
-	}
+  /**
+   * Instantiates a new Headed tabular iterable.
+   *
+   * @param source the source
+   */
+  public HeadedTabularIterable(Iterable<Object[]> source) {
+    super(source);
+  }
 
-	@Override
-	public TabularIterator iterator() {
-		return new HeadedTabularIterator(super.iterator());
-	}
-	
+  @Override
+  public TabularIterator iterator() {
+    return new HeadedTabularIterator(super.iterator());
+  }
+
 }

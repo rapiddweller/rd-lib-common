@@ -12,53 +12,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link ArrayComparator}.
  * Created at 04.05.2008 09:04:36
- * @since 0.4.3
+ *
  * @author Volker Bergmann
+ * @since 0.4.3
  */
 public class ArrayComparatorTest {
-	
-	private static final Integer[] EMPTY = new Integer[0];
-	private static final Integer[] I123 = new Integer[] {1, 2, 3};
-	private static final Integer[] I321 = new Integer[] {3, 2, 1};
-	private static final Integer[] I12 = new Integer[] {1, 2};
-	
-	ArrayComparator<Integer> c = new ArrayComparator<>();
 
-	@Test
-	public void testNull() {
-		assertEquals( 0, c.compare(null, null));
-		assertEquals(-1, c.compare(null, EMPTY));
-		assertEquals( 1, c.compare(EMPTY, null));
-	}
-	
-	@Test
-	public void testEqual() {
-		assertEquals(0, c.compare(EMPTY, EMPTY));
-		assertEquals(0, c.compare(I123, I123));
-	}
-	
-	@Test
-	public void testEqualLength() {
-		assertEquals(-1, c.compare(I123, I321));
-		assertEquals( 1, c.compare(I321, I123));
-	}
-	
-	@Test
-	public void testDifferentLength() {
-		assertEquals(-1, c.compare( I12, I123));
-		assertEquals( 1, c.compare(I123,  I12));
+  private static final Integer[] EMPTY = new Integer[0];
+  private static final Integer[] I123 = new Integer[] {1, 2, 3};
+  private static final Integer[] I321 = new Integer[] {3, 2, 1};
+  private static final Integer[] I12 = new Integer[] {1, 2};
 
-		assertEquals(-1, c.compare( I12, I321));
-		assertEquals( 1, c.compare(I321,  I12));
-	}
+  ArrayComparator<Integer> c = new ArrayComparator<>();
+
+  @Test
+  public void testNull() {
+    assertEquals(0, c.compare(null, null));
+    assertEquals(-1, c.compare(null, EMPTY));
+    assertEquals(1, c.compare(EMPTY, null));
+  }
+
+  @Test
+  public void testEqual() {
+    assertEquals(0, c.compare(EMPTY, EMPTY));
+    assertEquals(0, c.compare(I123, I123));
+  }
+
+  @Test
+  public void testEqualLength() {
+    assertEquals(-1, c.compare(I123, I321));
+    assertEquals(1, c.compare(I321, I123));
+  }
+
+  @Test
+  public void testDifferentLength() {
+    assertEquals(-1, c.compare(I12, I123));
+    assertEquals(1, c.compare(I123, I12));
+
+    assertEquals(-1, c.compare(I12, I321));
+    assertEquals(1, c.compare(I321, I12));
+  }
 
 }

@@ -26,29 +26,41 @@ import java.time.format.DateTimeFormatter;
 /**
  * Parses Strings into {@link ZonedDateTime} objects.<br><br>
  * Created: 03.03.2019 11:09:37
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public class String2ZonedDateTimeConverter extends ThreadSafeConverter<String, ZonedDateTime> implements Patterns {
-	
-	private final DateTimeFormatter formatter;
 
-	public String2ZonedDateTimeConverter(String pattern, ZoneId zoneId) {
-        this(DateTimeFormatter.ofPattern(pattern).withZone(zoneId));
-    }
+  private final DateTimeFormatter formatter;
 
-	public String2ZonedDateTimeConverter(DateTimeFormatter formatter) {
-        super(String.class, ZonedDateTime.class);
-        this.formatter = formatter;
-    }
+  /**
+   * Instantiates a new String 2 zoned date time converter.
+   *
+   * @param pattern the pattern
+   * @param zoneId  the zone id
+   */
+  public String2ZonedDateTimeConverter(String pattern, ZoneId zoneId) {
+    this(DateTimeFormatter.ofPattern(pattern).withZone(zoneId));
+  }
 
-    @Override
-    public ZonedDateTime convert(String sourceValue) {
-    	sourceValue = StringUtil.trimmedEmptyToNull(sourceValue);
-    	if (sourceValue == null)
-    		return null;
-    	return ZonedDateTime.parse(sourceValue, formatter);
+  /**
+   * Instantiates a new String 2 zoned date time converter.
+   *
+   * @param formatter the formatter
+   */
+  public String2ZonedDateTimeConverter(DateTimeFormatter formatter) {
+    super(String.class, ZonedDateTime.class);
+    this.formatter = formatter;
+  }
+
+  @Override
+  public ZonedDateTime convert(String sourceValue) {
+    sourceValue = StringUtil.trimmedEmptyToNull(sourceValue);
+    if (sourceValue == null) {
+      return null;
     }
-    
+    return ZonedDateTime.parse(sourceValue, formatter);
+  }
+
 }

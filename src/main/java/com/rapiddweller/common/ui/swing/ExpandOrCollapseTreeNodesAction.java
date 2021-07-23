@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui.swing;
 
 import com.rapiddweller.common.ArrayUtil;
@@ -26,49 +27,60 @@ import java.awt.event.ActionEvent;
 /**
  * {@link Action} class which expands or collapses nodes of a {@link JTree}.
  * Created: 23.08.2012 07:47:04
- * @since 0.5.18
+ *
  * @author Volker Bergmann
+ * @since 0.5.18
  */
 @SuppressWarnings("serial")
 public class ExpandOrCollapseTreeNodesAction extends AbstractAction {
-	
-	private final JTree tree;
-	private final boolean expand;
-	private final boolean recursive;
 
-	public ExpandOrCollapseTreeNodesAction(JTree tree, boolean expand, boolean recursive) {
-		super(expand ? "expand" : "collapse");
-		putValue(SHORT_DESCRIPTION, (expand ? "Expand tree nodes" : "Collapse tree nodes"));
-		this.tree = tree;
-		this.expand = expand;
-		this.recursive = recursive;
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		tree.cancelEditing();
-		TreePath[] selectionPaths = tree.getSelectionPaths();
-		if (!ArrayUtil.isEmpty(selectionPaths)) {
-			for (TreePath path : selectionPaths)
-				handlePath(path);
-		} else {
-			handlePath(new TreePath(tree.getModel().getRoot()));
-		}
-	}
+  private final JTree tree;
+  private final boolean expand;
+  private final boolean recursive;
 
-	private void handlePath(TreePath path) {
-		Object node = path.getLastPathComponent();
-		TreeModel model = tree.getModel();
-		if (!model.isLeaf(node)) {
-			if (recursive) {
-				for (int i = model.getChildCount(node) - 1; i >= 0; i--)
-					handlePath(path.pathByAddingChild(model.getChild(node, i)));
-			}
-			if (expand)
-				tree.expandPath(path);
-			else
-				tree.collapsePath(path);
-		}
-	}
+  /**
+   * Instantiates a new Expand or collapse tree nodes action.
+   *
+   * @param tree      the tree
+   * @param expand    the expand
+   * @param recursive the recursive
+   */
+  public ExpandOrCollapseTreeNodesAction(JTree tree, boolean expand, boolean recursive) {
+    super(expand ? "expand" : "collapse");
+    putValue(SHORT_DESCRIPTION, (expand ? "Expand tree nodes" : "Collapse tree nodes"));
+    this.tree = tree;
+    this.expand = expand;
+    this.recursive = recursive;
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    tree.cancelEditing();
+    TreePath[] selectionPaths = tree.getSelectionPaths();
+    if (!ArrayUtil.isEmpty(selectionPaths)) {
+      for (TreePath path : selectionPaths) {
+        handlePath(path);
+      }
+    } else {
+      handlePath(new TreePath(tree.getModel().getRoot()));
+    }
+  }
+
+  private void handlePath(TreePath path) {
+    Object node = path.getLastPathComponent();
+    TreeModel model = tree.getModel();
+    if (!model.isLeaf(node)) {
+      if (recursive) {
+        for (int i = model.getChildCount(node) - 1; i >= 0; i--) {
+          handlePath(path.pathByAddingChild(model.getChild(node, i)));
+        }
+      }
+      if (expand) {
+        tree.expandPath(path);
+      } else {
+        tree.collapsePath(path);
+      }
+    }
+  }
 
 }

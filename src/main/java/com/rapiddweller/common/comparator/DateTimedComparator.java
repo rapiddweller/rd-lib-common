@@ -22,15 +22,15 @@ import java.util.Comparator;
 /**
  * Comparator for objects of classes that implement the {@link DateTimed} interface.<br><br>
  * Created: 09.11.2019 12:54:09
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public class DateTimedComparator implements Comparator<DateTimed> {
 
-	@Override
-	public int compare(DateTimed dt1, DateTimed dt2) {
-		return dt1.getDateTime().compareTo(dt2.getDateTime());
-	}
+  @Override
+  public int compare(DateTimed dt1, DateTimed dt2) {
+    return dt1.getDateTime().compareTo(dt2.getDateTime());
+  }
 
 }

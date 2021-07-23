@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.util.Collection;
@@ -20,143 +21,175 @@ import java.util.Set;
 
 /**
  * {@link Set} implementation that tracks the order in which elements where added
- * and returns them in that order by the <i>iterator()</i> method. 
+ * and returns them in that order by the <i>iterator()</i> method.
  * This is useful for all cases in which elements need to be unique
  * but processed in the original order.
  * Created at 28.02.2009 12:26:35
+ *
  * @param <E> the type of the collection's elements
- * @since 0.4.8
  * @author Volker Bergmann
+ * @since 0.4.8
  */
-
 public class OrderedSet<E> implements Set<E> {
-	
-	private final OrderedMap<E, E> map;
-	
-    public OrderedSet() {
-        map = new OrderedMap<>();
-    }
 
-    public OrderedSet(int initialCapacity) {
-        map = new OrderedMap<>(initialCapacity);
-    }
+  private final OrderedMap<E, E> map;
 
-    public OrderedSet(int initialCapacity, float loadFactor) {
-        map = new OrderedMap<>(initialCapacity, loadFactor);
-    }
+  /**
+   * Instantiates a new Ordered set.
+   */
+  public OrderedSet() {
+    map = new OrderedMap<>();
+  }
 
-    public OrderedSet(Collection<E> source) {
-        map = new OrderedMap<>(source.size());
-        addAll(source);
-    }
-    
-    // Set interface implementation ------------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Ordered set.
+   *
+   * @param initialCapacity the initial capacity
+   */
+  public OrderedSet(int initialCapacity) {
+    map = new OrderedMap<>(initialCapacity);
+  }
 
-    @Override
-	public boolean add(E item) {
-	    return (map.put(item, item) == null);
-    }
+  /**
+   * Instantiates a new Ordered set.
+   *
+   * @param initialCapacity the initial capacity
+   * @param loadFactor      the load factor
+   */
+  public OrderedSet(int initialCapacity, float loadFactor) {
+    map = new OrderedMap<>(initialCapacity, loadFactor);
+  }
 
-    @Override
-	public boolean addAll(Collection<? extends E> source) {
-    	boolean changed = false;
-    	for (E item : source)
-        	changed |= add(item);
-    	return changed; 
-    }
+  /**
+   * Instantiates a new Ordered set.
+   *
+   * @param source the source
+   */
+  public OrderedSet(Collection<E> source) {
+    map = new OrderedMap<>(source.size());
+    addAll(source);
+  }
 
-    @Override
-	public void clear() {
-	    map.clear();
-    }
+  // Set interface implementation ------------------------------------------------------------------------------------
 
-    @Override
-	public boolean contains(Object item) {
-	    return map.containsKey(item);
-    }
+  @Override
+  public boolean add(E item) {
+    return (map.put(item, item) == null);
+  }
 
-    @Override
-	public boolean containsAll(Collection<?> items) {
-	    for (Object o : items)
-	    	if (!map.containsKey(o))
-	    		return false;
-	    return true;
+  @Override
+  public boolean addAll(Collection<? extends E> source) {
+    boolean changed = false;
+    for (E item : source) {
+      changed |= add(item);
     }
+    return changed;
+  }
 
-    @Override
-	public boolean isEmpty() {
-	    return map.isEmpty();
-    }
+  @Override
+  public void clear() {
+    map.clear();
+  }
 
-    @Override
-	public Iterator<E> iterator() {
-	    return map.keySet().iterator();
-    }
+  @Override
+  public boolean contains(Object item) {
+    return map.containsKey(item);
+  }
 
-    @Override
-	public boolean remove(Object item) {
-	    return (map.remove(item) != null);
+  @Override
+  public boolean containsAll(Collection<?> items) {
+    for (Object o : items) {
+      if (!map.containsKey(o)) {
+        return false;
+      }
     }
+    return true;
+  }
 
-    @Override
-	public boolean removeAll(Collection<?> items) {
-    	boolean changed = false;
-	    for (Object item : items)
-	    	changed |= remove(item);
-	    return changed;
-    }
+  @Override
+  public boolean isEmpty() {
+    return map.isEmpty();
+  }
 
-    @Override
-	public boolean retainAll(Collection<?> items) {
-    	boolean changed = false;
-	    for (E item : map.keySet())
-	    	if (!items.contains(item)) {
-	    		map.remove(item);
-	    		changed = true;
-	    	}
-	    return changed;
-    }
+  @Override
+  public Iterator<E> iterator() {
+    return map.keySet().iterator();
+  }
 
-    @Override
-	public int size() {
-	    return map.size();
-    }
+  @Override
+  public boolean remove(Object item) {
+    return (map.remove(item) != null);
+  }
 
-    @Override
-	public Object[] toArray() {
-	    return map.keySet().toArray();
+  @Override
+  public boolean removeAll(Collection<?> items) {
+    boolean changed = false;
+    for (Object item : items) {
+      changed |= remove(item);
     }
+    return changed;
+  }
 
-    @Override
-	public <T> T[] toArray(T[] array) {
-	    return map.keySet().toArray(array);
+  @Override
+  public boolean retainAll(Collection<?> items) {
+    boolean changed = false;
+    for (E item : map.keySet()) {
+      if (!items.contains(item)) {
+        map.remove(item);
+        changed = true;
+      }
     }
-    
-    // List interface --------------------------------------------------------------------------------------------------
+    return changed;
+  }
 
-    public E get(int index) {
-        return map.valueAt(index);
-    }
-    
-    // java.lang.Object overrides --------------------------------------------------------------------------------------
+  @Override
+  public int size() {
+    return map.size();
+  }
 
-	@Override
-    public int hashCode() {
-	    return map.hashCode();
-    }
+  @Override
+  public Object[] toArray() {
+    return map.keySet().toArray();
+  }
 
-	@SuppressWarnings("rawtypes")
-    @Override
-    public boolean equals(Object obj) {
-	    if (this == obj)
-		    return true;
-	    if (obj == null || getClass() != obj.getClass())
-		    return false;
-	    return (this.map.equals(((OrderedSet) obj).map));
-    }
+  @Override
+  public <T> T[] toArray(T[] array) {
+    return map.keySet().toArray(array);
+  }
 
-    @Override
-    public String toString() {
-        return map.toString();
+  // List interface --------------------------------------------------------------------------------------------------
+
+  /**
+   * Get e.
+   *
+   * @param index the index
+   * @return the e
+   */
+  public E get(int index) {
+    return map.valueAt(index);
+  }
+
+  // java.lang.Object overrides --------------------------------------------------------------------------------------
+
+  @Override
+  public int hashCode() {
+    return map.hashCode();
+  }
+
+  @SuppressWarnings("rawtypes")
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    return (this.map.equals(((OrderedSet) obj).map));
+  }
+
+  @Override
+  public String toString() {
+    return map.toString();
+  }
 }

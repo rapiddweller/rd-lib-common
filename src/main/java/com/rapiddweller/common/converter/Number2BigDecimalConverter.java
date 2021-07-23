@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -22,18 +23,22 @@ import java.math.BigDecimal;
 /**
  * Converts arbitrary {@link Number}s to {@link BigDecimal}s.
  * Created: 15.11.2012 08:28:48
- * @since 0.5.20
+ *
  * @author Volker Bergmann
+ * @since 0.5.20
  */
 public class Number2BigDecimalConverter extends ThreadSafeConverter<Number, BigDecimal> {
 
-	protected Number2BigDecimalConverter() {
-		super(Number.class, BigDecimal.class);
-	}
+  /**
+   * Instantiates a new Number 2 big decimal converter.
+   */
+  protected Number2BigDecimalConverter() {
+    super(Number.class, BigDecimal.class);
+  }
 
-	@Override
-	public BigDecimal convert(Number sourceValue) throws ConversionException {
-		return NumberUtil.toBigDecimal(sourceValue);
-	}
+  @Override
+  public BigDecimal convert(Number sourceValue) throws ConversionException {
+    return NumberUtil.toBigDecimal(sourceValue);
+  }
 
 }

@@ -12,29 +12,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common.validator;
 
-import static org.junit.Assert.*;
+package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.CharSet;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests the {@link CharacterValidator}.
  * Created: 17.12.2009 19:03:03
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class CharacterValidatorTest {
 
-	@Test
-	public void test() {
-		CharacterValidator validator = new CharacterValidator(new CharSet('0', '9'));
-		assertFalse(validator.valid('a'));
-		assertTrue(validator.valid('0'));
-		assertTrue(validator.valid('9'));
-		assertFalse(validator.valid('X'));
-		assertFalse(validator.valid('-'));
-	}
-	
+  @Test
+  public void test() {
+    CharacterValidator validator = new CharacterValidator(new CharSet('0', '9'));
+    assertFalse(validator.valid('a'));
+    assertTrue(validator.valid('0'));
+    assertTrue(validator.valid('9'));
+    assertFalse(validator.valid('X'));
+    assertFalse(validator.valid('-'));
+  }
+
 }

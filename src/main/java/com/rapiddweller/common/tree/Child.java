@@ -12,15 +12,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.tree;
 
 /**
  * Represents an identifiable Object that knows the identifier of its parent.
  * Created: 31.07.2007 06:54:28
+ *
  * @param <I> the id type
  * @author Volker Bergmann
  */
 public interface Child<I> {
-    I getId();
-    I getParentId();
+  /**
+   * Gets id.
+   *
+   * @return the id
+   */
+  I getId();
+
+  /**
+   * Gets parent id.
+   *
+   * @return the parent id
+   */
+  I getParentId();
 }

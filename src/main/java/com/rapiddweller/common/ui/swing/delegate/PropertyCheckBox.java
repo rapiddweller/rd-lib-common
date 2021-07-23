@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui.swing.delegate;
 
 import com.rapiddweller.common.BeanUtil;
@@ -27,69 +28,85 @@ import java.beans.PropertyChangeListener;
 /**
  * {@link JCheckBox} implementation that serves as delegate of a property of a JavaBean object.
  * Created at 02.12.2008 15:03:32
- * @since 0.5.13
+ *
  * @author Volker Bergmann
+ * @since 0.5.13
  */
-
 public class PropertyCheckBox extends JCheckBox {
 
-	private static final long serialVersionUID = 2502918170512919334L;
-	
-	private final Object bean;
-	private final String propertyName;
-	boolean locked;
+  private static final long serialVersionUID = 2502918170512919334L;
 
-	public PropertyCheckBox(Object bean, String propertyName, String label) {
-		super(label);
-		this.bean = bean;
-		this.propertyName = propertyName;
-		this.locked = true;
-		Listener listener = new Listener();
-		if (bean instanceof ObservableBean)
-			((ObservableBean) bean).addPropertyChangeListener(propertyName, listener);
-		this.getModel().addActionListener(listener);
-		this.locked = false;
-		refresh();
-	}
+  private final Object bean;
+  private final String propertyName;
+  /**
+   * The Locked.
+   */
+  boolean locked;
 
-	/**
-	 * reads the current property value and writes it to the text field.
-	 */
-	void refresh() {
-		if (!locked) {
-			locked = true;
-			boolean propertyValue = (Boolean) BeanUtil.getPropertyValue(bean, propertyName);
-			boolean selected = isSelected();
-			if (selected != propertyValue)
-				setSelected(propertyValue);
-			locked = false;
-		}
-	}
-	
-	/**
-	 * writes the current text field content to the property.
-	 */
-	void update() {
-		if (!locked) {
-			locked = true;
-			Boolean propertyValue = (Boolean) BeanUtil.getPropertyValue(bean, propertyName);
-			Boolean selected = isSelected();
-			if (!NullSafeComparator.equals(selected, propertyValue))
-				BeanUtil.setPropertyValue(bean, propertyName, selected);
-			locked = false;
-		}
-	}
-	
-	class Listener implements PropertyChangeListener, ActionListener {
+  /**
+   * Instantiates a new Property check box.
+   *
+   * @param bean         the bean
+   * @param propertyName the property name
+   * @param label        the label
+   */
+  public PropertyCheckBox(Object bean, String propertyName, String label) {
+    super(label);
+    this.bean = bean;
+    this.propertyName = propertyName;
+    this.locked = true;
+    Listener listener = new Listener();
+    if (bean instanceof ObservableBean) {
+      ((ObservableBean) bean).addPropertyChangeListener(propertyName, listener);
+    }
+    this.getModel().addActionListener(listener);
+    this.locked = false;
+    refresh();
+  }
 
-		@Override
-		public void propertyChange(PropertyChangeEvent evt) {
-			refresh();
-		}
+  /**
+   * reads the current property value and writes it to the text field.
+   */
+  void refresh() {
+    if (!locked) {
+      locked = true;
+      boolean propertyValue = (Boolean) BeanUtil.getPropertyValue(bean, propertyName);
+      boolean selected = isSelected();
+      if (selected != propertyValue) {
+        setSelected(propertyValue);
+      }
+      locked = false;
+    }
+  }
 
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			update();
-		}
-	}
+  /**
+   * writes the current text field content to the property.
+   */
+  void update() {
+    if (!locked) {
+      locked = true;
+      Boolean propertyValue = (Boolean) BeanUtil.getPropertyValue(bean, propertyName);
+      Boolean selected = isSelected();
+      if (!NullSafeComparator.equals(selected, propertyValue)) {
+        BeanUtil.setPropertyValue(bean, propertyName, selected);
+      }
+      locked = false;
+    }
+  }
+
+  /**
+   * The type Listener.
+   */
+  class Listener implements PropertyChangeListener, ActionListener {
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+      refresh();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+      update();
+    }
+  }
 }

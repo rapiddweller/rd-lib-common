@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui.osx;
 
 import com.rapiddweller.common.BeanUtil;
@@ -23,28 +24,34 @@ import java.lang.reflect.Method;
 /**
  * InvocationHandler interface for Mac OS X.
  * Created: 10.09.2010 09:18:57
- * @since 0.5.13
+ *
  * @author Volker Bergmann
+ * @since 0.5.13
  */
 public class OSXInvocationHandler implements InvocationHandler {
-	
-	private final JavaApplication application;
-	
-	public OSXInvocationHandler(JavaApplication application) {
-	    this.application = application;
-    }
 
-	@Override
-	public Object invoke(Object proxy, Method method, Object[] args) {
-		if ("handleQuit".equals(method.getName())) {
-			application.exit();
-		} else if ("handleAbout".equals(method.getName())) {
-			BeanUtil.invoke(args[0], "setHandled", true);
-			application.about();
-		} else if ("handlePreferences".equals(method.getName())) {
-			application.preferences();
-		}
-		return null;
-	}
+  private final JavaApplication application;
+
+  /**
+   * Instantiates a new Osx invocation handler.
+   *
+   * @param application the application
+   */
+  public OSXInvocationHandler(JavaApplication application) {
+    this.application = application;
+  }
+
+  @Override
+  public Object invoke(Object proxy, Method method, Object[] args) {
+    if ("handleQuit".equals(method.getName())) {
+      application.exit();
+    } else if ("handleAbout".equals(method.getName())) {
+      BeanUtil.invoke(args[0], "setHandled", true);
+      application.about();
+    } else if ("handlePreferences".equals(method.getName())) {
+      application.preferences();
+    }
+    return null;
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
@@ -32,95 +33,135 @@ import java.util.Map;
 /**
  * Get values from Maps, Contexts, Composites and JavaBeans.
  * Created: 12.06.2007 18:36:11
+ *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
  */
 public class FeatureAccessor<C, V> implements Accessor<C, V> {
-    
-    private static final Logger LOGGER = LogManager.getLogger(FeatureAccessor.class);
-    
-    private static final Escalator escalator = new LoggerEscalator();
 
-    private String featureName;
-    
-    // constructors ----------------------------------------------------------------------------------------------------
+  private static final Logger LOGGER = LogManager.getLogger(FeatureAccessor.class);
 
-    public FeatureAccessor(String featureName) {
-        this(featureName, true);
-    }
-    
-    public FeatureAccessor(String featureName, boolean strict) {
-        LOGGER.debug("FeatureAccessor({}, {})", featureName, strict);
-        this.featureName = featureName;
-    }
-    
-	public String getFeatureName() {
-		return featureName;
-	}
+  private static final Escalator escalator = new LoggerEscalator();
 
-	public void setFeatureName(String featureName) {
-		this.featureName = featureName;
-	}
+  private String featureName;
 
-    // Accessor interface implementation -------------------------------------------------------------------------------
+  // constructors ----------------------------------------------------------------------------------------------------
 
-	@Override
-	@SuppressWarnings("unchecked")
-    public V getValue(C target) {
-        return (V) getValue(target, featureName);
-    }
+  /**
+   * Instantiates a new Feature accessor.
+   *
+   * @param featureName the feature name
+   */
+  public FeatureAccessor(String featureName) {
+    this(featureName, true);
+  }
 
-    // static convenience methods --------------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Feature accessor.
+   *
+   * @param featureName the feature name
+   * @param strict      the strict
+   */
+  public FeatureAccessor(String featureName, boolean strict) {
+    LOGGER.debug("FeatureAccessor({}, {})", featureName, strict);
+    this.featureName = featureName;
+  }
 
-    public static Object getValue(Object target, String featureName) {
-        LOGGER.debug("getValue({}, {})", target, featureName);
-        return getValue(target, featureName, true);
-    }
+  /**
+   * Gets feature name.
+   *
+   * @return the feature name
+   */
+  public String getFeatureName() {
+    return featureName;
+  }
 
-    @SuppressWarnings("unchecked")
-    public static Object getValue(Object target, String featureName, boolean required) {
-        if (target == null)
-            return null;
-        else if (target instanceof Map)
-            return ((Map<String, Object>) target).get(featureName);
-        else if (target instanceof Context)
-            return ((Context) target).get(featureName);
-        else if (target instanceof Composite)
-            return ((Composite) target).getComponent(featureName);
-        else {
-        	// try generic get(String) method
-        	Method genericGetMethod = BeanUtil.findMethod(target.getClass(), "get", String.class);
-        	if (genericGetMethod != null)
-        		return BeanUtil.invoke(target, genericGetMethod, new Object[] { featureName });
-        	// try JavaBean property
-            PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(target.getClass(), featureName);
-            if (propertyDescriptor != null && propertyDescriptor.getReadMethod() != null) {
-                try {
-                    return propertyDescriptor.getReadMethod().invoke(target);
-                } catch (Exception e) {
-                    throw new ConfigurationError("Unable to read property '" + featureName + "'", e);
-                }
-            } else {
-            	Class<?> type = ((target instanceof Class) ? (Class<?>) target : target.getClass());
-            	Field field = BeanUtil.getField(type, featureName);
-            	if (field != null)
-            		return BeanUtil.getFieldValue(field, target, false);
-            }
+  /**
+   * Sets feature name.
+   *
+   * @param featureName the feature name
+   */
+  public void setFeatureName(String featureName) {
+    this.featureName = featureName;
+  }
+
+  // Accessor interface implementation -------------------------------------------------------------------------------
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public V getValue(C target) {
+    return (V) getValue(target, featureName);
+  }
+
+  // static convenience methods --------------------------------------------------------------------------------------
+
+  /**
+   * Gets value.
+   *
+   * @param target      the target
+   * @param featureName the feature name
+   * @return the value
+   */
+  public static Object getValue(Object target, String featureName) {
+    LOGGER.debug("getValue({}, {})", target, featureName);
+    return getValue(target, featureName, true);
+  }
+
+  /**
+   * Gets value.
+   *
+   * @param target      the target
+   * @param featureName the feature name
+   * @param required    the required
+   * @return the value
+   */
+  @SuppressWarnings("unchecked")
+  public static Object getValue(Object target, String featureName, boolean required) {
+    if (target == null) {
+      return null;
+    } else if (target instanceof Map) {
+      return ((Map<String, Object>) target).get(featureName);
+    } else if (target instanceof Context) {
+      return ((Context) target).get(featureName);
+    } else if (target instanceof Composite) {
+      return ((Composite) target).getComponent(featureName);
+    } else {
+      // try generic get(String) method
+      Method genericGetMethod = BeanUtil.findMethod(target.getClass(), "get", String.class);
+      if (genericGetMethod != null) {
+        return BeanUtil.invoke(target, genericGetMethod, new Object[] {featureName});
+      }
+      // try JavaBean property
+      PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(target.getClass(), featureName);
+      if (propertyDescriptor != null && propertyDescriptor.getReadMethod() != null) {
+        try {
+          return propertyDescriptor.getReadMethod().invoke(target);
+        } catch (Exception e) {
+          throw new ConfigurationError("Unable to read property '" + featureName + "'", e);
         }
-        // the feature has not been identified, yet - escalate or raise an exception
-        if (required)
-            throw new UnsupportedOperationException(
-                    target.getClass() + " does not support a feature '" + featureName + "'");
-        else
-            escalator.escalate("Feature '" + featureName + "' not found in object " + target, FeatureAccessor.class, null);
-        return null;
+      } else {
+        Class<?> type = ((target instanceof Class) ? (Class<?>) target : target.getClass());
+        Field field = BeanUtil.getField(type, featureName);
+        if (field != null) {
+          return BeanUtil.getFieldValue(field, target, false);
+        }
+      }
     }
-    
-    // java.lang.Object overrides --------------------------------------------------------------------------------------
+    // the feature has not been identified, yet - escalate or raise an exception
+    if (required) {
+      throw new UnsupportedOperationException(
+          target.getClass() + " does not support a feature '" + featureName + "'");
+    } else {
+      escalator.escalate("Feature '" + featureName + "' not found in object " + target, FeatureAccessor.class, null);
+    }
+    return null;
+  }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + '[' + featureName + ']';
-    }
+  // java.lang.Object overrides --------------------------------------------------------------------------------------
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + '[' + featureName + ']';
+  }
 }

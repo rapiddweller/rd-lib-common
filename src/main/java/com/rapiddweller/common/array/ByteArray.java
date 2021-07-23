@@ -12,27 +12,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.array;
 
 /**
  * Provides byte array features adding dynamic extension of buffer size.
  * Created: 02.04.2015 11:12:50
- * @since 1.0.5
+ *
  * @author Volker Bergmann
+ * @since 1.0.5
  */
-
 public class ByteArray extends AbstractByteArray {
 
-	public ByteArray() {
-		super();
-	}
+  /**
+   * Instantiates a new Byte array.
+   */
+  public ByteArray() {
+    super();
+  }
 
-	public ByteArray(int initialCapacity) {
-		super(initialCapacity);
-	}
+  /**
+   * Instantiates a new Byte array.
+   *
+   * @param initialCapacity the initial capacity
+   */
+  public ByteArray(int initialCapacity) {
+    super(initialCapacity);
+  }
 
-	public byte[] getBytes() {
-		return this.buffer;
-	}
-	
+  /**
+   * Get bytes byte [ ].
+   *
+   * @return the byte [ ]
+   */
+  public byte[] getBytes() {
+    return this.buffer;
+  }
+
 }

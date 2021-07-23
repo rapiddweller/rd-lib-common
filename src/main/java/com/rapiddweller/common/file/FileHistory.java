@@ -28,99 +28,141 @@ import java.util.prefs.Preferences;
 /**
  * Provides a file history using the Preferences API.<br><br>
  * Created: 27.03.2016 09:02:58
- * @since 1.0.8
+ *
  * @author Volker Bergmann
+ * @since 1.0.8
  */
-
 public class FileHistory {
-	
-	public static final int HISTORY_LENGTH_LIMIT = 50;
-	
-	private static final String RECENT_FILE_PREFIX = "recent_file_";
-	
-	private final Class<?> clazz;
-	private final ArrayDeque<File> files;
-	private final boolean toleratingFailure;
-	
-	public FileHistory(Class<?> clazz, int length, boolean toleratingFailure) {
-		this.clazz = clazz;
-		Assert.lessOrEqual(length, HISTORY_LENGTH_LIMIT, "length");
-		this.files = new ArrayDeque<>(length);
-		this.toleratingFailure = toleratingFailure;
-		load();
-	}
 
-	public File[] getFiles() {
-		return CollectionUtil.toArray(files, File.class);
-	}
-	
-	public File getMostRecentFolder(File defaultFolder) {
-		if (files.isEmpty())
-			return defaultFolder;
-		else
-			return files.getLast().getParentFile();
-	}
-	
-	public void addFileAndSave(File file) {
-		addFile(file);
-		save();
-	}
-	
-	public void addFile(File file) {
-		try {
-			file = normalize(file);
-			remove(file);
-			files.addFirst(file);
-		} catch (IOException e) {
-			if (!toleratingFailure)
-				throw new RuntimeException("Failed to update file history", e);
-		}
-	}
+  /**
+   * The constant HISTORY_LENGTH_LIMIT.
+   */
+  public static final int HISTORY_LENGTH_LIMIT = 50;
 
-	public void load() {
-		Preferences node = Preferences.userNodeForPackage(clazz);
-		for (int i = 0; i < HISTORY_LENGTH_LIMIT; i++) {
-			String path = node.get(RECENT_FILE_PREFIX + i, null);
-			if (path != null) {
-				File file = new File(path);
-				appendFile(file);
-			}
-		}
-	}
+  private static final String RECENT_FILE_PREFIX = "recent_file_";
 
-	public void save() {
-		Preferences node = Preferences.userNodeForPackage(clazz);
-		Iterator<File> iterator = files.iterator();
-		for (int i = 0; iterator.hasNext(); i++)
-			node.put(RECENT_FILE_PREFIX + i, iterator.next().getAbsolutePath());
-		try {
-			node.flush();
-		} catch (BackingStoreException e) {
-			if (!toleratingFailure)
-				throw new RuntimeException("Failed to save file history", e);
-		}
-	}
-	
-	
-	// private helpers -------------------------------------------------------------------------------------------------
-	
-	private static File normalize(File file) throws IOException {
-		return file.getCanonicalFile();
-	}
+  private final Class<?> clazz;
+  private final ArrayDeque<File> files;
+  private final boolean toleratingFailure;
 
-	private void remove(File file) {
-		files.removeIf(file::equals);
-	}
-	
-	private void appendFile(File file) {
-		try {
-			file = normalize(file);
-			remove(file);
-			files.addLast(file);
-		} catch (IOException e) {
-			if (!toleratingFailure)
-				throw new RuntimeException("Failed to update file history", e);
-		}
-	}
+  /**
+   * Instantiates a new File history.
+   *
+   * @param clazz             the clazz
+   * @param length            the length
+   * @param toleratingFailure the tolerating failure
+   */
+  public FileHistory(Class<?> clazz, int length, boolean toleratingFailure) {
+    this.clazz = clazz;
+    Assert.lessOrEqual(length, HISTORY_LENGTH_LIMIT, "length");
+    this.files = new ArrayDeque<>(length);
+    this.toleratingFailure = toleratingFailure;
+    load();
+  }
+
+  /**
+   * Get files file [ ].
+   *
+   * @return the file [ ]
+   */
+  public File[] getFiles() {
+    return CollectionUtil.toArray(files, File.class);
+  }
+
+  /**
+   * Gets most recent folder.
+   *
+   * @param defaultFolder the default folder
+   * @return the most recent folder
+   */
+  public File getMostRecentFolder(File defaultFolder) {
+    if (files.isEmpty()) {
+      return defaultFolder;
+    } else {
+      return files.getLast().getParentFile();
+    }
+  }
+
+  /**
+   * Add file and save.
+   *
+   * @param file the file
+   */
+  public void addFileAndSave(File file) {
+    addFile(file);
+    save();
+  }
+
+  /**
+   * Add file.
+   *
+   * @param file the file
+   */
+  public void addFile(File file) {
+    try {
+      file = normalize(file);
+      remove(file);
+      files.addFirst(file);
+    } catch (IOException e) {
+      if (!toleratingFailure) {
+        throw new RuntimeException("Failed to update file history", e);
+      }
+    }
+  }
+
+  /**
+   * Load.
+   */
+  public void load() {
+    Preferences node = Preferences.userNodeForPackage(clazz);
+    for (int i = 0; i < HISTORY_LENGTH_LIMIT; i++) {
+      String path = node.get(RECENT_FILE_PREFIX + i, null);
+      if (path != null) {
+        File file = new File(path);
+        appendFile(file);
+      }
+    }
+  }
+
+  /**
+   * Save.
+   */
+  public void save() {
+    Preferences node = Preferences.userNodeForPackage(clazz);
+    Iterator<File> iterator = files.iterator();
+    for (int i = 0; iterator.hasNext(); i++) {
+      node.put(RECENT_FILE_PREFIX + i, iterator.next().getAbsolutePath());
+    }
+    try {
+      node.flush();
+    } catch (BackingStoreException e) {
+      if (!toleratingFailure) {
+        throw new RuntimeException("Failed to save file history", e);
+      }
+    }
+  }
+
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private static File normalize(File file) throws IOException {
+    return file.getCanonicalFile();
+  }
+
+  private void remove(File file) {
+    files.removeIf(file::equals);
+  }
+
+  private void appendFile(File file) {
+    try {
+      file = normalize(file);
+      remove(file);
+      files.addLast(file);
+    } catch (IOException e) {
+      if (!toleratingFailure) {
+        throw new RuntimeException("Failed to update file history", e);
+      }
+    }
+  }
 
 }

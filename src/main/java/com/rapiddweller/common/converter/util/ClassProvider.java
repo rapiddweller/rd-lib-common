@@ -12,16 +12,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter.util;
 
 /**
  * Provides appropriate Java classes for variable data sets.
  * Created: 18.09.2014 18:14:29
+ *
  * @param <E> the context type for which to provide classes
- * @since 1.0.0
  * @author Volker Bergmann
+ * @since 1.0.0
  */
-
 public interface ClassProvider<E> {
-	Class<?> classFor(E data);
+  /**
+   * Class for class.
+   *
+   * @param data the data
+   * @return the class
+   */
+  Class<?> classFor(E data);
 }

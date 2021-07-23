@@ -12,68 +12,69 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
-import static org.junit.Assert.assertEquals;
+import com.rapiddweller.common.collection.MapEntry;
+import org.junit.Test;
 
 import java.util.TimeZone;
 
-import com.rapiddweller.common.collection.MapEntry;
-
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link CompositeFormatter}.
  * Created at 02.05.2008 12:08:43
- * @since 0.4.3
+ *
  * @author Volker Bergmann
+ * @since 0.4.3
  */
 public class CompositeFormatterTest {
-	
-	private final CompositeFormatter formatter = new CompositeFormatter();
-	
-	@Test
-	public void testRenderNullComponent() {
-		checkRendering("name=[null]", "name", null);
-	}
 
-	@Test
-	public void testRenderDateComponent() {
-		TimeZone timeZone = TimeZone.getDefault();
-		try {
-			TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
-			checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
-			checkRendering("date=2001-03-04", "date", TimeUtil.date(2001, 2, 4));
-			TimeZone.setDefault(TimeZone.getTimeZone("CET"));
-			checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
-			checkRendering("date=2001-03-04", "date", TimeUtil.date(2001, 2, 4));
-			TimeZone.setDefault(TimeZone.getTimeZone("PST"));
-			checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
-			checkRendering("date=2001-03-04", "date", TimeUtil.date(2001, 2, 4));
-			TimeZone.setDefault(TimeZone.getTimeZone("Asia/Singapore"));
-			checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
-			checkRendering("date=2001-03-04", "date", TimeUtil.date(2001, 2, 4));
-		} finally {
-			TimeZone.setDefault(timeZone);
-		}
-	}
+  private final CompositeFormatter formatter = new CompositeFormatter();
 
-	@Test
-	public void testRenderTimeComponent() {
-		checkRendering("time=1970-01-01T01:02:03", "time", TimeUtil.date(1970, 0, 1, 1, 2, 3, 0));
-	}
+  @Test
+  public void testRenderNullComponent() {
+    checkRendering("name=[null]", "name", null);
+  }
 
-	@Test
-	public void testRenderArray() {
-		checkRendering("array=[1, 2, 3]", "array", ArrayUtil.toArray(1, 2, 3));
-	}
-	
-	// private helpers -------------------------------------------------------------------------------------------------
+  @Test
+  public void testRenderDateComponent() {
+    TimeZone timeZone = TimeZone.getDefault();
+    try {
+      TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+      checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
+      checkRendering("date=2001-03-04", "date", TimeUtil.date(2001, 2, 4));
+      TimeZone.setDefault(TimeZone.getTimeZone("CET"));
+      checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
+      checkRendering("date=2001-03-04", "date", TimeUtil.date(2001, 2, 4));
+      TimeZone.setDefault(TimeZone.getTimeZone("PST"));
+      checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
+      checkRendering("date=2001-03-04", "date", TimeUtil.date(2001, 2, 4));
+      TimeZone.setDefault(TimeZone.getTimeZone("Asia/Singapore"));
+      checkRendering("date=1970-01-01", "date", TimeUtil.date(1970, 0, 1));
+      checkRendering("date=2001-03-04", "date", TimeUtil.date(2001, 2, 4));
+    } finally {
+      TimeZone.setDefault(timeZone);
+    }
+  }
 
-	private void checkRendering(String expected, String name, Object value) {
-		StringBuilder builder = new StringBuilder();
-		formatter.renderComponent(builder, "", new MapEntry<>(name, value));
-		assertEquals(expected, builder.toString());
-	}
-	
+  @Test
+  public void testRenderTimeComponent() {
+    checkRendering("time=1970-01-01T01:02:03", "time", TimeUtil.date(1970, 0, 1, 1, 2, 3, 0));
+  }
+
+  @Test
+  public void testRenderArray() {
+    checkRendering("array=[1, 2, 3]", "array", ArrayUtil.toArray(1, 2, 3));
+  }
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private void checkRendering(String expected, String name, Object value) {
+    StringBuilder builder = new StringBuilder();
+    formatter.renderComponent(builder, "", new MapEntry<>(name, value));
+    assertEquals(expected, builder.toString());
+  }
+
 }

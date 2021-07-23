@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.HeavyweightIterator;
@@ -20,23 +21,29 @@ import java.io.Closeable;
 import java.util.Iterator;
 
 /**
- * Wraps an {@link Iterator} with a {@link HeavyweightIterator}. 
- * If the wrapped iterator implements {@link Closeable}, calls to 
+ * Wraps an {@link Iterator} with a {@link HeavyweightIterator}.
+ * If the wrapped iterator implements {@link Closeable}, calls to
  * <code>close()</code> are forwarded, otherwise ignored.
  * Created: 14.10.2009 11:50:43
+ *
  * @param <E> the type to iterate
- * @since 0.6.0
  * @author Volker Bergmann
+ * @since 0.6.0
  */
 public class HeavyweightIteratorProxy<E> extends HeavyweightIteratorAdapter<E, E> {
-	
-	public HeavyweightIteratorProxy(Iterator<E> source) {
-		super(source);
-	}
 
-	@Override
-	public E next() {
-		return source.next();
-	}
+  /**
+   * Instantiates a new Heavyweight iterator proxy.
+   *
+   * @param source the source
+   */
+  public HeavyweightIteratorProxy(Iterator<E> source) {
+    super(source);
+  }
+
+  @Override
+  public E next() {
+    return source.next();
+  }
 
 }

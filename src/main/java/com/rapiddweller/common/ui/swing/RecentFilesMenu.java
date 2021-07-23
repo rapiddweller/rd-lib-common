@@ -23,23 +23,32 @@ import javax.swing.JMenu;
 import java.io.File;
 
 /**
- * {@link JMenu} that exhibits a list of files provided by a {@link FileHistory}, 
+ * {@link JMenu} that exhibits a list of files provided by a {@link FileHistory},
  * lets the user select one and sends the selected file to a {@link Consumer}.
  * Created: 20.06.2016 15:54:46
- * @since 1.0.11
+ *
  * @author Volker Bergmann
+ * @since 1.0.11
  */
-
 public class RecentFilesMenu extends JMenu {
-	
-	private static final long serialVersionUID = 1L;
 
-	public RecentFilesMenu(String label, Icon icon, FileHistory history, final Consumer<File> consumer) {
-		super(label);
-		setIcon(icon);
-		File[] recentFiles = history.getFiles();
-		for (final File recentFile : recentFiles)
-			add(new ConsumerAction<>(recentFile.getName(), null, recentFile, consumer));
-	}
-	
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * Instantiates a new Recent files menu.
+   *
+   * @param label    the label
+   * @param icon     the icon
+   * @param history  the history
+   * @param consumer the consumer
+   */
+  public RecentFilesMenu(String label, Icon icon, FileHistory history, final Consumer<File> consumer) {
+    super(label);
+    setIcon(icon);
+    File[] recentFiles = history.getFiles();
+    for (final File recentFile : recentFiles) {
+      add(new ConsumerAction<>(recentFile.getName(), null, recentFile, consumer));
+    }
+  }
+
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -19,29 +20,47 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Instantiates enum instances by their name.
  * Created: 20.08.2007 07:11:16
+ *
  * @param <E> the enumeration type to convert to
  * @author Volker Bergmann
  */
 @SuppressWarnings("rawtypes")
 public class String2EnumConverter<E extends Enum> extends ThreadSafeConverter<String, E> {
 
-    public String2EnumConverter(Class<E> enumClass) {
-        super(String.class, enumClass);
-    }
+  /**
+   * Instantiates a new String 2 enum converter.
+   *
+   * @param enumClass the enum class
+   */
+  public String2EnumConverter(Class<E> enumClass) {
+    super(String.class, enumClass);
+  }
 
-    @Override
-	public E convert(String sourceValue) throws ConversionException {
-        return convert(sourceValue, targetType);
-    }
+  @Override
+  public E convert(String sourceValue) throws ConversionException {
+    return convert(sourceValue, targetType);
+  }
 
-    public static <T extends Enum> T convert(String sourceValue, Class<T> enumClass) throws ConversionException {
-        if (sourceValue == null)
-            return null;
-        T[] enumConstants = enumClass.getEnumConstants();
-        for (T enumConstant : enumConstants)
-            if (enumConstant.name().equals(sourceValue))
-                return enumConstant;
-        throw new ConversionException(enumClass + " does not have an instance of name " + sourceValue);
+  /**
+   * Convert t.
+   *
+   * @param <T>         the type parameter
+   * @param sourceValue the source value
+   * @param enumClass   the enum class
+   * @return the t
+   * @throws ConversionException the conversion exception
+   */
+  public static <T extends Enum> T convert(String sourceValue, Class<T> enumClass) throws ConversionException {
+    if (sourceValue == null) {
+      return null;
     }
+    T[] enumConstants = enumClass.getEnumConstants();
+    for (T enumConstant : enumConstants) {
+      if (enumConstant.name().equals(sourceValue)) {
+        return enumConstant;
+      }
+    }
+    throw new ConversionException(enumClass + " does not have an instance of name " + sourceValue);
+  }
 
 }

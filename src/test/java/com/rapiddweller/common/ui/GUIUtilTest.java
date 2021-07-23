@@ -12,34 +12,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui;
 
-import java.io.File;
-
-import com.rapiddweller.common.ui.GUIUtil;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the {@link GUIUtil}.
  * Created: 06.02.2014 13:35:19
- * @since 0.5.26
+ *
  * @author Volker Bergmann
+ * @since 0.5.26
  */
 
 public class GUIUtilTest {
-	@Ignore //because fails in docker
-	@Test
-	public void testTakeScreenshot() throws Exception {
-		File file = File.createTempFile("screenshot.png", ".png");
-		try {
-			GUIUtil.takeScreenshot(file.getAbsolutePath(), "png");
-			System.out.println(file);
-		} finally {
-			assertTrue(file.delete());
-		}
-	}
+  @Ignore //because fails in docker
+  @Test
+  public void testTakeScreenshot() throws Exception {
+    File file = File.createTempFile("screenshot.png", ".png");
+    try {
+      GUIUtil.takeScreenshot(file.getAbsolutePath(), "png");
+      System.out.println(file);
+    } finally {
+      assertTrue(file.delete());
+    }
+  }
 
 }

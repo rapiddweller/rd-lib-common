@@ -12,14 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Common interface for object which can be attached with a weight.
  * Created: 29.08.2011 21:30:12
- * @since 0.5.9
+ *
  * @author Volker Bergmann
+ * @since 0.5.9
  */
 public interface Weighted {
-	double getWeight();
+  /**
+   * Gets weight.
+   *
+   * @return the weight
+   */
+  double getWeight();
 }

@@ -18,11 +18,16 @@ package com.rapiddweller.common;
 /**
  * Interface for classes that consume an object of generic type E.
  * Created: 20.06.2016 15:58:01
- * @since 1.0.11
- * @author Volker Bergmann
+ *
  * @param <E> Generic parameter for the object type to be consumed
+ * @author Volker Bergmann
+ * @since 1.0.11
  */
-
 public interface Consumer<E> {
-	void consume(E object);
+  /**
+   * Consume.
+   *
+   * @param object the object
+   */
+  void consume(E object);
 }

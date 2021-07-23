@@ -12,28 +12,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.assertNull;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests the {@link Long2DateConverter}.
  * Created: 26.02.2010 08:30:14
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class Long2DateConverterTest extends AbstractConverterTest {
 
-	public Long2DateConverterTest() {
-	    super(Long2DateConverter.class);
-    }
+  public Long2DateConverterTest() {
+    super(Long2DateConverter.class);
+  }
 
-	@Test
-	public void testRevert() {
-		assertNull(new Long2DateConverter().convert(null));
-		new Long2DateConverter().convert(0L);
-	}
-	
+  @Test
+  public void testRevert() {
+    assertNull(new Long2DateConverter().convert(null));
+    new Long2DateConverter().convert(0L);
+  }
+
 }

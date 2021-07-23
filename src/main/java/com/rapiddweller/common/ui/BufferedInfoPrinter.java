@@ -12,38 +12,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui;
 
 import com.rapiddweller.common.SystemInfo;
 
 /**
- * {@link InfoPrinter} implementation that prints into a buffer 
+ * {@link InfoPrinter} implementation that prints into a buffer
  * and provides the received input as String in {@link #toString()}.
  * Created: 17.03.2013 18:06:28
- * @since 0.5.23
+ *
  * @author Volker Bergmann
+ * @since 0.5.23
  */
 public class BufferedInfoPrinter extends InfoPrinter {
-	
-	private final StringBuilder buffer;
-	
-	public BufferedInfoPrinter() {
-		this.buffer = new StringBuilder();
-	}
 
-	@Override
-	public void printLines(Object owner, String... lines) {
-		for (String line : lines)
-			buffer.append(line).append(SystemInfo.getLineSeparator());
-	}
-	
-	public void clear() {
-		buffer.delete(0, buffer.length());
-	}
-	
-	@Override
-	public String toString() {
-		return buffer.toString();
-	}
-	
+  private final StringBuilder buffer;
+
+  /**
+   * Instantiates a new Buffered info printer.
+   */
+  public BufferedInfoPrinter() {
+    this.buffer = new StringBuilder();
+  }
+
+  @Override
+  public void printLines(Object owner, String... lines) {
+    for (String line : lines) {
+      buffer.append(line).append(SystemInfo.getLineSeparator());
+    }
+  }
+
+  /**
+   * Clear.
+   */
+  public void clear() {
+    buffer.delete(0, buffer.length());
+  }
+
+  @Override
+  public String toString() {
+    return buffer.toString();
+  }
+
 }

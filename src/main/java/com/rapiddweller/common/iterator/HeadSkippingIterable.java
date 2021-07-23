@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.HeavyweightIterator;
@@ -20,29 +21,36 @@ import com.rapiddweller.common.HeavyweightTypedIterable;
 /**
  * {@link Iterable} proxy which skips the first data row.
  * Created: 19.07.2011 09:04:03
+ *
  * @param <T> the type to iterate
- * @since 0.5.9
  * @author Volker Bergmann
+ * @since 0.5.9
  */
 public class HeadSkippingIterable<T> implements HeavyweightTypedIterable<T> {
-	
-	private final HeavyweightTypedIterable<T> source;
 
-	public HeadSkippingIterable(HeavyweightTypedIterable<T> source) {
-		this.source = source;
-	}
+  private final HeavyweightTypedIterable<T> source;
 
-	@Override
-	public Class<T> getType() {
-		return source.getType();
-	}
+  /**
+   * Instantiates a new Head skipping iterable.
+   *
+   * @param source the source
+   */
+  public HeadSkippingIterable(HeavyweightTypedIterable<T> source) {
+    this.source = source;
+  }
 
-	@Override
-	public HeavyweightIterator<T> iterator() {
-		HeavyweightIterator<T> result = source.iterator();
-		if (result.hasNext())
-			result.next();
-		return result;
-	}
+  @Override
+  public Class<T> getType() {
+    return source.getType();
+  }
+
+  @Override
+  public HeavyweightIterator<T> iterator() {
+    HeavyweightIterator<T> result = source.iterator();
+    if (result.hasNext()) {
+      result.next();
+    }
+    return result;
+  }
 
 }

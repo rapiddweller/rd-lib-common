@@ -12,21 +12,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Represents a log or failure level.
  * Created at 18.09.2009 13:46:48
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public enum Level {
-	ignore, 
-	trace, 
-	debug, 
-	info, 
-	warn, 
-	error, 
-	fatal
+  /**
+   * Ignore level.
+   */
+  ignore,
+  /**
+   * Trace level.
+   */
+  trace,
+  /**
+   * Debug level.
+   */
+  debug,
+  /**
+   * Info level.
+   */
+  info,
+  /**
+   * Warn level.
+   */
+  warn,
+  /**
+   * Error level.
+   */
+  error,
+  /**
+   * Fatal level.
+   */
+  fatal
 }

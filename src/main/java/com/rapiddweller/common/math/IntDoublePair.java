@@ -18,18 +18,30 @@ package com.rapiddweller.common.math;
 /**
  * Combines an int and a double to a pair.<br><br>
  * Created: 13.02.2020 09:15:27
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public class IntDoublePair {
-	
-	public int i;
-	public double d;
-	
-	public IntDoublePair(int i, double d) {
-		this.i = i;
-		this.d = d;
-	}
-	
+
+  /**
+   * The .
+   */
+  public int i;
+  /**
+   * The D.
+   */
+  public double d;
+
+  /**
+   * Instantiates a new Int double pair.
+   *
+   * @param i the
+   * @param d the d
+   */
+  public IntDoublePair(int i, double d) {
+    this.i = i;
+    this.d = d;
+  }
+
 }

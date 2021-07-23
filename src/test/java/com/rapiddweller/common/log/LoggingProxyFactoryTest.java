@@ -12,38 +12,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.log;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link LoggingProxyFactory}.
  * Created at 17.09.2009 18:47:09
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 
 public class LoggingProxyFactoryTest {
 
-	@Test
-	public void test() {
-		Calc proxy = LoggingProxyFactory.createProxy(Calc.class, new CalcImpl());
-		assertEquals(3, proxy.add(1, 2));
-	}
-	
-	// helpers ---------------------------------------------------------------------------------------------------------
-	
-	public interface Calc {
-		int add(int a, int b);
-	}
-	
-	public static class CalcImpl implements Calc {
-        @Override
-		public int add(int a, int b) {
-	        return a + b;
-        }
-	}
-	
+  @Test
+  public void test() {
+    Calc proxy = LoggingProxyFactory.createProxy(Calc.class, new CalcImpl());
+    assertEquals(3, proxy.add(1, 2));
+  }
+
+  // helpers ---------------------------------------------------------------------------------------------------------
+
+  public interface Calc {
+    int add(int a, int b);
+  }
+
+  public static class CalcImpl implements Calc {
+    @Override
+    public int add(int a, int b) {
+      return a + b;
+    }
+  }
+
 }

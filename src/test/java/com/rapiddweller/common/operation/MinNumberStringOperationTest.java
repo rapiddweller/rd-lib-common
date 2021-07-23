@@ -12,46 +12,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common.operation;
 
-import static org.junit.Assert.*;
+package com.rapiddweller.common.operation;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Tests the {@link MinNumberStringOperation}.
  * Created: 26.02.2010 09:49:46
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class MinNumberStringOperationTest {
 
-	private MinNumberStringOperation min;
+  private MinNumberStringOperation min;
 
-	@Before
-	public void setUp() {
-		min = new MinNumberStringOperation();
-	}
-	
-	@Test
-	public void testInt() {
-		assertEquals("1", min.perform("1", "2", "3"));
-	}
-	
-	@Test
-	public void testDouble() {
-		assertEquals("1.", min.perform("1.", "2.", "3."));
-	}
-	
-	@Test
-	public void testFormatSustained() {
-		assertEquals("1.000", min.perform("1.000", "2.", "3."));
-	}
-	
-	@Test
-	public void testMixed() {
-		assertEquals("1.000", min.perform("1.000", "2"));
-	}
-	
+  @Before
+  public void setUp() {
+    min = new MinNumberStringOperation();
+  }
+
+  @Test
+  public void testInt() {
+    assertEquals("1", min.perform("1", "2", "3"));
+  }
+
+  @Test
+  public void testDouble() {
+    assertEquals("1.", min.perform("1.", "2.", "3."));
+  }
+
+  @Test
+  public void testFormatSustained() {
+    assertEquals("1.000", min.perform("1.000", "2.", "3."));
+  }
+
+  @Test
+  public void testMixed() {
+    assertEquals("1.000", min.perform("1.000", "2"));
+  }
+
 }

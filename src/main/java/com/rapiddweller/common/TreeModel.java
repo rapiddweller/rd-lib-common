@@ -12,20 +12,64 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Models a typed tree logic.
  * Created: 08.05.2007 18:30:55
+ *
  * @param <E> the type of the tree nodes
  * @author Volker Bergmann
  */
 public interface TreeModel<E> {
 
-    E getRoot();
-    E getParent(E child);
-    E getChild(E parent, int index);
-    int getChildCount(E parent);
-    boolean isLeaf(E node);
-    int getIndexOfChild(E parent, E child);
+  /**
+   * Gets root.
+   *
+   * @return the root
+   */
+  E getRoot();
+
+  /**
+   * Gets parent.
+   *
+   * @param child the child
+   * @return the parent
+   */
+  E getParent(E child);
+
+  /**
+   * Gets child.
+   *
+   * @param parent the parent
+   * @param index  the index
+   * @return the child
+   */
+  E getChild(E parent, int index);
+
+  /**
+   * Gets child count.
+   *
+   * @param parent the parent
+   * @return the child count
+   */
+  int getChildCount(E parent);
+
+  /**
+   * Is leaf boolean.
+   *
+   * @param node the node
+   * @return the boolean
+   */
+  boolean isLeaf(E node);
+
+  /**
+   * Gets index of child.
+   *
+   * @param parent the parent
+   * @param child  the child
+   * @return the index of child
+   */
+  int getIndexOfChild(E parent, E child);
 }

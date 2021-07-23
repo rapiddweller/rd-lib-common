@@ -12,32 +12,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
-
-import static org.junit.Assert.assertEquals;
-
-import java.util.Locale;
 
 import com.rapiddweller.common.ConversionException;
 import org.junit.Test;
 
+import java.util.Locale;
+
+import static org.junit.Assert.assertEquals;
+
 /**
  * Tests the {@link Locale2StringConverter}.
  * Created: 25.02.2010 23:43:52
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class Locale2StringConverterTest extends AbstractConverterTest {
 
-	public Locale2StringConverterTest() {
-	    super(Locale2StringConverter.class);
-    }
+  public Locale2StringConverterTest() {
+    super(Locale2StringConverter.class);
+  }
 
-	@Test
-    public void test() throws ConversionException {
-		Locale2StringConverter converter = new Locale2StringConverter();
-        assertEquals("de", converter.convert(Locale.GERMAN));
-        assertEquals("de_DE", converter.convert(Locale.GERMANY));
-    }
-	
+  @Test
+  public void test() throws ConversionException {
+    Locale2StringConverter converter = new Locale2StringConverter();
+    assertEquals("de", converter.convert(Locale.GERMAN));
+    assertEquals("de_DE", converter.convert(Locale.GERMANY));
+  }
+
 }

@@ -12,36 +12,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 /**
  * Abstract implementation of the {@link TabularIterator} interface.
  * Created: 27.10.2011 08:46:11
- * @since 0.5.11
+ *
  * @author Volker Bergmann
+ * @since 0.5.11
  */
 public abstract class AbstractTabularIterator implements TabularIterator {
 
-	private final String[] columnLabels;
-	
-	public AbstractTabularIterator(String... columnLabels) {
-		this.columnLabels = columnLabels;
-	}
+  private final String[] columnLabels;
 
-	@Override
-	public String[] getColumnNames() {
-		return columnLabels;
-	}
+  /**
+   * Instantiates a new Abstract tabular iterator.
+   *
+   * @param columnLabels the column labels
+   */
+  public AbstractTabularIterator(String... columnLabels) {
+    this.columnLabels = columnLabels;
+  }
 
-	@Override
-	public void remove() {
-		throw new UnsupportedOperationException(getClass() + " does not support removal");
-	}
+  @Override
+  public String[] getColumnNames() {
+    return columnLabels;
+  }
 
-	@Override
-	@SuppressWarnings("unused")
-	public void close() {
-		// empty implementation
-	}
+  @Override
+  public void remove() {
+    throw new UnsupportedOperationException(getClass() + " does not support removal");
+  }
+
+  @Override
+  @SuppressWarnings("unused")
+  public void close() {
+    // empty implementation
+  }
 
 }

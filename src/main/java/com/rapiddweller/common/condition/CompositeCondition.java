@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.condition;
 
 import com.rapiddweller.common.Condition;
@@ -19,16 +20,25 @@ import com.rapiddweller.common.Condition;
 /**
  * Condition that is composed of Condition components.
  * Created: 04.02.2007 00:41:28
+ *
  * @param <E> the type of argument to evaluate
  * @author Volker Bergmann
  */
 public abstract class CompositeCondition<E> implements Condition<E> {
 
-    protected Condition<E>[] components;
+  /**
+   * The Components.
+   */
+  protected Condition<E>[] components;
 
-    @SafeVarargs
-    public CompositeCondition(Condition<E> ... components) {
-        this.components = components;
-    }
+  /**
+   * Instantiates a new Composite condition.
+   *
+   * @param components the components
+   */
+  @SafeVarargs
+  public CompositeCondition(Condition<E>... components) {
+    this.components = components;
+  }
 
 }

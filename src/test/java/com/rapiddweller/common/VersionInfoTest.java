@@ -12,48 +12,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common;
 
-import static org.junit.Assert.*;
+package com.rapiddweller.common;
 
 import com.rapiddweller.common.version.VersionInfo;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 /**
  * Tests the {@link VersionInfo}.
  * Created: 23.03.2011 11:17:36
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class VersionInfoTest {
 
-	@Test
-	public void testCommonsVersionInfo() {
-		VersionInfo version = VersionInfo.getInfo("common");
-		String versionNumber = version.getVersion();
-		assertFalse(versionNumber == null || versionNumber.length() == 0);
-		assertFalse(versionNumber.startsWith("${"));
-		System.out.println(version);
-	}
-	
-	@Test
-	public void testCommonsDependencies() {
-		VersionInfo version = VersionInfo.getInfo("common");
-		version.verifyDependencies();
-	}
-	
-	@Test
-	public void testCustomInfo() {
-		VersionInfo version = VersionInfo.getInfo("com.my");
-		String versionNumber = version.getVersion();
-		assertEquals("1.2.3", versionNumber);
-	}
-	
-	@Test
-	public void testVersionInfoOnIDE() {
-		VersionInfo version = VersionInfo.getInfo("com.ide");
-		String versionNumber = version.getVersion();
-		assertEquals("path.resolved.externally", versionNumber);
-	}
-	
+  @Test
+  public void testCommonsVersionInfo() {
+    VersionInfo version = VersionInfo.getInfo("common");
+    String versionNumber = version.getVersion();
+    assertFalse(versionNumber == null || versionNumber.length() == 0);
+    assertFalse(versionNumber.startsWith("${"));
+    System.out.println(version);
+  }
+
+  @Test
+  public void testCommonsDependencies() {
+    VersionInfo version = VersionInfo.getInfo("common");
+    version.verifyDependencies();
+  }
+
+  @Test
+  public void testCustomInfo() {
+    VersionInfo version = VersionInfo.getInfo("com.my");
+    String versionNumber = version.getVersion();
+    assertEquals("1.2.3", versionNumber);
+  }
+
+  @Test
+  public void testVersionInfoOnIDE() {
+    VersionInfo version = VersionInfo.getInfo("com.ide");
+    String versionNumber = version.getVersion();
+    assertEquals("path.resolved.externally", versionNumber);
+  }
+
 }

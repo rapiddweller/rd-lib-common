@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -22,64 +23,99 @@ import java.util.Formatter;
 import java.util.Locale;
 
 /**
- * {@link Converter} implementation that uses a {@link Formatter} 
+ * {@link Converter} implementation that uses a {@link Formatter}
  * to render argument objects in C-like printf format.
  * Created at 20.07.2009 07:18:43
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class PrintfConverter extends ThreadSafeConverter<Object, String> {
-	
-	private Locale locale;
-	private String pattern;
-	
-	// constructors ----------------------------------------------------------------------------------------------------
 
-    public PrintfConverter() {
-	    this("");
-    }
-    
-    public PrintfConverter(String pattern) {
-	    this(pattern, Locale.getDefault());
-    }
-    
-    public PrintfConverter(String pattern, Locale locale) {
-	    super(Object.class, String.class);
-	    this.pattern = pattern;
-	    this.locale = locale;
-    }
-    
-    // properties ------------------------------------------------------------------------------------------------------
-    
-    public Locale getLocale() {
-    	return locale;
-    }
+  private Locale locale;
+  private String pattern;
 
-	public void setLocale(Locale locale) {
-    	this.locale = locale;
-    }
+  // constructors ----------------------------------------------------------------------------------------------------
 
-	public String getPattern() {
-    	return pattern;
-    }
+  /**
+   * Instantiates a new Printf converter.
+   */
+  public PrintfConverter() {
+    this("");
+  }
 
-	public void setPattern(String pattern) {
-    	this.pattern = pattern;
-    }
+  /**
+   * Instantiates a new Printf converter.
+   *
+   * @param pattern the pattern
+   */
+  public PrintfConverter(String pattern) {
+    this(pattern, Locale.getDefault());
+  }
 
-	// converter interface ---------------------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Printf converter.
+   *
+   * @param pattern the pattern
+   * @param locale  the locale
+   */
+  public PrintfConverter(String pattern, Locale locale) {
+    super(Object.class, String.class);
+    this.pattern = pattern;
+    this.locale = locale;
+  }
 
-    @Override
-	public String convert(Object sourceValue) throws ConversionException {
-	    if (sourceValue == null)
-	    	return null;
-	    Formatter formatter = new Formatter(locale);
-	    try {
-	    	return formatter.format(pattern, sourceValue).out().toString();
-	    } finally {
-	    	IOUtil.close(formatter);
-	    }
+  // properties ------------------------------------------------------------------------------------------------------
+
+  /**
+   * Gets locale.
+   *
+   * @return the locale
+   */
+  public Locale getLocale() {
+    return locale;
+  }
+
+  /**
+   * Sets locale.
+   *
+   * @param locale the locale
+   */
+  public void setLocale(Locale locale) {
+    this.locale = locale;
+  }
+
+  /**
+   * Gets pattern.
+   *
+   * @return the pattern
+   */
+  public String getPattern() {
+    return pattern;
+  }
+
+  /**
+   * Sets pattern.
+   *
+   * @param pattern the pattern
+   */
+  public void setPattern(String pattern) {
+    this.pattern = pattern;
+  }
+
+  // converter interface ---------------------------------------------------------------------------------------------
+
+  @Override
+  public String convert(Object sourceValue) throws ConversionException {
+    if (sourceValue == null) {
+      return null;
     }
+    Formatter formatter = new Formatter(locale);
+    try {
+      return formatter.format(pattern, sourceValue).out().toString();
+    } finally {
+      IOUtil.close(formatter);
+    }
+  }
 
 }

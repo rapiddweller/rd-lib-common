@@ -12,14 +12,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Interface for all classes with a life cycle that can be reset.
  * Created: 05.02.2010 10:05:06
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public interface Resettable {
-	void reset();
+  /**
+   * Reset.
+   */
+  void reset();
 }

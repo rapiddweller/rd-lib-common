@@ -12,9 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
-import java.text.*;
+import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.util.Locale;
 
 /**
@@ -23,33 +28,41 @@ import java.util.Locale;
  */
 public class RoundedNumberFormat extends Format {
 
-    private static final long serialVersionUID = 6188839664275513505L;
+  private static final long serialVersionUID = 6188839664275513505L;
 
-	@Override
-    public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
-        return toAppendTo.append(format((Number)obj, 2));
-    }
+  @Override
+  public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
+    return toAppendTo.append(format((Number) obj, 2));
+  }
 
-    @Override
-    public Object parseObject(String source, ParsePosition pos) {
-        throw new UnsupportedOperationException("Not supported");
-    }
+  @Override
+  public Object parseObject(String source, ParsePosition pos) {
+    throw new UnsupportedOperationException("Not supported");
+  }
 
-    public static String format(Number number, int fractionDigits) {
-        NumberFormat nf = DecimalFormat.getInstance(Locale.US);
-        //nf.setMinimumFractionDigits(fractionDigits);
-        nf.setMaximumFractionDigits(fractionDigits);
-        StringBuffer buffer = nf.format(number, new StringBuffer(), new FieldPosition(0));
-        int nonNullDigits = 0;
-        for (int i = 0; i < buffer.length(); i++) {
-            char c = buffer.charAt(i);
-            if (Character.isDigit(c)) {
-                if (nonNullDigits >= 2)
-                    buffer.setCharAt(i, '0');
-                nonNullDigits++;
-            }
+  /**
+   * Format string.
+   *
+   * @param number         the number
+   * @param fractionDigits the fraction digits
+   * @return the string
+   */
+  public static String format(Number number, int fractionDigits) {
+    NumberFormat nf = DecimalFormat.getInstance(Locale.US);
+    //nf.setMinimumFractionDigits(fractionDigits);
+    nf.setMaximumFractionDigits(fractionDigits);
+    StringBuffer buffer = nf.format(number, new StringBuffer(), new FieldPosition(0));
+    int nonNullDigits = 0;
+    for (int i = 0; i < buffer.length(); i++) {
+      char c = buffer.charAt(i);
+      if (Character.isDigit(c)) {
+        if (nonNullDigits >= 2) {
+          buffer.setCharAt(i, '0');
         }
-        return buffer.toString();
+        nonNullDigits++;
+      }
     }
+    return buffer.toString();
+  }
 
 }

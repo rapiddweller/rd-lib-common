@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
@@ -25,42 +26,59 @@ import java.io.Closeable;
 /**
  * Iterable that provides {@link ConvertingIterator}s.
  * Created: 28.08.2007 08:57:16
+ *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
  */
 public class ConvertingIterable<S, T> implements HeavyweightTypedIterable<T> {
 
-    protected Iterable<S> iterable;
-    protected Converter<S, T> converter;
+  /**
+   * The Iterable.
+   */
+  protected Iterable<S> iterable;
+  /**
+   * The Converter.
+   */
+  protected Converter<S, T> converter;
 
-    public ConvertingIterable(Iterable<S> iterable, Converter<S, T> converter) {
-        this.iterable = iterable;
-        this.converter = converter;
-    }
-    
-    // interface -------------------------------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Converting iterable.
+   *
+   * @param iterable  the iterable
+   * @param converter the converter
+   */
+  public ConvertingIterable(Iterable<S> iterable, Converter<S, T> converter) {
+    this.iterable = iterable;
+    this.converter = converter;
+  }
 
-    @Override
-	public Class<T> getType() {
-        return converter.getTargetType();
-    }
+  // interface -------------------------------------------------------------------------------------------------------
 
-    @Override
-	public HeavyweightIterator<T> iterator() {
-        return new ConvertingIterator<>(this.iterable.iterator(), converter);
-    }
-    
-	public void close() {
-		 if (iterable instanceof Closeable)
-			 IOUtil.close((Closeable) iterable);
-	}
+  @Override
+  public Class<T> getType() {
+    return converter.getTargetType();
+  }
 
-	// java.lang.Object overrides --------------------------------------------------------------------------------------
-	
-    @Override
-    public String toString() {
-    	return getClass().getSimpleName() + '[' + iterable + " -> " + converter + ']';
+  @Override
+  public HeavyweightIterator<T> iterator() {
+    return new ConvertingIterator<>(this.iterable.iterator(), converter);
+  }
+
+  /**
+   * Close.
+   */
+  public void close() {
+    if (iterable instanceof Closeable) {
+      IOUtil.close((Closeable) iterable);
     }
+  }
+
+  // java.lang.Object overrides --------------------------------------------------------------------------------------
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + '[' + iterable + " -> " + converter + ']';
+  }
 
 }

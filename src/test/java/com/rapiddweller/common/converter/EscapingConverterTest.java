@@ -12,38 +12,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.*;
+package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 /**
  * Tests the {@link EscapingConverter}.
  * Created: 19.01.2011 22:11:58
- * @since 0.5.5
+ *
  * @author Volker Bergmann
+ * @since 0.5.5
  */
 public class EscapingConverterTest extends AbstractConverterTest {
 
-	public EscapingConverterTest() {
-		super(EscapingConverter.class);
-	}
+  public EscapingConverterTest() {
+    super(EscapingConverter.class);
+  }
 
-	@Test
-	public void testNull() {
-		Converter<String, String> converter = new EscapingConverter();
-		assertNull(converter.convert(null));
-	}
-	
-	@Test
-	public void testInstance() {
-		Converter<String, String> converter = new EscapingConverter();
-		assertEquals("", converter.convert(""));
-		assertEquals("ABC", converter.convert("ABC"));
-		assertEquals("\\t", converter.convert("\t"));
-		assertEquals("\\f", converter.convert("\f"));
-	}
-	
+  @Test
+  public void testNull() {
+    Converter<String, String> converter = new EscapingConverter();
+    assertNull(converter.convert(null));
+  }
+
+  @Test
+  public void testInstance() {
+    Converter<String, String> converter = new EscapingConverter();
+    assertEquals("", converter.convert(""));
+    assertEquals("ABC", converter.convert("ABC"));
+    assertEquals("\\t", converter.convert("\t"));
+    assertEquals("\\f", converter.convert("\f"));
+  }
+
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.NullSafeComparator;
@@ -25,45 +26,57 @@ import java.io.ObjectInputStream;
 /**
  * Default implementation for {@link ObservableBean}.
  * Created at 17.07.2008 14:47:55
- * @since 0.4.5
+ *
  * @author Volker Bergmann
+ * @since 0.4.5
  */
 public class AbstractObservableBean implements ObservableBean {
 
-	private static final long serialVersionUID = 8228948623675990966L;
-	
-	protected transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+  private static final long serialVersionUID = 8228948623675990966L;
 
-	@Override
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.addPropertyChangeListener(listener);
-	}
+  /**
+   * The Property change support.
+   */
+  protected transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
-	@Override
-	public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
-	}
+  @Override
+  public void addPropertyChangeListener(PropertyChangeListener listener) {
+    propertyChangeSupport.addPropertyChangeListener(listener);
+  }
 
-	@Override
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-		propertyChangeSupport.removePropertyChangeListener(listener);
-	}
+  @Override
+  public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+    propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
+  }
 
-	@Override
-	public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-		propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
-	}
-	
-	protected void firePropertyChange(Object source, String propertyName, Object oldValue, Object newValue) {
-		if (!NullSafeComparator.equals(oldValue, newValue)) {
-			PropertyChangeEvent event = new PropertyChangeEvent(source, propertyName, oldValue, newValue);
-			propertyChangeSupport.firePropertyChange(event);
-		}
-	}
+  @Override
+  public void removePropertyChangeListener(PropertyChangeListener listener) {
+    propertyChangeSupport.removePropertyChangeListener(listener);
+  }
 
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-		in.defaultReadObject();
-		this.propertyChangeSupport = new PropertyChangeSupport(this);
-	}
-	
+  @Override
+  public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+    propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
+  }
+
+  /**
+   * Fire property change.
+   *
+   * @param source       the source
+   * @param propertyName the property name
+   * @param oldValue     the old value
+   * @param newValue     the new value
+   */
+  protected void firePropertyChange(Object source, String propertyName, Object oldValue, Object newValue) {
+    if (!NullSafeComparator.equals(oldValue, newValue)) {
+      PropertyChangeEvent event = new PropertyChangeEvent(source, propertyName, oldValue, newValue);
+      propertyChangeSupport.firePropertyChange(event);
+    }
+  }
+
+  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    in.defaultReadObject();
+    this.propertyChangeSupport = new PropertyChangeSupport(this);
+  }
+
 }

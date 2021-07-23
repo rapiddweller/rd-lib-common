@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.mutator;
 
 import com.rapiddweller.common.Mutator;
@@ -19,13 +20,14 @@ import com.rapiddweller.common.Mutator;
 /**
  * Empty implementation of the Mutator interface.
  * Created: 11.05.2005 20:14:02
- * @since 0.1
+ *
  * @author Volker Bergmann
+ * @since 0.1
  */
 public class EmptyMutator implements Mutator {
 
-    @Override
-	public void setValue(Object target, Object value) {
-    }
-    
+  @Override
+  public void setValue(Object target, Object value) {
+  }
+
 }

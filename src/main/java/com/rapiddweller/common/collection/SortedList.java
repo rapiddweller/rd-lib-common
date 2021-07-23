@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.collection;
 
 import java.util.Collection;
@@ -21,179 +22,187 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * {@link List} implementation which takes wraps another given list 
+ * {@link List} implementation which takes wraps another given list
  * and assures that the list is sorted before any read access.
  * Created: 19.06.2012 07:55:42
+ *
  * @param <E> the type of the collection's elements
- * @since 0.5.16
  * @author Volker Bergmann
+ * @since 0.5.16
  */
 public class SortedList<E> implements List<E> {
 
-	private boolean sorted;
-	private final List<E> baseList;
-	private final Comparator<? super E> comparator;
-	
-	public SortedList(List<E> baseList, Comparator<? super E> comparator) {
-		this.baseList = baseList;
-		this.comparator = comparator;
-		sorted = false;
-	}
+  private boolean sorted;
+  private final List<E> baseList;
+  private final Comparator<? super E> comparator;
 
-	@Override
-	public boolean add(E e) {
-		sorted = false;
-		return baseList.add(e);
-	}
+  /**
+   * Instantiates a new Sorted list.
+   *
+   * @param baseList   the base list
+   * @param comparator the comparator
+   */
+  public SortedList(List<E> baseList, Comparator<? super E> comparator) {
+    this.baseList = baseList;
+    this.comparator = comparator;
+    sorted = false;
+  }
 
-	@Override
-	public void add(int index, E element) {
-		sorted = false;
-		baseList.add(index, element);
-	}
+  @Override
+  public boolean add(E e) {
+    sorted = false;
+    return baseList.add(e);
+  }
 
-	@Override
-	public boolean addAll(Collection<? extends E> c) {
-		sorted = false;
-		return baseList.addAll(c);
-	}
+  @Override
+  public void add(int index, E element) {
+    sorted = false;
+    baseList.add(index, element);
+  }
 
-	@Override
-	public boolean addAll(int index, Collection<? extends E> c) {
-		sorted = false;
-		return baseList.addAll(index, c);
-	}
+  @Override
+  public boolean addAll(Collection<? extends E> c) {
+    sorted = false;
+    return baseList.addAll(c);
+  }
 
-	@Override
-	public void clear() {
-		sorted = true;
-		baseList.clear();
-	}
+  @Override
+  public boolean addAll(int index, Collection<? extends E> c) {
+    sorted = false;
+    return baseList.addAll(index, c);
+  }
 
-	@Override
-	public boolean contains(Object o) {
-		return baseList.contains(o);
-	}
+  @Override
+  public void clear() {
+    sorted = true;
+    baseList.clear();
+  }
 
-	@Override
-	public boolean containsAll(Collection<?> c) {
-		return baseList.containsAll(c);
-	}
-	
-	@Override
-	public E get(int index) {
-		validate();
-		return baseList.get(index);
-	}
+  @Override
+  public boolean contains(Object o) {
+    return baseList.contains(o);
+  }
 
-	@Override
-	public int indexOf(Object o) {
-		validate();
-		return baseList.indexOf(o);
-	}
+  @Override
+  public boolean containsAll(Collection<?> c) {
+    return baseList.containsAll(c);
+  }
 
-	@Override
-	public boolean isEmpty() {
-		return baseList.isEmpty();
-	}
+  @Override
+  public E get(int index) {
+    validate();
+    return baseList.get(index);
+  }
 
-	@Override
-	public Iterator<E> iterator() {
-		validate();
-		return baseList.iterator();
-	}
+  @Override
+  public int indexOf(Object o) {
+    validate();
+    return baseList.indexOf(o);
+  }
 
-	@Override
-	public int lastIndexOf(Object o) {
-		validate();
-		return baseList.lastIndexOf(o);
-	}
+  @Override
+  public boolean isEmpty() {
+    return baseList.isEmpty();
+  }
 
-	@Override
-	public ListIterator<E> listIterator() {
-		validate();
-		return baseList.listIterator();
-	}
+  @Override
+  public Iterator<E> iterator() {
+    validate();
+    return baseList.iterator();
+  }
 
-	@Override
-	public ListIterator<E> listIterator(int index) {
-		validate();
-		return baseList.listIterator(index);
-	}
+  @Override
+  public int lastIndexOf(Object o) {
+    validate();
+    return baseList.lastIndexOf(o);
+  }
 
-	@Override
-	public E remove(int index) {
-		validate();
-		return baseList.remove(index);
-	}
+  @Override
+  public ListIterator<E> listIterator() {
+    validate();
+    return baseList.listIterator();
+  }
 
-	@Override
-	public boolean remove(Object o) {
-		return baseList.remove(o);
-	}
+  @Override
+  public ListIterator<E> listIterator(int index) {
+    validate();
+    return baseList.listIterator(index);
+  }
 
-	@Override
-	public boolean removeAll(Collection<?> c) {
-		return baseList.removeAll(c);
-	}
+  @Override
+  public E remove(int index) {
+    validate();
+    return baseList.remove(index);
+  }
 
-	@Override
-	public boolean retainAll(Collection<?> c) {
-		return baseList.retainAll(c);
-	}
+  @Override
+  public boolean remove(Object o) {
+    return baseList.remove(o);
+  }
 
-	@Override
-	public E set(int index, E element) {
-		validate();
-		return baseList.set(index, element);
-	}
+  @Override
+  public boolean removeAll(Collection<?> c) {
+    return baseList.removeAll(c);
+  }
 
-	@Override
-	public int size() {
-		return baseList.size();
-	}
+  @Override
+  public boolean retainAll(Collection<?> c) {
+    return baseList.retainAll(c);
+  }
 
-	@Override
-	public List<E> subList(int fromIndex, int toIndex) {
-		validate();
-		return baseList.subList(fromIndex, toIndex);
-	}
+  @Override
+  public E set(int index, E element) {
+    validate();
+    return baseList.set(index, element);
+  }
 
-	@Override
-	public Object[] toArray() {
-		validate();
-		return baseList.toArray();
-	}
+  @Override
+  public int size() {
+    return baseList.size();
+  }
 
-	@Override
-	public <T> T[] toArray(T[] a) {
-		validate();
-		return baseList.toArray(a);
-	}
-	
-	// private helpers -------------------------------------------------------------------------------------------------
-	
-	private void validate() {
-		if (!sorted)
-			baseList.sort(comparator);
-	}
-	
-	// java.lang.Object overrides --------------------------------------------------------------------------------------
-	
-	@Override
-	public boolean equals(Object o) {
-		validate();
-		return baseList.equals(o);
-	}
+  @Override
+  public List<E> subList(int fromIndex, int toIndex) {
+    validate();
+    return baseList.subList(fromIndex, toIndex);
+  }
 
-	@Override
-	public int hashCode() {
-		return baseList.hashCode();
-	}
-	
-	@Override
-	public String toString() {
-		return baseList.toString();
-	}
-	
+  @Override
+  public Object[] toArray() {
+    validate();
+    return baseList.toArray();
+  }
+
+  @Override
+  public <T> T[] toArray(T[] a) {
+    validate();
+    return baseList.toArray(a);
+  }
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private void validate() {
+    if (!sorted) {
+      baseList.sort(comparator);
+    }
+  }
+
+  // java.lang.Object overrides --------------------------------------------------------------------------------------
+
+  @Override
+  public boolean equals(Object o) {
+    validate();
+    return baseList.equals(o);
+  }
+
+  @Override
+  public int hashCode() {
+    return baseList.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return baseList.toString();
+  }
+
 }

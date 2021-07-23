@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.HeavyweightIterator;
@@ -21,45 +22,55 @@ import java.io.IOException;
 import java.util.Iterator;
 
 /**
- * Proxy for an {@link Iterator} with additional support for 
+ * Proxy for an {@link Iterator} with additional support for
  * iterators that implement the {@link Closeable} interface.
  * Created: 13.10.2010 13:22:46
+ *
  * @param <E> the type to iterate
- * @since 0.5.4
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class IteratorProxy<E> implements HeavyweightIterator<E> {
-	
-	protected Iterator<E> source;
 
-	public IteratorProxy(Iterator<E> source) {
-	    this.source = source;
-    }
+  /**
+   * The Source.
+   */
+  protected Iterator<E> source;
 
-	@Override
-	public boolean hasNext() {
-	    return source.hasNext();
-    }
+  /**
+   * Instantiates a new Iterator proxy.
+   *
+   * @param source the source
+   */
+  public IteratorProxy(Iterator<E> source) {
+    this.source = source;
+  }
 
-	@Override
-	public E next() {
-	    return source.next();
-    }
+  @Override
+  public boolean hasNext() {
+    return source.hasNext();
+  }
 
-	@Override
-	public void remove() {
-	    source.remove();
-    }
+  @Override
+  public E next() {
+    return source.next();
+  }
 
-	@Override
-	public void close() throws IOException {
-		if (source instanceof Closeable)
-			((Closeable) source).close();
+  @Override
+  public void remove() {
+    source.remove();
+  }
+
+  @Override
+  public void close() throws IOException {
+    if (source instanceof Closeable) {
+      ((Closeable) source).close();
     }
-	
-	@Override
-	public String toString() {
-		return source.toString();
-	}
-	
+  }
+
+  @Override
+  public String toString() {
+    return source.toString();
+  }
+
 }

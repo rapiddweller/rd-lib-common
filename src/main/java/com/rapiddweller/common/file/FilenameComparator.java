@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.file;
 
 import com.rapiddweller.common.comparator.CompositeTextComparator;
@@ -23,22 +24,31 @@ import java.util.Comparator;
  * Compares (local) files by their names,
  * supporting different comparation strategies by a user-definable Comparator.
  * Created: 11.05.2007 18:24:45
+ *
  * @author Volker Bergmann
  */
 public class FilenameComparator implements Comparator<File> {
 
-    private final Comparator<String> nameComparator;
+  private final Comparator<String> nameComparator;
 
-    public FilenameComparator() {
-        this(new CompositeTextComparator());
-    }
+  /**
+   * Instantiates a new Filename comparator.
+   */
+  public FilenameComparator() {
+    this(new CompositeTextComparator());
+  }
 
-    public FilenameComparator(Comparator<String> nameComparator) {
-        this.nameComparator = nameComparator;
-    }
+  /**
+   * Instantiates a new Filename comparator.
+   *
+   * @param nameComparator the name comparator
+   */
+  public FilenameComparator(Comparator<String> nameComparator) {
+    this.nameComparator = nameComparator;
+  }
 
-    @Override
-	public int compare(File o1, File o2) {
-        return nameComparator.compare(o1.getName(), o2.getName());
-    }
+  @Override
+  public int compare(File o1, File o2) {
+    return nameComparator.compare(o1.getName(), o2.getName());
+  }
 }

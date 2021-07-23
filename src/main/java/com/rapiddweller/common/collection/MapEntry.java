@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.collection;
 
 import com.rapiddweller.common.NullSafeComparator;
@@ -20,60 +21,69 @@ import java.util.Map;
 
 /**
  * Simple implementation of the Map.Entry interface.
+ *
  * @param <K> the key type
  * @param <V> the value type
- * @since 0.3.0
  * @author Volker Bergmann
+ * @since 0.3.0
  */
 public class MapEntry<K, V> implements Map.Entry<K, V> {
-    
-    private final K key;
-    private V value;
-    
-    public MapEntry(K key, V value) {
-        super();
-        this.key = key;
-        this.value = value;
+
+  private final K key;
+  private V value;
+
+  /**
+   * Instantiates a new Map entry.
+   *
+   * @param key   the key
+   * @param value the value
+   */
+  public MapEntry(K key, V value) {
+    super();
+    this.key = key;
+    this.value = value;
+  }
+
+  // interface -------------------------------------------------------------------------------------------------------
+
+  @Override
+  public K getKey() {
+    return key;
+  }
+
+  @Override
+  public V getValue() {
+    return value;
+  }
+
+  @Override
+  public V setValue(V value) {
+    V old = this.value;
+    this.value = value;
+    return old;
+  }
+
+  @Override
+  public String toString() {
+    return String.valueOf(key) + '=' + value;
+  }
+
+  @Override
+  public int hashCode() {
+    return ((key == null) ? 0 : key.hashCode()) * 31 + ((value == null) ? 0 : value.hashCode());
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-    
-    // interface -------------------------------------------------------------------------------------------------------
-
-    @Override
-	public K getKey() {
-        return key;
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
     }
+    @SuppressWarnings("rawtypes")
+    MapEntry that = (MapEntry) obj;
+    return NullSafeComparator.equals(this.key, that.key) && NullSafeComparator.equals(this.value, that.value);
+  }
 
-    @Override
-	public V getValue() {
-        return value;
-    }
-
-    @Override
-	public V setValue(V value) {
-        V old = this.value;
-        this.value = value;
-        return old;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(key) + '=' + value;
-    }
-
-	@Override
-	public int hashCode() {
-		return ((key == null) ? 0 : key.hashCode()) * 31 + ((value == null) ? 0 : value.hashCode());
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null || getClass() != obj.getClass())
-			return false;
-		@SuppressWarnings("rawtypes")
-		MapEntry that = (MapEntry) obj;
-		return NullSafeComparator.equals(this.key, that.key) && NullSafeComparator.equals(this.value, that.value);
-	}
-    
 }

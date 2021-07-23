@@ -18,19 +18,31 @@ package com.rapiddweller.common;
 /**
  * Represents a certain month of a certain year.<br><br>
  * Created: 17.01.2018 12:30:38
- * @since 1.0
+ *
  * @author Volker Bergmann
+ * @since 1.0
  */
-
 public class Month {
-	
-	public final int month;
-	public final int year;
-	
-	public Month(int month, int year) {
-		this.month = month;
-		this.year = year;
-	}
-	
+
+  /**
+   * The Month.
+   */
+  public final int month;
+  /**
+   * The Year.
+   */
+  public final int year;
+
+  /**
+   * Instantiates a new Month.
+   *
+   * @param month the month
+   * @param year  the year
+   */
+  public Month(int month, int year) {
+    this.month = month;
+    this.year = year;
+  }
+
 }
 

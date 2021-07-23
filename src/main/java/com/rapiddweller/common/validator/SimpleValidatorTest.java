@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.Validator;
@@ -19,25 +20,40 @@ import com.rapiddweller.common.Validator;
 /**
  * Simple helper class that provides methods for testing validators.
  * Created at 24.07.2009 17:52:21
+ *
  * @param <E> the object type to be validated
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public abstract class SimpleValidatorTest<E> {
 
-	private final Validator<E> validator;
-	
-    public SimpleValidatorTest(Validator<E> validator) {
-	    this.validator = validator;
-    }
+  private final Validator<E> validator;
 
-	protected void assertValid(E candidate) {
-	    assert validator.valid(candidate);
-    }
+  /**
+   * Instantiates a new Simple validator test.
+   *
+   * @param validator the validator
+   */
+  public SimpleValidatorTest(Validator<E> validator) {
+    this.validator = validator;
+  }
 
-    protected void assertInvalid(E candidate) {
-	    assert !validator.valid(candidate);
-    }
+  /**
+   * Assert valid.
+   *
+   * @param candidate the candidate
+   */
+  protected void assertValid(E candidate) {
+    assert validator.valid(candidate);
+  }
+
+  /**
+   * Assert invalid.
+   *
+   * @param candidate the candidate
+   */
+  protected void assertInvalid(E candidate) {
+    assert !validator.valid(candidate);
+  }
 
 }

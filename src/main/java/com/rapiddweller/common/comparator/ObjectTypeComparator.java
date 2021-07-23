@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
 import java.util.Comparator;
@@ -19,19 +20,25 @@ import java.util.Comparator;
 /**
  * Comparator that compares objects by its Java type with a predefined order.
  * Created: 22.05.2007 18:19:54
+ *
  * @author Volker Bergmann
  */
 public class ObjectTypeComparator implements Comparator<Object> {
 
-    private final TypeComparator typeComparator;
+  private final TypeComparator typeComparator;
 
-    public ObjectTypeComparator(Class<?> ... orderedClasses) {
-    	typeComparator = new TypeComparator(orderedClasses);
-    }
+  /**
+   * Instantiates a new Object type comparator.
+   *
+   * @param orderedClasses the ordered classes
+   */
+  public ObjectTypeComparator(Class<?>... orderedClasses) {
+    typeComparator = new TypeComparator(orderedClasses);
+  }
 
-    @Override
-	public int compare(Object o1, Object o2) {
-        return typeComparator.compare(o1.getClass(), o2.getClass());
-    }
+  @Override
+  public int compare(Object o1, Object o2) {
+    return typeComparator.compare(o1.getClass(), o2.getClass());
+  }
 
 }

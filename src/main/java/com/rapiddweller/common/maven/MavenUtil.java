@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.maven;
 
 import com.rapiddweller.common.ArrayBuilder;
@@ -24,30 +25,39 @@ import java.io.File;
 /**
  * Provides utility methods for Maven invocation and repository access.
  * Created at 17.12.2008 10:32:32
- * @since 0.4.7
+ *
  * @author Volker Bergmann
+ * @since 0.4.7
  */
-
 public class MavenUtil {
 
-	public static void invoke(String goal, File folder, boolean online) {
-		ArrayBuilder<String> cmdBuilder = new ArrayBuilder<>(String.class);
-		
-		// maven invocation
-		if (SystemInfo.isWindows())
-			cmdBuilder.add("mvn.bat");
-		else
-			cmdBuilder.add("mvn");
-		
-		// offline parameter?
-		if (!online)
-			cmdBuilder.add("-o");
-		
-		// goal
-		cmdBuilder.add(goal);
-		
-		// run
-		ShellUtil.runShellCommand(cmdBuilder.toArray(), null, folder, new ErrorHandler(MavenUtil.class));
-	}
-	
+  /**
+   * Invoke.
+   *
+   * @param goal   the goal
+   * @param folder the folder
+   * @param online the online
+   */
+  public static void invoke(String goal, File folder, boolean online) {
+    ArrayBuilder<String> cmdBuilder = new ArrayBuilder<>(String.class);
+
+    // maven invocation
+    if (SystemInfo.isWindows()) {
+      cmdBuilder.add("mvn.bat");
+    } else {
+      cmdBuilder.add("mvn");
+    }
+
+    // offline parameter?
+    if (!online) {
+      cmdBuilder.add("-o");
+    }
+
+    // goal
+    cmdBuilder.add(goal);
+
+    // run
+    ShellUtil.runShellCommand(cmdBuilder.toArray(), null, folder, new ErrorHandler(MavenUtil.class));
+  }
+
 }

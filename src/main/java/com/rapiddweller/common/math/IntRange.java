@@ -12,67 +12,109 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.math;
 
 /**
- * Represents a range of int values from a <code>min</code> to a <code>max</code> value 
+ * Represents a range of int values from a <code>min</code> to a <code>max</code> value
  * (including min and max).
  * Created: 05.10.2010 19:33:23
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class IntRange {
-	
-	protected int min;
-	protected int max;
-	
-	public IntRange(int min, int max) {
-	    this.min = min;
-	    this.max = max;
-    }
 
-	public int getMin() {
-    	return min;
-    }
+  /**
+   * The Min.
+   */
+  protected int min;
+  /**
+   * The Max.
+   */
+  protected int max;
 
-	public void setMin(int min) {
-    	this.min = min;
-    }
+  /**
+   * Instantiates a new Int range.
+   *
+   * @param min the min
+   * @param max the max
+   */
+  public IntRange(int min, int max) {
+    this.min = min;
+    this.max = max;
+  }
 
-	public int getMax() {
-    	return max;
-    }
+  /**
+   * Gets min.
+   *
+   * @return the min
+   */
+  public int getMin() {
+    return min;
+  }
 
-	public void setMax(int max) {
-    	this.max = max;
-    }
-	
-	public boolean contains(int i) {
-		return (min <= i && i <= max);
-	}
+  /**
+   * Sets min.
+   *
+   * @param min the min
+   */
+  public void setMin(int min) {
+    this.min = min;
+  }
 
-	@Override
-    public int hashCode() {
-	    final int prime = 31;
-	    int result = 1;
-	    result = prime * result + max;
-	    result = prime * result + min;
-	    return result;
-    }
+  /**
+   * Gets max.
+   *
+   * @return the max
+   */
+  public int getMax() {
+    return max;
+  }
 
-	@Override
-    public boolean equals(Object obj) {
-	    if (this == obj)
-		    return true;
-	    if (obj == null || getClass() != obj.getClass())
-		    return false;
-	    IntRange that = (IntRange) obj;
-	    return (max == that.max && min == that.min);
+  /**
+   * Sets max.
+   *
+   * @param max the max
+   */
+  public void setMax(int max) {
+    this.max = max;
+  }
+
+  /**
+   * Contains boolean.
+   *
+   * @param i the
+   * @return the boolean
+   */
+  public boolean contains(int i) {
+    return (min <= i && i <= max);
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + max;
+    result = prime * result + min;
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-	
-	@Override
-	public String toString() {
-	    return (min != max ? min + "..." + max : String.valueOf(min));
-	}
-	
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    IntRange that = (IntRange) obj;
+    return (max == that.max && min == that.min);
+  }
+
+  @Override
+  public String toString() {
+    return (min != max ? min + "..." + max : String.valueOf(min));
+  }
+
 }

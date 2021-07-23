@@ -22,19 +22,22 @@ import java.time.LocalDateTime;
 /**
  * Parses a String as {@link LocalDateTime}.<br><br>
  * Created: 29.09.2019 09:01:15
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public class String2LocalDateTimeConverter extends ThreadSafeConverter<String, LocalDateTime> {
 
-    public String2LocalDateTimeConverter() {
-        super(String.class, LocalDateTime.class);
-    }
+  /**
+   * Instantiates a new String 2 local date time converter.
+   */
+  public String2LocalDateTimeConverter() {
+    super(String.class, LocalDateTime.class);
+  }
 
-    @Override
-	public LocalDateTime convert(String target) throws ConversionException {
-        return LocalDateTime.parse(target);
-    }
-    
+  @Override
+  public LocalDateTime convert(String target) throws ConversionException {
+    return LocalDateTime.parse(target);
+  }
+
 }

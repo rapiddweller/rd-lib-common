@@ -12,73 +12,74 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
+
+import com.rapiddweller.common.UpdateFailedException;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import com.rapiddweller.common.UpdateFailedException;
-import com.rapiddweller.common.bean.UntypedPropertyMutator;
-import org.junit.Test;
-
 /**
  * Tests the {@link UntypedPropertyMutator}.
  * Created: 20.02.2007 08:52:49
- * @since 0.2
+ *
  * @author Volker Bergmann
+ * @since 0.2
  */
 public class UntypedPropertyMutatorTest {
 
-	@Test
-    public void testLocalProperty() throws UpdateFailedException {
-        UntypedPropertyMutator aNameMutator = new UntypedPropertyMutator("name", true, false);
-        ABean a = new ABean();
-        aNameMutator.setValue(a, "aName");
-        assertEquals("aName", a.name);
-        aNameMutator.setValue(a, null);
-        assertEquals(null, a.name);
-    }
-    
-	@Test
-    public void testNonStrict() {
-	    UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", false, true);
-		mutator.setValue(null, null);
-		mutator.setValue(new ABean(), null);
-	    UntypedPropertyMutator readOnly = new UntypedPropertyMutator("readOnly", false, true);
-	    readOnly.setValue(new ABean(), "bla");
-    }
+  @Test
+  public void testLocalProperty() throws UpdateFailedException {
+    UntypedPropertyMutator aNameMutator = new UntypedPropertyMutator("name", true, false);
+    ABean a = new ABean();
+    aNameMutator.setValue(a, "aName");
+    assertEquals("aName", a.name);
+    aNameMutator.setValue(a, null);
+    assertEquals(null, a.name);
+  }
 
-	@Test
-    public void testStrictSetOnNull() {
-    	try {
-	    	UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", true, false);
-	    	mutator.setValue(null, null);
-	    	fail(UpdateFailedException.class.getSimpleName() + " expected");
-    	} catch (UpdateFailedException e) {
-    		// expected
-    	}
-    }
+  @Test
+  public void testNonStrict() {
+    UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", false, true);
+    mutator.setValue(null, null);
+    mutator.setValue(new ABean(), null);
+    UntypedPropertyMutator readOnly = new UntypedPropertyMutator("readOnly", false, true);
+    readOnly.setValue(new ABean(), "bla");
+  }
 
-	@Test
-    public void testStrictMissingProperty() {
-    	try {
-	    	UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", true, false);
-	    	mutator.setValue(new ABean(), null);
-	    	fail(UpdateFailedException.class.getSimpleName() + " expected");
-    	} catch (UpdateFailedException e) {
-    		// expected
-    	}
+  @Test
+  public void testStrictSetOnNull() {
+    try {
+      UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", true, false);
+      mutator.setValue(null, null);
+      fail(UpdateFailedException.class.getSimpleName() + " expected");
+    } catch (UpdateFailedException e) {
+      // expected
     }
+  }
 
-	@Test
-    public void testStrictReadOnlyProperty() {
-    	try {
-	    	UntypedPropertyMutator mutator = new UntypedPropertyMutator("readOnly", true, false);
-	    	mutator.setValue(new ABean(), null);
-	    	fail(UpdateFailedException.class.getSimpleName() + " expected");
-    	} catch (UpdateFailedException e) {
-    		// expected
-    	}
+  @Test
+  public void testStrictMissingProperty() {
+    try {
+      UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", true, false);
+      mutator.setValue(new ABean(), null);
+      fail(UpdateFailedException.class.getSimpleName() + " expected");
+    } catch (UpdateFailedException e) {
+      // expected
     }
-	
+  }
+
+  @Test
+  public void testStrictReadOnlyProperty() {
+    try {
+      UntypedPropertyMutator mutator = new UntypedPropertyMutator("readOnly", true, false);
+      mutator.setValue(new ABean(), null);
+      fail(UpdateFailedException.class.getSimpleName() + " expected");
+    } catch (UpdateFailedException e) {
+      // expected
+    }
+  }
+
 }

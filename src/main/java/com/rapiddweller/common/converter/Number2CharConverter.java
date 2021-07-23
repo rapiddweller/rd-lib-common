@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -19,18 +20,22 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts {@link Number}s to characters like a cast does, e.g. (char) 65.
  * Created: 19.01.2011 15:33:22
- * @since 0.5.5
+ *
  * @author Volker Bergmann
+ * @since 0.5.5
  */
-public class Number2CharConverter extends ThreadSafeConverter<Number, Character>{
+public class Number2CharConverter extends ThreadSafeConverter<Number, Character> {
 
-	public Number2CharConverter() {
-		super(Number.class, Character.class);
-	}
+  /**
+   * Instantiates a new Number 2 char converter.
+   */
+  public Number2CharConverter() {
+    super(Number.class, Character.class);
+  }
 
-	@Override
-	public Character convert(Number sourceValue) throws ConversionException {
-		return (sourceValue != null ? (char) sourceValue.intValue() : null);
-	}
+  @Override
+  public Character convert(Number sourceValue) throws ConversionException {
+    return (sourceValue != null ? (char) sourceValue.intValue() : null);
+  }
 
 }

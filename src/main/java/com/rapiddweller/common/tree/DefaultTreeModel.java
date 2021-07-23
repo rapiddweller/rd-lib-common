@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.tree;
 
 import com.rapiddweller.common.TreeModel;
@@ -19,45 +20,51 @@ import com.rapiddweller.common.TreeModel;
 /**
  * Default implementation of a {@link TreeModel}. It uses DefaultTreeNodes.
  * Created: 08.05.2007 19:05:14
+ *
  * @param <E> the type of the wrapped objects
  * @author Volker Bergmann
  */
 public class DefaultTreeModel<E> implements TreeModel<DefaultTreeNode<E>> {
 
-    private final DefaultTreeNode<E> root;
+  private final DefaultTreeNode<E> root;
 
-    public DefaultTreeModel(DefaultTreeNode<E> root) {
-        this.root = root;
-    }
+  /**
+   * Instantiates a new Default tree model.
+   *
+   * @param root the root
+   */
+  public DefaultTreeModel(DefaultTreeNode<E> root) {
+    this.root = root;
+  }
 
-    @Override
-	public DefaultTreeNode<E> getRoot() {
-        return root;
-    }
+  @Override
+  public DefaultTreeNode<E> getRoot() {
+    return root;
+  }
 
-    @Override
-	public DefaultTreeNode<E> getParent(DefaultTreeNode<E> child) {
-        return child.getParent();
-    }
+  @Override
+  public DefaultTreeNode<E> getParent(DefaultTreeNode<E> child) {
+    return child.getParent();
+  }
 
-    @Override
-	public DefaultTreeNode<E> getChild(DefaultTreeNode<E> parent, int index) {
-        return parent.getChild(index);
-    }
+  @Override
+  public DefaultTreeNode<E> getChild(DefaultTreeNode<E> parent, int index) {
+    return parent.getChild(index);
+  }
 
-    @Override
-	public int getChildCount(DefaultTreeNode<E> parent) {
-        return parent.getChildCount();
-    }
+  @Override
+  public int getChildCount(DefaultTreeNode<E> parent) {
+    return parent.getChildCount();
+  }
 
-    @Override
-	public boolean isLeaf(DefaultTreeNode<E> node) {
-        return node.isLeaf();
-    }
+  @Override
+  public boolean isLeaf(DefaultTreeNode<E> node) {
+    return node.isLeaf();
+  }
 
-    @Override
-	public int getIndexOfChild(DefaultTreeNode<E> parent, DefaultTreeNode<E> child) {
-        return parent.getIndexOfChild(child);
-    }
-    
+  @Override
+  public int getIndexOfChild(DefaultTreeNode<E> parent, DefaultTreeNode<E> child) {
+    return parent.getIndexOfChild(child);
+  }
+
 }

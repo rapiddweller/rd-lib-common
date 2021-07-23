@@ -12,23 +12,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Designates the capitalization of a string.
  * Created: 22.02.2011 12:07:46
- * @since 0.5.6
+ *
  * @author Volker Bergmann
+ * @since 0.5.6
  */
 public enum Capitalization {
-	
-	/** All letters upper case */
-	upper, 
-	
-	/** All letters lower case */
-	lower, 
-	
-	/** Characters in upper and lower case */
-	mixed
-	
+
+  /**
+   * All letters upper case
+   */
+  upper,
+
+  /**
+   * All letters lower case
+   */
+  lower,
+
+  /**
+   * Characters in upper and lower case
+   */
+  mixed
+
 }

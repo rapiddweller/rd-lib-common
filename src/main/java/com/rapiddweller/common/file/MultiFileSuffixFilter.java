@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.file;
 
 import com.rapiddweller.common.FileUtil;
@@ -21,24 +22,33 @@ import java.io.File;
 /**
  * Matches files by checking their suffix to be one of the specified values.
  * Created: 23.04.2007 07:59:34
+ *
  * @author Volker Bergmann
  */
 public class MultiFileSuffixFilter implements FileFilter {
 
-    private final String[] suffixes;
-    private final boolean caseSensitive;
+  private final String[] suffixes;
+  private final boolean caseSensitive;
 
-    public MultiFileSuffixFilter(boolean caseSensitive, String ... suffixes) {
-        this.suffixes = suffixes;
-        this.caseSensitive = caseSensitive;
-    }
+  /**
+   * Instantiates a new Multi file suffix filter.
+   *
+   * @param caseSensitive the case sensitive
+   * @param suffixes      the suffixes
+   */
+  public MultiFileSuffixFilter(boolean caseSensitive, String... suffixes) {
+    this.suffixes = suffixes;
+    this.caseSensitive = caseSensitive;
+  }
 
-    @Override
-	public boolean accept(File file) {
-        for (String suffix : suffixes)
-            if (FileUtil.hasSuffix(file, suffix, caseSensitive))
-                return true;
-        return false;
+  @Override
+  public boolean accept(File file) {
+    for (String suffix : suffixes) {
+      if (FileUtil.hasSuffix(file, suffix, caseSensitive)) {
+        return true;
+      }
     }
+    return false;
+  }
 
 }
