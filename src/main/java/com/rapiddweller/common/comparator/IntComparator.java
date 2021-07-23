@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
 import java.util.Comparator;
@@ -19,17 +20,25 @@ import java.util.Comparator;
 /**
  * Compares values of type Integer or int.
  * Created: 05.04.2005 19:25:25
+ *
  * @author Volker Bergmann
  */
 public class IntComparator implements Comparator<Integer> {
 
-    @Override
-	public int compare(Integer i1, Integer i2) {
-        return (i1).compareTo(i2);
-    }
+  @Override
+  public int compare(Integer i1, Integer i2) {
+    return (i1).compareTo(i2);
+  }
 
-    public static int compare(int i1, int i2) {
-        return (Integer.compare(i1, i2));
-    }
+  /**
+   * Compare int.
+   *
+   * @param i1 the 1
+   * @param i2 the 2
+   * @return the int
+   */
+  public static int compare(int i1, int i2) {
+    return (Integer.compare(i1, i2));
+  }
 
 }

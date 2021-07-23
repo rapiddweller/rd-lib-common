@@ -12,21 +12,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * A basic validator interface.
  * Created: 29.08.2006 08:31:19
+ *
  * @param <E> the object type to be validated
- * @since 0.1
  * @author Volker Bergmann
+ * @since 0.1
  */
 public interface Validator<E> {
 
-    /** 
-     * Checks if an object is valid.
-     * @param object the object to validate
-     * @return true if the specified object is valid, otherwise false 
-     */
-    boolean valid(E object);
+  /**
+   * Checks if an object is valid.
+   *
+   * @param object the object to validate
+   * @return true if the specified object is valid, otherwise false
+   */
+  boolean valid(E object);
 }

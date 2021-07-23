@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -21,19 +22,22 @@ import java.util.regex.Pattern;
 /**
  * Converts a String to a {@link Pattern}.
  * Created at 01.10.2009 10:09:38
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class String2PatternConverter extends ThreadSafeConverter<String, Pattern> {
 
-    public String2PatternConverter() {
-	    super(String.class, Pattern.class);
-    }
+  /**
+   * Instantiates a new String 2 pattern converter.
+   */
+  public String2PatternConverter() {
+    super(String.class, Pattern.class);
+  }
 
-	@Override
-	public Pattern convert(String regex) throws ConversionException {
-	    return Pattern.compile(regex);
-    }
+  @Override
+  public Pattern convert(String regex) throws ConversionException {
+    return Pattern.compile(regex);
+  }
 
 }

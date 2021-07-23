@@ -12,69 +12,71 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
-
-import static org.junit.Assert.assertEquals;
-
-import java.util.Locale;
 
 import com.rapiddweller.common.LocaleUtil;
 import org.junit.Test;
 
+import java.util.Locale;
+
+import static org.junit.Assert.assertEquals;
+
 /**
  * Tests the {@link NumberParser}.
  * Created at 22.03.2009 08:02:42
- * @since 0.4.9
+ *
  * @author Volker Bergmann
+ * @since 0.4.9
  */
 
 public class NumberFormatterTest extends AbstractConverterTest {
 
-	public NumberFormatterTest() {
-	    super(NumberFormatter.class);
-    }
+  public NumberFormatterTest() {
+    super(NumberFormatter.class);
+  }
 
-	@Test
-	public void testEmpty() {
-		NumberFormatter converter = new NumberFormatter();
-		assertEquals("", converter.convert(null));
-	}
-	
-	@Test
-	public void testIntegralNumber() {
-		NumberFormatter converter = new NumberFormatter();
-		assertEquals("-1", converter.convert(-1));
-		assertEquals("1000", converter.convert(1000));
-	}
-	
-	@Test
-	public void testConvert_US() {
-		LocaleUtil.runInLocale(Locale.US, this::checkConversions);
-	}
+  @Test
+  public void testEmpty() {
+    NumberFormatter converter = new NumberFormatter();
+    assertEquals("", converter.convert(null));
+  }
 
-	@Test
-	public void testConvert_DE() {
-		LocaleUtil.runInLocale(Locale.GERMANY, this::checkConversions);
-	}
+  @Test
+  public void testIntegralNumber() {
+    NumberFormatter converter = new NumberFormatter();
+    assertEquals("-1", converter.convert(-1));
+    assertEquals("1000", converter.convert(1000));
+  }
 
-	void checkConversions() {
-        NumberFormatter converter = new NumberFormatter();
-		// default
-		assertEquals("0", converter.convert(0.));
-		assertEquals("1000", converter.convert(1000.));
-		// pattern
-		converter.setPattern("0.00");
-		assertEquals("0.00", converter.convert(0.));
-		// decimal separator
-		converter.setDecimalSeparator(',');
-		assertEquals("0,00", converter.convert(0.));
-		// grouping pattern
-		converter.setPattern("#,##0");
-		assertEquals("1,000", converter.convert(1000.));
-		// decimal and grouping separator
-		converter.setPattern("#,##0.00");
-		converter.setGroupingSeparator('.');
-		assertEquals("1.000,00", converter.convert(1000.));
-    }
+  @Test
+  public void testConvert_US() {
+    LocaleUtil.runInLocale(Locale.US, this::checkConversions);
+  }
+
+  @Test
+  public void testConvert_DE() {
+    LocaleUtil.runInLocale(Locale.GERMANY, this::checkConversions);
+  }
+
+  void checkConversions() {
+    NumberFormatter converter = new NumberFormatter();
+    // default
+    assertEquals("0", converter.convert(0.));
+    assertEquals("1000", converter.convert(1000.));
+    // pattern
+    converter.setPattern("0.00");
+    assertEquals("0.00", converter.convert(0.));
+    // decimal separator
+    converter.setDecimalSeparator(',');
+    assertEquals("0,00", converter.convert(0.));
+    // grouping pattern
+    converter.setPattern("#,##0");
+    assertEquals("1,000", converter.convert(1000.));
+    // decimal and grouping separator
+    converter.setPattern("#,##0.00");
+    converter.setGroupingSeparator('.');
+    assertEquals("1.000,00", converter.convert(1000.));
+  }
 
 }

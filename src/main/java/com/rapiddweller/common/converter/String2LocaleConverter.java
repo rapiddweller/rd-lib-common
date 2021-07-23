@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -22,17 +23,21 @@ import java.util.Locale;
 /**
  * Instantiates {@link Locale}s by their code, e.g. de_DE.
  * Created: 05.08.2007 06:29:58
+ *
  * @author Volker Bergmann
  */
 public class String2LocaleConverter extends ThreadSafeConverter<String, Locale> {
 
-    public String2LocaleConverter() {
-        super(String.class, Locale.class);
-    }
+  /**
+   * Instantiates a new String 2 locale converter.
+   */
+  public String2LocaleConverter() {
+    super(String.class, Locale.class);
+  }
 
-    @Override
-	public Locale convert(String sourceValue) throws ConversionException {
-        return LocaleUtil.getLocale(sourceValue);
-    }
+  @Override
+  public Locale convert(String sourceValue) throws ConversionException {
+    return LocaleUtil.getLocale(sourceValue);
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.HeavyweightIterable;
@@ -19,10 +20,11 @@ import com.rapiddweller.common.HeavyweightIterable;
 /**
  * Special sub type of {@link Iterable} which creates {@link TabularIterator}s.
  * Created: 26.01.2012 17:59:58
- * @since 0.5.14
+ *
  * @author Volker Bergmann
+ * @since 0.5.14
  */
 public interface TabularIterable extends HeavyweightIterable<Object[]> {
-	@Override
-	TabularIterator iterator();
+  @Override
+  TabularIterator iterator();
 }

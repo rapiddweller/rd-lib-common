@@ -26,31 +26,41 @@ import java.awt.Container;
 /**
  * Displays a text in a dialog window.
  * Created: 21.06.2016 13:52:18
- * @since 1.0.10
+ *
  * @author Volker Bergmann
+ * @since 1.0.10
  */
-
 public class TextDialog extends JDialog {
 
-	private static final long serialVersionUID = 1L;
-	
-	public TextDialog(String text) {
-		Container contentPane = getContentPane();
-		contentPane.add(new JScrollPane(new JTextArea(text)), BorderLayout.CENTER);
-		JButton okButton = new JButton("OK");
-		Box buttonBox = Box.createHorizontalBox();
-		buttonBox.add(Box.createHorizontalGlue());
-		buttonBox.add(okButton);
-		buttonBox.add(Box.createHorizontalGlue());
-		okButton.addActionListener(evt -> setVisible(false));
-		contentPane.add(buttonBox, BorderLayout.SOUTH);
-	}
-	
-	public static void show(String text) {
-		TextDialog dialog = new TextDialog(text);
-		dialog.setSize(600, 400);
-		SwingUtil.center(dialog);
-		dialog.setVisible(true);
-	}
-	
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * Instantiates a new Text dialog.
+   *
+   * @param text the text
+   */
+  public TextDialog(String text) {
+    Container contentPane = getContentPane();
+    contentPane.add(new JScrollPane(new JTextArea(text)), BorderLayout.CENTER);
+    JButton okButton = new JButton("OK");
+    Box buttonBox = Box.createHorizontalBox();
+    buttonBox.add(Box.createHorizontalGlue());
+    buttonBox.add(okButton);
+    buttonBox.add(Box.createHorizontalGlue());
+    okButton.addActionListener(evt -> setVisible(false));
+    contentPane.add(buttonBox, BorderLayout.SOUTH);
+  }
+
+  /**
+   * Show.
+   *
+   * @param text the text
+   */
+  public static void show(String text) {
+    TextDialog dialog = new TextDialog(text);
+    dialog.setSize(600, 400);
+    SwingUtil.center(dialog);
+    dialog.setVisible(true);
+  }
+
 }

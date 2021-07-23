@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
 import com.rapiddweller.common.ComparableComparator;
@@ -23,26 +24,30 @@ import java.util.Comparator;
 /**
  * Splits texts into tokens of words and numbers and compares them element-wise.
  * Created: 22.05.2007 07:04:10
- * @since 0.1
+ *
  * @author Volker Bergmann
+ * @since 0.1
  */
 public class CompositeTextComparator implements Comparator<String> {
 
-    private final ArrayComparator<Object> arrayComparator;
+  private final ArrayComparator<Object> arrayComparator;
 
-    @SuppressWarnings({"rawtypes" })
-    public CompositeTextComparator() {
-        this.arrayComparator = new ArrayComparator<>(new ComparatorChain<Object>(
-                new ObjectTypeComparator(BigInteger.class, String.class),
-                new ComparableComparator()
-        ));
-    }
+  /**
+   * Instantiates a new Composite text comparator.
+   */
+  @SuppressWarnings({"rawtypes"})
+  public CompositeTextComparator() {
+    this.arrayComparator = new ArrayComparator<>(new ComparatorChain<Object>(
+        new ObjectTypeComparator(BigInteger.class, String.class),
+        new ComparableComparator()
+    ));
+  }
 
-    @Override
-	public int compare(String s1, String s2) {
-        Object[] s1Parts = ParseUtil.splitNumbers(s1);
-        Object[] s2Parts = ParseUtil.splitNumbers(s2);
-        return arrayComparator.compare(s1Parts, s2Parts);
-    }
-    
+  @Override
+  public int compare(String s1, String s2) {
+    Object[] s1Parts = ParseUtil.splitNumbers(s1);
+    Object[] s2Parts = ParseUtil.splitNumbers(s2);
+    return arrayComparator.compare(s1Parts, s2Parts);
+  }
+
 }

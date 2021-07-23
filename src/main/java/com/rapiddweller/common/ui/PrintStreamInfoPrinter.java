@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui;
 
 import java.io.PrintStream;
@@ -19,21 +20,28 @@ import java.io.PrintStream;
 /**
  * {@link InfoPrinter} implementation which writes output to a {@link PrintStream}.
  * Created: 05.06.2012 10:06:42
- * @since 0.5.16
+ *
  * @author Volker Bergmann
+ * @since 0.5.16
  */
 public class PrintStreamInfoPrinter extends InfoPrinter {
-	
-	private final PrintStream out;
-	
-	public PrintStreamInfoPrinter(PrintStream out) {
-		this.out = out;
-	}
-	
-	@Override
-	public void printLines(Object owner, String... lines) {
-		for (String line : lines)
-			out.println(line);
-	}
+
+  private final PrintStream out;
+
+  /**
+   * Instantiates a new Print stream info printer.
+   *
+   * @param out the out
+   */
+  public PrintStreamInfoPrinter(PrintStream out) {
+    this.out = out;
+  }
+
+  @Override
+  public void printLines(Object owner, String... lines) {
+    for (String line : lines) {
+      out.println(line);
+    }
+  }
 
 }

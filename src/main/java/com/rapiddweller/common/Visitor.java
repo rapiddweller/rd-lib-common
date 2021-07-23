@@ -12,14 +12,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Models a Visitor as defined in the Visitor Design Patterns.
  * Created: 04.02.2007 07:52:37
+ *
  * @param <E> the type of objects to be visited
  * @author Volker Bergmann
  */
 public interface Visitor<E> {
-    <C extends E> void visit(C element);
+  /**
+   * Visit.
+   *
+   * @param <C>     the type parameter
+   * @param element the element
+   */
+  <C extends E> void visit(C element);
 }

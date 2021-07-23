@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.file;
 
 import com.rapiddweller.common.Element;
@@ -26,26 +27,35 @@ import java.util.List;
 /**
  * Element implementation (of the Visitor Design Pattern) for a File.
  * Created: 04.02.2007 08:10:05
+ *
  * @author Volker Bergmann
  */
 public class FileElement extends WrapperElement<File> {
 
-    public FileElement(File file) {
-        super(file);
-    }
+  /**
+   * Instantiates a new File element.
+   *
+   * @param file the file
+   */
+  public FileElement(File file) {
+    super(file);
+  }
 
-    @Override
-    protected Collection<Element<File>> getChildren(Visitor<File> visitor) {
-        if (wrappedObject.isFile())
-            return new ArrayList<>();
-        File[] content = wrappedObject.listFiles();
-        if (content == null)
-        	content = new File[0];
-        List<Element<File>> children = new ArrayList<>(content.length);
-        for (File file : content)
-            children.add(new FileElement(file));
-        return children;
+  @Override
+  protected Collection<Element<File>> getChildren(Visitor<File> visitor) {
+    if (wrappedObject.isFile()) {
+      return new ArrayList<>();
     }
+    File[] content = wrappedObject.listFiles();
+    if (content == null) {
+      content = new File[0];
+    }
+    List<Element<File>> children = new ArrayList<>(content.length);
+    for (File file : content) {
+      children.add(new FileElement(file));
+    }
+    return children;
+  }
 
 
 }

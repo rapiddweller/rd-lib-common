@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.Validator;
@@ -19,13 +20,14 @@ import com.rapiddweller.common.Validator;
 /**
  * Validator implementation that checks if a value is not null.
  * Created: 01.09.2007 08:53:07
+ *
  * @param <E> the object type to be validated
  * @author Volker Bergmann
  */
 public class NotNullValidator<E> implements Validator<E> {
 
-    @Override
-	public boolean valid(E object) {
-        return (object != null);
-    }
+  @Override
+  public boolean valid(E object) {
+    return (object != null);
+  }
 }

@@ -26,52 +26,71 @@ import java.awt.Color;
 /**
  * Allows the user to enter an XPath definition, rendering illegal expressions in red.
  * Created: 25.05.2016 16:46:53
- * @since 1.0.11
+ *
  * @author Volker Bergmann
+ * @since 1.0.11
  */
-
 public class XPathField extends JTextField {
-	
-	private static final long serialVersionUID = 1L;
 
-	public XPathField(int columns) {
-		this("", columns);
-	}
-	
-	public XPathField(String text, int columns) {
-		super(text, columns);
-		getDocument().addDocumentListener(new XPathDocumentListener());
-	}
-	
-	public boolean isXPathValid() {
-		try {
-			String text = getDocument().getText(0, getDocument().getLength());
-			return XPathUtil.isValidXPath(text);
-		} catch (BadLocationException e) {
-			throw new RuntimeException("Internal error", e);
-		}
-	}
-	
-	protected class XPathDocumentListener implements DocumentListener {
-		
-		@Override
-		public void changedUpdate(DocumentEvent evt) {
-			checkValidity();
-		}
+  private static final long serialVersionUID = 1L;
 
-		@Override
-		public void insertUpdate(DocumentEvent evt) {
-			checkValidity();
-		}
+  /**
+   * Instantiates a new X path field.
+   *
+   * @param columns the columns
+   */
+  public XPathField(int columns) {
+    this("", columns);
+  }
 
-		@Override
-		public void removeUpdate(DocumentEvent evt) {
-			checkValidity();
-		}
+  /**
+   * Instantiates a new X path field.
+   *
+   * @param text    the text
+   * @param columns the columns
+   */
+  public XPathField(String text, int columns) {
+    super(text, columns);
+    getDocument().addDocumentListener(new XPathDocumentListener());
+  }
 
-		private void checkValidity() {
-			setForeground(isXPathValid() ? Color.BLACK : Color.RED);
-		}
-	}
-	
+  /**
+   * Is x path valid boolean.
+   *
+   * @return the boolean
+   */
+  public boolean isXPathValid() {
+    try {
+      String text = getDocument().getText(0, getDocument().getLength());
+      return XPathUtil.isValidXPath(text);
+    } catch (BadLocationException e) {
+      throw new RuntimeException("Internal error", e);
+    }
+  }
+
+  /**
+   * The type X path document listener.
+   */
+  protected class XPathDocumentListener implements DocumentListener {
+
+    @Override
+    public void changedUpdate(DocumentEvent evt) {
+      checkValidity();
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent evt) {
+      checkValidity();
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent evt) {
+      checkValidity();
+    }
+
+    private void checkValidity() {
+      setForeground(isXPathValid() ? Color.BLACK : Color.RED);
+    }
+  }
+
 }

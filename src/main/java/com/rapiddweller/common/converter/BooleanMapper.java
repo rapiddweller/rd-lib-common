@@ -12,41 +12,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
 
 /**
  * Maps true, false and null to configured aliases, e.g. '1', '0' and '?'.
- * By default booleans are converted to the strings 'true', 'false' and null. 
+ * By default booleans are converted to the strings 'true', 'false' and null.
  * Created at 11.03.2009 19:40:33
+ *
  * @param <T> the object type to convert to
- * @since 0.5.8
  * @author Volker Bergmann
+ * @since 0.5.8
  */
-
 public class BooleanMapper<T> extends ThreadSafeConverter<Boolean, T> {
 
-    private final T trueValue;
-	private final T falseValue;
-	private final T nullValue;
+  private final T trueValue;
+  private final T falseValue;
+  private final T nullValue;
 
-	@SuppressWarnings("unchecked")
-    public BooleanMapper() {
-	    this((T) "true", (T) "false", null);
-    }
+  /**
+   * Instantiates a new Boolean mapper.
+   */
+  @SuppressWarnings("unchecked")
+  public BooleanMapper() {
+    this((T) "true", (T) "false", null);
+  }
 
-	@SuppressWarnings("unchecked")
-    public BooleanMapper(T trueValue, T falseValue, T nullValue) {
-	    super(Boolean.class, (Class<T>) trueValue.getClass());
-	    this.trueValue = trueValue;
-	    this.falseValue = falseValue;
-	    this.nullValue = nullValue;
-    }
+  /**
+   * Instantiates a new Boolean mapper.
+   *
+   * @param trueValue  the true value
+   * @param falseValue the false value
+   * @param nullValue  the null value
+   */
+  @SuppressWarnings("unchecked")
+  public BooleanMapper(T trueValue, T falseValue, T nullValue) {
+    super(Boolean.class, (Class<T>) trueValue.getClass());
+    this.trueValue = trueValue;
+    this.falseValue = falseValue;
+    this.nullValue = nullValue;
+  }
 
-    @Override
-	public T convert(Boolean sourceValue) throws ConversionException {
-	    return (sourceValue != null ? (sourceValue ? trueValue : falseValue) : nullValue);
-    }
+  @Override
+  public T convert(Boolean sourceValue) throws ConversionException {
+    return (sourceValue != null ? (sourceValue ? trueValue : falseValue) : nullValue);
+  }
 
 }

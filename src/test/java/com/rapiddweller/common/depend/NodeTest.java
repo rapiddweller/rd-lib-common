@@ -12,61 +12,66 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common.depend;
 
-import static com.rapiddweller.common.depend.NodeState.*;
-import static org.junit.Assert.fail;
+package com.rapiddweller.common.depend;
 
 import org.junit.Test;
 
+import static com.rapiddweller.common.depend.NodeState.FORCEABLE;
+import static com.rapiddweller.common.depend.NodeState.INACTIVE;
+import static com.rapiddweller.common.depend.NodeState.INITIALIZABLE;
+import static com.rapiddweller.common.depend.NodeState.INITIALIZED;
+import static org.junit.Assert.fail;
+
 /**
  * Tests the Node class.
+ *
  * @author Volker Bergmann
  * @since 0.3.04
  */
 public class NodeTest {
-    
-	@Test
-    public void testInitialState() {
-        Node<Dep>[] nodes = createDeps();
-        nodes[0].assertState(INITIALIZABLE);
-        nodes[1].assertState(INITIALIZABLE);
-        nodes[2].assertState(INACTIVE);
+
+  @Test
+  public void testInitialState() {
+    Node<Dep>[] nodes = createDeps();
+    nodes[0].assertState(INITIALIZABLE);
+    nodes[1].assertState(INITIALIZABLE);
+    nodes[2].assertState(INACTIVE);
+  }
+
+  @Test
+  public void testInitialization() {
+    Node<Dep>[] nodes = createDeps();
+    nodes[0].initialize();
+    nodes[0].assertState(INITIALIZED);
+    nodes[2].assertState(FORCEABLE);
+
+    try {
+      nodes[2].initialize();
+      fail("Exception expected");
+    } catch (IllegalStateException e) {
+      // expected
     }
 
-	@Test
-    public void testInitialization() {
-        Node<Dep>[] nodes = createDeps();
-        nodes[0].initialize();
-        nodes[0].assertState(INITIALIZED);
-        nodes[2].assertState(FORCEABLE);
-        
-        try {
-            nodes[2].initialize();
-            fail("Exception expected");
-        } catch (IllegalStateException e) {
-            // expected
-        }
-        
-        nodes[1].initialize();
-        nodes[1].assertState(INITIALIZED);
-        nodes[2].assertState(INITIALIZABLE);
-    
-        nodes[2].initialize();
-        nodes[2].assertState(INITIALIZED);
-    }
+    nodes[1].initialize();
+    nodes[1].assertState(INITIALIZED);
+    nodes[2].assertState(INITIALIZABLE);
 
-    @SuppressWarnings("unchecked")
-    private static Node<Dep>[] createDeps() {
-        Dep da1 = new Dep("a1");
-        Dep da2 = new Dep("a2");
-        Dep db  = new Dep("b", da1, da2);
-        
-        Node<Dep> na1 = new Node<>(da1);
-        Node<Dep> na2 = new Node<>(da2);
-        Node<Dep> nb = new Node<>(db).addProvider(na1, true).addProvider(na2, true);
-        
-        return new Node[] { na1, na2, nb };
-    }
+    nodes[2].initialize();
+    nodes[2].assertState(INITIALIZED);
+  }
+
+  @SuppressWarnings("unchecked")
+  private static Node<Dep>[] createDeps() {
+    Dep da1 = new Dep("a1");
+    Dep da2 = new Dep("a2");
+    Dep db = new Dep("b", da1, da2);
+
+    Node<Dep> na1 = new Node<>(da1);
+    Node<Dep> na2 = new Node<>(da2);
+    Node<Dep> nb = new Node<>(db).addProvider(na1, true).addProvider(na2, true);
+
+    return new Node[] {na1, na2, nb};
+  }
 
 }

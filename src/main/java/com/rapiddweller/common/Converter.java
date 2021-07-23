@@ -12,29 +12,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Base interface for all classes that convert
  * a source object of type S to an object of type T.
  * Created: 30.08.2006 19:41:08
- * @since 0.1
- * @author Volker Bergmann
+ *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
+ * @author Volker Bergmann
+ * @since 0.1
  */
 public interface Converter<S, T> extends ThreadAware {
 
-	Class<S> getSourceType();
-	
-    Class<T> getTargetType();
-    
-    /**
-     * Concerts an object of type S to an object of type T
-     * @param sourceValue the object to convert
-     * @return the converted object
-     * @throws com.rapiddweller.common.ConversionException if the conversion fails
-     */
-    T convert(S sourceValue) throws ConversionException;
-    
+  /**
+   * Gets source type.
+   *
+   * @return the source type
+   */
+  Class<S> getSourceType();
+
+  /**
+   * Gets target type.
+   *
+   * @return the target type
+   */
+  Class<T> getTargetType();
+
+  /**
+   * Concerts an object of type S to an object of type T
+   *
+   * @param sourceValue the object to convert
+   * @return the converted object
+   * @throws ConversionException the conversion exception
+   */
+  T convert(S sourceValue) throws ConversionException;
+
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.tag;
 
 import com.rapiddweller.common.Tagged;
@@ -21,36 +22,42 @@ import java.util.Set;
 /**
  * Parent class which provides tag support by inheritance.
  * Created: 14.11.2013 07:04:54
- * @since 0.5.25
+ *
  * @author Volker Bergmann
+ * @since 0.5.25
  */
-
 public class AbstractTagged implements Tagged {
-	
-	protected TagSupport tags;
-	
-	protected AbstractTagged() {
-		this.tags = new TagSupport();
-	}
 
-	@Override
-	public Set<String> getTags() {
-		return this.tags.getTags();
-	}
+  /**
+   * The Tags.
+   */
+  protected TagSupport tags;
 
-	@Override
-	public boolean hasTag(String tag) {
-		return this.tags.hasTag(tag);
-	}
+  /**
+   * Instantiates a new Abstract tagged.
+   */
+  protected AbstractTagged() {
+    this.tags = new TagSupport();
+  }
 
-	@Override
-	public void addTag(String tag) {
-		this.tags.addTag(tag);
-	}
+  @Override
+  public Set<String> getTags() {
+    return this.tags.getTags();
+  }
 
-	@Override
-	public void removeTag(String tag) {
-		this.tags.removeTag(tag);
-	}
+  @Override
+  public boolean hasTag(String tag) {
+    return this.tags.hasTag(tag);
+  }
+
+  @Override
+  public void addTag(String tag) {
+    this.tags.addTag(tag);
+  }
+
+  @Override
+  public void removeTag(String tag) {
+    this.tags.removeTag(tag);
+  }
 
 }

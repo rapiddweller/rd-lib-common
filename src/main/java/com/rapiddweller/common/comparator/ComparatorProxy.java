@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
 import java.util.Comparator;
@@ -19,19 +20,25 @@ import java.util.Comparator;
 /**
  * Abstract Comparator proxy.
  * Created: 22.05.2007 07:53:56
+ *
  * @param <E> the type of objects to be compared
  * @author Volker Bergmann
  */
 public abstract class ComparatorProxy<E> implements Comparator<E> {
 
-    private final Comparator<E> realComparator;
+  private final Comparator<E> realComparator;
 
-    public ComparatorProxy(Comparator<E> realComparator) {
-        this.realComparator = realComparator;
-    }
+  /**
+   * Instantiates a new Comparator proxy.
+   *
+   * @param realComparator the real comparator
+   */
+  public ComparatorProxy(Comparator<E> realComparator) {
+    this.realComparator = realComparator;
+  }
 
-    @Override
-	public int compare(E e1, E e2) {
-        return realComparator.compare(e1, e2);
-    }
+  @Override
+  public int compare(E e1, E e2) {
+    return realComparator.compare(e1, e2);
+  }
 }

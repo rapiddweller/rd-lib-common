@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.version;
 
 import java.io.Serializable;
@@ -19,12 +20,12 @@ import java.io.Serializable;
 /**
  * Abstract super type for all version number components, e.g. 0-9 or alpha/beta/RC.
  * Created at 22.12.2008 16:31:02
- * @since 0.5.7
+ *
  * @author Volker Bergmann
+ * @since 0.5.7
  */
-
 public abstract class VersionNumberComponent implements Comparable<VersionNumberComponent>, Serializable {
 
-	private static final long serialVersionUID = -916818799515194470L;
-	
+  private static final long serialVersionUID = -916818799515194470L;
+
 }

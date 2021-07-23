@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import java.text.DecimalFormat;
@@ -21,25 +22,48 @@ import java.util.Locale;
 /**
  * Formats percentage values.
  * Created: 19.06.2013 07:30:33
- * @since 0.5.24
+ *
  * @author Volker Bergmann
+ * @since 0.5.24
  */
-
 public class PercentageFormatter {
 
-	public static String formatChange(double value) {
-		return format(value, 1, true);
-	}
+  /**
+   * Format change string.
+   *
+   * @param value the value
+   * @return the string
+   */
+  public static String formatChange(double value) {
+    return format(value, 1, true);
+  }
 
-	public static String format(double value, int fractalDigits, boolean renderPlus) {
-		return format(value, fractalDigits, renderPlus, Locale.getDefault());
-	}
+  /**
+   * Format string.
+   *
+   * @param value         the value
+   * @param fractalDigits the fractal digits
+   * @param renderPlus    the render plus
+   * @return the string
+   */
+  public static String format(double value, int fractalDigits, boolean renderPlus) {
+    return format(value, fractalDigits, renderPlus, Locale.getDefault());
+  }
 
-	public static String format(double value, int fractalDigits, boolean renderPlus, Locale locale) {
-		NumberFormat format = DecimalFormat.getInstance(locale);
-		format.setMinimumFractionDigits(fractalDigits);
-		format.setMaximumFractionDigits(fractalDigits);
-		return (renderPlus && value > 0 ? "+" : "") + format.format(value * 100) + "%";
-	}
+  /**
+   * Format string.
+   *
+   * @param value         the value
+   * @param fractalDigits the fractal digits
+   * @param renderPlus    the render plus
+   * @param locale        the locale
+   * @return the string
+   */
+  public static String format(double value, int fractalDigits, boolean renderPlus, Locale locale) {
+    NumberFormat format = DecimalFormat.getInstance(locale);
+    format.setMinimumFractionDigits(fractalDigits);
+    format.setMaximumFractionDigits(fractalDigits);
+    return (renderPlus && value > 0 ? "+" : "") + format.format(value * 100) + "%";
+  }
 
 }

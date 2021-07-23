@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.BeanUtil;
@@ -21,26 +22,36 @@ import com.rapiddweller.common.Converter;
 import java.lang.reflect.Constructor;
 
 /**
- * {@link Converter} implementation which invokes a constructor of the target class 
+ * {@link Converter} implementation which invokes a constructor of the target class
  * with the source object as argument.
  * Created: 27.02.2010 06:57:40
+ *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class ConstructorInvoker<S, T> extends ThreadSafeConverter<S, T> {
-	
-	Constructor<T> constructor;
-	
-	public ConstructorInvoker(Class<S> sourceType, Constructor<T> constructor) {
-	    super(sourceType, constructor.getDeclaringClass());
-	    this.constructor = constructor;
-    }
 
-	@Override
-	public T convert(S sourceValue) throws ConversionException {
-		return BeanUtil.newInstance(constructor, sourceValue);
-	}
+  /**
+   * The Constructor.
+   */
+  Constructor<T> constructor;
+
+  /**
+   * Instantiates a new Constructor invoker.
+   *
+   * @param sourceType  the source type
+   * @param constructor the constructor
+   */
+  public ConstructorInvoker(Class<S> sourceType, Constructor<T> constructor) {
+    super(sourceType, constructor.getDeclaringClass());
+    this.constructor = constructor;
+  }
+
+  @Override
+  public T convert(S sourceValue) throws ConversionException {
+    return BeanUtil.newInstance(constructor, sourceValue);
+  }
 
 }

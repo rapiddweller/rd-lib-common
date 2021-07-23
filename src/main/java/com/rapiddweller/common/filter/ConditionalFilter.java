@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.filter;
 
 import com.rapiddweller.common.Condition;
@@ -20,19 +21,25 @@ import com.rapiddweller.common.Filter;
 /**
  * Filter that evaluates a Condition on each candidate.
  * Created: 16.06.2007 12:30:26
+ *
  * @param <E> the type of objects to filter
  * @author Volker Bergmann
  */
 public class ConditionalFilter<E> implements Filter<E> {
 
-    private final Condition<E> condition;
+  private final Condition<E> condition;
 
-    public ConditionalFilter(Condition<E> condition) {
-        this.condition = condition;
-    }
+  /**
+   * Instantiates a new Conditional filter.
+   *
+   * @param condition the condition
+   */
+  public ConditionalFilter(Condition<E> condition) {
+    this.condition = condition;
+  }
 
-    @Override
-	public boolean accept(E candidate) {
-        return condition.evaluate(candidate);
-    }
+  @Override
+  public boolean accept(E candidate) {
+    return condition.evaluate(candidate);
+  }
 }

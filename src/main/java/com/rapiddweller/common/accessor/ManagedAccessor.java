@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
@@ -23,37 +24,59 @@ import java.util.List;
 /**
  * DependentAccessor implementation that manages the dependencies in a List.
  * Created: 11.03.2006 14:32:52
+ *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
  */
 public abstract class ManagedAccessor<C, V> implements DependentAccessor<C, V> {
 
-    protected List<? extends Accessor<?, ?>> dependencies;
-    
-    // constructors ----------------------------------------------------------------------------------------------------
+  /**
+   * The Dependencies.
+   */
+  protected List<? extends Accessor<?, ?>> dependencies;
 
-    protected ManagedAccessor() {
-        this(new ArrayList<>());
-    }
+  // constructors ----------------------------------------------------------------------------------------------------
 
-    protected ManagedAccessor(Accessor<?, ?> dependency) {
-        this(Collections.singletonList(dependency));
-    }
+  /**
+   * Instantiates a new Managed accessor.
+   */
+  protected ManagedAccessor() {
+    this(new ArrayList<>());
+  }
 
-    protected ManagedAccessor(List<? extends Accessor<?, ?>> dependencies) {
-        this.dependencies = dependencies;
-    }
-    
-    // DependentAccessor interface -------------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Managed accessor.
+   *
+   * @param dependency the dependency
+   */
+  protected ManagedAccessor(Accessor<?, ?> dependency) {
+    this(Collections.singletonList(dependency));
+  }
 
-    @Override
-	public List<? extends Accessor<?, ?>> getDependencies() {
-        return dependencies;
-    }
+  /**
+   * Instantiates a new Managed accessor.
+   *
+   * @param dependencies the dependencies
+   */
+  protected ManagedAccessor(List<? extends Accessor<?, ?>> dependencies) {
+    this.dependencies = dependencies;
+  }
 
-    public void setDependencies(List<? extends Accessor<?, ?>> dependencies) {
-        this.dependencies = dependencies;
-    }
-    
+  // DependentAccessor interface -------------------------------------------------------------------------------------
+
+  @Override
+  public List<? extends Accessor<?, ?>> getDependencies() {
+    return dependencies;
+  }
+
+  /**
+   * Sets dependencies.
+   *
+   * @param dependencies the dependencies
+   */
+  public void setDependencies(List<? extends Accessor<?, ?>> dependencies) {
+    this.dependencies = dependencies;
+  }
+
 }

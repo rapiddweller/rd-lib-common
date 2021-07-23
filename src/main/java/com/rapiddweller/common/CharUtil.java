@@ -12,24 +12,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Provides character related utility methods.
  * Created: 04.08.2011 13:20:52
- * @since 0.5.9
+ *
  * @author Volker Bergmann
+ * @since 0.5.9
  */
 public class CharUtil {
 
-	private CharUtil() {}
-	
-	public static int ordinal(char c) {
-		return c;
-	}
-	
-	public static char character(int ordinal) {
-		return (char) ordinal;
-	}
-	
+  private CharUtil() {
+  }
+
+  /**
+   * Ordinal int.
+   *
+   * @param c the c
+   * @return the int
+   */
+  public static int ordinal(char c) {
+    return c;
+  }
+
+  /**
+   * Character char.
+   *
+   * @param ordinal the ordinal
+   * @return the char
+   */
+  public static char character(int ordinal) {
+    return (char) ordinal;
+  }
+
 }

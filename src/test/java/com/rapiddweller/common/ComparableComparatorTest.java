@@ -12,27 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.util.Comparator;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link ComparableComparator}.
  * Created: 21.06.2007 08:30:00
+ *
  * @author Volker Bergmann
  */
 public class ComparableComparatorTest {
 
-	@Test
-    public void testCompare() {
-        Comparator<String> comparator = new ComparableComparator<>();
-        assertEquals( 0, comparator.compare("1", "1"));
-        assertEquals( 1, comparator.compare("1", "0"));
-        assertEquals(-1, comparator.compare("0", "1"));
-    }
-	
+  @Test
+  public void testCompare() {
+    Comparator<String> comparator = new ComparableComparator<>();
+    assertEquals(0, comparator.compare("1", "1"));
+    assertEquals(1, comparator.compare("1", "0"));
+    assertEquals(-1, comparator.compare("0", "1"));
+  }
+
 }

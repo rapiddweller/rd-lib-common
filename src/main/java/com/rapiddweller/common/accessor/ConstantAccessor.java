@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
@@ -21,45 +22,62 @@ import java.util.Objects;
 /**
  * Accessor that always returns the same value, independent of the object it is applied to.
  * Created: 06.03.2006 08:59:02
+ *
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
  */
 public class ConstantAccessor<V> implements Accessor<Object, V> {
 
-    /**
-     * the value to return; null is allowed
-     */
-    private V value;
+  /**
+   * the value to return; null is allowed
+   */
+  private V value;
 
-    public ConstantAccessor() {
-        this(null);
-    }
+  /**
+   * Instantiates a new Constant accessor.
+   */
+  public ConstantAccessor() {
+    this(null);
+  }
 
-    public ConstantAccessor(V value) {
-        this.value = value;
-    }
+  /**
+   * Instantiates a new Constant accessor.
+   *
+   * @param value the value
+   */
+  public ConstantAccessor(V value) {
+    this.value = value;
+  }
 
-    @Override
-	public V getValue(Object item) {
-        return this.value;
-    }
+  @Override
+  public V getValue(Object item) {
+    return this.value;
+  }
 
-    public void setValue(V value) {
-        this.value = value;
-    }
+  /**
+   * Sets value.
+   *
+   * @param value the value
+   */
+  public void setValue(V value) {
+    this.value = value;
+  }
 
-    @SuppressWarnings("rawtypes")
-	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        final ConstantAccessor that = (ConstantAccessor) o;
-        return (Objects.equals(value, that.value));
+  @SuppressWarnings("rawtypes")
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final ConstantAccessor that = (ConstantAccessor) o;
+    return (Objects.equals(value, that.value));
+  }
 
-    @Override
-    public int hashCode() {
-        return (value != null ? value.hashCode() : 0);
-    }
+  @Override
+  public int hashCode() {
+    return (value != null ? value.hashCode() : 0);
+  }
 }

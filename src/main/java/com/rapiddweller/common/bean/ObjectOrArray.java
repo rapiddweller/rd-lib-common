@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.ArrayFormat;
@@ -19,47 +20,58 @@ import com.rapiddweller.common.ArrayFormat;
 import java.util.Arrays;
 
 /**
- * Wraps a plain object or an array and provides equals() and hashCode() 
+ * Wraps a plain object or an array and provides equals() and hashCode()
  * that works consistently for both.
  * Created: 09.09.2010 09:53:11
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class ObjectOrArray {
 
-	private final Object realObject;
+  private final Object realObject;
 
-	public ObjectOrArray(Object realObject) {
-	    this.realObject = realObject;
-    }
+  /**
+   * Instantiates a new Object or array.
+   *
+   * @param realObject the real object
+   */
+  public ObjectOrArray(Object realObject) {
+    this.realObject = realObject;
+  }
 
-	@Override
-	public int hashCode() {
-		if (realObject.getClass().isArray())
-			return Arrays.hashCode((Object[]) realObject);
-		else
-			return realObject.hashCode();
+  @Override
+  public int hashCode() {
+    if (realObject.getClass().isArray()) {
+      return Arrays.hashCode((Object[]) realObject);
+    } else {
+      return realObject.hashCode();
     }
+  }
 
-	@Override
-    public boolean equals(Object obj) {
-	    if (this == obj)
-		    return true;
-	    if (obj == null || getClass() != obj.getClass())
-		    return false;
-	    ObjectOrArray that = (ObjectOrArray) obj;
-	    if (this.realObject.getClass().isArray())
-		    return Arrays.equals((Object[]) this.realObject, (Object[]) that.realObject);
-	    else
-	    	return this.realObject.equals(that.realObject);
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-	
-	@Override
-	public String toString() {
-		if (realObject.getClass().isArray())
-			return ArrayFormat.format((Object[]) realObject);
-		else
-			return String.valueOf(realObject);
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
     }
-	
+    ObjectOrArray that = (ObjectOrArray) obj;
+    if (this.realObject.getClass().isArray()) {
+      return Arrays.equals((Object[]) this.realObject, (Object[]) that.realObject);
+    } else {
+      return this.realObject.equals(that.realObject);
+    }
+  }
+
+  @Override
+  public String toString() {
+    if (realObject.getClass().isArray()) {
+      return ArrayFormat.format((Object[]) realObject);
+    } else {
+      return String.valueOf(realObject);
+    }
+  }
+
 }

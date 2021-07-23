@@ -12,14 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Iterable that provides the type it returns.
  * Created: 02.09.2007 23:20:03
+ *
  * @param <E> the type of elements to iterate
  * @author Volker Bergmann
  */
 public interface TypedIterable<E> extends Iterable<E> {
-    Class<E> getType();
+  /**
+   * Gets type.
+   *
+   * @return the type
+   */
+  Class<E> getType();
 }

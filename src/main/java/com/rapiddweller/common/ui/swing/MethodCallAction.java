@@ -25,29 +25,38 @@ import java.awt.event.ActionEvent;
 /**
  * {@link Action} implementation that calls a method on a target object using arguments.<br><br>
  * Created: 20.06.2016 10:29:05
- * @since 1.0.10
+ *
  * @author Volker Bergmann
+ * @since 1.0.10
  */
-
 public class MethodCallAction extends AbstractAction {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private final Object target;
-	private final String methodName;
-	private final Object[] arguments;
-	
-	public MethodCallAction(String label, Icon icon, Object target, String methodName, Object... arguments) {
-		super(label, icon);
-		this.target = target;
-		this.methodName = methodName;
-		this.arguments = arguments;
-		putValue(SHORT_DESCRIPTION, getValue(NAME));
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent evt) {
-		BeanUtil.invoke(target, methodName, arguments);
-	}
+  private final Object target;
+  private final String methodName;
+  private final Object[] arguments;
+
+  /**
+   * Instantiates a new Method call action.
+   *
+   * @param label      the label
+   * @param icon       the icon
+   * @param target     the target
+   * @param methodName the method name
+   * @param arguments  the arguments
+   */
+  public MethodCallAction(String label, Icon icon, Object target, String methodName, Object... arguments) {
+    super(label, icon);
+    this.target = target;
+    this.methodName = methodName;
+    this.arguments = arguments;
+    putValue(SHORT_DESCRIPTION, getValue(NAME));
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent evt) {
+    BeanUtil.invoke(target, methodName, arguments);
+  }
 
 }

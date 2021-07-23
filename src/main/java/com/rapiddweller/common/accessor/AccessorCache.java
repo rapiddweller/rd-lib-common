@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
@@ -20,58 +21,79 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Accessor implementation that caches the value it retrieves first 
+ * Accessor implementation that caches the value it retrieves first
  * until it is manually invalidated.
  * Created: 11.03.2006 17:02:27
- * @author Volker Bergmann
+ *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
+ * @author Volker Bergmann
  */
 public class AccessorCache<C, V> implements DependentAccessor<C, V> {
 
-    private final String name;
-    private final Accessor<C, V> realAccessor;
-    private V cachedValue;
-    private boolean valid;
+  private final String name;
+  private final Accessor<C, V> realAccessor;
+  private V cachedValue;
+  private boolean valid;
 
-    public AccessorCache(String name, Accessor<C, V> realAccessor) {
-        this.realAccessor = realAccessor;
-        this.name = name;
-        this.valid = false;
-    }
-    
-    // properties ------------------------------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Accessor cache.
+   *
+   * @param name         the name
+   * @param realAccessor the real accessor
+   */
+  public AccessorCache(String name, Accessor<C, V> realAccessor) {
+    this.realAccessor = realAccessor;
+    this.name = name;
+    this.valid = false;
+  }
 
-    public String getName() {
-        return name;
-    }
-    
-    public boolean isValid() {
-        return valid;
-    }
+  // properties ------------------------------------------------------------------------------------------------------
 
-    public void invalidate() {
-        valid = false;
-    }
+  /**
+   * Gets name.
+   *
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
 
-    // DependentAccessor interface -------------------------------------------------------------------------------------
+  /**
+   * Is valid boolean.
+   *
+   * @return the boolean
+   */
+  public boolean isValid() {
+    return valid;
+  }
 
-    @Override
-	public V getValue(C item) {
-        if (!valid) {
-            cachedValue = realAccessor.getValue(item);
-            valid = true;
-        }
-        return cachedValue;
-    }
+  /**
+   * Invalidate.
+   */
+  public void invalidate() {
+    valid = false;
+  }
 
-    @Override
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-    public List<? extends Accessor<?,?>> getDependencies() {
-        if (realAccessor instanceof DependentAccessor)
-            return ((DependentAccessor) realAccessor).getDependencies();
-        else
-            return new ArrayList();
+  // DependentAccessor interface -------------------------------------------------------------------------------------
+
+  @Override
+  public V getValue(C item) {
+    if (!valid) {
+      cachedValue = realAccessor.getValue(item);
+      valid = true;
     }
-    
+    return cachedValue;
+  }
+
+  @Override
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  public List<? extends Accessor<?, ?>> getDependencies() {
+    if (realAccessor instanceof DependentAccessor) {
+      return ((DependentAccessor) realAccessor).getDependencies();
+    } else {
+      return new ArrayList();
+    }
+  }
+
 }

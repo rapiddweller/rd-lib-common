@@ -12,14 +12,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Models an object that mutates a target object of type C by specification of a value of type V.
  * Created: 08.05.2005 06:24:04
- * @since 0.1
+ *
  * @author Volker Bergmann
+ * @since 0.1
  */
 public interface Mutator {
-    void setValue(Object target, Object value) throws UpdateFailedException;
+  /**
+   * Sets value.
+   *
+   * @param target the target
+   * @param value  the value
+   * @throws UpdateFailedException the update failed exception
+   */
+  void setValue(Object target, Object value) throws UpdateFailedException;
 }

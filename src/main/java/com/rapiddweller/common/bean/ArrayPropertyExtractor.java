@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.ArrayUtil;
@@ -22,37 +23,53 @@ import com.rapiddweller.common.converter.ThreadSafeConverter;
 /**
  * Extracts property values from an array of JavaBeans in a way that
  * processing n beans results in an array of n elements with the property values.
- * @param <E> the bean type to access
- * Created: 02.08.2007 20:47:35
+ *
+ * @param <E> the bean type to access            Created: 02.08.2007 20:47:35
  * @author Volker Bergmann
  */
 public class ArrayPropertyExtractor<E> extends ThreadSafeConverter<Object[], E[]> {
 
-    private final String propertyName;
-    private final Class<E> propertyType;
+  private final String propertyName;
+  private final Class<E> propertyType;
 
-    @SuppressWarnings("unchecked")
-    public ArrayPropertyExtractor(String propertyName, Class<E> propertyType) {
-    	super(Object[].class, ArrayUtil.arrayType(propertyType));
-        this.propertyName = propertyName;
-        this.propertyType = propertyType;
-    }
+  /**
+   * Instantiates a new Array property extractor.
+   *
+   * @param propertyName the property name
+   * @param propertyType the property type
+   */
+  @SuppressWarnings("unchecked")
+  public ArrayPropertyExtractor(String propertyName, Class<E> propertyType) {
+    super(Object[].class, ArrayUtil.arrayType(propertyType));
+    this.propertyName = propertyName;
+    this.propertyType = propertyType;
+  }
 
-    @Override
-	public E[] convert(Object[] sourceValue) throws ConversionException {
-        return convert(sourceValue, propertyName, propertyType);
-    }
+  @Override
+  public E[] convert(Object[] sourceValue) throws ConversionException {
+    return convert(sourceValue, propertyName, propertyType);
+  }
 
-    @SuppressWarnings("unchecked")
-    public static <T> T[] convert(Object[] sourceValue, String propertyName, Class<T> propertyType)
-            throws ConversionException {
-        T[] array = ArrayUtil.newInstance(propertyType, sourceValue.length);
-        PropertyAccessor<Object, T> propertyAccessor = PropertyAccessorFactory.getAccessor(propertyName);
-        for (int i = 0; i < sourceValue.length; i++) {
-            Object value = propertyAccessor.getValue(sourceValue[i]);
-            array[i] = AnyConverter.convert(value, propertyType);
-        }
-        return array;
+  /**
+   * Convert t [ ].
+   *
+   * @param <T>          the type parameter
+   * @param sourceValue  the source value
+   * @param propertyName the property name
+   * @param propertyType the property type
+   * @return the t [ ]
+   * @throws ConversionException the conversion exception
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> T[] convert(Object[] sourceValue, String propertyName, Class<T> propertyType)
+      throws ConversionException {
+    T[] array = ArrayUtil.newInstance(propertyType, sourceValue.length);
+    PropertyAccessor<Object, T> propertyAccessor = PropertyAccessorFactory.getAccessor(propertyName);
+    for (int i = 0; i < sourceValue.length; i++) {
+      Object value = propertyAccessor.getValue(sourceValue[i]);
+      array[i] = AnyConverter.convert(value, propertyType);
     }
-    
+    return array;
+  }
+
 }

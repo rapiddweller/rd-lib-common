@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
 import java.util.Comparator;
@@ -19,17 +20,25 @@ import java.util.Comparator;
 /**
  * Compares values of type Long or long.
  * Created: 05.04.2005 19:25:25
+ *
  * @author Volker Bergmann
  */
 public class LongComparator implements Comparator<Long> {
 
-    @Override
-	public int compare(Long l1, Long l2) {
-        return l1.compareTo(l2);
-    }
+  @Override
+  public int compare(Long l1, Long l2) {
+    return l1.compareTo(l2);
+  }
 
-    public static int compare(long n1, long n2) {
-        return (Long.compare(n1, n2));
-    }
+  /**
+   * Compare int.
+   *
+   * @param n1 the n 1
+   * @param n2 the n 2
+   * @return the int
+   */
+  public static int compare(long n1, long n2) {
+    return (Long.compare(n1, n2));
+  }
 
 }

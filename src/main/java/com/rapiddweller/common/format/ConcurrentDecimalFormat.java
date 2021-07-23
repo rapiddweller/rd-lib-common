@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.format;
 
 import java.text.DecimalFormat;
@@ -22,27 +23,33 @@ import java.text.ParsePosition;
 /**
  * Thread-safe, concurrent wrapper of Java's {@link DecimalFormat} class.
  * Created: 12.10.2010 17:47:35
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class ConcurrentDecimalFormat extends Format {
 
-	private static final long serialVersionUID = 7100542444272244206L;
-	
-	private final ThreadLocal<DecimalFormat> format;
+  private static final long serialVersionUID = 7100542444272244206L;
 
-    public ConcurrentDecimalFormat(final String pattern) {
-        format = ThreadLocal.withInitial(() -> new DecimalFormat(pattern));
-    }
+  private final ThreadLocal<DecimalFormat> format;
 
-	@Override
-    public StringBuffer format(Object number, StringBuffer toAppendTo, FieldPosition pos) {
-	    return format.get().format(number, toAppendTo, pos);
-    }
+  /**
+   * Instantiates a new Concurrent decimal format.
+   *
+   * @param pattern the pattern
+   */
+  public ConcurrentDecimalFormat(final String pattern) {
+    format = ThreadLocal.withInitial(() -> new DecimalFormat(pattern));
+  }
 
-	@Override
-    public Object parseObject(String source, ParsePosition pos) {
-	    return format.get().parseObject(source, pos);
-    }
-    
+  @Override
+  public StringBuffer format(Object number, StringBuffer toAppendTo, FieldPosition pos) {
+    return format.get().format(number, toAppendTo, pos);
+  }
+
+  @Override
+  public Object parseObject(String source, ParsePosition pos) {
+    return format.get().parseObject(source, pos);
+  }
+
 }

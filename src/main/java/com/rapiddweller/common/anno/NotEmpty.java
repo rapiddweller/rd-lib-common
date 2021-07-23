@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.anno;
 
 import java.lang.annotation.ElementType;
@@ -22,11 +23,11 @@ import java.lang.annotation.Target;
 /**
  * Marks attributes or parameters that may not be null or empty.
  * Created at 31.01.2009 07:39:52
- * @since 0.4.8
+ *
  * @author Volker Bergmann
+ * @since 0.4.8
  */
-
-@Target( { ElementType.FIELD, ElementType.PARAMETER })
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotEmpty {
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -22,38 +23,54 @@ import java.net.URLEncoder;
 
 /**
  * Decodes a String from the <code>application/x-www-form-urlencoded</code>  MIME format.
- * @see java.net.URLDecoder
- * Created at 04.07.2009 07:21:15
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @see java.net.URLDecoder Created at 04.07.2009 07:21:15
+ * @since 0.5.0
  */
-
 public class URLDecodeConverter extends ThreadSafeConverter<String, String> {
-	
-	private String encoding;
-	
-    public URLDecodeConverter() {
-	    this(Encodings.UTF_8);
-    }
 
-    public URLDecodeConverter(String encoding) {
-	    super(String.class, String.class);
-    }
+  private String encoding;
 
-    @Override
-	public String convert(String sourceValue) throws ConversionException {
-	    return convert(sourceValue, encoding);
-    }
+  /**
+   * Instantiates a new Url decode converter.
+   */
+  public URLDecodeConverter() {
+    this(Encodings.UTF_8);
+  }
 
-	public static String convert(String sourceValue, String encoding) throws ConversionException {
-		if (StringUtil.isEmpty(sourceValue))
-			return null;
-	    try {
-	        return URLEncoder.encode(sourceValue, encoding);
-        } catch (Exception e) {
-        	throw new ConversionException("URL decoding of '" + sourceValue 
-        			+ "' failed for encoding '" + encoding + "'", e);
-        }
+  /**
+   * Instantiates a new Url decode converter.
+   *
+   * @param encoding the encoding
+   */
+  public URLDecodeConverter(String encoding) {
+    super(String.class, String.class);
+  }
+
+  @Override
+  public String convert(String sourceValue) throws ConversionException {
+    return convert(sourceValue, encoding);
+  }
+
+  /**
+   * Convert string.
+   *
+   * @param sourceValue the source value
+   * @param encoding    the encoding
+   * @return the string
+   * @throws ConversionException the conversion exception
+   */
+  public static String convert(String sourceValue, String encoding) throws ConversionException {
+    if (StringUtil.isEmpty(sourceValue)) {
+      return null;
     }
+    try {
+      return URLEncoder.encode(sourceValue, encoding);
+    } catch (Exception e) {
+      throw new ConversionException("URL decoding of '" + sourceValue
+          + "' failed for encoding '" + encoding + "'", e);
+    }
+  }
 
 }

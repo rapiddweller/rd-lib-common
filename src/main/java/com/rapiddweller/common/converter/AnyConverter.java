@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -23,86 +24,111 @@ import org.apache.logging.log4j.Logger;
 /**
  * Converts any source type to any target type. It also makes use of the ConverterManager.
  * Created: 16.06.2007 11:34:42
+ *
  * @param <E> the type to by checked by this validator
  * @author Volker Bergmann
  */
 public class AnyConverter<E> extends FormatHolder implements Converter<Object, E> {
-	
-    private static final Logger logger = LogManager.getLogger(AnyConverter.class);
 
-    private final Class<E> targetType;
-    
-    public AnyConverter(Class<E> targetType) {
-        this(targetType, Patterns.DEFAULT_DATE_PATTERN);
-    }
+  private static final Logger logger = LogManager.getLogger(AnyConverter.class);
 
-    public AnyConverter(Class<E> targetType, String datePattern) {
-    	this.targetType = targetType;
-        this.datePattern = datePattern;
-    }
+  private final Class<E> targetType;
 
-    @Override
-	public Class<Object> getSourceType() {
-        return Object.class;
-    }
-    
-    @Override
-	public Class<E> getTargetType() {
-	    return targetType;
-    }
+  /**
+   * Instantiates a new Any converter.
+   *
+   * @param targetType the target type
+   */
+  public AnyConverter(Class<E> targetType) {
+    this(targetType, Patterns.DEFAULT_DATE_PATTERN);
+  }
 
-	@Override
-	public E convert(Object sourceValue) throws ConversionException {
-        return convert(sourceValue, targetType, datePattern, timePattern, timestampPattern);
-    }
+  /**
+   * Instantiates a new Any converter.
+   *
+   * @param targetType  the target type
+   * @param datePattern the date pattern
+   */
+  public AnyConverter(Class<E> targetType, String datePattern) {
+    this.targetType = targetType;
+    this.datePattern = datePattern;
+  }
 
-	@Override
-	public boolean isParallelizable() {
-	    return true;
-    }
+  @Override
+  public Class<Object> getSourceType() {
+    return Object.class;
+  }
 
-	@Override
-	public boolean isThreadSafe() {
-	    return true;
-    }
-	
-    public static <TT> TT convert(Object source, Class<TT> targetType) throws ConversionException {
-        return convert(source, targetType, null, null, null);
-    }
-    
-    /**
-     * Converts an object of a given type to an object of the target type.
-     * @param source the object to convert
-     * @param targetType the target type of the conversion
-     * @param datePattern the date pattern to apply
-     * @param timePattern the time pattern to apply
-     * @param timestampPattern the timestamp pattern to apply
-     * @param <TT> the target type
-     * @return an object of the target type
-     * @throws ConversionException if conversion fails 
-     */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static <TT> TT convert(Object source, Class<TT> targetType, String datePattern, 
-    		String timePattern, String timestampPattern) throws ConversionException {
-        if (logger.isDebugEnabled())
-            logger.debug("Converting " + source + (source != null ? " (" + source.getClass().getName() + ")" : "") + " to " + targetType);
-    	if (source != null && targetType.equals(source.getClass()))
-    		return (TT) source;
-    	if (source == null) {
-	    	if (targetType == double.class)
-	        	return (TT) (Double) Double.NaN;
-	    	else if (targetType == int.class)
-	        	return (TT) (Integer) 0;
-	    	else
-	    		return null;
-    	}
-        Converter converter = ConverterManager.getInstance().createConverter(source.getClass(), targetType);
-		return (TT) converter.convert(source);
-    }
+  @Override
+  public Class<E> getTargetType() {
+    return targetType;
+  }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + '(' + targetType.getSimpleName() + ')';
+  @Override
+  public E convert(Object sourceValue) throws ConversionException {
+    return convert(sourceValue, targetType, datePattern, timePattern, timestampPattern);
+  }
+
+  @Override
+  public boolean isParallelizable() {
+    return true;
+  }
+
+  @Override
+  public boolean isThreadSafe() {
+    return true;
+  }
+
+  /**
+   * Convert tt.
+   *
+   * @param <TT>       the type parameter
+   * @param source     the source
+   * @param targetType the target type
+   * @return the tt
+   * @throws ConversionException the conversion exception
+   */
+  public static <TT> TT convert(Object source, Class<TT> targetType) throws ConversionException {
+    return convert(source, targetType, null, null, null);
+  }
+
+  /**
+   * Converts an object of a given type to an object of the target type.
+   *
+   * @param <TT>             the target type
+   * @param source           the object to convert
+   * @param targetType       the target type of the conversion
+   * @param datePattern      the date pattern to apply
+   * @param timePattern      the time pattern to apply
+   * @param timestampPattern the timestamp pattern to apply
+   * @return an object of the target type
+   * @throws ConversionException if conversion fails
+   */
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  public static <TT> TT convert(Object source, Class<TT> targetType, String datePattern,
+                                String timePattern, String timestampPattern) throws ConversionException {
+    if (logger.isDebugEnabled()) {
+      logger.debug("Converting " + source + (source != null ? " (" + source.getClass().getName() + ")" : "") + " to " + targetType);
     }
-    
+    if (source != null && targetType.equals(source.getClass())) {
+      return (TT) source;
+    }
+    if (source == null) {
+      if (targetType == double.class) {
+        return (TT) (Double) Double.NaN;
+      } else if (targetType == int.class) {
+        return (TT) (Integer) 0;
+      } else {
+        return null;
+      }
+    }
+    Converter converter = ConverterManager.getInstance().createConverter(source.getClass(), targetType);
+    return (TT) converter.convert(source);
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + '(' + targetType.getSimpleName() + ')';
+  }
+
 }

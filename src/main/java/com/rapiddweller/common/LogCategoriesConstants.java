@@ -12,17 +12,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Defines log categories common for all databene components.
  * Created at 02.08.2008 16:21:40
- * @since 0.4.5
+ *
  * @author Volker Bergmann
+ * @since 0.4.5
  */
 public class LogCategoriesConstants {
-	public static final String JDBC    = "com.rapiddweller.JDBC";
-	public static final String SQL     = "com.rapiddweller.SQL";
-	public static final String CONFIG  = "com.rapiddweller.CONFIG";
-	public static final String COMMENT = "com.rapiddweller.COMMENT";
+  /**
+   * The constant JDBC.
+   */
+  public static final String JDBC = "com.rapiddweller.JDBC";
+  /**
+   * The constant SQL.
+   */
+  public static final String SQL = "com.rapiddweller.SQL";
+  /**
+   * The constant CONFIG.
+   */
+  public static final String CONFIG = "com.rapiddweller.CONFIG";
+  /**
+   * The constant COMMENT.
+   */
+  public static final String COMMENT = "com.rapiddweller.COMMENT";
 }

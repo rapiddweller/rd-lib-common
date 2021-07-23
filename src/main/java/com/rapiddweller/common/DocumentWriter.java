@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.io.Closeable;
@@ -20,10 +21,24 @@ import java.io.IOException;
 /**
  * Abstraction of a document writer.
  * Created: 06.06.2007 19:25:43
+ *
  * @param <E> the type of objects to persist
  * @author Volker Bergmann
  */
 public interface DocumentWriter<E> extends Closeable {
-    void setVariable(String name, Object value);
-    void writeElement(E element) throws IOException;
+  /**
+   * Sets variable.
+   *
+   * @param name  the name
+   * @param value the value
+   */
+  void setVariable(String name, Object value);
+
+  /**
+   * Write element.
+   *
+   * @param element the element
+   * @throws IOException the io exception
+   */
+  void writeElement(E element) throws IOException;
 }

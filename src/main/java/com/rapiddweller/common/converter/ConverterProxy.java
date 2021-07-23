@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -20,30 +21,36 @@ import com.rapiddweller.common.Converter;
 /**
  * Parent class for {@link Converter}s that act as a proxy to another converter instance.
  * Created: 26.02.2010 17:30:25
+ *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public abstract class ConverterProxy<S, T> extends ConverterWrapper<S, T> implements Converter<S, T> {
-	
-	protected ConverterProxy(Converter<S, T> realConverter) {
-	    super(realConverter);
-    }
 
-	@Override
-	public Class<S> getSourceType() {
-	    return realConverter.getSourceType();
-    }
+  /**
+   * Instantiates a new Converter proxy.
+   *
+   * @param realConverter the real converter
+   */
+  protected ConverterProxy(Converter<S, T> realConverter) {
+    super(realConverter);
+  }
 
-	@Override
-	public Class<T> getTargetType() {
-	    return realConverter.getTargetType();
-    }
-	
-	@Override
-	public T convert(S sourceValue) throws ConversionException {
-		return realConverter.convert(sourceValue);
-	}
-	
+  @Override
+  public Class<S> getSourceType() {
+    return realConverter.getSourceType();
+  }
+
+  @Override
+  public Class<T> getTargetType() {
+    return realConverter.getTargetType();
+  }
+
+  @Override
+  public T convert(S sourceValue) throws ConversionException {
+    return realConverter.convert(sourceValue);
+  }
+
 }

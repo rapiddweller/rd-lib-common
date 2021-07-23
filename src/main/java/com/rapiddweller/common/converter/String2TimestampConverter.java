@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -24,56 +25,60 @@ import java.util.Date;
 /**
  * Parses Strings converting them to {@link Timestamp}s.
  * Created at 01.10.2009 10:53:20
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
+public class String2TimestampConverter extends ConverterWrapper<String, Date>
+    implements Converter<String, Timestamp> {
 
-public class String2TimestampConverter extends ConverterWrapper<String, Date> 
-		implements Converter<String, Timestamp> {
+  /**
+   * Instantiates a new String 2 timestamp converter.
+   */
+  public String2TimestampConverter() {
+    super(new String2DateConverter<>());
+  }
 
-    public String2TimestampConverter() {
-        super(new String2DateConverter<>());
+  @Override
+  public Class<String> getSourceType() {
+    return String.class;
+  }
+
+  @Override
+  public Class<Timestamp> getTargetType() {
+    return Timestamp.class;
+  }
+
+  @Override
+  public Timestamp convert(String sourceValue) throws ConversionException {
+    if (StringUtil.isEmpty(sourceValue)) {
+      return null;
     }
 
-	@Override
-	public Class<String> getSourceType() {
-	    return String.class;
+    // separate the String into Date and nano parts
+    sourceValue = sourceValue.trim();
+    String datePart;
+    String nanoPart;
+    if (sourceValue.contains(".")) {
+      String[] parts = StringUtil.splitOnFirstSeparator(sourceValue, '.');
+      datePart = parts[0];
+      nanoPart = parts[1];
+    } else {
+      datePart = sourceValue;
+      nanoPart = null;
     }
 
-	@Override
-	public Class<Timestamp> getTargetType() {
-	    return Timestamp.class;
-    }
+    // calculate date part
+    Date date = realConverter.convert(datePart);
+    Timestamp result = new Timestamp(date.getTime());
 
-    @Override
-	public Timestamp convert(String sourceValue) throws ConversionException {
-        if (StringUtil.isEmpty(sourceValue))
-            return null;
-        
-        // separate the String into Date and nano parts 
-    	sourceValue = sourceValue.trim();
-        String datePart;
-        String nanoPart;
-        if (sourceValue.contains(".")) {
-        	String[] parts = StringUtil.splitOnFirstSeparator(sourceValue, '.');
-            datePart = parts[0];
-            nanoPart = parts[1];
-        } else {
-        	datePart = sourceValue;
-        	nanoPart = null; 
-        }
-        
-        // calculate date part
-        Date date = realConverter.convert(datePart);
-        Timestamp result = new Timestamp(date.getTime());
-            
-        // calculate nano part
-        if (!StringUtil.isEmpty(nanoPart)) {
-        	nanoPart = StringUtil.padRight(nanoPart, 9, '0');
-        	int nanos = Integer.parseInt(nanoPart);
-        	result.setNanos(nanos);
-        }
-		return result;
+    // calculate nano part
+    if (!StringUtil.isEmpty(nanoPart)) {
+      nanoPart = StringUtil.padRight(nanoPart, 9, '0');
+      int nanos = Integer.parseInt(nanoPart);
+      result.setNanos(nanos);
     }
+    return result;
+  }
 
 }

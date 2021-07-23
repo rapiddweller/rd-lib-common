@@ -1,15 +1,15 @@
 package com.rapiddweller.common;
 
-import static org.junit.Assert.assertNull;
+import org.junit.Test;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
+import static org.junit.Assert.assertNull;
 
 public class LocalDatedUtilTest {
-    @Test
-    public void testSoonestFutureElement() {
-        assertNull(LocalDatedUtil.soonestFutureElement(new ArrayList<>()));
-    }
+  @Test
+  public void testSoonestFutureElement() {
+    assertNull(LocalDatedUtil.soonestFutureElement(new ArrayList<>()));
+  }
 }
 

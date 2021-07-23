@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.util.List;
@@ -19,9 +20,15 @@ import java.util.List;
 /**
  * Interface for validation domain descriptors.
  * Created: 20.12.2011 16:50:08
- * @since 0.5.14
+ *
  * @author Volker Bergmann
+ * @since 0.5.14
  */
 public interface ValidationDomainDescriptor {
-	List<Class<? extends Validator<?>>> getValidatorClasses();
+  /**
+   * Gets validator classes.
+   *
+   * @return the validator classes
+   */
+  List<Class<? extends Validator<?>>> getValidatorClasses();
 }

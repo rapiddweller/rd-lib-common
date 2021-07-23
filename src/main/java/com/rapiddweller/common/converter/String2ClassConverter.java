@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.BeanUtil;
@@ -20,18 +21,22 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Interprets a String as class name and returns the corresponding class object.
  * Created: 05.08.2007 06:38:38
+ *
  * @author Volker Bergmann
  */
 @SuppressWarnings("rawtypes")
 public class String2ClassConverter extends ThreadSafeConverter<String, Class> {
 
-    public String2ClassConverter() {
-        super(String.class, Class.class);
-    }
+  /**
+   * Instantiates a new String 2 class converter.
+   */
+  public String2ClassConverter() {
+    super(String.class, Class.class);
+  }
 
-    @Override
-	public Class convert(String className) throws ConversionException {
-        return BeanUtil.forName(className);
-    }
-    
+  @Override
+  public Class convert(String className) throws ConversionException {
+    return BeanUtil.forName(className);
+  }
+
 }

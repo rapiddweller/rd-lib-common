@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.context;
 
 import com.rapiddweller.common.CollectionUtil;
@@ -25,65 +26,71 @@ import java.util.Set;
 /**
  * {@link Context} implementation which is case insensitive regarding key Strings.
  * Created at 19.11.2008 08:55:05
- * @since 0.4.6
+ *
  * @author Volker Bergmann
+ * @since 0.4.6
  */
-
 public class CaseInsensitiveContext implements Context {
-	
-	private final boolean capsPreserved;
-	private final Map<String, Object> map;
 
-	public CaseInsensitiveContext(boolean capsPreserved) {
-		this.capsPreserved = capsPreserved;
-		map = new HashMap<>();
-	}
-	
-	// Context interface implementation --------------------------------------------------------------------------------
+  private final boolean capsPreserved;
+  private final Map<String, Object> map;
 
-	@Override
-	public synchronized void set(String key, Object value) {
-		map.put(transformKey(key), value);
-	}
-	
-    @Override
-	public synchronized Object get(String key) {
-        return CollectionUtil.getCaseInsensitive(transformKey(key), map);
+  /**
+   * Instantiates a new Case insensitive context.
+   *
+   * @param capsPreserved the caps preserved
+   */
+  public CaseInsensitiveContext(boolean capsPreserved) {
+    this.capsPreserved = capsPreserved;
+    map = new HashMap<>();
+  }
+
+  // Context interface implementation --------------------------------------------------------------------------------
+
+  @Override
+  public synchronized void set(String key, Object value) {
+    map.put(transformKey(key), value);
+  }
+
+  @Override
+  public synchronized Object get(String key) {
+    return CollectionUtil.getCaseInsensitive(transformKey(key), map);
+  }
+
+  @Override
+  public boolean contains(String key) {
+    return CollectionUtil.containsCaseInsensitive(transformKey(key), map);
+  }
+
+  @Override
+  public Set<String> keySet() {
+    return map.keySet();
+  }
+
+  @Override
+  public Set<Entry<String, Object>> entrySet() {
+    return map.entrySet();
+  }
+
+  @Override
+  public void remove(String key) {
+    map.remove(transformKey(key));
+  }
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private String transformKey(String key) {
+    if (!capsPreserved) {
+      key = key.toUpperCase();
     }
+    return key;
+  }
 
-    @Override
-	public boolean contains(String key) {
-        return CollectionUtil.containsCaseInsensitive(transformKey(key), map);
-    }
+  // java.lang.Object overrides --------------------------------------------------------------------------------------
 
-	@Override
-	public Set<String> keySet() {
-		return map.keySet();
-	}
-
-	@Override
-	public Set<Entry<String, Object>> entrySet() {
-		return map.entrySet();
-	}
-
-	@Override
-	public void remove(String key) {
-		map.remove(transformKey(key));
-	}
-	
-	// private helpers -------------------------------------------------------------------------------------------------
-
-	private String transformKey(String key) {
-		if (!capsPreserved)
-			key = key.toUpperCase();
-		return key;
-	}
-	
-	// java.lang.Object overrides --------------------------------------------------------------------------------------
-	
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + map;
-	}
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + map;
+  }
 
 }

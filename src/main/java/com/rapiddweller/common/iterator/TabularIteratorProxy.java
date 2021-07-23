@@ -12,28 +12,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 /**
  * Proxy implementation for the {@link TabularIterator} interface.
  * Created: 26.10.2011 21:58:20
- * @since 0.5.11
+ *
  * @author Volker Bergmann
+ * @since 0.5.11
  */
 public class TabularIteratorProxy extends HeavyweightIteratorProxy<Object[]> implements TabularIterator {
 
-	public TabularIteratorProxy(TabularIterator source) {
-        super(source);
-    }
-	
-	@Override
-	public Object[] next() {
-		return super.next();
-	}
+  /**
+   * Instantiates a new Tabular iterator proxy.
+   *
+   * @param source the source
+   */
+  public TabularIteratorProxy(TabularIterator source) {
+    super(source);
+  }
 
-	@Override
-	public String[] getColumnNames() {
-        return ((TabularIterator) source).getColumnNames();
-    }
-	
+  @Override
+  public Object[] next() {
+    return super.next();
+  }
+
+  @Override
+  public String[] getColumnNames() {
+    return ((TabularIterator) source).getColumnNames();
+  }
+
 }

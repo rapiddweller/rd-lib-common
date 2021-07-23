@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -19,18 +20,22 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts {@link Number}s to {@link Short}s.
  * Created: 15.11.2012 10:25:52
- * @since 0.5.20
+ *
  * @author Volker Bergmann
+ * @since 0.5.20
  */
 public class Number2ShortConverter extends ThreadSafeConverter<Number, Short> {
 
-	protected Number2ShortConverter() {
-		super(Number.class, Short.class);
-	}
+  /**
+   * Instantiates a new Number 2 short converter.
+   */
+  protected Number2ShortConverter() {
+    super(Number.class, Short.class);
+  }
 
-	@Override
-	public Short convert(Number sourceValue) throws ConversionException {
-		return (sourceValue != null ? sourceValue.shortValue() : null);
-	}
+  @Override
+  public Short convert(Number sourceValue) throws ConversionException {
+    return (sourceValue != null ? sourceValue.shortValue() : null);
+  }
 
 }

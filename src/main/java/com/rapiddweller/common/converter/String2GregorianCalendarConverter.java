@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -25,31 +26,34 @@ import java.util.GregorianCalendar;
 /**
  * Parses a {@link String} as a {@link Calendar}.
  * Created at 13.07.2009 18:49:00
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
+public class String2GregorianCalendarConverter extends ConverterWrapper<String, Date>
+    implements Converter<String, GregorianCalendar> {
 
-public class String2GregorianCalendarConverter extends ConverterWrapper<String, Date> 
-		implements Converter<String, GregorianCalendar> {
-	
-    public String2GregorianCalendarConverter() {
-	    super(new String2DateConverter<>());
-    }
+  /**
+   * Instantiates a new String 2 gregorian calendar converter.
+   */
+  public String2GregorianCalendarConverter() {
+    super(new String2DateConverter<>());
+  }
 
-    @Override
-	public GregorianCalendar convert(String sourceValue) throws ConversionException {
-	    Date date = realConverter.convert(sourceValue);
-		return TimeUtil.gregorianCalendar(date);
-    }
+  @Override
+  public GregorianCalendar convert(String sourceValue) throws ConversionException {
+    Date date = realConverter.convert(sourceValue);
+    return TimeUtil.gregorianCalendar(date);
+  }
 
-	@Override
-	public Class<String> getSourceType() {
-	    return String.class;
-    }
+  @Override
+  public Class<String> getSourceType() {
+    return String.class;
+  }
 
-	@Override
-	public Class<GregorianCalendar> getTargetType() {
-	    return GregorianCalendar.class;
-    }
+  @Override
+  public Class<GregorianCalendar> getTargetType() {
+    return GregorianCalendar.class;
+  }
 
 }

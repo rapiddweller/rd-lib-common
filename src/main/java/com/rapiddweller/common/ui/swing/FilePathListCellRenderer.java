@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui.swing;
 
 import javax.swing.DefaultListCellRenderer;
@@ -23,23 +24,23 @@ import java.io.IOException;
 /**
  * Renders the canonical path of a {@link File} in a {@link JList}.
  * Created at 30.11.2008 17:11:26
- * @since 0.5.13
+ *
  * @author Volker Bergmann
+ * @since 0.5.13
  */
-
 public class FilePathListCellRenderer extends DefaultListCellRenderer {
 
-	private static final long serialVersionUID = -448916948052054554L;
+  private static final long serialVersionUID = -448916948052054554L;
 
-	@Override
-	public Component getListCellRendererComponent(JList<?> list, Object value,
-			int index, boolean isSelected, boolean cellHasFocus) {
-		try {
-			String text = ((File) value).getCanonicalPath();
-			return super.getListCellRendererComponent(list, text, index, isSelected, hasFocus());
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+  @Override
+  public Component getListCellRendererComponent(JList<?> list, Object value,
+                                                int index, boolean isSelected, boolean cellHasFocus) {
+    try {
+      String text = ((File) value).getCanonicalPath();
+      return super.getListCellRendererComponent(list, text, index, isSelected, hasFocus());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
 }

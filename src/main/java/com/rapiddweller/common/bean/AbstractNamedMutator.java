@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.mutator.NamedMutator;
@@ -19,20 +20,29 @@ import com.rapiddweller.common.mutator.NamedMutator;
 /**
  * Abstraction of a Mutator to which a name is assigned.
  * Created at 04.11.2008 09:20:51
- * @since 0.4.6
+ *
  * @author Volker Bergmann
+ * @since 0.4.6
  */
 public abstract class AbstractNamedMutator implements NamedMutator {
 
-    protected String name;
+  /**
+   * The Name.
+   */
+  protected String name;
 
-    protected AbstractNamedMutator(String name) {
-        this.name = name;
-    }
+  /**
+   * Instantiates a new Abstract named mutator.
+   *
+   * @param name the name
+   */
+  protected AbstractNamedMutator(String name) {
+    this.name = name;
+  }
 
-    @Override
-	public String getName() {
-        return name;
-    }
-    
+  @Override
+  public String getName() {
+    return name;
+  }
+
 }

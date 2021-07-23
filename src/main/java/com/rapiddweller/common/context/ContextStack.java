@@ -12,17 +12,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.context;
 
 import com.rapiddweller.common.Context;
 
 /**
- * A Stack of Contexts, querying for items from top to bottom, 
+ * A Stack of Contexts, querying for items from top to bottom,
  * setting and removing items only on the top.
- * @since 0.3.0
+ *
  * @author Volker Bergmann
+ * @since 0.3.0
  */
 public interface ContextStack extends Context {
-    void push(Context context);
-    Context pop();
+  /**
+   * Push.
+   *
+   * @param context the context
+   */
+  void push(Context context);
+
+  /**
+   * Pop context.
+   *
+   * @return the context
+   */
+  Context pop();
 }

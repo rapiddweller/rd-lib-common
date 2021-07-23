@@ -12,14 +12,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
+
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
 
 /**
  * Tests the Period class.
@@ -30,29 +31,29 @@ import org.junit.Test;
  */
 public class PeriodTest {
 
-    @Test
-    public void testGetInstances() {
-        assertEquals(9, Period.getInstances().size());
-    }
+  @Test
+  public void testGetInstances() {
+    assertEquals(9, Period.getInstances().size());
+  }
 
-    @Test
-    public void testEquals() {
-        Period second = Period.SECOND;
-        assertFalse(second.equals(null));
-        assertFalse(second.equals(""));
-        assertTrue(second.equals(second));
-        assertFalse(second.equals(Period.MINUTE));
-    }
+  @Test
+  public void testEquals() {
+    Period second = Period.SECOND;
+    assertFalse(second.equals(null));
+    assertFalse(second.equals(""));
+    assertTrue(second.equals(second));
+    assertFalse(second.equals(Period.MINUTE));
+  }
 
-    @Test
-    public void testMinInstance() {
-        Period actualMinInstanceResult = Period.minInstance();
-        assertSame(Period.MILLISECOND, actualMinInstanceResult);
-    }
+  @Test
+  public void testMinInstance() {
+    Period actualMinInstanceResult = Period.minInstance();
+    assertSame(Period.MILLISECOND, actualMinInstanceResult);
+  }
 
-    @Test
-    public void testMaxInstance() {
-        Period actualMaxInstanceResult = Period.maxInstance();
-        assertSame(Period.YEAR, actualMaxInstanceResult);
-    }
+  @Test
+  public void testMaxInstance() {
+    Period actualMaxInstanceResult = Period.maxInstance();
+    assertSame(Period.YEAR, actualMaxInstanceResult);
+  }
 }

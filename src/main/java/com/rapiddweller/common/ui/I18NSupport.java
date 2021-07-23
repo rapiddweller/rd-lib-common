@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui;
 
 import com.rapiddweller.common.BeanUtil;
@@ -27,46 +28,76 @@ import java.util.ResourceBundle;
 /**
  * Internationalization utilities.
  * Created at 21.07.2008 07:32:56
- * @since 0.4.5
+ *
  * @author Volker Bergmann
+ * @since 0.4.5
  */
 public class I18NSupport {
-	
-	private static final Escalator escalator = new LoggerEscalator();
-	
-	private final String name;
-	private final ResourceBundle bundle;
 
-	public I18NSupport(String name, Locale locale) {
-		this.name = name;
-		this.bundle = PropertyResourceBundle.getBundle(name, locale);
-	}
+  private static final Escalator escalator = new LoggerEscalator();
 
-	public String getName() {
-		return name;
-	}
-	
-	public Locale getLocale() {
-		return bundle.getLocale();
-	}
+  private final String name;
+  private final ResourceBundle bundle;
 
-	public String getString(String resourceName) {
-		String string;
-		try {
-			string = bundle.getString(resourceName);
-		} catch (MissingResourceException e) {
-			escalator.escalate("Resource not defined: " + resourceName, this, null);
-			string = resourceName;
-		}
-		return string;
-	}
-	
-	public String format(String resourceName, Object... args) {
-		return MessageFormat.format(getString(resourceName), args);
-	}
-	
-	@Override
-	public String toString() {
-		return BeanUtil.toString(this);
-	}
+  /**
+   * Instantiates a new 18 n support.
+   *
+   * @param name   the name
+   * @param locale the locale
+   */
+  public I18NSupport(String name, Locale locale) {
+    this.name = name;
+    this.bundle = PropertyResourceBundle.getBundle(name, locale);
+  }
+
+  /**
+   * Gets name.
+   *
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Gets locale.
+   *
+   * @return the locale
+   */
+  public Locale getLocale() {
+    return bundle.getLocale();
+  }
+
+  /**
+   * Gets string.
+   *
+   * @param resourceName the resource name
+   * @return the string
+   */
+  public String getString(String resourceName) {
+    String string;
+    try {
+      string = bundle.getString(resourceName);
+    } catch (MissingResourceException e) {
+      escalator.escalate("Resource not defined: " + resourceName, this, null);
+      string = resourceName;
+    }
+    return string;
+  }
+
+  /**
+   * Format string.
+   *
+   * @param resourceName the resource name
+   * @param args         the args
+   * @return the string
+   */
+  public String format(String resourceName, Object... args) {
+    return MessageFormat.format(getString(resourceName), args);
+  }
+
+  @Override
+  public String toString() {
+    return BeanUtil.toString(this);
+  }
 }

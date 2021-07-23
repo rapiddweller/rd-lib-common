@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -19,19 +20,22 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts {@link Number} objects to {@link Integer}s.
  * Created at 14.04.2008 10:48:53
- * @since 0.4.2
- * @author Volker Bergmann
  *
+ * @author Volker Bergmann
+ * @since 0.4.2
  */
 public class Number2IntegerConverter extends ThreadSafeConverter<Number, Integer> {
 
-	public Number2IntegerConverter() {
-		super(Number.class, Integer.class);
-	}
+  /**
+   * Instantiates a new Number 2 integer converter.
+   */
+  public Number2IntegerConverter() {
+    super(Number.class, Integer.class);
+  }
 
-	@Override
-	public Integer convert(Number sourceValue) throws ConversionException {
-		return (sourceValue != null ? sourceValue.intValue() : null); 
-	}
+  @Override
+  public Integer convert(Number sourceValue) throws ConversionException {
+    return (sourceValue != null ? sourceValue.intValue() : null);
+  }
 
 }

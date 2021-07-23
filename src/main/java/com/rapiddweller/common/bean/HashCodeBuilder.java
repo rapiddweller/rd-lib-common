@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import java.util.Arrays;
@@ -19,25 +20,41 @@ import java.util.Arrays;
 /**
  * Helper class for calculating hash codes.
  * Created: 24.11.2010 12:39:14
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class HashCodeBuilder {
 
-	public static int hashCode(Object... components) {
-		int result = 0;
-		for (Object component : components)
-			result = 31 * result + componentHashCode(component);
-		return result;
-	}
+  /**
+   * Hash code int.
+   *
+   * @param components the components
+   * @return the int
+   */
+  public static int hashCode(Object... components) {
+    int result = 0;
+    for (Object component : components) {
+      result = 31 * result + componentHashCode(component);
+    }
+    return result;
+  }
 
-	public static int componentHashCode(Object component) {
-		if (component == null)
-			return 0;
-		if (component.getClass().isArray())
-			return Arrays.hashCode((Object[]) component);
-		else
-			return component.hashCode();
-	}
-	
+  /**
+   * Component hash code int.
+   *
+   * @param component the component
+   * @return the int
+   */
+  public static int componentHashCode(Object component) {
+    if (component == null) {
+      return 0;
+    }
+    if (component.getClass().isArray()) {
+      return Arrays.hashCode((Object[]) component);
+    } else {
+      return component.hashCode();
+    }
+  }
+
 }

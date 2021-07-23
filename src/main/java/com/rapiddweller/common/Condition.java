@@ -12,14 +12,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Evaluates an argument of type E if it matches some internal condition.
  * Created: 16.06.2007 12:31:22
+ *
  * @param <E> the type of argument to evaluate
  * @author Volker Bergmann
  */
 public interface Condition<E> {
-    boolean evaluate(E argument);
+  /**
+   * Evaluate boolean.
+   *
+   * @param argument the argument
+   * @return the boolean
+   */
+  boolean evaluate(E argument);
 }

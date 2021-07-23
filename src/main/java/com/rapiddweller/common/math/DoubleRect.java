@@ -12,31 +12,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.math;
 
 /**
  * double-based rectangle.
  * Created: 18.09.2010 08:37:58
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class DoubleRect {
 
-	public double x;
-	public double y;
-	public double width;
-	public double height;
+  /**
+   * The X.
+   */
+  public double x;
+  /**
+   * The Y.
+   */
+  public double y;
+  /**
+   * The Width.
+   */
+  public double width;
+  /**
+   * The Height.
+   */
+  public double height;
 
-	public DoubleRect(double x, double y, double width, double height) {
-	    this.x = x;
-	    this.y = y;
-	    this.width = width;
-	    this.height = height;
-    }
-	
-	@Override
-	public String toString() {
-	    return "[" + x + "," + y + "," + width + "," + height + "]";
-	}
-	
+  /**
+   * Instantiates a new Double rect.
+   *
+   * @param x      the x
+   * @param y      the y
+   * @param width  the width
+   * @param height the height
+   */
+  public DoubleRect(double x, double y, double width, double height) {
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+  }
+
+  @Override
+  public String toString() {
+    return "[" + x + "," + y + "," + width + "," + height + "]";
+  }
+
 }

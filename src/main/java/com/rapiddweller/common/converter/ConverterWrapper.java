@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
@@ -20,36 +21,45 @@ import com.rapiddweller.common.ThreadAware;
 /**
  * Parent class for {@link Converter}s that hold a reference to another converter instance.
  * Created: 26.02.2010 17:55:21
+ *
  * @param <S> the type to convert from
  * @param <T> the type to convert to
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public abstract class ConverterWrapper<S, T> implements ThreadAware, Cloneable {
 
-	protected final Converter<S, T> realConverter;
+  /**
+   * The Real converter.
+   */
+  protected final Converter<S, T> realConverter;
 
-	protected ConverterWrapper(Converter<S, T> realConverter) {
-	    this.realConverter = realConverter;
+  /**
+   * Instantiates a new Converter wrapper.
+   *
+   * @param realConverter the real converter
+   */
+  protected ConverterWrapper(Converter<S, T> realConverter) {
+    this.realConverter = realConverter;
+  }
+
+  @Override
+  public boolean isParallelizable() {
+    return realConverter.isParallelizable();
+  }
+
+  @Override
+  public boolean isThreadSafe() {
+    return realConverter.isParallelizable();
+  }
+
+  @Override
+  public Object clone() {
+    try {
+      return super.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-	@Override
-	public boolean isParallelizable() {
-        return realConverter.isParallelizable();
-    }
-
-	@Override
-	public boolean isThreadSafe() {
-        return realConverter.isParallelizable();
-    }
-
-	@Override
-	public Object clone() {
-	    try {
-	        return super.clone();
-        } catch (CloneNotSupportedException e) {
-	        throw new RuntimeException(e);
-        }
-	}
-        
 }

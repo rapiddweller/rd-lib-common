@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
@@ -24,97 +25,147 @@ import org.apache.logging.log4j.Logger;
 /**
  * Mutates JavaBean object graphs.
  * Created: 08.05.2005 06:24:41
+ *
  * @author Volker Bergmann
  */
 public class PropertyGraphMutator implements NamedMutator {
 
-    private static final Logger logger = LogManager.getLogger(PropertyGraphMutator.class);
+  private static final Logger logger = LogManager.getLogger(PropertyGraphMutator.class);
 
-    private final boolean required;
-    private final boolean autoConvert;
-    private PropertyAccessor<Object, ?>[] subAccessors;
-    private final NamedMutator lastMutator;
-    private final String propertyName;
+  private final boolean required;
+  private final boolean autoConvert;
+  private PropertyAccessor<Object, ?>[] subAccessors;
+  private final NamedMutator lastMutator;
+  private final String propertyName;
 
-    // constructors ----------------------------------------------------------------------------------------------------
+  // constructors ----------------------------------------------------------------------------------------------------
 
-    public PropertyGraphMutator(String propertyName) {
-        this(propertyName, true, false);
+  /**
+   * Instantiates a new Property graph mutator.
+   *
+   * @param propertyName the property name
+   */
+  public PropertyGraphMutator(String propertyName) {
+    this(propertyName, true, false);
+  }
+
+  /**
+   * Instantiates a new Property graph mutator.
+   *
+   * @param propertyName the property name
+   * @param required     the required
+   * @param autoConvert  the auto convert
+   */
+  public PropertyGraphMutator(String propertyName, boolean required, boolean autoConvert) {
+    this(null, propertyName, required, autoConvert);
+  }
+
+  /**
+   * Instantiates a new Property graph mutator.
+   *
+   * @param beanClass    the bean class
+   * @param propertyName the property name
+   */
+  public PropertyGraphMutator(Class<?> beanClass, String propertyName) {
+    this(beanClass, propertyName, true, false);
+  }
+
+  /**
+   * Instantiates a new Property graph mutator.
+   *
+   * @param beanClass    the bean class
+   * @param propertyName the property name
+   * @param required     the required
+   * @param autoConvert  the auto convert
+   */
+  @SuppressWarnings("unchecked")
+  public PropertyGraphMutator(Class<?> beanClass, String propertyName, boolean required, boolean autoConvert) {
+    this.propertyName = propertyName;
+    this.required = required;
+    this.autoConvert = autoConvert;
+    int separatorIndex = propertyName.indexOf('.');
+    if (separatorIndex >= 0) {
+      String[] nodeNames = StringUtil.tokenize(propertyName, '.');
+      Class<?> nodeClass = beanClass;
+      subAccessors = new PropertyAccessor[nodeNames.length - 1];
+      for (int i = 0; i < nodeNames.length - 1; i++) {
+        subAccessors[i] = PropertyAccessorFactory.getAccessor(nodeClass, nodeNames[i], required);
+        nodeClass = subAccessors[i].getValueType();
+      }
+      String lastNodeName = nodeNames[nodeNames.length - 1];
+      if (beanClass != null) {
+        lastMutator = PropertyMutatorFactory.getPropertyMutator(
+            subAccessors[subAccessors.length - 1].getValueType(), lastNodeName, required, autoConvert);
+      } else {
+        lastMutator = new UntypedPropertyMutator(lastNodeName, required, autoConvert);
+      }
+    } else {
+      lastMutator = new TypedPropertyMutator(beanClass, propertyName, required, autoConvert);
     }
+  }
 
-    public PropertyGraphMutator(String propertyName, boolean required, boolean autoConvert) {
-        this(null, propertyName, required, autoConvert);
+  /**
+   * Is required boolean.
+   *
+   * @return the boolean
+   */
+  public boolean isRequired() {
+    return required;
+  }
+
+  /**
+   * Is auto convert boolean.
+   *
+   * @return the boolean
+   */
+  public boolean isAutoConvert() {
+    return autoConvert;
+  }
+
+  // PropertyMutator interface ---------------------------------------------------------------------------------------
+
+  @Override
+  public String getName() {
+    return propertyName;
+  }
+
+  @Override
+  public void setValue(Object bean, Object propertyValue) throws UpdateFailedException {
+    if (bean == null) {
+      if (required) {
+        throw new IllegalArgumentException("Cannot set a property on null");
+      } else {
+        return;
+      }
     }
-
-    public PropertyGraphMutator(Class<?> beanClass, String propertyName) {
-        this(beanClass, propertyName, true, false);
-    }
-
-    @SuppressWarnings("unchecked")
-    public PropertyGraphMutator(Class<?> beanClass, String propertyName, boolean required, boolean autoConvert) {
-        this.propertyName = propertyName;
-        this.required = required;
-        this.autoConvert = autoConvert;
-        int separatorIndex = propertyName.indexOf('.');
-        if (separatorIndex >= 0) {
-            String[] nodeNames = StringUtil.tokenize(propertyName, '.');
-            Class<?> nodeClass = beanClass;
-            subAccessors = new PropertyAccessor[nodeNames.length - 1];
-            for (int i = 0; i < nodeNames.length - 1; i++) {
-                subAccessors[i] = PropertyAccessorFactory.getAccessor(nodeClass, nodeNames[i], required);
-                nodeClass = subAccessors[i].getValueType();
-            }
-            String lastNodeName = nodeNames[nodeNames.length - 1];
-            if (beanClass != null)
-                lastMutator = PropertyMutatorFactory.getPropertyMutator(
-                    subAccessors[subAccessors.length - 1].getValueType(), lastNodeName, required, autoConvert);
-            else
-                lastMutator = new UntypedPropertyMutator(lastNodeName, required, autoConvert);
-        } else
-            lastMutator = new TypedPropertyMutator(beanClass, propertyName, required, autoConvert);
-    }
-    
-	public boolean isRequired() {
-		return required;
-	}
-	
-	public boolean isAutoConvert() {
-		return autoConvert;
-	}
-
-    // PropertyMutator interface ---------------------------------------------------------------------------------------
-
-    @Override
-	public String getName() {
-        return propertyName;
-    }
-
-    @Override
-	public void setValue(Object bean, Object propertyValue) throws UpdateFailedException {
-        if (bean == null)
-            if (required)
-                throw new IllegalArgumentException("Cannot set a property on null");
-            else
-                return;
-        logger.debug("setting property '" + getName() + "' to '" + propertyValue + "' on bean " + bean);
-        Object superBean = bean;
-        if (subAccessors != null) {
-            for (PropertyAccessor<Object, ?> subAccessor : subAccessors) {
-                Object subBean = subAccessor.getValue(superBean);
-                if (subBean == null && propertyValue != null) {
-                    // bean is null but since there is something to set create one
-                    Class<?> propertyType = subAccessor.getValueType();
-                    subBean = BeanUtil.newInstance(propertyType);
-                    BeanUtil.setPropertyValue(superBean, subAccessor.getPropertyName(), subBean);
-                }
-                superBean = subBean;
-            }
+    logger.debug("setting property '" + getName() + "' to '" + propertyValue + "' on bean " + bean);
+    Object superBean = bean;
+    if (subAccessors != null) {
+      for (PropertyAccessor<Object, ?> subAccessor : subAccessors) {
+        Object subBean = subAccessor.getValue(superBean);
+        if (subBean == null && propertyValue != null) {
+          // bean is null but since there is something to set create one
+          Class<?> propertyType = subAccessor.getValueType();
+          subBean = BeanUtil.newInstance(propertyType);
+          BeanUtil.setPropertyValue(superBean, subAccessor.getPropertyName(), subBean);
         }
-        lastMutator.setValue(superBean, propertyValue);
+        superBean = subBean;
+      }
     }
-    
-	public static void setPropertyGraph(Object bean, String propertyGraph, Object propertyValue, boolean required, boolean autoConvert) {
-		new PropertyGraphMutator(bean.getClass(), propertyGraph, required, autoConvert).setValue(bean, propertyValue);
-	}
-	
+    lastMutator.setValue(superBean, propertyValue);
+  }
+
+  /**
+   * Sets property graph.
+   *
+   * @param bean          the bean
+   * @param propertyGraph the property graph
+   * @param propertyValue the property value
+   * @param required      the required
+   * @param autoConvert   the auto convert
+   */
+  public static void setPropertyGraph(Object bean, String propertyGraph, Object propertyValue, boolean required, boolean autoConvert) {
+    new PropertyGraphMutator(bean.getClass(), propertyGraph, required, autoConvert).setValue(bean, propertyValue);
+  }
+
 }

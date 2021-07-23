@@ -12,35 +12,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.file;
 
 import java.io.File;
 import java.util.regex.Pattern;
 
 /**
- * {@link FileFilter} that can be configured to accepted files and/or folders 
+ * {@link FileFilter} that can be configured to accepted files and/or folders
  * based on a regular expression.
  * Created: 24.02.2010 07:09:52
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class PatternFileFilter implements FileFilter {
-	
-	private final Pattern pattern;
-	private final boolean acceptingFiles;
-	private final boolean acceptingFolders;
 
-	public PatternFileFilter(String regex, boolean acceptingFiles, boolean acceptingFolders) {
-	    this.pattern = (regex != null ? Pattern.compile(regex) : null);
-	    this.acceptingFiles = acceptingFiles;
-	    this.acceptingFolders = acceptingFolders;
-    }
+  private final Pattern pattern;
+  private final boolean acceptingFiles;
+  private final boolean acceptingFolders;
 
-	@Override
-	public boolean accept(File file) {
-		if (pattern != null && !pattern.matcher(file.getName()).matches())
-	    	return false;
-		return (acceptingFiles && file.isFile()) || (acceptingFolders && file.isDirectory());
+  /**
+   * Instantiates a new Pattern file filter.
+   *
+   * @param regex            the regex
+   * @param acceptingFiles   the accepting files
+   * @param acceptingFolders the accepting folders
+   */
+  public PatternFileFilter(String regex, boolean acceptingFiles, boolean acceptingFolders) {
+    this.pattern = (regex != null ? Pattern.compile(regex) : null);
+    this.acceptingFiles = acceptingFiles;
+    this.acceptingFolders = acceptingFolders;
+  }
+
+  @Override
+  public boolean accept(File file) {
+    if (pattern != null && !pattern.matcher(file.getName()).matches()) {
+      return false;
     }
+    return (acceptingFiles && file.isFile()) || (acceptingFolders && file.isDirectory());
+  }
 
 }

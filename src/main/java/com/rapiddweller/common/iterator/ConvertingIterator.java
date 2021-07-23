@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.Converter;
@@ -24,40 +25,54 @@ import java.util.Iterator;
 /**
  * Iterator proxy that converts iterated objects before providing them to the caller.
  * Created: 16.08.2007 06:34:59
+ *
  * @param <S> the type to iterate
  * @param <T> the type to provide
  * @author Volker Bergmann
  */
 public class ConvertingIterator<S, T> implements HeavyweightIterator<T> {
 
-    protected Iterator<S> source;
-    protected Converter<S, T> converter;
+  /**
+   * The Source.
+   */
+  protected Iterator<S> source;
+  /**
+   * The Converter.
+   */
+  protected Converter<S, T> converter;
 
-    public ConvertingIterator(Iterator<S> source, Converter<S, T> converter) {
-        this.source = source;
-        this.converter = converter;
-    }
+  /**
+   * Instantiates a new Converting iterator.
+   *
+   * @param source    the source
+   * @param converter the converter
+   */
+  public ConvertingIterator(Iterator<S> source, Converter<S, T> converter) {
+    this.source = source;
+    this.converter = converter;
+  }
 
-    @Override
-	public void close() {
-        if (source instanceof Closeable)
-            IOUtil.close((Closeable) source);
+  @Override
+  public void close() {
+    if (source instanceof Closeable) {
+      IOUtil.close((Closeable) source);
     }
+  }
 
-    @Override
-	public boolean hasNext() {
-        return source.hasNext();
-    }
+  @Override
+  public boolean hasNext() {
+    return source.hasNext();
+  }
 
-    @Override
-	public T next() {
-        S sourceValue = source.next();
-        return converter.convert(sourceValue);
-    }
+  @Override
+  public T next() {
+    S sourceValue = source.next();
+    return converter.convert(sourceValue);
+  }
 
-    @Override
-	public void remove() {
-        source.remove();
-    }
-    
+  @Override
+  public void remove() {
+    source.remove();
+  }
+
 }

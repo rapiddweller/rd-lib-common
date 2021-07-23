@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.visitor;
 
 import com.rapiddweller.common.CollectionUtil;
@@ -22,23 +23,33 @@ import java.util.List;
 /**
  * Groups multiple visitors into the interface of a single one.
  * Created: 06.03.2011 14:39:23
+ *
  * @param <E> the type of the visited elements
- * @since 0.5.8
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class MultiVisitor<E> implements Visitor<E> {
 
-	protected List<Visitor<E>> realVisitors;
-	
-	@SafeVarargs
-    public MultiVisitor(Visitor<E>... realVisitors) {
-		this.realVisitors = CollectionUtil.toList(realVisitors);
-	}
-	
-	@Override
-	public <C extends E> void visit(C element) {
-		for (Visitor<E> realVisitor : realVisitors)
-			realVisitor.visit(element);
-	}
-	
+  /**
+   * The Real visitors.
+   */
+  protected List<Visitor<E>> realVisitors;
+
+  /**
+   * Instantiates a new Multi visitor.
+   *
+   * @param realVisitors the real visitors
+   */
+  @SafeVarargs
+  public MultiVisitor(Visitor<E>... realVisitors) {
+    this.realVisitors = CollectionUtil.toList(realVisitors);
+  }
+
+  @Override
+  public <C extends E> void visit(C element) {
+    for (Visitor<E> realVisitor : realVisitors) {
+      realVisitor.visit(element);
+    }
+  }
+
 }

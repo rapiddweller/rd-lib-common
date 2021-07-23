@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import java.util.HashSet;
@@ -20,25 +21,36 @@ import java.util.Set;
 /**
  * Validates objects against a set of blacklisted instances.
  * Created: 01.08.2010 15:44:59
+ *
  * @param <E> the type to by checked by this validator
- * @since 0.5.3
  * @author Volker Bergmann
+ * @since 0.5.3
  */
 public class BlacklistValidator<E> extends AbstractValidator<E> {
 
-	private Set<E> blacklist;
-	
-	public BlacklistValidator(Set<E> blacklist) {
-	    this.blacklist = (blacklist != null ? blacklist : new HashSet<>());
-    }
+  private Set<E> blacklist;
 
-	public void setBlacklist(Set<E> blacklist) {
-    	this.blacklist = blacklist;
-    }
+  /**
+   * Instantiates a new Blacklist validator.
+   *
+   * @param blacklist the blacklist
+   */
+  public BlacklistValidator(Set<E> blacklist) {
+    this.blacklist = (blacklist != null ? blacklist : new HashSet<>());
+  }
 
-	@Override
-	public boolean valid(E value) {
-	    return !(blacklist.contains(value));
-    }
-	
+  /**
+   * Sets blacklist.
+   *
+   * @param blacklist the blacklist
+   */
+  public void setBlacklist(Set<E> blacklist) {
+    this.blacklist = blacklist;
+  }
+
+  @Override
+  public boolean valid(E value) {
+    return !(blacklist.contains(value));
+  }
+
 }

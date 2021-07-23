@@ -12,29 +12,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
-import static org.junit.Assert.assertEquals;
-
 import com.rapiddweller.common.UpdateFailedException;
-import com.rapiddweller.common.bean.TypedPropertyMutator;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link TypedPropertyMutator}.
  * Created: 20.02.2007 08:52:49
+ *
  * @author Volker Bergmann
  */
 public class TypedPropertyMutatorTest {
 
-	@Test
-    public void testLocalProperty() throws UpdateFailedException {
-        TypedPropertyMutator aNameMutator = new TypedPropertyMutator(ABean.class, "name", true, false);
-        ABean a = new ABean();
-        aNameMutator.setValue(a, "aName");
-        assertEquals("aName", a.name);
-        aNameMutator.setValue(a, null);
-        assertEquals(null, a.name);
-    }
+  @Test
+  public void testLocalProperty() throws UpdateFailedException {
+    TypedPropertyMutator aNameMutator = new TypedPropertyMutator(ABean.class, "name", true, false);
+    ABean a = new ABean();
+    aNameMutator.setValue(a, "aName");
+    assertEquals("aName", a.name);
+    aNameMutator.setValue(a, null);
+    assertEquals(null, a.name);
+  }
 
 }

@@ -12,31 +12,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.depend;
 
 /**
  * Exception that signals a cyclic dependency.
+ *
  * @author Volker Bergmann
  * @since 0.3.04
  */
 public class CyclicDependencyException extends RuntimeException {
 
-	private static final long serialVersionUID = 3462929902648133425L;
+  private static final long serialVersionUID = 3462929902648133425L;
 
-	public CyclicDependencyException() {
-        super();
-    }
+  /**
+   * Instantiates a new Cyclic dependency exception.
+   */
+  public CyclicDependencyException() {
+    super();
+  }
 
-    public CyclicDependencyException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  /**
+   * Instantiates a new Cyclic dependency exception.
+   *
+   * @param message the message
+   * @param cause   the cause
+   */
+  public CyclicDependencyException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public CyclicDependencyException(String message) {
-        super(message);
-    }
+  /**
+   * Instantiates a new Cyclic dependency exception.
+   *
+   * @param message the message
+   */
+  public CyclicDependencyException(String message) {
+    super(message);
+  }
 
-    public CyclicDependencyException(Throwable cause) {
-        super(cause);
-    }
+  /**
+   * Instantiates a new Cyclic dependency exception.
+   *
+   * @param cause the cause
+   */
+  public CyclicDependencyException(Throwable cause) {
+    super(cause);
+  }
 
 }

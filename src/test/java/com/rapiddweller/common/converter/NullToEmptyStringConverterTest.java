@@ -12,30 +12,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link NullToEmptyStringConverter}.
  * Created: 08.03.2011 15:01:54
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class NullToEmptyStringConverterTest extends AbstractConverterTest {
 
-	public NullToEmptyStringConverterTest() {
-		super(NullToEmptyStringConverter.class);
-	}
+  public NullToEmptyStringConverterTest() {
+    super(NullToEmptyStringConverter.class);
+  }
 
-	@Test
-	public void test() {
-		NullToEmptyStringConverter converter = new NullToEmptyStringConverter();
-		assertEquals("", converter.convert(null));
-		assertEquals("", converter.convert(""));
-		assertEquals("x", converter.convert("x"));
-	}
-	
+  @Test
+  public void test() {
+    NullToEmptyStringConverter converter = new NullToEmptyStringConverter();
+    assertEquals("", converter.convert(null));
+    assertEquals("", converter.convert(""));
+    assertEquals("x", converter.convert("x"));
+  }
+
 }

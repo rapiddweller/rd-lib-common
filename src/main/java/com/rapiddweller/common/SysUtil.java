@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.util.concurrent.Callable;
@@ -19,31 +20,50 @@ import java.util.concurrent.Callable;
 /**
  * Provides system related utility methods.
  * Created: 21.10.2009 19:26:24
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class SysUtil {
 
-	private SysUtil() { }
-	
-	public static void runWithSystemProperty(String name, String value, Runnable runner) {
-		String oldValue = System.getProperty(name);
-		try {
-			System.setProperty(name, value);
-			runner.run();
-		} finally {
-			System.setProperty(name, (oldValue != null ? oldValue : ""));
-		}
-	}
-	
-	public static <T> T callWithSystemProperty(String name, String value, Callable<T> callee) throws Exception {
-		String oldValue = System.getProperty(name);
-		try {
-			System.setProperty(name, value);
-			return callee.call();
-		} finally {
-			System.setProperty(name, oldValue);
-		}
-	}
+  private SysUtil() {
+  }
+
+  /**
+   * Run with system property.
+   *
+   * @param name   the name
+   * @param value  the value
+   * @param runner the runner
+   */
+  public static void runWithSystemProperty(String name, String value, Runnable runner) {
+    String oldValue = System.getProperty(name);
+    try {
+      System.setProperty(name, value);
+      runner.run();
+    } finally {
+      System.setProperty(name, (oldValue != null ? oldValue : ""));
+    }
+  }
+
+  /**
+   * Call with system property t.
+   *
+   * @param <T>    the type parameter
+   * @param name   the name
+   * @param value  the value
+   * @param callee the callee
+   * @return the t
+   * @throws Exception the exception
+   */
+  public static <T> T callWithSystemProperty(String name, String value, Callable<T> callee) throws Exception {
+    String oldValue = System.getProperty(name);
+    try {
+      System.setProperty(name, value);
+      return callee.call();
+    } finally {
+      System.setProperty(name, oldValue);
+    }
+  }
 
 }

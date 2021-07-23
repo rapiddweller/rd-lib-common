@@ -22,18 +22,18 @@ import java.awt.Component;
 /**
  * Renders classes by using their simple class names.<br><br>
  * Created: 23.06.2016 16:45:26
- * @since 1.0.11
+ *
  * @author Volker Bergmann
+ * @since 1.0.11
  */
-
 public class ClassListCellRenderer extends DefaultListCellRenderer {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	@Override
-	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-		String className = (value != null ? ((Class<?>) value).getSimpleName() : null);
-		return super.getListCellRendererComponent(list, className, index, isSelected, cellHasFocus);
-	}
-	
+  @Override
+  public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+    String className = (value != null ? ((Class<?>) value).getSimpleName() : null);
+    return super.getListCellRendererComponent(list, className, index, isSelected, cellHasFocus);
+  }
+
 }

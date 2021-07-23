@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
@@ -19,25 +20,32 @@ import com.rapiddweller.common.Converter;
 /**
  * Parent class for {@link Converter}s that are neither parallelizable nor thead-safe.
  * Created: 26.02.2010 16:19:44
+ *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public abstract class UnsafeConverter<S, T> extends AbstractConverter<S, T> {
 
-	protected UnsafeConverter(Class<S> sourceType, Class<T> targetType) {
-	    super(sourceType, targetType);
-    }
+  /**
+   * Instantiates a new Unsafe converter.
+   *
+   * @param sourceType the source type
+   * @param targetType the target type
+   */
+  protected UnsafeConverter(Class<S> sourceType, Class<T> targetType) {
+    super(sourceType, targetType);
+  }
 
-	@Override
-	public boolean isParallelizable() {
-	    return false;
-    }
+  @Override
+  public boolean isParallelizable() {
+    return false;
+  }
 
-	@Override
-	public boolean isThreadSafe() {
-	    return false;
-    }
+  @Override
+  public boolean isThreadSafe() {
+    return false;
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.filter;
 
 import com.rapiddweller.common.Filter;
@@ -19,21 +20,27 @@ import com.rapiddweller.common.Filter;
 /**
  * Yields the same result for any argument.
  * Created: 08.06.2012 20:56:15
+ *
  * @param <E> the type of objects to filter
- * @since 0.5.16
  * @author Volker Bergmann
+ * @since 0.5.16
  */
 public class ConstantFilter<E> implements Filter<E> {
-	
-	private final boolean accept;
 
-	public ConstantFilter(boolean accept) {
-		this.accept = accept;
-	}
+  private final boolean accept;
 
-	@Override
-	public boolean accept(E candidate) {
-		return accept;
-	}
-	
+  /**
+   * Instantiates a new Constant filter.
+   *
+   * @param accept the accept
+   */
+  public ConstantFilter(boolean accept) {
+    this.accept = accept;
+  }
+
+  @Override
+  public boolean accept(E candidate) {
+    return accept;
+  }
+
 }

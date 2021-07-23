@@ -12,30 +12,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.filter;
 
 import com.rapiddweller.common.Filter;
 
 /**
- * Combines {@link Filter} components in an OR manner: A candidate value is accepted if any of the 
+ * Combines {@link Filter} components in an OR manner: A candidate value is accepted if any of the
  * components accepts it.
  * Created: 08.06.2012 20:28:54
+ *
  * @param <E> the type of objects to be filtered
- * @since 0.5.16
  * @author Volker Bergmann
+ * @since 0.5.16
  */
 public class OrFilter<E> extends CompositeFilter<E> {
 
-	@SafeVarargs
-    public OrFilter(Filter<E>... components) {
-		super(components);
-	}
+  /**
+   * Instantiates a new Or filter.
+   *
+   * @param components the components
+   */
+  @SafeVarargs
+  public OrFilter(Filter<E>... components) {
+    super(components);
+  }
 
-	public boolean accept(E candidate) {
-		for (Filter<E> component : components)
-			if (component.accept(candidate))
-				return true;
-		return false;
-	}
+  public boolean accept(E candidate) {
+    for (Filter<E> component : components) {
+      if (component.accept(candidate)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.debug;
 
 import com.rapiddweller.common.SystemInfo;
@@ -20,44 +21,59 @@ import com.rapiddweller.common.SystemInfo;
  * Wrapper class for resources that are monitored.
  * It stores the monitored object itself and its allocation stack trace.
  * Created: 14.04.2011 17:22:56
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class MonitoredResource {
 
-	final Object resource;
-	final StackTraceElement[] registrationTrace;
+  /**
+   * The Resource.
+   */
+  final Object resource;
+  /**
+   * The Registration trace.
+   */
+  final StackTraceElement[] registrationTrace;
 
-	public MonitoredResource(Object resource, StackTraceElement[] registrationTrace) {
-		this.resource = resource;
-		this.registrationTrace = registrationTrace;
-	}
+  /**
+   * Instantiates a new Monitored resource.
+   *
+   * @param resource          the resource
+   * @param registrationTrace the registration trace
+   */
+  public MonitoredResource(Object resource, StackTraceElement[] registrationTrace) {
+    this.resource = resource;
+    this.registrationTrace = registrationTrace;
+  }
 
-	private static String toString(StackTraceElement[] trace) {
-		StringBuilder builder = new StringBuilder();
-		boolean first = true;
-		for (StackTraceElement element : trace) {
-			appendTraceElement(element, first, builder);
-			first = false;
-		}
-		return builder.toString();
-	}
-	
-	private static void appendTraceElement(StackTraceElement element, boolean first, StringBuilder builder) {
-		builder.append(SystemInfo.getLineSeparator());
-		builder.append("\t");
-		if (!first)
-			builder.append("at ");
-		builder.append(element.getClassName()).append('.').append(element.getMethodName());
-		if (element.getLineNumber() > 0)
-			builder.append(" (Line ").append(element.getLineNumber()).append(")");
-	}
+  private static String toString(StackTraceElement[] trace) {
+    StringBuilder builder = new StringBuilder();
+    boolean first = true;
+    for (StackTraceElement element : trace) {
+      appendTraceElement(element, first, builder);
+      first = false;
+    }
+    return builder.toString();
+  }
 
-	@Override
-	public String toString() {
-		return "Monitored Object: " + resource.toString() + SystemInfo.getLineSeparator() + 
-		"Registration stack:" +  
-		toString(registrationTrace);
-	}
+  private static void appendTraceElement(StackTraceElement element, boolean first, StringBuilder builder) {
+    builder.append(SystemInfo.getLineSeparator());
+    builder.append("\t");
+    if (!first) {
+      builder.append("at ");
+    }
+    builder.append(element.getClassName()).append('.').append(element.getMethodName());
+    if (element.getLineNumber() > 0) {
+      builder.append(" (Line ").append(element.getLineNumber()).append(")");
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "Monitored Object: " + resource.toString() + SystemInfo.getLineSeparator() +
+        "Registration stack:" +
+        toString(registrationTrace);
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.CharSet;
@@ -20,24 +21,35 @@ import com.rapiddweller.common.Validator;
 /**
  * Accepts all characters that are contained in the internal {@link CharSet}.
  * Created: 17.12.2009 19:00:41
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class CharacterValidator implements Validator<Character> {
 
-	private final CharSet charSet;
+  private final CharSet charSet;
 
-	public CharacterValidator(CharSet charSet) {
-	    this.charSet = charSet;
-    }
-	
-	public CharSet getCharSet() {
-    	return charSet;
-    }
+  /**
+   * Instantiates a new Character validator.
+   *
+   * @param charSet the char set
+   */
+  public CharacterValidator(CharSet charSet) {
+    this.charSet = charSet;
+  }
 
-	@Override
-	public boolean valid(Character c) {
-	    return charSet.contains(c);
-    }
-	
+  /**
+   * Gets char set.
+   *
+   * @return the char set
+   */
+  public CharSet getCharSet() {
+    return charSet;
+  }
+
+  @Override
+  public boolean valid(Character c) {
+    return charSet.contains(c);
+  }
+
 }

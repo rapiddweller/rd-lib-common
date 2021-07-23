@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.CollectionUtil;
@@ -24,38 +25,57 @@ import java.util.List;
 /**
  * Converts arrays and collections to collections of same content, everything else is converted to a collection of size 1.
  * Created: 26.08.2007 16:16:15
+ *
  * @param <C> the collection type to convert to
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class ToCollectionConverter<C extends Collection> extends ThreadSafeConverter<Object, C> {
 
-    public ToCollectionConverter() {
-        this((Class<C>) List.class);
-    }
+  /**
+   * Instantiates a new To collection converter.
+   */
+  public ToCollectionConverter() {
+    this((Class<C>) List.class);
+  }
 
-    public ToCollectionConverter(Class<C> targetType) {
-        super(Object.class, targetType);
-    }
+  /**
+   * Instantiates a new To collection converter.
+   *
+   * @param targetType the target type
+   */
+  public ToCollectionConverter(Class<C> targetType) {
+    super(Object.class, targetType);
+  }
 
-    @Override
-	public C convert(Object sourceValue) throws ConversionException {
-        return (C) convert(sourceValue, targetType);
-    }
+  @Override
+  public C convert(Object sourceValue) throws ConversionException {
+    return (C) convert(sourceValue, targetType);
+  }
 
-    public static Collection convert(Object sourceValue, Class targetType) {
-        if (sourceValue == null)
-            return null;
-        if (sourceValue.getClass() == targetType)
-            return (Collection) sourceValue;
-        Collection collection = CollectionUtil.newInstance(targetType);
-        if (sourceValue instanceof Collection)
-            collection.addAll((Collection) sourceValue);
-        else if (sourceValue.getClass().isArray()) {
-            Object[] array = (Object[]) sourceValue;
-            collection.addAll(Arrays.asList(array));
-        } else
-            collection.add(sourceValue);
-        return collection;
+  /**
+   * Convert collection.
+   *
+   * @param sourceValue the source value
+   * @param targetType  the target type
+   * @return the collection
+   */
+  public static Collection convert(Object sourceValue, Class targetType) {
+    if (sourceValue == null) {
+      return null;
     }
-    
+    if (sourceValue.getClass() == targetType) {
+      return (Collection) sourceValue;
+    }
+    Collection collection = CollectionUtil.newInstance(targetType);
+    if (sourceValue instanceof Collection) {
+      collection.addAll((Collection) sourceValue);
+    } else if (sourceValue.getClass().isArray()) {
+      Object[] array = (Object[]) sourceValue;
+      collection.addAll(Arrays.asList(array));
+    } else {
+      collection.add(sourceValue);
+    }
+    return collection;
+  }
+
 }

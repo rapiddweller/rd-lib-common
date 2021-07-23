@@ -12,31 +12,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Signals that an object was not found.
+ *
  * @author Volker Bergmann
  * @since 0.2.04
  */
 public class ObjectNotFoundException extends RuntimeException {
 
-	private static final long serialVersionUID = 5285468652879008340L;
+  private static final long serialVersionUID = 5285468652879008340L;
 
-	public ObjectNotFoundException() {
-        super();
-    }
+  /**
+   * Instantiates a new Object not found exception.
+   */
+  public ObjectNotFoundException() {
+    super();
+  }
 
-    public ObjectNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  /**
+   * Instantiates a new Object not found exception.
+   *
+   * @param message the message
+   * @param cause   the cause
+   */
+  public ObjectNotFoundException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public ObjectNotFoundException(String message) {
-        super(message);
-    }
+  /**
+   * Instantiates a new Object not found exception.
+   *
+   * @param message the message
+   */
+  public ObjectNotFoundException(String message) {
+    super(message);
+  }
 
-    public ObjectNotFoundException(Throwable cause) {
-        super(cause);
-    }
+  /**
+   * Instantiates a new Object not found exception.
+   *
+   * @param cause the cause
+   */
+  public ObjectNotFoundException(Throwable cause) {
+    super(cause);
+  }
 
 }

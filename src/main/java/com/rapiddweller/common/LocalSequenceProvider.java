@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.io.Closeable;
@@ -23,104 +24,132 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Generates consecutive sequence values and persists sequence state in a properties file.
  * Created: 09.11.2013 09:04:51
- * @since 0.5.25
+ *
  * @author Volker Bergmann
+ * @since 0.5.25
  */
-
 public class LocalSequenceProvider implements Closeable {
-	
-	private static final Map<String, LocalSequenceProvider> INSTANCES = new HashMap<>();
-	
-	public static LocalSequenceProvider getInstance(String filename) {
-		LocalSequenceProvider result = INSTANCES.get(filename);
-		if (result == null) {
-			result = new LocalSequenceProvider(filename);
-			INSTANCES.put(filename, result);
-		}
-		return result;
-	}
-	
 
-	private final String fileName;
+  private static final Map<String, LocalSequenceProvider> INSTANCES = new HashMap<>();
 
-	private boolean cached;
+  /**
+   * Gets instance.
+   *
+   * @param filename the filename
+   * @return the instance
+   */
+  public static LocalSequenceProvider getInstance(String filename) {
+    LocalSequenceProvider result = INSTANCES.get(filename);
+    if (result == null) {
+      result = new LocalSequenceProvider(filename);
+      INSTANCES.put(filename, result);
+    }
+    return result;
+  }
 
-	private final Map<String, AtomicLong> counters;
 
-	// Initialization --------------------------------------------------------------------------------------------------
+  private final String fileName;
 
-	private LocalSequenceProvider(String fileName) {
-		this(fileName, true);
-	}
+  private boolean cached;
 
-	private LocalSequenceProvider(String fileName, boolean cached) {
-		this.fileName = fileName;
-		this.cached = cached;
-		this.counters = new HashMap<>();
-		load();
-	}
+  private final Map<String, AtomicLong> counters;
 
-	// Properties ------------------------------------------------------------------------------------------------------
+  // Initialization --------------------------------------------------------------------------------------------------
 
-	public boolean isCached() {
-		return cached;
-	}
+  private LocalSequenceProvider(String fileName) {
+    this(fileName, true);
+  }
 
-	public void setCached(boolean cached) {
-		this.cached = cached;
-	}
-	
-	
-	// interface -------------------------------------------------------------------------------------------------------
+  private LocalSequenceProvider(String fileName, boolean cached) {
+    this.fileName = fileName;
+    this.cached = cached;
+    this.counters = new HashMap<>();
+    load();
+  }
 
-	public long next(String sequenceName) {
-		long result = getOrCreateCounter(sequenceName).incrementAndGet();
-		if (!cached)
-			save();
-		return result;
-	}
+  // Properties ------------------------------------------------------------------------------------------------------
 
-	@Override
-	public void close() {
-		save();
-	}
-	
-	
-	// static methods --------------------------------------------------------------------------------------------------
+  /**
+   * Is cached boolean.
+   *
+   * @return the boolean
+   */
+  public boolean isCached() {
+    return cached;
+  }
 
-	public void save() {
-		Map<String, String> values = new HashMap<>();
-		for (Map.Entry<String, AtomicLong> entry : counters.entrySet())
-			values.put(entry.getKey(), String.valueOf(entry.getValue().get()));
-		try {
-			IOUtil.writeProperties(values, fileName);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
-	
-	// private helpers -------------------------------------------------------------------------------------------------
+  /**
+   * Sets cached.
+   *
+   * @param cached the cached
+   */
+  public void setCached(boolean cached) {
+    this.cached = cached;
+  }
 
-	private void load() {
-		if (IOUtil.isURIAvailable(fileName)) {
-			try {
-				Map<String, String> values = IOUtil.readProperties(fileName);
-				for (Map.Entry<String, String> entry : values.entrySet())
-					counters.put(entry.getKey(), new AtomicLong(Long.parseLong(entry.getValue())));
-			} catch (Exception e) {
-				throw new ConfigurationError(e);
-			}
-		}
-	}
 
-	private AtomicLong getOrCreateCounter(String name) {
-		AtomicLong counter = counters.get(name);
-		if (counter == null) {
-			counter = new AtomicLong();
-			counters.put(name, counter);
-		}
-		return counter;
-	}
+  // interface -------------------------------------------------------------------------------------------------------
+
+  /**
+   * Next long.
+   *
+   * @param sequenceName the sequence name
+   * @return the long
+   */
+  public long next(String sequenceName) {
+    long result = getOrCreateCounter(sequenceName).incrementAndGet();
+    if (!cached) {
+      save();
+    }
+    return result;
+  }
+
+  @Override
+  public void close() {
+    save();
+  }
+
+
+  // static methods --------------------------------------------------------------------------------------------------
+
+  /**
+   * Save.
+   */
+  public void save() {
+    Map<String, String> values = new HashMap<>();
+    for (Map.Entry<String, AtomicLong> entry : counters.entrySet()) {
+      values.put(entry.getKey(), String.valueOf(entry.getValue().get()));
+    }
+    try {
+      IOUtil.writeProperties(values, fileName);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private void load() {
+    if (IOUtil.isURIAvailable(fileName)) {
+      try {
+        Map<String, String> values = IOUtil.readProperties(fileName);
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+          counters.put(entry.getKey(), new AtomicLong(Long.parseLong(entry.getValue())));
+        }
+      } catch (Exception e) {
+        throw new ConfigurationError(e);
+      }
+    }
+  }
+
+  private AtomicLong getOrCreateCounter(String name) {
+    AtomicLong counter = counters.get(name);
+    if (counter == null) {
+      counter = new AtomicLong();
+      counters.put(name, counter);
+    }
+    return counter;
+  }
 
 }

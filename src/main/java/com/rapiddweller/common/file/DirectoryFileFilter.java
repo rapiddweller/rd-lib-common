@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.file;
 
 import java.io.File;
@@ -19,19 +20,25 @@ import java.io.File;
 /**
  * FileFilter implementation that accepts only directories.
  * Created: 07.05.2007 23:57:46
+ *
  * @author Volker Bergmann
  */
 public class DirectoryFileFilter implements FileFilter {
-	
-	private static final DirectoryFileFilter INSTANCE = new DirectoryFileFilter();
-	
-    @Override
-	public boolean accept(File file) {
-        return file.isDirectory();
-    }
 
-	public static FileFilter instance() {
-	    return INSTANCE;
-    }
+  private static final DirectoryFileFilter INSTANCE = new DirectoryFileFilter();
+
+  @Override
+  public boolean accept(File file) {
+    return file.isDirectory();
+  }
+
+  /**
+   * Instance file filter.
+   *
+   * @return the file filter
+   */
+  public static FileFilter instance() {
+    return INSTANCE;
+  }
 
 }

@@ -23,30 +23,61 @@ import java.util.Date;
 /**
  * Formats values human-friendly.<br><br>
  * Created: 20.12.2017 08:58:50
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public class UiFormatter {
 
-	public static String format(Date date) {
-		return DateFormat.getDateInstance().format(date);
-	}
-	
-	public static String format(Date date, String pattern) {
-		return new SimpleDateFormat(pattern).format(date);
-	}
-	
-	public static String formatShort(Date date) {
-		return DateFormat.getDateInstance(DateFormat.SHORT).format(date);
-	}
+  /**
+   * Format string.
+   *
+   * @param date the date
+   * @return the string
+   */
+  public static String format(Date date) {
+    return DateFormat.getDateInstance().format(date);
+  }
 
-	public static String format(double d) {
-		return new DecimalFormat("#,##0.00").format(d);
-	}
+  /**
+   * Format string.
+   *
+   * @param date    the date
+   * @param pattern the pattern
+   * @return the string
+   */
+  public static String format(Date date, String pattern) {
+    return new SimpleDateFormat(pattern).format(date);
+  }
 
-	public static String formatPct(double d) {
-		return new DecimalFormat("#,##0.0%").format(d);
-	}
-	
+  /**
+   * Format short string.
+   *
+   * @param date the date
+   * @return the string
+   */
+  public static String formatShort(Date date) {
+    return DateFormat.getDateInstance(DateFormat.SHORT).format(date);
+  }
+
+  /**
+   * Format string.
+   *
+   * @param d the d
+   * @return the string
+   */
+  public static String format(double d) {
+    return new DecimalFormat("#,##0.00").format(d);
+  }
+
+  /**
+   * Format pct string.
+   *
+   * @param d the d
+   * @return the string
+   */
+  public static String formatPct(double d) {
+    return new DecimalFormat("#,##0.0%").format(d);
+  }
+
 }

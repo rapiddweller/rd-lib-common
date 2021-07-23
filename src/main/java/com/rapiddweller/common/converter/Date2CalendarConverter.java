@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -23,19 +24,23 @@ import java.util.GregorianCalendar;
 /**
  * Converts Date into Calendar Objects and back.
  * Created: 05.08.2007 06:42:16
+ *
  * @author Volker Bergmann
  */
 public class Date2CalendarConverter extends ThreadSafeConverter<Date, Calendar> {
 
-    public Date2CalendarConverter() {
-        super(Date.class, Calendar.class);
-    }
+  /**
+   * Instantiates a new Date 2 calendar converter.
+   */
+  public Date2CalendarConverter() {
+    super(Date.class, Calendar.class);
+  }
 
-    @Override
-	public Calendar convert(Date sourceValue) throws ConversionException {
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(sourceValue);
-        return calendar;
-    }
+  @Override
+  public Calendar convert(Date sourceValue) throws ConversionException {
+    GregorianCalendar calendar = new GregorianCalendar();
+    calendar.setTime(sourceValue);
+    return calendar;
+  }
 
 }

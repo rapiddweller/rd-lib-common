@@ -12,15 +12,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui;
 
 /**
  * Abstraction of file operation types.
  * Created at 14.12.2008 15:19:56
- * @since 0.4.7
+ *
  * @author Volker Bergmann
+ * @since 0.4.7
  */
-
 public enum FileOperation {
-	OPEN, SAVE, CUSTOM
+  /**
+   * Open file operation.
+   */
+  OPEN,
+  /**
+   * Save file operation.
+   */
+  SAVE,
+  /**
+   * Custom file operation.
+   */
+  CUSTOM
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.util.HashSet;
@@ -23,387 +24,535 @@ import java.util.Set;
  * Represents a Set of characters and provides locale-dependent character sets
  * as well as set manipulation methods.
  * Created: 18.08.2006 19:49:17
+ *
  * @author Volker Bergmann
  */
 public class CharSet implements Named {
-	
-	private String name;
-	
-    /** The locale to use for letters */
-    private final Locale locale;
 
-    /** the wrapped set */
-    private final Set<Character> set;
+  private String name;
 
-    // constructors ----------------------------------------------------------------------------------------------------
+  /**
+   * The locale to use for letters
+   */
+  private final Locale locale;
 
-    /** Default constructor that initializes to an isEmpty Set of characters with the fallback locale. */
-    public CharSet() {
-        this(LocaleUtil.getFallbackLocale());
+  /**
+   * the wrapped set
+   */
+  private final Set<Character> set;
+
+  // constructors ----------------------------------------------------------------------------------------------------
+
+  /**
+   * Default constructor that initializes to an isEmpty Set of characters with the fallback locale.
+   */
+  public CharSet() {
+    this(LocaleUtil.getFallbackLocale());
+  }
+
+  /**
+   * Constructor that initializes to an isEmpty Set of characters with the specified locale.
+   *
+   * @param locale the locale for which to create te set
+   */
+  public CharSet(Locale locale) {
+    set = new HashSet<>();
+    this.locale = locale;
+  }
+
+  /**
+   * Constructor that initializes to a Set with one character with the fallback locale.
+   *
+   * @param c the character to include
+   */
+  public CharSet(char c) {
+    set = new HashSet<>();
+    set.add(c);
+    this.locale = LocaleUtil.getFallbackLocale();
+  }
+
+  /**
+   * Instantiates a new Char set.
+   *
+   * @param from the from
+   * @param to   the to
+   */
+  public CharSet(char from, char to) {
+    this(null, from, to);
+  }
+
+  /**
+   * Constructor that initializes to a continuous range of characters with the fallback locale.
+   *
+   * @param name the name of the set
+   * @param from the first character to include
+   * @param to   the last character to include
+   */
+  public CharSet(String name, char from, char to) {
+    this.name = name;
+    set = new HashSet<>();
+    for (char c = from; c <= to; c++) {
+      set.add(c);
     }
+    this.locale = LocaleUtil.getFallbackLocale();
+  }
 
-    /** Constructor that initializes to an isEmpty Set of characters with the specified locale.
-     * @param locale the locale for which to create te set */
-    public CharSet(Locale locale) {
-        set = new HashSet<>();
-        this.locale = locale;
-    }
+  /**
+   * Constructor that initializes to a predefined Set of characters with the fallback locale.
+   *
+   * @param charSet the set of characters to include
+   */
+  public CharSet(CharSet charSet) {
+    this(charSet.set);
+  }
 
-    /** Constructor that initializes to a Set with one character with the fallback locale.
-     * @param c the character to include */
-    public CharSet(char c) {
-        set = new HashSet<>();
-        set.add(c);
-        this.locale = LocaleUtil.getFallbackLocale();
-    }
+  /**
+   * Constructor that initializes to a predefined Set of characters with the fallback locale.
+   *
+   * @param set the set of characters to include
+   */
+  public CharSet(Set<Character> set) {
+    this(null, set);
+  }
 
-    public CharSet(char from, char to) {
-    	this(null, from, to);
-    }
-    
-    /** Constructor that initializes to a continuous range of characters with the fallback locale.
-     * @param name the name of the set
-     * @param from the first character to include
-     * @param to the last character to include */
-    public CharSet(String name, char from, char to) {
-    	this.name = name;
-        set = new HashSet<>();
-        for (char c = from; c <= to; c++)
-            set.add(c);
-        this.locale = LocaleUtil.getFallbackLocale();
-    }
+  /**
+   * Instantiates a new Char set.
+   *
+   * @param name the name
+   * @param set  the set
+   */
+  public CharSet(String name, Set<Character> set) {
+    this.name = name;
+    this.set = new HashSet<>(set);
+    this.locale = LocaleUtil.getFallbackLocale();
+  }
 
-    /** Constructor that initializes to a predefined Set of characters with the fallback locale.
-     * @param charSet the set of characters to include */
-    public CharSet(CharSet charSet) {
-        this(charSet.set);
-    }
 
-    /** Constructor that initializes to a predefined Set of characters with the fallback locale.
-     * @param set the set of characters to include */
-    public CharSet(Set<Character> set) {
-        this(null, set);
-    }
+  // properties ------------------------------------------------------------------------------------------------------
 
-    public CharSet(String name, Set<Character> set) {
-    	this.name = name;
-        this.set = new HashSet<>(set);
-        this.locale = LocaleUtil.getFallbackLocale();
-    }
-    
-    
-    
-    // properties ------------------------------------------------------------------------------------------------------
-    
-	@Override
-	public String getName() {
-		return name;
-	}
-	
-	
-	
-    // digit related interface -----------------------------------------------------------------------------------------
+  @Override
+  public String getName() {
+    return name;
+  }
 
-    public CharSet addDigits() {
-        return addAll(getDigits());
-    }
 
-    public void removeDigits() {
-        removeAll(getDigits());
-    }
+  // digit related interface -----------------------------------------------------------------------------------------
 
-    public CharSet addHexDigits() {
-        return addAll(getHexDigits());
-    }
+  /**
+   * Add digits char set.
+   *
+   * @return the char set
+   */
+  public CharSet addDigits() {
+    return addAll(getDigits());
+  }
 
-    public CharSet removeHexDigits() {
-        return removeAll(getHexDigits());
-    }
+  /**
+   * Remove digits.
+   */
+  public void removeDigits() {
+    removeAll(getDigits());
+  }
 
-    public CharSet addNonDigits() {
-        return addAll(getNonDigits());
-    }
+  /**
+   * Add hex digits char set.
+   *
+   * @return the char set
+   */
+  public CharSet addHexDigits() {
+    return addAll(getHexDigits());
+  }
 
-    public CharSet removeNonDigits() {
-        return removeAll(getNonDigits());
-    }
+  /**
+   * Remove hex digits char set.
+   *
+   * @return the char set
+   */
+  public CharSet removeHexDigits() {
+    return removeAll(getHexDigits());
+  }
 
-    public static Set<Character> getDigits() {
-        return new CharSet('0', '9').getSet();
-    }
+  /**
+   * Add non digits char set.
+   *
+   * @return the char set
+   */
+  public CharSet addNonDigits() {
+    return addAll(getNonDigits());
+  }
 
-    public static Set<Character> getHexDigits() {
-        return new CharSet('0', '9').addRange('a', 'f').addRange('A', 'F').getSet();
-    }
+  /**
+   * Remove non digits char set.
+   *
+   * @return the char set
+   */
+  public CharSet removeNonDigits() {
+    return removeAll(getNonDigits());
+  }
 
-    public static Set<Character> getNonDigits() {
-        return new CharSet().addAnyCharacters().removeAll(getDigits()).getSet();
-    }
+  /**
+   * Gets digits.
+   *
+   * @return the digits
+   */
+  public static Set<Character> getDigits() {
+    return new CharSet('0', '9').getSet();
+  }
 
-    // word related interface ------------------------------------------------------------------------------------------
+  /**
+   * Gets hex digits.
+   *
+   * @return the hex digits
+   */
+  public static Set<Character> getHexDigits() {
+    return new CharSet('0', '9').addRange('a', 'f').addRange('A', 'F').getSet();
+  }
 
-    /** Adds all letters of the internal locale to the Set.
-     * @return this */
-    public CharSet addWordChars() {
-        return addWordChars(locale);
-    }
+  /**
+   * Gets non digits.
+   *
+   * @return the non digits
+   */
+  public static Set<Character> getNonDigits() {
+    return new CharSet().addAnyCharacters().removeAll(getDigits()).getSet();
+  }
 
-    /** Adds all letters of the specified locale to the Set.
-     * @param locale the locale for which to get the cahracters
-     * @return this */
-    public CharSet addWordChars(Locale locale) {
-        return addAll(getWordChars(locale));
-    }
+  // word related interface ------------------------------------------------------------------------------------------
 
-    /** Removes all letters of the internal locale from the Set.
-     * @return this */
-    public CharSet removeWordChars() {
-        return removeWordChars(locale);
-    }
+  /**
+   * Adds all letters of the internal locale to the Set.
+   *
+   * @return this char set
+   */
+  public CharSet addWordChars() {
+    return addWordChars(locale);
+  }
 
-    /** Removes all letters of the specified locale from the Set.
-     * @param locale the locale for which to get the characters 
-     * @return this */
-    public CharSet removeWordChars(Locale locale) {
-        return removeAll(getWordChars(locale));
-    }
+  /**
+   * Adds all letters of the specified locale to the Set.
+   *
+   * @param locale the locale for which to get the cahracters
+   * @return this char set
+   */
+  public CharSet addWordChars(Locale locale) {
+    return addAll(getWordChars(locale));
+  }
 
-    /** Returns all letters of the specified locale.
-     * @param locale the locale for which to get the characters 
-     * @return a set with all letters of the specified locale */
-    public static Set<Character> getWordChars(Locale locale) {
-        Set<Character> wordChars = LocaleUtil.letters(locale);
-        wordChars.add('_');
-        wordChars.addAll(getDigits());
-        return wordChars;
-    }
+  /**
+   * Removes all letters of the internal locale from the Set.
+   *
+   * @return this char set
+   */
+  public CharSet removeWordChars() {
+    return removeWordChars(locale);
+  }
 
-    /** Adds all characters that are not letters of any locale.
-     * @return this */
-    public CharSet addNonWordChars() {
-        return addAll(getNonWordChars());
-    }
+  /**
+   * Removes all letters of the specified locale from the Set.
+   *
+   * @param locale the locale for which to get the characters
+   * @return this char set
+   */
+  public CharSet removeWordChars(Locale locale) {
+    return removeAll(getWordChars(locale));
+  }
 
-    /** Removes all characters that are not letters of any locale.
-     * @return this */
-    public CharSet removeNonWordChars() {
-        return removeAll(getNonWordChars());
-    }
+  /**
+   * Returns all letters of the specified locale.
+   *
+   * @param locale the locale for which to get the characters
+   * @return a set with all letters of the specified locale
+   */
+  public static Set<Character> getWordChars(Locale locale) {
+    Set<Character> wordChars = LocaleUtil.letters(locale);
+    wordChars.add('_');
+    wordChars.addAll(getDigits());
+    return wordChars;
+  }
 
-    /** Returns all characters that are not letters of any locale.
-     * @return a set with all characters that are not letters of any locale */
-    public static Set<Character> getNonWordChars() {
-        return new CharSet(' ', '@').addRange('[', '`').addRange('{', '~').getSet();
-    }
+  /**
+   * Adds all characters that are not letters of any locale.
+   *
+   * @return this char set
+   */
+  public CharSet addNonWordChars() {
+    return addAll(getNonWordChars());
+  }
 
-    // whitespace related interface ------------------------------------------------------------------------------------
+  /**
+   * Removes all characters that are not letters of any locale.
+   *
+   * @return this char set
+   */
+  public CharSet removeNonWordChars() {
+    return removeAll(getNonWordChars());
+  }
 
-    /**
-     * Adds all whitespace characters.
-     * @return this
-     */
-    public CharSet addWhitespaces() {
-        return addAll(getWhitespaces());
-    }
+  /**
+   * Returns all characters that are not letters of any locale.
+   *
+   * @return a set with all characters that are not letters of any locale
+   */
+  public static Set<Character> getNonWordChars() {
+    return new CharSet(' ', '@').addRange('[', '`').addRange('{', '~').getSet();
+  }
 
-    /**
-     * Removes all whitespace characters.
-     * @return this
-     */
-    public CharSet removeWhitespaces() {
-        return removeAll(getWhitespaces());
-    }
+  // whitespace related interface ------------------------------------------------------------------------------------
 
-    /**
-     * Returns all whitespace characters.
-     * @return a Set of all whitespace charaters
-     */
-    public static Set<Character> getWhitespaces() {
-        return new CharSet().add(' ').add('\t').add('\n').add((char)0x0B).add('\f').add('\r').getSet();
-    }
+  /**
+   * Adds all whitespace characters.
+   *
+   * @return this char set
+   */
+  public CharSet addWhitespaces() {
+    return addAll(getWhitespaces());
+  }
 
-    /**
-     * Adds all characters that are not white spaces.
-     * @return this
-     */
-    public CharSet addNonWhitespaces() {
-        return addAll(getNonWhitespaces());
-    }
+  /**
+   * Removes all whitespace characters.
+   *
+   * @return this char set
+   */
+  public CharSet removeWhitespaces() {
+    return removeAll(getWhitespaces());
+  }
 
-    /**
-     * Removes all characters that are not white spaces.
-     * @return this
-     */
-    public CharSet removeNonWhitespaces() {
-        return removeAll(getNonWhitespaces());
-    }
+  /**
+   * Returns all whitespace characters.
+   *
+   * @return a Set of all whitespace charaters
+   */
+  public static Set<Character> getWhitespaces() {
+    return new CharSet().add(' ').add('\t').add('\n').add((char) 0x0B).add('\f').add('\r').getSet();
+  }
 
-    /**
-     * Returns a set of all characters that are not white spaces.
-     * @return a set of all characters that are not white spaces
-     */
-    public static Set<Character> getNonWhitespaces() {
-        return new CharSet().addAnyCharacters().removeAll(getWhitespaces()).getSet();
-    }
+  /**
+   * Adds all characters that are not white spaces.
+   *
+   * @return this char set
+   */
+  public CharSet addNonWhitespaces() {
+    return addAll(getNonWhitespaces());
+  }
 
-    // low level interface ---------------------------------------------------------------------------------------------
+  /**
+   * Removes all characters that are not white spaces.
+   *
+   * @return this char set
+   */
+  public CharSet removeNonWhitespaces() {
+    return removeAll(getNonWhitespaces());
+  }
 
-    /** Adds any character.
-     * @return this */
-    public CharSet addAnyCharacters() {
-        return addAll(getAnyCharacters());
-    }
+  /**
+   * Returns a set of all characters that are not white spaces.
+   *
+   * @return a set of all characters that are not white spaces
+   */
+  public static Set<Character> getNonWhitespaces() {
+    return new CharSet().addAnyCharacters().removeAll(getWhitespaces()).getSet();
+  }
 
-    /**
-     * Returns any characters.
-     * @return a set of any characters
-     */
-    public static Set<Character> getAnyCharacters() {
-        Set<Character> set = new HashSet<>();
-        for (int c = 0x20; c < 0x7F; c++)
-            set.add((char) c);
-        return set;
-    }
+  // low level interface ---------------------------------------------------------------------------------------------
 
-    /**
-     * Clears the set.
-     */
-    public void removeAll() {
-        set.clear();
-    }
+  /**
+   * Adds any character.
+   *
+   * @return this char set
+   */
+  public CharSet addAnyCharacters() {
+    return addAll(getAnyCharacters());
+  }
 
-    /**
-     * Adds a range of characters.
-     * @param from the first character to add
-     * @param to the last character to add
-     * @return this
-     */
-    public CharSet addRange(char from, char to) {
-        for (char c = from ; c <= to; c++)
-            set.add(c);
-        return this;
+  /**
+   * Returns any characters.
+   *
+   * @return a set of any characters
+   */
+  public static Set<Character> getAnyCharacters() {
+    Set<Character> set = new HashSet<>();
+    for (int c = 0x20; c < 0x7F; c++) {
+      set.add((char) c);
     }
+    return set;
+  }
 
-    /**
-     * Adds a single character.
-     * @param c the character to add
-     * @return this
-     */
-    public CharSet add(char c) {
-        set.add(c);
-        return this;
-    }
+  /**
+   * Clears the set.
+   */
+  public void removeAll() {
+    set.clear();
+  }
 
-    /**
-     * Adds a set of characters.
-     * @param chars the characters to include
-     * @return this
-     */
-    public CharSet addAll(Set<Character> chars) {
-        set.addAll(chars);
-        return this;
+  /**
+   * Adds a range of characters.
+   *
+   * @param from the first character to add
+   * @param to   the last character to add
+   * @return this char set
+   */
+  public CharSet addRange(char from, char to) {
+    for (char c = from; c <= to; c++) {
+      set.add(c);
     }
+    return this;
+  }
 
-    /**
-     * Removes all characters of the specified set.
-     * @param chars the characters to remove
-     * @return this
-     */
-    public CharSet removeAll(Set<Character> chars) {
-        set.removeAll(chars);
-        return this;
-    }
+  /**
+   * Adds a single character.
+   *
+   * @param c the character to add
+   * @return this char set
+   */
+  public CharSet add(char c) {
+    set.add(c);
+    return this;
+  }
 
-    /**
-     * Removes a range of characters.
-     * @param min the first character to remove
-     * @param max the last character to remove
-     * @return this
-     */
-    public CharSet removeRange(char min, char max) {
-        for (char c = min; c <= max; c++)
-            remove(c);
-        return this;
-    }
+  /**
+   * Adds a set of characters.
+   *
+   * @param chars the characters to include
+   * @return this char set
+   */
+  public CharSet addAll(Set<Character> chars) {
+    set.addAll(chars);
+    return this;
+  }
 
-    /**
-     * Removes one character.
-     * @param c the character to remove
-     */
-    public void remove(char c) {
-        set.remove(c);
-    }
+  /**
+   * Removes all characters of the specified set.
+   *
+   * @param chars the characters to remove
+   * @return this char set
+   */
+  public CharSet removeAll(Set<Character> chars) {
+    set.removeAll(chars);
+    return this;
+  }
 
-    /**
-     * Returns a copy of the wrapped Set as HashSet.
-     * @return a copy of the wrapped Set as HashSet
-     */
-    public Set<Character> getSet() {
-        return new HashSet<>(set);
+  /**
+   * Removes a range of characters.
+   *
+   * @param min the first character to remove
+   * @param max the last character to remove
+   * @return this char set
+   */
+  public CharSet removeRange(char min, char max) {
+    for (char c = min; c <= max; c++) {
+      remove(c);
     }
-    
-    public Iterator<Character> iterator() {
-    	return set.iterator();
-    }
+    return this;
+  }
 
-    public boolean contains(char c) {
-        return set.contains(c);
-    }
+  /**
+   * Removes one character.
+   *
+   * @param c the character to remove
+   */
+  public void remove(char c) {
+    set.remove(c);
+  }
 
-    public int size() {
-        return set.size();
-    }
+  /**
+   * Returns a copy of the wrapped Set as HashSet.
+   *
+   * @return a copy of the wrapped Set as HashSet
+   */
+  public Set<Character> getSet() {
+    return new HashSet<>(set);
+  }
 
-    public boolean containsAll(Set<Character> set) {
-    	return (this.set.containsAll(set));
-    }
-    
-    // java.lang.Object overrides --------------------------------------------------------------------------------------
+  /**
+   * Iterator iterator.
+   *
+   * @return the iterator
+   */
+  public Iterator<Character> iterator() {
+    return set.iterator();
+  }
 
-    /**
-     * Returns a String representation of the Set
-     * @return a String representation of the Set
-     * @see java.lang.Object
-     */
-    @Override
-    public String toString() {
-    	if (name != null)
-    		return name;
-    	else
-    		return set.toString();
-    }
+  /**
+   * Contains boolean.
+   *
+   * @param c the c
+   * @return the boolean
+   */
+  public boolean contains(char c) {
+    return set.contains(c);
+  }
 
-    /**
-     * Compares with another Set, ignoring the locale.
-     * @see java.lang.Object
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        final CharSet charSet = (CharSet) o;
-        return set.equals(charSet.set);
-    }
+  /**
+   * Size int.
+   *
+   * @return the int
+   */
+  public int size() {
+    return set.size();
+  }
 
-    /**
-     * Calculates the Set's hashCode, ignoring the locale.
-     * @return the Set'S hash code
-     * @see java.lang.Object
-     */
-    @Override
-    public int hashCode() {
-        return set.hashCode();
+  /**
+   * Contains all boolean.
+   *
+   * @param set the set
+   * @return the boolean
+   */
+  public boolean containsAll(Set<Character> set) {
+    return (this.set.containsAll(set));
+  }
+
+  // java.lang.Object overrides --------------------------------------------------------------------------------------
+
+  /**
+   * Returns a String representation of the Set
+   *
+   * @return a String representation of the Set
+   * @see java.lang.Object
+   */
+  @Override
+  public String toString() {
+    if (name != null) {
+      return name;
+    } else {
+      return set.toString();
     }
-    
-    @Override
-    public CharSet clone() {
-    	try {
-			return (CharSet) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new RuntimeException("Unexpected exception", e);
-		}
+  }
+
+  /**
+   * Compares with another Set, ignoring the locale.
+   *
+   * @see java.lang.Object
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final CharSet charSet = (CharSet) o;
+    return set.equals(charSet.set);
+  }
+
+  /**
+   * Calculates the Set's hashCode, ignoring the locale.
+   *
+   * @return the Set'S hash code
+   * @see java.lang.Object
+   */
+  @Override
+  public int hashCode() {
+    return set.hashCode();
+  }
+
+  @Override
+  public CharSet clone() {
+    try {
+      return (CharSet) super.clone();
+    } catch (CloneNotSupportedException e) {
+      throw new RuntimeException("Unexpected exception", e);
+    }
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller;
 
 /**
@@ -20,31 +21,31 @@ package com.rapiddweller;
  */
 public final class SomeBean {
 
-    public int num;
-    public String text;
+  public int num;
+  public String text;
 
-    public SomeBean() {
-        this(0, null);
-    }
+  public SomeBean() {
+    this(0, null);
+  }
 
-    public SomeBean(int num, String text) {
-        this.num = num;
-        this.text = text;
-    }
+  public SomeBean(int num, String text) {
+    this.num = num;
+    this.text = text;
+  }
 
-    public int getNum() {
-        return num;
-    }
+  public int getNum() {
+    return num;
+  }
 
-    public void setNum(int num) {
-        this.num = num;
-    }
+  public void setNum(int num) {
+    this.num = num;
+  }
 
-    public String getText() {
-        return text;
-    }
+  public String getText() {
+    return text;
+  }
 
-    public void setText(String text) {
-        this.text = text;
-    }
+  public void setText(String text) {
+    this.text = text;
+  }
 }

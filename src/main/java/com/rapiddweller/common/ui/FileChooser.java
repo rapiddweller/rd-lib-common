@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui;
 
 import java.awt.Component;
@@ -20,17 +21,45 @@ import java.io.File;
 /**
  * Platform-independent abstraction of a file chooser facility.
  * Created at 14.12.2008 14:32:22
- * @since 0.4.7
+ *
  * @author Volker Bergmann
+ * @since 0.4.7
  */
-
 public interface FileChooser {
-	
-	void setTitle(String title);
-	void setCurrentDirectory(File parentFile);
 
-	File getSelectedFile();
-	void setSelectedFile(File file);
+  /**
+   * Sets title.
+   *
+   * @param title the title
+   */
+  void setTitle(String title);
 
-	File chooseFile(Component owner);
+  /**
+   * Sets current directory.
+   *
+   * @param parentFile the parent file
+   */
+  void setCurrentDirectory(File parentFile);
+
+  /**
+   * Gets selected file.
+   *
+   * @return the selected file
+   */
+  File getSelectedFile();
+
+  /**
+   * Sets selected file.
+   *
+   * @param file the file
+   */
+  void setSelectedFile(File file);
+
+  /**
+   * Choose file file.
+   *
+   * @param owner the owner
+   * @return the file
+   */
+  File chooseFile(Component owner);
 }

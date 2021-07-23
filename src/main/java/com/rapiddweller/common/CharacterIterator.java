@@ -12,16 +12,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Abstraction of a class that iterates over characters.
  * Created at 28.12.2008 08:23:17
- * @since 0.4.7
+ *
  * @author Volker Bergmann
+ * @since 0.4.7
  */
-
 public interface CharacterIterator {
-	boolean hasNext();
-	char next();
+  /**
+   * Has next boolean.
+   *
+   * @return the boolean
+   */
+  boolean hasNext();
+
+  /**
+   * Next char.
+   *
+   * @return the char
+   */
+  char next();
 }

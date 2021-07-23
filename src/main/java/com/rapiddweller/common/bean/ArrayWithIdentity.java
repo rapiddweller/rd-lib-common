@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.ArrayFormat;
@@ -22,41 +23,54 @@ import java.util.Arrays;
  * Wrapper for an array which implements {@link #equals(Object)}, {@link #hashCode()} and {@link #toString()}
  * based on the array's element values.
  * Created: 03.02.2012 16:34:14
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class ArrayWithIdentity {
 
-	private final Object[] elements;
+  private final Object[] elements;
 
-	public ArrayWithIdentity(Object[] elements) {
-	    this.elements = elements;
-    }
+  /**
+   * Instantiates a new Array with identity.
+   *
+   * @param elements the elements
+   */
+  public ArrayWithIdentity(Object[] elements) {
+    this.elements = elements;
+  }
 
-	public int getElementCount() {
-		return elements.length;
-	}
-	
-	// java.lang.Object overrides --------------------------------------------------------------------------------------
-	
-	@Override
-	public int hashCode() {
-		return Arrays.hashCode(elements);
-    }
+  /**
+   * Gets element count.
+   *
+   * @return the element count
+   */
+  public int getElementCount() {
+    return elements.length;
+  }
 
-	@Override
-    public boolean equals(Object obj) {
-	    if (this == obj)
-		    return true;
-	    if (obj == null || getClass() != obj.getClass())
-		    return false;
-	    ArrayWithIdentity that = (ArrayWithIdentity) obj;
-	    return Arrays.equals(this.elements, that.elements);
+  // java.lang.Object overrides --------------------------------------------------------------------------------------
+
+  @Override
+  public int hashCode() {
+    return Arrays.hashCode(elements);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-	
-	@Override
-	public String toString() {
-		return ArrayFormat.format(elements);
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
     }
+    ArrayWithIdentity that = (ArrayWithIdentity) obj;
+    return Arrays.equals(this.elements, that.elements);
+  }
+
+  @Override
+  public String toString() {
+    return ArrayFormat.format(elements);
+  }
 
 }

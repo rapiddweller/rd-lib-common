@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.log;
 
 import com.rapiddweller.common.ui.InfoPrinter;
@@ -21,25 +22,37 @@ import org.apache.logging.log4j.Logger;
 /**
  * {@link InfoPrinter} implementation that writes text to a logger category.
  * Created: 01.08.2010 17:13:04
- * @since 0.5.3
+ *
  * @author Volker Bergmann
+ * @since 0.5.3
  */
 public class LoggingInfoPrinter extends InfoPrinter {
-	
-    private final Logger logger;
-	
-	public LoggingInfoPrinter(Class<?> clazz) {
-		this.logger = LogManager.getLogger(clazz);
-    }
 
-	public LoggingInfoPrinter(String category) {
-		this.logger = LogManager.getLogger(category);
-    }
+  private final Logger logger;
 
-	@Override
-    public void printLines(Object owner, String... infoLines) {
-        for (String info : infoLines)
-        	logger.info(info);
+  /**
+   * Instantiates a new Logging info printer.
+   *
+   * @param clazz the clazz
+   */
+  public LoggingInfoPrinter(Class<?> clazz) {
+    this.logger = LogManager.getLogger(clazz);
+  }
+
+  /**
+   * Instantiates a new Logging info printer.
+   *
+   * @param category the category
+   */
+  public LoggingInfoPrinter(String category) {
+    this.logger = LogManager.getLogger(category);
+  }
+
+  @Override
+  public void printLines(Object owner, String... infoLines) {
+    for (String info : infoLines) {
+      logger.info(info);
     }
-	
+  }
+
 }

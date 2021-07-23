@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.tag;
 
 import com.rapiddweller.common.Tagged;
@@ -22,37 +23,40 @@ import java.util.Set;
 /**
  * Provides tag management, to be used as delegate object.
  * Created: 14.11.2013 07:00:00
- * @since 0.5.25
+ *
  * @author Volker Bergmann
+ * @since 0.5.25
  */
-
 public class TagSupport implements Tagged {
-	
-	private final Set<String> tags;
-	
-	public TagSupport() {
-		this.tags = new HashSet<>();
-	}
-	
-	@Override
-	public Set<String> getTags() {
-		return tags;
-	}
 
-	@Override
-	public boolean hasTag(String tag) {
-		return tags.contains(tag);
-	}
+  private final Set<String> tags;
 
-	@Override
-	public void addTag(String tag) {
-		this.tags.add(tag);
-		
-	}
+  /**
+   * Instantiates a new Tag support.
+   */
+  public TagSupport() {
+    this.tags = new HashSet<>();
+  }
 
-	@Override
-	public void removeTag(String tag) {
-		this.tags.remove(tag);
-	}
+  @Override
+  public Set<String> getTags() {
+    return tags;
+  }
+
+  @Override
+  public boolean hasTag(String tag) {
+    return tags.contains(tag);
+  }
+
+  @Override
+  public void addTag(String tag) {
+    this.tags.add(tag);
+
+  }
+
+  @Override
+  public void removeTag(String tag) {
+    this.tags.remove(tag);
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.format;
 
 import java.text.DateFormat;
@@ -23,28 +24,34 @@ import java.util.Date;
 /**
  * Concurrent implementation of the {@link SimpleDateFormat} features.
  * Created: 26.02.2010 15:27:23
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class ConcurrentDateFormat extends DateFormat {
 
-	private final ThreadLocal<SimpleDateFormat> format;
+  private final ThreadLocal<SimpleDateFormat> format;
 
-    public ConcurrentDateFormat(final String pattern) {
-        format = ThreadLocal.withInitial(() -> new SimpleDateFormat(pattern));
-    }
+  /**
+   * Instantiates a new Concurrent date format.
+   *
+   * @param pattern the pattern
+   */
+  public ConcurrentDateFormat(final String pattern) {
+    format = ThreadLocal.withInitial(() -> new SimpleDateFormat(pattern));
+  }
 
-    @Override
-    public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition) {
-        return format.get().format(date, toAppendTo, fieldPosition);
-    }
+  @Override
+  public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition fieldPosition) {
+    return format.get().format(date, toAppendTo, fieldPosition);
+  }
 
-    @Override
-    public Date parse(String source, ParsePosition pos) {
-        return format.get().parse(source, pos);
-    }
+  @Override
+  public Date parse(String source, ParsePosition pos) {
+    return format.get().parse(source, pos);
+  }
 
-    private static final long serialVersionUID = -1665638058197198209L;
+  private static final long serialVersionUID = -1665638058197198209L;
 
 }
 

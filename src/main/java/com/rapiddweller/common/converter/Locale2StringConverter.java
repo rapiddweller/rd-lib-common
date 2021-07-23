@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -21,18 +22,22 @@ import java.util.Locale;
 /**
  * Converts a {@link Locale} to its {@link String} representation.
  * Created: 25.02.2010 23:42:23
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class Locale2StringConverter extends ThreadSafeConverter<Locale, String> {
 
-    public Locale2StringConverter() {
-        super(Locale.class, String.class);
-    }
+  /**
+   * Instantiates a new Locale 2 string converter.
+   */
+  public Locale2StringConverter() {
+    super(Locale.class, String.class);
+  }
 
-    @Override
-	public String convert(Locale target) throws ConversionException {
-        return target.toString();
-    }
-    
+  @Override
+  public String convert(Locale target) throws ConversionException {
+    return target.toString();
+  }
+
 }

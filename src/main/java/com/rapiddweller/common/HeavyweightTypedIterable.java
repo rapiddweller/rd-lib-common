@@ -12,16 +12,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * TypedIterable which is a Heavyweight.
  * Created at 24.07.2009 10:53:46
+ *
  * @param <E> the type of objects to iterate
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public interface HeavyweightTypedIterable<E> extends HeavyweightIterable<E>, TypedIterable<E> {
 
 }

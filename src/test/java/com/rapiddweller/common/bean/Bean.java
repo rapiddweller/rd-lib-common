@@ -12,36 +12,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 /**
  * Teat bean.
  * Created: 21.07.2007 16:30:35
+ *
  * @author Volker Bergmann
  */
 public class Bean {
 
-    private int number;
-    private String text;
+  private int number;
+  private String text;
 
-    public Bean(int number, String text) {
-        this.number = number;
-        this.text = text;
-    }
+  public Bean(int number, String text) {
+    this.number = number;
+    this.text = text;
+  }
 
-    public int getNumber() {
-        return number;
-    }
+  public int getNumber() {
+    return number;
+  }
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
+  public void setNumber(int number) {
+    this.number = number;
+  }
 
-    public String getText() {
-        return text;
-    }
+  public String getText() {
+    return text;
+  }
 
-    public void setText(String text) {
-        this.text = text;
-    }
+  public void setText(String text) {
+    this.text = text;
+  }
 }

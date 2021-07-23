@@ -12,13 +12,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Escalation strategy interface.
+ *
  * @author Volker Bergmann
  * @since 0.2.04
  */
 public interface Escalator {
-    void escalate(String message, Object originator, Object cause);
+  /**
+   * Escalate.
+   *
+   * @param message    the message
+   * @param originator the originator
+   * @param cause      the cause
+   */
+  void escalate(String message, Object originator, Object cause);
 }

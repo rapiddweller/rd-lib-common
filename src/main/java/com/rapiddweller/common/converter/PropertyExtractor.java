@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -22,25 +23,35 @@ import com.rapiddweller.common.bean.PropertyAccessorFactory;
 /**
  * {@link Converter} implementation that reads a property form a JavaBean.
  * Created at 15.07.2009 23:19:18
- * @since 0.5.0
- * @author Volker Bergmann
+ *
  * @param <B> the bean type to read the property from
  * @param <P> the property type to proved
+ * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class PropertyExtractor<B, P> extends ThreadSafeConverter<B, P> {
-	
-	PropertyAccessor<B, P> accessor;
 
-    @SuppressWarnings("unchecked")
-    public PropertyExtractor(Class<B> beanType, String propertyName, Class<P> targetType) {
-	    super(beanType, targetType);
-	    this.accessor = PropertyAccessorFactory.getAccessor(sourceType, propertyName, true);
-    }
+  /**
+   * The Accessor.
+   */
+  PropertyAccessor<B, P> accessor;
 
-    @Override
-	public P convert(B sourceValue) throws ConversionException {
-    	return accessor.getValue(sourceValue);
-    }
+  /**
+   * Instantiates a new Property extractor.
+   *
+   * @param beanType     the bean type
+   * @param propertyName the property name
+   * @param targetType   the target type
+   */
+  @SuppressWarnings("unchecked")
+  public PropertyExtractor(Class<B> beanType, String propertyName, Class<P> targetType) {
+    super(beanType, targetType);
+    this.accessor = PropertyAccessorFactory.getAccessor(sourceType, propertyName, true);
+  }
+
+  @Override
+  public P convert(B sourceValue) throws ConversionException {
+    return accessor.getValue(sourceValue);
+  }
 
 }

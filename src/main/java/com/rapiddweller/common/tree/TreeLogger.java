@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.tree;
 
 import com.rapiddweller.common.Filter;
@@ -22,54 +23,75 @@ import org.apache.logging.log4j.Logger;
 /**
  * Logs the structure represented by a {@link com.rapiddweller.common.TreeModel} implementor.
  * Created: 10.11.2010 10:21:59
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class TreeLogger {
-	
-	private static final Logger LOGGER = LogManager.getLogger(TreeLogger.class);
 
-	String indent = "";
-	
-	// interface ---------------------------------------------------------------
-	
-	public <T> void log(TreeModel<T> model) {
-	    log(model.getRoot(), false, model, null);
-    }
-	
-	public <T> void log(TreeModel<T> model, Filter<T> filter) {
-	    log(model.getRoot(), false, model, filter);
-    }
-	
-	// private helper methods --------------------------------------------------
+  private static final Logger LOGGER = LogManager.getLogger(TreeLogger.class);
 
-	private <T> void log(T node, boolean hasSiblings, TreeModel<T> model, Filter<T> filter) {
-		if (filter != null && !filter.accept(node))
-			return;
-	    LOGGER.info(indent + node);
-	    if (!model.isLeaf(node)) {
-			increaseIndent(hasSiblings);
-			int n = model.getChildCount(node);
-			for (int i = 0; i < n; i++)
-		    	log(model.getChild(node, i), i < n - 1, model, filter);
-		    reduceIndent();
-	    }
-    }
+  /**
+   * The Indent.
+   */
+  String indent = "";
 
-	private void increaseIndent(boolean hasSuccessors) {
-	    if (indent.length() == 0)
-	    	indent = "+-";
-	    else if (hasSuccessors)
-	    	indent = indent.substring(0, indent.length() - 2) + "| " + indent.substring(indent.length() - 2);
-	    else
-	    	indent = indent.substring(0, indent.length() - 2) + "  " + indent.substring(indent.length() - 2);
-    }
+  // interface ---------------------------------------------------------------
 
-	private void reduceIndent() {
-	    if (indent.length() >= 4)
-	    	indent = indent.substring(0, indent.length() - 4) + indent.substring(indent.length() - 2);
-	    else
-	    	indent = "";
+  /**
+   * Log.
+   *
+   * @param <T>   the type parameter
+   * @param model the model
+   */
+  public <T> void log(TreeModel<T> model) {
+    log(model.getRoot(), false, model, null);
+  }
+
+  /**
+   * Log.
+   *
+   * @param <T>    the type parameter
+   * @param model  the model
+   * @param filter the filter
+   */
+  public <T> void log(TreeModel<T> model, Filter<T> filter) {
+    log(model.getRoot(), false, model, filter);
+  }
+
+  // private helper methods --------------------------------------------------
+
+  private <T> void log(T node, boolean hasSiblings, TreeModel<T> model, Filter<T> filter) {
+    if (filter != null && !filter.accept(node)) {
+      return;
     }
+    LOGGER.info(indent + node);
+    if (!model.isLeaf(node)) {
+      increaseIndent(hasSiblings);
+      int n = model.getChildCount(node);
+      for (int i = 0; i < n; i++) {
+        log(model.getChild(node, i), i < n - 1, model, filter);
+      }
+      reduceIndent();
+    }
+  }
+
+  private void increaseIndent(boolean hasSuccessors) {
+    if (indent.length() == 0) {
+      indent = "+-";
+    } else if (hasSuccessors) {
+      indent = indent.substring(0, indent.length() - 2) + "| " + indent.substring(indent.length() - 2);
+    } else {
+      indent = indent.substring(0, indent.length() - 2) + "  " + indent.substring(indent.length() - 2);
+    }
+  }
+
+  private void reduceIndent() {
+    if (indent.length() >= 4) {
+      indent = indent.substring(0, indent.length() - 4) + indent.substring(indent.length() - 2);
+    } else {
+      indent = "";
+    }
+  }
 
 }

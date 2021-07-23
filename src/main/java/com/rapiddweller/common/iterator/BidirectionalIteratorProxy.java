@@ -12,55 +12,65 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 /**
  * Proxy for a {@link BidirectionalIterator}.
  * Created: 12.05.2007 23:18:31
+ *
  * @param <E> the type to iterate
  * @author Volker Bergmann
  */
 public abstract class BidirectionalIteratorProxy<E> implements BidirectionalIterator<E> {
 
-    protected BidirectionalIterator<E> realIterator;
+  /**
+   * The Real iterator.
+   */
+  protected BidirectionalIterator<E> realIterator;
 
-    public BidirectionalIteratorProxy(BidirectionalIterator<E> realIterator) {
-        this.realIterator = realIterator;
-    }
+  /**
+   * Instantiates a new Bidirectional iterator proxy.
+   *
+   * @param realIterator the real iterator
+   */
+  public BidirectionalIteratorProxy(BidirectionalIterator<E> realIterator) {
+    this.realIterator = realIterator;
+  }
 
-    @Override
-	public E first() {
-        return realIterator.first();
-    }
+  @Override
+  public E first() {
+    return realIterator.first();
+  }
 
-    @Override
-	public boolean hasPrevious() {
-        return realIterator.hasPrevious();
-    }
+  @Override
+  public boolean hasPrevious() {
+    return realIterator.hasPrevious();
+  }
 
-    @Override
-	public E previous() {
-        return realIterator.previous();
-    }
+  @Override
+  public E previous() {
+    return realIterator.previous();
+  }
 
-    @Override
-	public E last() {
-        return realIterator.last();
-    }
+  @Override
+  public E last() {
+    return realIterator.last();
+  }
 
-    @Override
-	public boolean hasNext() {
-        return realIterator.hasNext();
-    }
+  @Override
+  public boolean hasNext() {
+    return realIterator.hasNext();
+  }
 
-    @Override
-	public E next() {
-        return realIterator.next();
-    }
+  @Override
+  public E next() {
+    return realIterator.next();
+  }
 
-    @Override
-	public void remove() {
-        realIterator.remove();
-    }
-    
+  @Override
+  public void remove() {
+    realIterator.remove();
+  }
+
 }

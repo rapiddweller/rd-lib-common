@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.ArrayFormat;
@@ -21,23 +22,37 @@ import com.rapiddweller.common.Validator;
 /**
  * Abstract {@link Validator} implementation that combines the evaluation results of other Validators.
  * Created: 20.11.2007 09:50:13
+ *
  * @param <E> the object type to be validated
  * @author Volker Bergmann
  */
 public abstract class CompositeValidator<E> implements Validator<E> {
 
-    protected Validator<E>[] subValidators;
+  /**
+   * The Sub validators.
+   */
+  protected Validator<E>[] subValidators;
 
-    protected CompositeValidator(Validator<E>[] subValidators) {
-        this.subValidators = subValidators;
-    }
+  /**
+   * Instantiates a new Composite validator.
+   *
+   * @param subValidators the sub validators
+   */
+  protected CompositeValidator(Validator<E>[] subValidators) {
+    this.subValidators = subValidators;
+  }
 
-	public void add(Validator<E> validator) {
-		subValidators = ArrayUtil.append(validator, subValidators);
-	}
-	
-    @Override
-	public String toString() {
-        return getClass().getSimpleName() + '[' + ArrayFormat.format(subValidators) + ']';
-    }
+  /**
+   * Add.
+   *
+   * @param validator the validator
+   */
+  public void add(Validator<E> validator) {
+    subValidators = ArrayUtil.append(validator, subValidators);
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + '[' + ArrayFormat.format(subValidators) + ']';
+  }
 }

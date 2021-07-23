@@ -12,41 +12,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.filter;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the {@link OrFilter}.
  * Created: 08.06.2012 20:37:39
- * @since 0.5.16
+ *
  * @author Volker Bergmann
+ * @since 0.5.16
  */
 public class OrFilterTest {
-	
-	private static final ConstantFilter<Integer> TRUE = new ConstantFilter<>(true);
-	private static final ConstantFilter<Integer> FALSE = new ConstantFilter<>(false);
-	
-	@Test
-	public void testTrueOrTrue() {
-		assertTrue(new OrFilter<>(TRUE, TRUE).accept(0));
-	}
-	
-	@Test
-	public void testTrueOrFalse() {
-		assertTrue(new OrFilter<>(TRUE, FALSE).accept(0));
-	}
-	
-	@Test
-	public void testFalseOrTrue() {
-		assertTrue(new OrFilter<>(FALSE, TRUE).accept(0));
-	}
-	
-	@Test
-	public void testFalseOrFalse() {
-		assertFalse(new OrFilter<>(FALSE, FALSE).accept(0));
-	}
-	
+
+  private static final ConstantFilter<Integer> TRUE = new ConstantFilter<>(true);
+  private static final ConstantFilter<Integer> FALSE = new ConstantFilter<>(false);
+
+  @Test
+  public void testTrueOrTrue() {
+    assertTrue(new OrFilter<>(TRUE, TRUE).accept(0));
+  }
+
+  @Test
+  public void testTrueOrFalse() {
+    assertTrue(new OrFilter<>(TRUE, FALSE).accept(0));
+  }
+
+  @Test
+  public void testFalseOrTrue() {
+    assertTrue(new OrFilter<>(FALSE, TRUE).accept(0));
+  }
+
+  @Test
+  public void testFalseOrFalse() {
+    assertFalse(new OrFilter<>(FALSE, FALSE).accept(0));
+  }
+
 }

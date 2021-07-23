@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.Validator;
@@ -19,48 +20,78 @@ import com.rapiddweller.common.Validator;
 /**
  * Validates if a character is in a certain range.
  * Created at 14.08.2008 09:34:59
- * @since 0.4.5
+ *
  * @author Volker Bergmann
+ * @since 0.4.5
  */
 public class CharacterRangeValidator implements Validator<Character> {
-	
-	private char min;
-	private char max;
 
-	// constructors ----------------------------------------------------------------------------------------------------
+  private char min;
+  private char max;
 
-	public CharacterRangeValidator() {
-		this((char) 32, (char) 126);
-	}
+  // constructors ----------------------------------------------------------------------------------------------------
 
-	public CharacterRangeValidator(char min, char max) {
-		this.min = min;
-		this.max = max;
-	}
+  /**
+   * Instantiates a new Character range validator.
+   */
+  public CharacterRangeValidator() {
+    this((char) 32, (char) 126);
+  }
 
-	// Validator interface ---------------------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Character range validator.
+   *
+   * @param min the min
+   * @param max the max
+   */
+  public CharacterRangeValidator(char min, char max) {
+    this.min = min;
+    this.max = max;
+  }
 
-	@Override
-	public boolean valid(Character c) {
-		return (min <= c && c <= max);
-	}
-	
-	// properties ------------------------------------------------------------------------------------------------------
+  // Validator interface ---------------------------------------------------------------------------------------------
 
-	public char getMin() {
-		return min;
-	}
+  @Override
+  public boolean valid(Character c) {
+    return (min <= c && c <= max);
+  }
 
-	public void setMin(char min) {
-		this.min = min;
-	}
+  // properties ------------------------------------------------------------------------------------------------------
 
-	public char getMax() {
-		return max;
-	}
+  /**
+   * Gets min.
+   *
+   * @return the min
+   */
+  public char getMin() {
+    return min;
+  }
 
-	public void setMax(char max) {
-		this.max = max;
-	}
+  /**
+   * Sets min.
+   *
+   * @param min the min
+   */
+  public void setMin(char min) {
+    this.min = min;
+  }
+
+  /**
+   * Gets max.
+   *
+   * @return the max
+   */
+  public char getMax() {
+    return max;
+  }
+
+  /**
+   * Sets max.
+   *
+   * @param max the max
+   */
+  public void setMax(char max) {
+    this.max = max;
+  }
 
 }

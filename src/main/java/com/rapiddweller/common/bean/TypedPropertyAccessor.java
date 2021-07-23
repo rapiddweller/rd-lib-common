@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
@@ -23,55 +24,67 @@ import java.lang.reflect.Method;
 /**
  * Retrieves the value of a JavaBean property with knowledge of the bean type.
  * Created: 21.07.2007 10:18:00
+ *
  * @param <E> the object type to access
  * @author Volker Bergmann
  */
 class TypedPropertyAccessor<E> implements PropertyAccessor<E, Object> {
 
-    private final String propertyName;
-    private Method accessorMethod;
-    private final boolean strict;
+  private final String propertyName;
+  private Method accessorMethod;
+  private final boolean strict;
 
-    public TypedPropertyAccessor(Class<E> beanClass, String propertyName, boolean strict) {
-        this.propertyName = propertyName;
-        this.strict = strict;
-        try {
-            PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(beanClass, propertyName);
-            if (propertyDescriptor == null) {
-                if (strict)
-                    throw new ConfigurationError("No property '" + propertyName + "' found in " + beanClass);
-            } else {
-                this.accessorMethod = propertyDescriptor.getReadMethod();
-                if (accessorMethod == null)
-                    throw new ConfigurationError("No read method for property '" + propertyName + "'" +
-                            " found on " + beanClass);
-            }
-        } catch (SecurityException e) {
-            throw new RuntimeException(e);
+  /**
+   * Instantiates a new Typed property accessor.
+   *
+   * @param beanClass    the bean class
+   * @param propertyName the property name
+   * @param strict       the strict
+   */
+  public TypedPropertyAccessor(Class<E> beanClass, String propertyName, boolean strict) {
+    this.propertyName = propertyName;
+    this.strict = strict;
+    try {
+      PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(beanClass, propertyName);
+      if (propertyDescriptor == null) {
+        if (strict) {
+          throw new ConfigurationError("No property '" + propertyName + "' found in " + beanClass);
         }
-    }
-
-    @Override
-	public Object getValue(Object object) {
-        if (object == null)
-            if (strict)
-                throw new IllegalArgumentException("Trying to get property value '" + propertyName + "' from null");
-            else
-                return null;
-        try {
-            return (accessorMethod != null ? accessorMethod.invoke(object) : null);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+      } else {
+        this.accessorMethod = propertyDescriptor.getReadMethod();
+        if (accessorMethod == null) {
+          throw new ConfigurationError("No read method for property '" + propertyName + "'" +
+              " found on " + beanClass);
         }
+      }
+    } catch (SecurityException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    @Override
-	public Class<?> getValueType() {
-        return (accessorMethod != null ? accessorMethod.getReturnType() : null);
+  @Override
+  public Object getValue(Object object) {
+    if (object == null) {
+      if (strict) {
+        throw new IllegalArgumentException("Trying to get property value '" + propertyName + "' from null");
+      } else {
+        return null;
+      }
     }
+    try {
+      return (accessorMethod != null ? accessorMethod.invoke(object) : null);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
 
-    @Override
-	public String getPropertyName() {
-        return propertyName;
-    }
+  @Override
+  public Class<?> getValueType() {
+    return (accessorMethod != null ? accessorMethod.getReturnType() : null);
+  }
+
+  @Override
+  public String getPropertyName() {
+    return propertyName;
+  }
 }

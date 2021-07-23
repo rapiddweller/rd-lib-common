@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.filter;
 
 import com.rapiddweller.common.Filter;
@@ -19,21 +20,27 @@ import com.rapiddweller.common.Filter;
 /**
  * Inverts the result of another {@link Filter}.
  * Created at 04.05.2008 10:10:09
+ *
  * @param <E> the type of objects to filter
- * @since 0.4.3
  * @author Volker Bergmann
+ * @since 0.4.3
  */
 public class InverseFilter<E> implements Filter<E> {
 
-	private final Filter<E> realFilter;
+  private final Filter<E> realFilter;
 
-	public InverseFilter(Filter<E> realFilter) {
-		this.realFilter = realFilter;
-	}
+  /**
+   * Instantiates a new Inverse filter.
+   *
+   * @param realFilter the real filter
+   */
+  public InverseFilter(Filter<E> realFilter) {
+    this.realFilter = realFilter;
+  }
 
-	@Override
-	public boolean accept(E candidate) {
-		return !realFilter.accept(candidate);
-	}
-	
+  @Override
+  public boolean accept(E candidate) {
+    return !realFilter.accept(candidate);
+  }
+
 }

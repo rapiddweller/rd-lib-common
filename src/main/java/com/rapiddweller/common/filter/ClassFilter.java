@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.filter;
 
 import com.rapiddweller.common.Filter;
@@ -20,28 +21,36 @@ import com.rapiddweller.common.Filter;
  * {@link Filter} implementation which accepts objects that implement a certain class ({@link #acceptedClass})
  * or (if {@link #acceptingSubClasses} is true) a sub class.
  * Created: 07.06.2011 14:01:42
+ *
  * @param <E> the type of objects to filter
- * @since 0.5.8
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class ClassFilter<E> implements Filter<E> {
-	
-	private final Class<? extends E> acceptedClass;
-	private final boolean acceptingSubClasses;
 
-	public ClassFilter(Class<? extends E> acceptedClass, boolean acceptingSubClasses) {
-		this.acceptedClass = acceptedClass;
-		this.acceptingSubClasses = acceptingSubClasses;
-	}
+  private final Class<? extends E> acceptedClass;
+  private final boolean acceptingSubClasses;
 
-	@Override
-	public boolean accept(E candidate) {
-		if (candidate == null)
-			return false;
-		else if (acceptingSubClasses)
-			return acceptedClass.isAssignableFrom(candidate.getClass());
-		else
-			return acceptedClass == candidate.getClass();
-	}
+  /**
+   * Instantiates a new Class filter.
+   *
+   * @param acceptedClass       the accepted class
+   * @param acceptingSubClasses the accepting sub classes
+   */
+  public ClassFilter(Class<? extends E> acceptedClass, boolean acceptingSubClasses) {
+    this.acceptedClass = acceptedClass;
+    this.acceptingSubClasses = acceptingSubClasses;
+  }
+
+  @Override
+  public boolean accept(E candidate) {
+    if (candidate == null) {
+      return false;
+    } else if (acceptingSubClasses) {
+      return acceptedClass.isAssignableFrom(candidate.getClass());
+    } else {
+      return acceptedClass == candidate.getClass();
+    }
+  }
 
 }

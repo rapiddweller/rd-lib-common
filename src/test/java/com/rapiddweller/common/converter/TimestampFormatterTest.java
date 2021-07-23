@@ -12,16 +12,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.*;
-
 import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.TimeUtil;
+import org.junit.Test;
 
 import java.sql.Timestamp;
 
-import com.rapiddweller.common.TimeUtil;
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 
 /**
  * Tests the {@link TimestampFormatter}.
@@ -32,89 +34,89 @@ import org.junit.Test;
  */
 public class TimestampFormatterTest extends AbstractConverterTest {
 
-    Timestamp timestamp = TimeUtil.timestamp(1971, 1, 3, 13, 14, 15, 123456789);
+  Timestamp timestamp = TimeUtil.timestamp(1971, 1, 3, 13, 14, 15, 123456789);
 
-    @Test
-    public void testConstructor() {
-        TimestampFormatter actualTimestampFormatter = new TimestampFormatter();
-        Class<String> expectedTargetType = actualTimestampFormatter.targetType;
-        assertSame(expectedTargetType, actualTimestampFormatter.getTargetType());
-        Class<Timestamp> expectedSourceType = actualTimestampFormatter.sourceType;
-        assertSame(expectedSourceType, actualTimestampFormatter.getSourceType());
-    }
+  @Test
+  public void testConstructor() {
+    TimestampFormatter actualTimestampFormatter = new TimestampFormatter();
+    Class<String> expectedTargetType = actualTimestampFormatter.targetType;
+    assertSame(expectedTargetType, actualTimestampFormatter.getTargetType());
+    Class<Timestamp> expectedSourceType = actualTimestampFormatter.sourceType;
+    assertSame(expectedSourceType, actualTimestampFormatter.getSourceType());
+  }
 
-    @Test
-    public void testConstructor2() {
-        TimestampFormatter actualTimestampFormatter = new TimestampFormatter("Pattern");
-        Class<String> expectedTargetType = actualTimestampFormatter.targetType;
-        assertSame(expectedTargetType, actualTimestampFormatter.getTargetType());
-        Class<Timestamp> expectedSourceType = actualTimestampFormatter.sourceType;
-        assertSame(expectedSourceType, actualTimestampFormatter.getSourceType());
-    }
+  @Test
+  public void testConstructor2() {
+    TimestampFormatter actualTimestampFormatter = new TimestampFormatter("Pattern");
+    Class<String> expectedTargetType = actualTimestampFormatter.targetType;
+    assertSame(expectedTargetType, actualTimestampFormatter.getTargetType());
+    Class<Timestamp> expectedSourceType = actualTimestampFormatter.sourceType;
+    assertSame(expectedSourceType, actualTimestampFormatter.getSourceType());
+  }
 
-    @Test
-    public void testConstructor3() {
-        TimestampFormatter actualTimestampFormatter = new TimestampFormatter("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS");
-        Class<String> expectedTargetType = actualTimestampFormatter.targetType;
-        assertSame(expectedTargetType, actualTimestampFormatter.getTargetType());
-        Class<Timestamp> expectedSourceType = actualTimestampFormatter.sourceType;
-        assertSame(expectedSourceType, actualTimestampFormatter.getSourceType());
-    }
+  @Test
+  public void testConstructor3() {
+    TimestampFormatter actualTimestampFormatter = new TimestampFormatter("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS");
+    Class<String> expectedTargetType = actualTimestampFormatter.targetType;
+    assertSame(expectedTargetType, actualTimestampFormatter.getTargetType());
+    Class<Timestamp> expectedSourceType = actualTimestampFormatter.sourceType;
+    assertSame(expectedSourceType, actualTimestampFormatter.getSourceType());
+  }
 
-    @Test
-    public void testConvert() throws ConversionException {
-        Timestamp sourceValue = new Timestamp(10L);
-        assertNotNull((new TimestampFormatter()).convert(sourceValue));
-    }
+  @Test
+  public void testConvert() throws ConversionException {
+    Timestamp sourceValue = new Timestamp(10L);
+    assertNotNull((new TimestampFormatter()).convert(sourceValue));
+  }
 
-    @Test
-    public void testConvert2() throws ConversionException {
-        assertNull((new TimestampFormatter()).convert(null));
-    }
+  @Test
+  public void testConvert2() throws ConversionException {
+    assertNull((new TimestampFormatter()).convert(null));
+  }
 
-    public TimestampFormatterTest() {
-        super(TimestampFormatter.class);
-    }
+  public TimestampFormatterTest() {
+    super(TimestampFormatter.class);
+  }
 
-    @Test
-    public void testDefaultFormat() {
-        assertNotNull(new TimestampFormatter().format(timestamp));
-    }
+  @Test
+  public void testDefaultFormat() {
+    assertNotNull(new TimestampFormatter().format(timestamp));
+  }
 
-    @Test
-    public void testFormat() {
-        Timestamp timestamp = new Timestamp(10L);
-        assertNotNull((new TimestampFormatter()).format(timestamp));
-    }
+  @Test
+  public void testFormat() {
+    Timestamp timestamp = new Timestamp(10L);
+    assertNotNull((new TimestampFormatter()).format(timestamp));
+  }
 
-    @Test
-    public void testFormat2() {
-        assertNull((new TimestampFormatter()).format(null));
-    }
+  @Test
+  public void testFormat2() {
+    assertNull((new TimestampFormatter()).format(null));
+  }
 
-    @Test
-    public void testMillisFormat() {
-        assertNotNull(new TimestampFormatter("yyyy-MM-dd HH:mm:ss.SSS").format(timestamp));
-    }
+  @Test
+  public void testMillisFormat() {
+    assertNotNull(new TimestampFormatter("yyyy-MM-dd HH:mm:ss.SSS").format(timestamp));
+  }
 
-    @Test
-    public void testCentisFormat() {
-        assertNotNull(new TimestampFormatter("yyyy-MM-dd HH:mm:ss.SSS").format(timestamp));
-    }
+  @Test
+  public void testCentisFormat() {
+    assertNotNull(new TimestampFormatter("yyyy-MM-dd HH:mm:ss.SSS").format(timestamp));
+  }
 
-    @Test
-    public void testNanosFormat() {
-        assertNotNull(new TimestampFormatter("yyyy-MM-dd HH:mm:ss.SSSSSSSSS").format(timestamp));
-    }
+  @Test
+  public void testNanosFormat() {
+    assertNotNull(new TimestampFormatter("yyyy-MM-dd HH:mm:ss.SSSSSSSSS").format(timestamp));
+  }
 
-    @Test
-    public void testSecondsFormat() {
-        assertNotNull(new TimestampFormatter("yyyy-MM-dd HH:mm:ss").format(timestamp));
-    }
+  @Test
+  public void testSecondsFormat() {
+    assertNotNull(new TimestampFormatter("yyyy-MM-dd HH:mm:ss").format(timestamp));
+  }
 
-    @Test
-    public void testNull() {
-        assertNull(new TimestampFormatter().format(null));
-    }
+  @Test
+  public void testNull() {
+    assertNull(new TimestampFormatter().format(null));
+  }
 
 }

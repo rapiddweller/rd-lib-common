@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.IOUtil;
@@ -29,40 +30,50 @@ import java.util.ResourceBundle;
 /**
  * Converts key strings to localized texts by using a ResourceBundle.
  * Created: 07.06.2007 07:48:35
+ *
  * @author Volker Bergmann
  */
 public class PropertyResourceBundleConverter extends ThreadSafeConverter<String, String> {
 
-    private final ResourceBundle bundle;
+  private final ResourceBundle bundle;
 
-    public PropertyResourceBundleConverter(String baseName, Locale locale) {
-    	super(String.class, String.class);
-        ResourceBundle.Control control = new UTF8Control();
-        bundle = PropertyResourceBundle.getBundle(baseName, locale, control);
+  /**
+   * Instantiates a new Property resource bundle converter.
+   *
+   * @param baseName the base name
+   * @param locale   the locale
+   */
+  public PropertyResourceBundleConverter(String baseName, Locale locale) {
+    super(String.class, String.class);
+    ResourceBundle.Control control = new UTF8Control();
+    bundle = PropertyResourceBundle.getBundle(baseName, locale, control);
+  }
+
+  @Override
+  public String convert(String sourceValue) {
+    return bundle.getString(sourceValue);
+  }
+
+  /**
+   * The type Utf 8 control.
+   */
+  static class UTF8Control extends PropertyResourceBundle.Control {
+
+    @Override
+    public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
+        throws IOException {
+      String bundleName = toBundleName(baseName, locale);
+      String resourceName = toResourceName(bundleName, "properties");
+      InputStream stream = IOUtil.getInputStreamForURI(resourceName, true);
+      Charset utf8 = StandardCharsets.UTF_8;
+      return new PropertyResourceBundle(new InputStreamReader(stream, utf8));
     }
 
     @Override
-	public String convert(String sourceValue) {
-        return bundle.getString(sourceValue);
+    public Locale getFallbackLocale(String baseName, Locale locale) {
+      Locale fallback = LocaleUtil.getFallbackLocale();
+      return (fallback.equals(locale) ? null : fallback);
     }
-    
-    static class UTF8Control extends PropertyResourceBundle.Control {
-    	
-    	@Override
-    	public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
-    	        throws IOException {
-    		String bundleName = toBundleName(baseName, locale);
-    		String resourceName = toResourceName(bundleName, "properties");
-    		InputStream stream = IOUtil.getInputStreamForURI(resourceName, true);
-			Charset utf8 = StandardCharsets.UTF_8;
-			return new PropertyResourceBundle(new InputStreamReader(stream, utf8)); 
-    	}
-    	
-    	@Override
-    	public Locale getFallbackLocale(String baseName, Locale locale) {
-    		Locale fallback = LocaleUtil.getFallbackLocale();
-    	    return (fallback.equals(locale) ? null : fallback);
-    	}
-    }
-    
+  }
+
 }

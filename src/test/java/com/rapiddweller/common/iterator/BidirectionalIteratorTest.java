@@ -12,42 +12,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Provides functionality for testing classes that implement the {@link BidirectionalIterator} interface.
  * Created at 04.05.2008 09:37:07
- * @since 0.4.3
+ *
  * @author Volker Bergmann
+ * @since 0.4.3
  */
 public abstract class BidirectionalIteratorTest extends IteratorTestCase {
 
-	@SafeVarargs
-	public static <T> PreviousHelper<T> expectPreviousElements(BidirectionalIterator<T> iterator, T... elements) {
-		for (T element : elements) {
-			assertTrue(iterator.hasPrevious());
-			assertEquals(element, iterator.previous());
-		}
-		return new PreviousHelper<>(iterator);
-	}
-	
-	public static class PreviousHelper<T> {
-		
-		BidirectionalIterator<T> iterator;
+  @SafeVarargs
+  public static <T> PreviousHelper<T> expectPreviousElements(BidirectionalIterator<T> iterator, T... elements) {
+    for (T element : elements) {
+      assertTrue(iterator.hasPrevious());
+      assertEquals(element, iterator.previous());
+    }
+    return new PreviousHelper<>(iterator);
+  }
 
-		public PreviousHelper(BidirectionalIterator<T> iterator) {
-			this.iterator = iterator;
-		}
-		
-		public void withPrevious() {
-			assertTrue(iterator.hasNext());
-		}
-		
-		public void withNoPrevious() {
-			assertFalse(iterator.hasPrevious());
-		}
-	}
-	
+  public static class PreviousHelper<T> {
+
+    BidirectionalIterator<T> iterator;
+
+    public PreviousHelper(BidirectionalIterator<T> iterator) {
+      this.iterator = iterator;
+    }
+
+    public void withPrevious() {
+      assertTrue(iterator.hasNext());
+    }
+
+    public void withNoPrevious() {
+      assertFalse(iterator.hasPrevious());
+    }
+  }
+
 }

@@ -12,41 +12,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests the {@link String2CharConverter}.
  * Created: 29.07.2010 17:24:32
- * @since 0.6.3
+ *
  * @author Volker Bergmann
+ * @since 0.6.3
  */
 public class String2CharConverterTest extends AbstractConverterTest {
 
-	private static final String2CharConverter CONVERTER = new String2CharConverter();
+  private static final String2CharConverter CONVERTER = new String2CharConverter();
 
-	public String2CharConverterTest() {
-		super(String2CharConverter.class);
-	}
+  public String2CharConverterTest() {
+    super(String2CharConverter.class);
+  }
 
-	@Test
-	public void testTypes() {
-		assertEquals(String.class, CONVERTER.getSourceType());
-		assertEquals(Character.class, CONVERTER.getTargetType());
-	}
-	
-	@Test
-	public void testStandardConversions() {
-		assertEquals('A', CONVERTER.convert("A").charValue());
-		assertEquals('1', CONVERTER.convert("1").charValue());
-	}
-	
-	@Test
-	public void testNullConversion() {
-		assertNull(CONVERTER.convert(null));
-	}
-	
+  @Test
+  public void testTypes() {
+    assertEquals(String.class, CONVERTER.getSourceType());
+    assertEquals(Character.class, CONVERTER.getTargetType());
+  }
+
+  @Test
+  public void testStandardConversions() {
+    assertEquals('A', CONVERTER.convert("A").charValue());
+    assertEquals('1', CONVERTER.convert("1").charValue());
+  }
+
+  @Test
+  public void testNullConversion() {
+    assertNull(CONVERTER.convert(null));
+  }
+
 }

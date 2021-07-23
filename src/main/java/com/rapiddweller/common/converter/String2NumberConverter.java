@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.BeanUtil;
@@ -21,22 +22,29 @@ import com.rapiddweller.common.StringUtil;
 /**
  * Converts {@link String}s to {@link Number}s.
  * Created: 27.02.2010 11:22:10
+ *
  * @param <T> the {@link Number} type to convert to
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class String2NumberConverter<T extends Number> extends ConstructorInvoker<String, T> {
 
-	public String2NumberConverter(Class<T> targetType) {
-	    super(String.class, BeanUtil.findConstructor(targetType, String.class));
-    }
+  /**
+   * Instantiates a new String 2 number converter.
+   *
+   * @param targetType the target type
+   */
+  public String2NumberConverter(Class<T> targetType) {
+    super(String.class, BeanUtil.findConstructor(targetType, String.class));
+  }
 
-	@Override
-    public T convert(String sourceValue) throws ConversionException {
-		if (StringUtil.isEmpty(sourceValue))
-			return null;
-		else
-			return super.convert(sourceValue);
-	}
+  @Override
+  public T convert(String sourceValue) throws ConversionException {
+    if (StringUtil.isEmpty(sourceValue)) {
+      return null;
+    } else {
+      return super.convert(sourceValue);
+    }
+  }
 
 }

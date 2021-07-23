@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -26,52 +27,85 @@ import java.util.Date;
 /**
  * Parses a String as a time value.
  * Created: 14.03.2008 22:15:58
+ *
  * @author Volker Bergmann
  */
 public class String2TimeConverter extends ThreadSafeConverter<String, Time> {
 
-	private final String pattern;
-	
-    public String2TimeConverter() {
-        this(null);
-    }
+  private final String pattern;
 
-    public String2TimeConverter(String pattern) {
-        super(String.class, Time.class);
-        this.pattern = pattern;
-    }
+  /**
+   * Instantiates a new String 2 time converter.
+   */
+  public String2TimeConverter() {
+    this(null);
+  }
 
-    @Override
-	public Time convert(String sourceValue) throws ConversionException {
-        return parse(sourceValue, pattern);
-    }
+  /**
+   * Instantiates a new String 2 time converter.
+   *
+   * @param pattern the pattern
+   */
+  public String2TimeConverter(String pattern) {
+    super(String.class, Time.class);
+    this.pattern = pattern;
+  }
 
-    public static Time parse(String value) throws ConversionException {
-        return parse(value, null);
-    }
+  @Override
+  public Time convert(String sourceValue) throws ConversionException {
+    return parse(sourceValue, pattern);
+  }
 
-    public static Time parse(String value, String pattern) throws ConversionException {
-        if (StringUtil.isEmpty(value))
-            return null;
-        pattern = choosePattern(value, pattern);
-	    try {
-	        Date simpleDate = new SimpleDateFormat(pattern).parse(value);
-	        long millis = simpleDate.getTime();
-	        return new Time(millis);
-	    } catch (ParseException e) {
-	        throw new ConversionException(e);
-	    }
-    }
+  /**
+   * Parse time.
+   *
+   * @param value the value
+   * @return the time
+   * @throws ConversionException the conversion exception
+   */
+  public static Time parse(String value) throws ConversionException {
+    return parse(value, null);
+  }
 
-	private static String choosePattern(String sourceValue, String pattern) {
-	    if (pattern == null)
-            switch (sourceValue.length()) {
-                case 12 : pattern = Patterns.DEFAULT_TIME_MILLIS_PATTERN;  break;
-                case  8 : pattern = Patterns.DEFAULT_TIME_SECONDS_PATTERN; break;
-                case  5 : pattern = Patterns.DEFAULT_TIME_MINUTES_PATTERN; break;
-                default : throw new IllegalArgumentException("Not a supported time format: " + sourceValue);
-            }
-	    return pattern;
+  /**
+   * Parse time.
+   *
+   * @param value   the value
+   * @param pattern the pattern
+   * @return the time
+   * @throws ConversionException the conversion exception
+   */
+  public static Time parse(String value, String pattern) throws ConversionException {
+    if (StringUtil.isEmpty(value)) {
+      return null;
     }
+    pattern = choosePattern(value, pattern);
+    try {
+      Date simpleDate = new SimpleDateFormat(pattern).parse(value);
+      long millis = simpleDate.getTime();
+      return new Time(millis);
+    } catch (ParseException e) {
+      throw new ConversionException(e);
+    }
+  }
+
+  private static String choosePattern(String sourceValue, String pattern) {
+    if (pattern == null) {
+      switch (sourceValue.length()) {
+        case 12:
+          pattern = Patterns.DEFAULT_TIME_MILLIS_PATTERN;
+          break;
+        case 8:
+          pattern = Patterns.DEFAULT_TIME_SECONDS_PATTERN;
+          break;
+        case 5:
+          pattern = Patterns.DEFAULT_TIME_MINUTES_PATTERN;
+          break;
+        default:
+          throw new IllegalArgumentException("Not a supported time format: " + sourceValue);
+      }
+    }
+    return pattern;
+  }
 
 }

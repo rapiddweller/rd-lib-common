@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.io.OutputStreamWriter;
@@ -19,23 +20,41 @@ import java.io.OutputStreamWriter;
 /**
  * Provides speech support on Mac systems.
  * Created: 14.09.2010 12:46:10
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class SpeechUtil {
 
-	public static boolean speechSupported() {
-		return SystemInfo.isMacOsx();
-	}
-	
-	public static void say(String text) {
-		say(text, ErrorHandler.getDefault());
-	}
-		
-	public static void say(String text, ErrorHandler errorHandler) {
-		if (!speechSupported())
-			errorHandler.handleError("Speech is not supported on this system");
-		ShellUtil.runShellCommand("say -v Alex \"" + text + "\"", new OutputStreamWriter(System.out), errorHandler);
-	}
-	
+  /**
+   * Speech supported boolean.
+   *
+   * @return the boolean
+   */
+  public static boolean speechSupported() {
+    return SystemInfo.isMacOsx();
+  }
+
+  /**
+   * Say.
+   *
+   * @param text the text
+   */
+  public static void say(String text) {
+    say(text, ErrorHandler.getDefault());
+  }
+
+  /**
+   * Say.
+   *
+   * @param text         the text
+   * @param errorHandler the error handler
+   */
+  public static void say(String text, ErrorHandler errorHandler) {
+    if (!speechSupported()) {
+      errorHandler.handleError("Speech is not supported on this system");
+    }
+    ShellUtil.runShellCommand("say -v Alex \"" + text + "\"", new OutputStreamWriter(System.out), errorHandler);
+  }
+
 }

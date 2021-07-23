@@ -12,14 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Super interface for all classes that have a 'name' property.
  * Created at 21.07.2008 08:06:54
- * @since 0.4.5
+ *
  * @author Volker Bergmann
+ * @since 0.4.5
  */
 public interface Named {
-	String getName();
+  /**
+   * Gets name.
+   *
+   * @return the name
+   */
+  String getName();
 }

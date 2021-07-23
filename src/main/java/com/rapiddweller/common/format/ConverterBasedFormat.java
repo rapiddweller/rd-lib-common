@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.format;
 
 import com.rapiddweller.common.Converter;
@@ -23,29 +24,35 @@ import java.text.ParsePosition;
 /**
  * Format implementation that uses a to-String-Converter for formatting objects.
  * Created: 25.04.2015 06:58:54
- * @since 1.0.6
+ *
  * @author Volker Bergmann
+ * @since 1.0.6
  */
 public class ConverterBasedFormat extends Format {
 
-	private static final long serialVersionUID = 1L;
-	
-	private final Converter<Object, String> converter;
+  private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unchecked")
-	public ConverterBasedFormat(Converter<?, String> converter) {
-		this.converter = (Converter<Object, String>) converter;
-	}
+  private final Converter<Object, String> converter;
 
-	@Override
-	public StringBuffer format(Object sourceValue, StringBuffer toAppendTo, FieldPosition pos) {
-		toAppendTo.append((converter).convert(sourceValue));
-		return toAppendTo;
-	}
+  /**
+   * Instantiates a new Converter based format.
+   *
+   * @param converter the converter
+   */
+  @SuppressWarnings("unchecked")
+  public ConverterBasedFormat(Converter<?, String> converter) {
+    this.converter = (Converter<Object, String>) converter;
+  }
 
-	@Override
-	public Object parseObject(String text, ParsePosition pos) {
-		throw new UnsupportedOperationException();
-	}
+  @Override
+  public StringBuffer format(Object sourceValue, StringBuffer toAppendTo, FieldPosition pos) {
+    toAppendTo.append((converter).convert(sourceValue));
+    return toAppendTo;
+  }
+
+  @Override
+  public Object parseObject(String text, ParsePosition pos) {
+    throw new UnsupportedOperationException();
+  }
 
 }

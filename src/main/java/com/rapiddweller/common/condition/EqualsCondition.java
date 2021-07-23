@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.condition;
 
 import com.rapiddweller.common.Condition;
@@ -20,20 +21,26 @@ import com.rapiddweller.common.NullSafeComparator;
 /**
  * Condition that requires to be the checked argument to be equal to a prototype.
  * Created: 16.06.2007 12:46:03
+ *
  * @param <E> the type of argument to evaluate
  * @author Volker Bergmann
  */
 public class EqualsCondition<E> implements Condition<E> {
 
-    private final E reference;
+  private final E reference;
 
-    public EqualsCondition(E reference) {
-        this.reference = reference;
-    }
+  /**
+   * Instantiates a new Equals condition.
+   *
+   * @param reference the reference
+   */
+  public EqualsCondition(E reference) {
+    this.reference = reference;
+  }
 
-    @Override
-	public boolean evaluate(E argument) {
-        return NullSafeComparator.equals(argument, reference);
-    }
+  @Override
+  public boolean evaluate(E argument) {
+    return NullSafeComparator.equals(argument, reference);
+  }
 
 }

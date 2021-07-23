@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
@@ -19,21 +20,40 @@ package com.rapiddweller.common;
  * Created: 02.07.2006 07:30:11
  */
 public class ConfigurationError extends RuntimeException {
-    
-	private static final long serialVersionUID = -4777501483672273557L;
 
-	public ConfigurationError() {
-    }
+  private static final long serialVersionUID = -4777501483672273557L;
 
-    public ConfigurationError(String message) {
-        super(message);
-    }
+  /**
+   * Instantiates a new Configuration error.
+   */
+  public ConfigurationError() {
+  }
 
-    public ConfigurationError(String message, Throwable cause) {
-        super(message, cause);
-    }
+  /**
+   * Instantiates a new Configuration error.
+   *
+   * @param message the message
+   */
+  public ConfigurationError(String message) {
+    super(message);
+  }
 
-    public ConfigurationError(Throwable cause) {
-        super(cause);
-    }
+  /**
+   * Instantiates a new Configuration error.
+   *
+   * @param message the message
+   * @param cause   the cause
+   */
+  public ConfigurationError(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  /**
+   * Instantiates a new Configuration error.
+   *
+   * @param cause the cause
+   */
+  public ConfigurationError(Throwable cause) {
+    super(cause);
+  }
 }

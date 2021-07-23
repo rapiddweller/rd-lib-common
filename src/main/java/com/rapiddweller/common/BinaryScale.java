@@ -12,36 +12,63 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Enumeration which provides constants for Binary scales.
  * Created: 06.03.2011 15:29:47
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public enum BinaryScale {
 
-	TERA(1099511627776L, "T"), 
-	GIGA(1073741824L, "G"),
-	MEGA(1048576L, "M"), 
-	KILO(1024L, "K"),
-	NONE(1L, ""); 
+  /**
+   * Tera binary scale.
+   */
+  TERA(1099511627776L, "T"),
+  /**
+   * Giga binary scale.
+   */
+  GIGA(1073741824L, "G"),
+  /**
+   * Mega binary scale.
+   */
+  MEGA(1048576L, "M"),
+  /**
+   * Kilo binary scale.
+   */
+  KILO(1024L, "K"),
+  /**
+   * None binary scale.
+   */
+  NONE(1L, "");
 
-	private final double factor;
-	private final String designator;
+  private final double factor;
+  private final String designator;
 
-	BinaryScale(double factor, String designator) {
-		this.factor = factor;
-		this.designator = designator;
-	}
-	
-	public double getFactor() {
-		return factor;
-	}
-	
-	public String getDesignator() {
-		return designator;
-	}
-	
+  BinaryScale(double factor, String designator) {
+    this.factor = factor;
+    this.designator = designator;
+  }
+
+  /**
+   * Gets factor.
+   *
+   * @return the factor
+   */
+  public double getFactor() {
+    return factor;
+  }
+
+  /**
+   * Gets designator.
+   *
+   * @return the designator
+   */
+  public String getDesignator() {
+    return designator;
+  }
+
 }

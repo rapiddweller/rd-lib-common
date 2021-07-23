@@ -21,14 +21,14 @@ import java.util.Comparator;
 /**
  * Compares Intervals by its min value.<br><br>
  * Created: 26.04.2019 23:27:52
- * @since 1.0.12
+ *
+ * @param <E> the type parameter
  * @author Volker Bergmann
- * @param <E> 
+ * @since 1.0.12
  */
-
 public class IntervalMinComparator<E extends Comparable<E>> implements Comparator<Interval<E>> {
-	@Override
-	public int compare(Interval<E> i1, Interval<E> i2) {
-		return i1.getMin().compareTo(i2.getMin());
-	}
+  @Override
+  public int compare(Interval<E> i1, Interval<E> i2) {
+    return i1.getMin().compareTo(i2.getMin());
+  }
 }

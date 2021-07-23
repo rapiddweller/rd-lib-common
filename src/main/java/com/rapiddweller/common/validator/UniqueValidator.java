@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.Resettable;
@@ -21,32 +22,34 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Validator implementation that requires each argument 
+ * Validator implementation that requires each argument
  * of consecutive calls to the valid() method to be unique.
  * Created: 20.11.2007 09:55:16
+ *
  * @param <E> the object type to be validated
  * @author Volker Bergmann
  */
 public class UniqueValidator<E> implements Validator<E>, Resettable {
 
-    private final Set<E> instances = new HashSet<>();
+  private final Set<E> instances = new HashSet<>();
 
-    @Override
-	public boolean valid(E object) {
-        if (instances.contains(object))
-            return false;
-        instances.add(object);
-        return true;
+  @Override
+  public boolean valid(E object) {
+    if (instances.contains(object)) {
+      return false;
     }
-    
-	@Override
-	public void reset() {
-	    instances.clear();
-    }
-    
-    @Override
-    public String toString() {
-        return getClass().getSimpleName();
-    }
+    instances.add(object);
+    return true;
+  }
+
+  @Override
+  public void reset() {
+    instances.clear();
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName();
+  }
 
 }

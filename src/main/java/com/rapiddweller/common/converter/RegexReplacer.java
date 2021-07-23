@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -20,46 +21,77 @@ import java.util.regex.Pattern;
 
 /**
  * Converts strings using a regular expression.
- * Each part of the 'input' string that matches the regular expression 'pattern' 
+ * Each part of the 'input' string that matches the regular expression 'pattern'
  * is replaced with the 'replacement' string.
  * Created: 22.02.2010 07:12:12
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class RegexReplacer extends ThreadSafeConverter<String, String> {
-	
-	private Pattern pattern;
-	private String replacement;
 
-	public RegexReplacer() {
-	    this(null, null);
-    }
+  private Pattern pattern;
+  private String replacement;
 
-	public RegexReplacer(String pattern, String replacement) {
-	    super(String.class, String.class);
-	    setPattern(pattern);
-	    setReplacement(replacement);
-    }
+  /**
+   * Instantiates a new Regex replacer.
+   */
+  public RegexReplacer() {
+    this(null, null);
+  }
 
-	private void setReplacement(String replacement) {
-	    this.replacement = replacement;
-    }
+  /**
+   * Instantiates a new Regex replacer.
+   *
+   * @param pattern     the pattern
+   * @param replacement the replacement
+   */
+  public RegexReplacer(String pattern, String replacement) {
+    super(String.class, String.class);
+    setPattern(pattern);
+    setReplacement(replacement);
+  }
 
-	public void setPattern(String pattern) {
-	    this.pattern = Pattern.compile(pattern);
-    }
+  private void setReplacement(String replacement) {
+    this.replacement = replacement;
+  }
 
-	@Override
-	public String convert(String input) throws ConversionException {
-	    return this.pattern.matcher(input).replaceAll(this.replacement);
-    }
+  /**
+   * Sets pattern.
+   *
+   * @param pattern the pattern
+   */
+  public void setPattern(String pattern) {
+    this.pattern = Pattern.compile(pattern);
+  }
 
-	public String convert(String input, String replacement) throws ConversionException {
-	    return this.pattern.matcher(input).replaceAll(replacement);
-    }
+  @Override
+  public String convert(String input) throws ConversionException {
+    return this.pattern.matcher(input).replaceAll(this.replacement);
+  }
 
-	public static String convert(String input, String pattern, String replacement) {
-		return new RegexReplacer(pattern, replacement).convert(input);
-	}
-	
+  /**
+   * Convert string.
+   *
+   * @param input       the input
+   * @param replacement the replacement
+   * @return the string
+   * @throws ConversionException the conversion exception
+   */
+  public String convert(String input, String replacement) throws ConversionException {
+    return this.pattern.matcher(input).replaceAll(replacement);
+  }
+
+  /**
+   * Convert string.
+   *
+   * @param input       the input
+   * @param pattern     the pattern
+   * @param replacement the replacement
+   * @return the string
+   */
+  public static String convert(String input, String pattern, String replacement) {
+    return new RegexReplacer(pattern, replacement).convert(input);
+  }
+
 }

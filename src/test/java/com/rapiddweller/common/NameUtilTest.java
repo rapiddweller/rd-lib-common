@@ -12,18 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common;
 
-import static org.junit.Assert.*;
+package com.rapiddweller.common;
 
 import com.rapiddweller.common.filter.AcceptAllFilter;
 import com.rapiddweller.common.filter.OrFilter;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the {@link NameUtil} class.
@@ -34,194 +37,194 @@ import org.junit.Test;
  */
 public class NameUtilTest {
 
-    Named AB = new X("AB");
-    Named A_B = new X("A_B");
-    Named AC = new X("AC");
-    Named A_C = new X("A_C");
+  Named AB = new X("AB");
+  Named A_B = new X("A_B");
+  Named AC = new X("AC");
+  Named A_C = new X("A_C");
 
-    @Test
-    public void testGetNames() {
-        assertTrue(NameUtil.<java.util.Collection<? extends Named>>getNames(new ArrayList<>()).isEmpty());
-        assertEquals(1, NameUtil.getNames(new Named[]{new CharSet()}).length);
-        assertTrue(NameUtil.<java.util.Collection<? extends Named>>getNames(new ArrayList<>()).isEmpty());
-        assertEquals(1, NameUtil.getNames(new Named[]{new CharSet()}).length);
+  @Test
+  public void testGetNames() {
+    assertTrue(NameUtil.<java.util.Collection<? extends Named>>getNames(new ArrayList<>()).isEmpty());
+    assertEquals(1, NameUtil.getNames(new Named[] {new CharSet()}).length);
+    assertTrue(NameUtil.<java.util.Collection<? extends Named>>getNames(new ArrayList<>()).isEmpty());
+    assertEquals(1, NameUtil.getNames(new Named[] {new CharSet()}).length);
+  }
+
+  @Test
+  public void testGetNamesAsArray() {
+    assertEquals(0,
+        NameUtil.<java.util.Collection<? extends Named>>getNamesAsArray(new ArrayList<>()).length);
+    assertEquals(0,
+        NameUtil.<java.util.Collection<? extends Named>>getNamesAsArray(new ArrayList<>()).length);
+  }
+
+  @Test
+  public void testOrderByName() {
+    Named[] array = new Named[] {A_C, AC, A_B, AB};
+    NameUtil.orderByName(array);
+    Named[] expected = new Named[] {A_B, A_C, AB, AC};
+    assertTrue(Arrays.equals(expected, array));
+  }
+
+  @Test
+  public void testOrderByName2() {
+    ArrayList<Named> namedList = new ArrayList<>();
+    NameUtil.orderByName(namedList);
+    assertTrue(namedList.isEmpty());
+  }
+
+  @Test
+  public void testOrderByName3() {
+    ArrayList<Named> namedList = new ArrayList<>();
+    NameUtil.orderByName(namedList);
+    assertTrue(namedList.isEmpty());
+  }
+
+  @Test
+  public void testIndexOf_list() {
+    List<Named> list = CollectionUtil.toList(A_C, AC, A_B, AB);
+    assertEquals(-1, NameUtil.indexOf("XY", list));
+    assertEquals(0, NameUtil.indexOf("A_C", list));
+    assertEquals(3, NameUtil.indexOf("AB", list));
+  }
+
+  @Test
+  public void testIndexOf() {
+    assertEquals(-1, NameUtil.indexOf("Name", new ArrayList<>()));
+    assertEquals(-1, NameUtil.indexOf("Name", new Named[] {new CharSet()}));
+    assertEquals(0, NameUtil.indexOf("Name", new Named[] {new CharSet("Name", 'A', 'A')}));
+    assertEquals(-1, NameUtil.indexOf("Name", new ArrayList<>()));
+    assertEquals(-1, NameUtil.indexOf("Name", new Named[] {new CharSet()}));
+    assertEquals(0, NameUtil.indexOf("Name", new Named[] {new CharSet("Name", 'A', 'A')}));
+  }
+
+  @Test
+  public void testIndexOf_array() {
+    Named[] list = new Named[] {A_C, AC, A_B, AB};
+    assertEquals(-1, NameUtil.indexOf("XY", list));
+    assertEquals(0, NameUtil.indexOf("A_C", list));
+    assertEquals(3, NameUtil.indexOf("AB", list));
+  }
+
+  @Test
+  public void testFind() {
+    OrFilter<String> orFilter = new OrFilter<>(null, null, null);
+    OrFilter<String> orFilter1 = new OrFilter<>(null, null, null);
+    OrFilter<String> filter = new OrFilter<>(orFilter, orFilter1, new OrFilter<>(null, null, null));
+    assertTrue(NameUtil.find(new ArrayList<>(), filter).isEmpty());
+  }
+
+  @Test
+  public void testFind2() {
+    ArrayList<Named> namedList = new ArrayList<>();
+    namedList.add(new CharSet());
+    OrFilter<String> orFilter = new OrFilter<>(null, null, null);
+    OrFilter<String> orFilter1 = new OrFilter<>(null, null, null);
+    assertEquals(1,
+        NameUtil.find(namedList, new OrFilter<>(new AcceptAllFilter<>(), orFilter, orFilter1))
+            .size());
+  }
+
+  @Test
+  public void testFind3() {
+    ArrayList<Named> namedList = new ArrayList<>();
+    namedList.add(new CharSet());
+    assertTrue(NameUtil.find(namedList, new OrFilter<>()).isEmpty());
+  }
+
+  @Test
+  public void testFind4() {
+    OrFilter<String> orFilter = new OrFilter<>(null, null, null);
+    OrFilter<String> orFilter1 = new OrFilter<>(null, null, null);
+    OrFilter<String> filter = new OrFilter<>(orFilter, orFilter1, new OrFilter<>(null, null, null));
+    assertTrue(NameUtil.find(new ArrayList<>(), filter).isEmpty());
+  }
+
+  @Test
+  public void testFind5() {
+    ArrayList<Named> namedList = new ArrayList<>();
+    namedList.add(new CharSet());
+    OrFilter<String> orFilter = new OrFilter<>(null, null, null);
+    OrFilter<String> orFilter1 = new OrFilter<>(null, null, null);
+    assertEquals(1,
+        NameUtil.find(namedList, new OrFilter<>(new AcceptAllFilter<>(), orFilter, orFilter1))
+            .size());
+  }
+
+  @Test
+  public void testFind6() {
+    ArrayList<Named> namedList = new ArrayList<>();
+    namedList.add(new CharSet());
+    assertTrue(NameUtil.find(namedList, new OrFilter<>()).isEmpty());
+  }
+
+  @Test
+  public void testFindByName() {
+    assertNull(NameUtil.findByName("Name", new ArrayList<>()));
+    assertNull(NameUtil.findByName("Name", new Named[] {new CharSet()}));
+    assertNull(NameUtil.findByName("Name", new ArrayList<>()));
+    assertNull(NameUtil.findByName("Name", new Named[] {new CharSet()}));
+  }
+
+  @Test
+  public void testFindByName2() {
+    ArrayList<Named> namedList = new ArrayList<>();
+    namedList.add(new CharSet());
+    assertNull(NameUtil.findByName("Name", namedList));
+  }
+
+  @Test
+  public void testFindByName3() {
+    Person person = new Person("Name");
+    ArrayList<Named> namedList = new ArrayList<>();
+    namedList.add(person);
+    assertSame(person, NameUtil.findByName("Name", namedList));
+  }
+
+  @Test
+  public void testFindByName4() {
+    CharSet charSet = new CharSet("Name", 'A', 'A');
+    assertSame(charSet, NameUtil.findByName("Name", new Named[] {charSet}));
+  }
+
+  @Test
+  public void testFindByName5() {
+    ArrayList<Named> namedList = new ArrayList<>();
+    namedList.add(new CharSet());
+    assertNull(NameUtil.findByName("Name", namedList));
+  }
+
+  @Test
+  public void testFindByName6() {
+    Person person = new Person("Name");
+    ArrayList<Named> namedList = new ArrayList<>();
+    namedList.add(person);
+    assertSame(person, NameUtil.findByName("Name", namedList));
+  }
+
+  @Test
+  public void testFindByName7() {
+    CharSet charSet = new CharSet("Name", 'A', 'A');
+    assertSame(charSet, NameUtil.findByName("Name", new Named[] {charSet}));
+  }
+
+  private static final class X implements Named {
+
+    private final String name;
+
+    public X(String name) {
+      this.name = name;
     }
 
-    @Test
-    public void testGetNamesAsArray() {
-        assertEquals(0,
-                NameUtil.<java.util.Collection<? extends Named>>getNamesAsArray(new ArrayList<>()).length);
-        assertEquals(0,
-                NameUtil.<java.util.Collection<? extends Named>>getNamesAsArray(new ArrayList<>()).length);
+    @Override
+    public String getName() {
+      return name;
     }
 
-    @Test
-    public void testOrderByName() {
-        Named[] array = new Named[]{A_C, AC, A_B, AB};
-        NameUtil.orderByName(array);
-        Named[] expected = new Named[]{A_B, A_C, AB, AC};
-        assertTrue(Arrays.equals(expected, array));
+    @Override
+    public String toString() {
+      return name;
     }
-
-    @Test
-    public void testOrderByName2() {
-        ArrayList<Named> namedList = new ArrayList<>();
-        NameUtil.orderByName(namedList);
-        assertTrue(namedList.isEmpty());
-    }
-
-    @Test
-    public void testOrderByName3() {
-        ArrayList<Named> namedList = new ArrayList<>();
-        NameUtil.orderByName(namedList);
-        assertTrue(namedList.isEmpty());
-    }
-
-    @Test
-    public void testIndexOf_list() {
-        List<Named> list = CollectionUtil.toList(A_C, AC, A_B, AB);
-        assertEquals(-1, NameUtil.indexOf("XY", list));
-        assertEquals(0, NameUtil.indexOf("A_C", list));
-        assertEquals(3, NameUtil.indexOf("AB", list));
-    }
-
-    @Test
-    public void testIndexOf() {
-        assertEquals(-1, NameUtil.indexOf("Name", new ArrayList<>()));
-        assertEquals(-1, NameUtil.indexOf("Name", new Named[]{new CharSet()}));
-        assertEquals(0, NameUtil.indexOf("Name", new Named[]{new CharSet("Name", 'A', 'A')}));
-        assertEquals(-1, NameUtil.indexOf("Name", new ArrayList<>()));
-        assertEquals(-1, NameUtil.indexOf("Name", new Named[]{new CharSet()}));
-        assertEquals(0, NameUtil.indexOf("Name", new Named[]{new CharSet("Name", 'A', 'A')}));
-    }
-
-    @Test
-    public void testIndexOf_array() {
-        Named[] list = new Named[]{A_C, AC, A_B, AB};
-        assertEquals(-1, NameUtil.indexOf("XY", list));
-        assertEquals(0, NameUtil.indexOf("A_C", list));
-        assertEquals(3, NameUtil.indexOf("AB", list));
-    }
-
-    @Test
-    public void testFind() {
-        OrFilter<String> orFilter = new OrFilter<>(null, null, null);
-        OrFilter<String> orFilter1 = new OrFilter<>(null, null, null);
-        OrFilter<String> filter = new OrFilter<>(orFilter, orFilter1, new OrFilter<>(null, null, null));
-        assertTrue(NameUtil.find(new ArrayList<>(), filter).isEmpty());
-    }
-
-    @Test
-    public void testFind2() {
-        ArrayList<Named> namedList = new ArrayList<>();
-        namedList.add(new CharSet());
-        OrFilter<String> orFilter = new OrFilter<>(null, null, null);
-        OrFilter<String> orFilter1 = new OrFilter<>(null, null, null);
-        assertEquals(1,
-                NameUtil.find(namedList, new OrFilter<>(new AcceptAllFilter<>(), orFilter, orFilter1))
-                        .size());
-    }
-
-    @Test
-    public void testFind3() {
-        ArrayList<Named> namedList = new ArrayList<>();
-        namedList.add(new CharSet());
-        assertTrue(NameUtil.find(namedList, new OrFilter<>()).isEmpty());
-    }
-
-    @Test
-    public void testFind4() {
-        OrFilter<String> orFilter = new OrFilter<>(null, null, null);
-        OrFilter<String> orFilter1 = new OrFilter<>(null, null, null);
-        OrFilter<String> filter = new OrFilter<>(orFilter, orFilter1, new OrFilter<>(null, null, null));
-        assertTrue(NameUtil.find(new ArrayList<>(), filter).isEmpty());
-    }
-
-    @Test
-    public void testFind5() {
-        ArrayList<Named> namedList = new ArrayList<>();
-        namedList.add(new CharSet());
-        OrFilter<String> orFilter = new OrFilter<>(null, null, null);
-        OrFilter<String> orFilter1 = new OrFilter<>(null, null, null);
-        assertEquals(1,
-                NameUtil.find(namedList, new OrFilter<>(new AcceptAllFilter<>(), orFilter, orFilter1))
-                        .size());
-    }
-
-    @Test
-    public void testFind6() {
-        ArrayList<Named> namedList = new ArrayList<>();
-        namedList.add(new CharSet());
-        assertTrue(NameUtil.find(namedList, new OrFilter<>()).isEmpty());
-    }
-
-    @Test
-    public void testFindByName() {
-        assertNull(NameUtil.findByName("Name", new ArrayList<>()));
-        assertNull(NameUtil.findByName("Name", new Named[]{new CharSet()}));
-        assertNull(NameUtil.findByName("Name", new ArrayList<>()));
-        assertNull(NameUtil.findByName("Name", new Named[]{new CharSet()}));
-    }
-
-    @Test
-    public void testFindByName2() {
-        ArrayList<Named> namedList = new ArrayList<>();
-        namedList.add(new CharSet());
-        assertNull(NameUtil.findByName("Name", namedList));
-    }
-
-    @Test
-    public void testFindByName3() {
-        Person person = new Person("Name");
-        ArrayList<Named> namedList = new ArrayList<>();
-        namedList.add(person);
-        assertSame(person, NameUtil.findByName("Name", namedList));
-    }
-
-    @Test
-    public void testFindByName4() {
-        CharSet charSet = new CharSet("Name", 'A', 'A');
-        assertSame(charSet, NameUtil.findByName("Name", new Named[]{charSet}));
-    }
-
-    @Test
-    public void testFindByName5() {
-        ArrayList<Named> namedList = new ArrayList<>();
-        namedList.add(new CharSet());
-        assertNull(NameUtil.findByName("Name", namedList));
-    }
-
-    @Test
-    public void testFindByName6() {
-        Person person = new Person("Name");
-        ArrayList<Named> namedList = new ArrayList<>();
-        namedList.add(person);
-        assertSame(person, NameUtil.findByName("Name", namedList));
-    }
-
-    @Test
-    public void testFindByName7() {
-        CharSet charSet = new CharSet("Name", 'A', 'A');
-        assertSame(charSet, NameUtil.findByName("Name", new Named[]{charSet}));
-    }
-
-    private static final class X implements Named {
-
-        private final String name;
-
-        public X(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
+  }
 
 }

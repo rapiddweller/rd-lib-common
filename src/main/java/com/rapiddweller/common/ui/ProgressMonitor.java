@@ -12,26 +12,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui;
 
 /**
  * Platform-independent abstraction of a progress monitor.
  * Created at 14.12.2008 20:29:28
- * @since 0.4.7
+ *
  * @author Volker Bergmann
+ * @since 0.4.7
  */
-
 public interface ProgressMonitor {
 
-	int getMaximum();
-	void setMaximum(int i);
+  /**
+   * Gets maximum.
+   *
+   * @return the maximum
+   */
+  int getMaximum();
 
-	int getProgress();
-	void setProgress(int i);
+  /**
+   * Sets maximum.
+   *
+   * @param i the
+   */
+  void setMaximum(int i);
 
-	void setNote(String note);
+  /**
+   * Gets progress.
+   *
+   * @return the progress
+   */
+  int getProgress();
 
-	void advance();
+  /**
+   * Sets progress.
+   *
+   * @param i the
+   */
+  void setProgress(int i);
 
-	boolean isCanceled();
+  /**
+   * Sets note.
+   *
+   * @param note the note
+   */
+  void setNote(String note);
+
+  /**
+   * Advance.
+   */
+  void advance();
+
+  /**
+   * Is canceled boolean.
+   *
+   * @return the boolean
+   */
+  boolean isCanceled();
 }

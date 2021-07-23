@@ -12,47 +12,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.math;
-
-import static org.junit.Assert.*;
-
-import java.text.ParsePosition;
 
 import com.rapiddweller.common.ComparableComparator;
 import com.rapiddweller.common.comparator.IntComparator;
 import org.junit.Test;
 
+import java.text.ParsePosition;
+
+import static org.junit.Assert.assertEquals;
+
 /**
  * Tests the {@link IntervalParser}.
  * Created: 10.03.2011 16:04:54
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class IntervalParserTest {
-	
-	@Test
-	public void testClosedInterval() {
-		Interval<Integer> parsedInterval = parseInterval("[1,2]");
-		assertEquals(new Interval<>(1, true, 2, true, new ComparableComparator<>()), parsedInterval);
-	}
 
-	@Test
-	public void testOpenInterval() {
-		Interval<Integer> parsedInterval = parseInterval("]1,2[");
-		assertEquals(new Interval<>(1, false, 2, false, new ComparableComparator<>()), parsedInterval);
-	}
+  @Test
+  public void testClosedInterval() {
+    Interval<Integer> parsedInterval = parseInterval("[1,2]");
+    assertEquals(new Interval<>(1, true, 2, true, new ComparableComparator<>()), parsedInterval);
+  }
 
-	@Test
-	public void testWhitespace() {
-		Interval<Integer> parsedInterval = parseInterval(" [ 1 ,	2 ] ");
-		assertEquals(new Interval<>(1, true, 2, true, new ComparableComparator<>()), parsedInterval);
-	}
+  @Test
+  public void testOpenInterval() {
+    Interval<Integer> parsedInterval = parseInterval("]1,2[");
+    assertEquals(new Interval<>(1, false, 2, false, new ComparableComparator<>()), parsedInterval);
+  }
 
-	// helpers ---------------------------------------------------------------------------------------------------------
-	
-	private static Interval<Integer> parseInterval(String text) {
-		IntervalParser<Integer> parser = new IntervalParser<>(new IntParser(), new IntComparator());
-		return parser.parseObject(text, new ParsePosition(0));
-	}
+  @Test
+  public void testWhitespace() {
+    Interval<Integer> parsedInterval = parseInterval(" [ 1 ,	2 ] ");
+    assertEquals(new Interval<>(1, true, 2, true, new ComparableComparator<>()), parsedInterval);
+  }
+
+  // helpers ---------------------------------------------------------------------------------------------------------
+
+  private static Interval<Integer> parseInterval(String text) {
+    IntervalParser<Integer> parser = new IntervalParser<>(new IntParser(), new IntComparator());
+    return parser.parseObject(text, new ParsePosition(0));
+  }
 
 }

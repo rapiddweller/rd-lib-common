@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.io.Closeable;
@@ -21,6 +22,7 @@ import java.util.Iterator;
  * Models a heavyweight Iterator, that means an Iterator that needs to be closed,
  * e.g. for freeing allocated resources.
  * Created: 16.06.2007 10:21:25
+ *
  * @param <E> the type of objects to iterate
  * @author Volker Bergmann
  */

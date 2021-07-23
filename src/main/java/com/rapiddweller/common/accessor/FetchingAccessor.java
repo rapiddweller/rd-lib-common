@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
@@ -19,27 +20,34 @@ import com.rapiddweller.common.Accessor;
 /**
  * Two step Accessor, that uses one Accessor to fetch an object and another one to read a value from it.
  * Created: 12.06.2007 18:43:28
+ *
  * @author Volker Bergmann
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class FetchingAccessor implements Accessor {
 
-    private final Accessor provider;
-    private final Accessor accessor;
+  private final Accessor provider;
+  private final Accessor accessor;
 
-    public FetchingAccessor(Accessor provider, Accessor accessor) {
-        this.provider = provider;
-        this.accessor = accessor;
-    }
+  /**
+   * Instantiates a new Fetching accessor.
+   *
+   * @param provider the provider
+   * @param accessor the accessor
+   */
+  public FetchingAccessor(Accessor provider, Accessor accessor) {
+    this.provider = provider;
+    this.accessor = accessor;
+  }
 
-    @Override
-	public Object getValue(Object o) {
-        return accessor.getValue(provider.getValue(o));
-    }
+  @Override
+  public Object getValue(Object o) {
+    return accessor.getValue(provider.getValue(o));
+  }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "[accessor=" + accessor + ", provider=" + provider + "]";
-    }
-    
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + "[accessor=" + accessor + ", provider=" + provider + "]";
+  }
+
 }

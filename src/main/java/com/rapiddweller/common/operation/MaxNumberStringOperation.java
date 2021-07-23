@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.operation;
 
 import com.rapiddweller.common.Converter;
@@ -21,26 +22,30 @@ import com.rapiddweller.common.converter.NumberParser;
 /**
  * Returns the maximum value of several number literals.
  * Created: 08.03.2008 07:18:09
- * @since 0.4.0
+ *
  * @author Volker Bergmann
+ * @since 0.4.0
  */
 @SuppressWarnings("unchecked")
 public class MaxNumberStringOperation implements Operation<String, String> {
 
-    @SuppressWarnings("rawtypes")
-	private final MaxOperation<ComparableWrapper> operation;
-	private final Converter<String, ?> parser;
+  @SuppressWarnings("rawtypes")
+  private final MaxOperation<ComparableWrapper> operation;
+  private final Converter<String, ?> parser;
 
-    public MaxNumberStringOperation() {
-        this.operation = new MaxOperation<>();
-        this.parser = new NumberParser();
-    }
+  /**
+   * Instantiates a new Max number string operation.
+   */
+  public MaxNumberStringOperation() {
+    this.operation = new MaxOperation<>();
+    this.parser = new NumberParser();
+  }
 
-	@Override
-	public String perform(String... args) {
-	    ComparableWrapper<String>[] wrappers = ComparableWrapper.wrapAll(args, parser);
-	    ComparableWrapper<String> min = operation.perform(wrappers);
-		return min.realObject;
-    }
-    
+  @Override
+  public String perform(String... args) {
+    ComparableWrapper<String>[] wrappers = ComparableWrapper.wrapAll(args, parser);
+    ComparableWrapper<String> min = operation.perform(wrappers);
+    return min.realObject;
+  }
+
 }

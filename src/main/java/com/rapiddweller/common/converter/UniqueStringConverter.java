@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -22,45 +23,50 @@ import java.util.Set;
 /**
  * Assures uniqueness for all processed Strings by appending unique numbers to recurring instances.
  * Created: 24.06.2008 19:41:08
- * @since 0.4.4
+ *
  * @author Volker Bergmann
+ * @since 0.4.4
  */
 public class UniqueStringConverter extends AbstractConverter<String, String> {
-	
-	private static final int MAX_TRIES = 10000;
-	private final Set<String> usedStrings;
 
-	public UniqueStringConverter() {
-		super(String.class, String.class);
-		usedStrings = new HashSet<>();
-	}
+  private static final int MAX_TRIES = 10000;
+  private final Set<String> usedStrings;
 
-	@Override
-	public synchronized String convert(String sourceValue) throws ConversionException {
-		String resultValue = sourceValue;
-		if (usedStrings.contains(sourceValue)) {
-			boolean ok = false;
-			for (int i = 0; !ok && i < MAX_TRIES; i++) {
-				resultValue = sourceValue + i;
-				if (!usedStrings.contains(resultValue)) {
-					ok = true;
-				}
-			}
-			if (!ok)
-				throw new UnsupportedOperationException("not more than " + MAX_TRIES + " identical Strings can be made unique");
-		}
-		usedStrings.add(resultValue);
-		return resultValue;
-	}
+  /**
+   * Instantiates a new Unique string converter.
+   */
+  public UniqueStringConverter() {
+    super(String.class, String.class);
+    usedStrings = new HashSet<>();
+  }
 
-	@Override
-	public boolean isParallelizable() {
-	    return false;
+  @Override
+  public synchronized String convert(String sourceValue) throws ConversionException {
+    String resultValue = sourceValue;
+    if (usedStrings.contains(sourceValue)) {
+      boolean ok = false;
+      for (int i = 0; !ok && i < MAX_TRIES; i++) {
+        resultValue = sourceValue + i;
+        if (!usedStrings.contains(resultValue)) {
+          ok = true;
+        }
+      }
+      if (!ok) {
+        throw new UnsupportedOperationException("not more than " + MAX_TRIES + " identical Strings can be made unique");
+      }
     }
+    usedStrings.add(resultValue);
+    return resultValue;
+  }
 
-	@Override
-	public boolean isThreadSafe() {
-	    return true;
-    }
+  @Override
+  public boolean isParallelizable() {
+    return false;
+  }
+
+  @Override
+  public boolean isThreadSafe() {
+    return true;
+  }
 
 }

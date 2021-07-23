@@ -31,32 +31,33 @@ import java.awt.Component;
 /**
  * Renders {@link org.w3c.dom.Node} and its child classes in Swing table cells.<br><br>
  * Created: 23.06.2016 18:01:35
- * @since 1.0.11
+ *
  * @author Volker Bergmann
+ * @since 1.0.11
  */
-
 public class XmlNodeTableCellRenderer extends DefaultTableCellRenderer {
-	
-	private static final long serialVersionUID = 1L;
 
-	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, 
-			boolean isSelected, boolean hasFocus, int row, int column) {
-		Node node = (Node) value;
-		String text;
-		if (node instanceof CDATASection)
-			text = "<![CDATA[" + node.getTextContent() + "]]>";
-		else if (node instanceof CharacterData) 
-			text = node.getTextContent();
-		else if (node instanceof Element)
-			text = XMLUtil.formatStartTag((Element) node).trim();
-		else if (node instanceof Comment)
-			text = ((Comment) node).getData();
-		else if (node instanceof Document)
-			text = XMLUtil.format((Document) node);
-		else
-			text = ToStringConverter.convert(node, "");
-        return super.getTableCellRendererComponent(table, text, isSelected, hasFocus, row, column);
-	}
-	
+  private static final long serialVersionUID = 1L;
+
+  @Override
+  public Component getTableCellRendererComponent(JTable table, Object value,
+                                                 boolean isSelected, boolean hasFocus, int row, int column) {
+    Node node = (Node) value;
+    String text;
+    if (node instanceof CDATASection) {
+      text = "<![CDATA[" + node.getTextContent() + "]]>";
+    } else if (node instanceof CharacterData) {
+      text = node.getTextContent();
+    } else if (node instanceof Element) {
+      text = XMLUtil.formatStartTag((Element) node).trim();
+    } else if (node instanceof Comment) {
+      text = ((Comment) node).getData();
+    } else if (node instanceof Document) {
+      text = XMLUtil.format((Document) node);
+    } else {
+      text = ToStringConverter.convert(node, "");
+    }
+    return super.getTableCellRendererComponent(table, text, isSelected, hasFocus, row, column);
+  }
+
 }

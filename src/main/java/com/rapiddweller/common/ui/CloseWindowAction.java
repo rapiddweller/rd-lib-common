@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui;
 
 import javax.swing.AbstractAction;
@@ -23,25 +24,31 @@ import java.awt.event.WindowEvent;
 /**
  * {@link Action} that closes a Window.
  * Created: 10.07.2014 15:23:20
- * @since 0.5.33
+ *
  * @author Volker Bergmann
+ * @since 0.5.33
  */
-
 public class CloseWindowAction extends AbstractAction {
 
-	private static final long serialVersionUID = 1L;
-	
-	private final Window window;
+  private static final long serialVersionUID = 1L;
 
-	public CloseWindowAction(Window window) {
-		this.window = window;
-	}
+  private final Window window;
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (window == null)
-			return;
-		window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
-	}
+  /**
+   * Instantiates a new Close window action.
+   *
+   * @param window the window
+   */
+  public CloseWindowAction(Window window) {
+    this.window = window;
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    if (window == null) {
+      return;
+    }
+    window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+  }
 
 }

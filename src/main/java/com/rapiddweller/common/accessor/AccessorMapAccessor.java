@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
@@ -23,45 +24,64 @@ import java.util.Map;
 /**
  * Uses an accessor which is stored in a Map for accessing the target object.
  * Created: 11.03.2006 12:45:26
+ *
  * @author Volker Bergmann
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class AccessorMapAccessor implements DependentAccessor {
 
-    private static final List<Accessor<?, ?>> EMPTY_LIST = new ArrayList<>();
+  private static final List<Accessor<?, ?>> EMPTY_LIST = new ArrayList<>();
 
-    private final Map<Object, Accessor<?, ?>> map;
-    private final Object key;
+  private final Map<Object, Accessor<?, ?>> map;
+  private final Object key;
 
-    public AccessorMapAccessor(Map<Object, Accessor<?, ?>> map, Object key) {
-        this.map = map;
-        this.key = key;
+  /**
+   * Instantiates a new Accessor map accessor.
+   *
+   * @param map the map
+   * @param key the key
+   */
+  public AccessorMapAccessor(Map<Object, Accessor<?, ?>> map, Object key) {
+    this.map = map;
+    this.key = key;
+  }
+
+  // interface -------------------------------------------------------------------------------------------------------
+
+  /**
+   * Gets key.
+   *
+   * @return the key
+   */
+  public Object getKey() {
+    return key;
+  }
+
+  @Override
+  public Object getValue(Object target) {
+    Accessor accessor = getAccessor();
+    if (accessor == null) {
+      throw new IllegalStateException("Key not found: " + key);
     }
+    return accessor.getValue(target);
+  }
 
-    // interface -------------------------------------------------------------------------------------------------------
-
-    public Object getKey() {
-        return key;
+  @Override
+  public List<Accessor<?, ?>> getDependencies() {
+    Accessor<?, ?> accessor = getAccessor();
+    if (accessor instanceof DependentAccessor) {
+      return ((DependentAccessor) accessor).getDependencies();
+    } else {
+      return EMPTY_LIST;
     }
+  }
 
-    @Override
-	public Object getValue(Object target) {
-        Accessor accessor = getAccessor();
-        if (accessor == null)
-            throw new IllegalStateException("Key not found: " + key);
-        return accessor.getValue(target);
-    }
-
-    @Override
-	public List<Accessor<?, ?>> getDependencies() {
-        Accessor<?, ?> accessor = getAccessor();
-        if (accessor instanceof DependentAccessor)
-            return ((DependentAccessor) accessor).getDependencies();
-        else
-            return EMPTY_LIST;
-    }
-
-    public Accessor<?, ?> getAccessor() {
-        return map.get(key);
-    }
+  /**
+   * Gets accessor.
+   *
+   * @return the accessor
+   */
+  public Accessor<?, ?> getAccessor() {
+    return map.get(key);
+  }
 }

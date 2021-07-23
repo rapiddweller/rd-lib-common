@@ -12,14 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Interface for providers of tabular data.
  * Created: 17.07.2011 08:40:29
- * @since 0.5.9
+ *
  * @author Volker Bergmann
+ * @since 0.5.9
  */
 public interface Tabular {
-	String[] getColumnNames();
+  /**
+   * Get column names string [ ].
+   *
+   * @return the string [ ]
+   */
+  String[] getColumnNames();
 }

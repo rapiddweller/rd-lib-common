@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui.swing.delegate;
 
 import com.rapiddweller.common.BeanUtil;
@@ -34,111 +35,138 @@ import java.beans.PropertyChangeListener;
 /**
  * {@link JComboBox} implementation that serves as delegate of a property of a JavaBean object.
  * Created at 01.12.2008 07:44:32
+ *
  * @param <E> The item type of the {@link JComboBox}' elements
- * @since 0.5.13
  * @author Volker Bergmann
+ * @since 0.5.13
  */
-
 public class PropertyComboBox<E> extends JComboBox<E> {
 
-	private static final long serialVersionUID = -5039037135360506124L;
-	
-	private final Object bean;
-	private final String propertyName;
-	boolean locked;
-	
+  private static final long serialVersionUID = -5039037135360506124L;
 
-	@SafeVarargs
-	public PropertyComboBox(Object bean, String propertyName, I18NSupport i18n, String prefix, E ... values) {
-		super(values);
-		this.bean = bean;
-		this.propertyName = propertyName;
-		this.locked = true;
-		Listener listener = new Listener();
-		this.addActionListener(listener);
-		if (bean instanceof ObservableBean)
-			((ObservableBean) bean).addPropertyChangeListener(propertyName, listener);
-		this.getModel().addListDataListener(listener);
-		this.setRenderer(new Renderer(i18n, prefix));
-		this.locked = false;
-		refresh();
-	}
+  private final Object bean;
+  private final String propertyName;
+  /**
+   * The Locked.
+   */
+  boolean locked;
 
-	/**
-	 * reads the current property value and writes it to the text field.
-	 */
-	void refresh() {
-		if (!locked) {
-			locked = true;
-			Object propertyValue = BeanUtil.getPropertyValue(bean, propertyName);
-			Object selectedItem = getSelectedItem();
-			if (!NullSafeComparator.equals(selectedItem, propertyValue))
-				setSelectedItem(propertyValue);
-			locked = false;
-		}
-	}
-	
-	/**
-	 * writes the current text field content to the property.
-	 */
-	void update() {
-		if (!locked) {
-			locked = true;
-			Object propertyValue = BeanUtil.getPropertyValue(bean, propertyName);
-			Object selectedItem = getSelectedItem();
-			if (!NullSafeComparator.equals(selectedItem, propertyValue))
-				BeanUtil.setPropertyValue(bean, propertyName, selectedItem);
-			locked = false;
-		}
-	}
-	
-	class Listener implements PropertyChangeListener, ListDataListener, ActionListener {
 
-		@Override
-		public void propertyChange(PropertyChangeEvent evt) {
-			refresh();
-		}
+  /**
+   * Instantiates a new Property combo box.
+   *
+   * @param bean         the bean
+   * @param propertyName the property name
+   * @param i18n         the 18 n
+   * @param prefix       the prefix
+   * @param values       the values
+   */
+  @SafeVarargs
+  public PropertyComboBox(Object bean, String propertyName, I18NSupport i18n, String prefix, E... values) {
+    super(values);
+    this.bean = bean;
+    this.propertyName = propertyName;
+    this.locked = true;
+    Listener listener = new Listener();
+    this.addActionListener(listener);
+    if (bean instanceof ObservableBean) {
+      ((ObservableBean) bean).addPropertyChangeListener(propertyName, listener);
+    }
+    this.getModel().addListDataListener(listener);
+    this.setRenderer(new Renderer(i18n, prefix));
+    this.locked = false;
+    refresh();
+  }
 
-		@Override
-		public void contentsChanged(ListDataEvent evt) {
-			update();
-		}
+  /**
+   * reads the current property value and writes it to the text field.
+   */
+  void refresh() {
+    if (!locked) {
+      locked = true;
+      Object propertyValue = BeanUtil.getPropertyValue(bean, propertyName);
+      Object selectedItem = getSelectedItem();
+      if (!NullSafeComparator.equals(selectedItem, propertyValue)) {
+        setSelectedItem(propertyValue);
+      }
+      locked = false;
+    }
+  }
 
-		@Override
-		public void intervalAdded(ListDataEvent evt) {
-			update();
-		}
+  /**
+   * writes the current text field content to the property.
+   */
+  void update() {
+    if (!locked) {
+      locked = true;
+      Object propertyValue = BeanUtil.getPropertyValue(bean, propertyName);
+      Object selectedItem = getSelectedItem();
+      if (!NullSafeComparator.equals(selectedItem, propertyValue)) {
+        BeanUtil.setPropertyValue(bean, propertyName, selectedItem);
+      }
+      locked = false;
+    }
+  }
 
-		@Override
-		public void intervalRemoved(ListDataEvent evt) {
-			update();
-		}
+  /**
+   * The type Listener.
+   */
+  class Listener implements PropertyChangeListener, ListDataListener, ActionListener {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-	        update();
-        }
-		
-	}
-	
-	static final class Renderer extends DefaultListCellRenderer {
-		
-		private static final long serialVersionUID = 8358429951305253637L;
-		private final ToStringConverter converter = new ToStringConverter();
-		private final I18NSupport i18n;
-		private final String prefix;
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+      refresh();
+    }
 
-		public Renderer(I18NSupport i18n, String prefix) {
-			this.i18n = i18n;
-			this.prefix = prefix;
-		}
+    @Override
+    public void contentsChanged(ListDataEvent evt) {
+      update();
+    }
 
-		@Override
-		public Component getListCellRendererComponent(JList<?> list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus) {
-			String text = (i18n != null ? i18n.getString(prefix + converter.convert(value)) : String.valueOf(value));
-			return super.getListCellRendererComponent(list, text, index, isSelected, cellHasFocus);
-		}
-	}
+    @Override
+    public void intervalAdded(ListDataEvent evt) {
+      update();
+    }
+
+    @Override
+    public void intervalRemoved(ListDataEvent evt) {
+      update();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      update();
+    }
+
+  }
+
+  /**
+   * The type Renderer.
+   */
+  static final class Renderer extends DefaultListCellRenderer {
+
+    private static final long serialVersionUID = 8358429951305253637L;
+    private final ToStringConverter converter = new ToStringConverter();
+    private final I18NSupport i18n;
+    private final String prefix;
+
+    /**
+     * Instantiates a new Renderer.
+     *
+     * @param i18n   the 18 n
+     * @param prefix the prefix
+     */
+    public Renderer(I18NSupport i18n, String prefix) {
+      this.i18n = i18n;
+      this.prefix = prefix;
+    }
+
+    @Override
+    public Component getListCellRendererComponent(JList<?> list, Object value,
+                                                  int index, boolean isSelected, boolean cellHasFocus) {
+      String text = (i18n != null ? i18n.getString(prefix + converter.convert(value)) : String.valueOf(value));
+      return super.getListCellRendererComponent(list, text, index, isSelected, cellHasFocus);
+    }
+  }
 
 }

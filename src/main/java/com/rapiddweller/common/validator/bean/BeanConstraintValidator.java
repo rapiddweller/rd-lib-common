@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator.bean;
 
 import com.rapiddweller.common.Validator;
@@ -22,31 +23,41 @@ import java.lang.annotation.Annotation;
 /**
  * Wraps a JSR 303 {@link ConstraintValidator} with a databene common {@link Validator}.
  * Created at 04.07.2009 08:30:13
+ *
  * @param <E> the type to by checked by this validator
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class BeanConstraintValidator<E> implements Validator<E> {
-	
-	private final ConstraintValidator<Annotation, E> constraintValidator;
 
-    public BeanConstraintValidator(ConstraintValidator<Annotation, E> constraintValidator) {
-	    this.constraintValidator = constraintValidator;
-    }
-    
-    public void initialize(Annotation annotation) {
-    	constraintValidator.initialize(annotation);
-    }
+  private final ConstraintValidator<Annotation, E> constraintValidator;
 
-    @Override
-	public boolean valid(E object) {
-	    return constraintValidator.isValid(object, null);
-    }
-	
-    @Override
-    public String toString() {
-    	return constraintValidator.toString();
-    }
-    
+  /**
+   * Instantiates a new Bean constraint validator.
+   *
+   * @param constraintValidator the constraint validator
+   */
+  public BeanConstraintValidator(ConstraintValidator<Annotation, E> constraintValidator) {
+    this.constraintValidator = constraintValidator;
+  }
+
+  /**
+   * Initialize.
+   *
+   * @param annotation the annotation
+   */
+  public void initialize(Annotation annotation) {
+    constraintValidator.initialize(annotation);
+  }
+
+  @Override
+  public boolean valid(E object) {
+    return constraintValidator.isValid(object, null);
+  }
+
+  @Override
+  public String toString() {
+    return constraintValidator.toString();
+  }
+
 }

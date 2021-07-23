@@ -12,15 +12,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Common interface for classes that may provide an information or status message.
  * Created: 08.07.2010 17:22:05
- * @since 0.5.3
+ *
  * @author Volker Bergmann
+ * @since 0.5.3
  */
 public interface MessageHolder {
-	/** @return a message string if a message is available, otherwise null */
-	String getMessage();
+  /**
+   * Gets message.
+   *
+   * @return a message string if a message is available, otherwise null
+   */
+  String getMessage();
 }

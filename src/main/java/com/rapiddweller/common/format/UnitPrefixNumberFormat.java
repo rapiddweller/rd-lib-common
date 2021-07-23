@@ -21,32 +21,47 @@ import java.text.NumberFormat;
 /**
  * Formats numbers using unit prefixes for abbreviation.<br><br>
  * Created: 26.03.2019 08:01:52
- * @since 1.0.12
+ *
  * @author Volker Bergmann
  * @see <a href="https://en.wikipedia.org/wiki/Unit_prefix">https://en.wikipedia.org/wiki/Unit_prefix</a>
+ * @since 1.0.12
  */
-
 public class UnitPrefixNumberFormat {
-	
-	private static final String DEFAULT_PATTERN = "#,##0.####";
-	
-	private final NumberFormat numberFormat;
-	
-	public UnitPrefixNumberFormat() {
-		this(DEFAULT_PATTERN);
-	}
-	
-	public UnitPrefixNumberFormat(String pattern) {
-		this.numberFormat = new DecimalFormat(pattern);
-	}
-	
-	public String format(double number) {
-		if (number % 1000000 == 0)
-			return numberFormat.format(number / 1000000) + "M";
-		else if (number % 1000 == 0)
-			return numberFormat.format(number / 1000) + "K";
-		else
-			return numberFormat.format(number);
-	}
-	
+
+  private static final String DEFAULT_PATTERN = "#,##0.####";
+
+  private final NumberFormat numberFormat;
+
+  /**
+   * Instantiates a new Unit prefix number format.
+   */
+  public UnitPrefixNumberFormat() {
+    this(DEFAULT_PATTERN);
+  }
+
+  /**
+   * Instantiates a new Unit prefix number format.
+   *
+   * @param pattern the pattern
+   */
+  public UnitPrefixNumberFormat(String pattern) {
+    this.numberFormat = new DecimalFormat(pattern);
+  }
+
+  /**
+   * Format string.
+   *
+   * @param number the number
+   * @return the string
+   */
+  public String format(double number) {
+    if (number % 1000000 == 0) {
+      return numberFormat.format(number / 1000000) + "M";
+    } else if (number % 1000 == 0) {
+      return numberFormat.format(number / 1000) + "K";
+    } else {
+      return numberFormat.format(number);
+    }
+  }
+
 }

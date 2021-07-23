@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.collection;
 
 import java.util.Collection;
@@ -21,100 +22,114 @@ import java.util.Set;
 /**
  * Proxy class for a {@link Map}.
  * Created: 12.12.2012 11:49:35
+ *
  * @param <M> The type of map to wrap
  * @param <K> the key type
  * @param <V> the value type
- * @since 0.5.21
  * @author Volker Bergmann
+ * @since 0.5.21
  */
 public class MapProxy<M extends Map<K, V>, K, V> implements Map<K, V> {
-	
-	protected final M realMap;
-	
-	protected MapProxy(M realMap) {
-		this.realMap = realMap;
-	}
 
-	public Object getRealMap() {
-		return realMap;
-	}
-	
-	@Override
-	public void clear() {
-		realMap.clear();
-	}
+  /**
+   * The Real map.
+   */
+  protected final M realMap;
 
-	@Override
-	public boolean containsKey(Object key) {
-		return realMap.containsKey(key);
-	}
+  /**
+   * Instantiates a new Map proxy.
+   *
+   * @param realMap the real map
+   */
+  protected MapProxy(M realMap) {
+    this.realMap = realMap;
+  }
 
-	@Override
-	public boolean containsValue(Object value) {
-		return realMap.containsValue(value);
-	}
+  /**
+   * Gets real map.
+   *
+   * @return the real map
+   */
+  public Object getRealMap() {
+    return realMap;
+  }
 
-	@Override
-	public Set<java.util.Map.Entry<K, V>> entrySet() {
-		return realMap.entrySet();
-	}
+  @Override
+  public void clear() {
+    realMap.clear();
+  }
 
-	@Override
-	public V get(Object key) {
-		return realMap.get(key);
-	}
+  @Override
+  public boolean containsKey(Object key) {
+    return realMap.containsKey(key);
+  }
 
-	@Override
-	public boolean isEmpty() {
-		return realMap.isEmpty();
-	}
+  @Override
+  public boolean containsValue(Object value) {
+    return realMap.containsValue(value);
+  }
 
-	@Override
-	public Set<K> keySet() {
-		return realMap.keySet();
-	}
+  @Override
+  public Set<java.util.Map.Entry<K, V>> entrySet() {
+    return realMap.entrySet();
+  }
 
-	@Override
-	public V put(K key, V value) {
-		return realMap.put(key, value);
-	}
+  @Override
+  public V get(Object key) {
+    return realMap.get(key);
+  }
 
-	@Override
-	public void putAll(Map<? extends K, ? extends V> m) {
-		realMap.putAll(m);
-	}
+  @Override
+  public boolean isEmpty() {
+    return realMap.isEmpty();
+  }
 
-	@Override
-	public V remove(Object key) {
-		return realMap.remove(key);
-	}
+  @Override
+  public Set<K> keySet() {
+    return realMap.keySet();
+  }
 
-	@Override
-	public int size() {
-		return realMap.size();
-	}
+  @Override
+  public V put(K key, V value) {
+    return realMap.put(key, value);
+  }
 
-	@Override
-	public Collection<V> values() {
-		return realMap.values();
-	}
-	
-	
-	// java.lang.Object overrides --------------------------------------------------------------------------------------
-	
-	@Override
-	public int hashCode() {
-		return realMap.hashCode();
-	}
+  @Override
+  public void putAll(Map<? extends K, ? extends V> m) {
+    realMap.putAll(m);
+  }
 
-	@Override
-	public boolean equals(Object o) {
-		return realMap.equals(o);
-	}
-	
-	@Override
-	public String toString() {
-		return realMap.toString();
-	}
+  @Override
+  public V remove(Object key) {
+    return realMap.remove(key);
+  }
+
+  @Override
+  public int size() {
+    return realMap.size();
+  }
+
+  @Override
+  public Collection<V> values() {
+    return realMap.values();
+  }
+
+
+  // java.lang.Object overrides --------------------------------------------------------------------------------------
+
+  @Override
+  public int hashCode() {
+    return realMap.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return realMap.equals(o);
+  }
+
+  @Override
+  public String toString() {
+    return realMap.toString();
+  }
 
 }

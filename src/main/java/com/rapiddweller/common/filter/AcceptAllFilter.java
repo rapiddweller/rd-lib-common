@@ -20,16 +20,16 @@ import com.rapiddweller.common.Filter;
 /**
  * {@link Filter} implementation which accepts any argument.<br><br>
  * Created: 25 Jun 2020 18:02:29
- * @since 1.0.12
+ *
+ * @param <E> the type parameter
  * @author Volker Bergmann
- * @param <E> 
+ * @since 1.0.12
  */
-
 public class AcceptAllFilter<E> implements Filter<E> {
 
-	@Override
-	public boolean accept(E candidate) {
-		return true;
-	}
+  @Override
+  public boolean accept(E candidate) {
+    return true;
+  }
 
 }

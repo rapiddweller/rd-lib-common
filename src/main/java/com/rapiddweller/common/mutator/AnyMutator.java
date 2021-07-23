@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.mutator;
 
 import com.rapiddweller.common.Assert;
@@ -34,128 +35,171 @@ import java.util.Map;
 /**
  * Mutator implementation for graphs of any object types.
  * Created: 31.01.2008 20:15:11
- * @since 0.3.0
+ *
  * @author Volker Bergmann
+ * @since 0.3.0
  */
 public class AnyMutator implements NamedMutator {
-    
-    private static final Escalator escalator = new LoggerEscalator();
-    
-    private final String path;
-    private final boolean required;
-    private final boolean autoConvert;
-    
-    public AnyMutator(String path) {
-        this(path, true, false);
-    }
 
-    public AnyMutator(String path, boolean required, boolean autoConvert) {
-        this.path = Assert.notNull(path, "path");
-        this.required = required;
-        this.autoConvert = autoConvert;
-    }
+  private static final Escalator escalator = new LoggerEscalator();
 
-	@Override
-	public String getName() {
-		return path;
-	}
-    
-    @Override
-	public void setValue(Object target, Object value) throws UpdateFailedException {
-        setValue(target, path, value, required, autoConvert);
+  private final String path;
+  private final boolean required;
+  private final boolean autoConvert;
+
+  /**
+   * Instantiates a new Any mutator.
+   *
+   * @param path the path
+   */
+  public AnyMutator(String path) {
+    this(path, true, false);
+  }
+
+  /**
+   * Instantiates a new Any mutator.
+   *
+   * @param path        the path
+   * @param required    the required
+   * @param autoConvert the auto convert
+   */
+  public AnyMutator(String path, boolean required, boolean autoConvert) {
+    this.path = Assert.notNull(path, "path");
+    this.required = required;
+    this.autoConvert = autoConvert;
+  }
+
+  @Override
+  public String getName() {
+    return path;
+  }
+
+  @Override
+  public void setValue(Object target, Object value) throws UpdateFailedException {
+    setValue(target, path, value, required, autoConvert);
+  }
+
+  /**
+   * Sets value.
+   *
+   * @param <C>    the type parameter
+   * @param <V>    the type parameter
+   * @param target the target
+   * @param path   the path
+   * @param value  the value
+   */
+  public static <C, V> void setValue(C target, String path, V value) {
+    setValue(target, path, value, true, false);
+  }
+
+  /**
+   * Sets value.
+   *
+   * @param <C>         the type parameter
+   * @param <V>         the type parameter
+   * @param target      the target
+   * @param path        the path
+   * @param value       the value
+   * @param required    the required
+   * @param autoConvert the auto convert
+   */
+  public static <C, V> void setValue(C target, String path, V value, boolean required, boolean autoConvert) {
+    int sep = path.indexOf('.');
+    if (sep < 0)
+    // it is a local property
+    {
+      setLocal(target, path, value, required, autoConvert);
+    } else {
+      // a recursive feature path needs to be resolved
+      String localName = path.substring(0, sep);
+      Object subTarget = FeatureAccessor.getValue(target, localName, true);
+      if (subTarget == null) {
+        // feature exists but is null, so create an object and assign it to the feature
+        subTarget = setFeatureDefault(target, localName);
+      }
+      String remainingName = path.substring(sep + 1);
+      setValue(subTarget, remainingName, value, required, autoConvert);
     }
-    
-    public static <C, V> void setValue(C target, String path, V value) {
-        setValue(target, path, value, true, false);
+  }
+
+  /**
+   * Sets feature default.
+   *
+   * @param target      the target
+   * @param featureName the feature name
+   * @return the feature default
+   */
+  public static Object setFeatureDefault(Object target, String featureName) {
+    // try JavaBean property
+    PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(target.getClass(), featureName);
+    if (propertyDescriptor != null) {
+      try {
+        Object value = BeanUtil.newInstance(propertyDescriptor.getPropertyType());
+        Method writeMethod = propertyDescriptor.getWriteMethod();
+        writeMethod.invoke(target, value);
+        return value;
+      } catch (Exception e) {
+        throw new ConfigurationError("Unable to write feature '" + featureName + "'", e);
+      }
+    } else {
+      // try attribute
+      Class<?> type = ((target instanceof Class) ? (Class<?>) target : target.getClass());
+      Field field = BeanUtil.getField(type, featureName);
+      if (field != null) {
+        Object value = BeanUtil.newInstance(field.getType());
+        BeanUtil.setAttributeValue(target, field, value);
+        return value;
+      } else {
+        throw new ConfigurationError("Feature '" + featureName + "' not found in class " + type.getName());
+      }
     }
-    
-    public static <C, V> void setValue(C target, String path, V value, boolean required, boolean autoConvert) {
-        int sep = path.indexOf('.');
-        if (sep < 0)
-        	// it is a local property
-            setLocal(target, path, value, required, autoConvert);
-        else {
-        	// a recursive feature path needs to be resolved
-            String localName = path.substring(0, sep);
-            Object subTarget = FeatureAccessor.getValue(target, localName, true);
-            if (subTarget == null) {
-                // feature exists but is null, so create an object and assign it to the feature
-            	subTarget = setFeatureDefault(target, localName);
+  }
+
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  private static <C, V> void setLocal(C target, String featureName, V value, boolean required, boolean autoConvert) {
+    if (BeanUtil.hasWriteableProperty(target.getClass(), featureName)) {
+      BeanUtil.setPropertyValue(target, featureName, value, required, autoConvert);
+    } else if (target instanceof Context) {
+      ((Context) target).set(featureName, value);
+    } else if (target instanceof Map) {
+      ((Map) target).put(featureName, value);
+    } else if (target instanceof Composite) {
+      ((Composite) target).setComponent(featureName, value);
+    } else {
+      // try generic set(String, Object) method
+      Method genericSetMethod = BeanUtil.findMethod(target.getClass(), "set", String.class, Object.class);
+      if (genericSetMethod != null) {
+        BeanUtil.invoke(target, genericSetMethod, true, new Object[] {featureName, value});
+        return;
+      }
+      // try JavaBean property
+      try {
+        Field field = target.getClass().getField(featureName);
+        if (autoConvert && value != null) {
+          Class<?> sourceType = value.getClass();
+          Class<?> targetType = field.getType();
+          try {
+            if (!targetType.isAssignableFrom(sourceType)) {
+              value = (V) AnyConverter.convert(value, targetType);
             }
-            String remainingName = path.substring(sep + 1);
-            setValue(subTarget, remainingName, value, required, autoConvert);
+          } catch (ConversionException e) {
+            throw new ConfigurationError(e);
+          }
         }
-    }
+        field.set(target, value);
 
-    public static Object setFeatureDefault(Object target, String featureName) {
-    	// try JavaBean property
-        PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(target.getClass(), featureName);
-        if (propertyDescriptor != null) {
-            try {
-            	Object value = BeanUtil.newInstance(propertyDescriptor.getPropertyType());
-                Method writeMethod = propertyDescriptor.getWriteMethod();
-                writeMethod.invoke(target, value);
-				return value;
-            } catch (Exception e) {
-                throw new ConfigurationError("Unable to write feature '" + featureName + "'", e);
-            }
+      } catch (NoSuchFieldException e) {
+        String message = "No feature '" + featureName + "' found in " + target;
+        if (required) {
+          throw new UnsupportedOperationException(message);
         } else {
-        	// try attribute
-        	Class<?> type = ((target instanceof Class) ? (Class<?>) target : target.getClass());
-        	Field field = BeanUtil.getField(type, featureName);
-        	if (field != null) {
-            	Object value = BeanUtil.newInstance(field.getType());
-        		BeanUtil.setAttributeValue(target, field, value);
-        		return value;
-        	} else {
-                throw new ConfigurationError("Feature '" + featureName + "' not found in class " + type.getName());
-        	}
+          escalator.escalate(message, AnyMutator.class, null);
         }
+      } catch (IllegalAccessException e) {
+        throw new UnsupportedOperationException("Error accessing attribute '" +
+            featureName + "' of class " + target.getClass().getName(), e);
+      }
     }
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private static <C, V> void setLocal(C target, String featureName, V value, boolean required, boolean autoConvert) {
-    	if (BeanUtil.hasWriteableProperty(target.getClass(), featureName))
-            BeanUtil.setPropertyValue(target, featureName, value, required, autoConvert);
-    	else if (target instanceof Context)
-            ((Context) target).set(featureName, value);
-        else if (target instanceof Map)
-            ((Map) target).put(featureName, value);
-        else if (target instanceof Composite)
-            ((Composite) target).setComponent(featureName, value);
-        else {
-        	// try generic set(String, Object) method
-        	Method genericSetMethod = BeanUtil.findMethod(target.getClass(), "set", String.class, Object.class);
-        	if (genericSetMethod != null) {
-        		BeanUtil.invoke(target, genericSetMethod, true, new Object[] { featureName, value });
-        		return;
-        	}
-        	// try JavaBean property
-        	try {
-				Field field = target.getClass().getField(featureName);
-		        if (autoConvert && value != null) {
-		            Class<?> sourceType = value.getClass();
-		            Class<?> targetType = field.getType();
-		            try {
-		                if (!targetType.isAssignableFrom(sourceType))
-		                    value = (V) AnyConverter.convert(value, targetType);
-		            } catch (ConversionException e) {
-		                throw new ConfigurationError(e);
-		            }
-		        }
-		        field.set(target, value);
-
-			} catch (NoSuchFieldException e) {
-	            String message = "No feature '" + featureName + "' found in " + target;
-	            if (required)
-	                throw new UnsupportedOperationException(message);
-	            else
-	                escalator.escalate(message, AnyMutator.class, null);
-			} catch (IllegalAccessException e) {
-				throw new UnsupportedOperationException("Error accessing attribute '" + 
-						featureName + "' of class " + target.getClass().getName(), e);
-			}
-        }
-    }
+  }
 
 }

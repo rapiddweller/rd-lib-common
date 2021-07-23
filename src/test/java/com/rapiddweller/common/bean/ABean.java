@@ -12,34 +12,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 /**
  * Test Bean.
  * Created: 21.07.2007 09:13:38
+ *
  * @author Volker Bergmann
  */
 public class ABean {
-    public String name;
-    public BBean b;
+  public String name;
+  public BBean b;
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public BBean getB() {
-        return b;
-    }
+  public BBean getB() {
+    return b;
+  }
 
-    public void setB(BBean b) {
-        this.b = b;
-    }
-    
-    public String readOnly() {
-    	return "read-only";
-    }
+  public void setB(BBean b) {
+    this.b = b;
+  }
+
+  public String readOnly() {
+    return "read-only";
+  }
 }

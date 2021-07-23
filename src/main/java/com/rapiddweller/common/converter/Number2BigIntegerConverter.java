@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -22,18 +23,22 @@ import java.math.BigInteger;
 /**
  * Converts arbitrary {@link Number}s to {@link BigInteger}s.
  * Created: 15.11.2012 08:27:19
- * @since 0.5.20
+ *
  * @author Volker Bergmann
+ * @since 0.5.20
  */
 public class Number2BigIntegerConverter extends ThreadSafeConverter<Number, BigInteger> {
 
-	protected Number2BigIntegerConverter() {
-		super(Number.class, BigInteger.class);
-	}
+  /**
+   * Instantiates a new Number 2 big integer converter.
+   */
+  protected Number2BigIntegerConverter() {
+    super(Number.class, BigInteger.class);
+  }
 
-	@Override
-	public BigInteger convert(Number sourceValue) throws ConversionException {
-		return NumberUtil.toBigInteger(sourceValue);
-	}
+  @Override
+  public BigInteger convert(Number sourceValue) throws ConversionException {
+    return NumberUtil.toBigInteger(sourceValue);
+  }
 
 }

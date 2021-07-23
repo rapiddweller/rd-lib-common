@@ -12,16 +12,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Models an object that queries an object of type C for an object of type V.
  * Created: 07.01.2005 11:49:23
+ *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
- * @since 0.1
  * @author Volker Bergmann
+ * @since 0.1
  */
 public interface Accessor<C, V> {
-    V getValue(C target);
+  /**
+   * Gets value.
+   *
+   * @param target the target
+   * @return the value
+   */
+  V getValue(C target);
 }

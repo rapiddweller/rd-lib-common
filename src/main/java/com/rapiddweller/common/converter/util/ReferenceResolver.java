@@ -12,15 +12,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter.util;
 
 /**
  * Resolves object references.
  * Created: 19.09.2014 16:10:42
- * @since 1.0.0
+ *
  * @author Volker Bergmann
+ * @since 1.0.0
  */
-
 public interface ReferenceResolver {
-	Object resolveReferences(Object value, Object target, String featureName);
+  /**
+   * Resolve references object.
+   *
+   * @param value       the value
+   * @param target      the target
+   * @param featureName the feature name
+   * @return the object
+   */
+  Object resolveReferences(Object value, Object target, String featureName);
 }

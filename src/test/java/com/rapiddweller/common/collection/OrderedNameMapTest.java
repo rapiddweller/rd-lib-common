@@ -12,60 +12,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.collection;
+
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
 /**
  * Tests the {@link OrderedNameMap}.
  * Created at 02.05.2008 14:02:41
- * @since 0.5.3
+ *
  * @author Volker Bergmann
+ * @since 0.5.3
  */
 public class OrderedNameMapTest {
-	
-	@Test
-	public void testCaseSensitive() {
-		OrderedNameMap<Integer> map = OrderedNameMap.createCaseSensitiveMap();
-		map.put("a", 1);
-		assertTrue(map.containsKey("a"));
-		assertEquals(1, (int) map.get("a"));
-		assertFalse(map.containsKey("A"));
-		assertNull(map.get("A"));
-		assertEquals(new MapEntry<>("a", 1), map.getEntry("a"));
-		assertEquals(null, map.get("A"));
-		assertEquals(1, (int) map.remove("a"));
-	}
-	
-	@Test
-	public void testCaseInsensitive() {
-		OrderedNameMap<Integer> map = OrderedNameMap.createCaseInsensitiveMap();
-		map.put("a", 1);
-		assertTrue(map.containsKey("a"));
-		assertEquals(1, (int) map.get("a"));
-		assertTrue(map.containsKey("A"));
-		assertEquals(1, (int) map.get("A"));
-		assertEquals(new MapEntry<>("a", 1), map.getEntry("a"));
-		assertEquals(new MapEntry<>("a", 1), map.getEntry("A"));
-		assertEquals(1, (int) map.remove("a"));
-	}
-	
-	@Test
-	public void testCaseIgnorant() {
-		OrderedNameMap<Integer> map = OrderedNameMap.createCaseIgnorantMap();
-		map.put("a", 1);
-		assertTrue(map.containsKey("a"));
-		assertEquals(1, (int) map.get("a"));
-		assertTrue(map.containsKey("A"));
-		assertEquals(1, (int) map.get("A"));
-		assertEquals(new MapEntry<>("a", 1), map.getEntry("a"));
-		assertEquals(new MapEntry<>("a", 1), map.getEntry("a"));
-		assertEquals(1, (int) map.remove("a"));
-	}
+
+  @Test
+  public void testCaseSensitive() {
+    OrderedNameMap<Integer> map = OrderedNameMap.createCaseSensitiveMap();
+    map.put("a", 1);
+    assertTrue(map.containsKey("a"));
+    assertEquals(1, (int) map.get("a"));
+    assertFalse(map.containsKey("A"));
+    assertNull(map.get("A"));
+    assertEquals(new MapEntry<>("a", 1), map.getEntry("a"));
+    assertEquals(null, map.get("A"));
+    assertEquals(1, (int) map.remove("a"));
+  }
+
+  @Test
+  public void testCaseInsensitive() {
+    OrderedNameMap<Integer> map = OrderedNameMap.createCaseInsensitiveMap();
+    map.put("a", 1);
+    assertTrue(map.containsKey("a"));
+    assertEquals(1, (int) map.get("a"));
+    assertTrue(map.containsKey("A"));
+    assertEquals(1, (int) map.get("A"));
+    assertEquals(new MapEntry<>("a", 1), map.getEntry("a"));
+    assertEquals(new MapEntry<>("a", 1), map.getEntry("A"));
+    assertEquals(1, (int) map.remove("a"));
+  }
+
+  @Test
+  public void testCaseIgnorant() {
+    OrderedNameMap<Integer> map = OrderedNameMap.createCaseIgnorantMap();
+    map.put("a", 1);
+    assertTrue(map.containsKey("a"));
+    assertEquals(1, (int) map.get("a"));
+    assertTrue(map.containsKey("A"));
+    assertEquals(1, (int) map.get("A"));
+    assertEquals(new MapEntry<>("a", 1), map.getEntry("a"));
+    assertEquals(new MapEntry<>("a", 1), map.getEntry("a"));
+    assertEquals(1, (int) map.remove("a"));
+  }
 
 }

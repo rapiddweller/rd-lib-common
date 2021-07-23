@@ -12,30 +12,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.ConversionException;
-import com.rapiddweller.common.bean.BeanToPropertyArrayConverter;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.Arrays;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the {@link BeanToPropertyArrayConverter}.
  * Created: 21.07.2007 16:29:23
+ *
  * @author Volker Bergmann
  */
 public class BeanToPropertyArrayConverterTest {
 
-	@Test
-    public void test() throws ConversionException {
-        Bean bean = new Bean(42, "foobar");
-        BeanToPropertyArrayConverter<Bean> converter 
-        	= new BeanToPropertyArrayConverter<>(Bean.class, "number", "text");
-        Object[] expectedResult = new Object[]{42, "foobar"};
-        assertTrue(Arrays.equals(expectedResult, converter.convert(bean)));
-    }
-	
+  @Test
+  public void test() throws ConversionException {
+    Bean bean = new Bean(42, "foobar");
+    BeanToPropertyArrayConverter<Bean> converter
+        = new BeanToPropertyArrayConverter<>(Bean.class, "number", "text");
+    Object[] expectedResult = new Object[] {42, "foobar"};
+    assertTrue(Arrays.equals(expectedResult, converter.convert(bean)));
+  }
+
 }

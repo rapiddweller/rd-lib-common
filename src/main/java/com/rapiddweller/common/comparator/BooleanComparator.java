@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
 import java.util.Comparator;
@@ -19,17 +20,25 @@ import java.util.Comparator;
 /**
  * Compares values of type Boolean or boolean.
  * Created: 05.04.2005 19:25:25
+ *
  * @author Volker Bergmann
  */
 public class BooleanComparator implements Comparator<Boolean> {
 
-    @Override
-	public int compare(Boolean o1, Boolean o2) {
-        return compare(o1.booleanValue(), o2.booleanValue());
-    }
+  @Override
+  public int compare(Boolean o1, Boolean o2) {
+    return compare(o1.booleanValue(), o2.booleanValue());
+  }
 
-    public static int compare(boolean b1, boolean b2) {
-        return (!b1 && b2 ? -1 : (b1 && !b2 ? 1 : 0));
-    }
+  /**
+   * Compare int.
+   *
+   * @param b1 the b 1
+   * @param b2 the b 2
+   * @return the int
+   */
+  public static int compare(boolean b1, boolean b2) {
+    return (!b1 && b2 ? -1 : (b1 && !b2 ? 1 : 0));
+  }
 
 }

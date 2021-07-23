@@ -12,59 +12,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
+
+import org.junit.Test;
+
+import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Locale;
-
-import org.junit.Test;
-
 /**
  * Tests the {@link CharSet}.
  * Created: 21.06.2007 08:28:50
+ *
  * @author Volker Bergmann
  */
 public class CharSetTest {
 
-	@Test
-    public void testDefaultConstructor() {
-        CharSet set = new CharSet();
-        assertEquals("Set is expected to be empty after default construction.", 0, set.size());
-    }
-    
-	@Test
-    public void testGerman() {
-        CharSet set = new CharSet(Locale.GERMAN);
-        assertEquals("Set is expected to be empty after construction with Locale.", 0, set.size());
-        set.addWordChars();
-        assertEquals(70, set.size());
-        assertTrue(set.contains('a'));
-        assertTrue(set.contains('ä'));
-        assertTrue(set.contains('_'));
-        assertTrue(set.contains('9'));
-        set.removeDigits();
-        assertEquals(60, set.size());
-        assertFalse(set.contains('9'));
-        set.removeAll();
-        assertEquals(0, set.size());
-    }
-    
-	@Test
-    public void testEqualsAndHashCode() {
-        CharSet sg = new CharSet(Locale.GERMAN);
-        CharSet se = new CharSet(Locale.ENGLISH);
-        assertTrue(sg.equals(se));
-        assertEquals(sg.hashCode(), se.hashCode());
-        sg.add('a');
-        se.add('a');
-        assertTrue(sg.equals(se));
-        assertEquals(sg.hashCode(), se.hashCode());
-        sg.add('ä');
-        assertFalse(sg.equals(se));
-        assertTrue(sg.hashCode() != se.hashCode());
-    }
-	
+  @Test
+  public void testDefaultConstructor() {
+    CharSet set = new CharSet();
+    assertEquals("Set is expected to be empty after default construction.", 0, set.size());
+  }
+
+  @Test
+  public void testGerman() {
+    CharSet set = new CharSet(Locale.GERMAN);
+    assertEquals("Set is expected to be empty after construction with Locale.", 0, set.size());
+    set.addWordChars();
+    assertEquals(70, set.size());
+    assertTrue(set.contains('a'));
+    assertTrue(set.contains('ä'));
+    assertTrue(set.contains('_'));
+    assertTrue(set.contains('9'));
+    set.removeDigits();
+    assertEquals(60, set.size());
+    assertFalse(set.contains('9'));
+    set.removeAll();
+    assertEquals(0, set.size());
+  }
+
+  @Test
+  public void testEqualsAndHashCode() {
+    CharSet sg = new CharSet(Locale.GERMAN);
+    CharSet se = new CharSet(Locale.ENGLISH);
+    assertTrue(sg.equals(se));
+    assertEquals(sg.hashCode(), se.hashCode());
+    sg.add('a');
+    se.add('a');
+    assertTrue(sg.equals(se));
+    assertEquals(sg.hashCode(), se.hashCode());
+    sg.add('ä');
+    assertFalse(sg.equals(se));
+    assertTrue(sg.hashCode() != se.hashCode());
+  }
+
 }

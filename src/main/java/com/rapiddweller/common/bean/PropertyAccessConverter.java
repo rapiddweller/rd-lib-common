@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.ConversionException;
@@ -20,33 +21,52 @@ import com.rapiddweller.common.converter.ThreadSafeConverter;
 /**
  * Wraps an Accessor with a Converter interface implementation.
  * Created: 25.06.2007 08:04:22
+ *
  * @author Volker Bergmann
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class PropertyAccessConverter extends ThreadSafeConverter {
 
-    private final PropertyAccessor accessor;
-    
-    // constructors ----------------------------------------------------------------------------------------------------
+  private final PropertyAccessor accessor;
 
-    public PropertyAccessConverter(String propertyName) {
-        this(propertyName, null, true);
-    }
+  // constructors ----------------------------------------------------------------------------------------------------
 
-    public PropertyAccessConverter(String propertyName, Class<?> propertyType) {
-        this(propertyName, propertyType, true);
-    }
+  /**
+   * Instantiates a new Property access converter.
+   *
+   * @param propertyName the property name
+   */
+  public PropertyAccessConverter(String propertyName) {
+    this(propertyName, null, true);
+  }
 
-    public PropertyAccessConverter(String propertyName, Class<?> propertyType, boolean strict) {
-    	super(Object.class, propertyType);
-        this.accessor = PropertyAccessorFactory.getAccessor(propertyName, strict);
-    }
-    
-    // Converter interface implementation ------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Property access converter.
+   *
+   * @param propertyName the property name
+   * @param propertyType the property type
+   */
+  public PropertyAccessConverter(String propertyName, Class<?> propertyType) {
+    this(propertyName, propertyType, true);
+  }
 
-    @Override
-	public Object convert(Object sourceValue) throws ConversionException {
-        return accessor.getValue(sourceValue);
-    }
-    
+  /**
+   * Instantiates a new Property access converter.
+   *
+   * @param propertyName the property name
+   * @param propertyType the property type
+   * @param strict       the strict
+   */
+  public PropertyAccessConverter(String propertyName, Class<?> propertyType, boolean strict) {
+    super(Object.class, propertyType);
+    this.accessor = PropertyAccessorFactory.getAccessor(propertyName, strict);
+  }
+
+  // Converter interface implementation ------------------------------------------------------------------------------
+
+  @Override
+  public Object convert(Object sourceValue) throws ConversionException {
+    return accessor.getValue(sourceValue);
+  }
+
 }

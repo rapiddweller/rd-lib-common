@@ -12,39 +12,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link RegexReplacer}.
  * Created: 22.02.2010 07:18:56
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class RegexReplacerTest extends AbstractConverterTest {
 
-	public RegexReplacerTest() {
-	    super(RegexReplacer.class);
-    }
+  public RegexReplacerTest() {
+    super(RegexReplacer.class);
+  }
 
-	@Test
-	public void testConvertOneArg() {
-		RegexReplacer replacer = new RegexReplacer("\\d", "x");
-		assertEquals("AxBxCxD", replacer.convert("A1B2C3D"));
-	}
-	
-	@Test
-	public void testConvertTwoArg() {
-		RegexReplacer replacer = new RegexReplacer("\\d", null);
-		assertEquals("AxBxCxD", replacer.convert("A1B2C3D", "x"));
-	}
-	
-	@Test
-	public void testConvertStatic() {
-		assertEquals("AxBxCxD", RegexReplacer.convert("A1B2C3D", "\\d", "x"));
-	}
-	
+  @Test
+  public void testConvertOneArg() {
+    RegexReplacer replacer = new RegexReplacer("\\d", "x");
+    assertEquals("AxBxCxD", replacer.convert("A1B2C3D"));
+  }
+
+  @Test
+  public void testConvertTwoArg() {
+    RegexReplacer replacer = new RegexReplacer("\\d", null);
+    assertEquals("AxBxCxD", replacer.convert("A1B2C3D", "x"));
+  }
+
+  @Test
+  public void testConvertStatic() {
+    assertEquals("AxBxCxD", RegexReplacer.convert("A1B2C3D", "\\d", "x"));
+  }
+
 }

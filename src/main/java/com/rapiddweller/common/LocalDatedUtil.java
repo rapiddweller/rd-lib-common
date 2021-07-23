@@ -21,25 +21,34 @@ import java.util.Collection;
 /**
  * Provides utility methods for implementors of {@link LocalDatedUtil}.<br><br>
  * Created: 28.07.2019 19:52:33
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public class LocalDatedUtil {
 
-	private LocalDatedUtil() { }
+  private LocalDatedUtil() {
+  }
 
-	public static <E extends LocalDated> E soonestFutureElement(Collection<E> elements) {
-		E result = null;
-		LocalDate now = LocalDate.now();
-		for (E element : elements) {
-			LocalDate date = element.getDate();
-			if (date != null && date.isAfter(now)) {
-				if (result == null || date.isBefore(result.getDate()))
-					result = element;
-			}
-		}
-		return result;
-	}
+  /**
+   * Soonest future element e.
+   *
+   * @param <E>      the type parameter
+   * @param elements the elements
+   * @return the e
+   */
+  public static <E extends LocalDated> E soonestFutureElement(Collection<E> elements) {
+    E result = null;
+    LocalDate now = LocalDate.now();
+    for (E element : elements) {
+      LocalDate date = element.getDate();
+      if (date != null && date.isAfter(now)) {
+        if (result == null || date.isBefore(result.getDate())) {
+          result = element;
+        }
+      }
+    }
+    return result;
+  }
 
 }

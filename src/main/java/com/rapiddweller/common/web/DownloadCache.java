@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.web;
 
 import com.rapiddweller.common.IOUtil;
@@ -25,35 +26,52 @@ import java.net.URL;
 /**
  * Provides file download and caches files in the file system.
  * Created: 15.08.2010 10:07:24
- * @since 0.5.4
+ *
  * @author Volker Bergmann
+ * @since 0.5.4
  */
 public class DownloadCache {
 
-	private static final String DEFAULT_ROOT_FOLDER = "./cache";
+  private static final String DEFAULT_ROOT_FOLDER = "./cache";
 
-	private static final Logger LOGGER = LogManager.getLogger(DownloadCache.class);
-	
-	private final File rootFolder;
+  private static final Logger LOGGER = LogManager.getLogger(DownloadCache.class);
 
-	public DownloadCache() {
-		this(new File(DEFAULT_ROOT_FOLDER));
+  private final File rootFolder;
+
+  /**
+   * Instantiates a new Download cache.
+   */
+  public DownloadCache() {
+    this(new File(DEFAULT_ROOT_FOLDER));
+  }
+
+  /**
+   * Instantiates a new Download cache.
+   *
+   * @param rootFolder the root folder
+   */
+  public DownloadCache(File rootFolder) {
+    this.rootFolder = rootFolder;
+  }
+
+  /**
+   * Get.
+   *
+   * @param url the url
+   * @throws IOException the io exception
+   */
+  public void get(URL url) throws IOException {
+    File cacheSubDir = new File(rootFolder, url.getHost());
+    String filename = url.getFile();
+    if (filename.endsWith("/")) {
+      filename = filename.substring(0, filename.length() - 1) + ".dir";
     }
-	
-	public DownloadCache(File rootFolder) {
-		this.rootFolder = rootFolder;
+    File cacheFile = new File(cacheSubDir, filename);
+    if (!cacheFile.exists()) {
+      IOUtil.download(url, cacheFile);
+    } else {
+      LOGGER.info("providing {} from cache file {}", url, cacheFile.getAbsolutePath());
     }
-	
-	public void get(URL url) throws IOException {
-	    File cacheSubDir = new File(rootFolder, url.getHost());
-	    String filename = url.getFile();
-	    if (filename.endsWith("/"))
-	    	filename = filename.substring(0, filename.length() - 1) + ".dir";
-		File cacheFile = new File(cacheSubDir, filename);
-		if (!cacheFile.exists())
-			IOUtil.download(url, cacheFile);
-		else
-			LOGGER.info("providing {} from cache file {}", url, cacheFile.getAbsolutePath());
-    }
+  }
 
 }

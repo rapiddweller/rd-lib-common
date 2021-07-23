@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -23,41 +24,67 @@ import java.util.Locale;
 /**
  * Renders a single object or an array of objects into a String, similar to the java.text.MessageFormat.
  * Created: 12.11.2007 20:46:31
+ *
  * @author Volker Bergmann
  */
 public class MessageConverter extends ThreadSafeConverter<Object, String> {
 
-    private String pattern;
-    private Locale locale;
+  private String pattern;
+  private Locale locale;
 
-    public MessageConverter() {
-        this("{0}");
-    }
+  /**
+   * Instantiates a new Message converter.
+   */
+  public MessageConverter() {
+    this("{0}");
+  }
 
-    public MessageConverter(String pattern) {
-    	this(pattern, LocaleUtil.getFallbackLocale());
-    }
+  /**
+   * Instantiates a new Message converter.
+   *
+   * @param pattern the pattern
+   */
+  public MessageConverter(String pattern) {
+    this(pattern, LocaleUtil.getFallbackLocale());
+  }
 
-    public MessageConverter(String pattern, Locale locale) {
-    	super(Object.class, String.class);
-        this.pattern = pattern;
-        this.locale = locale;
-    }
+  /**
+   * Instantiates a new Message converter.
+   *
+   * @param pattern the pattern
+   * @param locale  the locale
+   */
+  public MessageConverter(String pattern, Locale locale) {
+    super(Object.class, String.class);
+    this.pattern = pattern;
+    this.locale = locale;
+  }
 
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
-    }
+  /**
+   * Sets pattern.
+   *
+   * @param pattern the pattern
+   */
+  public void setPattern(String pattern) {
+    this.pattern = pattern;
+  }
 
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
+  /**
+   * Sets locale.
+   *
+   * @param locale the locale
+   */
+  public void setLocale(Locale locale) {
+    this.locale = locale;
+  }
 
-    @Override
-	public String convert(Object sourceValue) throws ConversionException {
-        Object tmp = sourceValue;
-        if (tmp != null && !tmp.getClass().isArray())
-            tmp = new Object[] { tmp };
-        return new MessageFormat(pattern, locale).format(tmp);
+  @Override
+  public String convert(Object sourceValue) throws ConversionException {
+    Object tmp = sourceValue;
+    if (tmp != null && !tmp.getClass().isArray()) {
+      tmp = new Object[] {tmp};
     }
+    return new MessageFormat(pattern, locale).format(tmp);
+  }
 
 }

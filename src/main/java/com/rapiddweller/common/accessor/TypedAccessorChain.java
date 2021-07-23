@@ -12,41 +12,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 /**
- * Consecutively invokes a series of accessors 
+ * Consecutively invokes a series of accessors
  * using the result value of each invocation as input value for the next.
  * Created: 21.07.2007 07:02:07
+ *
  * @author Volker Bergmann
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class TypedAccessorChain implements TypedAccessor {
 
-    private final TypedAccessor[] subAccessors;
+  private final TypedAccessor[] subAccessors;
 
-    public TypedAccessorChain(TypedAccessor[] realAccessors) {
-        this.subAccessors = realAccessors;
-    }
+  /**
+   * Instantiates a new Typed accessor chain.
+   *
+   * @param realAccessors the real accessors
+   */
+  public TypedAccessorChain(TypedAccessor[] realAccessors) {
+    this.subAccessors = realAccessors;
+  }
 
-    public TypedAccessor[] getSubAccessors() {
-        return subAccessors;
-    }
+  /**
+   * Get sub accessors typed accessor [ ].
+   *
+   * @return the typed accessor [ ]
+   */
+  public TypedAccessor[] getSubAccessors() {
+    return subAccessors;
+  }
 
-    @Override
-	public Class<?> getValueType() {
-        return subAccessors[subAccessors.length - 1].getValueType();
-    }
+  @Override
+  public Class<?> getValueType() {
+    return subAccessors[subAccessors.length - 1].getValueType();
+  }
 
-    @Override
-	public Object getValue(Object target) {
-        Object result = target;
-        for (TypedAccessor accessor : subAccessors) {
-            result = accessor.getValue(result);
-            if (result == null)
-            	return null;
-        }
-        return result;
+  @Override
+  public Object getValue(Object target) {
+    Object result = target;
+    for (TypedAccessor accessor : subAccessors) {
+      result = accessor.getValue(result);
+      if (result == null) {
+        return null;
+      }
     }
-    
+    return result;
+  }
+
 }

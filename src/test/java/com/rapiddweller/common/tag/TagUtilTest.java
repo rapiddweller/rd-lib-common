@@ -12,53 +12,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.tag;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the TagUtil class.
  * Created: 16.11.2013 07:16:00
- * @since 0.5.25
+ *
  * @author Volker Bergmann
+ * @since 0.5.25
  */
 
 public class TagUtilTest {
-	
-	@Test
-	public void testHasTag() {
-		TaggedBean bean = new TaggedBean("Alpha", "Beta");
-		
-		// test perfect match
-		assertTrue(TagUtil.hasTag( "Alpha", bean, false, false));
-		assertTrue(TagUtil.hasTag( "Beta",  bean, false, false));
-		assertFalse(TagUtil.hasTag("Gamma", bean, false, false));
-		
-		// test partial match
-		assertTrue( TagUtil.hasTag("Alp", bean, false, true));
-		assertTrue( TagUtil.hasTag("Bet", bean, false, true));
-		assertFalse(TagUtil.hasTag("Gam", bean, false, true));
-		
-		// test ignoreCase match
-		assertTrue(TagUtil.hasTag("alpha", bean, true, false));
-		assertTrue(TagUtil.hasTag("beta", bean, true, false));
-		assertFalse(TagUtil.hasTag("gamma", bean, true, false));
-		
-		// test partial ignoreCase match
-		assertTrue(TagUtil.hasTag("alp", bean, true, true));
-		assertTrue(TagUtil.hasTag("bet", bean, true, true));
-		assertFalse(TagUtil.hasTag("gam", bean, true, true));
-	}
-	
-	static class TaggedBean extends AbstractTagged {
 
-		public TaggedBean(String... tags) {
-			for (String tag : tags)
-				addTag(tag);
-		}
-		
-	}
-	
+  @Test
+  public void testHasTag() {
+    TaggedBean bean = new TaggedBean("Alpha", "Beta");
+
+    // test perfect match
+    assertTrue(TagUtil.hasTag("Alpha", bean, false, false));
+    assertTrue(TagUtil.hasTag("Beta", bean, false, false));
+    assertFalse(TagUtil.hasTag("Gamma", bean, false, false));
+
+    // test partial match
+    assertTrue(TagUtil.hasTag("Alp", bean, false, true));
+    assertTrue(TagUtil.hasTag("Bet", bean, false, true));
+    assertFalse(TagUtil.hasTag("Gam", bean, false, true));
+
+    // test ignoreCase match
+    assertTrue(TagUtil.hasTag("alpha", bean, true, false));
+    assertTrue(TagUtil.hasTag("beta", bean, true, false));
+    assertFalse(TagUtil.hasTag("gamma", bean, true, false));
+
+    // test partial ignoreCase match
+    assertTrue(TagUtil.hasTag("alp", bean, true, true));
+    assertTrue(TagUtil.hasTag("bet", bean, true, true));
+    assertFalse(TagUtil.hasTag("gam", bean, true, true));
+  }
+
+  static class TaggedBean extends AbstractTagged {
+
+    public TaggedBean(String... tags) {
+      for (String tag : tags) {
+        addTag(tag);
+      }
+    }
+
+  }
+
 }

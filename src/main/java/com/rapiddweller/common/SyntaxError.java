@@ -12,29 +12,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * {@link ParseException} child class that represents a syntax error.
  * Created: 24.03.2011 11:49:34
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class SyntaxError extends ParseException {
 
-	private static final long serialVersionUID = 835847387636212632L;
+  private static final long serialVersionUID = 835847387636212632L;
 
-	public SyntaxError(String message, String parsedText) {
-		super(message, parsedText);
-	}
+  /**
+   * Instantiates a new Syntax error.
+   *
+   * @param message    the message
+   * @param parsedText the parsed text
+   */
+  public SyntaxError(String message, String parsedText) {
+    super(message, parsedText);
+  }
 
-	public SyntaxError(String message, String parsedText, int line, int column) {
-		super(message, parsedText, line, column);
-	}
+  /**
+   * Instantiates a new Syntax error.
+   *
+   * @param message    the message
+   * @param parsedText the parsed text
+   * @param line       the line
+   * @param column     the column
+   */
+  public SyntaxError(String message, String parsedText, int line, int column) {
+    super(message, parsedText, line, column);
+  }
 
-	public SyntaxError(String message, Throwable cause, String parsedText,
-			int line, int column) {
-		super(message, cause, parsedText, line, column);
-	}
+  /**
+   * Instantiates a new Syntax error.
+   *
+   * @param message    the message
+   * @param cause      the cause
+   * @param parsedText the parsed text
+   * @param line       the line
+   * @param column     the column
+   */
+  public SyntaxError(String message, Throwable cause, String parsedText,
+                     int line, int column) {
+    super(message, cause, parsedText, line, column);
+  }
 
 }

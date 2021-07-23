@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -21,26 +22,35 @@ import java.text.DecimalFormat;
 /**
  * Converts Strings to Numbers using a {@link DecimalFormat}.
  * Created: 23.06.2008 18:49:17
- * @since 0.4.4
+ *
  * @author Volker Bergmann
+ * @since 0.4.4
  */
 public class NumberParser extends NumberFormatBasedConverter<String, Number> {
-	
-    // constructors ----------------------------------------------------------------------------------------------------
 
-    public NumberParser() {
-		super(String.class, Number.class);
-	}
+  // constructors ----------------------------------------------------------------------------------------------------
 
-	public NumberParser(String pattern) {
-		super(String.class, Number.class);
-	}
-	
-	// Converter interface implementation ------------------------------------------------------------------------------
+  /**
+   * Instantiates a new Number parser.
+   */
+  public NumberParser() {
+    super(String.class, Number.class);
+  }
 
-	@Override
-	public Number convert(String target) throws ConversionException {
-		return parse(target);
-	}
-	
+  /**
+   * Instantiates a new Number parser.
+   *
+   * @param pattern the pattern
+   */
+  public NumberParser(String pattern) {
+    super(String.class, Number.class);
+  }
+
+  // Converter interface implementation ------------------------------------------------------------------------------
+
+  @Override
+  public Number convert(String target) throws ConversionException {
+    return parse(target);
+  }
+
 }

@@ -20,24 +20,29 @@ import javax.swing.JComboBox;
 /**
  * Lets the user select a class.
  * Created: 19.05.2016 18:33:31
+ *
  * @param <E> The generic parent class type of the classes in the combo box
- * @since 1.0.11
  * @author Volker Bergmann
+ * @since 1.0.11
  */
-
 public class ClassComboBox<E> extends JComboBox<Class<? extends E>> {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	public ClassComboBox(Class<? extends E>[] classes) {
-		super(classes);
-		setRenderer(new ClassListCellRenderer());
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public Class<E> getSelectedItem() {
-		return (Class<E>) super.getSelectedItem();
-	}
-	
+  /**
+   * Instantiates a new Class combo box.
+   *
+   * @param classes the classes
+   */
+  public ClassComboBox(Class<? extends E>[] classes) {
+    super(classes);
+    setRenderer(new ClassListCellRenderer());
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public Class<E> getSelectedItem() {
+    return (Class<E>) super.getSelectedItem();
+  }
+
 }

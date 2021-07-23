@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.ui.swing;
 
 import javax.swing.Icon;
@@ -26,104 +27,151 @@ import java.awt.Graphics;
 /**
  * {@link Icon} implementation that renders a text.
  * Created: 13.12.2013 08:28:56
- * @since 0.5.25
+ *
  * @author Volker Bergmann
+ * @since 0.5.25
  */
-
 public class TextIcon implements Icon {
 
-	private final String text;
-	private final Color background;
-	private final Color foreground;
-	private final Font font;
+  private final String text;
+  private final Color background;
+  private final Color foreground;
+  private final Font font;
 
-	private int iconWidth;
-	private int iconHeight;
-	private final int textWidth;
-	private final int ascent;
-
-
-	// constructors ----------------------------------------------------------------------------------------------------
-
-	public TextIcon(String text) {
-		this(text, Color.BLACK, null);
-	}
-
-	public TextIcon(String text, Color foreground, Color background) {
-		this(text, foreground, background, false, false);
-	}
-
-	public TextIcon(String text, Color foreground, Color background, boolean square, boolean bold) {
-		this(text, foreground, background, square, defaultFont(bold));
-	}
-
-	public TextIcon(String text, Color foreground, Color background, boolean square, Font font) {
-		this.text = text;
-		this.font = font;
-		FontMetrics metrics = new Canvas().getFontMetrics(font);
-		this.textWidth = metrics.stringWidth(text);
-		this.iconWidth = textWidth;
-		this.iconHeight = font.getSize() + 2;
-		if (square) {
-			this.iconWidth = Math.max(this.iconWidth, this.iconHeight);
-			this.iconHeight = this.iconWidth;
-		}
-		this.ascent = metrics.getAscent();
-		this.foreground = foreground;
-		this.background = background;
-	}
+  private int iconWidth;
+  private int iconHeight;
+  private final int textWidth;
+  private final int ascent;
 
 
-	// properties ------------------------------------------------------------------------------------------------------
+  // constructors ----------------------------------------------------------------------------------------------------
 
-	@Override
-	public int getIconHeight() {
-		return iconHeight;
-	}
+  /**
+   * Instantiates a new Text icon.
+   *
+   * @param text the text
+   */
+  public TextIcon(String text) {
+    this(text, Color.BLACK, null);
+  }
 
-	public void setIconHeight(int iconHeight) {
-		this.iconHeight = iconHeight;
-	}
+  /**
+   * Instantiates a new Text icon.
+   *
+   * @param text       the text
+   * @param foreground the foreground
+   * @param background the background
+   */
+  public TextIcon(String text, Color foreground, Color background) {
+    this(text, foreground, background, false, false);
+  }
 
-	@Override
-	public int getIconWidth() {
-		return iconWidth;
-	}
+  /**
+   * Instantiates a new Text icon.
+   *
+   * @param text       the text
+   * @param foreground the foreground
+   * @param background the background
+   * @param square     the square
+   * @param bold       the bold
+   */
+  public TextIcon(String text, Color foreground, Color background, boolean square, boolean bold) {
+    this(text, foreground, background, square, defaultFont(bold));
+  }
 
-	public void setIconWidth(int iconWidth) {
-		this.iconWidth = iconWidth;
-	}
+  /**
+   * Instantiates a new Text icon.
+   *
+   * @param text       the text
+   * @param foreground the foreground
+   * @param background the background
+   * @param square     the square
+   * @param font       the font
+   */
+  public TextIcon(String text, Color foreground, Color background, boolean square, Font font) {
+    this.text = text;
+    this.font = font;
+    FontMetrics metrics = new Canvas().getFontMetrics(font);
+    this.textWidth = metrics.stringWidth(text);
+    this.iconWidth = textWidth;
+    this.iconHeight = font.getSize() + 2;
+    if (square) {
+      this.iconWidth = Math.max(this.iconWidth, this.iconHeight);
+      this.iconHeight = this.iconWidth;
+    }
+    this.ascent = metrics.getAscent();
+    this.foreground = foreground;
+    this.background = background;
+  }
 
 
-	// rendering methods -----------------------------------------------------------------------------------------------
+  // properties ------------------------------------------------------------------------------------------------------
 
-	@Override
-	public void paintIcon(Component c, Graphics g, int x, int y) {
-		if (background != null) {
-			g.setColor(background);
-			g.fillRect(x, y, iconWidth, iconHeight);
-		}
-		g.setColor(foreground);
-		Font origFont = g.getFont();
-		g.setFont(font);
-		g.drawString(text, x + (iconWidth - textWidth) / 2, y + (iconHeight - font.getSize()) / 2  + ascent - 1);
-		g.setFont(origFont);
-	}
+  @Override
+  public int getIconHeight() {
+    return iconHeight;
+  }
+
+  /**
+   * Sets icon height.
+   *
+   * @param iconHeight the icon height
+   */
+  public void setIconHeight(int iconHeight) {
+    this.iconHeight = iconHeight;
+  }
+
+  @Override
+  public int getIconWidth() {
+    return iconWidth;
+  }
+
+  /**
+   * Sets icon width.
+   *
+   * @param iconWidth the icon width
+   */
+  public void setIconWidth(int iconWidth) {
+    this.iconWidth = iconWidth;
+  }
 
 
-	// private helpers -------------------------------------------------------------------------------------------------
+  // rendering methods -----------------------------------------------------------------------------------------------
 
-	private static Font defaultFont(boolean bold) {
-		Font tableFont = UIManager.getDefaults().getFont("Table.font");
-		if (tableFont.isBold() != bold)
-			return new Font(tableFont.getFamily(), (bold ? Font.BOLD : Font.PLAIN), tableFont.getSize());
-		else
-			return tableFont;
-	}
+  @Override
+  public void paintIcon(Component c, Graphics g, int x, int y) {
+    if (background != null) {
+      g.setColor(background);
+      g.fillRect(x, y, iconWidth, iconHeight);
+    }
+    g.setColor(foreground);
+    Font origFont = g.getFont();
+    g.setFont(font);
+    g.drawString(text, x + (iconWidth - textWidth) / 2, y + (iconHeight - font.getSize()) / 2 + ascent - 1);
+    g.setFont(origFont);
+  }
 
-	public Icon withSize(int size) {
-		this.iconWidth = this.iconHeight = size;
-		return this;
-	}
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private static Font defaultFont(boolean bold) {
+    Font tableFont = UIManager.getDefaults().getFont("Table.font");
+    if (tableFont.isBold() != bold) {
+      return new Font(tableFont.getFamily(), (bold ? Font.BOLD : Font.PLAIN), tableFont.getSize());
+    } else {
+      return tableFont;
+    }
+  }
+
+  /**
+   * With size icon.
+   *
+   * @param size the size
+   * @return the icon
+   */
+  public Icon withSize(int size) {
+    this.iconWidth = this.iconHeight = size;
+    return this;
+  }
 
 }

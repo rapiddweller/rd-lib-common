@@ -12,30 +12,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common.debug;
 
-import static org.junit.Assert.*;
+package com.rapiddweller.common.debug;
 
 import com.rapiddweller.common.SysUtil;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests the {@link Debug} class.
  * Created: 06.06.2011 11:00:28
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class DebugTest {
 
-	@Test
-	public void testInactive() {
-		assertFalse(Debug.active());
-	}
-	
-	@Test
-	public void testActive() {
-		System.setProperty("xyz", "");
-		SysUtil.runWithSystemProperty("debug", "", () -> assertTrue(Debug.active()));
-	}
-	
+  @Test
+  public void testInactive() {
+    assertFalse(Debug.active());
+  }
+
+  @Test
+  public void testActive() {
+    System.setProperty("xyz", "");
+    SysUtil.runWithSystemProperty("debug", "", () -> assertTrue(Debug.active()));
+  }
+
 }

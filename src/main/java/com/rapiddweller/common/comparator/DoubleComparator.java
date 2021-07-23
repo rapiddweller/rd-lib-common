@@ -20,25 +20,36 @@ import java.util.Comparator;
 /**
  * Compares values of type Double or double.
  * Created: 05.04.2005 19:25:25
+ *
  * @author Volker Bergmann
  */
 public class DoubleComparator implements Comparator<Double> {
 
-    @Override
-	public int compare(Double d1, Double d2) {
-        return d1.compareTo(d2);
-    }
+  @Override
+  public int compare(Double d1, Double d2) {
+    return d1.compareTo(d2);
+  }
 
-    public static int compare(double d1, double d2) {
-    	if (Double.isNaN(d1))
-    		d1 = 0;
-    	if (Double.isNaN(d2))
-    		d2 = 0;
-    	if (d1 > d2)
-            return 1;
-        else if (d1 < d2)
-            return -1;
-        return 0;
+  /**
+   * Compare int.
+   *
+   * @param d1 the d 1
+   * @param d2 the d 2
+   * @return the int
+   */
+  public static int compare(double d1, double d2) {
+    if (Double.isNaN(d1)) {
+      d1 = 0;
     }
+    if (Double.isNaN(d2)) {
+      d2 = 0;
+    }
+    if (d1 > d2) {
+      return 1;
+    } else if (d1 < d2) {
+      return -1;
+    }
+    return 0;
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -19,19 +20,23 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts a {@link Class} object to its fully qualified class name.
  * Created: 25.02.2010 23:37:15
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 @SuppressWarnings("rawtypes")
 public class Class2StringConverter extends ThreadSafeConverter<Class, String> {
 
-    public Class2StringConverter() {
-        super(Class.class, String.class);
-    }
+  /**
+   * Instantiates a new Class 2 string converter.
+   */
+  public Class2StringConverter() {
+    super(Class.class, String.class);
+  }
 
-    @Override
-	public String convert(Class clazz) throws ConversionException {
-        return clazz.getName();
-    }
+  @Override
+  public String convert(Class clazz) throws ConversionException {
+    return clazz.getName();
+  }
 
 }

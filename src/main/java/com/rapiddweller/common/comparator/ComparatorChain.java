@@ -12,36 +12,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
 import java.util.Comparator;
 
 /**
- * Delegates comparation to a chain of comparators. 
- * They are evaluated consecutively and the first result that is not zero is returned. 
+ * Delegates comparation to a chain of comparators.
+ * They are evaluated consecutively and the first result that is not zero is returned.
  * If all used Comparators return zero, zero is returned as the comparation result.
- * You can use this, e.g. for ordering objects by attributes of different priority, 
+ * You can use this, e.g. for ordering objects by attributes of different priority,
  * e.g. country, city.
  * Created: 22.05.2007 18:16:15
+ *
  * @param <E> the type of objects to be compared
  * @author Volker Bergmann
  */
 public class ComparatorChain<E> implements Comparator<E> {
 
-    private final Comparator<E>[] comparators;
+  private final Comparator<E>[] comparators;
 
-    @SafeVarargs
-    public ComparatorChain(Comparator<E> ... comparators) {
-        this.comparators = comparators;
-    }
+  /**
+   * Instantiates a new Comparator chain.
+   *
+   * @param comparators the comparators
+   */
+  @SafeVarargs
+  public ComparatorChain(Comparator<E>... comparators) {
+    this.comparators = comparators;
+  }
 
-    @Override
-	public int compare(E e1, E e2) {
-        for (Comparator<E> comparator : comparators) {
-            int diff = comparator.compare(e1, e2);
-            if (diff != 0)
-                return diff;
-        }
-        return 0;
+  @Override
+  public int compare(E e1, E e2) {
+    for (Comparator<E> comparator : comparators) {
+      int diff = comparator.compare(e1, e2);
+      if (diff != 0) {
+        return diff;
+      }
     }
+    return 0;
+  }
 }

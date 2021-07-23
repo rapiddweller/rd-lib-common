@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.mutator;
 
 import com.rapiddweller.common.ConversionException;
@@ -26,23 +27,29 @@ import com.rapiddweller.common.UpdateFailedException;
 @SuppressWarnings("unchecked")
 public class ConvertingMutator extends MutatorWrapper {
 
-    @SuppressWarnings("rawtypes")
-	private final Converter converter;
+  @SuppressWarnings("rawtypes")
+  private final Converter converter;
 
-    @SuppressWarnings("rawtypes")
-	public ConvertingMutator(Mutator realMutator, Converter converter) {
-        super(realMutator);
-        this.converter = converter;
-    }
+  /**
+   * Instantiates a new Converting mutator.
+   *
+   * @param realMutator the real mutator
+   * @param converter   the converter
+   */
+  @SuppressWarnings("rawtypes")
+  public ConvertingMutator(Mutator realMutator, Converter converter) {
+    super(realMutator);
+    this.converter = converter;
+  }
 
-    @Override
-	public void setValue(Object target, Object value) throws UpdateFailedException {
-        try {
-            Object convertedValue = converter.convert(value);
-            realMutator.setValue(target, convertedValue);
-        } catch (ConversionException e) {
-            throw new UpdateFailedException(e);
-        }
+  @Override
+  public void setValue(Object target, Object value) throws UpdateFailedException {
+    try {
+      Object convertedValue = converter.convert(value);
+      realMutator.setValue(target, convertedValue);
+    } catch (ConversionException e) {
+      throw new UpdateFailedException(e);
     }
+  }
 
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator.bean;
 
 import com.rapiddweller.common.BeanUtil;
@@ -21,27 +22,28 @@ import javax.validation.ConstraintValidator;
 import java.lang.annotation.Annotation;
 
 /**
- * Abstract implementation of the {@link ConstraintValidator} interface. 
+ * Abstract implementation of the {@link ConstraintValidator} interface.
  * Created at 08.11.2008 07:52:34
+ *
  * @param <A> the corresponding annotation
  * @param <T> the type of object to validate
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public abstract class AbstractConstraintValidator<A extends Annotation, T> implements Validator<T>, ConstraintValidator<A, T> {
 
-    @Override
-	public void initialize(A params) {
-    }
+  @Override
+  public void initialize(A params) {
+  }
 
-    @Override
-    public String toString() {
-        return BeanUtil.toString(this);
-    }
-    
-    @Override
-	public boolean valid(T candidate) {
-    	return isValid(candidate, null);
-    }
-    
+  @Override
+  public String toString() {
+    return BeanUtil.toString(this);
+  }
+
+  @Override
+  public boolean valid(T candidate) {
+    return isValid(candidate, null);
+  }
+
 }

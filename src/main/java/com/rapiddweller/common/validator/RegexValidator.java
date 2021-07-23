@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.Validator;
@@ -25,103 +26,158 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Databene {@link Validator} and JSR 303 {@link ConstraintValidator} implementation 
+ * Databene {@link Validator} and JSR 303 {@link ConstraintValidator} implementation
  * that validates a String by a regular expression.
  * Created at 15.07.2009 15:22:21
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class RegexValidator extends AbstractConstraintValidator<Pattern, String> {
-	
-	private static final Map<Flag, Integer> flagConstants;
-	
-	static {
-		flagConstants = new HashMap<>();
-		flagConstants.put(Flag.CANON_EQ, java.util.regex.Pattern.CANON_EQ);
-		flagConstants.put(Flag.CASE_INSENSITIVE, java.util.regex.Pattern.CASE_INSENSITIVE);
-		flagConstants.put(Flag.COMMENTS, java.util.regex.Pattern.COMMENTS);
-		flagConstants.put(Flag.DOTALL, java.util.regex.Pattern.DOTALL);
-		flagConstants.put(Flag.MULTILINE, java.util.regex.Pattern.MULTILINE);
-		flagConstants.put(Flag.UNICODE_CASE, java.util.regex.Pattern.UNICODE_CASE);
-		flagConstants.put(Flag.UNIX_LINES, java.util.regex.Pattern.UNIX_LINES);
-	}
-	
-	private String regexp;
-	private Flag[] flags = new Flag[0];
-	private java.util.regex.Pattern pattern;
-	private boolean nullValid;
 
-    public RegexValidator() {
-	    this(null);
-    }
+  private static final Map<Flag, Integer> flagConstants;
 
-    public RegexValidator(String regexp) {
-	    this(regexp, new Flag[0]);
-    }
+  static {
+    flagConstants = new HashMap<>();
+    flagConstants.put(Flag.CANON_EQ, java.util.regex.Pattern.CANON_EQ);
+    flagConstants.put(Flag.CASE_INSENSITIVE, java.util.regex.Pattern.CASE_INSENSITIVE);
+    flagConstants.put(Flag.COMMENTS, java.util.regex.Pattern.COMMENTS);
+    flagConstants.put(Flag.DOTALL, java.util.regex.Pattern.DOTALL);
+    flagConstants.put(Flag.MULTILINE, java.util.regex.Pattern.MULTILINE);
+    flagConstants.put(Flag.UNICODE_CASE, java.util.regex.Pattern.UNICODE_CASE);
+    flagConstants.put(Flag.UNIX_LINES, java.util.regex.Pattern.UNIX_LINES);
+  }
 
-    public RegexValidator(String regexp, Flag... flags) {
-	    setRegexp(regexp);
-	    setFlags(flags);
-    }
+  private String regexp;
+  private Flag[] flags = new Flag[0];
+  private java.util.regex.Pattern pattern;
+  private boolean nullValid;
 
-    public RegexValidator(String regexp, boolean nullValid, Flag... flags) {
-    	this.nullValid = nullValid;
-	    setRegexp(regexp);
-	    setFlags(flags);
-    }
+  /**
+   * Instantiates a new Regex validator.
+   */
+  public RegexValidator() {
+    this(null);
+  }
 
-	public boolean isNullValid() {
-		return nullValid;
-	}
-	
-	public void setNullValid(boolean nullValid) {
-		this.nullValid = nullValid;
-	}
+  /**
+   * Instantiates a new Regex validator.
+   *
+   * @param regexp the regexp
+   */
+  public RegexValidator(String regexp) {
+    this(regexp, new Flag[0]);
+  }
 
-	@Override
-    public void initialize(Pattern params) {
-	    setRegexp(params.regexp());
-	    setFlags(params.flags());
-    }
+  /**
+   * Instantiates a new Regex validator.
+   *
+   * @param regexp the regexp
+   * @param flags  the flags
+   */
+  public RegexValidator(String regexp, Flag... flags) {
+    setRegexp(regexp);
+    setFlags(flags);
+  }
 
-	@Override
-	public boolean isValid(String string, ConstraintValidatorContext context) {
-		if (string == null)
-			return nullValid;
-    	return pattern.matcher(string).matches();
-    }
+  /**
+   * Instantiates a new Regex validator.
+   *
+   * @param regexp    the regexp
+   * @param nullValid the null valid
+   * @param flags     the flags
+   */
+  public RegexValidator(String regexp, boolean nullValid, Flag... flags) {
+    this.nullValid = nullValid;
+    setRegexp(regexp);
+    setFlags(flags);
+  }
 
-    public String getRegexp() {
-	    return regexp;
-    }
+  /**
+   * Is null valid boolean.
+   *
+   * @return the boolean
+   */
+  public boolean isNullValid() {
+    return nullValid;
+  }
 
-    public void setRegexp(String regexp) {
-	    this.regexp = regexp;
-	    if (this.regexp != null)
-	    	this.pattern = java.util.regex.Pattern.compile(regexp, flagsAsNumber());
-    }
+  /**
+   * Sets null valid.
+   *
+   * @param nullValid the null valid
+   */
+  public void setNullValid(boolean nullValid) {
+    this.nullValid = nullValid;
+  }
 
-    public Flag[] getFlags() {
-    	return flags;
-    }
+  @Override
+  public void initialize(Pattern params) {
+    setRegexp(params.regexp());
+    setFlags(params.flags());
+  }
 
-    public void setFlags(Flag[] flags) {
-	    this.flags = flags;
-	    if (this.regexp != null)
-	    	this.pattern = java.util.regex.Pattern.compile(regexp, flagsAsNumber());
+  @Override
+  public boolean isValid(String string, ConstraintValidatorContext context) {
+    if (string == null) {
+      return nullValid;
     }
+    return pattern.matcher(string).matches();
+  }
 
-    private int flagsAsNumber() {
-	    int bits = 0;
-	    for (Flag flag : flags)
-	    	bits |= flagConstants.get(flag);
-	    return bits;
+  /**
+   * Gets regexp.
+   *
+   * @return the regexp
+   */
+  public String getRegexp() {
+    return regexp;
+  }
+
+  /**
+   * Sets regexp.
+   *
+   * @param regexp the regexp
+   */
+  public void setRegexp(String regexp) {
+    this.regexp = regexp;
+    if (this.regexp != null) {
+      this.pattern = java.util.regex.Pattern.compile(regexp, flagsAsNumber());
     }
-    
-    @Override
-    public String toString() {
-    	return super.toString();
+  }
+
+  /**
+   * Get flags flag [ ].
+   *
+   * @return the flag [ ]
+   */
+  public Flag[] getFlags() {
+    return flags;
+  }
+
+  /**
+   * Sets flags.
+   *
+   * @param flags the flags
+   */
+  public void setFlags(Flag[] flags) {
+    this.flags = flags;
+    if (this.regexp != null) {
+      this.pattern = java.util.regex.Pattern.compile(regexp, flagsAsNumber());
     }
-    
+  }
+
+  private int flagsAsNumber() {
+    int bits = 0;
+    for (Flag flag : flags) {
+      bits |= flagConstants.get(flag);
+    }
+    return bits;
+  }
+
+  @Override
+  public String toString() {
+    return super.toString();
+  }
+
 }

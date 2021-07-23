@@ -12,49 +12,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the {@link String2BooleanConverter}.
  * Created: 15.12.2012 13:15:34
- * @since 0.5.21
+ *
  * @author Volker Bergmann
+ * @since 0.5.21
  */
 public class String2BooleanConverterTest extends AbstractConverterTest {
-	
-	private static final String2BooleanConverter converter = new String2BooleanConverter();
-	
-	public String2BooleanConverterTest() {
-		super(String2BooleanConverter.class);
-	}
 
-	@Test
-	public void testNull() {
-		assertNull(converter.convert(null));
-	}
-	
-	@Test
-	public void testEmptyString() {
-		assertNull(converter.convert(""));
-	}
-	
-	@Test
-	public void testTrueAndFalse() {
-		assertTrue(converter.convert("true"));
-		assertTrue(converter.convert("TRUE"));
-		assertTrue(converter.convert("True"));
-		assertFalse(converter.convert("false"));
-		assertFalse(converter.convert("FALSE"));
-		assertFalse(converter.convert("False"));
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testIllegalStrings() {
-		converter.convert("x");
-	}
-	
+  private static final String2BooleanConverter converter = new String2BooleanConverter();
+
+  public String2BooleanConverterTest() {
+    super(String2BooleanConverter.class);
+  }
+
+  @Test
+  public void testNull() {
+    assertNull(converter.convert(null));
+  }
+
+  @Test
+  public void testEmptyString() {
+    assertNull(converter.convert(""));
+  }
+
+  @Test
+  public void testTrueAndFalse() {
+    assertTrue(converter.convert("true"));
+    assertTrue(converter.convert("TRUE"));
+    assertTrue(converter.convert("True"));
+    assertFalse(converter.convert("false"));
+    assertFalse(converter.convert("FALSE"));
+    assertFalse(converter.convert("False"));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testIllegalStrings() {
+    converter.convert("x");
+  }
+
 }

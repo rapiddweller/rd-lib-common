@@ -20,37 +20,69 @@ import java.time.ZonedDateTime;
 /**
  * Represents a time range between to {@link ZonedDateTime} instances.<br><br>
  * Created: 4 Jun 2020 12:17:25
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public class ZonedDateTimeRange {
-	
-	private ZonedDateTime min, max;
 
-	public ZonedDateTimeRange(ZonedDateTime from, ZonedDateTime until) {
-		this.min = from;
-		this.max = until;
-	}
+  private ZonedDateTime min;
+  private ZonedDateTime max;
 
-	public ZonedDateTime getMin() {
-		return min;
-	}
+  /**
+   * Instantiates a new Zoned date time range.
+   *
+   * @param from  the from
+   * @param until the until
+   */
+  public ZonedDateTimeRange(ZonedDateTime from, ZonedDateTime until) {
+    this.min = from;
+    this.max = until;
+  }
 
-	public void setMin(ZonedDateTime min) {
-		this.min = min;
-	}
+  /**
+   * Gets min.
+   *
+   * @return the min
+   */
+  public ZonedDateTime getMin() {
+    return min;
+  }
 
-	public ZonedDateTime getMax() {
-		return max;
-	}
+  /**
+   * Sets min.
+   *
+   * @param min the min
+   */
+  public void setMin(ZonedDateTime min) {
+    this.min = min;
+  }
 
-	public void setMax(ZonedDateTime max) {
-		this.max = max;
-	}
-	
-	public boolean isIntraday() {
-		return min.toLocalDate().equals(max.toLocalDate());
-	}
-	
+  /**
+   * Gets max.
+   *
+   * @return the max
+   */
+  public ZonedDateTime getMax() {
+    return max;
+  }
+
+  /**
+   * Sets max.
+   *
+   * @param max the max
+   */
+  public void setMax(ZonedDateTime max) {
+    this.max = max;
+  }
+
+  /**
+   * Is intraday boolean.
+   *
+   * @return the boolean
+   */
+  public boolean isIntraday() {
+    return min.toLocalDate().equals(max.toLocalDate());
+  }
+
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.file;
 
 import com.rapiddweller.common.Filter;
@@ -21,6 +22,7 @@ import java.io.File;
 /**
  * Joins the databene Filter interface with the java.io.FileFilter interface.
  * Created: 23.04.2007 08:31:51
+ *
  * @author Volker Bergmann
  */
 public interface FileFilter extends java.io.FileFilter, Filter<File> {

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.ArrayFormat;
@@ -22,34 +23,43 @@ import java.util.Iterator;
 /**
  * Implementation of the {@link Iterable} interface which creates {@link Iterator} that iterate over an array.
  * Created at 30.06.2009 09:30:02
+ *
  * @param <E> the type to iterate
- * @since 0.5.0
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class ArrayIterable<E> implements TypedIterable<E> {
-	
-	protected Class<E> type;
-	private final E[] source;
 
-    public ArrayIterable(E[] source, Class<E> type) {
-	    this.source = source;
-	    this.type = type;
-    }
+  /**
+   * The Type.
+   */
+  protected Class<E> type;
+  private final E[] source;
 
-	@Override
-	public Class<E> getType() {
-	    return type;
-    }
+  /**
+   * Instantiates a new Array iterable.
+   *
+   * @param source the source
+   * @param type   the type
+   */
+  public ArrayIterable(E[] source, Class<E> type) {
+    this.source = source;
+    this.type = type;
+  }
 
-    @Override
-	public Iterator<E> iterator() {
-	    return new ArrayIterator<>(source);
-    }
+  @Override
+  public Class<E> getType() {
+    return type;
+  }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + '[' + ArrayFormat.format(source) + ']';
-    }
-    
+  @Override
+  public Iterator<E> iterator() {
+    return new ArrayIterator<>(source);
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + '[' + ArrayFormat.format(source) + ']';
+  }
+
 }

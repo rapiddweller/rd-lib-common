@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -22,32 +23,52 @@ import java.util.Locale;
 /**
  * Formats a number as a String.
  * Created: 10.09.2007 07:35:18
+ *
  * @author Volker Bergmann
  */
 public class Number2StringConverter extends ThreadSafeConverter<Number, String> {
 
-    private final int minimumFractionDigits;
-    private final int maximumFractionDigits;
-    boolean groupingUsed;
+  private final int minimumFractionDigits;
+  private final int maximumFractionDigits;
+  /**
+   * The Grouping used.
+   */
+  boolean groupingUsed;
 
-    public Number2StringConverter(int minimumFractionDigits, int maximumFractionDigits, boolean groupingUsed) {
-    	super(Number.class, String.class);
-        this.minimumFractionDigits = minimumFractionDigits;
-        this.maximumFractionDigits = maximumFractionDigits;
-        this.groupingUsed = groupingUsed;
-    }
+  /**
+   * Instantiates a new Number 2 string converter.
+   *
+   * @param minimumFractionDigits the minimum fraction digits
+   * @param maximumFractionDigits the maximum fraction digits
+   * @param groupingUsed          the grouping used
+   */
+  public Number2StringConverter(int minimumFractionDigits, int maximumFractionDigits, boolean groupingUsed) {
+    super(Number.class, String.class);
+    this.minimumFractionDigits = minimumFractionDigits;
+    this.maximumFractionDigits = maximumFractionDigits;
+    this.groupingUsed = groupingUsed;
+  }
 
-    @Override
-	public String convert(Number sourceValue) throws ConversionException {
-        return convert(sourceValue, minimumFractionDigits, maximumFractionDigits, groupingUsed);
-    }
+  @Override
+  public String convert(Number sourceValue) throws ConversionException {
+    return convert(sourceValue, minimumFractionDigits, maximumFractionDigits, groupingUsed);
+  }
 
-    public static String convert(Number sourceValue, int minimumFractionDigits, int maximumFractionDigits, boolean groupingUsed) {
-        NumberFormat format = NumberFormat.getInstance(Locale.US);
-        format.setMinimumFractionDigits(minimumFractionDigits);
-        format.setMaximumFractionDigits(maximumFractionDigits);
-        format.setGroupingUsed(groupingUsed);
-        return format.format(sourceValue);
-    }
-    
+  /**
+   * Convert string.
+   *
+   * @param sourceValue           the source value
+   * @param minimumFractionDigits the minimum fraction digits
+   * @param maximumFractionDigits the maximum fraction digits
+   * @param groupingUsed          the grouping used
+   * @return the string
+   */
+  public static String convert(Number sourceValue, int minimumFractionDigits, int maximumFractionDigits, boolean groupingUsed) {
+    NumberFormat format = NumberFormat.getInstance(Locale.US);
+    format.setMinimumFractionDigits(minimumFractionDigits);
+    format.setMaximumFractionDigits(maximumFractionDigits);
+    format.setGroupingUsed(groupingUsed);
+    return format.format(sourceValue);
+  }
+
 }

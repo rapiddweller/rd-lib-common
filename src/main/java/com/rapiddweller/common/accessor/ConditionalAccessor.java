@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
@@ -19,30 +20,39 @@ import com.rapiddweller.common.Accessor;
 /**
  * Evaluates a boolean 'condition' accessor and, depending on the result, calls one of two other accessors.
  * Created: 28.02.2013 16:17:04
+ *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
- * @since 0.5.21
  * @author Volker Bergmann
+ * @since 0.5.21
  */
 public class ConditionalAccessor<C, V> implements Accessor<C, V> {
-	
-	private final Accessor<C, Boolean> condition;
-	private final Accessor<C, V> trueAccessor;
-	private final Accessor<C, V> falseAccessor;
-	
-	public ConditionalAccessor(Accessor<C, Boolean> condition,
-			Accessor<C, V> trueAccessor, Accessor<C, V> falseAccessor) {
-		this.condition = condition;
-		this.trueAccessor = trueAccessor;
-		this.falseAccessor = falseAccessor;
-	}
 
-	@Override
-	public V getValue(C target) {
-		if (condition.getValue(target))
-			return trueAccessor.getValue(target);
-		else
-			return falseAccessor.getValue(target);
-	}
+  private final Accessor<C, Boolean> condition;
+  private final Accessor<C, V> trueAccessor;
+  private final Accessor<C, V> falseAccessor;
+
+  /**
+   * Instantiates a new Conditional accessor.
+   *
+   * @param condition     the condition
+   * @param trueAccessor  the true accessor
+   * @param falseAccessor the false accessor
+   */
+  public ConditionalAccessor(Accessor<C, Boolean> condition,
+                             Accessor<C, V> trueAccessor, Accessor<C, V> falseAccessor) {
+    this.condition = condition;
+    this.trueAccessor = trueAccessor;
+    this.falseAccessor = falseAccessor;
+  }
+
+  @Override
+  public V getValue(C target) {
+    if (condition.getValue(target)) {
+      return trueAccessor.getValue(target);
+    } else {
+      return falseAccessor.getValue(target);
+    }
+  }
 
 }

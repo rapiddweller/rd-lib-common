@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
@@ -19,46 +20,59 @@ import com.rapiddweller.common.Accessor;
 /**
  * Accesses object graphs by splitting a path names into tokens by a dot separator('.').
  * Created: 12.06.2007 18:29:19
+ *
  * @author Volker Bergmann
  */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class GraphAccessor implements Accessor {
 
-    private final Accessor realAccessor;
+  private final Accessor realAccessor;
 
-    public GraphAccessor(String path) {
-        int separatorIndex = path.lastIndexOf('.');
-        if (separatorIndex < 0)
-            realAccessor = new FeatureAccessor(path);
-        else {
-            realAccessor = new FetchingAccessor(
-                    new GraphAccessor(path.substring(0, separatorIndex)),
-                    new FeatureAccessor(path.substring(separatorIndex + 1))
-            );
-        }
+  /**
+   * Instantiates a new Graph accessor.
+   *
+   * @param path the path
+   */
+  public GraphAccessor(String path) {
+    int separatorIndex = path.lastIndexOf('.');
+    if (separatorIndex < 0) {
+      realAccessor = new FeatureAccessor(path);
+    } else {
+      realAccessor = new FetchingAccessor(
+          new GraphAccessor(path.substring(0, separatorIndex)),
+          new FeatureAccessor(path.substring(separatorIndex + 1))
+      );
     }
-    
-    
-    // Accessor interface implementation -------------------------------------------------------------------------------
+  }
 
-    @Override
-	public Object getValue(Object o) {
-        return realAccessor.getValue(o);
-    }
-    
-    
-    // java.lang.Object overrides --------------------------------------------------------------------------------------
-    
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + '[' + realAccessor + ']';
-    }
-    
-    
-    // static utility methods ------------------------------------------------------------------------------------------
-    
-    public static Object getValue(String path, Object o) {
-    	return new GraphAccessor(path).getValue(o);
-    }
-    
+
+  // Accessor interface implementation -------------------------------------------------------------------------------
+
+  @Override
+  public Object getValue(Object o) {
+    return realAccessor.getValue(o);
+  }
+
+
+  // java.lang.Object overrides --------------------------------------------------------------------------------------
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + '[' + realAccessor + ']';
+  }
+
+
+  // static utility methods ------------------------------------------------------------------------------------------
+
+  /**
+   * Gets value.
+   *
+   * @param path the path
+   * @param o    the o
+   * @return the value
+   */
+  public static Object getValue(String path, Object o) {
+    return new GraphAccessor(path).getValue(o);
+  }
+
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.ConversionException;
@@ -21,18 +22,22 @@ import com.rapiddweller.common.converter.ThreadSafeConverter;
 /**
  * {@link Converter} implementation which converts empty {@link String}s to null values.
  * Created: 08.03.2011 14:50:50
- * @since 0.5.8
+ *
  * @author Volker Bergmann
+ * @since 0.5.8
  */
 public class EmptyStringToNullConverter extends ThreadSafeConverter<String, String> {
 
-	public EmptyStringToNullConverter() {
-		super(String.class, String.class);
-	}
+  /**
+   * Instantiates a new Empty string to null converter.
+   */
+  public EmptyStringToNullConverter() {
+    super(String.class, String.class);
+  }
 
-	@Override
-	public String convert(String sourceValue) throws ConversionException {
-		return (sourceValue == null || sourceValue.isEmpty() ? null : sourceValue);
-	}
+  @Override
+  public String convert(String sourceValue) throws ConversionException {
+    return (sourceValue == null || sourceValue.isEmpty() ? null : sourceValue);
+  }
 
 }

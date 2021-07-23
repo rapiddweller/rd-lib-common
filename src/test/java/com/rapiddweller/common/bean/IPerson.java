@@ -12,19 +12,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 /**
  * Interface for testing the {@link ObservableFactory}.
  * Created at 17.07.2008 20:35:45
- * @since 0.4.5
+ *
  * @author Volker Bergmann
+ * @since 0.4.5
  */
 public interface IPerson extends ObservableBean {
-	
-	String getName();
-	void setName(String name);
-	
-	int getAge();
-	void setAge(int age);
+
+  String getName();
+
+  void setName(String name);
+
+  int getAge();
+
+  void setAge(int age);
 }

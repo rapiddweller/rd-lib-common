@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Base64Codec;
@@ -19,18 +20,22 @@ import com.rapiddweller.common.ConversionException;
 
 /**
  * Converts byte arrays to base64 strings and vice versa.
- * @since 0.2.04
+ *
  * @author Volker Bergmann
+ * @since 0.2.04
  */
 public class ByteArrayToBase64Converter extends ThreadSafeConverter<byte[], String> {
 
-    public ByteArrayToBase64Converter() {
-        super(byte[].class, String.class);
-    }
+  /**
+   * Instantiates a new Byte array to base 64 converter.
+   */
+  public ByteArrayToBase64Converter() {
+    super(byte[].class, String.class);
+  }
 
-    @Override
-	public String convert(byte[] sourceValue) throws ConversionException {
-        return Base64Codec.encode(sourceValue);
-    }
+  @Override
+  public String convert(byte[] sourceValue) throws ConversionException {
+    return Base64Codec.encode(sourceValue);
+  }
 
 }

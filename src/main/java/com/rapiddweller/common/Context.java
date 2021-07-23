@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 import java.util.Map;
@@ -20,14 +21,53 @@ import java.util.Set;
 /**
  * Abstraction of a context that provides named items which can be set and retrieved.
  * Created: 23.08.2007 08:32:53
- * @since 0.3
+ *
  * @author Volker Bergmann
+ * @since 0.3
  */
 public interface Context {
-    Object get(String key);
-    void set(String key, Object value);
-    void remove(String key);
-    Set<String> keySet();
-	Set<Map.Entry<String, Object>> entrySet();
-	boolean contains(String key);
+  /**
+   * Get object.
+   *
+   * @param key the key
+   * @return the object
+   */
+  Object get(String key);
+
+  /**
+   * Set.
+   *
+   * @param key   the key
+   * @param value the value
+   */
+  void set(String key, Object value);
+
+  /**
+   * Remove.
+   *
+   * @param key the key
+   */
+  void remove(String key);
+
+  /**
+   * Key set set.
+   *
+   * @return the set
+   */
+  Set<String> keySet();
+
+  /**
+   * Entry set set.
+   *
+   * @return the set
+   */
+  Set<Map.Entry<String, Object>> entrySet();
+
+  /**
+   * Contains boolean.
+   *
+   * @param key the key
+   * @return the boolean
+   */
+  boolean contains(String key);
 }

@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.operation;
 
 import com.rapiddweller.common.Operation;
@@ -19,19 +20,23 @@ import com.rapiddweller.common.Operation;
 /**
  * Returns the first non-null argument as the operation result.
  * Created: 03.08.2007 07:17:31
+ *
  * @param <E> the argument and result type of the operation
  * @author Volker Bergmann
  */
 public class FirstNonNullSelector<E> implements Operation<E, E> {
 
-    @SafeVarargs
-    @Override
-	public final E perform(E... args) {
-        if (args.length == 0)
-            return null;
-        for (E arg : args)
-            if (arg != null)
-                return arg;
-        return null;
+  @SafeVarargs
+  @Override
+  public final E perform(E... args) {
+    if (args.length == 0) {
+      return null;
     }
+    for (E arg : args) {
+      if (arg != null) {
+        return arg;
+      }
+    }
+    return null;
+  }
 }

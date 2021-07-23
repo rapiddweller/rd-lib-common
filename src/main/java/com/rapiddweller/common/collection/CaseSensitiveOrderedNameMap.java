@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.collection;
 
 import com.rapiddweller.common.OrderedMap;
@@ -21,19 +22,28 @@ import java.util.Map;
 /**
  * {@link OrderedMap} implementation which assigns names to objects.
  * Created: 12.12.2012 11:04:02
+ *
  * @param <E> the type of the collection's elements
- * @since 0.5.21
  * @author Volker Bergmann
+ * @since 0.5.21
  */
 public class CaseSensitiveOrderedNameMap<E> extends OrderedMap<String, E> {
-	
-    private static final long serialVersionUID = -7129079585162733858L;
 
-	public CaseSensitiveOrderedNameMap() {
-	}
-    
-    public CaseSensitiveOrderedNameMap(Map<String, E> that) {
-		super(that);
-	}
+  private static final long serialVersionUID = -7129079585162733858L;
+
+  /**
+   * Instantiates a new Case sensitive ordered name map.
+   */
+  public CaseSensitiveOrderedNameMap() {
+  }
+
+  /**
+   * Instantiates a new Case sensitive ordered name map.
+   *
+   * @param that the that
+   */
+  public CaseSensitiveOrderedNameMap(Map<String, E> that) {
+    super(that);
+  }
 
 }

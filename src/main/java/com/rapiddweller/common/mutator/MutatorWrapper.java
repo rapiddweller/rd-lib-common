@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.mutator;
 
 import com.rapiddweller.common.Mutator;
@@ -19,15 +20,24 @@ import com.rapiddweller.common.Mutator;
 /**
  * Wraps a Mutator.
  * Created: 25.01.2008 13:33:37
+ *
  * @author Volker Bergmann
  * @since 0.3.0
  */
 public abstract class MutatorWrapper implements Mutator {
 
-    protected Mutator realMutator;
+  /**
+   * The Real mutator.
+   */
+  protected Mutator realMutator;
 
-    public MutatorWrapper(Mutator realMutator) {
-        this.realMutator = realMutator;
-    }
+  /**
+   * Instantiates a new Mutator wrapper.
+   *
+   * @param realMutator the real mutator
+   */
+  public MutatorWrapper(Mutator realMutator) {
+    this.realMutator = realMutator;
+  }
 
 }

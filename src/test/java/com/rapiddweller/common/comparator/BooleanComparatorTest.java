@@ -12,27 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests the {@link BooleanComparator}.
  * Created at 02.05.2008 15:54:40
- * @since 0.4.3
+ *
  * @author Volker Bergmann
+ * @since 0.4.3
  */
 public class BooleanComparatorTest {
 
-	@Test
-	public void testCompare() {
-		BooleanComparator comparator = new BooleanComparator();
-		assertEquals(-1, comparator.compare(Boolean.FALSE, Boolean.TRUE));
-		assertEquals( 0, comparator.compare(Boolean.FALSE, Boolean.FALSE));
-		assertEquals( 0, comparator.compare(Boolean.TRUE, Boolean.TRUE));
-		assertEquals( 1, comparator.compare(Boolean.TRUE, Boolean.FALSE));
-	}
+  @Test
+  public void testCompare() {
+    BooleanComparator comparator = new BooleanComparator();
+    assertEquals(-1, comparator.compare(Boolean.FALSE, Boolean.TRUE));
+    assertEquals(0, comparator.compare(Boolean.FALSE, Boolean.FALSE));
+    assertEquals(0, comparator.compare(Boolean.TRUE, Boolean.TRUE));
+    assertEquals(1, comparator.compare(Boolean.TRUE, Boolean.FALSE));
+  }
 
 }

@@ -12,15 +12,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
 
 /**
  * Interface by which a class can declare its level of thread support.
  * Created: 12.11.2009 15:30:51
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public interface ThreadAware {
-	boolean isParallelizable();
-	boolean isThreadSafe();
+  /**
+   * Is parallelizable boolean.
+   *
+   * @return the boolean
+   */
+  boolean isParallelizable();
+
+  /**
+   * Is thread safe boolean.
+   *
+   * @return the boolean
+   */
+  boolean isThreadSafe();
 }

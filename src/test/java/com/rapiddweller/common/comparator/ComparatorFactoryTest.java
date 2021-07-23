@@ -12,46 +12,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.comparator;
+
+import com.rapiddweller.common.Person;
+import org.junit.Test;
+
+import java.util.Comparator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.util.Comparator;
-
-import com.rapiddweller.common.Person;
-
-import org.junit.Test;
-
 /**
  * Tests the {@link ComparatorFactory}.
  * Created: 16.03.2008 15:13:56
+ *
  * @author Volker Bergmann
  */
 public class ComparatorFactoryTest {
-    
-	@Test
-    public void testStringCollator() {
-        Comparator<String> stringComparator = ComparatorFactory.getComparator(String.class);
-        assertNotNull(stringComparator);
-        assertEquals(-1, stringComparator.compare("1", "2"));
-    }
-    
-	@Test
-    public void testPersonComparator() {
-        Comparator<Person> personComparator = ComparatorFactory.getComparator(Person.class);
-        assertNotNull(personComparator);
-        Person alice = new Person("Alice", 23);
-        Person bob   = new Person("Bob",   34);
-        assertEquals(-1, personComparator.compare(alice, bob));
-    }
-    
-    public static final class MyComparator implements Comparator<Person> {
 
-        @Override
-		public int compare(Person p1, Person p2) {
-            return IntComparator.compare(p1.getAge(), p2.getAge());
-        }
+  @Test
+  public void testStringCollator() {
+    Comparator<String> stringComparator = ComparatorFactory.getComparator(String.class);
+    assertNotNull(stringComparator);
+    assertEquals(-1, stringComparator.compare("1", "2"));
+  }
+
+  @Test
+  public void testPersonComparator() {
+    Comparator<Person> personComparator = ComparatorFactory.getComparator(Person.class);
+    assertNotNull(personComparator);
+    Person alice = new Person("Alice", 23);
+    Person bob = new Person("Bob", 34);
+    assertEquals(-1, personComparator.compare(alice, bob));
+  }
+
+  public static final class MyComparator implements Comparator<Person> {
+
+    @Override
+    public int compare(Person p1, Person p2) {
+      return IntComparator.compare(p1.getAge(), p2.getAge());
     }
+  }
 
 }

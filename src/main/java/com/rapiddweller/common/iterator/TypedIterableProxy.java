@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.HeavyweightIterator;
@@ -22,32 +23,39 @@ import java.util.Iterator;
 /**
  * {@link Iterable} proxy that wraps an untyped Iterable and adds type information.
  * Created: 02.09.2007 23:29:10
+ *
  * @param <E> the type to wrap
  * @author Volker Bergmann
  */
 public class TypedIterableProxy<E> implements HeavyweightTypedIterable<E> {
 
-    private final Class<E> type;
-    private final Iterable<E> iterable;
+  private final Class<E> type;
+  private final Iterable<E> iterable;
 
-    public TypedIterableProxy(Class<E> type, Iterable<E> iterable) {
-        this.type = type;
-        this.iterable = iterable;
-    }
+  /**
+   * Instantiates a new Typed iterable proxy.
+   *
+   * @param type     the type
+   * @param iterable the iterable
+   */
+  public TypedIterableProxy(Class<E> type, Iterable<E> iterable) {
+    this.type = type;
+    this.iterable = iterable;
+  }
 
-    @Override
-	public Class<E> getType() {
-        return type;
-    }
+  @Override
+  public Class<E> getType() {
+    return type;
+  }
 
-    @Override
-	public HeavyweightIterator<E> iterator() {
-        Iterator<E> iterator = iterable.iterator();
-    	return new HeavyweightIteratorProxy<>(iterator);
-    }
-    
-    @Override
-    public String toString() {
-    	return getClass().getSimpleName() + '[' + iterable + " -> " + type.getSimpleName() + ']';
-    }
+  @Override
+  public HeavyweightIterator<E> iterator() {
+    Iterator<E> iterator = iterable.iterator();
+    return new HeavyweightIteratorProxy<>(iterator);
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + '[' + iterable + " -> " + type.getSimpleName() + ']';
+  }
 }

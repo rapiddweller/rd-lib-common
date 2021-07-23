@@ -12,29 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
+import com.rapiddweller.common.ConversionException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-import com.rapiddweller.common.ConversionException;
-import com.rapiddweller.common.bean.PropertyAccessConverter;
-
 /**
  * Tests the PropertyAccessConverter.
  * Created: 21.07.2007 16:35:28
+ *
  * @author Volker Bergmann
  */
 public class PropertyAccessConverterTest {
 
-	@Test
-    public void test() throws ConversionException {
-        Bean bean = new Bean(42, "foobar");
-        PropertyAccessConverter numberExtractor = new PropertyAccessConverter("number");
-        assertEquals(42, numberExtractor.convert(bean));
-        PropertyAccessConverter textExtractor = new PropertyAccessConverter("text");
-        assertEquals("foobar", textExtractor.convert(bean));
-    }
-    
+  @Test
+  public void test() throws ConversionException {
+    Bean bean = new Bean(42, "foobar");
+    PropertyAccessConverter numberExtractor = new PropertyAccessConverter("number");
+    assertEquals(42, numberExtractor.convert(bean));
+    PropertyAccessConverter textExtractor = new PropertyAccessConverter("text");
+    assertEquals("foobar", textExtractor.convert(bean));
+  }
+
 }

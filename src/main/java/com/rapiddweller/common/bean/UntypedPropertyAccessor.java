@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
@@ -23,82 +24,107 @@ import java.lang.reflect.Method;
 /**
  * Retrieves values of a JavaBean property without knowing the bean type.
  * Created: 21.07.2007 10:18:09
+ *
  * @author Volker Bergmann
  */
 @SuppressWarnings("rawtypes")
 public class UntypedPropertyAccessor implements PropertyAccessor {
 
-    private final String propertyName;
-    private Class<?> propertyType;
-    private final boolean strict;
+  private final String propertyName;
+  private Class<?> propertyType;
+  private final boolean strict;
 
-    public UntypedPropertyAccessor(String propertyName, boolean strict) {
-        this.propertyName = propertyName;
-        this.propertyType = null;
-        this.strict = strict;
+  /**
+   * Instantiates a new Untyped property accessor.
+   *
+   * @param propertyName the property name
+   * @param strict       the strict
+   */
+  public UntypedPropertyAccessor(String propertyName, boolean strict) {
+    this.propertyName = propertyName;
+    this.propertyType = null;
+    this.strict = strict;
+  }
+
+  @Override
+  public Object getValue(Object bean) {
+    PropertyDescriptor descriptor = getPropertyDescriptor(bean, propertyName, strict);
+    if (descriptor == null) {
+      return null;
     }
-
-    @Override
-	public Object getValue(Object bean) {
-		PropertyDescriptor descriptor = getPropertyDescriptor(bean, propertyName, strict);
-		if (descriptor == null)
-			return null;
-        this.propertyType = descriptor.getPropertyType();
-        Method readMethod = getReadMethod(descriptor, bean, strict);
-        if (readMethod == null)
-        	return null;
-		return BeanUtil.invoke(bean, readMethod, null);
+    this.propertyType = descriptor.getPropertyType();
+    Method readMethod = getReadMethod(descriptor, bean, strict);
+    if (readMethod == null) {
+      return null;
     }
+    return BeanUtil.invoke(bean, readMethod, null);
+  }
 
-    @Override
-	public Class<?> getValueType() {
-        return propertyType;
+  @Override
+  public Class<?> getValueType() {
+    return propertyType;
+  }
+
+  @Override
+  public String getPropertyName() {
+    return propertyName;
+  }
+
+
+  // static implementation -------------------------------------------------------------------------------------------
+
+  /**
+   * Gets value.
+   *
+   * @param bean         the bean
+   * @param propertyName the property name
+   * @param strict       the strict
+   * @return the value
+   */
+  public static Object getValue(Object bean, String propertyName, boolean strict) {
+    PropertyDescriptor descriptor = getPropertyDescriptor(bean, propertyName, strict);
+    if (descriptor == null) {
+      return null;
     }
-
-    @Override
-	public String getPropertyName() {
-        return propertyName;
+    Method readMethod = getReadMethod(descriptor, bean, strict);
+    if (readMethod == null) {
+      return null;
     }
-    
-    
-    // static implementation -------------------------------------------------------------------------------------------
-    
-    public static Object getValue(Object bean, String propertyName, boolean strict) {
-		PropertyDescriptor descriptor = getPropertyDescriptor(bean, propertyName, strict);
-		if (descriptor == null)
-			return null;
-        Method readMethod = getReadMethod(descriptor, bean, strict);
-        if (readMethod == null)
-        	return null;
-		return BeanUtil.invoke(bean, readMethod, null);
-	}
-    
-    
-    // private helper methods ------------------------------------------------------------------------------------------
+    return BeanUtil.invoke(bean, readMethod, null);
+  }
 
-	private static PropertyDescriptor getPropertyDescriptor(Object bean, String propertyName, boolean strict) {
-		if (bean == null)
-            if (strict)
-                throw new IllegalArgumentException("Trying to get property value '" + propertyName + "' from null");
-            else
-                return null;
-        PropertyDescriptor descriptor = BeanUtil.getPropertyDescriptor(bean.getClass(), propertyName);
-        if (descriptor == null)
-            if (strict)
-                throw new ConfigurationError("No property '" + propertyName + "' found in class " + bean.getClass());
-            else
-                return null;
-		return descriptor;
-	}
 
-	private static Method getReadMethod(PropertyDescriptor descriptor, Object bean, boolean strict) {
-		Method readMethod = descriptor.getReadMethod();
-        if (readMethod == null)
-            if (strict)
-                throw new ConfigurationError("No reader for property '" + descriptor.getName() + "' found in class " + bean.getClass());
-            else
-                return null;
-		return readMethod;
-	}
+  // private helper methods ------------------------------------------------------------------------------------------
+
+  private static PropertyDescriptor getPropertyDescriptor(Object bean, String propertyName, boolean strict) {
+    if (bean == null) {
+      if (strict) {
+        throw new IllegalArgumentException("Trying to get property value '" + propertyName + "' from null");
+      } else {
+        return null;
+      }
+    }
+    PropertyDescriptor descriptor = BeanUtil.getPropertyDescriptor(bean.getClass(), propertyName);
+    if (descriptor == null) {
+      if (strict) {
+        throw new ConfigurationError("No property '" + propertyName + "' found in class " + bean.getClass());
+      } else {
+        return null;
+      }
+    }
+    return descriptor;
+  }
+
+  private static Method getReadMethod(PropertyDescriptor descriptor, Object bean, boolean strict) {
+    Method readMethod = descriptor.getReadMethod();
+    if (readMethod == null) {
+      if (strict) {
+        throw new ConfigurationError("No reader for property '" + descriptor.getName() + "' found in class " + bean.getClass());
+      } else {
+        return null;
+      }
+    }
+    return readMethod;
+  }
 
 }

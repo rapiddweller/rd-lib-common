@@ -12,59 +12,78 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.iterator;
 
 /**
- * Iterates through another BidirectionalIterator repeatedly. 
+ * Iterates through another BidirectionalIterator repeatedly.
  * This is supported forward as well as backward.
  * Created: 12.05.2007 23:21:48
+ *
  * @param <E> the type to iterate
  * @author Volker Bergmann
  */
 public class CyclicIterator<E> extends BidirectionalIteratorProxy<E> {
 
-    private boolean cyclic;
+  private boolean cyclic;
 
-    public CyclicIterator(BidirectionalIterator<E> realIterator) {
-        super(realIterator);
-        this.cyclic = true;
-    }
+  /**
+   * Instantiates a new Cyclic iterator.
+   *
+   * @param realIterator the real iterator
+   */
+  public CyclicIterator(BidirectionalIterator<E> realIterator) {
+    super(realIterator);
+    this.cyclic = true;
+  }
 
-    public boolean isCyclic() {
-        return cyclic;
-    }
+  /**
+   * Is cyclic boolean.
+   *
+   * @return the boolean
+   */
+  public boolean isCyclic() {
+    return cyclic;
+  }
 
-    public void setCyclic(boolean cyclic) {
-        this.cyclic = cyclic;
-    }
+  /**
+   * Sets cyclic.
+   *
+   * @param cyclic the cyclic
+   */
+  public void setCyclic(boolean cyclic) {
+    this.cyclic = cyclic;
+  }
 
-    @Override
-    public boolean hasPrevious() {
-        return (cyclic || super.hasPrevious());
-    }
+  @Override
+  public boolean hasPrevious() {
+    return (cyclic || super.hasPrevious());
+  }
 
-    @Override
-    public boolean hasNext() {
-        return (cyclic || super.hasNext());
-    }
+  @Override
+  public boolean hasNext() {
+    return (cyclic || super.hasNext());
+  }
 
-    @Override
-    public E previous() {
-        if (super.hasPrevious())
-            return super.previous();
-        else if (cyclic)
-            return super.last();
-        else
-            throw new IllegalStateException("No element available for previous()");
+  @Override
+  public E previous() {
+    if (super.hasPrevious()) {
+      return super.previous();
+    } else if (cyclic) {
+      return super.last();
+    } else {
+      throw new IllegalStateException("No element available for previous()");
     }
+  }
 
-    @Override
-    public E next() {
-        if (super.hasNext())
-            return super.next();
-        else if (cyclic)
-            return super.first();
-        else
-            throw new IllegalStateException("No element available for next()");
+  @Override
+  public E next() {
+    if (super.hasNext()) {
+      return super.next();
+    } else if (cyclic) {
+      return super.first();
+    } else {
+      throw new IllegalStateException("No element available for next()");
     }
+  }
 }

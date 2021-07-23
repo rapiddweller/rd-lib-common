@@ -18,11 +18,16 @@ package com.rapiddweller.common;
 /**
  * Abstraction of a class that creates GUI components of generic type E.
  * Created: 25.05.2016 17:53:51
+ *
  * @param <E> The generic type of the objects to create
- * @since 1.0.11
  * @author Volker Bergmann
+ * @since 1.0.11
  */
-
 public interface Factory<E> {
-	E create();
+  /**
+   * Create e.
+   *
+   * @return the e
+   */
+  E create();
 }

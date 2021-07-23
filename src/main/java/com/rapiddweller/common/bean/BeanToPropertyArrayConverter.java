@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.ConversionException;
@@ -20,31 +21,45 @@ import com.rapiddweller.common.converter.ThreadSafeConverter;
 /**
  * Converter implementation that extracts all property values of a JavaBean to a Properties object.
  * Created: 07.06.2007 14:11:58
+ *
  * @param <E> the bean type to access
  * @author Volker Bergmann
  */
 public class BeanToPropertyArrayConverter<E> extends ThreadSafeConverter<E, Object[]> {
 
-    private final PropertyAccessor<E, ?>[] accessors;
+  private final PropertyAccessor<E, ?>[] accessors;
 
-    public BeanToPropertyArrayConverter(String ... propertyNames) {
-        this(null, propertyNames);
-    }
+  /**
+   * Instantiates a new Bean to property array converter.
+   *
+   * @param propertyNames the property names
+   */
+  public BeanToPropertyArrayConverter(String... propertyNames) {
+    this(null, propertyNames);
+  }
 
-    @SuppressWarnings("unchecked")
-    public BeanToPropertyArrayConverter(Class<E> beanClass, String ... propertyNames) {
-    	super(beanClass, Object[].class);
-        this.accessors = new PropertyAccessor[propertyNames.length];
-        for (int i = 0; i < propertyNames.length; i++)
-            this.accessors[i] = PropertyAccessorFactory.getAccessor(beanClass, propertyNames[i]);
+  /**
+   * Instantiates a new Bean to property array converter.
+   *
+   * @param beanClass     the bean class
+   * @param propertyNames the property names
+   */
+  @SuppressWarnings("unchecked")
+  public BeanToPropertyArrayConverter(Class<E> beanClass, String... propertyNames) {
+    super(beanClass, Object[].class);
+    this.accessors = new PropertyAccessor[propertyNames.length];
+    for (int i = 0; i < propertyNames.length; i++) {
+      this.accessors[i] = PropertyAccessorFactory.getAccessor(beanClass, propertyNames[i]);
     }
+  }
 
-    @Override
-	public Object[] convert(E bean) throws ConversionException {
-        Object[] propertyValues = new Object[accessors.length];
-        for (int i = 0; i < accessors.length; i++)
-            propertyValues[i] = accessors[i].getValue(bean);
-        return propertyValues;
+  @Override
+  public Object[] convert(E bean) throws ConversionException {
+    Object[] propertyValues = new Object[accessors.length];
+    for (int i = 0; i < accessors.length; i++) {
+      propertyValues[i] = accessors[i].getValue(bean);
     }
-    
+    return propertyValues;
+  }
+
 }

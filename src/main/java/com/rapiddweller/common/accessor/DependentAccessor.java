@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
@@ -21,10 +22,16 @@ import java.util.List;
 /**
  * Accessor that depends on other Accessors.
  * Created: 08.03.2006 15:50:10
+ *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
  */
 public interface DependentAccessor<C, V> extends Accessor<C, V> {
-    List<? extends Accessor<?, ?>> getDependencies();
+  /**
+   * Gets dependencies.
+   *
+   * @return the dependencies
+   */
+  List<? extends Accessor<?, ?>> getDependencies();
 }

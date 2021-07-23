@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.Validator;
@@ -19,22 +20,31 @@ import com.rapiddweller.common.Validator;
 /**
  * Validates that Strings have a given prefix.
  * Created: 02.08.2011 07:26:39
- * @since 0.5.9
+ *
  * @author Volker Bergmann
+ * @since 0.5.9
  */
 public class PrefixValidator extends SubStringValidator {
-	
-	protected String prefix;
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public PrefixValidator(String prefix) {
-		super(0, prefix.length(), (Validator) new ConstantValidator(prefix));
-		this.prefix = prefix;
-	}
+  /**
+   * The Prefix.
+   */
+  protected String prefix;
 
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + '[' + prefix + ']';
-	}
-	
+  /**
+   * Instantiates a new Prefix validator.
+   *
+   * @param prefix the prefix
+   */
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public PrefixValidator(String prefix) {
+    super(0, prefix.length(), (Validator) new ConstantValidator(prefix));
+    this.prefix = prefix;
+  }
+
+  @Override
+  public String toString() {
+    return getClass().getSimpleName() + '[' + prefix + ']';
+  }
+
 }

@@ -22,41 +22,73 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 /**
- * Utility class for formatting in data in US locale in styles usual for humans 
+ * Utility class for formatting in data in US locale in styles usual for humans
  * (HF = Human Format).<br><br>
  * Created: 13.11.2019 15:05:39
- * @since 1.0.12
+ *
  * @author Volker Bergmann
+ * @since 1.0.12
  */
-
 public class HF {
-	
-	private static final DecimalFormatSymbols US_SYMBOLS = DecimalFormatSymbols.getInstance(Locale.US);
-	private static final DecimalFormat PCT100_FMT = new DecimalFormat("#,##0.0", US_SYMBOLS);
-	private static final DecimalFormat DECIMAL_FMT = new DecimalFormat("#,##0.######", US_SYMBOLS);
-	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
-	
-	public static String formatPctChange100(double value) {
-		String result = formatPct100(value);
-		if (value > 0)
-			result = "+" + result;
-		return result;
-	}
-	
-	public static String formatPct100(double value) {
-		return (!Double.isNaN(value) ? PCT100_FMT.format(value) + "%" : "NaN");
-	}
 
-	public static String formatPct100(double value, String pattern) {
-		return (!Double.isNaN(value) ? new DecimalFormat(pattern, US_SYMBOLS).format(value) + "%" : "NaN");
-	}
+  private static final DecimalFormatSymbols US_SYMBOLS = DecimalFormatSymbols.getInstance(Locale.US);
+  private static final DecimalFormat PCT100_FMT = new DecimalFormat("#,##0.0", US_SYMBOLS);
+  private static final DecimalFormat DECIMAL_FMT = new DecimalFormat("#,##0.######", US_SYMBOLS);
+  private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-	public static String format(double value) {
-		return (!Double.isNaN(value) ? DECIMAL_FMT.format(value) : "NaN");
-	}
+  /**
+   * Format pct change 100 string.
+   *
+   * @param value the value
+   * @return the string
+   */
+  public static String formatPctChange100(double value) {
+    String result = formatPct100(value);
+    if (value > 0) {
+      result = "+" + result;
+    }
+    return result;
+  }
 
-	public static String format(LocalTime time) {
-		return time.format(TIME_FORMATTER);
-	}
-	
+  /**
+   * Format pct 100 string.
+   *
+   * @param value the value
+   * @return the string
+   */
+  public static String formatPct100(double value) {
+    return (!Double.isNaN(value) ? PCT100_FMT.format(value) + "%" : "NaN");
+  }
+
+  /**
+   * Format pct 100 string.
+   *
+   * @param value   the value
+   * @param pattern the pattern
+   * @return the string
+   */
+  public static String formatPct100(double value, String pattern) {
+    return (!Double.isNaN(value) ? new DecimalFormat(pattern, US_SYMBOLS).format(value) + "%" : "NaN");
+  }
+
+  /**
+   * Format string.
+   *
+   * @param value the value
+   * @return the string
+   */
+  public static String format(double value) {
+    return (!Double.isNaN(value) ? DECIMAL_FMT.format(value) : "NaN");
+  }
+
+  /**
+   * Format string.
+   *
+   * @param time the time
+   * @return the string
+   */
+  public static String format(LocalTime time) {
+    return time.format(TIME_FORMATTER);
+  }
+
 }

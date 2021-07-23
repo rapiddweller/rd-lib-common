@@ -12,32 +12,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common;
-
-import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
+import static org.junit.Assert.assertTrue;
+
 /**
  * Tests the {@link ArrayBuilder}.
+ *
  * @author Volker Bergmann
  */
 public class ArrayBuilderTest {
 
-	@Test
-    public void test() {
-        check(new String[] {});
-        check(new String[] { "0" }, "0");
-        check(new String[] { "0", "1" }, "0", "1");
+  @Test
+  public void test() {
+    check(new String[] {});
+    check(new String[] {"0"}, "0");
+    check(new String[] {"0", "1"}, "0", "1");
+  }
+
+  private static void check(String[] expected, String... items) {
+    ArrayBuilder<String> builder = new ArrayBuilder<>(String.class);
+    for (String item : items) {
+      builder.add(item);
     }
-    
-    private static void check(String[] expected, String ... items) {
-        ArrayBuilder<String> builder = new ArrayBuilder<>(String.class);
-        for (String item : items)
-            builder.add(item);
-        assertTrue(Arrays.deepEquals(expected, builder.toArray()));
-    }
-    
+    assertTrue(Arrays.deepEquals(expected, builder.toArray()));
+  }
+
 }

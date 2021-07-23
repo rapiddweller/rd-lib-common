@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.mutator;
 
 import com.rapiddweller.common.Accessor;
@@ -32,69 +33,94 @@ import java.util.Comparator;
 @SuppressWarnings("unchecked")
 public class ConditionalMutator extends MutatorProxy {
 
-    public static final int ASSERT_EQUALS    = 0;
-    public static final int OVERWRITE        = 1;
-    public static final int SET_IF_UNDEFINED = 2;
-    public static final int SET_IF_GREATER   = 3;
+  /**
+   * The constant ASSERT_EQUALS.
+   */
+  public static final int ASSERT_EQUALS = 0;
+  /**
+   * The constant OVERWRITE.
+   */
+  public static final int OVERWRITE = 1;
+  /**
+   * The constant SET_IF_UNDEFINED.
+   */
+  public static final int SET_IF_UNDEFINED = 2;
+  /**
+   * The constant SET_IF_GREATER.
+   */
+  public static final int SET_IF_GREATER = 3;
 
-    protected int mode;
-    
-    @SuppressWarnings("rawtypes")
-	private final Comparator comparator;
+  /**
+   * The Mode.
+   */
+  protected int mode;
 
-	@SuppressWarnings("rawtypes")
-	private final Accessor accessor;
+  @SuppressWarnings("rawtypes")
+  private final Comparator comparator;
 
-    private static final Logger logger = LogManager.getLogger(ConditionalMutator.class);
+  @SuppressWarnings("rawtypes")
+  private final Accessor accessor;
 
-    @SuppressWarnings("rawtypes")
-	public ConditionalMutator(Mutator realMutator, Accessor accessor, int mode) {
-        super(realMutator);
-        this.accessor = accessor;
-        this.mode = mode;
-        comparator = new ComparableComparator();
-    }
+  private static final Logger logger = LogManager.getLogger(ConditionalMutator.class);
 
-    @Override
-    public void setValue(Object target, Object value) throws UpdateFailedException {
-        Object oldValue = accessor.getValue(target);
-        switch (mode) {
-            case OVERWRITE:
-                realMutator.setValue(target, value);
-                break;
-            case ASSERT_EQUALS:
-                if (isEmpty(oldValue)) {
-                    realMutator.setValue(target, value);
-                } else if (!NullSafeComparator.equals(oldValue, value))
-                    throw new UpdateFailedException("Mutator " + realMutator + " expected '" + oldValue + "', "
-                            + "but found '" + value + "'");
-                else
-                    logger.debug("no update needed by " + realMutator);
-                break;
-            case SET_IF_UNDEFINED:
-                if (isEmpty(oldValue))
-                    realMutator.setValue(target, value);
-                else
-                    logger.debug("no update needed by " + realMutator);
-                break;
-            case SET_IF_GREATER:
-                if (isEmpty(oldValue))
-                    realMutator.setValue(target, value);
-                else if (comparator.compare(oldValue, value) == -1)
-                    realMutator.setValue(target, value);
-                else
-                    logger.debug("no update needed by " + realMutator);
-                break;
-            default:
-                throw new RuntimeException("Illegal mode");
+  /**
+   * Instantiates a new Conditional mutator.
+   *
+   * @param realMutator the real mutator
+   * @param accessor    the accessor
+   * @param mode        the mode
+   */
+  @SuppressWarnings("rawtypes")
+  public ConditionalMutator(Mutator realMutator, Accessor accessor, int mode) {
+    super(realMutator);
+    this.accessor = accessor;
+    this.mode = mode;
+    comparator = new ComparableComparator();
+  }
+
+  @Override
+  public void setValue(Object target, Object value) throws UpdateFailedException {
+    Object oldValue = accessor.getValue(target);
+    switch (mode) {
+      case OVERWRITE:
+        realMutator.setValue(target, value);
+        break;
+      case ASSERT_EQUALS:
+        if (isEmpty(oldValue)) {
+          realMutator.setValue(target, value);
+        } else if (!NullSafeComparator.equals(oldValue, value)) {
+          throw new UpdateFailedException("Mutator " + realMutator + " expected '" + oldValue + "', "
+              + "but found '" + value + "'");
+        } else {
+          logger.debug("no update needed by " + realMutator);
         }
-
+        break;
+      case SET_IF_UNDEFINED:
+        if (isEmpty(oldValue)) {
+          realMutator.setValue(target, value);
+        } else {
+          logger.debug("no update needed by " + realMutator);
+        }
+        break;
+      case SET_IF_GREATER:
+        if (isEmpty(oldValue)) {
+          realMutator.setValue(target, value);
+        } else if (comparator.compare(oldValue, value) == -1) {
+          realMutator.setValue(target, value);
+        } else {
+          logger.debug("no update needed by " + realMutator);
+        }
+        break;
+      default:
+        throw new RuntimeException("Illegal mode");
     }
 
-    // private helpers -------------------------------------------------------------------------------------------------
+  }
 
-    private static boolean isEmpty(Object value) {
-        return (value instanceof String ? StringUtil.isEmpty((String)value) : value == null);
-    }
-    
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private static boolean isEmpty(Object value) {
+    return (value instanceof String ? StringUtil.isEmpty((String) value) : value == null);
+  }
+
 }

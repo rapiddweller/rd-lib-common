@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.Validator;
@@ -19,25 +20,33 @@ import com.rapiddweller.common.Validator;
 /**
  * Requires that each validated object is equal to a reference object.
  * Created at 04.07.2009 06:59:57
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
-
 public class ConstantValidator implements Validator<Object> {
 
-	private final Object expectedValue;
-	
-    public ConstantValidator() {
-    	this(null);
-    }
+  private final Object expectedValue;
 
-    public ConstantValidator(Object expectedValue) {
-	    this.expectedValue = expectedValue;
-    }
+  /**
+   * Instantiates a new Constant validator.
+   */
+  public ConstantValidator() {
+    this(null);
+  }
 
-    @Override
-	public boolean valid(Object value) {
-        return (expectedValue.equals(value));
-    }
+  /**
+   * Instantiates a new Constant validator.
+   *
+   * @param expectedValue the expected value
+   */
+  public ConstantValidator(Object expectedValue) {
+    this.expectedValue = expectedValue;
+  }
+
+  @Override
+  public boolean valid(Object value) {
+    return (expectedValue.equals(value));
+  }
 
 }

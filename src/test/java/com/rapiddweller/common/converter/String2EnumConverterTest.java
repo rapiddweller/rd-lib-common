@@ -12,50 +12,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.SomeEnum;
+import com.rapiddweller.common.ConversionException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import com.rapiddweller.SomeEnum;
-import com.rapiddweller.common.ConversionException;
-
 /**
  * Tests the String2EnumConverter.
  * Created: 20.08.2007 07:14:04
+ *
  * @author Volker Bergmann
  */
 public class String2EnumConverterTest extends AbstractConverterTest {
 
-	public String2EnumConverterTest() {
-	    super(String2EnumConverter.class);
-    }
+  public String2EnumConverterTest() {
+    super(String2EnumConverter.class);
+  }
 
-	@Test
-    public void testNull() throws ConversionException {
-        assertNull(String2EnumConverter.convert(null, SomeEnum.class));
-    }
+  @Test
+  public void testNull() throws ConversionException {
+    assertNull(String2EnumConverter.convert(null, SomeEnum.class));
+  }
 
-	@Test
-    public void testNormal() throws ConversionException {
-        for (SomeEnum instance : SomeEnum.values()) {
-            check(instance);
-        }
+  @Test
+  public void testNormal() throws ConversionException {
+    for (SomeEnum instance : SomeEnum.values()) {
+      check(instance);
     }
+  }
 
-	@Test(expected = ConversionException.class)
-    public void testIllegalArgument() {
-        String2EnumConverter.convert("0", SomeEnum.class);
-    }
+  @Test(expected = ConversionException.class)
+  public void testIllegalArgument() {
+    String2EnumConverter.convert("0", SomeEnum.class);
+  }
 
-    // private helpers -------------------------------------------------------------------------------------------------
+  // private helpers -------------------------------------------------------------------------------------------------
 
-    private static void check(SomeEnum instance) throws ConversionException {
-        String2EnumConverter<SomeEnum> converter = new String2EnumConverter<>(SomeEnum.class);
-        String name = instance.name();
-        assertEquals(instance, converter.convert(name));
-    }
-    
+  private static void check(SomeEnum instance) throws ConversionException {
+    String2EnumConverter<SomeEnum> converter = new String2EnumConverter<>(SomeEnum.class);
+    String name = instance.name();
+    assertEquals(instance, converter.convert(name));
+  }
+
 }

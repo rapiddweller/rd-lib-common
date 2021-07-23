@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.context;
 
 import com.rapiddweller.common.Assert;
@@ -25,86 +26,100 @@ import java.util.Set;
 import java.util.Stack;
 
 /**
- * Combines several contexts to a {@link Stack}, querying recursively in the {@link #get(String)} method 
+ * Combines several contexts to a {@link Stack}, querying recursively in the {@link #get(String)} method
  * until an entry is found or the stack is completely iterated.
  * Created: 09.01.2013 13:06:13
- * @since 0.5.21
+ *
  * @author Volker Bergmann
+ * @since 0.5.21
  */
 public class SimpleContextStack implements ContextStack {
 
-    private static final Logger logger = LogManager.getLogger(ContextStack.class);
+  private static final Logger logger = LogManager.getLogger(ContextStack.class);
 
-    protected Stack<Context> contexts;
-    
-    public SimpleContextStack(Context ... contexts) {
-        this.contexts = new Stack<>();
-        for (Context c : contexts) 
-            this.contexts.push(c);
-    }
+  /**
+   * The Contexts.
+   */
+  protected Stack<Context> contexts;
 
-    @Override
-	public Object get(String key) {
-        for (int i = contexts.size() - 1; i >= 0; i--) {
-            Object result = contexts.get(i).get(key);
-            if (result != null)
-                return result;
-        }
-        return null;
+  /**
+   * Instantiates a new Simple context stack.
+   *
+   * @param contexts the contexts
+   */
+  public SimpleContextStack(Context... contexts) {
+    this.contexts = new Stack<>();
+    for (Context c : contexts) {
+      this.contexts.push(c);
     }
+  }
 
-	@Override
-	public boolean contains(String key) {
-        for (int i = contexts.size() - 1; i >= 0; i--) {
-            Context c = contexts.get(i);
-            if (c.contains(key))
-            	return true;
-        }
-        return false;
+  @Override
+  public Object get(String key) {
+    for (int i = contexts.size() - 1; i >= 0; i--) {
+      Object result = contexts.get(i).get(key);
+      if (result != null) {
+        return result;
+      }
     }
+    return null;
+  }
 
-    @Override
-	public Set<String> keySet() {
-        Set<String> keySet = new HashSet<>();
-        for (int i = contexts.size() - 1; i >= 0; i--) {
-            Context c = contexts.get(i);
-            keySet.addAll(c.keySet());
-        }
-        return keySet;
+  @Override
+  public boolean contains(String key) {
+    for (int i = contexts.size() - 1; i >= 0; i--) {
+      Context c = contexts.get(i);
+      if (c.contains(key)) {
+        return true;
+      }
     }
+    return false;
+  }
 
-	@Override
-	public Set<Entry<String, Object>> entrySet() {
-		Set<Entry<String, Object>> entrySet = new HashSet<>();
-        for (Context c : contexts) {
-            entrySet.addAll(c.entrySet());
-        }
-        return entrySet;
+  @Override
+  public Set<String> keySet() {
+    Set<String> keySet = new HashSet<>();
+    for (int i = contexts.size() - 1; i >= 0; i--) {
+      Context c = contexts.get(i);
+      keySet.addAll(c.keySet());
     }
+    return keySet;
+  }
 
-	@Override
-	public void remove(String key) {
-        if (contexts.size() > 0)
-            contexts.peek().remove(key);
+  @Override
+  public Set<Entry<String, Object>> entrySet() {
+    Set<Entry<String, Object>> entrySet = new HashSet<>();
+    for (Context c : contexts) {
+      entrySet.addAll(c.entrySet());
     }
+    return entrySet;
+  }
 
-    @Override
-	public void set(String key, Object value) {
-    	Assert.notNull(key, "key");
-        if (contexts.size() > 0)
-            contexts.peek().set(key, value);
-        else
-            logger.warn("ContextStack is empty, ignoring element: " + key);
+  @Override
+  public void remove(String key) {
+    if (contexts.size() > 0) {
+      contexts.peek().remove(key);
     }
+  }
 
-    @Override
-	public void push(Context context) {
-   		this.contexts.push(context);
+  @Override
+  public void set(String key, Object value) {
+    Assert.notNull(key, "key");
+    if (contexts.size() > 0) {
+      contexts.peek().set(key, value);
+    } else {
+      logger.warn("ContextStack is empty, ignoring element: " + key);
     }
-    
-    @Override
-	public Context pop() {
-   		return this.contexts.pop();
-    }
+  }
+
+  @Override
+  public void push(Context context) {
+    this.contexts.push(context);
+  }
+
+  @Override
+  public Context pop() {
+    return this.contexts.pop();
+  }
 
 }

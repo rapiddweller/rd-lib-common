@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
@@ -22,18 +23,22 @@ import java.util.Date;
 /**
  * Converts {@link Calendar} objects to {@link Date}s.
  * Created: 25.02.2010 23:34:02
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class Calendar2DateConverter extends ThreadSafeConverter<Calendar, Date> {
 
-    public Calendar2DateConverter() {
-        super(Calendar.class, Date.class);
-    }
+  /**
+   * Instantiates a new Calendar 2 date converter.
+   */
+  public Calendar2DateConverter() {
+    super(Calendar.class, Date.class);
+  }
 
-    @Override
-	public Date convert(Calendar target) throws ConversionException {
-        return target.getTime();
-    }
+  @Override
+  public Date convert(Calendar target) throws ConversionException {
+    return target.getTime();
+  }
 
 }

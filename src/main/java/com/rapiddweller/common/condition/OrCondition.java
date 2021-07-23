@@ -12,29 +12,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.condition;
 
 import com.rapiddweller.common.Condition;
 
 /**
- * Composite condition that requires at least one sub condition to be true. 
+ * Composite condition that requires at least one sub condition to be true.
  * If no sub conditions exist, false is returned by default.
  * Created: 04.02.2007 00:45:23
+ *
  * @param <E> the type of argument to evaluate
  * @author Volker Bergmann
  */
 public class OrCondition<E> extends CompositeCondition<E> {
 
-    @SafeVarargs
-    public OrCondition(Condition<E> ... components) {
-        super(components);
-    }
+  /**
+   * Instantiates a new Or condition.
+   *
+   * @param components the components
+   */
+  @SafeVarargs
+  public OrCondition(Condition<E>... components) {
+    super(components);
+  }
 
-    @Override
-	public boolean evaluate(E argument) {
-        for (Condition<E> condition : components)
-            if (condition.evaluate(argument))
-                return true;
-        return false;
+  @Override
+  public boolean evaluate(E argument) {
+    for (Condition<E> condition : components) {
+      if (condition.evaluate(argument)) {
+        return true;
+      }
     }
+    return false;
+  }
 }

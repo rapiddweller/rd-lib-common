@@ -12,44 +12,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.rapiddweller.common.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+package com.rapiddweller.common.converter;
 
 import com.rapiddweller.SomeEnum;
 import com.rapiddweller.common.ConversionException;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 /**
  * Tests the {@link Enum2StringConverter}.
  * Created: 25.02.2010 23:55:44
- * @since 0.5.0
+ *
  * @author Volker Bergmann
+ * @since 0.5.0
  */
 public class Enum2StringConverterTest extends AbstractConverterTest {
 
-	public Enum2StringConverterTest() {
-	    super(Enum2StringConverter.class);
-    }
+  public Enum2StringConverterTest() {
+    super(Enum2StringConverter.class);
+  }
 
-	@Test
-    public void testNull() throws ConversionException {
-        assertNull(Enum2StringConverter.convertToString(null));
-    }
+  @Test
+  public void testNull() throws ConversionException {
+    assertNull(Enum2StringConverter.convertToString(null));
+  }
 
-	@Test
-    public void testNormal() throws ConversionException {
-        for (SomeEnum instance : SomeEnum.values()) {
-            check(instance);
-        }
+  @Test
+  public void testNormal() throws ConversionException {
+    for (SomeEnum instance : SomeEnum.values()) {
+      check(instance);
     }
+  }
 
-    // private helpers -------------------------------------------------------------------------------------------------
+  // private helpers -------------------------------------------------------------------------------------------------
 
-    private static void check(SomeEnum instance) throws ConversionException {
-    	Enum2StringConverter<SomeEnum> converter = new Enum2StringConverter<>(SomeEnum.class);
-        assertEquals(instance.name(), converter.convert(instance));
-    }
-    
+  private static void check(SomeEnum instance) throws ConversionException {
+    Enum2StringConverter<SomeEnum> converter = new Enum2StringConverter<>(SomeEnum.class);
+    assertEquals(instance.name(), converter.convert(instance));
+  }
+
 }

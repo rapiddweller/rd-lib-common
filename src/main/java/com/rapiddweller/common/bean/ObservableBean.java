@@ -12,6 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.bean;
 
 import java.beans.PropertyChangeListener;
@@ -20,12 +21,38 @@ import java.io.Serializable;
 /**
  * Interface for all JavaBeans that serve as observable.
  * Created at 17.07.2008 14:46:21
- * @since 0.4.5
+ *
  * @author Volker Bergmann
+ * @since 0.4.5
  */
 public interface ObservableBean extends Serializable {
-	void addPropertyChangeListener(PropertyChangeListener listener);
-	void addPropertyChangeListener(String propertyName, PropertyChangeListener listener); 
-	void removePropertyChangeListener(PropertyChangeListener listener);
-	void removePropertyChangeListener(String propertyName, PropertyChangeListener listener);
+  /**
+   * Add property change listener.
+   *
+   * @param listener the listener
+   */
+  void addPropertyChangeListener(PropertyChangeListener listener);
+
+  /**
+   * Add property change listener.
+   *
+   * @param propertyName the property name
+   * @param listener     the listener
+   */
+  void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
+
+  /**
+   * Remove property change listener.
+   *
+   * @param listener the listener
+   */
+  void removePropertyChangeListener(PropertyChangeListener listener);
+
+  /**
+   * Remove property change listener.
+   *
+   * @param propertyName the property name
+   * @param listener     the listener
+   */
+  void removePropertyChangeListener(String propertyName, PropertyChangeListener listener);
 }

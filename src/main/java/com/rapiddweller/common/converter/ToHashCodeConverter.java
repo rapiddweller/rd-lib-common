@@ -12,26 +12,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
 
 /**
- * Converts an arbitrary object to a hash code using the method <code>hashCode()</code>. 
+ * Converts an arbitrary object to a hash code using the method <code>hashCode()</code>.
  * Null values are converted to zero.
  * Created at 06.11.2008 07:37:17
- * @since 0.4.6
+ *
  * @author Volker Bergmann
+ * @since 0.4.6
  */
-public class ToHashCodeConverter extends ThreadSafeConverter<Object, Integer>{
+public class ToHashCodeConverter extends ThreadSafeConverter<Object, Integer> {
 
-	public ToHashCodeConverter() {
-		super(Object.class, Integer.class);
-	}
+  /**
+   * Instantiates a new To hash code converter.
+   */
+  public ToHashCodeConverter() {
+    super(Object.class, Integer.class);
+  }
 
-	@Override
-	public Integer convert(Object sourceValue) throws ConversionException {
-		return (sourceValue != null ? sourceValue.hashCode() : 0);
-	}
+  @Override
+  public Integer convert(Object sourceValue) throws ConversionException {
+    return (sourceValue != null ? sourceValue.hashCode() : 0);
+  }
 
 }
