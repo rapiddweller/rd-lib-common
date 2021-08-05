@@ -17,23 +17,18 @@ package com.rapiddweller.common;
 
 /**
  * Interface by which a class can declare its level of thread support.
+ * If isParallelizable() and tsThreadSafe() both return true,
+ * then it is up to the caller to decide which alternative to use.
  * Created: 12.11.2009 15:30:51
  *
  * @author Volker Bergmann
- * @since 0.5.0
+ * @since 1.0
  */
 public interface ThreadAware {
-  /**
-   * Is parallelizable boolean.
-   *
-   * @return the boolean
-   */
+
+  /** Tells the caller if it may create clones of the implementor and call each one in a single thread. */
   boolean isParallelizable();
 
-  /**
-   * Is thread safe boolean.
-   *
-   * @return the boolean
-   */
+  /** Tells the caller if it is safe to call the implementor with several threads in parallel. */
   boolean isThreadSafe();
 }

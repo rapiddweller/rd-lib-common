@@ -21,7 +21,14 @@ import com.rapiddweller.common.ui.osx.OSXUtil;
 import javax.swing.UIManager;
 
 /**
- * Provides utility methods for Java applications.
+ * Provides Java applications with a look and feel that is closer
+ * to an application native to the operating system it is running on.
+ * This includes features like a program icon.
+ * As one of the first commands in the main() method, the client should call
+ * <code>ApplicationUtil.prepareNativeLAF("App Name")</code>
+ * The main GUI class needs to implement the interface {@link JavaApplication}
+ * and its instance needs to be provided in a call to
+ * <code>ApplicationUtil.configureApplication(this)</code>.
  * Created: 03.09.2010 16:16:12
  *
  * @author Volker Bergmann
