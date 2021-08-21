@@ -29,77 +29,54 @@ public class ThreadUtil {
   private ThreadUtil() {
   }
 
-  /**
-   * All thread safe boolean.
-   *
-   * @param <C>      the type parameter
-   * @param <T>      the type parameter
-   * @param elements the elements
-   * @return the boolean
-   */
-  public static <C extends Collection<T>, T extends ThreadAware> boolean allThreadSafe(C elements) {
-    for (ThreadAware element : elements) {
-      if (!element.isThreadSafe()) {
+  public static boolean allThreadSafe(Collection<?> elements) {
+    for (Object element : elements) {
+      if (!isThreadSafe(element)) {
         return false;
       }
     }
     return true;
   }
 
-  /**
-   * All thread safe boolean.
-   *
-   * @param <T>      the type parameter
-   * @param elements the elements
-   * @return the boolean
-   */
-  public static <T extends ThreadAware> boolean allThreadSafe(T[] elements) {
-    for (ThreadAware element : elements) {
-      if (!element.isThreadSafe()) {
+  public static boolean allThreadSafe(Object... objects) {
+    for (Object element : objects) {
+      if (!isThreadSafe(element)) {
         return false;
       }
     }
     return true;
   }
 
-  /**
-   * All parallelizable boolean.
-   *
-   * @param <C>      the type parameter
-   * @param <T>      the type parameter
-   * @param elements the elements
-   * @return the boolean
-   */
-  public static <C extends Collection<T>, T extends ThreadAware> boolean allParallelizable(C elements) {
-    for (ThreadAware element : elements) {
-      if (!element.isParallelizable()) {
+  private static boolean isThreadSafe(Object object) {
+    if (object instanceof ThreadAware)
+      return ((ThreadAware) object).isThreadSafe();
+    return false;
+  }
+
+  public static boolean allParallelizable(Collection<?> objects) {
+    for (Object object : objects) {
+      if (!isParallelizable(object)) {
         return false;
       }
     }
     return true;
   }
 
-  /**
-   * All parallelizable boolean.
-   *
-   * @param <T>      the type parameter
-   * @param elements the elements
-   * @return the boolean
-   */
-  public static <T extends ThreadAware> boolean allParallelizable(T[] elements) {
-    for (ThreadAware element : elements) {
-      if (!element.isParallelizable()) {
+  public static boolean allParallelizable(Object... objects) {
+    for (Object object : objects) {
+      if (!isParallelizable(object)) {
         return false;
       }
     }
     return true;
   }
 
-  /**
-   * Current stack trace as string string.
-   *
-   * @return the string
-   */
+  private static boolean isParallelizable(Object object) {
+    if (object instanceof ThreadAware)
+      return ((ThreadAware) object).isParallelizable();
+    return false;
+  }
+
   public static String currentStackTraceAsString() {
     StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
     StringBuilder builder = new StringBuilder();
