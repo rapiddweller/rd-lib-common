@@ -103,10 +103,8 @@ public final class CollectionUtil {
    * @return the sorted set
    */
   @SafeVarargs
-  public static <T, U extends T> SortedSet<T> toSortedSet(U... elements) {
-    TreeSet<T> set = new TreeSet<>();
-    set.addAll(Arrays.asList(elements));
-    return set;
+  public static <T extends Comparable<T>, U extends T> SortedSet<T> toSortedSet(U... elements) {
+    return new TreeSet<>(Arrays.asList(elements));
   }
 
   /**
@@ -554,4 +552,9 @@ public final class CollectionUtil {
     return values;
   }
 
+  public static <T> Set<T> union(Set<T> src1, Set<T> src2) {
+    Set<T> result = new HashSet<>(src1);
+    result.addAll(src2);
+    return result;
+  }
 }
