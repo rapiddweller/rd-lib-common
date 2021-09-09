@@ -47,7 +47,7 @@ public class ThreadUtil {
     return true;
   }
 
-  private static boolean isThreadSafe(Object object) {
+  public static boolean isThreadSafe(Object object) {
     if (object instanceof ThreadAware)
       return ((ThreadAware) object).isThreadSafe();
     return false;
@@ -71,7 +71,7 @@ public class ThreadUtil {
     return true;
   }
 
-  private static boolean isParallelizable(Object object) {
+  public static boolean isParallelizable(Object object) {
     if (object instanceof ThreadAware)
       return ((ThreadAware) object).isParallelizable();
     return false;
