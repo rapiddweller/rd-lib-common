@@ -31,7 +31,6 @@ import java.util.Set;
 /**
  * Provides classes by name, supporting package import and local class names.
  * Created at 15.11.2008 17:03:04
- *
  * @author Volker Bergmann
  * @since 0.4.6
  */
@@ -43,20 +42,12 @@ public class ClassCache {
   private final List<String> packages;
   private final Set<String> nonClassNames = new HashSet<>(1000);
 
-  /**
-   * Instantiates a new Class cache.
-   */
   public ClassCache() {
     classes = new HashMap<>();
     packages = new ArrayList<>();
     importPackage("java.lang");
   }
 
-  /**
-   * Import class.
-   *
-   * @param className the class name
-   */
   public void importClass(String className) {
     className = className.trim();
     if (className.endsWith(".*")) {
@@ -66,21 +57,10 @@ public class ClassCache {
     }
   }
 
-  /**
-   * Import package.
-   *
-   * @param packageName the package name
-   */
   public void importPackage(String packageName) {
     packages.add(packageName);
   }
 
-  /**
-   * For name class.
-   *
-   * @param name the name
-   * @return the class
-   */
   public Class<?> forName(String name) {
     Class<?> result = classes.get(name);
     if (result != null) {
@@ -109,6 +89,9 @@ public class ClassCache {
         }
       }
     }
-    throw new ConfigurationError("Class not found: " + name);
+    // return null instead of raising an exception if a name does not resolve to a class name.
+    // This has better performance in rapiddweller script evaluation,
+    // which first checks for class names, then for variable names.
+    return null;
   }
 }
