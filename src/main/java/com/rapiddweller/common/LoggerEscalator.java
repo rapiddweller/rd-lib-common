@@ -15,8 +15,8 @@
 
 package com.rapiddweller.common;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -51,7 +51,7 @@ public class LoggerEscalator implements Escalator {
     } else {
       originator = this.getClass();
     }
-    Logger logger = LogManager.getLogger(category);
+    Logger logger = LoggerFactory.getLogger(category);
     // create escalation
     Escalation escalation = new Escalation(message, originator, cause);
     // if the escalation is new, send it

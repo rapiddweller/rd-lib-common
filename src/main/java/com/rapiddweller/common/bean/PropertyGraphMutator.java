@@ -19,8 +19,8 @@ import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.UpdateFailedException;
 import com.rapiddweller.common.mutator.NamedMutator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Mutates JavaBean object graphs.
@@ -30,7 +30,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class PropertyGraphMutator implements NamedMutator {
 
-  private static final Logger logger = LogManager.getLogger(PropertyGraphMutator.class);
+  private static final Logger logger = LoggerFactory.getLogger(PropertyGraphMutator.class);
 
   private final boolean required;
   private final boolean autoConvert;

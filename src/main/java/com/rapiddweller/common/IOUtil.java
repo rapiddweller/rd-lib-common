@@ -18,8 +18,8 @@ package com.rapiddweller.common;
 import com.rapiddweller.common.collection.MapEntry;
 import com.rapiddweller.common.converter.ToStringConverter;
 import com.rapiddweller.common.file.FileByNameFilter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -71,7 +71,7 @@ public final class IOUtil {
   /**
    * The logger.
    */
-  private static final Logger LOGGER = LogManager.getLogger(IOUtil.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(IOUtil.class);
 
   private static final String USER_AGENT = "Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.5) Gecko/20041122 Firefox/1.0";
 

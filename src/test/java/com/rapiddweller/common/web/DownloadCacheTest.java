@@ -16,8 +16,8 @@
 package com.rapiddweller.common.web;
 
 import com.rapiddweller.common.DatabeneTestUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.junit.Test;
 
 import java.net.URL;
@@ -31,7 +31,7 @@ import java.net.URL;
  */
 public class DownloadCacheTest {
 
-  Logger LOGGER = LogManager.getLogger(DownloadCacheTest.class);
+  Logger LOGGER = LoggerFactory.getLogger(DownloadCacheTest.class);
 
   @Test
   public void test() throws Exception {

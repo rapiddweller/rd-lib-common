@@ -17,8 +17,8 @@ package com.rapiddweller.common.tree;
 
 import com.rapiddweller.common.Filter;
 import com.rapiddweller.common.TreeModel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Logs the structure represented by a {@link com.rapiddweller.common.TreeModel} implementor.
@@ -29,7 +29,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class TreeLogger {
 
-  private static final Logger LOGGER = LogManager.getLogger(TreeLogger.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(TreeLogger.class);
 
   /**
    * The Indent.

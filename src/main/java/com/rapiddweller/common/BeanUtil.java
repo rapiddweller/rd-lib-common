@@ -18,8 +18,8 @@ package com.rapiddweller.common;
 import com.rapiddweller.common.converter.AnyConverter;
 import com.rapiddweller.common.converter.ConverterManager;
 import com.rapiddweller.common.converter.ToStringConverter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -64,7 +64,7 @@ import java.util.jar.JarFile;
  */
 public final class BeanUtil {
 
-  private static final Logger logger = LogManager.getLogger(BeanUtil.class);
+  private static final Logger logger = LoggerFactory.getLogger(BeanUtil.class);
 
   private static final HashSet<String> NON_CLASS_NAMES = new HashSet<>(100);
 

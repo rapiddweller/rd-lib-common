@@ -15,8 +15,8 @@
 
 package com.rapiddweller.common;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -34,7 +34,7 @@ import java.io.Writer;
  */
 public class ShellUtil {
 
-  private static final Logger logger = LogManager.getLogger(ShellUtil.class);
+  private static final Logger logger = LoggerFactory.getLogger(ShellUtil.class);
 
   /**
    * Run shell commands int.

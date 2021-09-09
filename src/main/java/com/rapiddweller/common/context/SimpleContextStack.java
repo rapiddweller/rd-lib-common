@@ -17,8 +17,8 @@ package com.rapiddweller.common.context;
 
 import com.rapiddweller.common.Assert;
 import com.rapiddweller.common.Context;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.util.HashSet;
 import java.util.Map.Entry;
@@ -35,7 +35,7 @@ import java.util.Stack;
  */
 public class SimpleContextStack implements ContextStack {
 
-  private static final Logger logger = LogManager.getLogger(ContextStack.class);
+  private static final Logger logger = LoggerFactory.getLogger(ContextStack.class);
 
   /**
    * The Contexts.

@@ -18,8 +18,8 @@ package com.rapiddweller.common.log;
 import com.rapiddweller.common.ArrayFormat;
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -95,7 +95,7 @@ public class LoggingProxyFactory {
      */
     public LoggingInvocationHandler(Object realObject, Level level) {
       this.realObject = realObject;
-      this.logger = LogManager.getLogger(realObject.getClass());
+      this.logger = LoggerFactory.getLogger(realObject.getClass());
       this.level = level;
     }
 

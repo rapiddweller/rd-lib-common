@@ -21,8 +21,8 @@ import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.StringUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,7 +41,7 @@ import java.util.Map;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class ComparatorFactory {
 
-  private static final Logger logger = LogManager.getLogger(ComparatorFactory.class);
+  private static final Logger logger = LoggerFactory.getLogger(ComparatorFactory.class);
   private static final String CONFIG_FILE_URI = "com/rapiddweller/common/comparator/comparators.txt";
 
   private static final Map<Class<?>, Comparator<?>> comparators;

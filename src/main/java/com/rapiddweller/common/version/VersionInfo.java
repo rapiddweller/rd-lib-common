@@ -20,8 +20,8 @@ import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.DeploymentError;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.xml.XMLUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -41,7 +41,7 @@ import java.util.Map.Entry;
  */
 public class VersionInfo {
 
-  private static final Logger LOGGER = LogManager.getLogger(VersionInfo.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(VersionInfo.class);
 
   private static final String VERSION_SUFFIX = "_version";
 

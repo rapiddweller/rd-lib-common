@@ -16,8 +16,8 @@
 package com.rapiddweller.common.web;
 
 import com.rapiddweller.common.IOUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class DownloadCache {
 
   private static final String DEFAULT_ROOT_FOLDER = "./cache";
 
-  private static final Logger LOGGER = LogManager.getLogger(DownloadCache.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DownloadCache.class);
 
   private final File rootFolder;
 

@@ -16,8 +16,8 @@
 package com.rapiddweller.common.log;
 
 import com.rapiddweller.common.ui.InfoPrinter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * {@link InfoPrinter} implementation that writes text to a logger category.
@@ -36,7 +36,7 @@ public class LoggingInfoPrinter extends InfoPrinter {
    * @param clazz the clazz
    */
   public LoggingInfoPrinter(Class<?> clazz) {
-    this.logger = LogManager.getLogger(clazz);
+    this.logger = LoggerFactory.getLogger(clazz);
   }
 
   /**
@@ -45,7 +45,7 @@ public class LoggingInfoPrinter extends InfoPrinter {
    * @param category the category
    */
   public LoggingInfoPrinter(String category) {
-    this.logger = LogManager.getLogger(category);
+    this.logger = LoggerFactory.getLogger(category);
   }
 
   @Override

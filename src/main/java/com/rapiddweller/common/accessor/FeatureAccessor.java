@@ -22,8 +22,8 @@ import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.Context;
 import com.rapiddweller.common.Escalator;
 import com.rapiddweller.common.LoggerEscalator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -40,7 +40,7 @@ import java.util.Map;
  */
 public class FeatureAccessor<C, V> implements Accessor<C, V> {
 
-  private static final Logger LOGGER = LogManager.getLogger(FeatureAccessor.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(FeatureAccessor.class);
 
   private static final Escalator escalator = new LoggerEscalator();
 

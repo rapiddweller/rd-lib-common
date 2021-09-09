@@ -16,8 +16,8 @@
 package com.rapiddweller.common;
 
 import junit.framework.AssertionFailedError;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -42,7 +42,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class ParseUtilTest {
 
-  private static final Logger logger = LogManager.getLogger(ParseUtilTest.class);
+  private static final Logger logger = LoggerFactory.getLogger(ParseUtilTest.class);
 
   private static final double DELTA = 1e-4;
 

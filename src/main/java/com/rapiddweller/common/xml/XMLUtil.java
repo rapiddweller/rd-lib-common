@@ -31,8 +31,8 @@ import com.rapiddweller.common.SystemInfo;
 import com.rapiddweller.common.Visitor;
 import com.rapiddweller.common.converter.NoOpConverter;
 import com.rapiddweller.common.converter.String2DateConverter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
@@ -90,7 +90,7 @@ import java.util.Properties;
  */
 public class XMLUtil {
 
-  private static final Logger LOGGER = LogManager.getLogger(XMLUtil.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(XMLUtil.class);
   private static final String DOCUMENT_BUILDER_FACTORY_IMPL = "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl";
   private static final ErrorHandler DEFAULT_ERROR_HANDLER = new ErrorHandler(XMLUtil.class.getSimpleName(), Level.error);
 

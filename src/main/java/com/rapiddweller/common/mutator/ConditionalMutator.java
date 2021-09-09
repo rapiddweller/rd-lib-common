@@ -21,8 +21,8 @@ import com.rapiddweller.common.Mutator;
 import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.UpdateFailedException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.util.Comparator;
 
@@ -61,7 +61,7 @@ public class ConditionalMutator extends MutatorProxy {
   @SuppressWarnings("rawtypes")
   private final Accessor accessor;
 
-  private static final Logger logger = LogManager.getLogger(ConditionalMutator.class);
+  private static final Logger logger = LoggerFactory.getLogger(ConditionalMutator.class);
 
   /**
    * Instantiates a new Conditional mutator.

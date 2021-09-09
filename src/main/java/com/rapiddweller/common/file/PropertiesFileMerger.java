@@ -19,8 +19,8 @@ import com.rapiddweller.common.Encodings;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.collection.TreeBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,7 +39,7 @@ import java.util.Map;
  */
 public class PropertiesFileMerger {
 
-  private static final Logger LOGGER = LogManager.getLogger(PropertiesFileMerger.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesFileMerger.class);
 
   /**
    * Merge.

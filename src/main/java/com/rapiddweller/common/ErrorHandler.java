@@ -15,8 +15,8 @@
 
 package com.rapiddweller.common;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  * Provides for error handling by logging and eventually raising an exception.
@@ -60,7 +60,7 @@ public class ErrorHandler {
    * @param level    the level
    */
   public ErrorHandler(String category, Level level) {
-    this.logger = LogManager.getLogger(category);
+    this.logger = LoggerFactory.getLogger(category);
     this.level = level;
     this.loggingStackTrace = true;
   }

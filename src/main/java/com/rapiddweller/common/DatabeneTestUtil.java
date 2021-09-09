@@ -15,8 +15,8 @@
 
 package com.rapiddweller.common;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class DatabeneTestUtil {
 
   private static final String DATABENE_TEST_PROPERTIES = "test.properties";
 
-  private static final Logger LOGGER = LogManager.getLogger(DatabeneTestUtil.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(DatabeneTestUtil.class);
 
   private static Map<String, String> properties;
 

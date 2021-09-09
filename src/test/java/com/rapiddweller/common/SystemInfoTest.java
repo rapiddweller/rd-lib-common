@@ -15,8 +15,8 @@
 
 package com.rapiddweller.common;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.junit.Test;
 
 import java.io.File;
@@ -35,7 +35,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class SystemInfoTest {
 
-  private static final Logger logger = LogManager.getLogger(SystemInfoTest.class);
+  private static final Logger logger = LoggerFactory.getLogger(SystemInfoTest.class);
 
   @Test
   public void testOsVersion() {
