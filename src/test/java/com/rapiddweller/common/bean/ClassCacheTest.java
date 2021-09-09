@@ -19,6 +19,7 @@ import com.rapiddweller.common.ConfigurationError;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 /**
@@ -46,8 +47,7 @@ public class ClassCacheTest {
   public void testUndefinedPackage() {
     try {
       ClassCache cache = new ClassCache();
-      assertEquals(String.class, cache.forName("ClassCache"));
-      fail("ConfigurationError expected");
+      assertNull(cache.forName("ClassCache"));
     } catch (ConfigurationError e) {
       // that's the desired behavior
     }
