@@ -21,7 +21,6 @@ import com.rapiddweller.common.BeanUtil;
  * Default implementation of the {@link ClassProvider} interface.
  * It forwards the call to {@link BeanUtil}.
  * Created at 16.11.2008 07:05:10
- *
  * @author Volker Bergmann
  * @since 0.4.6
  */
@@ -29,11 +28,6 @@ public class DefaultClassProvider implements ClassProvider {
 
   private static final DefaultClassProvider instance = new DefaultClassProvider();
 
-  /**
-   * Gets instance.
-   *
-   * @return the instance
-   */
   public static ClassProvider getInstance() {
     return instance;
   }
@@ -43,13 +37,6 @@ public class DefaultClassProvider implements ClassProvider {
     return BeanUtil.forName(className);
   }
 
-  /**
-   * Resolve by object or default instance class.
-   *
-   * @param className the class name
-   * @param context   the context
-   * @return the class
-   */
   public static Class<?> resolveByObjectOrDefaultInstance(String className, Object context) {
     ClassProvider classProvider;
     if (context instanceof ClassProvider) {
