@@ -19,6 +19,7 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <dependency_junit.version>4.13.2</dependency_junit.version>
+        <dependency_slf4j.version>1.7.32</dependency_slf4j.version>
         <dependency_log4j.version>2.14.1</dependency_log4j.version>
         <dependency_validation-api.version>2.0.1.Final</dependency_validation-api.version>
         <dependency_xercesImpl.version>2.12.1</dependency_xercesImpl.version>
@@ -108,9 +109,15 @@
         </dependency>
         <!-- Logging dependencies -->
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${dependency_slf4j.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${dependency_log4j.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
