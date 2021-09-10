@@ -33,7 +33,7 @@ public class ArrayTypeConverterTest {
     assertNull(actualNumberFormatter);
     assertNull(((AnyConverter) converter2).integralConverter);
     assertNull(((AnyConverter) converter2).getCharQuote());
-    assertEquals("AnyConverter(Object)", converter2.toString());
+    assertEquals("AnyConverter(-> Object)", converter2.toString());
     assertEquals(Capitalization.mixed, ((AnyConverter) converter2).getDateCapitalization());
     assertNull(((AnyConverter) converter2).getStringQuote());
     assertNull(((AnyConverter) converter1).integralConverter);
@@ -45,7 +45,7 @@ public class ArrayTypeConverterTest {
     assertEquals(Capitalization.mixed, ((AnyConverter) converter1).getTimestampCapitalization());
     assertEquals("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS", ((AnyConverter) converter1).getTimestampPattern());
     assertNull(((AnyConverter) converter1).getCharQuote());
-    assertEquals("AnyConverter(Object)", converter1.toString());
+    assertEquals("AnyConverter(-> Object)", converter1.toString());
     assertEquals(Capitalization.mixed, ((AnyConverter) converter1).getDateCapitalization());
     assertNull(((AnyConverter) converter1).getStringQuote());
     assertNull(((AnyConverter) converter).integralConverter);
@@ -57,7 +57,7 @@ public class ArrayTypeConverterTest {
     assertEquals(Capitalization.mixed, ((AnyConverter) converter).getTimestampCapitalization());
     assertEquals(Capitalization.mixed, ((AnyConverter) converter).getDateCapitalization());
     assertNull(((AnyConverter) converter).getCharQuote());
-    assertEquals("AnyConverter(Object)", converter.toString());
+    assertEquals("AnyConverter(-> Object)", converter.toString());
     assertNull(((AnyConverter) converter).decimalConverter);
     assertNull(((AnyConverter) converter).getStringQuote());
     assertNull(((AnyConverter) converter1).decimalConverter);
