@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,7 @@ import static org.junit.Assert.assertNull;
 /**
  * Tests the {@link AnyConverter}.
  * Created: 29.09.2006 12:12:22
- *
+ * @since 0.1
  * @author Volker Bergmann
  */
 public class AnyConverterTest extends AbstractConverterTest {
@@ -52,7 +52,7 @@ public class AnyConverterTest extends AbstractConverterTest {
     assertEquals(Capitalization.mixed, actualAnyConverter.getTimestampCapitalization());
     assertEquals("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS", actualAnyConverter.getTimestampPattern());
     assertNull(actualAnyConverter.getCharQuote());
-    assertEquals("AnyConverter(Object)", actualAnyConverter.toString());
+    assertEquals("AnyConverter(-> Object)", actualAnyConverter.toString());
     assertEquals(Capitalization.mixed, actualAnyConverter.getDateCapitalization());
   }
 
@@ -70,7 +70,7 @@ public class AnyConverterTest extends AbstractConverterTest {
     assertEquals(Capitalization.mixed, actualAnyConverter.getTimestampCapitalization());
     assertEquals("yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS", actualAnyConverter.getTimestampPattern());
     assertNull(actualAnyConverter.getCharQuote());
-    assertEquals("AnyConverter(Object)", actualAnyConverter.toString());
+    assertEquals("AnyConverter(-> Object)", actualAnyConverter.toString());
     assertEquals(Capitalization.mixed, actualAnyConverter.getDateCapitalization());
   }
 
@@ -115,7 +115,7 @@ public class AnyConverterTest extends AbstractConverterTest {
     assertEquals("1", AnyConverter.convert(1, String.class));
     assertEquals("0", AnyConverter.convert(0, String.class));
     assertEquals("-1", AnyConverter.convert(-1, String.class));
-    assertEquals(null, AnyConverter.convert(null, String.class));
+    assertNull(AnyConverter.convert(null, String.class));
   }
 
   @Test
@@ -163,8 +163,8 @@ public class AnyConverterTest extends AbstractConverterTest {
 
   @Test
   public void testToString() {
-    assertEquals("AnyConverter(Object)", (new AnyConverter<>(Object.class)).toString());
-    assertEquals("AnyConverter(Object)", (new AnyConverter<>(Object.class, "2020-03-01")).toString());
+    assertEquals("AnyConverter(-> Object)", (new AnyConverter<>(Object.class)).toString());
+    assertEquals("AnyConverter(-> Object)", (new AnyConverter<>(Object.class, "2020-03-01")).toString());
   }
 
 }
