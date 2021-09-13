@@ -42,47 +42,25 @@ public class OrderedMap<K, V> implements Map<K, V>, Serializable {
   private static final long serialVersionUID = -6081918861041975388L;
 
   private final Map<K, Integer> keyIndices;
-  /**
-   * The Values.
-   */
   protected List<V> values;
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Ordered map.
-   */
   public OrderedMap() {
     keyIndices = new HashMap<>();
     values = new ArrayList<>();
   }
 
-  /**
-   * Instantiates a new Ordered map.
-   *
-   * @param initialCapacity the initial capacity
-   */
   public OrderedMap(int initialCapacity) {
     keyIndices = new HashMap<>(initialCapacity);
     values = new ArrayList<>(initialCapacity);
   }
 
-  /**
-   * Instantiates a new Ordered map.
-   *
-   * @param initialCapacity the initial capacity
-   * @param loadFactor      the load factor
-   */
   public OrderedMap(int initialCapacity, float loadFactor) {
     keyIndices = new HashMap<>(initialCapacity, loadFactor);
     values = new ArrayList<>(initialCapacity);
   }
 
-  /**
-   * Instantiates a new Ordered map.
-   *
-   * @param source the source
-   */
   public OrderedMap(Map<K, V> source) {
     this(source.size());
     for (Entry<K, V> entry : source.entrySet()) {
@@ -92,13 +70,6 @@ public class OrderedMap<K, V> implements Map<K, V>, Serializable {
 
 
   // custom interface ------------------------------------------------------------------------------------------------
-
-  /**
-   * Gets entry.
-   *
-   * @param key the key
-   * @return the entry
-   */
   public Map.Entry<K, V> getEntry(K key) {
     if (containsKey(key)) {
       return new MapEntry<>(key, get(key));
@@ -214,68 +185,39 @@ public class OrderedMap<K, V> implements Map<K, V>, Serializable {
 
   // List/Vector interface -------------------------------------------------------------------------------------------
 
-  /**
-   * Value at v.
-   *
-   * @param index the index
-   * @return the v
-   */
   public V valueAt(int index) {
     return values.get(index);
   }
 
-  /**
-   * Index of value int.
-   *
-   * @param value the value
-   * @return the int
-   */
   public int indexOfValue(V value) {
     return values.indexOf(value);
   }
 
-  /**
-   * Returns an array containing all of the values in this map in proper sequence.
-   * Obeys the general contract of the Collection.toArray method.
-   *
-   * @return an array containing all of the elements in this list in proper sequence.
-   */
+  /** Returns an array containing all of the values in this map in proper sequence.
+   *  Obeys the general contract of the Collection.toArray method.
+   *  @return an array containing all of the elements in this list in proper sequence. */
   public Object[] toArray() {
     return values.toArray();
   }
 
-  /**
-   * Returns an array containing all of the values in this map in proper sequence;
-   * the runtime type of the returned array is that of the specified array.
-   * Obeys the general contract of the Collection.toArray(Object[]) method.
-   *
-   * @param <T> the component type of the result array
-   * @param a   the array into which the elements of this list are to be stored, if it is big enough; otherwise, a new array of the same runtime type is allocated for this purpose.
-   * @return an array containing the values of this map.
-   * @throws ArrayStoreException  if the runtime type of the specified array is not a supertype of the runtime type of every element in this list.
-   * @throws NullPointerException - if the specified array is null.
-   */
+  /** Returns an array containing all of the values in this map in proper sequence;
+   *  the runtime type of the returned array is that of the specified array.
+   *  Obeys the general contract of the Collection.toArray(Object[]) method.
+   *  @param <T> the component type of the result array
+   *  @param a   the array into which the elements of this list are to be stored, if it is big enough; otherwise, a new array of the same runtime type is allocated for this purpose.
+   *  @return an array containing the values of this map.
+   *  @throws ArrayStoreException  if the runtime type of the specified array is not a supertype of the runtime type of every element in this list.
+   *  @throws NullPointerException - if the specified array is null. */
   public <T> T[] toArray(T[] a) {
     return values.toArray(a);
   }
 
   // specific interface ----------------------------------------------------------------------------------------------
 
-  /**
-   * Internal values list.
-   *
-   * @return the list
-   */
   public List<V> internalValues() {
     return values;
   }
 
-  /**
-   * Equals ignore order boolean.
-   *
-   * @param that the that
-   * @return the boolean
-   */
   public boolean equalsIgnoreOrder(Map<K, V> that) {
     if (this == that) {
       return true;
@@ -300,12 +242,6 @@ public class OrderedMap<K, V> implements Map<K, V>, Serializable {
     private final K key;
     private final int index;
 
-    /**
-     * Instantiates a new Proxy entry.
-     *
-     * @param key   the key
-     * @param index the index
-     */
     public ProxyEntry(K key, int index) {
       this.key = key;
       this.index = index;
