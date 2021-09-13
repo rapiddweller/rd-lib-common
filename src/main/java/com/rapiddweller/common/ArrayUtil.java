@@ -26,24 +26,13 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Provides array-related operations.
+ * Provides array-related operations.<br/><btr/>
  * Created: 09.06.2006 21:31:49
- *
  * @author Volker Bergmann
  * @since 0.1
  */
 public final class ArrayUtil {
 
-  /**
-   * Binary search int.
-   *
-   * @param <T>              the type parameter
-   * @param array            the array
-   * @param item             the item
-   * @param comparator       the comparator
-   * @param resultIfNotFound the result if not found
-   * @return the int
-   */
   public static <T> int binarySearch(T[] array, T item, Comparator<T> comparator, UnfoundResult resultIfNotFound) {
     int index = Arrays.binarySearch(array, item, comparator);
     if (index >= 0) {
@@ -62,42 +51,26 @@ public final class ArrayUtil {
     }
   }
 
-  /**
-   * Copy of range t [ ].
-   *
-   * @param <T>    the type parameter
-   * @param array  the array
-   * @param offset the offset
-   * @param length the length
-   * @return the t [ ]
-   */
+  public static Object copyArray(Object array) {
+    if (array == null)
+      return null;
+    Class<Object> componentType = componentType(array);
+    int length = Array.getLength(array);
+    Object result = Array.newInstance(componentType, length);
+    System.arraycopy(array, 0, result, 0, length);
+    return result;
+  }
+
   public static <T> T[] copyOfRange(T[] array, int offset, int length) {
     return copyOfRange(array, offset, length, componentType(array));
   }
 
-  /**
-   * Component type class.
-   *
-   * @param <T>   the type parameter
-   * @param array the array
-   * @return the class
-   */
   @SuppressWarnings("unchecked")
-  public static <T> Class<T> componentType(T[] array) {
+  public static <T> Class<T> componentType(Object array) {
     Class<T[]> resultType = (Class<T[]>) array.getClass();
     return (Class<T>) resultType.getComponentType();
   }
 
-  /**
-   * Copy of range t [ ].
-   *
-   * @param <T>           the type parameter
-   * @param array         the array
-   * @param offset        the offset
-   * @param length        the length
-   * @param componentType the component type
-   * @return the t [ ]
-   */
   @SuppressWarnings("unchecked")
   public static <T> T[] copyOfRange(Object[] array, int offset, int length, Class<T> componentType) {
     T[] result = (T[]) Array.newInstance(componentType, length);
@@ -105,40 +78,17 @@ public final class ArrayUtil {
     return result;
   }
 
-  /**
-   * Sub array string [ ].
-   *
-   * @param array  the array
-   * @param offset the offset
-   * @return the string [ ]
-   */
   public static String[] subArray(String[] array, int offset) {
     String[] result = new String[array.length - offset];
     System.arraycopy(array, offset, result, 0, array.length - offset);
     return result;
   }
 
-  /**
-   * Remove element t [ ].
-   *
-   * @param <T>   the type parameter
-   * @param item  the item
-   * @param array the array
-   * @return the t [ ]
-   */
   public static <T> T[] removeElement(T item, T[] array) {
     int index = indexOf(item, array);
     return remove(index, array);
   }
 
-  /**
-   * Remove t [ ].
-   *
-   * @param <T>           the type parameter
-   * @param indexToRemove the index to remove
-   * @param array         the array
-   * @return the t [ ]
-   */
   @SuppressWarnings("unchecked")
   public static <T> T[] remove(int indexToRemove, T[] array) {
     Class<T> componentType = componentType(array);
@@ -150,14 +100,6 @@ public final class ArrayUtil {
     return result;
   }
 
-  /**
-   * Remove all t [ ].
-   *
-   * @param <T>      the type parameter
-   * @param toRemove the to remove
-   * @param target   the target
-   * @return the t [ ]
-   */
   public static <T> T[] removeAll(T[] toRemove, T[] target) {
     Class<T> componentType = componentType(target);
     ArrayBuilder<T> builder = new ArrayBuilder<>(componentType);
@@ -171,13 +113,10 @@ public final class ArrayUtil {
 
   // containment check -----------------------------------------------------------------------------------------------
 
-  /**
-   * Tells if an array contains a specific element
-   *
+  /** Tells if an array contains a specific element
    * @param element the element to search
    * @param array   the array to scan
-   * @return true if the element was found, else false
-   */
+   * @return true if the element was found, else false */
   public static boolean contains(Object element, Object array) {
     int length = Array.getLength(array);
     for (int i = 0; i < length; i++) {
@@ -189,14 +128,6 @@ public final class ArrayUtil {
     return false;
   }
 
-  /**
-   * Contains all boolean.
-   *
-   * @param <T>        the type parameter
-   * @param subArray   the sub array
-   * @param superArray the super array
-   * @return the boolean
-   */
   public static <T> boolean containsAll(T[] subArray, T[] superArray) {
     for (T t : subArray) {
       if (!contains(t, superArray)) {
@@ -206,25 +137,10 @@ public final class ArrayUtil {
     return true;
   }
 
-  /**
-   * Index of int.
-   *
-   * @param subArray the sub array
-   * @param array    the array
-   * @return the int
-   */
   public static int indexOf(byte[] subArray, byte[] array) {
     return indexOf(subArray, 0, array);
   }
 
-  /**
-   * Index of int.
-   *
-   * @param subArray  the sub array
-   * @param fromIndex the from index
-   * @param array     the array
-   * @return the int
-   */
   public static int indexOf(byte[] subArray, int fromIndex, byte[] array) {
     for (int i = fromIndex; i <= array.length - subArray.length; i++) {
       boolean match = true;
@@ -240,14 +156,6 @@ public final class ArrayUtil {
     return -1;
   }
 
-  /**
-   * Ends with sequence boolean.
-   *
-   * @param <T>        the type parameter
-   * @param candidates the candidates
-   * @param searched   the searched
-   * @return the boolean
-   */
   public static <T> boolean endsWithSequence(T[] candidates, T[] searched) {
     if (searched.length > candidates.length) {
       return false;
@@ -260,13 +168,6 @@ public final class ArrayUtil {
     return true;
   }
 
-  /**
-   * Common elements t [ ].
-   *
-   * @param <T>     the type parameter
-   * @param sources the sources
-   * @return the t [ ]
-   */
   @SuppressWarnings("unchecked")
   public static <T> T[] commonElements(T[]... sources) {
     Class<T> componentType = null;
@@ -281,14 +182,6 @@ public final class ArrayUtil {
     return commonElements(componentType, sources);
   }
 
-  /**
-   * Common elements t [ ].
-   *
-   * @param <T>           the type parameter
-   * @param componentType the component type
-   * @param sources       the sources
-   * @return the t [ ]
-   */
   @SafeVarargs
   public static <T> T[] commonElements(Class<T> componentType, T[]... sources) {
     ArrayBuilder<T> builder = new ArrayBuilder<>(componentType);
@@ -311,14 +204,6 @@ public final class ArrayUtil {
 
   // identity checks -------------------------------------------------------------------------------------------------
 
-  /**
-   * Equals ignore order boolean.
-   *
-   * @param <T> the type parameter
-   * @param a1  the a 1
-   * @param a2  the a 2
-   * @return the boolean
-   */
   public static <T> boolean equalsIgnoreOrder(T[] a1, T[] a2) {
     if (a1 == a2) {
       return true;
@@ -341,13 +226,6 @@ public final class ArrayUtil {
     return l1.size() == 0;
   }
 
-  /**
-   * Equals boolean.
-   *
-   * @param a1 the a 1
-   * @param a2 the a 2
-   * @return the boolean
-   */
   public static boolean equals(Object a1, Object a2) {
     if (a1 == a2) {
       return true;
@@ -373,14 +251,6 @@ public final class ArrayUtil {
     return l1.size() == 0;
   }
 
-  /**
-   * Index of int.
-   *
-   * @param <T>          the type parameter
-   * @param searchedItem the searched item
-   * @param array        the array
-   * @return the int
-   */
   public static <T> int indexOf(T searchedItem, T[] array) {
     for (int i = 0; i < array.length; i++) {
       T candidate = array[i];
@@ -391,50 +261,24 @@ public final class ArrayUtil {
     return -1;
   }
 
-  /**
-   * To array t [ ].
-   *
-   * @param <T>    the type parameter
-   * @param values the values
-   * @return the t [ ]
-   */
   @SuppressWarnings("unchecked")
   public static <T> T[] toArray(T... values) {
     Class<T> componentType = (Class<T>) (values.length > 0 ? values[0].getClass() : Object.class);
     return buildObjectArrayOfType(componentType, values);
   }
 
-  /**
-   * To int array int [ ].
-   *
-   * @param values the values
-   * @return the int [ ]
-   */
   public static int[] toIntArray(int... values) {
     int[] array = new int[values.length];
     System.arraycopy(values, 0, array, 0, values.length);
     return array;
   }
 
-  /**
-   * To char array char [ ].
-   *
-   * @param values the values
-   * @return the char [ ]
-   */
   public static char[] toCharArray(char... values) {
     char[] array = new char[values.length];
     System.arraycopy(values, 0, array, 0, values.length);
     return array;
   }
 
-  /**
-   * Build array of type object.
-   *
-   * @param componentType the component type
-   * @param values        the values
-   * @return the object
-   */
   public static Object buildArrayOfType(Class<?> componentType, Object... values) {
     Object array = Array.newInstance(componentType, values.length);
     for (int i = 0; i < values.length; i++) {
@@ -443,14 +287,6 @@ public final class ArrayUtil {
     return array;
   }
 
-  /**
-   * Build object array of type t [ ].
-   *
-   * @param <T>           the type parameter
-   * @param componentType the component type
-   * @param values        the values
-   * @return the t [ ]
-   */
   @SuppressWarnings("unchecked")
   public static <T> T[] buildObjectArrayOfType(Class<T> componentType, T... values) {
     T[] array = (T[]) Array.newInstance(componentType, values.length);
@@ -458,24 +294,10 @@ public final class ArrayUtil {
     return array;
   }
 
-  /**
-   * Iterator iterator.
-   *
-   * @param <T>   the type parameter
-   * @param array the array
-   * @return the iterator
-   */
   public static <T> Iterator<T> iterator(T[] array) {
     return new ArrayIterator<>(array);
   }
 
-  /**
-   * Revert t [ ].
-   *
-   * @param <T>   the type parameter
-   * @param array the array
-   * @return the t [ ]
-   */
   public static <T> T[] revert(T[] array) {
     for (int i = (array.length >> 1) - 1; i >= 0; i--) {
       T tmp = array[i];
@@ -485,12 +307,6 @@ public final class ArrayUtil {
     return array;
   }
 
-  /**
-   * Revert char [ ].
-   *
-   * @param array the array
-   * @return the char [ ]
-   */
   public static char[] revert(char[] array) {
     for (int i = (array.length >> 1) - 1; i >= 0; i--) {
       char tmp = array[i];
@@ -500,12 +316,6 @@ public final class ArrayUtil {
     return array;
   }
 
-  /**
-   * Array type class.
-   *
-   * @param componentType the component type
-   * @return the class
-   */
   @SuppressWarnings("rawtypes")
   public static Class arrayType(Class componentType) { // this cannot be made generic since it needs to support simple types too
     if (componentType == byte.class) {
@@ -529,39 +339,15 @@ public final class ArrayUtil {
     return array.getClass();
   }
 
-  /**
-   * New instance t [ ].
-   *
-   * @param <T>           the type parameter
-   * @param componentType the component type
-   * @param length        the length
-   * @return the t [ ]
-   */
   @SuppressWarnings("unchecked")
   public static <T> T[] newInstance(Class<T> componentType, int length) {
     return (T[]) Array.newInstance(componentType, length);
   }
 
-  /**
-   * Merge t [ ].
-   *
-   * @param <T>    the type parameter
-   * @param first  the first
-   * @param second the second
-   * @return the t [ ]
-   */
   public static <T> T[] merge(T[] first, T[] second) {
     return append(second, first);
   }
 
-  /**
-   * Append t [ ].
-   *
-   * @param <T>       the type parameter
-   * @param newValues the new values
-   * @param array     the array
-   * @return the t [ ]
-   */
   public static <T> T[] append(T[] newValues, T[] array) {
     if (array == null) {
       return (newValues != null ? newValues.clone() : null);
@@ -577,14 +363,6 @@ public final class ArrayUtil {
     }
   }
 
-  /**
-   * Append t [ ].
-   *
-   * @param <T>   the type parameter
-   * @param value the value
-   * @param array the array
-   * @return the t [ ]
-   */
   @SuppressWarnings("unchecked")
   public static <T> T[] append(T value, T[] array) {
     if (array == null) {
@@ -597,13 +375,6 @@ public final class ArrayUtil {
     }
   }
 
-  /**
-   * Append byte [ ].
-   *
-   * @param value the value
-   * @param array the array
-   * @return the byte [ ]
-   */
   public static byte[] append(byte value, byte[] array) {
     if (array == null) {
       return new byte[] {value};
@@ -615,23 +386,10 @@ public final class ArrayUtil {
     }
   }
 
-  /**
-   * Is empty boolean.
-   *
-   * @param values the values
-   * @return the boolean
-   */
   public static boolean isEmpty(Object values) {
     return (values == null || Array.getLength(values) == 0);
   }
 
-  /**
-   * Last element of t.
-   *
-   * @param <T>   the type parameter
-   * @param array the array
-   * @return the t
-   */
   public static <T> T lastElementOf(T[] array) {
     if (isEmpty(array)) {
       return null;
@@ -639,12 +397,6 @@ public final class ArrayUtil {
     return array[array.length - 1];
   }
 
-  /**
-   * Last element of integer.
-   *
-   * @param array the array
-   * @return the integer
-   */
   public static Integer lastElementOf(int[] array) {
     if (array == null || array.length == 0) {
       return -1;
@@ -652,12 +404,6 @@ public final class ArrayUtil {
     return array[array.length - 1];
   }
 
-  /**
-   * All null boolean.
-   *
-   * @param values the values
-   * @return the boolean
-   */
   public static boolean allNull(Object[] values) {
     if (values == null) {
       return true;
@@ -670,21 +416,9 @@ public final class ArrayUtil {
     return true;
   }
 
-  /**
-   * The enum Unfound result.
-   */
   public enum UnfoundResult {
-    /**
-     * Prev unfound result.
-     */
     PREV,
-    /**
-     * Next unfound result.
-     */
     NEXT,
-    /**
-     * Neg unfound result.
-     */
     NEG
   }
 
