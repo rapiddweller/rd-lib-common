@@ -43,6 +43,9 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -51,6 +54,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -58,7 +62,6 @@ import java.util.jar.JarFile;
 /**
  * Bundles reflection and introspection related operations.
  * Created: 01.07.2006 08:44:33
- *
  * @author Volker Bergmann
  * @since 0.1
  */
@@ -74,9 +77,7 @@ public final class BeanUtil {
 
   private static final Map<String, PropertyDescriptor> propertyDescriptors = new HashMap<>();
 
-  /**
-   * List of simple Java types.
-   */
+  /** List of simple Java types. */
   private static final Class<?>[] simpleTypes = {
       String.class,
       long.class, Long.class,
@@ -90,6 +91,7 @@ public final class BeanUtil {
       BigDecimal.class, BigInteger.class
   };
 
+  /** List of integral Java types. */
   private static final Class<?>[] integralNumberTypes = {
       long.class, Long.class,
       int.class, Integer.class,
@@ -98,12 +100,14 @@ public final class BeanUtil {
       BigInteger.class
   };
 
+  /** List of decimal Java types. */
   private static final Class<?>[] decimalNumberTypes = {
       float.class, Float.class,
       double.class, Double.class,
       BigDecimal.class
   };
 
+  /** Mappings from simple Java number types to their Object counterparts */
   private static final PrimitiveTypeMapping[] primitiveNumberTypes = {
       new PrimitiveTypeMapping(long.class, Long.class),
       new PrimitiveTypeMapping(int.class, Integer.class),
@@ -113,42 +117,42 @@ public final class BeanUtil {
       new PrimitiveTypeMapping(double.class, Double.class)
   };
 
+  /** Mappings from simple Java non-number types to their Object counterparts */
   private static final PrimitiveTypeMapping[] primitiveNonNumberTypes = {
       new PrimitiveTypeMapping(boolean.class, Boolean.class),
       new PrimitiveTypeMapping(char.class, Character.class),
   };
 
-  /**
-   * Map of integral Java number types
-   */
+  /** Map the names of integral Java number types to their classes */
   private static final Map<String, Class<?>> integralNumberTypeMap;
 
-  /**
-   * Map of decimal Java number types
-   */
+  /** Map the names of decimal Java number types to their classes */
   private static final Map<String, Class<?>> decimalNumberTypeMap;
 
-  /**
-   * Map of simple Java types
-   */
+  /** Map the names of simple Java number types to their classes */
   private static final Map<String, Class<?>> simpleTypeMap;
 
-  /**
-   * Map of primitive Java types
-   */
+  /** Map the names of primitive Java types to their classes */
   private static final Map<String, Class<?>> primitiveTypeMap;
 
-  /**
-   * Map of primitive Java number types
-   */
+  /** Map the names of primitive Java number types to their classes */
   private static final Map<String, Class<?>> primitiveNumberTypeMap;
+
+  private static final Set<Class<?>> IMMUTABLES = CollectionUtil.toSet(
+      Short.class, Integer.class, Long.class, BigInteger.class,
+      Float.class, Double.class, BigDecimal.class,
+      Byte.class, Character.class,
+      String.class, java.util.Date.class, java.sql.Date.class,
+      LocalDate.class, LocalDateTime.class, ZonedDateTime.class
+  );
+
 
   // initialization --------------------------------------------------------------------------------------------------
 
   static {
-    simpleTypeMap = map(simpleTypes);
-    integralNumberTypeMap = map(integralNumberTypes);
-    decimalNumberTypeMap = map(decimalNumberTypes);
+    simpleTypeMap = nameToClassMap(simpleTypes);
+    integralNumberTypeMap = nameToClassMap(integralNumberTypes);
+    decimalNumberTypeMap = nameToClassMap(decimalNumberTypes);
     primitiveNumberTypeMap = new HashMap<>();
     primitiveTypeMap = new HashMap<>();
     for (PrimitiveTypeMapping mapping : primitiveNumberTypes) {
@@ -160,7 +164,7 @@ public final class BeanUtil {
     }
   }
 
-  private static Map<String, Class<?>> map(Class<?>[] array) {
+  private static Map<String, Class<?>> nameToClassMap(Class<?>[] array) {
     Map<String, Class<?>> result = new HashMap<>();
     for (Class<?> type : array) {
       result.put(type.getName(), type);
@@ -168,20 +172,13 @@ public final class BeanUtil {
     return result;
   }
 
-  /**
-   * Prevents instantiation of a BeanUtil object.
-   */
+  /** Prevents instantiation of a BeanUtil object. */
   private BeanUtil() {
   }
 
   // type info methods -----------------------------------------------------------------------------------------------
 
-  /**
-   * Common super type class.
-   *
-   * @param objects the objects
-   * @return the class
-   */
+  /** Finds a common supertype for all elements in the collection. */
   public static Class<?> commonSuperType(Collection<?> objects) {
     Iterator<?> iterator = objects.iterator();
     if (!iterator.hasNext()) {
@@ -202,12 +199,7 @@ public final class BeanUtil {
     return result;
   }
 
-  /**
-   * Common sub type class.
-   *
-   * @param objects the objects
-   * @return the class
-   */
+  /** Finds a common sub type for all the elements in the collection. */
   public static Class<?> commonSubType(Collection<?> objects) {
     Iterator<?> iterator = objects.iterator();
     if (!iterator.hasNext()) {
@@ -228,112 +220,52 @@ public final class BeanUtil {
     return result;
   }
 
-  /**
-   * Tells if the provided class name is the name of a simple Java type
-   *
-   * @param className the name to check
-   * @return true if it is a simple type, else false
-   */
+  /** Tells if the provided class name is the name of a simple Java type
+   *  @param className the name to check
+   *  @return true if it is a simple type, else false */
   public static boolean isSimpleType(String className) {
     return simpleTypeMap.containsKey(className);
   }
 
-  /**
-   * Is primitive type boolean.
-   *
-   * @param className the class name
-   * @return the boolean
-   */
   public static boolean isPrimitiveType(String className) {
     return primitiveTypeMap.containsKey(className);
   }
 
-  /**
-   * Is primitive number type boolean.
-   *
-   * @param className the class name
-   * @return the boolean
-   */
   public static boolean isPrimitiveNumberType(String className) {
     return primitiveNumberTypeMap.containsKey(className);
   }
 
-  /**
-   * Is number type boolean.
-   *
-   * @param type the type
-   * @return the boolean
-   */
   public static boolean isNumberType(Class<?> type) {
     return (isIntegralNumberType(type) || isDecimalNumberType(type));
   }
 
-  /**
-   * Is integral number type boolean.
-   *
-   * @param type the type
-   * @return the boolean
-   */
   public static boolean isIntegralNumberType(Class<?> type) {
     return isIntegralNumberType(type.getName());
   }
 
-  /**
-   * Is integral number type boolean.
-   *
-   * @param className the class name
-   * @return the boolean
-   */
   public static boolean isIntegralNumberType(String className) {
     return integralNumberTypeMap.containsKey(className);
   }
 
-  /**
-   * Is decimal number type boolean.
-   *
-   * @param type the type
-   * @return the boolean
-   */
   public static boolean isDecimalNumberType(Class<?> type) {
     return isDecimalNumberType(type.getName());
   }
 
-  /**
-   * Is decimal number type boolean.
-   *
-   * @param className the class name
-   * @return the boolean
-   */
   public static boolean isDecimalNumberType(String className) {
     return decimalNumberTypeMap.containsKey(className);
   }
 
-  /**
-   * Gets wrapper.
-   *
-   * @param primitiveClassName the primitive class name
-   * @return the wrapper
-   */
   public static Class<?> getWrapper(String primitiveClassName) {
     return primitiveTypeMap.get(primitiveClassName);
   }
 
-  /**
-   * Tells if the specified class is a collection type.
-   *
-   * @param type the class to check
-   * @return true if the class is a collection type, false otherwise
-   */
+  /** Tells if the specified class is a collection type.
+    * @param type the class to check
+    * @return true if the class is a collection type, false otherwise */
   public static boolean isCollectionType(Class<?> type) {
     return Collection.class.isAssignableFrom(type);
   }
 
-  /**
-   * Get types class [ ].
-   *
-   * @param objects the objects
-   * @return the class [ ]
-   */
   public static Class<?>[] getTypes(Object... objects) {
     Class<?>[] result = null;
     if (objects != null) {
@@ -347,13 +279,10 @@ public final class BeanUtil {
 
   // field operations ------------------------------------------------------------------------------------------------
 
-  /**
-   * Returns an object's attribute value
-   *
-   * @param obj           the object to query
-   * @param attributeName the name of the attribute
-   * @return the attribute value
-   */
+  /** Returns an object's attribute value
+   *  @param obj           the object to query
+   *  @param attributeName the name of the attribute
+   *  @return the attribute value */
   public static Object getAttributeValue(Object obj, String attributeName) {
     if (obj == null) {
       throw new IllegalArgumentException("Object may not be null");
@@ -366,25 +295,19 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Sets an attribute value of an object.
-   *
-   * @param obj       the object to modify
-   * @param fieldName the name of the attribute to set
-   * @param value     the value to assign to the field
-   */
+  /** Sets an attribute value of an object.
+   *  @param obj       the object to modify
+   *  @param fieldName the name of the attribute to set
+   *  @param value     the value to assign to the field */
   public static void setAttributeValue(Object obj, String fieldName, Object value) {
     Field field = getField(obj.getClass(), fieldName);
     setAttributeValue(obj, field, value);
   }
 
-  /**
-   * Returns a class' static attribute value
-   *
-   * @param objectType    the class to query
-   * @param attributeName the name of the attribute
-   * @return the attribute value
-   */
+  /** Returns a class' static attribute value
+   *  @param objectType    the class to query
+   *  @param attributeName the name of the attribute
+   *  @return the attribute value */
   public static Object getStaticAttributeValue(Class<?> objectType, String attributeName) {
     Field field = getField(objectType, attributeName);
     try {
@@ -394,25 +317,19 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Sets a static attribute value of a class.
-   *
-   * @param objectType the class to modify
-   * @param fieldName  the name of the attribute to set
-   * @param value      the value to assign to the field
-   */
+  /** Sets a static attribute value of a class.
+   *  @param objectType the class to modify
+   *  @param fieldName  the name of the attribute to set
+   *  @param value      the value to assign to the field */
   public static void setStaticAttributeValue(Class<?> objectType, String fieldName, Object value) {
     Field field = getField(objectType, fieldName);
     setAttributeValue(null, field, value);
   }
 
-  /**
-   * Sets an attribute value of an object.
-   *
-   * @param obj   the object to modify
-   * @param field the attribute to set
-   * @param value the value to assign to the field
-   */
+  /** Sets an attribute value of an object.
+   *  @param obj   the object to modify
+   *  @param field the attribute to set
+   *  @param value the value to assign to the field */
   public static void setAttributeValue(Object obj, Field field, Object value) {
     try {
       field.set(obj, value);
@@ -421,12 +338,9 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Returns the generic type information of an attribute.
-   *
-   * @param field the field representation of the attribute.
-   * @return an array of types that are used to parameterize the attribute.
-   */
+  /** Returns the generic type information of an attribute.
+   *  @param field the field representation of the attribute.
+   *  @return an array of types that are used to parameterize the attribute. */
   public static Class<?>[] getGenericTypes(Field field) {
     Type genericFieldType = field.getGenericType();
     if (!(genericFieldType instanceof ParameterizedType)) {
@@ -441,13 +355,7 @@ public final class BeanUtil {
 
   // instantiation ---------------------------------------------------------------------------------------------------
 
-  /**
-   * For name class.
-   *
-   * @param <T>  the type parameter
-   * @param name the name
-   * @return the class
-   */
+  /** Finds a class by its name. */
   @SuppressWarnings({"unchecked", "rawtypes"})
   public static <T> Class<T> forName(String name) {
     Assert.notNull(name, "class name");
@@ -464,11 +372,6 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Gets context class loader.
-   *
-   * @return the context class loader
-   */
   public static ClassLoader getContextClassLoader() {
     ClassLoader result = Thread.currentThread().getContextClassLoader();
     if (result == null) {
@@ -477,12 +380,6 @@ public final class BeanUtil {
     return result;
   }
 
-  /**
-   * Create jar class loader class loader.
-   *
-   * @param jarFile the jar file
-   * @return the class loader
-   */
   public static ClassLoader createJarClassLoader(File jarFile) {
     ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     if (jarFile != null) {
@@ -495,12 +392,6 @@ public final class BeanUtil {
     return classLoader;
   }
 
-  /**
-   * Create directory class loader class loader.
-   *
-   * @param directory the directory
-   * @return the class loader
-   */
   public static ClassLoader createDirectoryClassLoader(File directory) {
     ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     try {
@@ -511,12 +402,6 @@ public final class BeanUtil {
     return classLoader;
   }
 
-  /**
-   * Run with jar class loader.
-   *
-   * @param jarFile the jar file
-   * @param action  the action
-   */
   public static void runWithJarClassLoader(File jarFile, Runnable action) {
     Thread currentThread = Thread.currentThread();
     ClassLoader contextClassLoader = currentThread.getContextClassLoader();
@@ -528,15 +413,6 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Call with jar class loader t.
-   *
-   * @param <T>     the type parameter
-   * @param jarFile the jar file
-   * @param action  the action
-   * @return the t
-   * @throws Exception the exception
-   */
   public static <T> T callWithJarClassLoader(File jarFile, Callable<T> action) throws Exception {
     Thread currentThread = Thread.currentThread();
     ClassLoader contextClassLoader = currentThread.getContextClassLoader();
@@ -548,49 +424,28 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Instantiates a class by the default constructor.
-   *
-   * @param className the name of the class to instantiate
-   * @return an instance of the class
+  /** Instantiates a class by the default constructor.
+   *  @param className the name of the class to instantiate
+   *  @return an instance of the class
    */
   public static Object newInstance(String className) {
     Class<?> type = BeanUtil.forName(className);
     return newInstanceFromDefaultConstructor(type);
   }
 
-  /**
-   * New instance t.
-   *
-   * @param <T>  the type parameter
-   * @param type the type
-   * @return the t
-   */
   public static <T> T newInstance(Class<T> type) {
     return newInstance(type, true, null);
   }
 
-  /**
-   * Creates an object of the specified type.
-   *
-   * @param <T>        the class of the object to instantiate
-   * @param type       the class to instantiate
-   * @param parameters the constructor parameters
-   * @return an object of the specified class
-   */
+  /** Creates an object of the specified type.
+   *  @param <T>        the class of the object to instantiate
+   *  @param type       the class to instantiate
+   *  @param parameters the constructor parameters
+   *  @return an object of the specified class */
   public static <T> T newInstance(Class<T> type, Object[] parameters) {
     return newInstance(type, true, parameters);
   }
 
-  /**
-   * New instance t.
-   *
-   * @param <T>        the type parameter
-   * @param type       the type
-   * @param strict     the strict
-   * @param parameters the parameters
-   * @return the t
-   */
   @SuppressWarnings({"unchecked", "rawtypes"})
   public static <T> T newInstance(Class<T> type, boolean strict, Object[] parameters) {
     if (parameters == null || parameters.length == 0) {
@@ -655,27 +510,15 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Creates a new instance of a class.
-   *
-   * @param <T>         the class of the object to instantiate
-   * @param constructor the constructor to invoke
-   * @param params      the parameters to provide to the constructor
-   * @return a new instance of the class
-   */
+  /** Creates a new instance of a class.
+   *  @param <T>         the class of the object to instantiate
+   *  @param constructor the constructor to invoke
+   *  @param params      the parameters to provide to the constructor
+   *  @return a new instance of the class */
   public static <T> T newInstance(Constructor<T> constructor, Object... params) {
     return newInstance(constructor, true, params);
   }
 
-  /**
-   * New instance t.
-   *
-   * @param <T>         the type parameter
-   * @param constructor the constructor
-   * @param strict      the strict
-   * @param parameters  the parameters
-   * @return the t
-   */
   public static <T> T newInstance(Constructor<T> constructor, boolean strict, Object... parameters) {
     if (!strict) {
       parameters = convertArray(parameters, constructor.getParameterTypes());
@@ -691,13 +534,6 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Clone t.
-   *
-   * @param <T>    the type parameter
-   * @param object the object
-   * @return the t
-   */
   @SuppressWarnings("unchecked")
   public static <T> T clone(T object) {
     try {
@@ -710,13 +546,6 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Clone all t [ ].
-   *
-   * @param <T>   the type parameter
-   * @param input the input
-   * @return the t [ ]
-   */
   public static <T> T[] cloneAll(T[] input) {
     T[] output = ArrayUtil.newInstance(ArrayUtil.componentType(input), input.length);
     for (int i = 0; i < input.length; i++) {
@@ -728,16 +557,13 @@ public final class BeanUtil {
 
   // method operations -----------------------------------------------------------------------------------------------
 
-  /**
-   * Finds a method by reflection. This iterates all methods of the class, comparing names and parameter types.
-   * Unlike the method Class.getMethod(String, Class ...), this method is able to match primitive and wrapper types.
-   * If no appropriate method is found, a ConfigurationError is raised.
-   *
-   * @param type       the class that holds the method
-   * @param methodName the name of the method
-   * @param paramTypes the parameter types of the method
-   * @return a method with matching names and parameters
-   */
+  /** Finds a method by reflection. This iterates all methods of the class, comparing names and parameter types.
+   *  Unlike the method Class.getMethod(String, Class ...), this method is able to match primitive and wrapper types.
+   *  If no appropriate method is found, a ConfigurationError is raised.
+   *  @param type       the class that holds the method
+   *  @param methodName the name of the method
+   *  @param paramTypes the parameter types of the method
+   *  @return a method with matching names and parameters */
   public static Method getMethod(Class<?> type, String methodName, Class<?>... paramTypes) {
     Method method = findMethod(type, methodName, paramTypes);
     if (method == null) {
@@ -747,16 +573,13 @@ public final class BeanUtil {
     return method;
   }
 
-  /**
-   * Finds a method by reflection. This iterates all methods of the class, comparing names and parameter types.
-   * Unlike the method Class.getMethod(String, Class ...), this method is able to match primitive and wrapper types.
-   * If no appropriate method is found, 'null' is returned
-   *
-   * @param type       the class that holds the method
-   * @param methodName the name of the method
-   * @param paramTypes the parameter types of the method
-   * @return a method with matching names and parameters
-   */
+  /** Finds a method by reflection. This iterates all methods of the class, comparing names and parameter types.
+   *  Unlike the method Class.getMethod(String, Class ...), this method is able to match primitive and wrapper types.
+   *  If no appropriate method is found, 'null' is returned
+   *  @param type       the class that holds the method
+   *  @param methodName the name of the method
+   *  @param paramTypes the parameter types of the method
+   *  @return a method with matching names and parameters */
   public static Method findMethod(Class<?> type, String methodName, Class<?>... paramTypes) {
     Method result = null;
     for (Method method : type.getMethods()) {
@@ -776,13 +599,6 @@ public final class BeanUtil {
     return result;
   }
 
-  /**
-   * Find methods by name method [ ].
-   *
-   * @param type       the type
-   * @param methodName the method name
-   * @return the method [ ]
-   */
   public static Method[] findMethodsByName(Class<?> type, String methodName) {
     ArrayBuilder<Method> builder = new ArrayBuilder<>(Method.class);
     for (Method method : type.getMethods()) {
@@ -793,14 +609,6 @@ public final class BeanUtil {
     return builder.toArray();
   }
 
-  /**
-   * Find constructor constructor.
-   *
-   * @param <T>        the type parameter
-   * @param type       the type
-   * @param paramTypes the param types
-   * @return the constructor
-   */
   @SuppressWarnings("unchecked")
   public static <T> Constructor<T> findConstructor(Class<T> type, Class<?>... paramTypes) {
     Constructor<T>[] ctors = (Constructor<T>[]) type.getConstructors();
@@ -812,27 +620,15 @@ public final class BeanUtil {
     return null;
   }
 
-  /**
-   * Invokes a method on a bean.
-   *
-   * @param target     the object on which to invoke the mthod
-   * @param methodName the name of the method
-   * @param args       the arguments to provide to the method
-   * @return the invoked method's return value.
-   */
+  /** Invokes a method on an {@link Object}.
+   *  @param target     the object on which to invoke the mthod
+   *  @param methodName the name of the method
+   *  @param args       the arguments to provide to the method
+   *  @return the invoked method's return value. */
   public static Object invoke(Object target, String methodName, Object... args) {
     return invoke(true, target, methodName, args);
   }
 
-  /**
-   * Invoke object.
-   *
-   * @param strict     the strict
-   * @param target     the target
-   * @param methodName the method name
-   * @param args       the args
-   * @return the object
-   */
   @SuppressWarnings("rawtypes")
   public static Object invoke(boolean strict, Object target, String methodName, Object... args) {
     if (target == null) {
@@ -848,27 +644,10 @@ public final class BeanUtil {
     return invoke(target, method, strict, args);
   }
 
-  /**
-   * Invoke static object.
-   *
-   * @param targetClass the target class
-   * @param methodName  the method name
-   * @param args        the args
-   * @return the object
-   */
   public static Object invokeStatic(Class<?> targetClass, String methodName, Object... args) {
     return invokeStatic(targetClass, methodName, true, args);
   }
 
-  /**
-   * Invoke static object.
-   *
-   * @param targetClass the target class
-   * @param methodName  the method name
-   * @param strict      the strict
-   * @param args        the args
-   * @return the object
-   */
   public static Object invokeStatic(Class<?> targetClass, String methodName, boolean strict, Object... args) {
     if (targetClass == null) {
       throw new IllegalArgumentException("target is null");
@@ -881,27 +660,16 @@ public final class BeanUtil {
     return invoke(null, method, strict, args);
   }
 
-  /**
-   * Invokes a method on a bean.
-   *
-   * @param target the object on which to invoke the mthod
-   * @param method the method to invoke
-   * @param args   the arguments to provide to the method
-   * @return the invoked method's return value.
+  /** Invokes a method on an {@link Object}.
+   *  @param target the object on which to invoke the mthod
+   *  @param method the method to invoke
+   *  @param args   the arguments to provide to the method
+   *  @return the invoked method's return value.
    */
   public static Object invoke(Object target, Method method, Object[] args) {
     return invoke(target, method, true, args);
   }
 
-  /**
-   * Invoke object.
-   *
-   * @param target the target
-   * @param method the method
-   * @param strict the strict
-   * @param args   the args
-   * @return the object
-   */
   @SuppressWarnings({"unchecked", "rawtypes"})
   public static Object invoke(Object target, Method method, boolean strict, Object[] args) {
     try {
@@ -959,13 +727,6 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Types match boolean.
-   *
-   * @param usedTypes     the used types
-   * @param expectedTypes the expected types
-   * @return the boolean
-   */
   public static boolean typesMatch(Class<?>[] usedTypes, Class<?>[] expectedTypes) {
     // expectedTypes is empty
     if (ArrayUtil.isEmpty(expectedTypes)) {
@@ -1010,13 +771,10 @@ public final class BeanUtil {
 
   // JavaBean operations ---------------------------------------------------------------------------------------------
 
-  /**
-   * Returns the bean property descriptor of an attribute
-   *
-   * @param beanClass    the class that holds the attribute
-   * @param propertyName the name of the property
-   * @return the attribute's property descriptor
-   */
+  /** Returns the bean property descriptor of an attribute
+   *  @param beanClass    the class that holds the attribute
+   *  @param propertyName the name of the property
+   *  @return the attribute's property descriptor */
   public static PropertyDescriptor getPropertyDescriptor(Class<?> beanClass, String propertyName) {
     if (beanClass == null) {
       throw new IllegalArgumentException("beanClass is null");
@@ -1057,14 +815,6 @@ public final class BeanUtil {
     return result;
   }
 
-  /**
-   * Gets property descriptor.
-   *
-   * @param type         the type
-   * @param propertyName the property name
-   * @param required     the required
-   * @return the property descriptor
-   */
   public static PropertyDescriptor getPropertyDescriptor(
       Class<?> type, String propertyName, boolean required) {
     PropertyDescriptor descriptor = getPropertyDescriptor(type, propertyName);
@@ -1074,36 +824,19 @@ public final class BeanUtil {
     return descriptor;
   }
 
-  /**
-   * Has property boolean.
-   *
-   * @param beanClass    the bean class
-   * @param propertyName the property name
-   * @return the boolean
-   */
   public static boolean hasProperty(Class<?> beanClass, String propertyName) {
     return (getPropertyDescriptor(beanClass, propertyName) != null);
   }
 
-  /**
-   * Has writeable property boolean.
-   *
-   * @param beanClass    the bean class
-   * @param propertyName the property name
-   * @return the boolean
-   */
   public static boolean hasWriteableProperty(Class<?> beanClass, String propertyName) {
     PropertyDescriptor descriptor = getPropertyDescriptor(beanClass, propertyName);
     return (descriptor != null && descriptor.getWriteMethod() != null);
   }
 
-  /**
-   * returns the name of a property read method.
-   *
+  /** returns the name of a property read method.
    * @param propertyName the name of the property
    * @param propertyType the type of the property
-   * @return the name of the property read method
-   */
+   * @return the name of the property read method */
   public static String readMethodName(String propertyName, Class<?> propertyType) {
     if (boolean.class.equals(propertyType) || Boolean.class.equals(propertyType)) {
       return "is" + Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
@@ -1112,22 +845,16 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * returns the name of a property write method.
-   *
-   * @param propertyName the name of the property
-   * @return the name of the property write method
-   */
+  /** Returns the name of a property write method.
+   *  @param propertyName the name of the property
+   *  @return the name of the property write method */
   public static String writeMethodName(String propertyName) {
     return "set" + Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
   }
 
-  /**
-   * Finds all property descriptors of a bean class
-   *
+  /** Finds all property descriptors of a bean class
    * @param type the class to check
-   * @return all found property descriptors
-   */
+   * @return all found property descriptors */
   public static PropertyDescriptor[] getPropertyDescriptors(Class<?> type) {
     try {
       return Introspector.getBeanInfo(type).getPropertyDescriptors();
@@ -1136,13 +863,10 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Copies a Map's values to the properties of a JavaBean,
-   * using the Map entries' key values as bean property names.
-   *
-   * @param sourceBean the bean from which to read the properties
-   * @param targetBean the bean on which to set the properties
-   */
+  /** Copies a Map's values to the properties of a JavaBean,
+   *  using the Map entries' key values as bean property names.
+   *  @param sourceBean the bean from which to read the properties
+   *  @param targetBean the bean on which to set the properties */
   public static void copyPropertyValues(Object sourceBean, Object targetBean) {
     PropertyDescriptor[] propertyDescriptors = getPropertyDescriptors(sourceBean.getClass());
     for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
@@ -1154,12 +878,6 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Sets property values.
-   *
-   * @param bean       the bean
-   * @param properties the properties
-   */
   public static void setPropertyValues(Object bean, Map<String, ?> properties) {
     Class<?> beanClass = bean.getClass();
     Method writeMethod = null;
@@ -1189,13 +907,6 @@ public final class BeanUtil {
     }
 */
 
-  /**
-   * Gets property values.
-   *
-   * @param bean         the bean
-   * @param includeClass the include class
-   * @return the property values
-   */
   public static Map<String, ?> getPropertyValues(Object bean, boolean includeClass) {
     Map<String, Object> result = new HashMap<>();
     PropertyDescriptor[] descriptors = getPropertyDescriptors(bean.getClass());
@@ -1208,13 +919,6 @@ public final class BeanUtil {
     return result;
   }
 
-  /**
-   * Gets readable property values.
-   *
-   * @param bean         the bean
-   * @param includeClass the include class
-   * @return the readable property values
-   */
   public static Map<String, ?> getReadablePropertyValues(Object bean, boolean includeClass) {
     Map<String, Object> result = new HashMap<>();
     PropertyDescriptor[] descriptors = getPropertyDescriptors(bean.getClass());
@@ -1227,13 +931,6 @@ public final class BeanUtil {
     return result;
   }
 
-  /**
-   * Gets rw property values.
-   *
-   * @param bean         the bean
-   * @param includeClass the include class
-   * @return the rw property values
-   */
   public static Map<String, ?> getRWPropertyValues(Object bean, boolean includeClass) {
     Map<String, Object> result = new HashMap<>();
     PropertyDescriptor[] descriptors = getPropertyDescriptors(bean.getClass());
@@ -1246,25 +943,14 @@ public final class BeanUtil {
     return result;
   }
 
-  /**
-   * Queries a property value on a JavaBean instance
-   *
-   * @param bean         the bean to read
-   * @param propertyName the name of the property to read
-   * @return the property value
-   */
+  /** Queries a property value on a JavaBean instance
+   *  @param bean         the bean to read
+   *  @param propertyName the name of the property to read
+   *  @return the property value */
   public static Object getPropertyValue(Object bean, String propertyName) {
     return getPropertyValue(bean, propertyName, true);
   }
 
-  /**
-   * Gets property value.
-   *
-   * @param bean             the bean
-   * @param propertyName     the property name
-   * @param propertyRequired the property required
-   * @return the property value
-   */
   public static Object getPropertyValue(Object bean, String propertyName, boolean propertyRequired) {
     PropertyDescriptor descriptor = getPropertyDescriptor(bean.getClass(), propertyName);
     if (descriptor == null) {
@@ -1287,38 +973,18 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Sets a property value on a JavaBean object.
-   *
-   * @param bean          the bean on which to set the property
-   * @param propertyName  the name of the property to set
-   * @param propertyValue the value to set the property to
-   */
+  /** Sets a property value on a JavaBean object.
+   *  @param bean          the bean on which to set the property
+   *  @param propertyName  the name of the property to set
+   *  @param propertyValue the value to set the property to */
   public static void setPropertyValue(Object bean, String propertyName, Object propertyValue) {
     setPropertyValue(bean, propertyName, propertyValue, true);
   }
 
-  /**
-   * Sets property value.
-   *
-   * @param bean          the bean
-   * @param propertyName  the property name
-   * @param propertyValue the property value
-   * @param strict        the strict
-   */
   public static void setPropertyValue(Object bean, String propertyName, Object propertyValue, boolean strict) {
     setPropertyValue(bean, propertyName, propertyValue, strict, !strict);
   }
 
-  /**
-   * Sets property value.
-   *
-   * @param bean          the bean
-   * @param propertyName  the property name
-   * @param propertyValue the property value
-   * @param required      the required
-   * @param autoConvert   the auto convert
-   */
   public static void setPropertyValue(Object bean, String propertyName, Object propertyValue, boolean required, boolean autoConvert) {
     Method writeMethod = null;
     try {
@@ -1355,15 +1021,6 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Extract properties list.
-   *
-   * @param <BEAN>       the type parameter
-   * @param <PROP_TYPE>  the type parameter
-   * @param beans        the beans
-   * @param propertyName the property name
-   * @return the list
-   */
   @SuppressWarnings("unchecked")
   public static <BEAN, PROP_TYPE> List<PROP_TYPE> extractProperties(Collection<BEAN> beans, String propertyName) {
     List<PROP_TYPE> result = new ArrayList<>(beans.size());
@@ -1373,16 +1030,6 @@ public final class BeanUtil {
     return result;
   }
 
-  /**
-   * Extract properties prop type [ ].
-   *
-   * @param <BEAN>       the type parameter
-   * @param <PROP_TYPE>  the type parameter
-   * @param beans        the beans
-   * @param propertyName the property name
-   * @param propertyType the property type
-   * @return the prop type [ ]
-   */
   @SuppressWarnings("unchecked")
   public static <BEAN, PROP_TYPE> PROP_TYPE[] extractProperties(BEAN[] beans, String propertyName, Class<PROP_TYPE> propertyType) {
     PROP_TYPE[] result = ArrayUtil.newInstance(propertyType, beans.length);
@@ -1395,12 +1042,9 @@ public final class BeanUtil {
 
   // class operations ------------------------------------------------------------------------------------------------
 
-  /**
-   * Prints information about a class' parents and methods to a PrintWriter
-   *
-   * @param object  the object to examine
-   * @param printer the {@link PrintWriter} used to write the text representation
-   */
+  /** Prints information about a class' parents and methods to a PrintWriter
+   *  @param object  the object to examine
+   *  @param printer the {@link PrintWriter} used to write the text representation */
   public static void printClassInfo(Object object, PrintWriter printer) {
     if (object == null) {
       printer.println("null");
@@ -1419,11 +1063,8 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Checks if a class fulfills the JavaBeans contract.
-   *
-   * @param cls the class to check
-   */
+  /** Checks if a class fulfills the JavaBeans contract.
+   *  @param cls the class to check */
   public static void checkJavaBean(Class<?> cls) {
     try {
       Constructor<?> constructor = cls.getDeclaredConstructor();
@@ -1446,13 +1087,10 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Tells if a class is deprecated.
-   *
-   * @param type the class to check for deprecation
-   * @return true if the class is deprecated, else false
-   * @since 0.2.05
-   */
+  /**  Tells if a class is deprecated.
+   *  @param type the class to check for deprecation
+   *  @return true if the class is deprecated, else false
+   *  @since 0.2.05 */
   public static boolean deprecated(Class<?> type) {
     Annotation[] annotations = type.getDeclaredAnnotations();
     for (Annotation annotation : annotations) {
@@ -1463,12 +1101,6 @@ public final class BeanUtil {
     return false;
   }
 
-  /**
-   * Gets classes.
-   *
-   * @param packageName the package name
-   * @return the classes
-   */
   public static List<Class<?>> getClasses(String packageName) {
     try {
       ClassLoader classLoader = getContextClassLoader();
@@ -1492,14 +1124,6 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Gets field value.
-   *
-   * @param target the target
-   * @param name   the name
-   * @param strict the strict
-   * @return the field value
-   */
   public static Object getFieldValue(Object target, String name, boolean strict) {
     Class<?> type = target.getClass();
     try {
@@ -1515,14 +1139,6 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Gets field value.
-   *
-   * @param field  the field
-   * @param target the target
-   * @param strict the strict
-   * @return the field value
-   */
   public static Object getFieldValue(Field field, Object target, boolean strict) {
     try {
       if ((field.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
@@ -1535,13 +1151,10 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Returns a Field object that represents an attribute of a class
-   *
-   * @param type the class that holds the attribute
-   * @param name the name of the attribute
-   * @return a Field object that represents the attribute
-   */
+  /** Returns a Field object that represents an attribute of a class
+   *  @param type the class that holds the attribute
+   *  @param name the name of the attribute
+   *  @return a Field object that represents the attribute */
   public static Field getField(Class<?> type, String name) {
     try {
       return type.getField(name);
@@ -1550,13 +1163,6 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Find methods by annotation method [ ].
-   *
-   * @param owner           the owner
-   * @param annotationClass the annotation class
-   * @return the method [ ]
-   */
   public static Method[] findMethodsByAnnotation(
       Class<?> owner, Class<? extends Annotation> annotationClass) {
     Method[] methods = owner.getMethods();
@@ -1569,15 +1175,6 @@ public final class BeanUtil {
     return builder.toArray();
   }
 
-  /**
-   * Get generic interface params type [ ].
-   *
-   * @param <C>               the type parameter
-   * @param <I>               the type parameter
-   * @param checkedClass      the checked class
-   * @param searchedInterface the searched interface
-   * @return the type [ ]
-   */
   public static <C, I> Type[] getGenericInterfaceParams(Class<C> checkedClass, Class<I> searchedInterface) {
     for (Type type : checkedClass.getGenericInterfaces()) {
       ParameterizedType pt = (ParameterizedType) type;
@@ -1591,13 +1188,6 @@ public final class BeanUtil {
     throw new ConfigurationError(checkedClass + " does not implement interface with generic parameters: " + searchedInterface);
   }
 
-  /**
-   * Class name string.
-   *
-   * @param <T> the type parameter
-   * @param o   the o
-   * @return the string
-   */
   public static <T> String className(Object o) {
     if (o == null) {
       return null;
@@ -1605,13 +1195,6 @@ public final class BeanUtil {
     return (o instanceof Class ? ((Class<?>) o).getName() : o.getClass().getName());
   }
 
-  /**
-   * Simple class name string.
-   *
-   * @param <T> the type parameter
-   * @param o   the o
-   * @return the string
-   */
   public static <T> String simpleClassName(Object o) {
     if (o == null) {
       return null;
@@ -1622,13 +1205,10 @@ public final class BeanUtil {
 
   // General method support, i.e. for toString(), equals(), hashCode() -----------------------------------------------
 
-  /**
-   * Tries to convert both arguments to the same type and then compares them
-   *
-   * @param o1 the first object to compare
-   * @param o2 the second object to compare
-   * @return true if they are equal, otherwise false
-   */
+  /** Tries to convert both arguments to the same type and then compares them
+   *  @param o1 the first object to compare
+   *  @param o2 the second object to compare
+   * @return true if they are equal, otherwise false */
   public static boolean equalsIgnoreType(Object o1, Object o2) {
     if (NullSafeComparator.equals(o1, o2)) {
       return true;
@@ -1654,22 +1234,10 @@ public final class BeanUtil {
     return false;
   }
 
-  /**
-   * Null safe hash code int.
-   *
-   * @param object the object
-   * @return the int
-   */
   public static int nullSafeHashCode(Object object) {
     return (object != null ? object.hashCode() : 0);
   }
 
-  /**
-   * Exists class boolean.
-   *
-   * @param className the class name
-   * @return the boolean
-   */
   public static boolean existsClass(String className) {
     try {
       if (NON_CLASS_NAMES.contains(className)) {
@@ -1683,23 +1251,10 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * To string string.
-   *
-   * @param bean the bean
-   * @return the string
-   */
   public static String toString(Object bean) {
     return toString(bean, false);
   }
 
-  /**
-   * To string string.
-   *
-   * @param bean   the bean
-   * @param simple the simple
-   * @return the string
-   */
   public static String toString(Object bean, boolean simple) {
     if (bean == null) {
       return null;
@@ -1749,13 +1304,10 @@ public final class BeanUtil {
     return isNumberType(foundType) && isNumberType(expectedType);
   }
 
-  /**
-   * Creates an instance of the class using the default constructor.
-   *
+  /** Creates an instance of the class using the default constructor.
    * @param type the type to instantiate
    * @return a new instance of the type
-   * @since 0.2.06
-   */
+   * @since 0.2.06 */
   @SuppressWarnings("cast")
   private static <T> T newInstanceFromDefaultConstructor(Class<T> type) {
     if (type == null) {
@@ -1827,25 +1379,17 @@ public final class BeanUtil {
     return (isPrimitiveType(propertyTypeName) && getWrapper(propertyType.getName()) == propertyValue.getClass());
   }
 
-  /**
-   * Represents a primitive-to-wrapper mapping.
-   */
+  public static boolean isImmutable(Class<?> type) {
+    return IMMUTABLES.contains(type);
+  }
+
+  /** Represents a primitive-to-wrapper mapping. */
   private static final class PrimitiveTypeMapping {
-    /**
-     * The Primitive type.
-     */
+    /** The Primitive type to map from. */
     public Class<?> primitiveType;
-    /**
-     * The Wrapper type.
-     */
+    /** The Wrapper type to map to. */
     public Class<?> wrapperType;
 
-    /**
-     * Instantiates a new Primitive type mapping.
-     *
-     * @param primitiveType the primitive type
-     * @param wrapperType   the wrapper type
-     */
     public PrimitiveTypeMapping(Class<?> primitiveType, Class<?> wrapperType) {
       this.primitiveType = primitiveType;
       this.wrapperType = wrapperType;
