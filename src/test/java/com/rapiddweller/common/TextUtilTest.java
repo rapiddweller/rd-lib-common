@@ -18,5 +18,70 @@ public class TextUtilTest {
     assertEquals("65\n", TextUtil.formatTable(new Object[][] {new Object[] {65}}, 'A'));
     assertEquals("tableAtable\n", TextUtil.formatTable(new Object[][] {new Object[] {"table", "table"}}, 'A'));
   }
+
+  @Test
+  public void testLinedTable_without_title() {
+    String[] title = null;
+    Object[][] data = new Object[][] {
+        { "Name", "Age" },
+        { "Alice", 25 },
+        { "Bob", 32}
+    };
+    assertEquals(
+        "+-------+-----+\n" +
+            "| Name  | Age |\n" +
+            "+-------+-----+\n" +
+            "| Alice |  25 |\n" +
+            "+-------+-----+\n" +
+            "| Bob   |  32 |\n" +
+            "+-------+-----+\n", TextUtil.linedTable(title, data));
+  }
+
+  @Test
+  public void testLinedTable_with_short_title() {
+    String[] title = new String[] { "People" };
+    Object[][] data = new Object[][] {
+        { "Name", "Age" },
+        { "Alice", 25 },
+        { "Bob", 32}
+    };
+    assertEquals(
+        "" +
+            "+-------------+\n" +
+            "| People      |\n" +
+            "+-------+-----+\n" +
+            "| Name  | Age |\n" +
+            "+-------+-----+\n" +
+            "| Alice |  25 |\n" +
+            "+-------+-----+\n" +
+            "| Bob   |  32 |\n" +
+            "+-------+-----+\n", TextUtil.linedTable(title, data));
+  }
+
+  @Test
+  public void testLinedTable_with_long_title() {
+    String[] title = new String[] {
+        "Way too big header, but try anyway",
+        "It's just a test, so who really cares?"
+    };
+    Object[][] data = new Object[][] {
+        { "Name", "Age" },
+        { "Alice", 25 },
+        { "Bob", 32}
+    };
+    assertEquals(
+        "" +
+            "+----------------------------------------+\n" +
+            "| Way too big header, but try anyway     |\n" +
+            "| It's just a test, so who really cares? |\n" +
+            "+----------------------------------+-----+\n" +
+            "| Name                             | Age |\n" +
+            "+----------------------------------+-----+\n" +
+            "| Alice                            |  25 |\n" +
+            "+----------------------------------+-----+\n" +
+            "| Bob                              |  32 |\n" +
+            "+----------------------------------+-----+\n", TextUtil.linedTable(title, data));
+  }
+
 }
 
