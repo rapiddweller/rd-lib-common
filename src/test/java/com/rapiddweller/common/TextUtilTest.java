@@ -34,7 +34,7 @@ public class TextUtilTest {
             "| Alice |  25 |\n" +
             "+-------+-----+\n" +
             "| Bob   |  32 |\n" +
-            "+-------+-----+\n", TextUtil.linedTable(title, data));
+            "+-------+-----+\n", TextUtil.formatLinedTable(title, data));
   }
 
   @Test
@@ -55,7 +55,7 @@ public class TextUtilTest {
             "| Alice |  25 |\n" +
             "+-------+-----+\n" +
             "| Bob   |  32 |\n" +
-            "+-------+-----+\n", TextUtil.linedTable(title, data));
+            "+-------+-----+\n", TextUtil.formatLinedTable(title, data));
   }
 
   @Test
@@ -80,7 +80,7 @@ public class TextUtilTest {
             "| Alice                            |  25 |\n" +
             "+----------------------------------+-----+\n" +
             "| Bob                              |  32 |\n" +
-            "+----------------------------------+-----+\n", TextUtil.linedTable(title, data));
+            "+----------------------------------+-----+\n", TextUtil.formatLinedTable(title, data));
   }
 
 }
