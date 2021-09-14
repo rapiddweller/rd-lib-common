@@ -24,53 +24,33 @@ import java.util.Set;
 /**
  * Provides String related utility operations.
  * Created: 05.07.2006 22:45:12
- *
  * @author Volker Bergmann
+ * @since 0.1
  */
 public final class StringUtil {
 
-  /**
-   * Bell character (BEL, 0x07)
-   */
+  /** Bell character (BEL, 0x07) */
   public static final String BEL = String.valueOf((char) 7);
 
-  /**
-   * Backspace character (BS, 0x08)
-   */
+  /** Backspace character (BS, 0x08) */
   public static final String BS = String.valueOf((char) 8);
 
-  /**
-   * Horizontal Tab character (HT, 0x09)
-   */
+  /** Horizontal Tab character (HT, 0x09) */
   public static final String HT = String.valueOf('\t');
 
-  /**
-   * Line Feed character (LF, 0x0A)
-   */
+  /** Line Feed character (LF, 0x0A) */
   public static final String LF = String.valueOf('\n');
 
-  /**
-   * Vertical Tab character (VT, 0x0B)
-   */
+  /** Vertical Tab character (VT, 0x0B) */
   public static final String VT = String.valueOf('\u000B');
 
-  /**
-   * character (FF, 0x0C)
-   */
+  /** character (FF, 0x0C) */
   public static final String FF = String.valueOf('\f');
 
-  /**
-   * character (CR, 0x0D)
-   */
+  /** character (CR, 0x0D) */
   public static final String CR = String.valueOf('\r');
 
 
-  /**
-   * Short ordinal string.
-   *
-   * @param number the number
-   * @return the string
-   */
   public static String shortOrdinal(int number) {
     switch (number) {
       case 1:
@@ -84,25 +64,19 @@ public final class StringUtil {
     }
   }
 
-  /**
-   * Tells if a String is null or isEmpty.
-   *
-   * @param s the string argument to check
-   * @return true if the String is null or isEmpty, otherwise false.
-   */
+  /** Tells if a String is null or isEmpty.
+   *  @param s the string argument to check
+   *  @return true if the String is null or isEmpty, otherwise false. */
   public static boolean isEmpty(CharSequence s) {
     return s == null || s.length() == 0;
   }
 
-  /**
-   * Returns the suffix of a String. If the last character is a
-   * separator, or if no separator was found, the string is assumed
-   * to have no suffix.
-   *
-   * @param name      the String to check
-   * @param separator the character that separates name from suffix
-   * @return a suffix if one exists, else null.
-   */
+  /**  Returns the suffix of a String. If the last character is a
+   *  separator, or if no separator was found, the string is assumed
+   *  to have no suffix.
+   *  @param name      the String to check
+   *  @param separator the character that separates name from suffix
+   *  @return a suffix if one exists, else null. */
   public static String suffix(String name, char separator) {
     if (name == null) {
       return null;
@@ -115,16 +89,13 @@ public final class StringUtil {
     }
   }
 
-  /**
-   * Returns the last token of a list in string representation.
-   * If the string does not contain the separator, the string itself
-   * is the token. If the string ends with a separator, the token is
-   * null.
-   *
-   * @param name      the name to parse
-   * @param separator the character that separates the tokens
-   * @return the last token
-   */
+  /** Returns the last token of a list in string representation.
+   *  If the string does not contain the separator, the string itself
+   *  is the token. If the string ends with a separator, the token is
+   *  null.
+   *  @param name      the name to parse
+   *  @param separator the character that separates the tokens
+   *  @return the last token */
   public static String lastToken(String name, char separator) {
     if (name == null) {
       return null;
@@ -139,13 +110,10 @@ public final class StringUtil {
     }
   }
 
-  /**
-   * Splits a list's String representation into tokens.
-   *
-   * @param text      the String representation of a list.
-   * @param separator the character used to separate tokens
-   * @return an array of tokens.
-   */
+  /** Splits a list's String representation into tokens.
+   *  @param text      the String representation of a list.
+   *  @param separator the character used to separate tokens
+   *  @return an array of tokens. */
   public static String[] tokenize(String text, char separator) {
     if (text == null) {
       return null;
@@ -177,24 +145,10 @@ public final class StringUtil {
     return tokens;
   }
 
-  /**
-   * Split and trim string [ ].
-   *
-   * @param list      the list
-   * @param separator the separator
-   * @return the string [ ]
-   */
   public static String[] splitAndTrim(String list, char separator) {
     return StringUtil.trimAll(split(list, separator));
   }
 
-  /**
-   * Split string [ ].
-   *
-   * @param list      the list
-   * @param separator the separator
-   * @return the string [ ]
-   */
   public static String[] split(String list, char separator) {
     String separatorRegex = String.valueOf(separator);
     // nothing to do
@@ -204,12 +158,6 @@ public final class StringUtil {
     return list.split(separatorRegex);
   }
 
-  /**
-   * Normalize string.
-   *
-   * @param s the s
-   * @return the string
-   */
   public static String normalize(String s) {
     char[] srcBuffer = new char[s.length()];
     s.getChars(0, s.length(), srcBuffer, 0);
@@ -223,14 +171,6 @@ public final class StringUtil {
     return new String(dstBuffer, 0, dstIndex);
   }
 
-  /**
-   * Append left aligned string builder.
-   *
-   * @param builder the builder
-   * @param text    the text
-   * @param columns the columns
-   * @return the string builder
-   */
   public static StringBuilder appendLeftAligned(StringBuilder builder, String text, int columns) {
     builder.append(text);
     int columnsToInsert = columns - text.length();
@@ -238,12 +178,6 @@ public final class StringUtil {
     return builder;
   }
 
-  /**
-   * Increment string.
-   *
-   * @param text the text
-   * @return the string
-   */
   public static String increment(String text) {
     if (text == null || text.length() == 0) {
       return "0";
@@ -254,13 +188,6 @@ public final class StringUtil {
     return String.valueOf(chars);
   }
 
-  /**
-   * Increment char [ ].
-   *
-   * @param chars the chars
-   * @param index the index
-   * @return the char [ ]
-   */
   public static char[] increment(char[] chars, int index) {
     char c = chars[index];
     switch (c) {
@@ -285,22 +212,16 @@ public final class StringUtil {
     return chars;
   }
 
-  /**
-   * interprets an nbsp as space character
-   *
-   * @param c the character to check
-   * @return true if the character is a whitespace, otherwise false.
-   */
+  /** Interprets an nbsp as space character
+   *  @param c the character to check
+   *  @return true if the character is a whitespace, otherwise false. */
   public static boolean isWhitespace(char c) {
     return Character.isWhitespace(c) || c == 160;
   }
 
-  /**
-   * Trims a String by removing white spaces (including nbsp) from left and right.
-   *
-   * @param s the String to trim
-   * @return the trimmed string
-   */
+  /** Trims a String by removing white spaces (including nbsp) from left and right.
+   *  @param s the String to trim
+   *  @return the trimmed string */
   public static String trim(String s) {
     if (s == null || s.length() == 0) {
       return s;
@@ -317,13 +238,10 @@ public final class StringUtil {
     return s.substring(beginIndex, endIndex + 1);
   }
 
-  /**
-   * Trims all String in the array.
-   *
-   * @param array an array of the Strings to trim
-   * @return the same array but with its elements trimmed
-   * @since 0.2.05
-   */
+  /** Trims all String in the array.
+   *  @param array an array of the Strings to trim
+   *  @return the same array but with its elements trimmed
+   *  @since 0.2.05 */
   public static String[] trimAll(String[] array) {
     for (int i = 0; i < array.length; i++) {
       array[i] = trim(array[i]);
@@ -331,33 +249,16 @@ public final class StringUtil {
     return array;
   }
 
-  /**
-   * Returns the platform dependent line separator
-   *
-   * @return the system's line separator
-   */
+  /** Returns the platform dependent line separator
+   *  @return the system's line separator */
   public static String lineSeparator() {
     return System.getProperty("line.separator");
   }
 
-  /**
-   * Contains boolean.
-   *
-   * @param s the s
-   * @param c the c
-   * @return the boolean
-   */
   public static boolean contains(String s, char c) {
     return s.indexOf(c) >= 0;
   }
 
-  /**
-   * Remove string.
-   *
-   * @param s     the s
-   * @param chars the chars
-   * @return the string
-   */
   public static String remove(String s, String chars) {
     if (s == null) {
       return s;
@@ -371,33 +272,14 @@ public final class StringUtil {
     return result.toString();
   }
 
-  /**
-   * Null to empty string.
-   *
-   * @param text the text
-   * @return the string
-   */
   public static String nullToEmpty(String text) {
     return (text != null ? text : "");
   }
 
-  /**
-   * Substitute null string.
-   *
-   * @param value        the value
-   * @param substitution the substitution
-   * @return the string
-   */
   public static String substituteNull(String value, String substitution) {
     return (value != null ? value : substitution);
   }
 
-  /**
-   * Normalize space string.
-   *
-   * @param s the s
-   * @return the string
-   */
   public static String normalizeSpace(String s) {
     if (s == null || s.length() == 0) {
       return s;
@@ -420,12 +302,6 @@ public final class StringUtil {
     return result.toString();
   }
 
-  /**
-   * Trim end string.
-   *
-   * @param s the s
-   * @return the string
-   */
   public static String trimEnd(String s) {
     if (s == null || s.length() == 0) {
       return s;
@@ -440,13 +316,6 @@ public final class StringUtil {
     return s.substring(0, lastIndex + 1);
   }
 
-  /**
-   * Count chars int.
-   *
-   * @param s the s
-   * @param c the c
-   * @return the int
-   */
   public static int countChars(String s, char c) {
     int count = 0;
     for (int i = 0; i < s.length(); i++) {
@@ -457,12 +326,6 @@ public final class StringUtil {
     return count;
   }
 
-  /**
-   * To array string [ ].
-   *
-   * @param list the list
-   * @return the string [ ]
-   */
   public static String[] toArray(List<String> list) {
     String[] result = new String[list.size()];
     for (int i = 0; i < list.size(); i++) {
@@ -471,12 +334,6 @@ public final class StringUtil {
     return result;
   }
 
-  /**
-   * To array array string [ ] [ ].
-   *
-   * @param list the list
-   * @return the string [ ] [ ]
-   */
   public static String[][] toArrayArray(List<List<String>> list) {
     String[][] result = new String[list.size()][];
     for (int i = 0; i < list.size(); i++) {
@@ -485,14 +342,6 @@ public final class StringUtil {
     return result;
   }
 
-  /**
-   * Pad left string.
-   *
-   * @param text   the text
-   * @param length the length
-   * @param c      the c
-   * @return the string
-   */
   public static String padLeft(String text, int length, char c) {
     if (text == null) {
       text = "";
@@ -508,14 +357,6 @@ public final class StringUtil {
     return new String(chars);
   }
 
-  /**
-   * Pad right string.
-   *
-   * @param text   the text
-   * @param length the length
-   * @param c      the c
-   * @return the string
-   */
   public static String padRight(String text, int length, char c) {
     if (text == null) {
       text = "";
@@ -554,15 +395,6 @@ public final class StringUtil {
     Arrays.fill(WHITESPACE_BUFFER, ' ');
   }
 
-  /**
-   * Fill char [ ].
-   *
-   * @param chars     the chars
-   * @param fromIndex the from index
-   * @param toIndex   the to index
-   * @param c         the c
-   * @return the char [ ]
-   */
   public static char[] fill(char[] chars, int fromIndex, int toIndex, char c) {
     int length = toIndex - fromIndex;
     if (length < 20) {
@@ -577,16 +409,6 @@ public final class StringUtil {
     return chars;
   }
 
-  /**
-   * Get chars char [ ].
-   *
-   * @param srcBegin the src begin
-   * @param srcEnd   the src end
-   * @param text     the text
-   * @param chars    the chars
-   * @param dstBegin the dst begin
-   * @return the char [ ]
-   */
   public static char[] getChars(int srcBegin, int srcEnd, String text, char[] chars, int dstBegin) {
     int textLength = text.length();
     if (textLength >= 6) {
@@ -599,36 +421,17 @@ public final class StringUtil {
     return chars;
   }
 
-  /**
-   * Get chars char [ ].
-   *
-   * @param s the s
-   * @return the char [ ]
-   */
   public static char[] getChars(String s) {
     char[] chars = new char[s.length()];
     return getChars(0, chars.length, s, chars, 0);
   }
 
-  /**
-   * Get chars char [ ].
-   *
-   * @param builder the builder
-   * @return the char [ ]
-   */
   public static char[] getChars(StringBuilder builder) {
     char[] chars = new char[builder.length()];
     builder.getChars(0, builder.length(), chars, 0);
     return chars;
   }
 
-  /**
-   * Pad string string.
-   *
-   * @param c      the c
-   * @param length the length
-   * @return the string
-   */
   public static String padString(char c, int length) {
     if (length < 0) {
       throw new IllegalArgumentException("Negative pad length: " + length);
@@ -638,12 +441,6 @@ public final class StringUtil {
     return new String(chars);
   }
 
-  /**
-   * Trim right string.
-   *
-   * @param source the source
-   * @return the string
-   */
   public static String trimRight(String source) {
     if (source == null) {
       return null;
@@ -655,13 +452,6 @@ public final class StringUtil {
     return source.substring(0, i + 1);
   }
 
-  /**
-   * Trim right string.
-   *
-   * @param source  the source
-   * @param padChar the pad char
-   * @return the string
-   */
   public static String trimRight(String source, char padChar) {
     if (source == null) {
       return null;
@@ -673,13 +463,6 @@ public final class StringUtil {
     return source.substring(0, i + 1);
   }
 
-  /**
-   * Trim left string.
-   *
-   * @param source  the source
-   * @param padChar the pad char
-   * @return the string
-   */
   public static String trimLeft(String source, char padChar) {
     if (source == null) {
       return null;
@@ -691,13 +474,6 @@ public final class StringUtil {
     return source.substring(i);
   }
 
-  /**
-   * Trim string.
-   *
-   * @param source  the source
-   * @param padChar the pad char
-   * @return the string
-   */
   public static String trim(String source, char padChar) {
     if (source == null) {
       return null;
@@ -716,12 +492,6 @@ public final class StringUtil {
     return source.substring(i0, i1 + 1);
   }
 
-  /**
-   * To lower case string [ ].
-   *
-   * @param src the src
-   * @return the string [ ]
-   */
   public static String[] toLowerCase(String[] src) {
     String[] dst = new String[src.length];
     for (int i = 0; i < src.length; i++) {
@@ -730,13 +500,6 @@ public final class StringUtil {
     return dst;
   }
 
-  /**
-   * Index of ignore case int.
-   *
-   * @param searched   the searched
-   * @param candidates the candidates
-   * @return the int
-   */
   public static int indexOfIgnoreCase(String searched, String... candidates) {
     for (int i = 0; i < candidates.length; i++) {
       if (searched.equalsIgnoreCase(candidates[i])) {
@@ -746,44 +509,25 @@ public final class StringUtil {
     return -1;
   }
 
-  /**
-   * Last char char.
-   *
-   * @param word the word
-   * @return the char
-   */
   public static char lastChar(String word) {
     return word.charAt(word.length() - 1);
   }
 
-  /**
-   * Makes the first character of a String uppercase.
-   *
-   * @param text the text to convert
-   * @return a text that starts with a uppercase letter
-   */
+  /** Makes the first character of a String uppercase.
+   *  @param text the text to convert
+   *  @return a text that starts with a uppercase letter */
   public static String capitalize(String text) {
     return text.substring(0, 1).toUpperCase() + text.substring(1);
   }
 
-  /**
-   * Makes the first character of a String lowercase.
-   *
-   * @param text the text to convert
-   * @return a text that starts with a lowercase letter
-   * @since 0.2.04
-   */
+  /** Makes the first character of a String lowercase.
+   *  @param text the text to convert
+   *  @return a text that starts with a lowercase letter
+   *  @since 0.2.04 */
   public static String uncapitalize(String text) {
     return text.substring(0, 1).toLowerCase() + text.substring(1);
   }
 
-  /**
-   * Split on first separator string [ ].
-   *
-   * @param path      the path
-   * @param separator the separator
-   * @return the string [ ]
-   */
   public static String[] splitOnFirstSeparator(String path, char separator) {
     if (path == null) {
       return new String[] {null, null};
@@ -795,13 +539,6 @@ public final class StringUtil {
     return splitAroundSeparator(path, sepIndex);
   }
 
-  /**
-   * Split on last separator string [ ].
-   *
-   * @param path      the path
-   * @param separator the separator
-   * @return the string [ ]
-   */
   public static String[] splitOnLastSeparator(String path, char separator) {
     if (path == null) {
       return new String[] {null, null};
@@ -810,13 +547,6 @@ public final class StringUtil {
     return splitAroundSeparator(path, sepIndex);
   }
 
-  /**
-   * Split around separator string [ ].
-   *
-   * @param path     the path
-   * @param sepIndex the sep index
-   * @return the string [ ]
-   */
   public static String[] splitAroundSeparator(String path, int sepIndex) {
     if (sepIndex < 0) {
       return new String[] {null, path};
@@ -829,13 +559,6 @@ public final class StringUtil {
     }
   }
 
-  /**
-   * Concat string.
-   *
-   * @param separator the separator
-   * @param parts     the parts
-   * @return the string
-   */
   public static String concat(Character separator, String... parts) {
     if (parts == null) {
       return "";
@@ -852,24 +575,10 @@ public final class StringUtil {
     return builder.toString();
   }
 
-  /**
-   * Equals ignore case boolean.
-   *
-   * @param s1 the s 1
-   * @param s2 the s 2
-   * @return the boolean
-   */
   public static boolean equalsIgnoreCase(String s1, String s2) {
     return (s1 != null ? s1.equalsIgnoreCase(s2) : s2 == null);
   }
 
-  /**
-   * Equals ignore case boolean.
-   *
-   * @param a1 the a 1
-   * @param a2 the a 2
-   * @return the boolean
-   */
   public static boolean equalsIgnoreCase(String[] a1, String[] a2) {
     if (a1.length != a2.length) {
       return false;
@@ -882,13 +591,6 @@ public final class StringUtil {
     return true;
   }
 
-  /**
-   * Equals ignore case boolean.
-   *
-   * @param set1 the set 1
-   * @param set2 the set 2
-   * @return the boolean
-   */
   public static boolean equalsIgnoreCase(Set<String> set1, Set<String> set2) {
     if (set1.size() != set2.size()) {
       return false;
@@ -907,13 +609,6 @@ public final class StringUtil {
     return true;
   }
 
-  /**
-   * Contains ignore case boolean.
-   *
-   * @param searchedWord the searched word
-   * @param words        the words
-   * @return the boolean
-   */
   public static boolean containsIgnoreCase(String searchedWord, Collection<String> words) {
     for (String name : words) {
       if (name.equalsIgnoreCase(searchedWord)) {
@@ -923,13 +618,6 @@ public final class StringUtil {
     return false;
   }
 
-  /**
-   * Contains ignore case boolean.
-   *
-   * @param searchedWord the searched word
-   * @param words        the words
-   * @return the boolean
-   */
   public static boolean containsIgnoreCase(String searchedWord, String[] words) {
     for (String name : words) {
       if (name.equalsIgnoreCase(searchedWord)) {
@@ -939,13 +627,6 @@ public final class StringUtil {
     return false;
   }
 
-  /**
-   * Starts with ignore case boolean.
-   *
-   * @param text   the text
-   * @param prefix the prefix
-   * @return the boolean
-   */
   public static boolean startsWithIgnoreCase(String text, String prefix) {
     if (text == null) {
       return (prefix == null);
@@ -956,13 +637,6 @@ public final class StringUtil {
     return text.toLowerCase().startsWith(prefix.toLowerCase());
   }
 
-  /**
-   * Ends with ignore case boolean.
-   *
-   * @param text   the text
-   * @param suffix the suffix
-   * @return the boolean
-   */
   public static boolean endsWithIgnoreCase(String text, String suffix) {
     if (text == null) {
       return (suffix == null);
@@ -973,12 +647,6 @@ public final class StringUtil {
     return text.toLowerCase().endsWith(suffix.toLowerCase());
   }
 
-  /**
-   * Normalize name string.
-   *
-   * @param name the name
-   * @return the string
-   */
   public static String normalizeName(final String name) {
     if (StringUtil.isEmpty(name)) {
       return name;
@@ -1029,25 +697,16 @@ public final class StringUtil {
     return builder.toString();
   }
 
-  /**
-   * Escape string.
-   *
-   * @param text the text
-   * @return the string
-   */
   public static String escape(String text) {
     return escape(text, false, false);
   }
 
-  /**
-   * Escapes a string in C/C++/Java style.
-   *
-   * @param text               the text to escape
-   * @param escapeSingleQuotes true if single quotes shall be escaped, otherwise false
-   * @param escapeDoubleQuotes true if double quotes shall be escaped, otherwise false
-   * @return the escaped string
-   * @see "http://en.wikipedia.org/wiki/ASCII"
-   */
+  /** Escapes a string in C/C++/Java style.
+   *  @param text               the text to escape
+   *  @param escapeSingleQuotes true if single quotes shall be escaped, otherwise false
+   *  @param escapeDoubleQuotes true if double quotes shall be escaped, otherwise false
+   *  @return the escaped string
+   *  @see "http://en.wikipedia.org/wiki/ASCII" */
   public static String escape(String text, boolean escapeSingleQuotes, boolean escapeDoubleQuotes) {
     if (text == null) {
       return null;
@@ -1069,13 +728,10 @@ public final class StringUtil {
     return text;
   }
 
-  /**
-   * Unescapes a string in C/C++/Java style.
-   *
-   * @param text the text to unescape
-   * @return the unescaped text
-   * @see "http://en.wikipedia.org/wiki/ASCII"
-   */
+  /** Unescapes a string in C/C++/Java style.
+   *  @param text the text to unescape
+   *  @return the unescaped text
+   *  @see "http://en.wikipedia.org/wiki/ASCII" */
   public static String unescape(String text) {
     if (text == null) {
       return null;
@@ -1134,14 +790,6 @@ public final class StringUtil {
     return builder.toString();
   }
 
-  /**
-   * Replace tokens string.
-   *
-   * @param src    the src
-   * @param token  the token
-   * @param values the values
-   * @return the string
-   */
   public static String replaceTokens(String src, String token, String... values) {
     StringBuilder builder = new StringBuilder();
     int paramIndex = 0;
@@ -1160,12 +808,6 @@ public final class StringUtil {
     return builder.toString();
   }
 
-  /**
-   * Empty to null string.
-   *
-   * @param s the s
-   * @return the string
-   */
   public static String emptyToNull(String s) {
     if (s == null || s.length() == 0) {
       return null;
@@ -1174,12 +816,6 @@ public final class StringUtil {
     return (trimmed.length() != 0 ? s : null);
   }
 
-  /**
-   * Trimmed empty to null string.
-   *
-   * @param s the s
-   * @return the string
-   */
   public static String trimmedEmptyToNull(String s) {
     if (s == null || s.length() == 0) {
       return null;
@@ -1188,14 +824,6 @@ public final class StringUtil {
     return (trimmed.length() != 0 ? trimmed : null);
   }
 
-  /**
-   * Remove section string.
-   *
-   * @param text      the text
-   * @param beginMark the begin mark
-   * @param endMark   the end mark
-   * @return the string
-   */
   public static String removeSection(String text, String beginMark, String endMark) {
     if (StringUtil.isEmpty(text)) {
       return text;
@@ -1208,13 +836,6 @@ public final class StringUtil {
     return text.substring(0, beginIndex) + text.substring(endIndex + endMark.length());
   }
 
-  /**
-   * Normalize line separators string.
-   *
-   * @param text          the text
-   * @param lineSeparator the line separator
-   * @return the string
-   */
   public static String normalizeLineSeparators(String text, String lineSeparator) {
     if (StringUtil.isEmpty(text)) {
       return text;
@@ -1240,14 +861,6 @@ public final class StringUtil {
     return builder.toString();
   }
 
-  /**
-   * Extract string.
-   *
-   * @param text      the text
-   * @param beginMark the begin mark
-   * @param endMark   the end mark
-   * @return the string
-   */
   public static String extract(String text, String beginMark, String endMark) {
     int beginIndex = (beginMark != null ? text.indexOf(beginMark) + beginMark.length() : 0);
     if (endMark != null) {
@@ -1258,12 +871,6 @@ public final class StringUtil {
     }
   }
 
-  /**
-   * Build phrase string.
-   *
-   * @param parts the parts
-   * @return the string
-   */
   public static String buildPhrase(String... parts) {
     if (parts == null) {
       return "";
@@ -1280,12 +887,6 @@ public final class StringUtil {
     return builder.toString();
   }
 
-  /**
-   * Trim line separators string.
-   *
-   * @param text the text
-   * @return the string
-   */
   public static String trimLineSeparators(String text) {
     if (text == null) {
       return null;
@@ -1301,12 +902,6 @@ public final class StringUtil {
     return text.substring(start, end);
   }
 
-  /**
-   * Split lines list.
-   *
-   * @param text the text
-   * @return the list
-   */
   public static List<String> splitLines(String text) {
     if (text == null) {
       return null;
@@ -1341,12 +936,6 @@ public final class StringUtil {
     return lines;
   }
 
-  /**
-   * Remove empty lines string.
-   *
-   * @param text the text
-   * @return the string
-   */
   public static String removeEmptyLines(String text) {
     if (text == null) {
       return null;
@@ -1378,32 +967,14 @@ public final class StringUtil {
     return String.valueOf(c1);
   }
 
-  /**
-   * Is line separator char boolean.
-   *
-   * @param c the c
-   * @return the boolean
-   */
   public static boolean isLineSeparatorChar(char c) {
     return c == '\r' || c == '\n';
   }
 
-  /**
-   * Quote if not null string.
-   *
-   * @param text the text
-   * @return the string
-   */
   public static String quoteIfNotNull(String text) {
     return (text != null ? "'" + text + "'" : text);
   }
 
-  /**
-   * Gets leading whitespace.
-   *
-   * @param line the line
-   * @return the leading whitespace
-   */
   public static String getLeadingWhitespace(String line) {
     int i;
     for (i = 0; i < line.length() && Character.isWhitespace(line.charAt(i)); i++) {
@@ -1412,13 +983,6 @@ public final class StringUtil {
     return line.substring(0, i);
   }
 
-  /**
-   * Limit length string.
-   *
-   * @param text      the text
-   * @param maxLength the max length
-   * @return the string
-   */
   public static String limitLength(String text, int maxLength) {
     if (text == null) {
       return null;
@@ -1429,13 +993,6 @@ public final class StringUtil {
     }
   }
 
-  /**
-   * Limit length with ellipsis string.
-   *
-   * @param text      the text
-   * @param maxLength the max length
-   * @return the string
-   */
   public static String limitLengthWithEllipsis(String text, int maxLength) {
     if (text == null) {
       return null;
@@ -1452,14 +1009,6 @@ public final class StringUtil {
     }
   }
 
-  /**
-   * Replace optional suffix string.
-   *
-   * @param text        the text
-   * @param suffix      the suffix
-   * @param replacement the replacement
-   * @return the string
-   */
   public static String replaceOptionalSuffix(String text, String suffix, String replacement) {
     if (text.endsWith(suffix)) {
       return text.substring(0, text.length() - suffix.length()) + replacement;
@@ -1468,13 +1017,6 @@ public final class StringUtil {
     }
   }
 
-  /**
-   * Remove suffix if present string.
-   *
-   * @param suffix the suffix
-   * @param name   the name
-   * @return the string
-   */
   public static String removeSuffixIfPresent(String suffix, String name) {
     if (name != null && name.endsWith(suffix)) {
       return name.substring(0, name.length() - suffix.length());
@@ -1482,13 +1024,6 @@ public final class StringUtil {
     return name;
   }
 
-  /**
-   * Substring after string.
-   *
-   * @param marker the marker
-   * @param s      the s
-   * @return the string
-   */
   public static String substringAfter(String marker, String s) {
     int index = s.indexOf(marker);
     if (index < 0) {
@@ -1497,19 +1032,24 @@ public final class StringUtil {
     return s.substring(index + marker.length());
   }
 
-  /**
-   * Substring before string.
-   *
-   * @param marker the marker
-   * @param s      the s
-   * @return the string
-   */
   public static String substringBefore(String marker, String s) {
     int index = s.indexOf(marker);
     if (index < 0) {
       return null;
     }
     return s.substring(0, index);
+  }
+
+  public static int maxLength(String[] strings) {
+    int result = 0;
+    if (strings != null) {
+      for (String s : strings) {
+        int length = s.length();
+        if (length > result)
+          result = length;
+      }
+    }
+    return result;
   }
 
 }
