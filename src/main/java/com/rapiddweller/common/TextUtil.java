@@ -16,6 +16,7 @@
 package com.rapiddweller.common;
 
 import com.rapiddweller.common.converter.ToStringConverter;
+import com.rapiddweller.common.format.Alignment;
 
 import java.util.List;
 
@@ -58,6 +59,10 @@ public class TextUtil {
   }
 
   public static String formatLinedTable(String[] titleRows, Object[][] table) {
+    return formatLinedTable(titleRows, table, null);
+  }
+
+  public static String formatLinedTable(String[] titleRows, Object[][] table, Alignment[] alignments) {
     // calculate title width and columns width
     int titleWidth = StringUtil.maxLength(titleRows) + 2;
     int[] colWidths = columnWidths(table);
@@ -69,7 +74,6 @@ public class TextUtil {
     } else {
       int diff = titleWidth - bodyWidth;
       colWidths[0] = colWidths[0] + diff;
-      bodyWidth += diff;
     }
 
     // format table title
@@ -91,14 +95,23 @@ public class TextUtil {
     for (Object[] row : table) {
       text.append("| ");
       for (int i = 0; i < row.length; i++) {
+        Alignment cellAlignment = null;
+        if (alignments != null && i < alignments.length) {
+          cellAlignment = alignments[i];
+        }
         Object object = row[i];
         String content = format(object);
-        if (object instanceof Number) {
-          appendChars(' ', colWidths[i] - 2 - content.length(), text);
+        int padCount = colWidths[i] - 2 - content.length();
+        if (cellAlignment == Alignment.RIGHT || (cellAlignment == null && object instanceof Number)) {
+          appendChars(' ', padCount, text);
           text.append(content);
+        } else if (cellAlignment == Alignment.LEFT || cellAlignment == null) {
+          text.append(content);
+          appendChars(' ', padCount, text);
         } else {
+          appendChars(' ', padCount / 2, text);
           text.append(content);
-          appendChars(' ', colWidths[i] - 2 - content.length(), text);
+          appendChars(' ', padCount - padCount / 2, text);
         }
         text.append(" |");
         if (i < row.length - 1)
@@ -128,9 +141,8 @@ public class TextUtil {
     int[] colWidths = new int[table[0].length];
     for (int col = 0; col < colWidths.length; col++) {
       colWidths[col] = 0;
-      for (int row = 0; row < table.length; row++) {
-        Object[] cells = table[row];
-        if (cells.length > col) {
+      for (Object[] cells : table) {
+        if (cells != null && cells.length > col) {
           String text = format(cells[col]);
           if (text.length() > colWidths[col]) {
             colWidths[col] = text.length();

@@ -1,5 +1,6 @@
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.format.Alignment;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -82,6 +83,30 @@ public class TextUtilTest {
             "| Bob                              |  32 |\n" +
             "+----------------------------------+-----+\n", TextUtil.formatLinedTable(title, data));
   }
+
+  @Test
+  public void testLinedTable_with_alignment() {
+    String[] title = new String[] { "People" };
+    Object[][] data = new Object[][] {
+        { "Name", "Age" },
+        { "Alice", 25 },
+        { "Bob", 102}
+    };
+    Alignment[] alignments = { Alignment.RIGHT, Alignment.LEFT };
+    String formatted = TextUtil.formatLinedTable(title, data, alignments);
+    assertEquals(
+        "" +
+            "+-------------+\n" +
+            "| People      |\n" +
+            "+-------+-----+\n" +
+            "|  Name | Age |\n" +
+            "+-------+-----+\n" +
+            "| Alice | 25  |\n" +
+            "+-------+-----+\n" +
+            "|   Bob | 102 |\n" +
+            "+-------+-----+\n", formatted);
+  }
+
 
 }
 
