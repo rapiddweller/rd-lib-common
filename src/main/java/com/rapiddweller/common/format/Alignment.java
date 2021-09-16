@@ -18,22 +18,17 @@ package com.rapiddweller.common.format;
 /**
  * Provides constants for horizontal aligning.
  * Created: 29.06.2007 18:20:45
- *
  * @author Volker Bergmann
  */
 public enum Alignment {
 
-  /**
-   * Left alignment.
-   */
+  /** Left alignment. */
   LEFT('l'),
-  /**
-   * Right alignment.
-   */
+
+  /** Right alignment. */
   RIGHT('r'),
-  /**
-   * Center alignment.
-   */
+
+  /** Center alignment. */
   CENTER('c');
 
   private final char id;
@@ -42,11 +37,6 @@ public enum Alignment {
     this.id = id;
   }
 
-  /**
-   * Gets id.
-   *
-   * @return the id
-   */
   public char getId() {
     return id;
   }
