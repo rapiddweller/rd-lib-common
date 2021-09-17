@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,6 @@ import static org.junit.Assert.fail;
 /**
  * Tests the {@link ClassCache}.
  * Created at 15.11.2008 17:16:09
- *
  * @author Volker Bergmann
  * @since 0.4.6
  */
