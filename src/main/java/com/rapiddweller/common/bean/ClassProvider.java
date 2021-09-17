@@ -18,16 +18,10 @@ package com.rapiddweller.common.bean;
 /**
  * Abstraction of a utility that provides class definitions by name.
  * Created at 16.11.2008 07:03:52
- *
  * @author Volker Bergmann
  * @since 0.4.6
  */
 public interface ClassProvider {
-  /**
-   * For name class.
-   *
-   * @param className the class name
-   * @return the class
-   */
   Class<?> forName(String className);
+  Class<?> forName(String className, boolean required);
 }

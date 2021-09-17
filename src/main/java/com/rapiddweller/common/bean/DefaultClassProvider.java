@@ -16,6 +16,7 @@
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
+import com.rapiddweller.common.ConfigurationError;
 
 /**
  * Default implementation of the {@link ClassProvider} interface.
@@ -37,14 +38,27 @@ public class DefaultClassProvider implements ClassProvider {
     return BeanUtil.forName(className);
   }
 
-  public static Class<?> resolveByObjectOrDefaultInstance(String className, Object context) {
+  @Override
+  public Class<?> forName(String className, boolean required) {
+    try {
+      return BeanUtil.forName(className);
+    } catch (Exception e) {
+      if (required) {
+        throw new ConfigurationError("Class not found: " + className, e);
+      } else {
+        return null;
+      }
+    }
+  }
+
+  public static Class<?> resolveByObjectOrDefaultInstance(String className, boolean required, Object context) {
     ClassProvider classProvider;
     if (context instanceof ClassProvider) {
       classProvider = (ClassProvider) context;
     } else {
       classProvider = DefaultClassProvider.getInstance();
     }
-    return classProvider.forName(className);
+    return classProvider.forName(className, required);
   }
 
 }

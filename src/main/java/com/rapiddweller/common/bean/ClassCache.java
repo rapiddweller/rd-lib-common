@@ -62,6 +62,10 @@ public class ClassCache {
   }
 
   public Class<?> forName(String name) {
+    return forName(name, true);
+  }
+
+  public Class<?> forName(String name, boolean required) {
     Class<?> result = classes.get(name);
     if (result != null) {
       return result;
@@ -89,9 +93,10 @@ public class ClassCache {
         }
       }
     }
-    // return null instead of raising an exception if a name does not resolve to a class name.
-    // This has better performance in rapiddweller script evaluation,
-    // which first checks for class names, then for variable names.
-    return null;
+    if (required) {
+      throw new ConfigurationError("Class not found: " + name);
+    } else {
+      return null;
+    }
   }
 }
