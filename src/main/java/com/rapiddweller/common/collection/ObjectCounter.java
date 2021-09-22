@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,25 +23,16 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Counts objects.
+ * Counts objects.<br/><br/>
  * Created: 14.12.2006 18:03:47
- *
  * @param <E> the type of the counted elements
  * @author Volker Bergmann
  */
 public class ObjectCounter<E> {
 
   private final Map<E, AtomicInteger> instances;
-  /**
-   * The Total count.
-   */
   long totalCount;
 
-  /**
-   * Instantiates a new Object counter.
-   *
-   * @param initialCapacity the initial capacity
-   */
   public ObjectCounter(int initialCapacity) {
     instances = new HashMap<>(initialCapacity);
     totalCount = 0;
@@ -49,11 +40,6 @@ public class ObjectCounter<E> {
 
   // interface -------------------------------------------------------------------------------------------------------
 
-  /**
-   * Count.
-   *
-   * @param instance the instance
-   */
   public void count(E instance) {
     AtomicInteger counter = instances.get(instance);
     if (counter == null) {
@@ -64,12 +50,7 @@ public class ObjectCounter<E> {
     totalCount++;
   }
 
-  /**
-   * Uncount.
-   *
-   * @param instance the instance
-   */
-  public void uncount(String instance) {
+  public void uncount(E instance) {
     AtomicInteger counter = instances.get(instance);
     if (counter == null) {
       throw new IllegalStateException("Cannot uncount: " + instance);
@@ -78,74 +59,41 @@ public class ObjectCounter<E> {
     totalCount--;
   }
 
-  /**
-   * Object set set.
-   *
-   * @return the set
-   */
   public Set<E> objectSet() {
     return instances.keySet();
   }
 
-  /**
-   * Gets count.
-   *
-   * @param instance the instance
-   * @return the count
-   */
   public int getCount(E instance) {
     AtomicInteger counter = instances.get(instance);
     return (counter != null ? counter.intValue() : 0);
   }
 
-  /**
-   * Gets relative count.
-   *
-   * @param instance the instance
-   * @return the relative count
-   */
+  public int getDistinctInstanceCount() {
+    return instances.size();
+  }
+
   public double getRelativeCount(E instance) {
     return (double) getCount(instance) / totalCount;
   }
 
-  /**
-   * Average count double.
-   *
-   * @return the double
-   */
   public double averageCount() {
-    return totalCount / instances.size();
+    int distinctInstanceCount = getDistinctInstanceCount();
+    return (distinctInstanceCount > 0 ? ((double) totalCount) / distinctInstanceCount : 0);
   }
 
-  /**
-   * Total count double.
-   *
-   * @return the double
-   */
   public double totalCount() {
     return totalCount;
   }
 
-  /**
-   * Gets counts.
-   *
-   * @return the counts
-   */
   public Map<E, AtomicInteger> getCounts() {
     return instances;
   }
 
-  /**
-   * Equal distribution boolean.
-   *
-   * @param tolerance the tolerance
-   * @return the boolean
-   */
   public boolean equalDistribution(double tolerance) {
-    double average = averageCount();
+    double expectedCount = averageCount();
     Collection<AtomicInteger> counts = instances.values();
     for (AtomicInteger count : counts) {
-      if (Math.abs((count.doubleValue() - average) / average) > tolerance) {
+      if (Math.abs((count.doubleValue() - expectedCount) / expectedCount) > tolerance) {
         return false;
       }
     }
