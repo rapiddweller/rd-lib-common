@@ -1,3 +1,43 @@
+# Release 1.1.3-jdk-11
+
+## Release Highlights
+
+- Switched back to slf4j logging facade
+
+## Important Notes
+
+### New features
+
+- Added method TextUtil.formatLinedTable()
+ 
+- StringUtil.maxLength(String[] strings)
+
+- MathUtil.sum(int[] addends)
+
+- BeanUtil.isImmutable(Class)
+
+- ArrayUtil.copyArray(Object array)
+
+- CollectionUtil.Added method union()
+
+
+### Changed design
+
+- ThreadUtil: made isThreadSafe() and isParallelizable() public
+
+
+### Changed implementation
+
+- AnyConverter.toString()
+
+- Improved ThreadUtil.allThreadSafe() and ThreadUtil.allParallelizable()
+
+
+## Breaking Changes
+
+- Added method forName(String className, boolean required) in the ClassProvider hierarchy
+
+
 # Release 1.1.2-jdk-11
 
 ## Release Highlights
