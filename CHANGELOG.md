@@ -1,3 +1,19 @@
+# Release 1.1.4-jdk-11
+
+## Release Highlights
+
+## Important Notes
+
+### New features
+
+### Changed design
+
+### Changed implementation
+
+## Breaking Changes
+
+---
+
 # Release 1.1.3-jdk-11
 
 ## Release Highlights
@@ -9,7 +25,7 @@
 ### New features
 
 - Added method TextUtil.formatLinedTable()
- 
+
 - StringUtil.maxLength(String[] strings)
 
 - MathUtil.sum(int[] addends)
@@ -20,11 +36,9 @@
 
 - CollectionUtil.Added method union()
 
-
 ### Changed design
 
 - ThreadUtil: made isThreadSafe() and isParallelizable() public
-
 
 ### Changed implementation
 
@@ -32,12 +46,11 @@
 
 - Improved ThreadUtil.allThreadSafe() and ThreadUtil.allParallelizable()
 
-
 ## Breaking Changes
 
 - Added method forName(String className, boolean required) in the ClassProvider hierarchy
 
-
+---
 # Release 1.1.2-jdk-11
 
 ## Release Highlights
