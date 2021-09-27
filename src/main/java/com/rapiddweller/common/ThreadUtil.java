@@ -77,6 +77,14 @@ public class ThreadUtil {
     return false;
   }
 
+  public static void sleep(int millis) {
+    try {
+      Thread.sleep(millis);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+  }
+
   public static String currentStackTraceAsString() {
     StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
     StringBuilder builder = new StringBuilder();
