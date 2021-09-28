@@ -21,7 +21,6 @@ import com.rapiddweller.common.SystemInfo;
  * {@link InfoPrinter} implementation that prints into a buffer
  * and provides the received input as String in {@link #toString()}.
  * Created: 17.03.2013 18:06:28
- *
  * @author Volker Bergmann
  * @since 0.5.23
  */
@@ -29,9 +28,6 @@ public class BufferedInfoPrinter extends InfoPrinter {
 
   private final StringBuilder buffer;
 
-  /**
-   * Instantiates a new Buffered info printer.
-   */
   public BufferedInfoPrinter() {
     this.buffer = new StringBuilder();
   }
@@ -43,9 +39,6 @@ public class BufferedInfoPrinter extends InfoPrinter {
     }
   }
 
-  /**
-   * Clear.
-   */
   public void clear() {
     buffer.delete(0, buffer.length());
   }

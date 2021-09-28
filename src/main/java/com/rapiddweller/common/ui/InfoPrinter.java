@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,26 +18,12 @@ package com.rapiddweller.common.ui;
 /**
  * Common abstraction for all classes that can provide information output to a human user.
  * Created at 21.12.2008 11:33:26
- *
  * @author Volker Bergmann
  * @since 0.4.7
  */
 public abstract class InfoPrinter {
-
-  /**
-   * Print lines.
-   *
-   * @param lines the lines
-   */
   public void printLines(String... lines) {
     printLines(null, lines);
   }
-
-  /**
-   * Print lines.
-   *
-   * @param owner the owner
-   * @param lines the lines
-   */
   public abstract void printLines(Object owner, String... lines);
 }
