@@ -62,43 +62,33 @@ import java.util.jar.JarFile;
 /**
  * Provides stream operations.
  * Created: 17.07.2006 22:17:42
- *
  * @author Volker Bergmann
  * @since 0.1
  */
 public final class IOUtil {
 
-  /**
-   * The logger.
-   */
-  private static final Logger LOGGER = LoggerFactory.getLogger(IOUtil.class);
+  private static final Logger logger = LoggerFactory.getLogger(IOUtil.class);
 
   private static final String USER_AGENT = "Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.5) Gecko/20041122 Firefox/1.0";
 
   // convenience unchecked-exception operations ----------------------------------------------------------------------
 
-  /**
-   * Convenience method that closes a {@link Closeable} if it is not null
-   * and logs possible exceptions without disturbing program execution.
-   *
-   * @param closeable the stream to close
-   */
+  /** Convenience method that closes a {@link Closeable} if it is not null
+   *  and logs possible exceptions without disturbing program execution.
+   *  @param closeable the resource to close */
   public static void close(Closeable closeable) {
     if (closeable != null) {
       try {
         closeable.close();
       } catch (IOException e) {
-        LOGGER.error("Error closing " + closeable, e);
+        logger.error("Error closing " + closeable, e);
       }
     }
   }
 
-  /**
-   * Close all.
-   *
-   * @param <T>        the type parameter
-   * @param closeables the closeables
-   */
+  /** Closes all elements. If one or more exceptions occur,
+   *  the closing process is first completed, then an exception
+   *  is raised which reports the first exception to the caller. */
   @SafeVarargs
   public static <T extends Closeable> void closeAll(T... closeables) {
     if (closeables != null) {
@@ -107,7 +97,7 @@ public final class IOUtil {
         try {
           closeable.close();
         } catch (IOException e) {
-          LOGGER.error("Error closing " + closeable, e);
+          logger.error("Error closing " + closeable, e);
         } catch (Throwable e) {
           t = e;
         }
@@ -118,12 +108,9 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Close all.
-   *
-   * @param <T>        the type parameter
-   * @param closeables the closeables
-   */
+  /** Closes all elements. If one or more exceptions occur,
+   *  the closing process is first completed, then an exception
+   *  is raised which reports the first exception to the caller. */
   public static <T extends Collection<? extends Closeable>> void closeAll(T closeables) {
     if (closeables != null) {
       Throwable t = null;
@@ -131,7 +118,7 @@ public final class IOUtil {
         try {
           closeable.close();
         } catch (IOException e) {
-          LOGGER.error("Error closing " + closeable, e);
+          logger.error("Error closing " + closeable, e);
         } catch (Throwable e) {
           t = e;
         }
@@ -142,42 +129,25 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Flush.
-   *
-   * @param flushable the flushable
-   */
   public static void flush(Flushable flushable) {
     if (flushable != null) {
       try {
         flushable.flush();
       } catch (IOException e) {
-        LOGGER.error("Error flushing " + flushable, e);
+        logger.error("Error flushing " + flushable, e);
       }
     }
   }
 
   // URI operations --------------------------------------------------------------------------------------------------
 
-  /**
-   * Local filename string.
-   *
-   * @param uri the uri
-   * @return the string
-   */
   public static String localFilename(String uri) {
     String[] path = uri.split("/");
     return path[path.length - 1];
   }
 
-  /**
-   * Is uri available boolean.
-   *
-   * @param uri the uri
-   * @return the boolean
-   */
   public static boolean isURIAvailable(String uri) {
-    LOGGER.debug("isURIAvailable({})", uri);
+    logger.debug("isURIAvailable({})", uri);
     boolean available;
     if (uri.startsWith("string://")) {
       available = true;
@@ -203,55 +173,25 @@ public final class IOUtil {
         close(stream);
       }
     }
-    LOGGER.debug("isURIAvailable({}) returns {}", uri, available);
+    logger.debug("isURIAvailable({}) returns {}", uri, available);
     return available;
   }
 
-  /**
-   * Gets content of uri.
-   *
-   * @param uri the uri
-   * @return the content of uri
-   * @throws IOException the io exception
-   */
   public static String getContentOfURI(String uri) throws IOException {
     return getContentOfURI(uri, SystemInfo.getFileEncoding());
   }
 
-  /**
-   * Gets content of uri.
-   *
-   * @param uri      the uri
-   * @param encoding the encoding
-   * @return the content of uri
-   * @throws IOException the io exception
-   */
   public static String getContentOfURI(String uri, String encoding) throws IOException {
     Reader reader = getReaderForURI(uri, encoding);
     return readAndClose(reader);
   }
 
-  /**
-   * Read and close string.
-   *
-   * @param reader the reader
-   * @return the string
-   * @throws IOException the io exception
-   */
   public static String readAndClose(Reader reader) throws IOException {
     StringWriter writer = new StringWriter();
     transferAndClose(reader, writer);
     return writer.toString();
   }
 
-  /**
-   * Read text lines string [ ].
-   *
-   * @param uri               the uri
-   * @param includeEmptyLines the include empty lines
-   * @return the string [ ]
-   * @throws IOException the io exception
-   */
   public static String[] readTextLines(String uri, boolean includeEmptyLines) throws IOException {
     ArrayBuilder<String> builder = new ArrayBuilder<>(String.class, 100);
     BufferedReader reader = getReaderForURI(uri);
@@ -264,25 +204,10 @@ public final class IOUtil {
     return builder.toArray();
   }
 
-  /**
-   * Gets reader for uri.
-   *
-   * @param uri the uri
-   * @return the reader for uri
-   * @throws IOException the io exception
-   */
   public static BufferedReader getReaderForURI(String uri) throws IOException {
     return getReaderForURI(uri, SystemInfo.getFileEncoding());
   }
 
-  /**
-   * Gets reader for uri.
-   *
-   * @param uri      the uri
-   * @param encoding the encoding
-   * @return the reader for uri
-   * @throws IOException the io exception
-   */
   public static BufferedReader getReaderForURI(String uri, String encoding) throws IOException {
     if (uri.startsWith("string://")) {
       return new BufferedReader(new StringReader(uri.substring("string://".length())));
@@ -293,28 +218,13 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Gets input stream for uri.
-   *
-   * @param uri the uri
-   * @return the input stream for uri
-   * @throws IOException the io exception
-   */
   public static InputStream getInputStreamForURI(String uri) throws IOException {
     Assert.notNull(uri, "uri");
     return getInputStreamForURI(uri, true);
   }
 
-  /**
-   * Creates an InputStream from a url in String representation.
-   *
-   * @param uri      the source url
-   * @param required causes the method to throw an exception if the resource is not found
-   * @return an InputStream that reads the url.
-   * @throws IOException if the url cannot be read.
-   */
   public static InputStream getInputStreamForURI(String uri, boolean required) throws IOException {
-    LOGGER.debug("getInputStreamForURI({}, {})", uri, required);
+    logger.debug("getInputStreamForURI({}, {})", uri, required);
     if (uri.startsWith("string://")) {
       String content = uri.substring("string://".length());
       return new ByteArrayInputStream(content.getBytes(SystemInfo.getCharset()));
@@ -330,12 +240,6 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Strip off protocol from uri string.
-   *
-   * @param uri the uri
-   * @return the string
-   */
   public static String stripOffProtocolFromUri(String uri) {
     int index = uri.indexOf("://");
     if (index >= 0) {
@@ -348,23 +252,10 @@ public final class IOUtil {
     return uri;
   }
 
-  /**
-   * Is file uri boolean.
-   *
-   * @param uri the uri
-   * @return the boolean
-   */
   public static boolean isFileUri(String uri) {
     return (uri.startsWith("file:") || !uri.contains("://"));
   }
 
-  /**
-   * Gets input stream for url.
-   *
-   * @param url the url
-   * @return the input stream for url
-   * @throws IOException the io exception
-   */
   public static InputStream getInputStreamForURL(URL url) throws IOException {
     try {
       URLConnection connection = getConnection(url);
@@ -374,17 +265,8 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Gets input stream for uri reference.
-   *
-   * @param localUri   the local uri
-   * @param contextUri the context uri
-   * @param required   the required
-   * @return the input stream for uri reference
-   * @throws IOException the io exception
-   */
   public static InputStream getInputStreamForUriReference(String localUri, String contextUri, boolean required) throws IOException {
-    LOGGER.debug("getInputStreamForUriReference({}, {})", localUri, contextUri);
+    logger.debug("getInputStreamForUriReference({}, {})", localUri, contextUri);
     // do not resolve context for absolute URLs or missing contexts
     if (StringUtil.isEmpty(contextUri) || getProtocol(localUri) != null) {
       return getInputStreamForURI(localUri, required);
@@ -410,15 +292,8 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Returns an InputStream to a file resource on the class path.
-   *
-   * @param name     the file's name
-   * @param required causes the method to throw an exception if the resource is not found
-   * @return an InputStream to the resource
-   */
   public static InputStream getResourceAsStream(String name, boolean required) {
-    LOGGER.debug("getResourceAsStream({}, {})", name, required);
+    logger.debug("getResourceAsStream({}, {})", name, required);
     InputStream stream = null;
     ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
     if (contextClassLoader != null) {
@@ -434,17 +309,13 @@ public final class IOUtil {
     return stream;
   }
 
-  /**
-   * Resolve relative uri string.
-   *
-   * @param relativeUri the relative uri
-   * @param contextUri  the context uri
-   * @return the string
-   */
   public static String resolveRelativeUri(String relativeUri, String contextUri) {
-    LOGGER.debug("resolveRelativeUri({}, {})", relativeUri, contextUri);
+    logger.debug("resolveRelativeUri({}, {})", relativeUri, contextUri);
     if (contextUri == null) {
       return relativeUri;
+    }
+    if (".".equals(relativeUri)) {
+      return contextUri;
     }
     if (isAbsoluteRef(relativeUri, contextUri)) {
       return relativeUri;
@@ -457,13 +328,6 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Is absolute ref boolean.
-   *
-   * @param uri        the uri
-   * @param contextUri the context uri
-   * @return the boolean
-   */
   public static boolean isAbsoluteRef(String uri, String contextUri) {
     if (StringUtil.isEmpty(contextUri)) // if there is no context, the URI must be absolute
     {
@@ -507,12 +371,6 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Gets parent uri.
-   *
-   * @param uri the uri
-   * @return the parent uri
-   */
   public static String getParentUri(String uri) {
     if (StringUtil.isEmpty(uri)) {
       return null;
@@ -534,12 +392,6 @@ public final class IOUtil {
     return parentUri;
   }
 
-  /**
-   * Gets protocol.
-   *
-   * @param uri the uri
-   * @return the protocol
-   */
   public static String getProtocol(String uri) {
     if (uri == null) {
       return null;
@@ -562,32 +414,11 @@ public final class IOUtil {
     return (uri.startsWith("file:") ? uri.substring(5) : uri);
   }
 
-  /**
-   * Gets printer for uri.
-   *
-   * @param uri      the uri
-   * @param encoding the encoding
-   * @return the printer for uri
-   * @throws FileNotFoundException        the file not found exception
-   * @throws UnsupportedEncodingException the unsupported encoding exception
-   */
   public static PrintWriter getPrinterForURI(String uri, String encoding)
       throws FileNotFoundException, UnsupportedEncodingException {
     return getPrinterForURI(uri, encoding, false, SystemInfo.getLineSeparator(), false);
   }
 
-  /**
-   * Gets printer for uri.
-   *
-   * @param uri              the uri
-   * @param encoding         the encoding
-   * @param append           the append
-   * @param lineSeparator    the line separator
-   * @param autoCreateFolder the auto create folder
-   * @return the printer for uri
-   * @throws FileNotFoundException        the file not found exception
-   * @throws UnsupportedEncodingException the unsupported encoding exception
-   */
   public static PrintWriter getPrinterForURI(String uri, String encoding, boolean append,
                                              final String lineSeparator, boolean autoCreateFolder)
       throws FileNotFoundException, UnsupportedEncodingException {
@@ -605,13 +436,6 @@ public final class IOUtil {
 
   // piping streams --------------------------------------------------------------------------------------------------
 
-  /**
-   * Transfer and close.
-   *
-   * @param reader the reader
-   * @param writer the writer
-   * @throws IOException the io exception
-   */
   public static void transferAndClose(Reader reader, Writer writer) throws IOException {
     try {
       transfer(reader, writer);
@@ -621,14 +445,6 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Transfer int.
-   *
-   * @param reader the reader
-   * @param writer the writer
-   * @return the int
-   * @throws IOException the io exception
-   */
   public static int transfer(Reader reader, Writer writer) throws IOException {
     int totalChars = 0;
     char[] buffer = new char[16384];
@@ -641,13 +457,6 @@ public final class IOUtil {
     return totalChars;
   }
 
-  /**
-   * Transfer and close.
-   *
-   * @param in  the in
-   * @param out the out
-   * @throws IOException the io exception
-   */
   public static void transferAndClose(InputStream in, OutputStream out) throws IOException {
     try {
       transfer(in, out);
@@ -657,14 +466,6 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Transfer int.
-   *
-   * @param in  the in
-   * @param out the out
-   * @return the int
-   * @throws IOException the io exception
-   */
   public static int transfer(InputStream in, OutputStream out) throws IOException {
     int totalChars = 0;
     byte[] buffer = new byte[16384];
@@ -677,15 +478,8 @@ public final class IOUtil {
     return totalChars;
   }
 
-  /**
-   * Copy file.
-   *
-   * @param srcUri    the src uri
-   * @param targetUri the target uri
-   * @throws IOException the io exception
-   */
   public static void copyFile(String srcUri, String targetUri) throws IOException {
-    LOGGER.debug("copying " + srcUri + " --> " + targetUri);
+    logger.debug("copying " + srcUri + " --> " + targetUri);
     InputStream in = null;
     OutputStream out = null;
     try {
@@ -698,13 +492,6 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Open output stream for uri output stream.
-   *
-   * @param uri the uri
-   * @return the output stream
-   * @throws IOException the io exception
-   */
   public static OutputStream openOutputStreamForURI(String uri) throws IOException {
     if (uri.startsWith("file:")) {
       uri = uri.substring(5);
@@ -726,55 +513,21 @@ public final class IOUtil {
 
   // Properties I/O --------------------------------------------------------------------------------------------------
 
-  /**
-   * Read properties map.
-   *
-   * @param filename the filename
-   * @return the map
-   * @throws IOException the io exception
-   */
   public static Map<String, String> readProperties(String filename) throws IOException {
     return readProperties(filename, SystemInfo.getFileEncoding());
   }
 
-  /**
-   * Read properties map.
-   *
-   * @param filename the filename
-   * @param encoding the encoding
-   * @return the map
-   * @throws IOException the io exception
-   */
   @SuppressWarnings({"unchecked", "rawtypes"})
   public static Map<String, String> readProperties(String filename, String encoding) throws IOException {
     return readProperties(new OrderedMap(), filename, null, encoding);
   }
 
-  /**
-   * Read properties map.
-   *
-   * @param <V>       the type parameter
-   * @param filename  the filename
-   * @param converter the converter
-   * @return the map
-   * @throws IOException the io exception
-   */
   @SuppressWarnings("rawtypes")
   public static <V> Map<String, V> readProperties(
       String filename, Converter<Map.Entry, Map.Entry> converter) throws IOException {
     return readProperties(filename, converter, SystemInfo.getFileEncoding());
   }
 
-  /**
-   * Read properties map.
-   *
-   * @param <V>       the type parameter
-   * @param filename  the filename
-   * @param converter the converter
-   * @param encoding  the encoding
-   * @return the map
-   * @throws IOException the io exception
-   */
   @SuppressWarnings("rawtypes")
   public static <V> Map<String, V> readProperties(
       String filename, Converter<Map.Entry, Map.Entry> converter, String encoding) throws IOException {
@@ -835,25 +588,10 @@ public final class IOUtil {
     return target;
   }
 
-  /**
-   * Write properties.
-   *
-   * @param properties the properties
-   * @param filename   the filename
-   * @throws IOException the io exception
-   */
   public static void writeProperties(Map<String, ?> properties, String filename) throws IOException {
     writeProperties(properties, filename, SystemInfo.getFileEncoding());
   }
 
-  /**
-   * Write properties.
-   *
-   * @param properties the properties
-   * @param filename   the filename
-   * @param encoding   the encoding
-   * @throws IOException the io exception
-   */
   public static void writeProperties(Map<String, ?> properties, String filename, String encoding) throws IOException {
     PrintWriter stream = null;
     try {
@@ -881,25 +619,10 @@ public final class IOUtil {
     }
 */
 
-  /**
-   * Write text file.
-   *
-   * @param filename the filename
-   * @param content  the content
-   * @throws IOException the io exception
-   */
   public static void writeTextFile(String filename, String content) throws IOException {
     writeTextFile(filename, content, SystemInfo.getFileEncoding());
   }
 
-  /**
-   * Write text file.
-   *
-   * @param filename the filename
-   * @param content  the content
-   * @param encoding the encoding
-   * @throws IOException the io exception
-   */
   public static void writeTextFile(String filename, String content, String encoding) throws IOException {
     if (encoding == null) {
       encoding = SystemInfo.getCharset().name();
@@ -915,17 +638,14 @@ public final class IOUtil {
 
   // private helpers -------------------------------------------------------------------------------------------------
 
-  /**
-   * Returns an InputStream that reads a file. The file is first searched on the disk directories
-   * then in the class path.
-   *
-   * @param filename the name of the file to be searched.
-   * @param required when set to 'true' this causes an exception to be thrown if the file is not found
-   * @return an InputStream that accesses the file. If the file is not found and 'required' set to false, null is returned.
-   * @throws FileNotFoundException if the file cannot be found.
-   */
+  /** Returns an InputStream that reads a file. The file is first searched on the disk directories
+   *  then in the class path.
+   *  @param filename the name of the file to be searched.
+   *  @param required when set to 'true' this causes an exception to be thrown if the file is not found
+   *  @return an InputStream that accesses the file. If the file is not found and 'required' set to false, null is returned.
+   *  @throws FileNotFoundException if the file cannot be found. */
   private static InputStream getFileOrResourceAsStream(String filename, boolean required) throws FileNotFoundException {
-    LOGGER.debug("getFileOrResourceAsStream({}, {})", filename, required);
+    logger.debug("getFileOrResourceAsStream({}, {})", filename, required);
     File file = new File(filename);
     if (file.exists()) {
       return new FileInputStream(filename);
@@ -952,13 +672,6 @@ public final class IOUtil {
     return connection;
   }
 
-  /**
-   * Get binary content of uri byte [ ].
-   *
-   * @param uri the uri
-   * @return the byte [ ]
-   * @throws IOException the io exception
-   */
   public static byte[] getBinaryContentOfUri(String uri) throws IOException {
     InputStream in = getInputStreamForURI(uri);
     ByteArrayOutputStream out = new ByteArrayOutputStream(25000);
@@ -966,13 +679,6 @@ public final class IOUtil {
     return out.toByteArray();
   }
 
-  /**
-   * Write bytes.
-   *
-   * @param bytes the bytes
-   * @param file  the file
-   * @throws IOException the io exception
-   */
   public static void writeBytes(byte[] bytes, File file) throws IOException {
     ByteArrayInputStream in = new ByteArrayInputStream(bytes);
     OutputStream out = new FileOutputStream(file);
@@ -984,17 +690,9 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Copy directory.
-   *
-   * @param srcUrl          the src url
-   * @param targetDirectory the target directory
-   * @param filenameFilter  the filename filter
-   * @throws IOException the io exception
-   */
   public static void copyDirectory(URL srcUrl, File targetDirectory, Filter<String> filenameFilter)
       throws IOException {
-    LOGGER.debug("copyDirectory({}, {}, {})", new Object[] {srcUrl, targetDirectory, filenameFilter});
+    logger.debug("copyDirectory({}, {}, {})", new Object[] {srcUrl, targetDirectory, filenameFilter});
     String protocol = srcUrl.getProtocol();
     if (protocol.equals("file")) {
       try {
@@ -1017,18 +715,9 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Extract folder from jar.
-   *
-   * @param jarPath         the jar path
-   * @param directory       the directory
-   * @param targetDirectory the target directory
-   * @param filenameFilter  the filename filter
-   * @throws IOException the io exception
-   */
   public static void extractFolderFromJar(String jarPath, String directory, File targetDirectory,
                                           Filter<String> filenameFilter) throws IOException {
-    LOGGER.debug("extractFolderFromJar({}, {}, {}, {})", new Object[] {jarPath, directory, targetDirectory, filenameFilter});
+    logger.debug("extractFolderFromJar({}, {}, {}, {})", new Object[] {jarPath, directory, targetDirectory, filenameFilter});
     JarFile jar = null;
     try {
       jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8));
@@ -1040,11 +729,11 @@ public final class IOUtil {
           String relativeName = name.substring(directory.length());
           if (entry.isDirectory()) {
             File subDir = new File(targetDirectory, relativeName);
-            LOGGER.debug("creating sub directory {}", subDir);
+            logger.debug("creating sub directory {}", subDir);
             subDir.mkdir();
           } else {
             File targetFile = new File(targetDirectory, relativeName);
-            LOGGER.debug("copying file {} to {}", name, targetFile);
+            logger.debug("copying file {} to {}", name, targetFile);
             InputStream in = jar.getInputStream(entry);
             OutputStream out = new FileOutputStream(targetFile);
             transfer(in, out);
@@ -1058,15 +747,8 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * List resources string [ ].
-   *
-   * @param url the url
-   * @return the string [ ]
-   * @throws IOException the io exception
-   */
   public static String[] listResources(URL url) throws IOException {
-    LOGGER.debug("listResources({})", url);
+    logger.debug("listResources({})", url);
     String protocol = url.getProtocol();
     if (protocol.equals("file")) {
       try {
@@ -1074,7 +756,7 @@ public final class IOUtil {
         if (result == null) {
           result = new String[0];
         }
-        LOGGER.debug("found file resources: {}", (Object[]) result); // cast needed for avoiding varargs invocation
+        logger.debug("found file resources: {}", (Object[]) result); // cast needed for avoiding varargs invocation
         return result;
       } catch (URISyntaxException e) {
         throw new RuntimeException("Unexpected exception", e);
@@ -1102,7 +784,7 @@ public final class IOUtil {
             result.add(entry);
           }
         }
-        LOGGER.debug("found jar resources: {}", result);
+        logger.debug("found jar resources: {}", result);
       } finally {
         IOUtil.close(jar);
       }
@@ -1113,15 +795,8 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Download.
-   *
-   * @param url        the url
-   * @param targetFile the target file
-   * @throws IOException the io exception
-   */
   public static void download(URL url, File targetFile) throws IOException {
-    LOGGER.info("downloading {}", url);
+    logger.info("downloading {}", url);
     FileUtil.ensureDirectoryExists(targetFile.getParentFile());
     InputStream in = getInputStreamForURL(url);
     try {
@@ -1136,23 +811,10 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Encode url string.
-   *
-   * @param text the text
-   * @return the string
-   */
   public static String encodeUrl(String text) {
     return encodeUrl(text, Encodings.UTF_8);
   }
 
-  /**
-   * Encode url string.
-   *
-   * @param text     the text
-   * @param encoding the encoding
-   * @return the string
-   */
   public static String encodeUrl(String text, String encoding) {
     try {
       return URLEncoder.encode(text, encoding);
@@ -1161,12 +823,6 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Read image icon image icon.
-   *
-   * @param resourceName the resource name
-   * @return the image icon
-   */
   public static ImageIcon readImageIcon(String resourceName) {
     try {
       InputStream in = getInputStreamForURI(resourceName);
@@ -1206,13 +862,6 @@ public final class IOUtil {
     }
   }
 
-  /**
-   * Encoding string.
-   *
-   * @param connection      the connection
-   * @param defaultEncoding the default encoding
-   * @return the string
-   */
   static String encoding(URLConnection connection, String defaultEncoding) {
     String encoding = connection.getContentEncoding();
     if (StringUtil.isEmpty(encoding)) {
