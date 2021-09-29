@@ -23,7 +23,6 @@ import java.io.IOException;
 /**
  * {@link InfoPrinter} implementation that prints info to the console.
  * Created at 21.12.2008 11:34:25
- *
  * @author Volker Bergmann
  * @since 0.4.7
  */
@@ -34,23 +33,12 @@ public class ConsoleInfoPrinter extends InfoPrinter {
     printHelp(helpLines);
   }
 
-  /**
-   * Print help.
-   *
-   * @param helpLines the help lines
-   */
   public static void printHelp(String... helpLines) {
     for (String helpLine : helpLines) {
       System.out.println(helpLine);
     }
   }
 
-  /**
-   * Print file.
-   *
-   * @param uri the uri
-   * @throws IOException the io exception
-   */
   public static void printFile(String uri) throws IOException {
     ReaderLineIterator iterator = null;
     try {
