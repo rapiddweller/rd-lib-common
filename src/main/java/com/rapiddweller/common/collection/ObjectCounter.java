@@ -33,6 +33,10 @@ public class ObjectCounter<E> {
   private final Map<E, AtomicInteger> instances;
   long totalCount;
 
+  public ObjectCounter() {
+    this(100);
+  }
+
   public ObjectCounter(int initialCapacity) {
     instances = new HashMap<>(initialCapacity);
     totalCount = 0;
