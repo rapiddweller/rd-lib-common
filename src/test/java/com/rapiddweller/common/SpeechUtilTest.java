@@ -19,28 +19,42 @@ import org.junit.Assume;
 import org.junit.Test;
 
 import static com.rapiddweller.common.SystemInfo.isLinux;
+import static com.rapiddweller.common.SystemInfo.isMacOsx;
+import static com.rapiddweller.common.SystemInfo.isWindows;
 import static org.junit.Assert.assertFalse;
-
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the {@link SpeechUtil}.
  * Created: 14.09.2010 12:52:22
- *
  * @author Volker Bergmann
  * @since 0.5.4
  */
 public class SpeechUtilTest {
 
   @Test
-  public void testSpeechSupported() {
+  public void testSpeechSupportedLinux() {
     Assume.assumeTrue(isLinux());
     assertFalse(SpeechUtil.speechSupported());
   }
-/* TODO this currently hangs when compiling with Maven
-	@Test
-	public void test() {
-		if (SpeechUtil.speechSupported())
-			SpeechUtil.say("SpeechUtilTest passed");
-	}
-*/
+
+  @Test
+  public void testSpeechSupportedMac() {
+    Assume.assumeTrue(isMacOsx());
+    assertTrue(SpeechUtil.speechSupported());
+  }
+
+  @Test
+  public void testSpeechSupportedWindow() {
+    Assume.assumeTrue(isWindows());
+    assertFalse(SpeechUtil.speechSupported());
+  }
+
+  @Test
+  public void testSpeechOutput() {
+    if (SpeechUtil.speechSupported()) {
+      SpeechUtil.say("speech test");
+    }
+  }
+
 }
