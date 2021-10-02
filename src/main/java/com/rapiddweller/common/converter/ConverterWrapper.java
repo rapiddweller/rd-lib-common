@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,6 @@ import com.rapiddweller.common.ThreadAware;
 /**
  * Parent class for {@link Converter}s that hold a reference to another converter instance.
  * Created: 26.02.2010 17:55:21
- *
  * @param <S> the type to convert from
  * @param <T> the type to convert to
  * @author Volker Bergmann
@@ -29,16 +28,8 @@ import com.rapiddweller.common.ThreadAware;
  */
 public abstract class ConverterWrapper<S, T> implements ThreadAware, Cloneable {
 
-  /**
-   * The Real converter.
-   */
   protected final Converter<S, T> realConverter;
 
-  /**
-   * Instantiates a new Converter wrapper.
-   *
-   * @param realConverter the real converter
-   */
   protected ConverterWrapper(Converter<S, T> realConverter) {
     this.realConverter = realConverter;
   }
