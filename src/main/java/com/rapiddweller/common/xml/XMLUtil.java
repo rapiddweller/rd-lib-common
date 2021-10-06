@@ -85,7 +85,6 @@ import java.util.Properties;
 /**
  * Provides XML Utility methods.
  * Created: 25.08.2007 22:09:26
- *
  * @author Volker Bergmann
  */
 public class XMLUtil {
@@ -99,12 +98,6 @@ public class XMLUtil {
   private XMLUtil() {
   }
 
-  /**
-   * Format string.
-   *
-   * @param document the document
-   * @return the string
-   */
   public static String format(Document document) {
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
     String encoding = Encodings.UTF_8;
@@ -118,12 +111,6 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Format string.
-   *
-   * @param element the element
-   * @return the string
-   */
   public static String format(Element element) {
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
     String encoding = Encodings.UTF_8;
@@ -137,12 +124,6 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Format short string.
-   *
-   * @param element the element
-   * @return the string
-   */
   public static String formatShort(Element element) {
     StringBuilder builder = new StringBuilder();
     builder.append('<').append(element.getNodeName());
@@ -155,12 +136,6 @@ public class XMLUtil {
     return builder.toString();
   }
 
-  /**
-   * Format start tag string.
-   *
-   * @param element the element
-   * @return the string
-   */
   public static String formatStartTag(Element element) {
     StringBuilder builder = new StringBuilder();
     builder.append('<').append(element.getNodeName());
@@ -173,22 +148,10 @@ public class XMLUtil {
     return builder.toString();
   }
 
-  /**
-   * Local name string.
-   *
-   * @param element the element
-   * @return the string
-   */
   public static String localName(Element element) {
     return localName(element.getNodeName());
   }
 
-  /**
-   * Local name string.
-   *
-   * @param elementName the element name
-   * @return the string
-   */
   public static String localName(String elementName) {
     if (elementName == null) {
       return null;
@@ -200,23 +163,11 @@ public class XMLUtil {
     return elementName.substring(sep + 1);
   }
 
-  /**
-   * Get child elements element [ ].
-   *
-   * @param parent the parent
-   * @return the element [ ]
-   */
   public static Element[] getChildElements(Element parent) {
     NodeList childNodes = parent.getChildNodes();
     return toElementArray(childNodes);
   }
 
-  /**
-   * To element array element [ ].
-   *
-   * @param nodeList the node list
-   * @return the element [ ]
-   */
   public static Element[] toElementArray(NodeList nodeList) {
     if (nodeList == null) {
       return new Element[0];
@@ -232,12 +183,6 @@ public class XMLUtil {
     return builder.toArray();
   }
 
-  /**
-   * To element list list.
-   *
-   * @param nodeList the node list
-   * @return the list
-   */
   public static List<Element> toElementList(NodeList nodeList) {
     List<Element> list = new ArrayList<>(nodeList != null ? nodeList.getLength() : 0);
     if (nodeList == null) {
@@ -253,14 +198,6 @@ public class XMLUtil {
     return list;
   }
 
-  /**
-   * Get child elements element [ ].
-   *
-   * @param parent         the parent
-   * @param namespaceAware the namespace aware
-   * @param name           the name
-   * @return the element [ ]
-   */
   public static Element[] getChildElements(Element parent, boolean namespaceAware, String name) {
     ArrayBuilder<Element> builder = new ArrayBuilder<>(Element.class);
     NodeList childNodes = parent.getChildNodes();
@@ -277,28 +214,11 @@ public class XMLUtil {
     return builder.toArray();
   }
 
-  /**
-   * Gets child element at path.
-   *
-   * @param parent         the parent
-   * @param path           the path
-   * @param namespaceAware the namespace aware
-   * @param required       the required
-   * @return the child element at path
-   */
   public static Element getChildElementAtPath(Element parent, String path, boolean namespaceAware, boolean required) {
     Element[] elements = getChildElementsAtPath(parent, path, namespaceAware);
     return assertSingleSearchResult(elements, required, path);
   }
 
-  /**
-   * Get child elements at path element [ ].
-   *
-   * @param parent         the parent
-   * @param path           the path
-   * @param namespaceAware the namespace aware
-   * @return the element [ ]
-   */
   public static Element[] getChildElementsAtPath(Element parent, String path, boolean namespaceAware) {
     ArrayBuilder<Element> builder = new ArrayBuilder<>(Element.class);
     getChildElementsAtPath(parent, namespaceAware, path.split("/"), 0, builder);
@@ -325,14 +245,6 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Has name boolean.
-   *
-   * @param name           the name
-   * @param namespaceAware the namespace aware
-   * @param item           the item
-   * @return the boolean
-   */
   public static boolean hasName(String name, boolean namespaceAware, Node item) {
     String fqName = item.getNodeName();
     if (namespaceAware) {
@@ -342,29 +254,11 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Gets child element.
-   *
-   * @param parent         the parent
-   * @param namespaceAware the namespace aware
-   * @param required       the required
-   * @param name           the name
-   * @return the child element
-   */
   public static Element getChildElement(Element parent, boolean namespaceAware, boolean required, String name) {
     Element[] elements = getChildElements(parent, namespaceAware, name);
     return assertSingleSearchResult(elements, required, name);
   }
 
-  /**
-   * Gets child element text.
-   *
-   * @param elem           the elem
-   * @param namespaceAware the namespace aware
-   * @param required       the required
-   * @param name           the name
-   * @return the child element text
-   */
   public static String getChildElementText(Element elem, boolean namespaceAware, boolean required, String name) {
     Element childElement = XMLUtil.getChildElement(elem, namespaceAware, required, name);
     if (childElement == null) {
@@ -373,16 +267,6 @@ public class XMLUtil {
     return childElement.getTextContent();
   }
 
-  /**
-   * Gets child element date.
-   *
-   * @param elem           the elem
-   * @param namespaceAware the namespace aware
-   * @param required       the required
-   * @param name           the name
-   * @param pattern        the pattern
-   * @return the child element date
-   */
   public static LocalDate getChildElementDate(Element elem, boolean namespaceAware, boolean required, String name, String pattern) {
     Element childElement = XMLUtil.getChildElement(elem, namespaceAware, required, name);
     if (childElement == null) {
@@ -393,16 +277,6 @@ public class XMLUtil {
     return LocalDate.parse(dateSpec, formatter);
   }
 
-  /**
-   * Gets child element local date time.
-   *
-   * @param elem           the elem
-   * @param namespaceAware the namespace aware
-   * @param required       the required
-   * @param name           the name
-   * @param pattern        the pattern
-   * @return the child element local date time
-   */
   public static LocalDateTime getChildElementLocalDateTime(Element elem, boolean namespaceAware, boolean required, String name, String pattern) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
     String dateSpec = XMLUtil.getChildElement(elem, namespaceAware, required, name).getTextContent();
@@ -419,12 +293,6 @@ public class XMLUtil {
     return (elements.length > 0 ? elements[0] : null);
   }
 
-  /**
-   * Get texts string [ ].
-   *
-   * @param nodes the nodes
-   * @return the string [ ]
-   */
   public static String[] getTexts(Element[] nodes) {
     if (nodes == null) {
       return null;
@@ -436,12 +304,6 @@ public class XMLUtil {
     return texts;
   }
 
-  /**
-   * Gets text.
-   *
-   * @param node the node
-   * @return the text
-   */
   public static String getText(Node node) {
     if (node == null) {
       return null;
@@ -458,14 +320,6 @@ public class XMLUtil {
     return null;
   }
 
-  /**
-   * Gets integer attribute.
-   *
-   * @param element      the element
-   * @param name         the name
-   * @param defaultValue the default value
-   * @return the integer attribute
-   */
   public static Integer getIntegerAttribute(Element element, String name, Integer defaultValue) {
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("getIntegerAttribute(" + element.getNodeName() + ", " + name + ')');
@@ -477,14 +331,6 @@ public class XMLUtil {
     return Integer.parseInt(stringValue);
   }
 
-  /**
-   * Gets long attribute.
-   *
-   * @param element      the element
-   * @param name         the name
-   * @param defaultValue the default value
-   * @return the long attribute
-   */
   public static Long getLongAttribute(Element element, String name, long defaultValue) {
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("getLongAttribute(" + element.getNodeName() + ", " + name + ')');
@@ -496,14 +342,6 @@ public class XMLUtil {
     return Long.parseLong(stringValue);
   }
 
-  /**
-   * Gets attribute.
-   *
-   * @param element       the element
-   * @param attributeName the attribute name
-   * @param required      the required
-   * @return the attribute
-   */
   public static String getAttribute(Element element, String attributeName, boolean required) {
     String value = StringUtil.emptyToNull(element.getAttribute(attributeName));
     if (value == null && required) {
@@ -513,12 +351,6 @@ public class XMLUtil {
     return value;
   }
 
-  /**
-   * Gets attributes.
-   *
-   * @param element the element
-   * @return the attributes
-   */
   public static Map<String, String> getAttributes(Element element) {
     NamedNodeMap attributes = element.getAttributes();
     Map<String, String> result = new HashMap<>();
@@ -530,15 +362,6 @@ public class XMLUtil {
     return result;
   }
 
-  /**
-   * Create xml file print writer.
-   *
-   * @param uri      the uri
-   * @param encoding the encoding
-   * @return the print writer
-   * @throws FileNotFoundException        the file not found exception
-   * @throws UnsupportedEncodingException the unsupported encoding exception
-   */
   public static PrintWriter createXMLFile(String uri, String encoding)
       throws FileNotFoundException, UnsupportedEncodingException {
     PrintWriter printer = IOUtil.getPrinterForURI(uri, encoding);
@@ -546,13 +369,6 @@ public class XMLUtil {
     return printer;
   }
 
-  /**
-   * Normalized attribute value string.
-   *
-   * @param element       the element
-   * @param attributeName the attribute name
-   * @return the string
-   */
   public static String normalizedAttributeValue(Element element, String attributeName) {
     String value = element.getAttribute(attributeName);
     if (StringUtil.isEmpty(value)) {
@@ -561,12 +377,6 @@ public class XMLUtil {
     return value;
   }
 
-  /**
-   * Get child comments comment [ ].
-   *
-   * @param parent the parent
-   * @return the comment [ ]
-   */
   public static Comment[] getChildComments(Node parent) {
     NodeList children;
     if (parent instanceof Document) {
@@ -588,13 +398,6 @@ public class XMLUtil {
 
   // XML operations --------------------------------------------------------------------------------------------------
 
-  /**
-   * Parse file if exists document.
-   *
-   * @param file the file
-   * @return the document
-   * @throws IOException the io exception
-   */
   public static Document parseFileIfExists(File file) throws IOException {
     if (file == null || !file.exists()) {
       return null;
@@ -602,28 +405,10 @@ public class XMLUtil {
     return parse(file.getAbsolutePath(), true, null, null, null);
   }
 
-  /**
-   * Parse document.
-   *
-   * @param uri the uri
-   * @return the document
-   * @throws IOException the io exception
-   */
   public static Document parse(String uri) throws IOException {
     return parse(uri, true, null, null, null);
   }
 
-  /**
-   * Parse document.
-   *
-   * @param uri            the uri
-   * @param namespaceAware the namespace aware
-   * @param resolver       the resolver
-   * @param schemaUri      the schema uri
-   * @param classLoader    the class loader
-   * @return the document
-   * @throws IOException the io exception
-   */
   public static Document parse(String uri, boolean namespaceAware, EntityResolver resolver, String schemaUri, ClassLoader classLoader)
       throws IOException {
     InputStream stream = null;
@@ -637,34 +422,14 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Parse string document.
-   *
-   * @param text the text
-   * @return the document
-   */
   public static Document parseString(String text) {
     return parseString(text, null, null);
   }
 
-  /**
-   * Parse string as element element.
-   *
-   * @param xml the xml
-   * @return the element
-   */
   public static Element parseStringAsElement(String xml) {
     return XMLUtil.parseString(xml).getDocumentElement();
   }
 
-  /**
-   * Parse string document.
-   *
-   * @param text        the text
-   * @param resolver    the resolver
-   * @param classLoader the class loader
-   * @return the document
-   */
   public static Document parseString(String text, EntityResolver resolver, ClassLoader classLoader) {
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug(text);
@@ -677,13 +442,6 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Gets encoding.
-   *
-   * @param text            the text
-   * @param defaultEncoding the default encoding
-   * @return the encoding
-   */
   public static String getEncoding(String text, String defaultEncoding) {
     if (text.startsWith("<?xml")) {
       int qm2i = text.indexOf('?', 5);
@@ -703,43 +461,22 @@ public class XMLUtil {
     return defaultEncoding;
   }
 
-  /**
-   * Parse document.
-   *
-   * @param stream the stream
-   * @return the document
-   * @throws IOException the io exception
-   */
   public static Document parse(InputStream stream) throws IOException {
     return parse(stream, null, null, DEFAULT_ERROR_HANDLER);
   }
 
-  /**
-   * Parses a stream's output into an XML document.
+  /** Parses a stream's output into an XML document.
    *
    * @param in           the {@link InputStream} to read
    * @param resolver     an {@link EntityResolver} implementation or null, in the latter case, no validation is applied
    * @param schemaUri    the URI of the XML document
    * @param errorHandler the error handler
    * @return the resulting XML {@link Document}
-   * @throws IOException if stream access fails
-   */
+   * @throws IOException if stream access fails */
   public static Document parse(InputStream in, EntityResolver resolver, String schemaUri, ErrorHandler errorHandler) throws IOException {
     return parse(in, true, resolver, schemaUri, null, errorHandler);
   }
 
-  /**
-   * Parse document.
-   *
-   * @param stream         the stream
-   * @param namespaceAware the namespace aware
-   * @param resolver       the resolver
-   * @param schemaUri      the schema uri
-   * @param classLoader    the class loader
-   * @param errorHandler   the error handler
-   * @return the document
-   * @throws IOException the io exception
-   */
   public static Document parse(InputStream stream, boolean namespaceAware, EntityResolver resolver,
                                String schemaUri, ClassLoader classLoader, ErrorHandler errorHandler)
       throws IOException {
@@ -765,30 +502,14 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Gets default document builder class name.
-   *
-   * @return the default document builder class name
-   */
   public static String getDefaultDocumentBuilderClassName() {
     return defaultDocumentBuilderClassName;
   }
 
-  /**
-   * Sets default document builder class name.
-   *
-   * @param defaultDocumentBuilderClassName the default document builder class name
-   */
   public static void setDefaultDocumentBuilderClassName(String defaultDocumentBuilderClassName) {
     XMLUtil.defaultDocumentBuilderClassName = defaultDocumentBuilderClassName;
   }
 
-  /**
-   * Create document builder factory document builder factory.
-   *
-   * @param classLoader the class loader
-   * @return the document builder factory
-   */
   public static DocumentBuilderFactory createDocumentBuilderFactory(ClassLoader classLoader) {
     if (defaultDocumentBuilderClassName != null) {
       if (classLoader == null) {
@@ -800,13 +521,6 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Namespace alias namespace alias.
-   *
-   * @param document     the document
-   * @param namespaceUri the namespace uri
-   * @return the namespace alias
-   */
   public static NamespaceAlias namespaceAlias(Document document, String namespaceUri) {
     Map<String, String> attributes = XMLUtil.getAttributes(document.getDocumentElement());
     for (Map.Entry<String, String> entry : attributes.entrySet()) {
@@ -820,12 +534,6 @@ public class XMLUtil {
     return new NamespaceAlias("", namespaceUri);
   }
 
-  /**
-   * Gets namespaces.
-   *
-   * @param document the document
-   * @return the namespaces
-   */
   public static Map<String, String> getNamespaces(Document document) {
     Map<String, String> namespaces = new HashMap<>();
     Map<String, String> attributes = XMLUtil.getAttributes(document.getDocumentElement());
@@ -839,24 +547,10 @@ public class XMLUtil {
     return namespaces;
   }
 
-  /**
-   * Gets target namespace.
-   *
-   * @param xsdDocument the xsd document
-   * @return the target namespace
-   */
   public static String getTargetNamespace(Document xsdDocument) {
     return xsdDocument.getDocumentElement().getAttribute("targetNamespace");
   }
 
-  /**
-   * Gets boolean attribute.
-   *
-   * @param element       the element
-   * @param attributeName the attribute name
-   * @param required      the required
-   * @return the boolean attribute
-   */
   public static Boolean getBooleanAttribute(Element element, String attributeName, boolean required) {
     String stringValue = element.getAttribute(attributeName);
     if (StringUtil.isEmpty(stringValue) && required) {
@@ -865,87 +559,34 @@ public class XMLUtil {
     return ParseUtil.parseBoolean(stringValue);
   }
 
-  /**
-   * Gets boolean attribute with default.
-   *
-   * @param element       the element
-   * @param attributeName the attribute name
-   * @param defaultValue  the default value
-   * @return the boolean attribute with default
-   */
   public static boolean getBooleanAttributeWithDefault(Element element, String attributeName, boolean defaultValue) {
     String stringValue = element.getAttribute(attributeName);
     return (StringUtil.isEmpty(stringValue) ? defaultValue : Boolean.parseBoolean(stringValue));
   }
 
-  /**
-   * Gets double attribute.
-   *
-   * @param element the element
-   * @param name    the name
-   * @return the double attribute
-   */
   public static double getDoubleAttribute(Element element, String name) {
     return Double.parseDouble(element.getAttribute(name));
   }
 
-  /**
-   * Gets date attribute.
-   *
-   * @param element the element
-   * @param name    the name
-   * @return the date attribute
-   */
   public static Date getDateAttribute(Element element, String name) {
     return new String2DateConverter<>().convert(element.getAttribute(name));
   }
 
-  /**
-   * Gets zone date time attribute.
-   *
-   * @param element       the element
-   * @param attributeName the attribute name
-   * @param pattern       the pattern
-   * @return the zone date time attribute
-   */
   public static ZonedDateTime getZoneDateTimeAttribute(Element element, String attributeName, String pattern) {
     String text = getAttribute(element, attributeName, true);
     return (text != null ? ZonedDateTime.parse(text, DateTimeFormatter.ofPattern(pattern)) : null);
   }
 
-  /**
-   * Gets local date attribute.
-   *
-   * @param element       the element
-   * @param attributeName the attribute name
-   * @param pattern       the pattern
-   * @return the local date attribute
-   */
   public static LocalDate getLocalDateAttribute(Element element, String attributeName, String pattern) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
     String text = getAttribute(element, attributeName, true);
     return LocalDate.parse(text, formatter);
   }
 
-  /**
-   * Map attributes to properties.
-   *
-   * @param element  the element
-   * @param bean     the bean
-   * @param unescape the unescape
-   */
   public static void mapAttributesToProperties(Element element, Object bean, boolean unescape) {
     mapAttributesToProperties(element, bean, unescape, new NoOpConverter<>());
   }
 
-  /**
-   * Map attributes to properties.
-   *
-   * @param element        the element
-   * @param bean           the bean
-   * @param unescape       the unescape
-   * @param nameNormalizer the name normalizer
-   */
   public static void mapAttributesToProperties(Element element, Object bean, boolean unescape, Converter<String, String> nameNormalizer) {
     for (Map.Entry<String, String> attribute : getAttributes(element).entrySet()) {
       String name = StringUtil.lastToken(attribute.getKey(), ':');
@@ -961,12 +602,6 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Visit.
-   *
-   * @param element the element
-   * @param visitor the visitor
-   */
   public static void visit(Node element, Visitor<Node> visitor) {
     visitor.visit(element);
     NodeList childNodes = element.getChildNodes();
@@ -975,14 +610,6 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Find element by attribute element.
-   *
-   * @param attributeName  the attribute name
-   * @param attributeValue the attribute value
-   * @param root           the root
-   * @return the element
-   */
   public static Element findElementByAttribute(String attributeName, String attributeValue, Element root) {
     if (attributeValue.equals(root.getAttribute(attributeName))) {
       return root;
@@ -997,13 +624,6 @@ public class XMLUtil {
     return null;
   }
 
-  /**
-   * Find first accepted element.
-   *
-   * @param filter  the filter
-   * @param element the element
-   * @return the element
-   */
   public static Element findFirstAccepted(Filter<Element> filter, Element element) {
     if (filter.accept(element)) {
       return element;
@@ -1018,24 +638,10 @@ public class XMLUtil {
     return null;
   }
 
-  /**
-   * Find elements by name list.
-   *
-   * @param name          the name
-   * @param caseSensitive the case sensitive
-   * @param root          the root
-   * @return the list
-   */
   public static List<Element> findElementsByName(String name, boolean caseSensitive, Element root) {
     return findElementsByName(name, caseSensitive, root, new ArrayList<>());
   }
 
-  /**
-   * Gets whole text.
-   *
-   * @param element the element
-   * @return the whole text
-   */
   public static String getWholeText(Element element) {
     StringBuilder builder = new StringBuilder();
     NodeList nodeList = element.getChildNodes();
@@ -1050,12 +656,6 @@ public class XMLUtil {
     return builder.toString();
   }
 
-  /**
-   * Format text string.
-   *
-   * @param text the text
-   * @return the string
-   */
   public static String formatText(String text) {
     return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
   }
@@ -1129,14 +729,6 @@ public class XMLUtil {
     };
   }
 
-  /**
-   * Save as properties.
-   *
-   * @param properties the properties
-   * @param file       the file
-   * @param encoding   the encoding
-   * @throws FileNotFoundException the file not found exception
-   */
   @SuppressWarnings("null")
   public static void saveAsProperties(Properties properties, File file, String encoding) throws FileNotFoundException {
     if (properties.size() == 0) {
@@ -1160,27 +752,11 @@ public class XMLUtil {
     saveDocument(document, file, encoding);
   }
 
-  /**
-   * Save document.
-   *
-   * @param document the document
-   * @param file     the file
-   * @param encoding the encoding
-   * @throws FileNotFoundException the file not found exception
-   */
   public static void saveDocument(Document document, File file, String encoding) throws FileNotFoundException {
     FileOutputStream stream = new FileOutputStream(file);
     saveDocument(document, encoding, stream);
   }
 
-  /**
-   * Save document.
-   *
-   * @param document the document
-   * @param encoding the encoding
-   * @param out      the out
-   * @throws TransformerFactoryConfigurationError the transformer factory configuration error
-   */
   public static void saveDocument(Document document, String encoding, OutputStream out)
       throws TransformerFactoryConfigurationError {
     try {
@@ -1193,12 +769,6 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Create document document.
-   *
-   * @param rootElementName the root element name
-   * @return the document
-   */
   public static Document createDocument(String rootElementName) {
     Document document = createDocument();
     Element rootElement = document.createElement(rootElementName);
@@ -1206,11 +776,6 @@ public class XMLUtil {
     return document;
   }
 
-  /**
-   * Create document document.
-   *
-   * @return the document
-   */
   public static Document createDocument() {
     try {
       DocumentBuilder documentBuilder = createDocumentBuilderFactory(null).newDocumentBuilder();
@@ -1220,13 +785,6 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Sets property.
-   *
-   * @param key      the key
-   * @param value    the value
-   * @param document the document
-   */
   public static void setProperty(String key, String value, Document document) {
     String[] prefixAndRemainingPath = StringUtil.splitOnFirstSeparator(key, '.');
     Element rootElement = document.getDocumentElement();
@@ -1239,14 +797,6 @@ public class XMLUtil {
     setProperty(prefixAndRemainingPath[1], value, rootElement, document);
   }
 
-  /**
-   * Sets property.
-   *
-   * @param key      the key
-   * @param value    the value
-   * @param element  the element
-   * @param document the document
-   */
   public static void setProperty(String key, String value, Element element, Document document) {
     if (!StringUtil.isEmpty(key)) {
       String[] prefixAndRemainingPath = StringUtil.splitOnFirstSeparator(key, '.');
@@ -1262,12 +812,6 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Resolve entities string.
-   *
-   * @param xmlText the xml text
-   * @return the string
-   */
   public static String resolveEntities(String xmlText) {
     while (xmlText.contains("&#")) {
       int st = xmlText.indexOf("&#");
@@ -1282,12 +826,6 @@ public class XMLUtil {
     return xmlText;
   }
 
-  /**
-   * Gets parent node.
-   *
-   * @param node the node
-   * @return the parent node
-   */
   public static Node getParentNode(Node node) {
     if (node instanceof Attr) {
       return ((Attr) node).getOwnerElement();
@@ -1296,12 +834,6 @@ public class XMLUtil {
     }
   }
 
-  /**
-   * Xpath to string.
-   *
-   * @param node the node
-   * @return the string
-   */
   public static String xpathTo(Node node) {
     Node[] nodePath = nodePathTo(node);
     StringBuilder builder = new StringBuilder();
@@ -1315,12 +847,6 @@ public class XMLUtil {
     return builder.toString();
   }
 
-  /**
-   * Node path to node [ ].
-   *
-   * @param node the node
-   * @return the node [ ]
-   */
   public static Node[] nodePathTo(Node node) {
     ArrayBuilder<Node> builder = new ArrayBuilder<>(Node.class);
     buildPath(node, builder);
