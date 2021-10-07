@@ -167,4 +167,9 @@ public class AnyConverterTest extends AbstractConverterTest {
     assertEquals("AnyConverter(-> Object)", (new AnyConverter<>(Object.class, "2020-03-01")).toString());
   }
 
+  @Test
+  public void testByteArrayToString() {
+    assertEquals("AQIDBAYHCA==", new AnyConverter<>(String.class).convert(new byte[] { 1, 2, 3, 4, 6, 7, 8}));
+  }
+
 }
