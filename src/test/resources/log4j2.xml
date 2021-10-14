@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="warn">
+
+    <!-- appenders -->
+
     <Appenders>
-        <RollingFile name="fileLogger" fileName="./common.log" filePattern="./common-%d{yyyy-MM-dd}.log">
+        <RollingFile name="fileLogger" fileName="./benerator.log" filePattern="./benerator-%d{yyyy-MM-dd}.log">
             <PatternLayout>
                 <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n</pattern>
             </PatternLayout>
@@ -14,38 +17,22 @@
             <PatternLayout pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"/>
         </Console>
     </Appenders>
+
+    <!-- loggers -->
+
     <Loggers>
-        <!-- ================ -->
-        <!-- Limit categories -->
-        <!-- ================ -->
+        <Logger name="org.hibernate" level="warn"/>
+        <Logger name="org.apache" level="warn"/>
+        <Logger name="org.jboss" level="warn"/>
+        <Logger name="net.sf.ehcache" level="info"/>
+        <Logger name="com.rapiddweller" level="info"/>
 
-        <Logger name="org.hibernate" level="warn" additivity="true">
-            <appender-ref ref="fileLogger" level="warn"/>
-        </Logger>
+        <!-- Root setup -->
 
-        <Logger name="org.apache" level="warn" additivity="true">
-            <appender-ref ref="fileLogger" level="info"/>
-        </Logger>
-
-        <Logger name="org.jboss" level="warn" additivity="true">
-            <appender-ref ref="fileLogger" level="info"/>
-        </Logger>
-
-        <Logger name="net.sf.ehcache" level="info" additivity="true">
-            <appender-ref ref="fileLogger" level="info"/>
-        </Logger>
-
-        <Logger name="com.rapiddweller" level="info" additivity="true">
-            <appender-ref ref="fileLogger" level="info"/>
-        </Logger>
-
-        <!-- ======================= -->
-        <!-- Setup the Root category -->
-        <!-- ======================= -->
-
-        <Root level="warn" additivity="false">
+        <Root level="info">
             <appender-ref ref="console"/>
             <appender-ref ref="fileLogger"/>
         </Root>
+
     </Loggers>
 </Configuration>
