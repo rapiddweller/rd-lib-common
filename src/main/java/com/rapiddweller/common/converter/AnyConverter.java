@@ -24,8 +24,7 @@ import org.slf4j.Logger;
 /**
  * Converts any source type to any target type. It also makes use of the ConverterManager.
  * Created: 16.06.2007 11:34:42
- *
- * @param <E> the type to by checked by this validator
+ * @param <E> the type to convert to
  * @author Volker Bergmann
  */
 public class AnyConverter<E> extends FormatHolder implements Converter<Object, E> {
@@ -34,21 +33,10 @@ public class AnyConverter<E> extends FormatHolder implements Converter<Object, E
 
   private final Class<E> targetType;
 
-  /**
-   * Instantiates a new Any converter.
-   *
-   * @param targetType the target type
-   */
   public AnyConverter(Class<E> targetType) {
     this(targetType, Patterns.DEFAULT_DATE_PATTERN);
   }
 
-  /**
-   * Instantiates a new Any converter.
-   *
-   * @param targetType  the target type
-   * @param datePattern the date pattern
-   */
   public AnyConverter(Class<E> targetType, String datePattern) {
     this.targetType = targetType;
     this.datePattern = datePattern;
@@ -79,31 +67,11 @@ public class AnyConverter<E> extends FormatHolder implements Converter<Object, E
     return true;
   }
 
-  /**
-   * Convert tt.
-   *
-   * @param <TT>       the type parameter
-   * @param source     the source
-   * @param targetType the target type
-   * @return the tt
-   * @throws ConversionException the conversion exception
-   */
   public static <TT> TT convert(Object source, Class<TT> targetType) throws ConversionException {
     return convert(source, targetType, null, null, null);
   }
 
-  /**
-   * Converts an object of a given type to an object of the target type.
-   *
-   * @param <TT>             the target type
-   * @param source           the object to convert
-   * @param targetType       the target type of the conversion
-   * @param datePattern      the date pattern to apply
-   * @param timePattern      the time pattern to apply
-   * @param timestampPattern the timestamp pattern to apply
-   * @return an object of the target type
-   * @throws ConversionException if conversion fails
-   */
+  /** Converts an object of a given type to an object of the target type. */
   @SuppressWarnings({"unchecked", "rawtypes"})
   public static <TT> TT convert(Object source, Class<TT> targetType, String datePattern,
                                 String timePattern, String timestampPattern) throws ConversionException {
