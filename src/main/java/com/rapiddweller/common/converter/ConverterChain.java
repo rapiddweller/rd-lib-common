@@ -22,7 +22,6 @@ import com.rapiddweller.common.Converter;
  * Aggregates other (sub) converters and implements conversion by subsequent invocation of the sub converters,
  * each converting the result of the preceding converter.
  * Created: 13.05.2005 17:43:04
- *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
@@ -31,11 +30,6 @@ import com.rapiddweller.common.Converter;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class ConverterChain<S, T> extends MultiConverterWrapper implements Converter<S, T> {
 
-  /**
-   * Instantiates a new Converter chain.
-   *
-   * @param components the components
-   */
   public ConverterChain(Converter... components) {
     super(components);
   }
