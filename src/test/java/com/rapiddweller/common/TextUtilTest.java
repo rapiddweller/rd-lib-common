@@ -76,7 +76,7 @@ public class TextUtilTest {
             "| Way too big header, but try anyway     |\n" +
             "| It's just a test, so who really cares? |\n" +
             "+----------------------------------+-----+\n" +
-            "| Name                             | Age |\n" +
+            "|               Name               | Age |\n" +
             "+----------------------------------+-----+\n" +
             "| Alice                            |  25 |\n" +
             "+----------------------------------+-----+\n" +

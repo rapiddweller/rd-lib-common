@@ -126,10 +126,9 @@ public class TextUtil {
       if (alignments != null && i < alignments.length) {
         cellAlignment = alignments[i];
       }
-      Object object = row[i];
-      String content = format(object);
+      String content = row[i];
       int padCount = colWidths[i] - 2 - content.length();
-      if (cellAlignment == Alignment.RIGHT || (cellAlignment == null && object instanceof Number)) {
+      if (cellAlignment == Alignment.RIGHT || (cellAlignment == null && isNumber(content))) {
         appendChars(' ', padCount, text);
         text.append(content);
       } else if (cellAlignment == Alignment.LEFT || cellAlignment == null) {
@@ -145,6 +144,10 @@ public class TextUtil {
         text.append(' ');
     }
     text.append(SystemInfo.LF);
+  }
+
+  private static boolean isNumber(String content) {
+    return RegexUtil.matches("(-)?[0-9]*(\\.([0-9]*)?)?", content);
   }
 
   static void appendSeparator(int[] colWidths, StringBuilder builder) {
