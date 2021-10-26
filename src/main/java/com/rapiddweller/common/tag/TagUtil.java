@@ -24,43 +24,31 @@ import java.util.List;
 /**
  * Provides tag-related utility methods.
  * Created: 15.11.2013 06:58:15
- *
  * @author Volker Bergmann
  * @since 0.5.25
  */
 public class TagUtil {
 
-  /**
-   * Add tag.
-   *
-   * @param tag     the tag
-   * @param taggeds the taggeds
-   */
   public static void addTag(String tag, List<? extends Tagged> taggeds) {
     for (Tagged tagged : taggeds) {
       tagged.addTag(tag);
     }
   }
 
-  /**
-   * Remove tag.
-   *
-   * @param tag     the tag
-   * @param taggeds the taggeds
-   */
   public static void removeTag(String tag, List<? extends Tagged> taggeds) {
     for (Tagged tagged : taggeds) {
       tagged.removeTag(tag);
     }
   }
 
-  /**
-   * Frequency int.
-   *
-   * @param tag     the tag
-   * @param taggeds the taggeds
-   * @return the int
-   */
+  public static int count(String tag, List<? extends Tagged> taggeds) {
+    int n = 0;
+    for (Tagged tagged : taggeds)
+      if (tagged != null && tagged.hasTag(tag))
+        n++;
+    return n;
+  }
+
   public static int frequency(String tag, List<? extends Tagged> taggeds) {
     int n = 0;
     for (Tagged tagged : taggeds) {
@@ -71,16 +59,6 @@ public class TagUtil {
     return n;
   }
 
-  /**
-   * Gets elements with tag.
-   *
-   * @param <T>          the type parameter
-   * @param tag          the tag
-   * @param elements     the elements
-   * @param ignoreCase   the ignore case
-   * @param partialMatch the partial match
-   * @return the elements with tag
-   */
   public static <T extends Tagged> List<T> getElementsWithTag(String tag, Collection<T> elements, boolean ignoreCase, boolean partialMatch) {
     List<T> result = new ArrayList<>();
     for (T element : elements) {
@@ -91,15 +69,6 @@ public class TagUtil {
     return result;
   }
 
-  /**
-   * Has tag boolean.
-   *
-   * @param tag          the tag
-   * @param tagged       the tagged
-   * @param ignoreCase   the ignore case
-   * @param partialMatch the partial match
-   * @return the boolean
-   */
   public static boolean hasTag(String tag, Tagged tagged, boolean ignoreCase, boolean partialMatch) {
     for (String candidate : tagged.getTags()) {
       if (ignoreCase) {

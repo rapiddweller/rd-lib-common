@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
@@ -31,7 +32,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PushbackInputStream;
+import java.io.Reader;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -43,42 +47,45 @@ import java.util.List;
 /**
  * File Utility class.
  * Created: 04.02.2007 08:22:52
- *
  * @author Volker Bergmann
  * @since 0.1
  */
 public final class FileUtil {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(FileUtil.class);
+  private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
-  /**
-   * Last file update in zone zoned date time.
-   *
-   * @param file the file
-   * @param zone the zone
-   * @return the zoned date time
-   */
+  private FileUtil() {
+    // private constructor to prevent instantiation of this utility class
+  }
+
+  public static String getTextContentOf(File file) throws IOException {
+    return getTextContentOf(file, SystemInfo.getFileEncoding());
+  }
+
+  public static String getTextContentOf(File file, String encoding) throws IOException {
+    Reader reader = getFileReader(file, encoding);
+    return IOUtil.readAndClose(reader);
+  }
+
+  public static BufferedReader getFileReader(File file, String encoding)
+      throws IOException, UnsupportedEncodingException {
+    if (encoding == null)
+      encoding = SystemInfo.getFileEncoding();
+    InputStream is = new FileInputStream(file);
+    PushbackInputStream in = new PushbackInputStream(is, 4);
+    encoding = IOUtil.bomEncoding(in, encoding);
+    return new BufferedReader(new InputStreamReader(in, encoding));
+  }
+
   public static ZonedDateTime lastFileUpdateInZone(File file, ZoneId zone) {
     return JavaTimeUtil.toZonedDateTime(file.lastModified(), ZoneId.systemDefault()).withZoneSameInstant(zone);
   }
 
-  /**
-   * Gets or create directory.
-   *
-   * @param directory the directory
-   * @return the or create directory
-   */
   public static File getOrCreateDirectory(File directory) {
     ensureDirectoryExists(directory);
     return directory;
   }
 
-  /**
-   * Ensure directory exists file.
-   *
-   * @param directory the directory
-   * @return the file
-   */
   public static File ensureDirectoryExists(File directory) {
     if (directory != null && !directory.exists()) {
       File parent = directory.getParentFile();
@@ -90,24 +97,10 @@ public final class FileUtil {
     return directory;
   }
 
-  /**
-   * Split name and suffix string [ ].
-   *
-   * @param filename the filename
-   * @return the string [ ]
-   */
   public static String[] splitNameAndSuffix(String filename) {
     return StringUtil.splitOnFirstSeparator(filename, '.');
   }
 
-  /**
-   * Has suffix boolean.
-   *
-   * @param file          the file
-   * @param suffix        the suffix
-   * @param caseSensitive the case sensitive
-   * @return the boolean
-   */
   public static boolean hasSuffix(File file, String suffix, boolean caseSensitive) {
     // don't use suffix(), because the extension may be like '.hbm.xml'
     if (caseSensitive) {
@@ -117,22 +110,12 @@ public final class FileUtil {
     }
   }
 
-  /**
-   * Extracts the filename part after the last dot.
-   *
-   * @param file the file to examine
-   * @return the file suffix without dot
-   */
+  /** Extracts the filename part after the last dot. */
   public static String suffix(File file) {
     return suffix(file.getName());
   }
 
-  /**
-   * Extracts the filename part after the last dot.
-   *
-   * @param filename the file name to examine
-   * @return the file suffix without dot
-   */
+  /** Extracts the filename part after the last dot. */
   public static String suffix(String filename) {
     int dotIndex = filename.lastIndexOf('.');
     if (dotIndex < 0 || dotIndex == filename.length() - 1) {
@@ -141,48 +124,19 @@ public final class FileUtil {
     return filename.substring(dotIndex + 1);
   }
 
-  /**
-   * Native path string.
-   *
-   * @param path the path
-   * @return the string
-   */
   public static String nativePath(String path) {
     return path.replace('/', SystemInfo.getFileSeparator());
   }
 
-  /**
-   * Is empty folder boolean.
-   *
-   * @param folder the folder
-   * @return the boolean
-   */
   public static boolean isEmptyFolder(File folder) {
     String[] list = folder.list();
     return list == null || list.length == 0;
   }
 
-  /**
-   * Copy.
-   *
-   * @param srcFile    the src file
-   * @param targetFile the target file
-   * @param overwrite  the overwrite
-   * @throws IOException the io exception
-   */
   public static void copy(File srcFile, File targetFile, boolean overwrite) throws IOException {
     copy(srcFile, targetFile, overwrite, null);
   }
 
-  /**
-   * Copy.
-   *
-   * @param srcFile    the src file
-   * @param targetFile the target file
-   * @param overwrite  the overwrite
-   * @param filter     the filter
-   * @throws IOException the io exception
-   */
   public static void copy(File srcFile, File targetFile, boolean overwrite, FileFilter filter)
       throws IOException {
     if (filter != null && !filter.accept(srcFile.getCanonicalFile())) {
@@ -201,12 +155,6 @@ public final class FileUtil {
     }
   }
 
-  /**
-   * Local filename string.
-   *
-   * @param filePath the file path
-   * @return the string
-   */
   public static String localFilename(String filePath) {
     if (filePath == null) {
       return null;
@@ -218,13 +166,6 @@ public final class FileUtil {
     return (i >= 0 ? filePath.substring(i + 1) : filePath);
   }
 
-  /**
-   * Equal content boolean.
-   *
-   * @param file1 the file 1
-   * @param file2 the file 2
-   * @return the boolean
-   */
   public static boolean equalContent(File file1, File file2) {
     long length = file1.length();
     if (length != file2.length()) {
@@ -234,12 +175,12 @@ public final class FileUtil {
     InputStream in2 = null;
     boolean equal = true;
     try {
-      LOGGER.debug("Comparing content of " + file1 + " and " + file2);
+      logger.debug("Comparing content of {} and {}", file1, file2);
       in1 = new BufferedInputStream(new FileInputStream(file1));
       in2 = new BufferedInputStream(new FileInputStream(file2));
       for (long i = 0; equal && i < length; i++) {
         if (in1.read() != in2.read()) {
-          LOGGER.debug("files unequal");
+          logger.debug("files unequal");
           equal = false;
         }
       }
@@ -249,15 +190,10 @@ public final class FileUtil {
       IOUtil.close(in1);
       IOUtil.close(in2);
     }
-    LOGGER.debug("files equal");
+    logger.debug("files equal");
     return equal;
   }
 
-  /**
-   * Delete if exists.
-   *
-   * @param file the file
-   */
   public static void deleteIfExists(File file) {
     if (file.exists()) {
       if (!file.delete()) {
@@ -266,22 +202,12 @@ public final class FileUtil {
     }
   }
 
-  /**
-   * Delete directory if exists.
-   *
-   * @param folder the folder
-   */
   public static void deleteDirectoryIfExists(File folder) {
     if (folder.exists()) {
       deleteDirectory(folder);
     }
   }
 
-  /**
-   * Delete directory.
-   *
-   * @param folder the folder
-   */
   public static void deleteDirectory(File folder) {
     File[] files = folder.listFiles();
     if (files != null) {
@@ -296,41 +222,16 @@ public final class FileUtil {
     folder.delete();
   }
 
-  /**
-   * List files list.
-   *
-   * @param dir              the dir
-   * @param regex            the regex
-   * @param recursive        the recursive
-   * @param acceptingFiles   the accepting files
-   * @param acceptingFolders the accepting folders
-   * @return the list
-   */
   public static List<File> listFiles(File dir, String regex,
                                      boolean recursive, boolean acceptingFiles, boolean acceptingFolders) {
     PatternFileFilter filter = new PatternFileFilter(regex, acceptingFiles, acceptingFolders);
     return addFilenames(dir, filter, recursive, new ArrayList<>());
   }
 
-  /**
-   * Relative path string.
-   *
-   * @param fromFile the from file
-   * @param toFile   the to file
-   * @return the string
-   */
   public static String relativePath(File fromFile, File toFile) {
     return relativePath(fromFile, toFile, File.separatorChar);
   }
 
-  /**
-   * Relative path string.
-   *
-   * @param fromFile  the from file
-   * @param toFile    the to file
-   * @param separator the separator
-   * @return the string
-   */
   public static String relativePath(File fromFile, File toFile, char separator) {
     File fromFolder = (fromFile.isDirectory() ? fromFile : fromFile.getParentFile());
     try {
@@ -378,12 +279,6 @@ public final class FileUtil {
     return buffer;
   }
 
-  /**
-   * Normalize filename string.
-   *
-   * @param rawName the raw name
-   * @return the string
-   */
   public static String normalizeFilename(String rawName) {
     StringBuilder builder = new StringBuilder(rawName.length());
     StringCharacterIterator iterator = new StringCharacterIterator(rawName);
@@ -403,29 +298,10 @@ public final class FileUtil {
     return builder.toString().trim();
   }
 
-  /**
-   * File of limited path length file.
-   *
-   * @param directory the directory
-   * @param name      the name
-   * @param suffix    the suffix
-   * @param warn      the warn
-   * @return the file
-   */
   public static File fileOfLimitedPathLength(File directory, String name, String suffix, boolean warn) {
     return fileOfLimitedPathLength(directory, name, suffix, 255, warn);
   }
 
-  /**
-   * File of limited path length file.
-   *
-   * @param directory the directory
-   * @param name      the name
-   * @param suffix    the suffix
-   * @param maxLength the max length
-   * @param warn      the warn
-   * @return the file
-   */
   public static File fileOfLimitedPathLength(File directory, String name, String suffix, int maxLength, boolean warn) {
     try {
       String parentPath;
@@ -439,7 +315,7 @@ public final class FileUtil {
       if (availableLength < prefix.length()) {
         prefix = prefix.substring(0, availableLength);
         if (warn) {
-          LOGGER.warn("File name too long: {}, it was cut to {}",
+          logger.warn("File name too long: {}, it was cut to {}",
               parentPath + SystemInfo.getFileSeparator() + name + suffix,
               parentPath + SystemInfo.getFileSeparator() + prefix + suffix);
         }
@@ -450,13 +326,6 @@ public final class FileUtil {
     }
   }
 
-  /**
-   * Gets file ignore case.
-   *
-   * @param file     the file
-   * @param required the required
-   * @return the file ignore case
-   */
   public static File getFileIgnoreCase(File file, boolean required) {
     try {
       // if the file exists with the given capitalization use it as it is
@@ -489,12 +358,7 @@ public final class FileUtil {
     }
   }
 
-  /**
-   * Creates a {@link File} object from a path string, resolving Unix-style user home folder references.
-   *
-   * @param path the path of the file to create
-   * @return the new file
-   */
+  /** Creates a {@link File} object from a path string, resolving Unix-style user home folder references. */
   public static File newFile(String path) {
     if (!SystemInfo.isWindows()) {
       if (path.startsWith("~/")) {
@@ -506,84 +370,32 @@ public final class FileUtil {
     return new File(path);
   }
 
-  /**
-   * Is xml file boolean.
-   *
-   * @param filePath the file path
-   * @return the boolean
-   */
   public static boolean isXMLFile(String filePath) {
     return filePath.toLowerCase().endsWith(".xml");
   }
 
-  /**
-   * Prepend file prefix string.
-   *
-   * @param prefix the prefix
-   * @param path   the path
-   * @return the string
-   */
   public static String prependFilePrefix(String prefix, String path) {
     int sep = Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\'));
     String fileName = prefix + path.substring(sep + 1);
     return path.substring(0, sep + 1) + fileName;
   }
 
-  /**
-   * Read text file content string.
-   *
-   * @param file the file
-   * @return the string
-   * @throws IOException the io exception
-   */
   public static String readTextFileContent(File file) throws IOException {
     return IOUtil.readAndClose(new FileReader(file));
   }
 
-  /**
-   * Read text file content string.
-   *
-   * @param file     the file
-   * @param encoding the encoding
-   * @return the string
-   * @throws IOException the io exception
-   */
   public static String readTextFileContent(File file, String encoding) throws IOException {
     return IOUtil.readAndClose(new InputStreamReader(new FileInputStream(file), encoding));
   }
 
-  /**
-   * Write text file content.
-   *
-   * @param content the content
-   * @param file    the file
-   * @throws IOException the io exception
-   */
   public static void writeTextFileContent(String content, File file) throws IOException {
     writeTextFileContent(content, file, SystemInfo.getFileEncoding());
   }
 
-  /**
-   * Write text file content.
-   *
-   * @param content  the content
-   * @param file     the file
-   * @param encoding the encoding
-   * @throws IOException the io exception
-   */
   public static void writeTextFileContent(String content, File file, String encoding) throws IOException {
     IOUtil.transferAndClose(new StringReader(content), new OutputStreamWriter(new FileOutputStream(file), encoding));
   }
 
-  /**
-   * Backup with timestamp file.
-   *
-   * @param file      the file
-   * @param timestamp the timestamp
-   * @param overwrite the overwrite
-   * @return the file
-   * @throws IOException the io exception
-   */
   public static File backupWithTimestamp(File file, LocalDateTime timestamp, boolean overwrite) throws IOException {
     File folder = file.getParentFile();
     String filename = file.getName();
@@ -596,13 +408,6 @@ public final class FileUtil {
 
   // private helpers -------------------------------------------------------------------------------------------------
 
-  /**
-   * Add timestamp to filename string.
-   *
-   * @param filename  the filename
-   * @param timestamp the timestamp
-   * @return the string
-   */
   static String addTimestampToFilename(String filename, LocalDateTime timestamp) {
     String[] nameParts = splitNameAndSuffix(filename);
     String backupName = nameParts[0] + timestamp.format(DateTimeFormatter.ofPattern("-yy-MM-dd'T'HH-mm-ss"));

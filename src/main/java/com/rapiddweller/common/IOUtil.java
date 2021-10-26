@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -223,6 +223,11 @@ public final class IOUtil {
     return getInputStreamForURI(uri, true);
   }
 
+  /** Creates an InputStream from a url in String representation.
+   *  @param uri the source url
+   *  @param required causes the method to throw an exception if the resource is not found
+   *  @return an InputStream that reads the url.
+   *  @throws IOException if the url cannot be read. */
   public static InputStream getInputStreamForURI(String uri, boolean required) throws IOException {
     logger.debug("getInputStreamForURI({}, {})", uri, required);
     if (uri.startsWith("string://")) {
@@ -292,6 +297,10 @@ public final class IOUtil {
     }
   }
 
+  /** Returns an InputStream to a file resource on the class path.
+   *  @param name the file's name
+   *  @param required causes the method to throw an exception if the resource is not found
+   *  @return an InputStream to the resource */
   public static InputStream getResourceAsStream(String name, boolean required) {
     logger.debug("getResourceAsStream({}, {})", name, required);
     InputStream stream = null;
@@ -479,7 +488,7 @@ public final class IOUtil {
   }
 
   public static void copyFile(String srcUri, String targetUri) throws IOException {
-    logger.debug("copying " + srcUri + " --> " + targetUri);
+    logger.debug("copying {} --> {}", srcUri, targetUri);
     InputStream in = null;
     OutputStream out = null;
     try {
@@ -605,19 +614,6 @@ public final class IOUtil {
   }
 
   // text file im/export ---------------------------------------------------------------------------------------------
-/*
-    public static String readTextResource(String filename) throws FileNotFoundException, IOException {
-        InputStreamReader reader = new InputStreamReader(getFileOrResourceAsStream(filename));
-        String text = read(reader);
-        reader.close();
-        return text;
-    }
-
-    public static String readTextFile(File file) throws FileNotFoundException, IOException {
-        FileReader reader = new FileReader(file);
-        return read(reader);
-    }
-*/
 
   public static void writeTextFile(String filename, String content) throws IOException {
     writeTextFile(filename, content, SystemInfo.getFileEncoding());
@@ -862,7 +858,7 @@ public final class IOUtil {
     }
   }
 
-  static String encoding(URLConnection connection, String defaultEncoding) {
+  public static String encoding(URLConnection connection, String defaultEncoding) {
     String encoding = connection.getContentEncoding();
     if (StringUtil.isEmpty(encoding)) {
       String ct = connection.getHeaderField("Content-Type");
@@ -882,7 +878,7 @@ public final class IOUtil {
     return encoding;
   }
 
-  private static String bomEncoding(PushbackInputStream in, String defaultEncoding) throws IOException {
+  public static String bomEncoding(PushbackInputStream in, String defaultEncoding) throws IOException {
     int b1 = in.read();
     if (b1 == -1) {
       return defaultEncoding;

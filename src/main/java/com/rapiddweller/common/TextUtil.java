@@ -18,6 +18,7 @@ package com.rapiddweller.common;
 import com.rapiddweller.common.converter.ToStringConverter;
 import com.rapiddweller.common.format.Alignment;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -59,10 +60,10 @@ public class TextUtil {
   }
 
   public static String formatLinedTable(String[] titleRows, Object[][] table) {
-    return formatLinedTable(titleRows, table, null);
+    return formatLinedTable(titleRows, table, null, true);
   }
 
-  public static String formatLinedTable(String[] titleRows, Object[][] table, Alignment[] alignments) {
+  public static String formatLinedTable(String[] titleRows, Object[][] table, Alignment[] alignments, boolean hasColumnHeader) {
     // calculate title width and columns width
     int titleWidth = StringUtil.maxLength(titleRows) + 2;
     int[] colWidths = columnWidths(table);
@@ -91,39 +92,62 @@ public class TextUtil {
     }
 
     // format table body
-    appendLine(colWidths, text);
-    for (Object[] row : table) {
-      text.append("| ");
-      for (int i = 0; i < row.length; i++) {
-        Alignment cellAlignment = null;
-        if (alignments != null && i < alignments.length) {
-          cellAlignment = alignments[i];
-        }
-        Object object = row[i];
-        String content = format(object);
-        int padCount = colWidths[i] - 2 - content.length();
-        if (cellAlignment == Alignment.RIGHT || (cellAlignment == null && object instanceof Number)) {
-          appendChars(' ', padCount, text);
-          text.append(content);
-        } else if (cellAlignment == Alignment.LEFT || cellAlignment == null) {
-          text.append(content);
-          appendChars(' ', padCount, text);
-        } else {
-          appendChars(' ', padCount / 2, text);
-          text.append(content);
-          appendChars(' ', padCount - padCount / 2, text);
-        }
-        text.append(" |");
-        if (i < row.length - 1)
-          text.append(' ');
-      }
-      text.append(SystemInfo.LF);
-      appendLine(colWidths, text);
+    appendSeparator(colWidths, text);
+    for (int i = 0; i < table.length; i++) {
+      Object[] row = table[i];
+      Alignment[] alignmentsToUse = (hasColumnHeader && i == 0 ? centered(row.length) : alignments);
+      appendRowContentWithLineBreak(row, alignmentsToUse, colWidths, text);
+      appendSeparator(colWidths, text);
     }
     return text.toString();
   }
 
-  static void appendLine(int[] colWidths, StringBuilder builder) {
+  private static Alignment[] centered(int length) {
+    Alignment[] result = new Alignment[length];
+    Arrays.fill(result, Alignment.CENTER);
+    return result;
+  }
+
+  private static void appendRowContentWithLineBreak(Object[] cells, Alignment[] alignments, int[] colWidths, StringBuilder text) {
+    String[] strings = new String[cells.length];
+    for (int i = 0; i < cells.length; i++) {
+      strings[i] = format(cells[i]);
+    }
+    String[][] rows = StringUtil.splitMultiRowCells(strings);
+    for (String[] row : rows) {
+      appendRowContentWithoutLineBreak(row, alignments, colWidths, text);
+    }
+  }
+
+  private static void appendRowContentWithoutLineBreak(String[] row, Alignment[] alignments, int[] colWidths, StringBuilder text) {
+    text.append("| ");
+    for (int i = 0; i < row.length; i++) {
+      Alignment cellAlignment = null;
+      if (alignments != null && i < alignments.length) {
+        cellAlignment = alignments[i];
+      }
+      Object object = row[i];
+      String content = format(object);
+      int padCount = colWidths[i] - 2 - content.length();
+      if (cellAlignment == Alignment.RIGHT || (cellAlignment == null && object instanceof Number)) {
+        appendChars(' ', padCount, text);
+        text.append(content);
+      } else if (cellAlignment == Alignment.LEFT || cellAlignment == null) {
+        text.append(content);
+        appendChars(' ', padCount, text);
+      } else {
+        appendChars(' ', padCount / 2, text);
+        text.append(content);
+        appendChars(' ', padCount - padCount / 2, text);
+      }
+      text.append(" |");
+      if (i < row.length - 1)
+        text.append(' ');
+    }
+    text.append(SystemInfo.LF);
+  }
+
+  static void appendSeparator(int[] colWidths, StringBuilder builder) {
     builder.append('+');
     for (int colWidth : colWidths) {
       appendChars('-', colWidth, builder);
@@ -133,8 +157,9 @@ public class TextUtil {
   }
 
   static void appendChars(char c, int n, StringBuilder builder) {
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; i++) {
       builder.append(c);
+    }
   }
 
   private static int[] columnWidths(Object[][] table) {
@@ -144,8 +169,11 @@ public class TextUtil {
       for (Object[] cells : table) {
         if (cells != null && cells.length > col) {
           String text = format(cells[col]);
-          if (text.length() > colWidths[col]) {
-            colWidths[col] = text.length();
+          List<String> lines = StringUtil.splitLines(text);
+          for (String line : lines) {
+            if (line.length() > colWidths[col]) {
+              colWidths[col] = line.length();
+            }
           }
         }
       }

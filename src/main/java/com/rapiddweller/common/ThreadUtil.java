@@ -16,6 +16,7 @@
 package com.rapiddweller.common;
 
 import java.util.Collection;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Provides utility methods for threading.
@@ -83,6 +84,10 @@ public class ThreadUtil {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+  }
+
+  public static void sleepRandom(int minMillis, int maxMillis) {
+    sleep(ThreadLocalRandom.current().nextInt(minMillis, maxMillis));
   }
 
   public static String currentStackTraceAsString() {

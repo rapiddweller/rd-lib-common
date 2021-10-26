@@ -20,11 +20,14 @@ import org.slf4j.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.zip.DataFormatException;
+import java.util.zip.Inflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -32,7 +35,6 @@ import java.util.zip.ZipOutputStream;
 /**
  * Provides ZIP-related convenience methods.
  * Created: 20.10.2011 15:19:07
- *
  * @author Volker Bergmann
  * @since 0.5.10
  */
@@ -42,12 +44,20 @@ public class ZipUtil {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ZipUtil.class);
 
-  /**
-   * Compress and delete.
-   *
-   * @param source  the source
-   * @param zipFile the zip file
-   */
+  public static byte[] decompress(byte[] data, boolean nowrap) throws IOException, DataFormatException {
+    Inflater inflater = new Inflater(nowrap);
+    inflater.setInput(data);
+
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+    byte[] buffer = new byte[BUFFER_SIZE];
+    while (!inflater.finished()) {
+      int count = inflater.inflate(buffer);
+      outputStream.write(buffer, 0, count);
+    }
+    outputStream.close();
+    return outputStream.toByteArray();
+  }
+
   public static void compressAndDelete(File source, File zipFile) {
     try {
       compress(source, zipFile);
@@ -57,13 +67,6 @@ public class ZipUtil {
     }
   }
 
-  /**
-   * Compress.
-   *
-   * @param source  the source
-   * @param zipFile the zip file
-   * @throws IOException the io exception
-   */
   public static void compress(File source, File zipFile) throws IOException {
     ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
     out.setMethod(ZipOutputStream.DEFLATED);
@@ -75,11 +78,6 @@ public class ZipUtil {
     }
   }
 
-  /**
-   * Print content.
-   *
-   * @param zipFile the zip file
-   */
   public static void printContent(File zipFile) {
     ZipInputStream in = null;
     try {

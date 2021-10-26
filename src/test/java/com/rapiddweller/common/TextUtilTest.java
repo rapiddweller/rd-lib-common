@@ -93,7 +93,7 @@ public class TextUtilTest {
         { "Bob", 102}
     };
     Alignment[] alignments = { Alignment.RIGHT, Alignment.LEFT };
-    String formatted = TextUtil.formatLinedTable(title, data, alignments);
+    String formatted = TextUtil.formatLinedTable(title, data, alignments, false);
     assertEquals(
         "" +
             "+-------------+\n" +

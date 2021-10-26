@@ -19,74 +19,39 @@ package com.rapiddweller.common.math;
  * Represents a range of int values from a <code>min</code> to a <code>max</code> value
  * (including min and max).
  * Created: 05.10.2010 19:33:23
- *
  * @author Volker Bergmann
  * @since 0.5.4
  */
 public class IntRange {
 
-  /**
-   * The Min.
-   */
   protected int min;
-  /**
-   * The Max.
-   */
   protected int max;
 
-  /**
-   * Instantiates a new Int range.
-   *
-   * @param min the min
-   * @param max the max
-   */
   public IntRange(int min, int max) {
     this.min = min;
     this.max = max;
   }
 
-  /**
-   * Gets min.
-   *
-   * @return the min
-   */
   public int getMin() {
     return min;
   }
 
-  /**
-   * Sets min.
-   *
-   * @param min the min
-   */
   public void setMin(int min) {
     this.min = min;
   }
 
-  /**
-   * Gets max.
-   *
-   * @return the max
-   */
   public int getMax() {
     return max;
   }
 
-  /**
-   * Sets max.
-   *
-   * @param max the max
-   */
   public void setMax(int max) {
     this.max = max;
   }
 
-  /**
-   * Contains boolean.
-   *
-   * @param i the
-   * @return the boolean
-   */
+  public int getSize() {
+    return max - min;
+  }
+
   public boolean contains(int i) {
     return (min <= i && i <= max);
   }

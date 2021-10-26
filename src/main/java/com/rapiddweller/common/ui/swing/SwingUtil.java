@@ -61,7 +61,6 @@ import java.util.Map;
 /**
  * Provides Swing utilities.
  * Created: 23.04.2007 22:41:21
- *
  * @author Volker Bergmann
  * @since 0.5.13
  */
@@ -69,12 +68,6 @@ public class SwingUtil {
 
   private static final String LF = SystemInfo.getLineSeparator();
 
-  /**
-   * Format tree string.
-   *
-   * @param tree the tree
-   * @return the string
-   */
   public static String formatTree(JTree tree) {
     StringBuilder builder = new StringBuilder();
     addTreeNode(tree.getModel().getRoot(), tree, "", new ArrayList<>(), builder);
@@ -107,12 +100,6 @@ public class SwingUtil {
     }
   }
 
-  /**
-   * Format table padded string.
-   *
-   * @param table the table
-   * @return the string
-   */
   public static String formatTablePadded(JTable table) {
     // get table cells
     String[][] cells = parseTable(table);
@@ -144,11 +131,6 @@ public class SwingUtil {
     return writer.toString();
   }
 
-  /**
-   * Print table tabs separated.
-   *
-   * @param table the table
-   */
   public static void printTableTabsSeparated(JTable table) {
     String[][] cells = parseTable(table);
     for (String[] cell : cells) {
@@ -159,12 +141,6 @@ public class SwingUtil {
     }
   }
 
-  /**
-   * Parse table string [ ] [ ].
-   *
-   * @param table the table
-   * @return the string [ ] [ ]
-   */
   public static String[][] parseTable(JTable table) {
     String[][] result = new String[table.getRowCount() + 1][];
     TableModel model = table.getModel();
@@ -190,20 +166,10 @@ public class SwingUtil {
     return result;
   }
 
-  /**
-   * Repaint later.
-   *
-   * @param component the component
-   */
   public static void repaintLater(final Component component) {
     SwingUtilities.invokeLater(component::repaint);
   }
 
-  /**
-   * Center.
-   *
-   * @param component the component
-   */
   public static void center(Component component) {
     Dimension screenSize = getScreenSize();
     int x = (screenSize.width - component.getWidth()) / 2;
@@ -211,52 +177,28 @@ public class SwingUtil {
     component.setLocation(x, y);
   }
 
-  /**
-   * Gets screen size.
-   *
-   * @return the screen size
-   */
   public static Dimension getScreenSize() {
     return Toolkit.getDefaultToolkit().getScreenSize();
   }
 
-  /**
-   * Show in modal dialog t.
-   *
-   * @param <T>             the type parameter
-   * @param mainComponent   the main component
-   * @param title           the title
-   * @param cancellable     the cancellable
-   * @param parentComponent the parent component
-   * @return the t
-   */
   public static <T extends Component> T showInModalDialog(T mainComponent, String title, boolean cancellable,
                                                           Component parentComponent) {
     return SimpleDialog.showModalDialog(mainComponent, title, cancellable, parentComponent);
   }
 
-  /**
-   * Show in frame.
-   *
-   * @param component the component
-   * @param title     the title
-   */
   public static void showInFrame(Component component, String title) {
+    showInFrame(component, title, JFrame.EXIT_ON_CLOSE);
+  }
+
+  public static void showInFrame(Component component, String title, int defaultCloseOperation) {
     JFrame frame = new JFrame(title);
     frame.getContentPane().add(component, BorderLayout.CENTER);
     frame.pack();
     center(frame);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setDefaultCloseOperation(defaultCloseOperation);
     frame.setVisible(true);
   }
 
-  /**
-   * Fit rectangles rectangle.
-   *
-   * @param imageSize the image size
-   * @param size      the size
-   * @return the rectangle
-   */
   public static Rectangle fitRectangles(Dimension imageSize, Dimension size) {
     double aspectX = (double) size.width / imageSize.width;
     double aspectY = (double) size.height / imageSize.height;
@@ -268,21 +210,10 @@ public class SwingUtil {
     return new Rectangle(x, y, paintedWidth, paintedHeight);
   }
 
-  /**
-   * Is look and feel native boolean.
-   *
-   * @return the boolean
-   */
   public static boolean isLookAndFeelNative() {
     return UIManager.getSystemLookAndFeelClassName().equals(UIManager.getLookAndFeel().getClass().getName());
   }
 
-  /**
-   * Gets window for component.
-   *
-   * @param parentComponent the parent component
-   * @return the window for component
-   */
   public static Window getWindowForComponent(Component parentComponent) {
     if (parentComponent == null) {
       return null;
@@ -293,12 +224,6 @@ public class SwingUtil {
     return getWindowForComponent(parentComponent.getParent());
   }
 
-  /**
-   * Equalize button sizes.
-   *
-   * @param g       the g
-   * @param buttons the buttons
-   */
   public static void equalizeButtonSizes(Graphics g, JButton... buttons) {
 
     String[] labels = BeanUtil.extractProperties(buttons, "text", String.class);
@@ -325,48 +250,20 @@ public class SwingUtil {
     }
   }
 
-  /**
-   * Insert transparent icon button j button.
-   *
-   * @param action  the action
-   * @param toolBar the tool bar
-   * @return the j button
-   */
   public static JButton insertTransparentIconButton(Action action, JToolBar toolBar) {
     return insertTransparentButton(action, false, toolBar);
   }
 
-  /**
-   * Insert transparent button j button.
-   *
-   * @param action   the action
-   * @param withText the with text
-   * @param toolBar  the tool bar
-   * @return the j button
-   */
   public static JButton insertTransparentButton(Action action, boolean withText, JToolBar toolBar) {
     JButton button = toolBar.add(action);
     configureTransparentButton(button, withText);
     return button;
   }
 
-  /**
-   * Insert transparent icon button.
-   *
-   * @param button  the button
-   * @param toolBar the tool bar
-   */
   public static void insertTransparentIconButton(JButton button, JToolBar toolBar) {
     insertTransparentButton(button, false, toolBar);
   }
 
-  /**
-   * Insert transparent button.
-   *
-   * @param button   the button
-   * @param withText the with text
-   * @param toolBar  the tool bar
-   */
   public static void insertTransparentButton(JButton button, boolean withText, JToolBar toolBar) {
     configureTransparentButton(button, withText);
     toolBar.add(button);
@@ -385,79 +282,33 @@ public class SwingUtil {
     button.setBorderPainted(false);
   }
 
-  /**
-   * Gets ui panel background.
-   *
-   * @return the ui panel background
-   */
   public static Color getUIPanelBackground() {
     return getUIColor("Panel.background");
   }
 
-  /**
-   * Gets ui color.
-   *
-   * @param code the code
-   * @return the ui color
-   */
   public static Color getUIColor(String code) {
     Color color = UIManager.getColor(code);
     // workaround for issue with com.apple.laf.AquaNativeResources$CColorPaintUIResource which seems to be rendered with alpha=0
     return new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
   }
 
-  /**
-   * Semi transparent color color.
-   *
-   * @param color the color
-   * @return the color
-   */
   public static Color semiTransparentColor(Color color) {
     return applyAlpha(color, 128);
   }
 
-  /**
-   * Apply alpha color.
-   *
-   * @param color the color
-   * @param alpha the alpha
-   * @return the color
-   */
   public static Color applyAlpha(Color color, int alpha) {
     return new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
   }
 
-  /**
-   * Bind key to action.
-   *
-   * @param keyCode   the key code
-   * @param modifiers the modifiers
-   * @param action    the action
-   * @param component the component
-   */
   public static void bindKeyToAction(int keyCode, int modifiers, Action action, JComponent component) {
     bindKeyToAction(keyCode, modifiers, action, component, JComponent.WHEN_FOCUSED);
   }
 
-  /**
-   * Bind key to action.
-   *
-   * @param keyCode   the key code
-   * @param modifiers the modifiers
-   * @param action    the action
-   * @param component the component
-   * @param condition the condition
-   */
   public static void bindKeyToAction(int keyCode, int modifiers, Action action, JComponent component, int condition) {
     KeyStroke keyStroke = KeyStroke.getKeyStroke(keyCode, modifiers);
     component.getInputMap(condition).put(keyStroke, action);
   }
 
-  /**
-   * Auto size table columns.
-   *
-   * @param table the table
-   */
   public static void autoSizeTableColumns(JTable table) {
     for (int column = 0; column < table.getColumnCount(); column++) {
       int columnWidth = 0;
@@ -470,11 +321,6 @@ public class SwingUtil {
     }
   }
 
-  /**
-   * Apply row sorter.
-   *
-   * @param table the table
-   */
   public static void applyRowSorter(JTable table) {
     @SuppressWarnings({"rawtypes", "unchecked"})
     TableRowSorter<?> sorter = new TableRowSorter(table.getModel());
@@ -482,13 +328,6 @@ public class SwingUtil {
     table.setRowSorter(sorter);
   }
 
-  /**
-   * Scroll to table cell.
-   *
-   * @param table    the table
-   * @param rowIndex the row index
-   * @param colIndex the col index
-   */
   public static void scrollToTableCell(JTable table, int rowIndex, int colIndex) {
     if (!(table.getParent() instanceof JViewport)) {
       return;
@@ -500,32 +339,14 @@ public class SwingUtil {
     table.scrollRectToVisible(rect);
   }
 
-  /**
-   * Gets directory icon.
-   *
-   * @return the directory icon
-   */
   public static Icon getDirectoryIcon() {
     return UIManager.getIcon("FileView.directoryIcon");
   }
 
-  /**
-   * Gets hard drive icon.
-   *
-   * @return the hard drive icon
-   */
   public static Icon getHardDriveIcon() {
     return UIManager.getIcon("FileView.hardDriveIcon");
   }
 
-  /**
-   * Create symmetric split pane j split pane.
-   *
-   * @param orientation the orientation
-   * @param comp1       the comp 1
-   * @param comp2       the comp 2
-   * @return the j split pane
-   */
   public static JSplitPane createSymmetricSplitPane(int orientation, Component comp1, Component comp2) {
     JSplitPane pane = new JSplitPane(orientation, comp1, comp2);
     pane.setOneTouchExpandable(true);

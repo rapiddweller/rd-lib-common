@@ -145,13 +145,40 @@ public final class StringUtil {
     return tokens;
   }
 
+  public static String[][] splitMultiRowCells(String[] cells) {
+    String[][] tmp = new String[cells.length][];
+    int maxRows = 1;
+    for (int colnum = 0; colnum < cells.length; colnum++) {
+      String cell = cells[colnum];
+      if (cell != null) {
+        tmp[colnum] = cell.split("\n");
+        if (tmp[colnum].length > maxRows) {
+          maxRows = tmp[colnum].length;
+        }
+      } else {
+        tmp[colnum] = new String[] { "" };
+      }
+    }
+    String[][] result = new String[maxRows][];
+    for (int rownum = 0; rownum < maxRows; rownum++) {
+      result[rownum] = new String[cells.length];
+      for (int colnum = 0; colnum < cells.length; colnum++) {
+        if (rownum < tmp[colnum].length) {
+          result[rownum][colnum] = tmp[colnum][rownum];
+        } else {
+          result[rownum][colnum] = "";
+        }
+      }
+    }
+    return result;
+  }
+
   public static String[] splitAndTrim(String list, char separator) {
     return StringUtil.trimAll(split(list, separator));
   }
 
   public static String[] split(String list, char separator) {
     String separatorRegex = String.valueOf(separator);
-    // nothing to do
     if (separator == '*') {
       separatorRegex = "\\" + separatorRegex; // TODO support other regex meta characters
     }
@@ -1022,6 +1049,13 @@ public final class StringUtil {
       return name.substring(0, name.length() - suffix.length());
     }
     return name;
+  }
+
+  public static String removePrefixIfPresent(String prefix, String name) {
+    if (name != null && name.startsWith(prefix))
+      return name.substring(prefix.length());
+    else
+      return name;
   }
 
   public static String substringAfter(String marker, String s) {

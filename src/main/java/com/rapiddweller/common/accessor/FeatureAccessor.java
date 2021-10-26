@@ -44,44 +44,36 @@ public class FeatureAccessor<C, V> implements Accessor<C, V> {
 
   private static final Escalator escalator = new LoggerEscalator();
 
+  public static FeatureAccessor<?, ?>[] createArray(String... featureNames) {
+    FeatureAccessor<?, ?>[] result = new FeatureAccessor[featureNames.length];
+    for (int i = 0; i < featureNames.length; i++) {
+      String featureName = featureNames[i];
+      result[i] = new FeatureAccessor<Object, Object>(featureName, true);
+    }
+    return result;
+  }
+
+
+  // instance attributes ---------------------------------------------------------------------------------------------
+
   private String featureName;
+
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Feature accessor.
-   *
-   * @param featureName the feature name
-   */
   public FeatureAccessor(String featureName) {
     this(featureName, true);
   }
 
-  /**
-   * Instantiates a new Feature accessor.
-   *
-   * @param featureName the feature name
-   * @param strict      the strict
-   */
   public FeatureAccessor(String featureName, boolean strict) {
     LOGGER.debug("FeatureAccessor({}, {})", featureName, strict);
     this.featureName = featureName;
   }
 
-  /**
-   * Gets feature name.
-   *
-   * @return the feature name
-   */
   public String getFeatureName() {
     return featureName;
   }
 
-  /**
-   * Sets feature name.
-   *
-   * @param featureName the feature name
-   */
   public void setFeatureName(String featureName) {
     this.featureName = featureName;
   }
@@ -96,26 +88,11 @@ public class FeatureAccessor<C, V> implements Accessor<C, V> {
 
   // static convenience methods --------------------------------------------------------------------------------------
 
-  /**
-   * Gets value.
-   *
-   * @param target      the target
-   * @param featureName the feature name
-   * @return the value
-   */
   public static Object getValue(Object target, String featureName) {
     LOGGER.debug("getValue({}, {})", target, featureName);
     return getValue(target, featureName, true);
   }
 
-  /**
-   * Gets value.
-   *
-   * @param target      the target
-   * @param featureName the feature name
-   * @param required    the required
-   * @return the value
-   */
   @SuppressWarnings("unchecked")
   public static Object getValue(Object target, String featureName, boolean required) {
     if (target == null) {

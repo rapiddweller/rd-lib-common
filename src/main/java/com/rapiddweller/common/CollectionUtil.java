@@ -39,8 +39,12 @@ import java.util.TreeSet;
  */
 public final class CollectionUtil {
 
+  private CollectionUtil() {
+    // private constructor to prevent instantiation of this utility class
+  }
+
   public static boolean isEmpty(Collection<?> collection) {
-    return (collection == null || collection.size() == 0);
+    return (collection == null || collection.isEmpty());
   }
 
   @SafeVarargs
@@ -334,6 +338,95 @@ public final class CollectionUtil {
     Set<T> result = new HashSet<>(src1);
     result.addAll(src2);
     return result;
+  }
+
+  public static <E> List<List<E>> splitPages(Collection<E> list, int pageSize) {
+    List<E> source = (list instanceof List ? (List<E>) list : new ArrayList<E>(list));
+    List<List<E>> result = new ArrayList<List<E>>();
+    for (int i = 0; i < source.size(); i += pageSize)
+      result.add(source.subList(i, Math.min(i + pageSize, list.size())));
+    return result;
+  }
+
+  public static <E> List<E> merge(List<E> list1, List<E> list2) {
+    List<E> result = new ArrayList<E>(list1);
+    result.addAll(list2);
+    return result;
+  }
+
+  public static <E> Set<E> merge(Set<E> set1, Set<E> set2) {
+    Set<E> result = new HashSet<E>(set1);
+    result.addAll(set2);
+    return result;
+  }
+
+  public static <E> List<E> intersect(List<E> list1, List<E> list2) {
+    List<E> result = new ArrayList<E>();
+    for (E elem : list1)
+      if (list2.contains(elem))
+        result.add(elem);
+    return result;
+  }
+
+  public static void printRecursively(Map<?, ?> map) {
+    printRecursively(map, "");
+  }
+
+  private static void printRecursively(Map<?, ?> map, String indent) {
+    if (map == null)
+      return;
+    for (Map.Entry<?, ?> entry : map.entrySet()) {
+      Object value = entry.getValue();
+      if ("companyOfficers".equals(entry.getKey())) // TODO remove
+        System.out.print("");
+      System.out.print(indent + entry.getKey() + ": ");
+      if (value == null) {
+        System.out.println("null");
+      } else if (value instanceof Map) {
+        System.out.println();
+        printRecursively((Map<?,?>)value, indent + "  ");
+      } else if (List.class.isAssignableFrom(value.getClass())) {
+        List<?> list = (List<?>) value;
+        System.out.println('[');
+        printRecursively(list, indent + "  ");
+        System.out.println(indent + ']');
+      } else {
+        System.out.println(value);
+      }
+    }
+  }
+
+  private static void printRecursively(List<?> list, String indent) {
+    for (int i = 0; i < list.size(); i++) {
+      Object value = list.get(i);
+      if (value instanceof Map) {
+        System.out.println(indent + "{");
+        printRecursively((Map<?,?>) value, indent + "  ");
+        System.out.print(indent + "}");
+      } else {
+        System.out.print(indent + value);
+      }
+      System.out.println(',');
+    }
+  }
+
+  public static Object find(Object searchedKey, Map<?, ?> tree, boolean required) {
+    for (Map.Entry<?, ?> entry : tree.entrySet()) {
+      Object key = entry.getKey();
+      Object value = entry.getValue();
+      //System.out.println(key);
+      if (searchedKey.equals(key)) {
+        return value;
+      } else if (value instanceof Map) {
+        Object result = find(searchedKey, (Map<?, ?>) value, false);
+        if (result != null)
+          return result;
+      }
+    }
+    if (required)
+      throw new ObjectNotFoundException("No item with key '" + searchedKey + "' found in data structure");
+    else
+      return null;
   }
 
 }

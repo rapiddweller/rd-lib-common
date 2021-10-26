@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,10 +18,10 @@ package com.rapiddweller.common;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -56,11 +56,11 @@ public class StringUtilTest {
 
   @Test
   public void testSuffix() {
-    assertEquals(null, StringUtil.suffix("a", '.'));
-    assertEquals(null, StringUtil.suffix("a.", '.'));
+    assertNull(StringUtil.suffix("a", '.'));
+    assertNull(StringUtil.suffix("a.", '.'));
     assertEquals("b", StringUtil.suffix("a.b", '.'));
     assertEquals("b", StringUtil.suffix(".b", '.'));
-    assertEquals(null, StringUtil.suffix(null, '.'));
+    assertNull(StringUtil.suffix(null, '.'));
     assertNull(StringUtil.suffix("Name", 'A'));
     assertNull(StringUtil.suffix(null, 'A'));
     assertEquals("me", StringUtil.suffix("Name", 'a'));
@@ -69,10 +69,10 @@ public class StringUtilTest {
   @Test
   public void testLastToken() {
     assertEquals("a", StringUtil.lastToken("a", ','));
-    assertEquals(null, StringUtil.lastToken("a,", ','));
+    assertNull(StringUtil.lastToken("a,", ','));
     assertEquals("b", StringUtil.lastToken("a,b", ','));
     assertEquals("b", StringUtil.lastToken(",b", ','));
-    assertEquals(null, StringUtil.lastToken(null, ','));
+    assertNull(StringUtil.lastToken(null, ','));
     assertEquals("Name", StringUtil.lastToken("Name", 'A'));
     assertNull(StringUtil.lastToken(null, 'A'));
     assertEquals("me", StringUtil.lastToken("Name", 'a'));
@@ -90,13 +90,13 @@ public class StringUtilTest {
   @Test
   public void testTokenize() {
     assertNull(StringUtil.tokenize(null, ','));
-    assertTrue(Arrays.equals(new String[] {""}, StringUtil.tokenize("", ',')));
-    assertTrue(Arrays.equals(new String[] {"a", "b", ""}, StringUtil.tokenize("a,b,", ',')));
-    assertTrue(Arrays.equals(new String[] {"", "b", "c"}, StringUtil.tokenize(",b,c", ',')));
-    assertTrue(Arrays.equals(new String[] {"", "b", ""}, StringUtil.tokenize(",b,", ',')));
-    assertTrue(Arrays.equals(new String[] {"a", "b", "c"}, StringUtil.tokenize("a,b,c", ',')));
-    assertTrue(Arrays.equals(new String[] {"a", "b", "c"}, StringUtil.tokenize("a.b.c", '.')));
-    assertTrue(Arrays.equals(new String[] {"a,b,c"}, StringUtil.tokenize("a,b,c", '.')));
+    assertArrayEquals(new String[] {""}, StringUtil.tokenize("", ','));
+    assertArrayEquals(new String[] {"a", "b", ""}, StringUtil.tokenize("a,b,", ','));
+    assertArrayEquals(new String[] {"", "b", "c"}, StringUtil.tokenize(",b,c", ','));
+    assertArrayEquals(new String[] {"", "b", ""}, StringUtil.tokenize(",b,", ','));
+    assertArrayEquals(new String[] {"a", "b", "c"}, StringUtil.tokenize("a,b,c", ','));
+    assertArrayEquals(new String[] {"a", "b", "c"}, StringUtil.tokenize("a.b.c", '.'));
+    assertArrayEquals(new String[] {"a,b,c"}, StringUtil.tokenize("a,b,c", '.'));
     assertEquals(1, StringUtil.tokenize("Text", 'A').length);
     assertNull(StringUtil.tokenize(null, 'A'));
     assertEquals(1, StringUtil.tokenize("", 'A').length);
@@ -117,6 +117,19 @@ public class StringUtilTest {
     assertEquals(1, StringUtil.split("List", 'A').length);
     assertEquals(1, StringUtil.split("List", '*').length);
   }
+
+  @Test
+  public void testSplitMultiRowCells() {
+    assertArrayEquals(new String[][] {{ "x", "y", "z" }}, StringUtil.splitMultiRowCells(new String[] { "x", "y", "z" }));
+    assertArrayEquals(new String[][] {{ "", "", "" }}, StringUtil.splitMultiRowCells(new String[] { "", "", "" }));
+    assertArrayEquals(new String[][] {{ "", "", "" }}, StringUtil.splitMultiRowCells(new String[] { null, null, null }));
+    assertArrayEquals(new String[][] {
+        { "x", "y", "z" },
+        { "", "var", "r2" },
+        { "", "", "r3" }
+    }, StringUtil.splitMultiRowCells(new String[] { "x", "y\nvar", "z\nr2\nr3" }));
+  }
+
 
   @Test
   public void testNormalize() {
@@ -170,7 +183,7 @@ public class StringUtilTest {
 
   @Test
   public void testTrimEnd() {
-    assertEquals(null, StringUtil.trimEnd(null));
+    assertNull(StringUtil.trimEnd(null));
     assertEquals("", StringUtil.trimEnd(""));
     assertEquals("", StringUtil.trimEnd(" \r\n"));
     assertEquals("abc", StringUtil.trimEnd("abc"));
@@ -358,7 +371,7 @@ public class StringUtilTest {
 
   @Test
   public void testTrimRight() {
-    assertEquals(null, StringUtil.trimRight(null, '0'));
+    assertNull(StringUtil.trimRight(null, '0'));
     assertEquals("", StringUtil.trimRight("", '0'));
     assertEquals("", StringUtil.trimRight("0", '0'));
     assertEquals("1", StringUtil.trimRight("1", '0'));
@@ -376,7 +389,7 @@ public class StringUtilTest {
 
   @Test
   public void testTrimLeft() {
-    assertEquals(null, StringUtil.trimLeft(null, '0'));
+    assertNull(StringUtil.trimLeft(null, '0'));
     assertEquals("", StringUtil.trimLeft("", '0'));
     assertEquals("", StringUtil.trimLeft("0", '0'));
     assertEquals("1", StringUtil.trimLeft("1", '0'));
@@ -391,7 +404,7 @@ public class StringUtilTest {
 
   @Test
   public void testTrim() {
-    assertEquals(null, StringUtil.trim(null, '0'));
+    assertNull(StringUtil.trim(null, '0'));
     assertEquals("", StringUtil.trim("", '0'));
     assertEquals("", StringUtil.trim("0", '0'));
     assertEquals("1", StringUtil.trim("1", '0'));
@@ -564,7 +577,7 @@ public class StringUtilTest {
 
   @Test
   public void testNormalizeName() {
-    assertEquals(null, StringUtil.normalizeName(null));
+    assertNull(StringUtil.normalizeName(null));
     assertEquals("", StringUtil.normalizeName(""));
     assertEquals("", StringUtil.normalizeName("   \t \r \n   "));
     assertEquals("Alice", StringUtil.normalizeName("Alice"));
@@ -708,7 +721,7 @@ public class StringUtilTest {
 
   @Test
   public void testEscape() {
-    assertEquals(null, StringUtil.escape(null));
+    assertNull(StringUtil.escape(null));
     assertEquals("", StringUtil.escape(""));
     assertEquals("ABCD", StringUtil.escape("ABCD"));
     assertEquals("'\"A\\rB\\nC\\tD\"'", StringUtil.escape("'\"A\rB\nC\tD\"'"));
@@ -727,7 +740,7 @@ public class StringUtilTest {
 
   @Test
   public void testUnescape() {
-    assertEquals(null, StringUtil.unescape(null));
+    assertNull(StringUtil.unescape(null));
     assertEquals("", StringUtil.unescape(""));
     assertEquals("'\"", StringUtil.unescape("\\'\\\"")); // Java quote escapes
     assertEquals("ABCD", StringUtil.unescape("ABCD"));
@@ -744,9 +757,9 @@ public class StringUtilTest {
   @Test
   public void testEmptyToNull() {
     assertEquals(" a ", StringUtil.emptyToNull(" a "));
-    assertEquals(null, StringUtil.emptyToNull(null));
-    assertEquals(null, StringUtil.emptyToNull(""));
-    assertEquals(null, StringUtil.emptyToNull("   "));
+    assertNull(StringUtil.emptyToNull(null));
+    assertNull(StringUtil.emptyToNull(""));
+    assertNull(StringUtil.emptyToNull("   "));
     assertEquals("S", StringUtil.emptyToNull("S"));
     assertNull(StringUtil.emptyToNull(null));
     assertNull(StringUtil.emptyToNull(""));
@@ -784,7 +797,7 @@ public class StringUtilTest {
   @Test
   public void testNormalizeLineSeparators() {
     // no line sep
-    assertEquals(null, StringUtil.normalizeLineSeparators(null, "\r\n"));
+    assertNull(StringUtil.normalizeLineSeparators(null, "\r\n"));
     assertEquals("", StringUtil.normalizeLineSeparators("", "\r\n"));
     assertEquals("abc", StringUtil.normalizeLineSeparators("abc", "\r\n"));
     // \r\n
@@ -842,7 +855,7 @@ public class StringUtilTest {
 
   @Test
   public void testTrimLineSeparators() {
-    assertEquals(null, StringUtil.trimLineSeparators(null));
+    assertNull(StringUtil.trimLineSeparators(null));
     assertEquals("", StringUtil.trimLineSeparators(""));
     assertEquals("alpha", StringUtil.trimLineSeparators("alpha"));
     assertEquals("alpha", StringUtil.trimLineSeparators("\ralpha\n"));
@@ -854,7 +867,7 @@ public class StringUtilTest {
 
   @Test
   public void testRemoveEmptyLines() {
-    assertEquals(null, StringUtil.removeEmptyLines(null));
+    assertNull(StringUtil.removeEmptyLines(null));
     assertEquals("", StringUtil.removeEmptyLines(""));
     assertEquals("alpha", StringUtil.removeEmptyLines("alpha"));
     assertEquals("alpha\nbeta", StringUtil.removeEmptyLines("alpha\nbeta"));
@@ -868,7 +881,7 @@ public class StringUtilTest {
 
   @Test
   public void testSplitLines_withoutLinefeed() {
-    assertEquals(null, StringUtil.splitLines(null));
+    assertNull(StringUtil.splitLines(null));
     assertEquals(CollectionUtil.toList(""), StringUtil.splitLines(""));
     assertEquals(CollectionUtil.toList("alpha"), StringUtil.splitLines("alpha"));
   }
@@ -947,7 +960,7 @@ public class StringUtilTest {
     assertEquals("", StringUtil.limitLength("123456789ABC", 0));
     assertEquals("", StringUtil.limitLength("", 100));
     assertEquals("", StringUtil.limitLength("", 0));
-    assertEquals(null, StringUtil.limitLength(null, 100));
+    assertNull(StringUtil.limitLength(null, 100));
     assertEquals("Tex", StringUtil.limitLength("Text", 3));
     assertNull(StringUtil.limitLength(null, 3));
     assertEquals("", StringUtil.limitLength("", 3));
@@ -966,7 +979,7 @@ public class StringUtilTest {
     assertEquals("", StringUtil.limitLengthWithEllipsis("123456789ABC", 0));
     assertEquals("", StringUtil.limitLengthWithEllipsis("", 100));
     assertEquals("", StringUtil.limitLengthWithEllipsis("", 0));
-    assertEquals(null, StringUtil.limitLengthWithEllipsis(null, 100));
+    assertNull(StringUtil.limitLengthWithEllipsis(null, 100));
     assertEquals("T..", StringUtil.limitLengthWithEllipsis("Text", 3));
     assertNull(StringUtil.limitLengthWithEllipsis(null, 3));
     assertEquals("", StringUtil.limitLengthWithEllipsis("", 3));
@@ -1003,11 +1016,11 @@ public class StringUtilTest {
   // helpers ---------------------------------------------------------------------------------------------------------
 
   private static void checkSplitFirst(String parent, String child, String path) {
-    assertTrue(Arrays.equals(ArrayUtil.buildObjectArrayOfType(String.class, parent, child), StringUtil.splitOnFirstSeparator(path, '=')));
+    assertArrayEquals(ArrayUtil.buildObjectArrayOfType(String.class, parent, child), StringUtil.splitOnFirstSeparator(path, '='));
   }
 
   private static void checkSplitLast(String parent, String child, String path) {
-    assertTrue(Arrays.equals(ArrayUtil.buildObjectArrayOfType(String.class, parent, child), StringUtil.splitOnLastSeparator(path, '.')));
+    assertArrayEquals(ArrayUtil.buildObjectArrayOfType(String.class, parent, child), StringUtil.splitOnLastSeparator(path, '.'));
   }
 
 }
