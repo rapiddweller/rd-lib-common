@@ -70,7 +70,14 @@ public final class IOUtil {
   private static final Logger logger = LoggerFactory.getLogger(IOUtil.class);
 
   private static final String USER_AGENT = "Mozilla/5.0 (Windows; U; Windows NT 5.1; de-DE; rv:1.7.5) Gecko/20041122 Firefox/1.0";
+  public static final String STRING_PROTOCOL = "string://";
+  public static final String HTTP_PROTOCOL = "http://";
+  public static final String FILE_PROTOCOL = "file://";
 
+  private IOUtil() {
+    // private constructor to prevent instantiation of this utility class
+  }
+  
   // convenience unchecked-exception operations ----------------------------------------------------------------------
 
   /** Convenience method that closes a {@link Closeable} if it is not null
@@ -80,7 +87,7 @@ public final class IOUtil {
     if (closeable != null) {
       try {
         closeable.close();
-      } catch (IOException e) {
+      } catch (Exception e) {
         logger.error("Error closing " + closeable, e);
       }
     }
@@ -149,21 +156,21 @@ public final class IOUtil {
   public static boolean isURIAvailable(String uri) {
     logger.debug("isURIAvailable({})", uri);
     boolean available;
-    if (uri.startsWith("string://")) {
+    if (uri.startsWith(STRING_PROTOCOL)) {
       available = true;
-    } else if (uri.startsWith("http://")) {
+    } else if (uri.startsWith(HTTP_PROTOCOL)) {
       available = httpUrlAvailable(uri);
     } else {
       InputStream stream = null;
       try {
-        if (uri.startsWith("file:") && !uri.startsWith("file://")) {
+        if (uri.startsWith("file:") && !uri.startsWith(FILE_PROTOCOL)) {
           stream = getFileOrResourceAsStream(uri.substring("file:".length()), false);
         } else {
           if (!uri.contains("://")) {
-            uri = "file://" + uri;
+            uri = FILE_PROTOCOL + uri;
           }
-          if (uri.startsWith("file://")) {
-            stream = getFileOrResourceAsStream(uri.substring("file://".length()), false);
+          if (uri.startsWith(FILE_PROTOCOL)) {
+            stream = getFileOrResourceAsStream(uri.substring(FILE_PROTOCOL.length()), false);
           }
         }
         available = (stream != null);
@@ -209,9 +216,9 @@ public final class IOUtil {
   }
 
   public static BufferedReader getReaderForURI(String uri, String encoding) throws IOException {
-    if (uri.startsWith("string://")) {
-      return new BufferedReader(new StringReader(uri.substring("string://".length())));
-    } else if (uri.startsWith("http://")) {
+    if (uri.startsWith(STRING_PROTOCOL)) {
+      return new BufferedReader(new StringReader(uri.substring(STRING_PROTOCOL.length())));
+    } else if (uri.startsWith(HTTP_PROTOCOL)) {
       return getHttpReader(new URL(uri), encoding);
     } else {
       return getFileReader(uri, encoding);
@@ -230,8 +237,8 @@ public final class IOUtil {
    *  @throws IOException if the url cannot be read. */
   public static InputStream getInputStreamForURI(String uri, boolean required) throws IOException {
     logger.debug("getInputStreamForURI({}, {})", uri, required);
-    if (uri.startsWith("string://")) {
-      String content = uri.substring("string://".length());
+    if (uri.startsWith(STRING_PROTOCOL)) {
+      String content = uri.substring(STRING_PROTOCOL.length());
       return new ByteArrayInputStream(content.getBytes(SystemInfo.getCharset()));
     }
     if (isFileUri(uri)) {
@@ -280,18 +287,18 @@ public final class IOUtil {
     // now resolve the relative uri
     String uri = resolveRelativeUri(localUri, contextUri);
 
-    if (localUri.startsWith("http://")) {
+    if (localUri.startsWith(HTTP_PROTOCOL)) {
       return getInputStreamForURL(new URL(uri));
     }
 
-    if (localUri.startsWith("file:") && !localUri.startsWith("file://")) {
+    if (localUri.startsWith("file:") && !localUri.startsWith(FILE_PROTOCOL)) {
       return getFileOrResourceAsStream(localUri.substring("file:".length()), true);
     }
     if (!localUri.contains("://") && !localUri.contains("~")) {
-      localUri = "file://" + localUri;
+      localUri = FILE_PROTOCOL + localUri;
     }
-    if (localUri.startsWith("file://")) {
-      return getFileOrResourceAsStream(localUri.substring("file://".length()), true);
+    if (localUri.startsWith(FILE_PROTOCOL)) {
+      return getFileOrResourceAsStream(localUri.substring(FILE_PROTOCOL.length()), true);
     } else {
       throw new ConfigurationError("Can't to handle URL " + localUri);
     }
@@ -623,12 +630,8 @@ public final class IOUtil {
     if (encoding == null) {
       encoding = SystemInfo.getCharset().name();
     }
-    Writer writer = null;
-    try {
-      writer = new OutputStreamWriter(openOutputStreamForURI(filename), encoding);
+    try (Writer writer = new OutputStreamWriter(openOutputStreamForURI(filename), encoding)) {
       transfer(new StringReader(content), writer);
-    } finally {
-      close(writer);
     }
   }
 
@@ -688,7 +691,7 @@ public final class IOUtil {
 
   public static void copyDirectory(URL srcUrl, File targetDirectory, Filter<String> filenameFilter)
       throws IOException {
-    logger.debug("copyDirectory({}, {}, {})", new Object[] {srcUrl, targetDirectory, filenameFilter});
+    logger.debug("copyDirectory({}, {}, {})", srcUrl, targetDirectory, filenameFilter);
     String protocol = srcUrl.getProtocol();
     if (protocol.equals("file")) {
       try {
@@ -713,10 +716,8 @@ public final class IOUtil {
 
   public static void extractFolderFromJar(String jarPath, String directory, File targetDirectory,
                                           Filter<String> filenameFilter) throws IOException {
-    logger.debug("extractFolderFromJar({}, {}, {}, {})", new Object[] {jarPath, directory, targetDirectory, filenameFilter});
-    JarFile jar = null;
-    try {
-      jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8));
+    logger.debug("extractFolderFromJar({}, {}, {}, {})", jarPath, directory, targetDirectory, filenameFilter);
+    try (JarFile jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8))) {
       Enumeration<JarEntry> entries = jar.entries();
       while (entries.hasMoreElements()) {
         JarEntry entry = entries.nextElement();
@@ -738,8 +739,6 @@ public final class IOUtil {
           }
         }
       }
-    } finally {
-      IOUtil.close(jar);
     }
   }
 
@@ -762,10 +761,8 @@ public final class IOUtil {
       int separatorIndex = path.indexOf("!");
       String jarPath = path.substring(5, separatorIndex); // extract jar file name
       String relativePath = path.substring(separatorIndex + 2); // extract path inside jar file
-      JarFile jar = null;
       Set<String> result;
-      try {
-        jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8));
+      try (JarFile jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8))) {
         Enumeration<JarEntry> entries = jar.entries();
         result = new HashSet<>();
         while (entries.hasMoreElements()) {
@@ -781,8 +778,6 @@ public final class IOUtil {
           }
         }
         logger.debug("found jar resources: {}", result);
-      } finally {
-        IOUtil.close(jar);
       }
       return result.toArray(new String[result.size()]);
     } else {
@@ -794,16 +789,10 @@ public final class IOUtil {
   public static void download(URL url, File targetFile) throws IOException {
     logger.info("downloading {}", url);
     FileUtil.ensureDirectoryExists(targetFile.getParentFile());
-    InputStream in = getInputStreamForURL(url);
-    try {
-      OutputStream out = new FileOutputStream(targetFile);
-      try {
+    try (InputStream in = getInputStreamForURL(url)) {
+      try (OutputStream out = new FileOutputStream(targetFile)) {
         IOUtil.transfer(in, out);
-      } finally {
-        IOUtil.close(out);
       }
-    } finally {
-      IOUtil.close(in);
     }
   }
 
