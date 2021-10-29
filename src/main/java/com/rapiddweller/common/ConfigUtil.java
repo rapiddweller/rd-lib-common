@@ -31,10 +31,12 @@ public class ConfigUtil {
   }
 
   public static String configFilePath(String filename, String projectFolder) throws IOException {
+    char fs = SystemInfo.getFileSeparator();
+    projectFolder = stripTrailingFileSeparator(projectFolder);
     return configFilePath(filename,
         projectFolder,
         ".",
-        projectFolder + (projectFolder.endsWith(SystemInfo.LF) ? "" : SystemInfo.LF) + "conf",
+        projectFolder + fs + "conf",
         userConfigFolder()
     );
   }
@@ -62,6 +64,14 @@ public class ConfigUtil {
 
   public static String userConfigFolder() {
     return SystemInfo.getUserHome() + SystemInfo.getFileSeparator() + "rapiddweller";
+  }
+
+  private static String stripTrailingFileSeparator(String path) {
+    char fs = SystemInfo.getFileSeparator();
+    if (path.length() > 1 && path.charAt(path.length() - 1) == fs) {
+      path = path.substring(0, path.length() - 1);
+    }
+    return path;
   }
 
 }
