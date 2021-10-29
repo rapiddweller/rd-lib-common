@@ -31,6 +31,13 @@ public class Assert {
   private static final double TOLERANCE = 0.00001;
 
   private Assert() {
+    // prevents instantiation of this utility class
+  }
+
+  public static void about(double expected, double actual, double delta) {
+    if (Math.abs(expected - actual) > delta) {
+      throw new IllegalArgumentException("Value is expected to be about " + expected + ", but is " + actual);
+    }
   }
 
   public void end(String text, String end) {
