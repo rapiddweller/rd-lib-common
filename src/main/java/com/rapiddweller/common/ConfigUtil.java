@@ -2,7 +2,9 @@
 
 package com.rapiddweller.common;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,8 +30,27 @@ public class ConfigUtil {
     // private constructor to prevent instantiation.
   }
 
-  public static String userConfigFolder() {
-    return SystemInfo.getUserHome() + SystemInfo.getFileSeparator() + "rapiddweller";
+  public static String configFilePath(String filename, String projectFolder) throws IOException {
+    return configFilePath(filename,
+        projectFolder,
+        ".",
+        projectFolder + (projectFolder.endsWith(SystemInfo.LF) ? "" : SystemInfo.LF) + "conf",
+        userConfigFolder()
+    );
+  }
+
+  public static String configFilePath(String filename, String... searchLocations) throws IOException {
+    for (String folder : searchLocations) {
+      File file = FileUtil.getFileIgnoreCase(new File(folder, filename), false);
+      if (file.exists()) {
+        return file.getCanonicalPath();
+      }
+    }
+    if (IOUtil.isURIAvailable(filename)) {
+      return filename;
+    } else {
+      throw new ConfigurationError("No config file '" + filename + "' found in " + Arrays.toString(searchLocations) + "}");
+    }
   }
 
   /** Feature to disable tests which is activated by having a file ~/rapiddweller/testing.properties
@@ -38,4 +59,9 @@ public class ConfigUtil {
     String setting = testSettings.get(code);
     return (!"false".equalsIgnoreCase(setting));
   }
+
+  public static String userConfigFolder() {
+    return SystemInfo.getUserHome() + SystemInfo.getFileSeparator() + "rapiddweller";
+  }
+
 }
