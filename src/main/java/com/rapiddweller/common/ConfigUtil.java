@@ -30,29 +30,47 @@ public class ConfigUtil {
     // private constructor to prevent instantiation.
   }
 
-  public static String configFilePath(String filename, String projectFolder) throws IOException {
+  public static String configFilePathDefaultLocations(String filename, String projectFolder) throws IOException {
     char fs = SystemInfo.getFileSeparator();
     projectFolder = stripTrailingFileSeparator(projectFolder);
-    return configFilePath(filename,
+    return configFilePathMulti(filename,
         projectFolder,
-        ".",
         projectFolder + fs + "conf",
+        ".",
         userConfigFolder()
     );
   }
 
-  public static String configFilePath(String filename, String... searchLocations) throws IOException {
+  /** Searches a configuration file in different paths and returns the relative or absolute path
+   *  (including file name) where it was found. The search is performed in the file system
+   *  as well as in the class path.
+   *  @throws ConfigurationError if the file was not found in any of the search locations */
+  public static String configFilePathMulti(String filename, String... searchLocations) throws IOException {
     for (String folder : searchLocations) {
-      File file = FileUtil.getFileIgnoreCase(new File(folder, filename), false);
-      if (file.exists()) {
-        return file.getCanonicalPath();
+      String path = filePath(filename, folder);
+      if (path != null) {
+        return path;
       }
     }
-    if (IOUtil.isURIAvailable(filename)) {
-      return filename;
-    } else {
-      throw new ConfigurationError("No config file '" + filename + "' found in " + Arrays.toString(searchLocations) + "}");
+    // if nothing was found, then throw an exception
+    throw new ConfigurationError("No config file '" + filename + "' found in " + Arrays.toString(searchLocations));
+  }
+
+  /** Checks if a file of given filename exists in the specified folder. If a file is found, its path is returned,
+   *  otherwise null. The search is performed in the file system as well as in the class path. */
+  public static String filePath(String filename, String folder) throws IOException {
+    // first search in file system...
+    File file = FileUtil.getFileIgnoreCase(new File(folder, filename), false);
+    if (file.exists()) {
+      return file.getCanonicalPath();
     }
+    // ...then search in class path
+    String path = (".".equals(folder) ? filename : folder + '/' + filename);
+    if (IOUtil.isURIAvailable(path)) {
+      return path;
+    }
+    // if the file was not found, then return null
+    return null;
   }
 
   /** Feature to disable tests which is activated by having a file ~/rapiddweller/testing.properties
