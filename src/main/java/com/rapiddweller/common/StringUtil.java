@@ -50,6 +50,9 @@ public final class StringUtil {
   /** character (CR, 0x0D) */
   public static final String CR = String.valueOf('\r');
 
+  private StringUtil() {
+    // private constructor to prevent instantiation of this utility class
+  }
 
   public static String shortOrdinal(int number) {
     switch (number) {
@@ -255,9 +258,11 @@ public final class StringUtil {
     }
     int beginIndex;
     for (beginIndex = 0; beginIndex < s.length() && isWhitespace(s.charAt(beginIndex)); beginIndex++) {
+      // just count up the beginIndex
     }
     int endIndex;
     for (endIndex = s.length() - 1; endIndex > 0 && isWhitespace(s.charAt(endIndex)); endIndex--) {
+      // just count down the endIndex
     }
     if (beginIndex > endIndex) {
       return "";
@@ -396,22 +401,6 @@ public final class StringUtil {
     fill(chars, textLength, length, c);
     getChars(0, textLength, text, chars, 0);
     return new String(chars);
-/*
-        int textLength = text.length();
-        if (textLength > length)
-            throw new IllegalArgumentException("Text is too long (" + textLength + ") to be padded to " + length + " columns");
-        int padLength = length - textLength;
-        char[] padChars = new char[padLength];
-        if (padLength < 20) {
-            for (int i = 0; i < padLength; i++)
-                padChars[i] = c;
-        } else if (c == ' ' && padLength <= WHITESPACE_BUFFER.length) {
-            System.arraycopy(WHITESPACE_BUFFER, 0, padChars, 0, padLength);
-        } else {
-            Arrays.fill(padChars, 0, padLength, c);
-        }
-        return text.concat(new String(padChars));
-*/
   }
 
   private static final int BUFFER_SIZE = 1024;
@@ -627,6 +616,7 @@ public final class StringUtil {
       for (String s2 : set2) {
         if (equalsIgnoreCase(s1, s2)) {
           found = true;
+          break;
         }
       }
       if (!found) {
@@ -934,9 +924,9 @@ public final class StringUtil {
       return null;
     }
     List<String> lines = new ArrayList<>();
-    int TEXT = 0;
-    int CR = 1;
-    int LF = 2;
+    final int TEXT = 0;
+    final int CR = 1;
+    final int LF = 2;
     int mode = TEXT;
     StringBuilder builder = new StringBuilder();
     for (int i = 0; i < text.length(); i++) {
