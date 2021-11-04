@@ -31,14 +31,17 @@ public class ConfigUtil {
   }
 
   public static String configFilePathDefaultLocations(String filename, String projectFolder) throws IOException {
-    char fs = SystemInfo.getFileSeparator();
     projectFolder = stripTrailingFileSeparator(projectFolder);
-    return configFilePathMulti(filename,
+    return configFilePathMulti(filename, defaultConfigLocations(projectFolder));
+  }
+
+  public static String[] defaultConfigLocations(String projectFolder) {
+    return new String[] {
         projectFolder,
-        projectFolder + fs + "conf",
+        projectFolder + SystemInfo.getFileSeparator() + "conf",
         ".",
         userConfigFolder()
-    );
+    };
   }
 
   /** Searches a configuration file in different paths and returns the relative or absolute path
