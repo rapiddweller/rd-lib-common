@@ -30,9 +30,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -43,7 +45,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests the {@link CollectionUtil} class.
  * Created: 21.06.2007 08:29:32
- *
  * @author Volker Bergmann
  */
 public class CollectionUtilTest {
@@ -83,7 +84,7 @@ public class CollectionUtilTest {
 
   @Test
   public void testToSet3() {
-    assertTrue(CollectionUtil.toSet(null).isEmpty());
+    assertTrue(CollectionUtil.toSet().isEmpty());
   }
 
   @Test
@@ -183,7 +184,7 @@ public class CollectionUtilTest {
 
   @Test
   public void testEmpty() {
-    assertTrue(CollectionUtil.isEmpty(null));
+    assertTrue(CollectionUtil.isEmpty((Collection) null));
     assertTrue(CollectionUtil.isEmpty(new HashSet<String>()));
     assertTrue(CollectionUtil.isEmpty(new ArrayList<String>()));
     assertFalse(CollectionUtil.isEmpty(Collections.singletonList(1)));
@@ -191,9 +192,14 @@ public class CollectionUtilTest {
 
   @Test
   public void testToArray() {
-    assertTrue(Arrays.equals(new Integer[] {1}, CollectionUtil.toArray(Collections.singletonList(1), Integer.class)));
-    assertTrue(Arrays.equals(new Integer[] {1, 2, 3}, CollectionUtil.toArray(Arrays.asList(1, 2, 3), Integer.class)));
-    assertThrows(IllegalArgumentException.class, () -> CollectionUtil.<Object>toArray(new ArrayList<Integer>()));
+    assertArrayEquals(new Integer[] {1}, CollectionUtil.toArray(Collections.singletonList(1), Integer.class));
+    assertArrayEquals(new Integer[] {1, 2, 3}, CollectionUtil.toArray(Arrays.asList(1, 2, 3), Integer.class));
+  }
+
+  @Test
+  public void testToArray_empty() {
+    List<Object> emptyList = new ArrayList<>();
+    assertThrows(IllegalArgumentException.class, () -> CollectionUtil.toArray(emptyList));
   }
 
   @Test
@@ -345,6 +351,31 @@ public class CollectionUtilTest {
   @Test
   public void testFormatCommaSeparatedList2() {
     assertEquals("", CollectionUtil.formatCommaSeparatedList(new ArrayList<Integer>(), 'A'));
+  }
+
+  @Test
+  public void testStripOffPrefixes_no_graph() {
+    Map<String, Map<String, String>> result = CollectionUtil.stripOffPrefixes(CollectionUtil.buildMap("a", "b"));
+    assertEquals(1, result.size());
+    assertEquals("b", result.get("a").get(""));
+  }
+
+  @Test
+  public void testStripOffPrefixes_two_levels() {
+    Map<String, Map<String, String>> result = CollectionUtil.stripOffPrefixes(CollectionUtil.buildMap("a.b", "c"));
+    assertEquals(1, result.size());
+    assertEquals("c", result.get("a").get("b"));
+  }
+
+  @Test
+  public void testStripOffPrefixes_two_sub_component() {
+    HashMap<String, String> src = new HashMap<>();
+    src.put("a.b", "c");
+    src.put("a.d", "e");
+    Map<String, Map<String, String>> result = CollectionUtil.stripOffPrefixes(src);
+    assertEquals(1, result.size());
+    assertEquals("c", result.get("a").get("b"));
+    assertEquals("e", result.get("a").get("d"));
   }
 
 }

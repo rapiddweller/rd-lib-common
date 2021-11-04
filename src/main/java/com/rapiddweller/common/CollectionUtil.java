@@ -17,6 +17,7 @@ package com.rapiddweller.common;
 
 import com.rapiddweller.common.collection.SortedList;
 
+import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public final class CollectionUtil {
 
   @SuppressWarnings("unchecked")
   public static <T> T[] toArray(Collection<? extends T> source) {
-    if (source.size() == 0) {
+    if (source.isEmpty()) {
       throw new IllegalArgumentException("For empty collections, a componentType needs to be specified.");
     }
     Class<T> componentType = (Class<T>) source.iterator().next().getClass();
@@ -211,7 +212,7 @@ public final class CollectionUtil {
         return false;
       }
     }
-    return l1.size() == 0;
+    return l1.isEmpty();
   }
 
   public static <V> V getCaseInsensitive(String key, Map<String, V> map) {
@@ -342,26 +343,26 @@ public final class CollectionUtil {
 
   public static <E> List<List<E>> splitPages(Collection<E> list, int pageSize) {
     List<E> source = (list instanceof List ? (List<E>) list : new ArrayList<E>(list));
-    List<List<E>> result = new ArrayList<List<E>>();
+    List<List<E>> result = new ArrayList<>();
     for (int i = 0; i < source.size(); i += pageSize)
       result.add(source.subList(i, Math.min(i + pageSize, list.size())));
     return result;
   }
 
   public static <E> List<E> merge(List<E> list1, List<E> list2) {
-    List<E> result = new ArrayList<E>(list1);
+    List<E> result = new ArrayList<>(list1);
     result.addAll(list2);
     return result;
   }
 
   public static <E> Set<E> merge(Set<E> set1, Set<E> set2) {
-    Set<E> result = new HashSet<E>(set1);
+    Set<E> result = new HashSet<>(set1);
     result.addAll(set2);
     return result;
   }
 
   public static <E> List<E> intersect(List<E> list1, List<E> list2) {
-    List<E> result = new ArrayList<E>();
+    List<E> result = new ArrayList<>();
     for (E elem : list1)
       if (list2.contains(elem))
         result.add(elem);
@@ -373,40 +374,48 @@ public final class CollectionUtil {
   }
 
   private static void printRecursively(Map<?, ?> map, String indent) {
+    printRecursively(map, indent, System.out);
+  }
+
+  private static void printRecursively(Map<?, ?> map, String indent, PrintStream out) {
     if (map == null)
       return;
     for (Map.Entry<?, ?> entry : map.entrySet()) {
       Object value = entry.getValue();
-      if ("companyOfficers".equals(entry.getKey())) // TODO remove
-        System.out.print("");
-      System.out.print(indent + entry.getKey() + ": ");
+      out.print(indent + entry.getKey() + ": ");
       if (value == null) {
-        System.out.println("null");
+        out.println("null");
       } else if (value instanceof Map) {
-        System.out.println();
+        out.println();
         printRecursively((Map<?,?>)value, indent + "  ");
       } else if (List.class.isAssignableFrom(value.getClass())) {
         List<?> list = (List<?>) value;
-        System.out.println('[');
+        out.println('[');
         printRecursively(list, indent + "  ");
-        System.out.println(indent + ']');
+        out.println(indent + ']');
       } else {
-        System.out.println(value);
+        out.println(value);
       }
     }
   }
 
   private static void printRecursively(List<?> list, String indent) {
+    printRecursively(list, indent, System.out);
+  }
+
+  private static void printRecursively(List<?> list, String indent, PrintStream out) {
     for (int i = 0; i < list.size(); i++) {
       Object value = list.get(i);
       if (value instanceof Map) {
-        System.out.println(indent + "{");
+        out.println(indent + "{");
         printRecursively((Map<?,?>) value, indent + "  ");
-        System.out.print(indent + "}");
+        out.print(indent + "}");
       } else {
-        System.out.print(indent + value);
+        out.print(indent + value);
       }
-      System.out.println(',');
+      if (i < list.size() - 1) {
+        out.println(',');
+      }
     }
   }
 
@@ -414,7 +423,6 @@ public final class CollectionUtil {
     for (Map.Entry<?, ?> entry : tree.entrySet()) {
       Object key = entry.getKey();
       Object value = entry.getValue();
-      //System.out.println(key);
       if (searchedKey.equals(key)) {
         return value;
       } else if (value instanceof Map) {
@@ -429,4 +437,21 @@ public final class CollectionUtil {
       return null;
   }
 
+  /** Iterates a String-to-String {@link Map}, expecting key values like prefix.sub.property,
+   *  strips off the prefixes and groups the remainders in a Map indexed by the prefix.
+   *  If no token follows after the prefix, the remainder is set to an empty String.
+   */
+  public static Map<String, Map<String, String>> stripOffPrefixes(Map<String, String> properties) {
+    Map<String, Map<String, String>> result = new HashMap<>();
+    for (Map.Entry<String, String> entry : properties.entrySet()) {
+      String key = entry.getKey();
+      String[] tokens = StringUtil.splitOnFirstSeparator(key, '.');
+      String prefix = tokens[0];
+      String remainder = (tokens[1] != null ? tokens[1] : "");
+      String value = entry.getValue();
+      Map<String, String> prefixMap = result.computeIfAbsent(prefix, k -> new HashMap<>());
+      prefixMap.put(remainder, value);
+    }
+    return result;
+  }
 }
