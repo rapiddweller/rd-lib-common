@@ -99,6 +99,9 @@ public class HF {
   }
 
   public static String pluralize(long count, String name) {
+    if (name == null) {
+      return name;
+    }
     String result = format(count) + ' ';
     if (count == 1) {
       result += name;
