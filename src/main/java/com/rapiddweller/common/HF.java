@@ -30,9 +30,14 @@ import java.util.Locale;
  */
 public class HF {
 
+  private static final long KILOBYTE = 1024;
+  private static final long MEGABYTE = 1024 * KILOBYTE;
+  private static final long GIGABYTE = 1024 * MEGABYTE;
+
   private static final DecimalFormatSymbols US_SYMBOLS = DecimalFormatSymbols.getInstance(Locale.US);
   private static final DecimalFormat PCT100_FMT = new DecimalFormat("#,##0.0", US_SYMBOLS);
   private static final DecimalFormat DECIMAL_FMT = new DecimalFormat("#,##0.######", US_SYMBOLS);
+  private static final DecimalFormat LONG_FMT = new DecimalFormat("#,##0", US_SYMBOLS);
   private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
 
   private HF() {
@@ -57,6 +62,10 @@ public class HF {
 
   public static String format(double value) {
     return (!Double.isNaN(value) ? DECIMAL_FMT.format(value) : "NaN");
+  }
+
+  public static String format(long value) {
+    return LONG_FMT.format(value);
   }
 
   public static String format(LocalTime time) {
@@ -86,6 +95,36 @@ public class HF {
       return "1 second";
     } else {
       return "Less than a second";
+    }
+  }
+
+  public static String pluralize(long count, String name) {
+    String result = format(count) + ' ';
+    if (count == 1) {
+      result += name;
+    } else if (name.endsWith("y")) {
+      result += name.substring(0, name.length() - 1) + "ies";
+    } else if (name.endsWith("Y")) {
+      result += name.substring(0, name.length() - 1) + "IES";
+    } else if (name.endsWith("s")) {
+      result += name + "es";
+    } else if (name.endsWith("S")) {
+      result += name + "ES";
+    } else if (Character.isUpperCase(name.charAt(name.length() - 1))) {
+      result += name + 'S';
+    } else {
+      result += name + 's';
+    }
+    return result;
+  }
+
+  public static String formatByteSize(long size) {
+    if (size > GIGABYTE) {
+      return format(size / MEGABYTE) + " MB";
+    } else if (size > MEGABYTE) {
+      return format(size / KILOBYTE) + " KB";
+    } else {
+      return format(size) + " bytes";
     }
   }
 

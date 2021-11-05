@@ -23,9 +23,21 @@ public class HFTest {
   }
 
   @Test
-  public void testFormat() {
+  public void testFormatDouble() {
     assertEquals("10", HF.format(10.0));
     assertEquals("NaN", HF.format(Double.NaN));
+    assertEquals("01:01:00", HF.format(LocalTime.of(1, 1)));
+  }
+
+  @Test
+  public void testFormatLong() {
+    assertEquals("10", HF.format(10L));
+    assertEquals("1,234", HF.format(1234L));
+    assertEquals("1,234,567", HF.format(1234567L));
+  }
+
+  @Test
+  public void testFormatLocalTime() {
     assertEquals("01:01:00", HF.format(LocalTime.of(1, 1)));
   }
 
@@ -43,6 +55,28 @@ public class HFTest {
     assertEquals("2 seconds", HF.formatDurationSec(2));
     assertEquals("1 second", HF.formatDurationSec(1));
     assertEquals("Less than a second", HF.formatDurationSec(0));
+  }
+
+  @Test
+  public void testPluralize() {
+    assertEquals("1 degree", HF.pluralize(1, "degree"));
+    assertEquals("-5 degrees", HF.pluralize(-5, "degree"));
+    assertEquals("-10 DEGREES", HF.pluralize(-10, "DEGREE"));
+
+    assertEquals("0 countries", HF.pluralize(0, "country"));
+    assertEquals("1 country", HF.pluralize(1, "country"));
+    assertEquals("2 countries", HF.pluralize(2, "country"));
+
+    assertEquals("2 kisses", HF.pluralize(2, "kiss"));
+    assertEquals("2 KISSES", HF.pluralize(2, "KISS"));
+  }
+
+  @Test
+  public void testFormatByteSize() {
+    assertEquals("12 bytes", HF.formatByteSize(12L));
+    assertEquals("123,456 bytes", HF.formatByteSize(123456L));
+    assertEquals("123,456 KB", HF.formatByteSize(123456L * 1024));
+    assertEquals("123,456 MB", HF.formatByteSize(123456L * 1024 * 1024));
   }
 
 }
