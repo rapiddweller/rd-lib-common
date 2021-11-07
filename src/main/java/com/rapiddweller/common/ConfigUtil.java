@@ -40,7 +40,7 @@ public class ConfigUtil {
         projectFolder,
         projectFolder + SystemInfo.getFileSeparator() + "conf",
         ".",
-        userConfigFolder()
+        userConfigFolder().getAbsolutePath()
     };
   }
 
@@ -83,8 +83,12 @@ public class ConfigUtil {
     return (!"false".equalsIgnoreCase(setting));
   }
 
-  public static String userConfigFolder() {
-    return SystemInfo.getUserHome() + SystemInfo.getFileSeparator() + "rapiddweller";
+  public static File commonCacheFolder() {
+    return new File(ConfigUtil.userConfigFolder(), "cache");
+  }
+
+  public static File userConfigFolder() {
+    return new File(SystemInfo.getUserHome(), "rapiddweller");
   }
 
   private static String stripTrailingFileSeparator(String path) {
