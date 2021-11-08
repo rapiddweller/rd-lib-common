@@ -37,15 +37,15 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests the ConverterManager.
+ * Tests the {@link ConverterManager}.
  * Created: 05.08.2007 07:07:26
- *
  * @author Volker Bergmann
  */
 public class ConverterManagerTest {
@@ -290,6 +290,16 @@ public class ConverterManagerTest {
     assertEquals(
         Pattern.compile("[1-3]{2,4}").toString(),
         converter.convert("[1-3]{2,4}").toString());
+  }
+
+  @Test
+  public void testString2UUID() {
+    for (int i = 0; i < 100; i++) {
+      UUID uuid = UUID.randomUUID();
+      String stringValue = uuid.toString();
+      Converter<String, UUID> converter = mgr.createConverter(String.class, UUID.class);
+      assertEquals(uuid, converter.convert(stringValue));
+    }
   }
 
   // private helpers -------------------------------------------------------------------------------------------------

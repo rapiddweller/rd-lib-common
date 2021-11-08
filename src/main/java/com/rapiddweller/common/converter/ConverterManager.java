@@ -56,7 +56,6 @@ import java.util.Objects;
  *     com.my.MyString2ComplexConverter
  * </pre>
  * Created: 04.08.2007 19:43:17
- *
  * @author Volker Bergmann
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -78,11 +77,6 @@ public class ConverterManager implements ContextAware, Resettable {
     init();
   }
 
-  /**
-   * Gets instance.
-   *
-   * @return the instance
-   */
   public static ConverterManager getInstance() {
     if (instance == null) {
       instance = new ConverterManager();
@@ -124,16 +118,6 @@ public class ConverterManager implements ContextAware, Resettable {
     return null;
   }
 
-  /**
-   * Convert all object.
-   *
-   * @param <S>           the type parameter
-   * @param <T>           the type parameter
-   * @param sourceValues  the source values
-   * @param converter     the converter
-   * @param componentType the component type
-   * @return the object
-   */
   public static <S, T> Object convertAll(S[] sourceValues, Converter<S, T> converter, Class componentType) {
     Object convertedValues = Array.newInstance(componentType, sourceValues.length);
     for (int i = 0; i < sourceValues.length; i++) {
@@ -142,15 +126,6 @@ public class ConverterManager implements ContextAware, Resettable {
     return convertedValues;
   }
 
-  /**
-   * Convert all collection.
-   *
-   * @param <S>          the type parameter
-   * @param <T>          the type parameter
-   * @param sourceValues the source values
-   * @param converter    the converter
-   * @return the collection
-   */
   public static <S, T> Collection<T> convertAll(Collection<S> sourceValues, Converter<S, T> converter) {
     List<T> result = new ArrayList<>(sourceValues.size());
     for (S sourceValue : sourceValues) {
@@ -159,15 +134,7 @@ public class ConverterManager implements ContextAware, Resettable {
     return result;
   }
 
-  /**
-   * Clone if supported converter [ ].
-   *
-   * @param <SS>       the type parameter
-   * @param <TT>       the type parameter
-   * @param prototypes the prototypes
-   * @return the converter [ ]
-   */
-  public static <SS, TT> Converter<SS, TT>[] cloneIfSupported(Converter<SS, TT>[] prototypes) {
+  public static <S, T> Converter<S, T>[] cloneIfSupported(Converter<S, T>[] prototypes) {
     Converter[] result = new Converter[prototypes.length];
     for (int i = 0; i < prototypes.length; i++) {
       result[i] = cloneIfSupported(prototypes[i]);
@@ -175,16 +142,8 @@ public class ConverterManager implements ContextAware, Resettable {
     return result;
   }
 
-  /**
-   * Clone if supported converter.
-   *
-   * @param <SS>      the type parameter
-   * @param <TT>      the type parameter
-   * @param prototype the prototype
-   * @return the converter
-   */
-  public static <SS, TT> Converter<SS, TT> cloneIfSupported(Converter<SS, TT> prototype) {
-    Converter<SS, TT> result;
+  public static <S, T> Converter<S, T> cloneIfSupported(Converter<S, T> prototype) {
+    Converter<S, T> result;
     if (prototype.isParallelizable()) {
       result = BeanUtil.clone(prototype);
     } else if (prototype.isThreadSafe()) {
@@ -195,9 +154,6 @@ public class ConverterManager implements ContextAware, Resettable {
     return result;
   }
 
-  /**
-   * Init.
-   */
   protected void init() {
     this.configuredConverterClasses = new OrderedMap<>();
     this.converterPrototypes = new HashMap<>();
@@ -226,15 +182,6 @@ public class ConverterManager implements ContextAware, Resettable {
     }
   }
 
-  /**
-   * Create converter converter.
-   *
-   * @param <S>        the type parameter
-   * @param <T>        the type parameter
-   * @param sourceType the source type
-   * @param targetType the target type
-   * @return the converter
-   */
   public <S, T> Converter<S, T> createConverter(Class<S> sourceType, Class<T> targetType) {
     // check preconditions
     if (targetType == null) {
@@ -263,7 +210,6 @@ public class ConverterManager implements ContextAware, Resettable {
   }
 
   private Converter searchAppropriateConverter(Class sourceType, Class targetType) {
-
     // catch primitive types
     Class<?> wrapperClass = BeanUtil.getWrapper(targetType.getName());
     if (wrapperClass != null) {
@@ -348,34 +294,31 @@ public class ConverterManager implements ContextAware, Resettable {
   }
 
   private Converter tryToCreateFactoryConverter(Class sourceType, Class targetType) {
-    {
-      // find instance method <targetType>Value() in source type
-      String methodName = StringUtil.uncapitalize(targetType.getSimpleName()) + "Value";
-      Method typeValueMethod = BeanUtil.findMethod(sourceType, methodName);
-      if (typeValueMethod != null && (typeValueMethod.getModifiers() & Modifier.STATIC) == 0) {
-        return new SourceClassMethodInvoker(sourceType, targetType, typeValueMethod);
-      }
+    // find instance method <targetType>Value() in source type
+    String typeValueMethodName = StringUtil.uncapitalize(targetType.getSimpleName()) + "Value";
+    Method typeValueMethod = BeanUtil.findMethod(sourceType, typeValueMethodName);
+    if (typeValueMethod != null && (typeValueMethod.getModifiers() & Modifier.STATIC) == 0) {
+      return new SourceClassMethodInvoker(sourceType, targetType, typeValueMethod);
     }
-    {
-      // find static getInstance() method in target type
-      Method getInstanceMethod = BeanUtil.findMethod(targetType, "getInstance", sourceType);
-      if (getInstanceMethod != null && (getInstanceMethod.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
-        return new StaticTargetClassMethodInvoker(sourceType, targetType, getInstanceMethod);
-      }
+    // find static getInstance() method in target type
+    Method getInstanceMethod = BeanUtil.findMethod(targetType, "getInstance", sourceType);
+    if (getInstanceMethod != null && (getInstanceMethod.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
+      return new StaticTargetClassMethodInvoker(sourceType, targetType, getInstanceMethod);
     }
-    {
-      // find static valueOf() method in target type
-      Method valueOfMethod = BeanUtil.findMethod(targetType, "valueOf", sourceType);
-      if (valueOfMethod != null && (valueOfMethod.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
-        return new StaticTargetClassMethodInvoker(sourceType, targetType, valueOfMethod);
-      }
+    // find static valueOf() method in target type
+    Method valueOfMethod = BeanUtil.findMethod(targetType, "valueOf", sourceType);
+    if (valueOfMethod != null && (valueOfMethod.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
+      return new StaticTargetClassMethodInvoker(sourceType, targetType, valueOfMethod);
     }
-    {
-      // find target type constructor which takes source type argument
-      Constructor constructor = BeanUtil.findConstructor(targetType, sourceType);
-      if (constructor != null) {
-        return new ConstructorInvoker(sourceType, constructor);
-      }
+    // find static fromString() method in target type
+    Method fromStringMethod = BeanUtil.findMethod(targetType, "fromString", sourceType);
+    if (fromStringMethod != null && (fromStringMethod.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
+      return new StaticTargetClassMethodInvoker(sourceType, targetType, fromStringMethod);
+    }
+    // find target type constructor which takes source type argument
+    Constructor constructor = BeanUtil.findConstructor(targetType, sourceType);
+    if (constructor != null) {
+      return new ConstructorInvoker(sourceType, constructor);
     }
     return findPoorConfiguredMatch(sourceType, targetType);
   }
@@ -393,11 +336,6 @@ public class ConverterManager implements ContextAware, Resettable {
     return null;
   }
 
-  /**
-   * Register converter class.
-   *
-   * @param converterClass the converter class
-   */
   public void registerConverterClass(Class<? extends Converter> converterClass) {
     Converter converter = BeanUtil.newInstance(converterClass);
     ConversionTypes types = new ConversionTypes(converter);
