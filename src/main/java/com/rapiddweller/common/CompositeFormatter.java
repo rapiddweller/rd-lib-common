@@ -26,7 +26,6 @@ import java.util.Map;
 /**
  * Formats a Composite as a String.
  * Created: 14.03.2008 22:47:57
- *
  * @author Volker Bergmann
  */
 public class CompositeFormatter extends FormatHolder {
@@ -36,53 +35,26 @@ public class CompositeFormatter extends FormatHolder {
   private boolean flat;
   private final boolean renderNames;
 
-  /**
-   * Instantiates a new Composite formatter.
-   */
   public CompositeFormatter() {
     this(true, true);
   }
 
-  /**
-   * Instantiates a new Composite formatter.
-   *
-   * @param flat        the flat
-   * @param renderNames the render names
-   */
   public CompositeFormatter(boolean flat, boolean renderNames) {
     super("[null]");
     this.flat = flat;
     this.renderNames = renderNames;
   }
 
-  /**
-   * Is flat boolean.
-   *
-   * @return the boolean
-   */
   public boolean isFlat() {
     return flat;
   }
 
-  /**
-   * Sets flat.
-   *
-   * @param flat the flat
-   */
   public void setFlat(boolean flat) {
     this.flat = flat;
   }
 
   // interface -------------------------------------------------------------------------------------------------------
 
-  /**
-   * Render string.
-   *
-   * @param head      the head
-   * @param composite the composite
-   * @param tail      the tail
-   * @return the string
-   */
   public String render(String head, Composite composite, String tail) {
     if (flat) {
       return renderFlat(head, composite, tail);
@@ -91,15 +63,6 @@ public class CompositeFormatter extends FormatHolder {
     }
   }
 
-  /**
-   * Render hierarchical string.
-   *
-   * @param head      the head
-   * @param composite the composite
-   * @param tail      the tail
-   * @param indent    the indent
-   * @return the string
-   */
   public String renderHierarchical(String head, Composite composite, String tail, String indent) {
     return head + renderComponentsHierarchical(composite, indent) + tail;
   }
@@ -143,13 +106,6 @@ public class CompositeFormatter extends FormatHolder {
     return builder.toString();
   }
 
-  /**
-   * Render component.
-   *
-   * @param builder   the builder
-   * @param indent    the indent
-   * @param component the component
-   */
   void renderComponent(StringBuilder builder, String indent, Map.Entry<String, ?> component) {
     builder.append(indent);
     if (renderNames) {
