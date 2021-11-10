@@ -20,41 +20,29 @@ import java.io.OutputStreamWriter;
 /**
  * Provides speech support on Mac systems.
  * Created: 14.09.2010 12:46:10
- *
  * @author Volker Bergmann
  * @since 0.5.4
  */
 public class SpeechUtil {
 
-  /**
-   * Speech supported boolean.
-   *
-   * @return the boolean
-   */
+  private SpeechUtil() {
+    // private constructor to prevent instantiation of this utility class.
+  }
+
   public static boolean speechSupported() {
     return SystemInfo.isMacOsx();
   }
 
-  /**
-   * Say.
-   *
-   * @param text the text
-   */
   public static void say(String text) {
     say(text, ErrorHandler.getDefault());
   }
 
-  /**
-   * Say.
-   *
-   * @param text         the text
-   * @param errorHandler the error handler
-   */
   public static void say(String text, ErrorHandler errorHandler) {
     if (!speechSupported()) {
       errorHandler.handleError("Speech is not supported on this system");
     }
-    ShellUtil.runShellCommand("say -v Alex \"" + text + "\"", new OutputStreamWriter(System.out), errorHandler);
+    ShellUtil.runShellCommand("say -v Alex \"" + text + "\"", null,
+        new OutputStreamWriter(System.out), errorHandler);
   }
 
 }

@@ -28,7 +28,6 @@ import java.io.Writer;
 /**
  * Executes shell commands and shell files.
  * Created at 05.08.2008 07:40:00
- *
  * @author Volker Bergmann
  * @since 0.4.5
  */
@@ -36,69 +35,54 @@ public class ShellUtil {
 
   private static final Logger logger = LoggerFactory.getLogger(ShellUtil.class);
 
-  /**
-   * Run shell commands int.
-   *
-   * @param iterator     the iterator
-   * @param outputWriter the output writer
-   * @param errorHandler the error handler
-   * @return the int
-   */
-  public static int runShellCommands(ReaderLineIterator iterator, Writer outputWriter, ErrorHandler errorHandler) {
+  public static int runShellCommands(ReaderLineIterator iterator, String shell, Writer outputWriter, ErrorHandler errorHandler) {
     int result = 0;
     while (iterator.hasNext()) {
       String command = iterator.next().trim();
       if (command.length() > 0) {
-        result = runShellCommand(command, outputWriter, errorHandler);
+        result = runShellCommand(command, shell, outputWriter, errorHandler);
       }
     }
     return result;
   }
 
-  /**
-   * Run shell command int.
-   *
-   * @param command      the command
-   * @param outputWriter the output writer
-   * @param errorHandler the error handler
-   * @return the int
-   */
-  public static int runShellCommand(String command, Writer outputWriter, ErrorHandler errorHandler) {
-    return runShellCommand(command, outputWriter, new File(SystemInfo.getCurrentDir()), errorHandler);
+  public static int runShellCommand(String command, String shell, Writer outputWriter, ErrorHandler errorHandler) {
+    return runShellCommand(command, shell, outputWriter, new File(SystemInfo.getCurrentDir()), errorHandler);
   }
 
-  /**
-   * Run shell command int.
-   *
-   * @param command      the command
-   * @param outputWriter the output writer
-   * @param directory    the directory
-   * @param errorHandler the error handler
-   * @return the int
-   */
-  public static int runShellCommand(String command, Writer outputWriter, File directory, ErrorHandler errorHandler) {
+  public static int runShellCommand(String command, String shell, Writer outputWriter, File directory, ErrorHandler errorHandler) {
     logger.debug(command);
     try {
-      Process process = Runtime.getRuntime().exec(command, null, directory);
+      String[] invocation = (StringUtil.isEmpty(shell) ? defaultShellInvocation() : shellInvocation(shell));
+      Process process = Runtime.getRuntime().exec(new String[] { invocation[0], invocation[1], command }, null, directory);
       return execute(process, command, outputWriter, errorHandler);
     } catch (FileNotFoundException e) {
-      errorHandler.handleError("Error in shell invocation: " + command, e);
+      handleError(e, command, errorHandler);
       return 2;
     } catch (Exception e) {
-      errorHandler.handleError("Error in shell invocation: " + command, e);
+      handleError(e, command, errorHandler);
       return 1;
     }
   }
 
-  /**
-   * Run shell command int.
-   *
-   * @param cmdArray     the cmd array
-   * @param outputWriter the output writer
-   * @param directory    the directory
-   * @param errorHandler the error handler
-   * @return the int
-   */
+  private static String[] shellInvocation(String shell) {
+    if (StringUtil.isEmpty(shell)) {
+      return defaultShellInvocation();
+    } else if (shell.toLowerCase().contains("sh")) {
+      return new String[] { shell, "-c"};
+    } else {
+      return new String[] { shell, "/c" };
+    }
+  }
+
+  private static String[] defaultShellInvocation() {
+    if (SystemInfo.isWindows()) {
+      return new String[] { "cmd.exe", "/C" };
+    } else {
+      return new String[] { "sh", "-c" };
+    }
+  }
+
   public static int runShellCommand(String[] cmdArray, Writer outputWriter, File directory, ErrorHandler errorHandler) {
     String description = renderCmdArray(cmdArray);
     if (logger.isDebugEnabled()) {
@@ -108,9 +92,13 @@ public class ShellUtil {
       Process process = Runtime.getRuntime().exec(cmdArray, null, directory);
       return execute(process, description, outputWriter, errorHandler);
     } catch (Exception e) {
-      errorHandler.handleError("Error in shell invocation: " + description, e);
+      handleError(e, description, errorHandler);
       return -1;
     }
+  }
+
+  private static void handleError(Exception e, String description, ErrorHandler errorHandler) {
+    errorHandler.handleError("Error in shell invocation: " + description, e);
   }
 
   // private helpers ---------------------------------------------------------
