@@ -83,8 +83,12 @@ public class ConfigUtil {
     return (!"false".equalsIgnoreCase(setting));
   }
 
+  /** Returns a {@link java.io.File} object that points to the root of all cache folders.
+   *  If that folder is not present yet, it is created. */
   public static File commonCacheFolder() {
-    return new File(ConfigUtil.userConfigFolder(), "cache");
+    File result = new File(ConfigUtil.userConfigFolder(), "cache");
+    FileUtil.ensureDirectoryExists(result);
+    return result;
   }
 
   public static File userConfigFolder() {
