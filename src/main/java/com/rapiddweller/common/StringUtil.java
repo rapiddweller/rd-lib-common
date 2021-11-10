@@ -988,6 +988,24 @@ public final class StringUtil {
     return c == '\r' || c == '\n';
   }
 
+  public static String quoteIfContainsSpecialChars(String text, char quote, String specialChars) {
+    if (text == null) {
+      return null;
+    }
+    boolean foundSpecialChar = false;
+    for (int i = 0; i < specialChars.length(); i++) {
+      if (text.indexOf(' ') >= 0) {
+        foundSpecialChar = true;
+        break;
+      }
+    }
+    if (foundSpecialChar) {
+      return quote + text + quote;
+    } else {
+      return text;
+    }
+  }
+
   public static String quoteIfNotNull(String text) {
     return (text != null ? "'" + text + "'" : text);
   }
