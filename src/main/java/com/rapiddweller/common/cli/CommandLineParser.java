@@ -4,6 +4,7 @@ package com.rapiddweller.common.cli;
 
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.ConfigurationError;
+import com.rapiddweller.common.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,8 @@ public class CommandLineParser {
   private final List<CommandLineItem> items;
   private final List<CommandLineArgument> arguments;
   private int requiredArgumentCount;
+
+  // parser construction ---------------------------------------------------------------------------------------------
 
   public CommandLineParser() {
     this.items = new ArrayList<>();
@@ -40,6 +43,8 @@ public class CommandLineParser {
       requiredArgumentCount++;
     }
   }
+
+  // parsing ---------------------------------------------------------------------------------------------------------
 
   public <T extends CommandLineConfig> T parse(T config, String... args) {
     int consumedArgs = 0;
@@ -74,6 +79,21 @@ public class CommandLineParser {
     }
     return config;
   }
+
+  // formatting ------------------------------------------------------------------------------------------------------
+
+  public static String formatArgs(String[] args) {
+    StringBuilder result = new StringBuilder();
+    for (String arg : args) {
+      if (result.length() > 0) {
+        result.append(' ');
+      }
+      result.append(StringUtil.quoteIfContainsSpecialChars(arg, '"', " "));
+    }
+    return result.toString();
+  }
+
+  // private helpers -------------------------------------------------------------------------------------------------
 
   private <T extends CommandLineConfig> void parseOption(CommandLineOption option, String label, int i, String[] args, T config) {
     if (i < args.length - 1) {
