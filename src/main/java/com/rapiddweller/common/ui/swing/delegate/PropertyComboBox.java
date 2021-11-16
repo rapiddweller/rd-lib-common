@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,9 +33,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * {@link JComboBox} implementation that serves as delegate of a property of a JavaBean object.
+ * {@link JComboBox} implementation that serves as delegate of a property of a JavaBean object.<br/><br/>
  * Created at 01.12.2008 07:44:32
- *
  * @param <E> The item type of the {@link JComboBox}' elements
  * @author Volker Bergmann
  * @since 0.5.13
@@ -46,21 +45,9 @@ public class PropertyComboBox<E> extends JComboBox<E> {
 
   private final Object bean;
   private final String propertyName;
-  /**
-   * The Locked.
-   */
   boolean locked;
 
 
-  /**
-   * Instantiates a new Property combo box.
-   *
-   * @param bean         the bean
-   * @param propertyName the property name
-   * @param i18n         the 18 n
-   * @param prefix       the prefix
-   * @param values       the values
-   */
   @SafeVarargs
   public PropertyComboBox(Object bean, String propertyName, I18NSupport i18n, String prefix, E... values) {
     super(values);
@@ -78,9 +65,7 @@ public class PropertyComboBox<E> extends JComboBox<E> {
     refresh();
   }
 
-  /**
-   * reads the current property value and writes it to the text field.
-   */
+  /** Reads the current property value and writes it to the text field. */
   void refresh() {
     if (!locked) {
       locked = true;
@@ -93,9 +78,7 @@ public class PropertyComboBox<E> extends JComboBox<E> {
     }
   }
 
-  /**
-   * writes the current text field content to the property.
-   */
+  /** Writes the current text field content to the property. */
   void update() {
     if (!locked) {
       locked = true;
@@ -108,9 +91,6 @@ public class PropertyComboBox<E> extends JComboBox<E> {
     }
   }
 
-  /**
-   * The type Listener.
-   */
   class Listener implements PropertyChangeListener, ListDataListener, ActionListener {
 
     @Override
@@ -140,9 +120,6 @@ public class PropertyComboBox<E> extends JComboBox<E> {
 
   }
 
-  /**
-   * The type Renderer.
-   */
   static final class Renderer extends DefaultListCellRenderer {
 
     private static final long serialVersionUID = 8358429951305253637L;
@@ -150,12 +127,6 @@ public class PropertyComboBox<E> extends JComboBox<E> {
     private final I18NSupport i18n;
     private final String prefix;
 
-    /**
-     * Instantiates a new Renderer.
-     *
-     * @param i18n   the 18 n
-     * @param prefix the prefix
-     */
     public Renderer(I18NSupport i18n, String prefix) {
       this.i18n = i18n;
       this.prefix = prefix;
