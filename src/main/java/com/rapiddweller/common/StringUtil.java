@@ -50,6 +50,8 @@ public final class StringUtil {
   /** character (CR, 0x0D) */
   public static final String CR = String.valueOf('\r');
 
+  private static final Set<Character> REGEX_ESCAPABLES = CollectionUtil.toSet('*', '-', '.', ',', '\\', '|');
+
   private StringUtil() {
     // private constructor to prevent instantiation of this utility class
   }
@@ -182,8 +184,8 @@ public final class StringUtil {
 
   public static String[] split(String list, char separator) {
     String separatorRegex = String.valueOf(separator);
-    if (separator == '*') {
-      separatorRegex = "\\" + separatorRegex; // TODO support other regex meta characters
+    if (REGEX_ESCAPABLES.contains(separator)) {
+      separatorRegex = '\\' + separatorRegex;
     }
     return list.split(separatorRegex);
   }
