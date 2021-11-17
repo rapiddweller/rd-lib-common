@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +35,6 @@ import java.util.Map.Entry;
  * Provides a mechanism to access an application's version number and
  * check its dependencies programmatically.
  * Created: 23.03.2011 10:38:31
- *
  * @author Volker Bergmann
  * @since 0.5.8
  */
@@ -48,6 +47,7 @@ public class VersionInfo {
   private static final Map<String, VersionInfo> INSTANCES = new HashMap<>();
 
   private static final String VERSION_FILE_PATTERN = "com/rapiddweller/{0}/version.properties";
+  public static final String BUILD_NUMBER = "build_number";
 
   private static boolean development;
 
@@ -58,30 +58,12 @@ public class VersionInfo {
 
   private String buildNumber;
 
-  /**
-   * Gets info.
-   *
-   * @param name the name
-   * @return the info
-   */
   public static VersionInfo getInfo(@NotNull String name) {
     return getInfo(name, true);
   }
 
-  /**
-   * Gets info.
-   *
-   * @param name                the name
-   * @param parsingDependencies the parsing dependencies
-   * @return the info
-   */
   public static VersionInfo getInfo(@NotNull String name, boolean parsingDependencies) {
-    VersionInfo result = INSTANCES.get(name);
-    if (result == null) {
-      result = new VersionInfo(name, parsingDependencies);
-      INSTANCES.put(name, result);
-    }
-    return result;
+    return INSTANCES.computeIfAbsent(name, k -> new VersionInfo(name, parsingDependencies));
   }
 
   private VersionInfo(String name, boolean parsingDependencies) {
@@ -92,52 +74,29 @@ public class VersionInfo {
     readVersionInfo(this, parsingDependencies);
   }
 
-  /**
-   * Gets name.
-   *
-   * @return the name
-   */
   public String getName() {
     return name;
   }
 
-  /**
-   * Gets version.
-   *
-   * @return the version
-   */
   public String getVersion() {
     return version;
   }
 
-  /**
-   * Gets build number.
-   *
-   * @return the build number
-   */
   public String getBuildNumber() {
     return buildNumber;
   }
 
-  /**
-   * Gets dependencies.
-   *
-   * @return the dependencies
-   */
   public Map<String, String> getDependencies() {
     return dependencies;
   }
 
-  /**
-   * Verify dependencies.
-   */
   public void verifyDependencies() {
     if (VersionInfo.development) {
       return;
     }
     for (Map.Entry<String, String> dependency : dependencies.entrySet()) {
       String library = dependency.getKey();
-      if (library.equals("build_number")) {
+      if (library.equals(BUILD_NUMBER)) {
         continue;
       }
       VersionNumber expectedVersion = VersionNumber.valueOf(dependency.getValue());
@@ -170,7 +129,7 @@ public class VersionInfo {
       }
       boolean ok = readVersionInfo(versionInfo, versionFileName);
       if (!ok) {
-        LOGGER.warn("Version number file '" + versionFileName + "' not found, falling back to POM");
+        LOGGER.warn("Version number file '{}' not found, falling back to POM", versionFileName);
       }
       if (versionInfo.version.startsWith("${") || versionInfo.version.startsWith("<unknown")) { // ...in Eclipse no filtering is applied,...
         VersionInfo.development = true;
@@ -195,7 +154,7 @@ public class VersionInfo {
       for (Element childElement : XMLUtil.getChildElements(propsElement)) {
         String dependencyName = childElement.getNodeName();
         String dependencyVersion = childElement.getTextContent();
-        if ("build_number".equals(dependencyName)) {
+        if (BUILD_NUMBER.equals(dependencyName)) {
           versionInfo.buildNumber = dependencyVersion;
         } else if (dependencyName.endsWith(VERSION_SUFFIX)) {
           addDependency(dependencyName, dependencyVersion, versionInfo);
@@ -210,7 +169,7 @@ public class VersionInfo {
       for (Entry<String, String> dependency : props.entrySet()) {
         String dependencyName = dependency.getKey();
         String dependencyVersion = dependency.getValue();
-        if ("build_number".equals(dependencyName)) {
+        if (BUILD_NUMBER.equals(dependencyName)) {
           versionInfo.buildNumber = dependencyVersion;
         } else {
           addDependency(dependencyName, dependencyVersion, versionInfo);
