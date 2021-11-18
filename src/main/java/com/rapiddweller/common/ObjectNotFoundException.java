@@ -15,49 +15,22 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ApplicationException;
+import com.rapiddweller.common.exception.ExitCodes;
+
 /**
- * Signals that an object was not found.
- *
+ * Signals that an object was not found.<br/><br/>
  * @author Volker Bergmann
  * @since 0.2.04
  */
-public class ObjectNotFoundException extends RuntimeException {
+public class ObjectNotFoundException extends ApplicationException {
 
-  private static final long serialVersionUID = 5285468652879008340L;
-
-  /**
-   * Instantiates a new Object not found exception.
-   */
-  public ObjectNotFoundException() {
-    super();
-  }
-
-  /**
-   * Instantiates a new Object not found exception.
-   *
-   * @param message the message
-   * @param cause   the cause
-   */
   public ObjectNotFoundException(String message, Throwable cause) {
-    super(message, cause);
+    super(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
   }
 
-  /**
-   * Instantiates a new Object not found exception.
-   *
-   * @param message the message
-   */
   public ObjectNotFoundException(String message) {
-    super(message);
-  }
-
-  /**
-   * Instantiates a new Object not found exception.
-   *
-   * @param cause the cause
-   */
-  public ObjectNotFoundException(Throwable cause) {
-    super(cause);
+    super(null, ExitCodes.MISCELLANEOUS_ERROR, message);
   }
 
 }

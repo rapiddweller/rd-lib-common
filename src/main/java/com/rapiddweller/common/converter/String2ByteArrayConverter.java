@@ -23,7 +23,6 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * Converts strings to byte arrays based on a character encoding, e.g. UTF-8.
- *
  * @author Volker Bergmann
  * @since 0.2.04
  */
@@ -31,18 +30,10 @@ public class String2ByteArrayConverter extends ThreadSafeConverter<String, byte[
 
   private final String encoding;
 
-  /**
-   * Instantiates a new String 2 byte array converter.
-   */
   public String2ByteArrayConverter() {
     this(SystemInfo.getFileEncoding());
   }
 
-  /**
-   * Instantiates a new String 2 byte array converter.
-   *
-   * @param encoding the encoding
-   */
   public String2ByteArrayConverter(String encoding) {
     super(String.class, byte[].class);
     this.encoding = encoding;
@@ -53,7 +44,7 @@ public class String2ByteArrayConverter extends ThreadSafeConverter<String, byte[
     try {
       return sourceValue.getBytes(encoding);
     } catch (UnsupportedEncodingException e) {
-      throw new ConfigurationError(e);
+      throw new ConfigurationError("Error converting " + sourceValue, e);
     }
   }
 

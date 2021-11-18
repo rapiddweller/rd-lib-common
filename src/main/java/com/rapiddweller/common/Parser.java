@@ -15,25 +15,20 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ParseException;
+
 import java.text.ParsePosition;
 
 /**
  * Parent for classes which parse {@link String}.
- * It resembles the 'parse' part of the {@link java.text.Format} class.
+ * It resembles the 'parse' part of the {@link java.text.Format} class.<br/<br/>
  * Created: 10.03.2011 15:36:54
- *
  * @param <E> the result type of the parser
  * @author Volker Bergmann
  * @since 0.5.8
  */
 public abstract class Parser<E> {
 
-  /**
-   * Parse e.
-   *
-   * @param text the text
-   * @return the e
-   */
   public E parse(String text) {
     ParsePosition pos = new ParsePosition(0);
     E result = parseObject(text, pos);
@@ -43,13 +38,6 @@ public abstract class Parser<E> {
     return result;
   }
 
-  /**
-   * Parse object e.
-   *
-   * @param text the text
-   * @param pos  the pos
-   * @return the e
-   */
   public abstract E parseObject(String text, ParsePosition pos);
 
 }

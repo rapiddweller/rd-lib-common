@@ -14,6 +14,7 @@ public class SampleConfig extends CommandLineConfig {
   private boolean version;
   private SampleEnum sample = SampleEnum.VAL1;
   private OldEnum old = OldEnum.OLD1;
+  private int n = 0;
   private String file = "default.txt";
   private String addendum;
 
@@ -47,6 +48,14 @@ public class SampleConfig extends CommandLineConfig {
 
   public void setOld(OldEnum old) {
     this.old = old;
+  }
+
+  public int getN() {
+    return n;
+  }
+
+  public void setN(int n) {
+    this.n = n;
   }
 
   public String getFile() {

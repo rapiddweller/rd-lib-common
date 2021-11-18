@@ -23,6 +23,7 @@ public class CommandLineParserTest {
     p = new CommandLineParser();
     p.addOption("sample", "--sample", "-s");
     p.addOption("old", "--old", "-o");
+    p.addOption("n", "--n", "-n");
   }
 
   @Test
@@ -77,23 +78,28 @@ public class CommandLineParserTest {
     assertEquals("blabla", config.getAddendum());
   }
 
-  @Test(expected = ConfigurationError.class)
+  @Test(expected = MissingCommandLineArgumentException.class)
   public void test2ndArgumentMissing() {
     p.addArgument("file", true);
     p.addArgument("addendum", true);
     check(false, false, SampleEnum.VAL1, OldEnum.OLD1, "specific.xml", "specific.xml");
   }
 
-  @Test(expected = ConfigurationError.class)
+  @Test(expected = MissingCommandLineOptionValueException.class)
   public void testMissingOptionValue() {
     p.parse(new SampleConfig(), "--sample");
   }
 
-  @Test(expected = ConfigurationError.class)
+  @Test(expected = MissingCommandLineArgumentException.class)
   public void testMissingArgument() {
     p = new CommandLineParser();
     p.addArgument("file", true);
     p.parse(new SampleConfig());
+  }
+
+  @Test(expected = IllegalCommandLineOptionException.class)
+  public void testIllegalIntArgument() {
+    p.parse(new SampleConfig(), "--n", "notAnInt");
   }
 
   // test implementation ---------------------------------------------------------------------------------------------

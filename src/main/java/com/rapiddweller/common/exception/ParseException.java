@@ -13,18 +13,15 @@
  * limitations under the License.
  */
 
-package com.rapiddweller.common;
+package com.rapiddweller.common.exception;
 
 /**
  * Indicates a parsing error.
  * Created at 30.12.2008 08:23:05
- *
  * @author Volker Bergmann
  * @since 0.5.7
  */
-public class ParseException extends RuntimeException {
-
-  private static final long serialVersionUID = -3893735778927506664L;
+public class ParseException extends ApplicationException {
 
   private final String parsedText;
   private final int line;
@@ -33,39 +30,16 @@ public class ParseException extends RuntimeException {
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Parse exception.
-   *
-   * @param message    the message
-   * @param parsedText the parsed text
-   */
   public ParseException(String message, String parsedText) {
     this(message, parsedText, -1, -1);
   }
 
-  /**
-   * Instantiates a new Parse exception.
-   *
-   * @param message    the message
-   * @param parsedText the parsed text
-   * @param line       the line
-   * @param column     the column
-   */
   public ParseException(String message, String parsedText, int line, int column) {
     this(message, null, parsedText, line, column);
   }
 
-  /**
-   * Instantiates a new Parse exception.
-   *
-   * @param message    the message
-   * @param cause      the cause
-   * @param parsedText the parsed text
-   * @param line       the line
-   * @param column     the column
-   */
   public ParseException(String message, Throwable cause, String parsedText, int line, int column) {
-    super(message, cause);
+    super(null, ExitCodes.SYNTAX_ERROR, message, cause);
     this.parsedText = parsedText;
     this.line = line;
     this.column = column;
@@ -74,29 +48,14 @@ public class ParseException extends RuntimeException {
 
   // properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Gets line.
-   *
-   * @return the line
-   */
   public int getLine() {
     return line;
   }
 
-  /**
-   * Gets column.
-   *
-   * @return the column
-   */
   public int getColumn() {
     return column;
   }
 
-  /**
-   * Gets parsed text.
-   *
-   * @return the parsed text
-   */
   public String getParsedText() {
     return parsedText;
   }

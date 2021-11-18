@@ -17,20 +17,17 @@ package com.rapiddweller.common.xml;
 
 import com.rapiddweller.common.ArrayBuilder;
 import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.Encodings;
-import com.rapiddweller.common.ErrorHandler;
 import com.rapiddweller.common.Filter;
 import com.rapiddweller.common.IOUtil;
-import com.rapiddweller.common.Level;
 import com.rapiddweller.common.ParseUtil;
 import com.rapiddweller.common.StringUtil;
-import com.rapiddweller.common.SyntaxError;
 import com.rapiddweller.common.SystemInfo;
 import com.rapiddweller.common.Visitor;
 import com.rapiddweller.common.converter.NoOpConverter;
 import com.rapiddweller.common.converter.String2DateConverter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.w3c.dom.Attr;
@@ -71,6 +68,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -83,32 +81,28 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * Provides XML Utility methods.
+ * Provides XML Utility methods.<br/><br/>
  * Created: 25.08.2007 22:09:26
  * @author Volker Bergmann
  */
 public class XMLUtil {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(XMLUtil.class);
+  private static final Logger logger = LoggerFactory.getLogger(XMLUtil.class);
+
   private static final String DOCUMENT_BUILDER_FACTORY_IMPL = "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl";
-  private static final ErrorHandler DEFAULT_ERROR_HANDLER = new ErrorHandler(XMLUtil.class.getSimpleName(), Level.error);
 
   private static String defaultDocumentBuilderClassName = DOCUMENT_BUILDER_FACTORY_IMPL;
 
   private XMLUtil() {
+    // private constructor preventing instantiation of this utility class
   }
 
   public static String format(Document document) {
     ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    String encoding = Encodings.UTF_8;
-    SimpleXMLWriter out = new SimpleXMLWriter(buffer, encoding, true);
+    SimpleXMLWriter out = new SimpleXMLWriter(buffer, Encodings.UTF_8, true);
     format(document.getDocumentElement(), out);
     out.close();
-    try {
-      return buffer.toString(encoding);
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
-    }
+    return buffer.toString(StandardCharsets.UTF_8);
   }
 
   public static String format(Element element) {
@@ -120,7 +114,7 @@ public class XMLUtil {
     try {
       return buffer.toString(encoding);
     } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().programmerConfig(e.getMessage(), e);
     }
   }
 
@@ -285,10 +279,10 @@ public class XMLUtil {
 
   private static Element assertSingleSearchResult(Element[] elements, boolean required, String searchTerm) {
     if (required && elements.length == 0) {
-      throw new IllegalArgumentException("No element found in search: " + searchTerm);
+      throw ExceptionFactory.getInstance().syntaxError(null, -1, -1, "No element found in search: " + searchTerm);
     }
     if (elements.length > 1) {
-      throw new IllegalArgumentException("More that one element found in search: " + searchTerm);
+      throw ExceptionFactory.getInstance().syntaxError(null, -1, -1, "More that one element found in search: " + searchTerm);
     }
     return (elements.length > 0 ? elements[0] : null);
   }
@@ -321,8 +315,8 @@ public class XMLUtil {
   }
 
   public static Integer getIntegerAttribute(Element element, String name, Integer defaultValue) {
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("getIntegerAttribute(" + element.getNodeName() + ", " + name + ')');
+    if (logger.isDebugEnabled()) {
+      logger.debug("getIntegerAttribute(" + element.getNodeName() + ", " + name + ')');
     }
     String stringValue = getAttribute(element, name, false);
     if (StringUtil.isEmpty(stringValue)) {
@@ -332,8 +326,8 @@ public class XMLUtil {
   }
 
   public static Long getLongAttribute(Element element, String name, long defaultValue) {
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("getLongAttribute(" + element.getNodeName() + ", " + name + ')');
+    if (logger.isDebugEnabled()) {
+      logger.debug("getLongAttribute(" + element.getNodeName() + ", " + name + ')');
     }
     String stringValue = getAttribute(element, name, false);
     if (StringUtil.isEmpty(stringValue)) {
@@ -345,7 +339,8 @@ public class XMLUtil {
   public static String getAttribute(Element element, String attributeName, boolean required) {
     String value = StringUtil.emptyToNull(element.getAttribute(attributeName));
     if (value == null && required) {
-      throw new IllegalArgumentException("Element '" + element.getNodeName() + "'" +
+      throw ExceptionFactory.getInstance().syntaxError(null, -1, -1,
+          "Element <" + element.getNodeName() + ">" +
           " is missing the required attribute '" + attributeName + "'");
     }
     return value;
@@ -362,11 +357,16 @@ public class XMLUtil {
     return result;
   }
 
-  public static PrintWriter createXMLFile(String uri, String encoding)
-      throws FileNotFoundException, UnsupportedEncodingException {
-    PrintWriter printer = IOUtil.getPrinterForURI(uri, encoding);
-    printer.println("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
-    return printer;
+  public static PrintWriter createXMLFile(String uri, String encoding) {
+    try {
+      PrintWriter printer = IOUtil.getPrinterForURI(uri, encoding);
+      printer.println("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
+      return printer;
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(uri, e);
+    } catch (UnsupportedEncodingException e) {
+      throw ExceptionFactory.getInstance().programmerConfig("XML file creation failed.", e);
+    }
   }
 
   public static String normalizedAttributeValue(Element element, String attributeName) {
@@ -384,7 +384,7 @@ public class XMLUtil {
     } else if (parent instanceof Element) {
       children = parent.getChildNodes();
     } else {
-      throw new UnsupportedOperationException("Not a supported type: " + parent.getClass());
+      throw ExceptionFactory.getInstance().programmerUnsupported("Not a supported type: " + parent.getClass());
     }
     ArrayBuilder<Comment> builder = new ArrayBuilder<>(Comment.class);
     for (int i = 0; i < children.getLength(); i++) {
@@ -398,27 +398,65 @@ public class XMLUtil {
 
   // XML operations --------------------------------------------------------------------------------------------------
 
-  public static Document parseFileIfExists(File file) throws IOException {
+  public static Document parseFileIfExists(File file) {
     if (file == null || !file.exists()) {
       return null;
     }
     return parse(file.getAbsolutePath(), true, null, null, null);
   }
 
-  public static Document parse(String uri) throws IOException {
+  public static Document parse(String uri) {
     return parse(uri, true, null, null, null);
   }
 
-  public static Document parse(String uri, boolean namespaceAware, EntityResolver resolver, String schemaUri, ClassLoader classLoader)
-      throws IOException {
-    InputStream stream = null;
+  public static Document parse(
+      String uri, boolean namespaceAware, EntityResolver resolver, String schemaUri, ClassLoader classLoader) {
     try {
-      stream = IOUtil.getInputStreamForURI(uri);
-      return parse(stream, namespaceAware, resolver, schemaUri, classLoader, DEFAULT_ERROR_HANDLER);
-    } catch (ConfigurationError e) {
-      throw new ConfigurationError("Error parsing " + uri, e);
-    } finally {
-      IOUtil.close(stream);
+      try (InputStream stream = IOUtil.getInputStreamForURI(uri)) {
+        return parse(stream, namespaceAware, resolver, uri, schemaUri, classLoader);
+      }
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(uri, e);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException("Access to " + uri + " failed", e);
+    }
+  }
+
+  public static Document parse(InputStream stream) {
+    return parse(stream, null, null, null);
+  }
+
+  /** Parses a stream's output into an XML document.
+   *  @param in           the {@link InputStream} to read
+   *  @param resolver     an {@link EntityResolver} implementation or null, in the latter case, no validation is applied
+   *  @param schemaUri    the URI of the XML document
+   *  @return the resulting XML {@link Document} */
+  public static Document parse(InputStream in, EntityResolver resolver, String uri, String schemaUri) {
+    return parse(in, true, resolver, uri, schemaUri, null);
+  }
+
+  public static Document parse(InputStream stream, boolean namespaceAware, EntityResolver resolver,
+                               String uri, String schemaUri, ClassLoader classLoader) {
+    try {
+      DocumentBuilderFactory factory = createDocumentBuilderFactory(classLoader);
+      factory.setNamespaceAware(namespaceAware);
+      if (schemaUri != null) {
+        activateXmlSchemaValidation(factory, schemaUri);
+      }
+      DocumentBuilder builder = factory.newDocumentBuilder();
+      if (resolver != null) {
+        builder.setEntityResolver(resolver);
+      }
+      builder.setErrorHandler(createSaxErrorHandler());
+      return builder.parse(stream);
+    } catch (ParserConfigurationException e) {
+      throw ExceptionFactory.getInstance().programmerConfig("Error in " + uri, e);
+    } catch (SAXParseException e) {
+      throw ExceptionFactory.getInstance().syntaxError(uri, e.getLineNumber(), e.getColumnNumber(), e);
+    } catch (SAXException e) {
+      throw ExceptionFactory.getInstance().programmerConfig("Error parsing " + uri, e);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException(uri, e);
     }
   }
 
@@ -431,14 +469,14 @@ public class XMLUtil {
   }
 
   public static Document parseString(String text, EntityResolver resolver, ClassLoader classLoader) {
-    if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug(text);
+    if (logger.isDebugEnabled()) {
+      logger.debug(text);
     }
     try {
       String encoding = getEncoding(text, SystemInfo.getFileEncoding());
-      return parse(new ByteArrayInputStream(text.getBytes(encoding)), true, resolver, null, classLoader, DEFAULT_ERROR_HANDLER);
+      return parse(new ByteArrayInputStream(text.getBytes(encoding)), true, resolver, null, null, classLoader);
     } catch (IOException e) {
-      throw new RuntimeException("Unexpected error", e);
+      throw ExceptionFactory.getInstance().programmerStateError("Unexpected error: " + e);
     }
   }
 
@@ -459,47 +497,6 @@ public class XMLUtil {
       }
     }
     return defaultEncoding;
-  }
-
-  public static Document parse(InputStream stream) throws IOException {
-    return parse(stream, null, null, DEFAULT_ERROR_HANDLER);
-  }
-
-  /** Parses a stream's output into an XML document.
-   *
-   * @param in           the {@link InputStream} to read
-   * @param resolver     an {@link EntityResolver} implementation or null, in the latter case, no validation is applied
-   * @param schemaUri    the URI of the XML document
-   * @param errorHandler the error handler
-   * @return the resulting XML {@link Document}
-   * @throws IOException if stream access fails */
-  public static Document parse(InputStream in, EntityResolver resolver, String schemaUri, ErrorHandler errorHandler) throws IOException {
-    return parse(in, true, resolver, schemaUri, null, errorHandler);
-  }
-
-  public static Document parse(InputStream stream, boolean namespaceAware, EntityResolver resolver,
-                               String schemaUri, ClassLoader classLoader, ErrorHandler errorHandler)
-      throws IOException {
-    try {
-      DocumentBuilderFactory factory = createDocumentBuilderFactory(classLoader);
-      factory.setNamespaceAware(namespaceAware);
-      if (schemaUri != null) {
-        activateXmlSchemaValidation(factory, schemaUri);
-      }
-      DocumentBuilder builder = factory.newDocumentBuilder();
-      if (resolver != null) {
-        builder.setEntityResolver(resolver);
-      }
-      if (errorHandler == null) {
-        errorHandler = new ErrorHandler("XMLUtil");
-      }
-      builder.setErrorHandler(createSaxErrorHandler(errorHandler));
-      return builder.parse(stream);
-    } catch (SAXParseException e) {
-      throw new ConfigurationError("Error in line " + e.getLineNumber() + " column " + e.getColumnNumber(), e);
-    } catch (ParserConfigurationException | SAXException e) {
-      throw new ConfigurationError(e);
-    }
   }
 
   public static String getDefaultDocumentBuilderClassName() {
@@ -554,7 +551,7 @@ public class XMLUtil {
   public static Boolean getBooleanAttribute(Element element, String attributeName, boolean required) {
     String stringValue = element.getAttribute(attributeName);
     if (StringUtil.isEmpty(stringValue) && required) {
-      throw new SyntaxError("Missing attribute '" + attributeName + "'", format(element));
+      throw ExceptionFactory.getInstance().syntaxError(null, -1, -1, "Attribute missing: '" + attributeName + "'");
     }
     return ParseUtil.parseBoolean(stringValue);
   }
@@ -681,7 +678,7 @@ public class XMLUtil {
       }
       out.endElement(name);
     } catch (SAXException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().programmerConfig("Error formatting element", e);
     }
   }
 
@@ -703,36 +700,35 @@ public class XMLUtil {
       factory.setSchema(schema);
     } catch (Exception e) {
       // some XML parsers may not support attributes in general or especially XML Schema
-      LOGGER.error("Error activating schema validation for schema " + schemaUrl + ", possibly you are offline or behind a proxy?", e.getMessage());
+      logger.error("Error activating schema validation for schema {}, possibly you are offline or behind a proxy? {}", schemaUrl, e.getMessage());
     }
   }
 
-  private static org.xml.sax.ErrorHandler createSaxErrorHandler(
-      final ErrorHandler errorHandler) {
+  private static org.xml.sax.ErrorHandler createSaxErrorHandler() {
     return new org.xml.sax.ErrorHandler() {
 
       @Override
       public void error(SAXParseException e) {
-        errorHandler.handleError(e.getMessage(), e);
+        logger.error(e.getMessage(), e);
       }
 
       @Override
       public void fatalError(SAXParseException e) {
-        errorHandler.handleError(e.getMessage(), e);
+        logger.error(e.getMessage(), e);
       }
 
       @Override
       public void warning(SAXParseException e) {
-        errorHandler.handleError(e.getMessage(), e);
+        logger.warn(e.getMessage(), e);
       }
 
     };
   }
 
   @SuppressWarnings("null")
-  public static void saveAsProperties(Properties properties, File file, String encoding) throws FileNotFoundException {
+  public static void saveAsProperties(Properties properties, File file, String encoding) {
     if (properties.size() == 0) {
-      throw new IllegalArgumentException("Cannot save empty Properties");
+      throw ExceptionFactory.getInstance().programmerConfig("Cannot save empty Properties as XML", null);
     }
     Document document = null;
     for (Map.Entry<Object, Object> entry : properties.entrySet()) {
@@ -744,7 +740,8 @@ public class XMLUtil {
       }
       String rootElementName = document.getDocumentElement().getNodeName();
       if (!key.startsWith(rootElementName + '.')) {
-        throw new SyntaxError("Required prefix '" + rootElementName + "' not present in key", key);
+        throw ExceptionFactory.getInstance().syntaxError(file.getAbsolutePath(),
+            -1, -1, "Required prefix '" + rootElementName + "' not present in key " + key);
       }
       setProperty(prefixAndRemainingPath[1], value, document.getDocumentElement(), document);
     }
@@ -752,18 +749,21 @@ public class XMLUtil {
     saveDocument(document, file, encoding);
   }
 
-  public static void saveDocument(Document document, File file, String encoding) throws FileNotFoundException {
-    FileOutputStream stream = new FileOutputStream(file);
-    saveDocument(document, encoding, stream);
+  public static void saveDocument(Document document, File file, String encoding) {
+    try {
+      FileOutputStream stream = new FileOutputStream(file);
+      saveDocument(document, file.getAbsolutePath(), encoding, stream);
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(file.getAbsolutePath(), e);
+    }
   }
 
-  public static void saveDocument(Document document, String encoding, OutputStream out)
-      throws TransformerFactoryConfigurationError {
+  public static void saveDocument(Document document, String uri, String encoding, OutputStream out) {
     try {
       Transformer transformer = createTransformer(encoding);
       transformer.transform(new DOMSource(document), new StreamResult(out));
     } catch (TransformerException e) {
-      throw new ConfigurationError(e);
+      throw ExceptionFactory.getInstance().programmerConfig("Error saving XML document " + uri, e);
     } finally {
       IOUtil.close(out);
     }
@@ -781,7 +781,7 @@ public class XMLUtil {
       DocumentBuilder documentBuilder = createDocumentBuilderFactory(null).newDocumentBuilder();
       return documentBuilder.newDocument();
     } catch (ParserConfigurationException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().programmerStateError("Error creating XML document", e);
     }
   }
 
@@ -792,7 +792,7 @@ public class XMLUtil {
       rootElement = document.createElement(prefixAndRemainingPath[0]);
       document.appendChild(rootElement);
     } else if (!key.equals(rootElement.getNodeName())) {
-      throw new IllegalArgumentException("Cannot set a property '" + key + "' on a document with root <" + rootElement.getNodeName() + ">");
+      throw ExceptionFactory.getInstance().programmerStateError("Cannot set a property '" + key + "' on a document with root <" + rootElement.getNodeName() + ">");
     }
     setProperty(prefixAndRemainingPath[1], value, rootElement, document);
   }
@@ -886,7 +886,7 @@ public class XMLUtil {
         return childName + "[" + (i + 1) + "]";
       }
     }
-    throw new IllegalArgumentException("Child element not found under parent");
+    throw ExceptionFactory.getInstance().programmerStateError("Child element not found under parent");
   }
 
   private static String formatXPathComponentForComment(Comment child) {
@@ -900,7 +900,7 @@ public class XMLUtil {
         return "comment()[" + (i + 1) + "]";
       }
     }
-    throw new IllegalArgumentException("Comment not found under parent");
+    throw ExceptionFactory.getInstance().programmerStateError("Comment not found under parent");
   }
 
   private static void buildPath(Node node, ArrayBuilder<Node> list) {
@@ -921,7 +921,7 @@ public class XMLUtil {
       transformer.setOutputProperty("{http://xml.apache.org/xslt}" + "indent-amount", "2");
       return transformer;
     } catch (TransformerConfigurationException | TransformerFactoryConfigurationError e) {
-      throw new ConfigurationError("Error creating Transformer", e);
+      throw ExceptionFactory.getInstance().programmerStateError("Error creating Transformer", e);
     }
   }
 

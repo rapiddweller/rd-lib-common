@@ -25,9 +25,8 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
 /**
- * Mutates the value of a JavaBean property with knowledge of the property type.
+ * Mutates the value of a JavaBean property with knowledge of the property type.<br/><br/>
  * Created: 21.07.2007 08:58:49
- *
  * @author Volker Bergmann
  */
 public class TypedPropertyMutator extends AbstractNamedMutator {
@@ -36,14 +35,6 @@ public class TypedPropertyMutator extends AbstractNamedMutator {
   private final boolean autoConvert;
   private final Method writeMethod;
 
-  /**
-   * Instantiates a new Typed property mutator.
-   *
-   * @param beanClass    the bean class
-   * @param propertyName the property name
-   * @param required     the required
-   * @param autoConvert  the auto convert
-   */
   public TypedPropertyMutator(Class<?> beanClass, String propertyName, boolean required, boolean autoConvert) {
     super(propertyName);
     this.required = required;
@@ -83,7 +74,7 @@ public class TypedPropertyMutator extends AbstractNamedMutator {
           value = AnyConverter.convert(value, targetType);
         }
       } catch (ConversionException e) {
-        throw new ConfigurationError(e);
+        throw new ConfigurationError("Error converting value " + value, e);
       }
     }
     BeanUtil.invoke(bean, writeMethod, new Object[] {value});

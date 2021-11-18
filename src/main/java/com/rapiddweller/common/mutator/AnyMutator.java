@@ -183,7 +183,7 @@ public class AnyMutator implements NamedMutator {
               value = (V) AnyConverter.convert(value, targetType);
             }
           } catch (ConversionException e) {
-            throw new ConfigurationError(e);
+            throw new ConfigurationError("Error converting " + value, e);
           }
         }
         field.set(target, value);

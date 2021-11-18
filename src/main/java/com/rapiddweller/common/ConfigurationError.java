@@ -21,39 +21,12 @@ package com.rapiddweller.common;
  */
 public class ConfigurationError extends RuntimeException {
 
-  private static final long serialVersionUID = -4777501483672273557L;
-
-  /**
-   * Instantiates a new Configuration error.
-   */
-  public ConfigurationError() {
-  }
-
-  /**
-   * Instantiates a new Configuration error.
-   *
-   * @param message the message
-   */
   public ConfigurationError(String message) {
     super(message);
   }
 
-  /**
-   * Instantiates a new Configuration error.
-   *
-   * @param message the message
-   * @param cause   the cause
-   */
   public ConfigurationError(String message, Throwable cause) {
     super(message, cause);
   }
 
-  /**
-   * Instantiates a new Configuration error.
-   *
-   * @param cause the cause
-   */
-  public ConfigurationError(Throwable cause) {
-    super(cause);
-  }
 }

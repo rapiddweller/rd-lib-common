@@ -816,7 +816,7 @@ public final class IOUtil {
       }
       return new ImageIcon(ImageIO.read(in));
     } catch (Exception e) {
-      throw new ConfigurationError(e);
+      throw new ConfigurationError("Error reading image icon " + resourceName, e);
     }
   }
 

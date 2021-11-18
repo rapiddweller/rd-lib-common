@@ -24,7 +24,6 @@ import java.io.UnsupportedEncodingException;
 /**
  * Converts byte arrays to Strings based on a character encoding, e.g. UTF-8.
  * Created: 26.02.2010 08:26:55
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -32,18 +31,10 @@ public class ByteArray2StringConverter extends ThreadSafeConverter<byte[], Strin
 
   private final String encoding;
 
-  /**
-   * Instantiates a new Byte array 2 string converter.
-   */
   public ByteArray2StringConverter() {
     this(SystemInfo.getFileEncoding());
   }
 
-  /**
-   * Instantiates a new Byte array 2 string converter.
-   *
-   * @param encoding the encoding
-   */
   public ByteArray2StringConverter(String encoding) {
     super(byte[].class, String.class);
     this.encoding = encoding;
@@ -54,7 +45,7 @@ public class ByteArray2StringConverter extends ThreadSafeConverter<byte[], Strin
     try {
       return new String(target, encoding);
     } catch (UnsupportedEncodingException e) {
-      throw new ConfigurationError(e);
+      throw new ConfigurationError("Error converting byte array", e);
     }
   }
 

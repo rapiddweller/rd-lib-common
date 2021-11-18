@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.SyntaxError;
 import org.junit.Test;
 
 import java.sql.Timestamp;
@@ -37,7 +38,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests the {@link TimeUtil} class.
  * Created: 17.02.2005 21:19:01
- *
  * @author Volker Bergmann
  * @since 0.1
  */
@@ -604,7 +604,5 @@ public class TimeUtilTest {
     assertEquals(TimeUtil.date(2018, 10, 16), TimeUtil.nthDayOfWeekInMonth(3, Calendar.FRIDAY, 10, 2018));
     assertEquals(TimeUtil.date(2018, 11, 21), TimeUtil.nthDayOfWeekInMonth(3, Calendar.FRIDAY, 11, 2018));
   }
-
-  // helpers ---------------------------------------------------------------------------------------------------------
 
 }

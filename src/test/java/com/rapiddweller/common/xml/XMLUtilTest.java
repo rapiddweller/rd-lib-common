@@ -20,7 +20,9 @@ import com.rapiddweller.common.CollectionUtil;
 import com.rapiddweller.common.Encodings;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.StringUtil;
-import com.rapiddweller.common.SyntaxError;
+import com.rapiddweller.common.exception.ProgrammerStateError;
+import com.rapiddweller.common.exception.ProgrammerUnsupportedError;
+import com.rapiddweller.common.exception.SyntaxError;
 import com.rapiddweller.common.converter.URLEncodeConverter;
 import com.rapiddweller.common.filter.OrFilter;
 import org.apache.html.dom.HTMLDocumentImpl;
@@ -251,9 +253,9 @@ public class XMLUtilTest {
 
   @Test
   public void testGetChildElement() {
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(SyntaxError.class,
         () -> XMLUtil.getChildElement(new ElementImpl(new CoreDocumentImpl(), "foo"), true, true, "Name"));
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(SyntaxError.class,
         () -> XMLUtil.getChildElement(new DefaultElement(), true, true, "Name"));
     assertNull(XMLUtil.getChildElement(new ElementImpl(new CoreDocumentImpl(), "foo"), true, false, "Name"));
   }
@@ -270,18 +272,18 @@ public class XMLUtilTest {
 
   @Test
   public void testGetChildElementText() {
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(SyntaxError.class,
         () -> XMLUtil.getChildElementText(new ElementImpl(new CoreDocumentImpl(), "foo"), true, true, "Name"));
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(SyntaxError.class,
         () -> XMLUtil.getChildElementText(new DefaultElement(), true, true, "Name"));
     assertNull(XMLUtil.getChildElementText(new ElementImpl(new CoreDocumentImpl(), "foo"), true, false, "Name"));
   }
 
   @Test
   public void testGetChildElementDate() {
-    assertThrows(IllegalArgumentException.class, () -> XMLUtil
+    assertThrows(SyntaxError.class, () -> XMLUtil
         .getChildElementDate(new ElementImpl(new CoreDocumentImpl(), "foo"), true, true, "Name", "Pattern"));
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(SyntaxError.class,
         () -> XMLUtil.getChildElementDate(new DefaultElement(), true, true, "Name", "Pattern"));
     assertNull(
         XMLUtil.getChildElementDate(new ElementImpl(new CoreDocumentImpl(), "foo"), true, false, "Name", "Pattern"));
@@ -340,12 +342,10 @@ public class XMLUtilTest {
 
   @Test
   public void testGetChildElementAtPath() {
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(SyntaxError.class,
         () -> XMLUtil.getChildElementAtPath(new ElementImpl(new CoreDocumentImpl(), "foo"), "Path", true, true));
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(SyntaxError.class,
         () -> XMLUtil.getChildElementAtPath(new DefaultElement(), "Path", true, true));
-    assertThrows(ArrayIndexOutOfBoundsException.class,
-        () -> XMLUtil.getChildElementAtPath(new ElementImpl(new CoreDocumentImpl(), "foo"), "/", true, true));
     assertNull(XMLUtil.getChildElementAtPath(new ElementImpl(new CoreDocumentImpl(), "foo"), "Path", true, false));
   }
 
@@ -356,7 +356,7 @@ public class XMLUtilTest {
     XMLUtil.getChildElementAtPath(parent, "nonexist", false, false);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = SyntaxError.class)
   public void testGetChildElementAtPath_negative_required() {
     Document document = createDocument();
     Element parent = createElementWithChildren(document, "p");
@@ -396,9 +396,9 @@ public class XMLUtilTest {
 
   @Test
   public void testGetAttribute() {
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(SyntaxError.class,
         () -> XMLUtil.getAttribute(new ElementImpl(new CoreDocumentImpl(), "foo"), "Attribute Name", true));
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(SyntaxError.class,
         () -> XMLUtil.getAttribute(new DefaultElement(), "Attribute Name", true));
   }
 
@@ -481,7 +481,7 @@ public class XMLUtilTest {
     assertEquals(0, XMLUtil.getChildComments(new CoreDocumentImpl()).length);
     assertEquals(0,
         XMLUtil.getChildComments(new CoreDocumentImpl(new DocumentTypeImpl(new CoreDocumentImpl(), "foo"))).length);
-    assertThrows(UnsupportedOperationException.class, () -> XMLUtil.getChildComments(new AttrNSImpl()));
+    assertThrows(ProgrammerUnsupportedError.class, () -> XMLUtil.getChildComments(new AttrNSImpl()));
   }
 
   @Test
@@ -743,7 +743,7 @@ public class XMLUtilTest {
 
   @Test
   public void testSetProperty() {
-    assertThrows(IllegalArgumentException.class, () -> XMLUtil.setProperty("Key", "value", new HTMLDocumentImpl()));
+    assertThrows(ProgrammerStateError.class, () -> XMLUtil.setProperty("Key", "value", new HTMLDocumentImpl()));
   }
 
   @Test

@@ -13,51 +13,22 @@
  * limitations under the License.
  */
 
-package com.rapiddweller.common;
+package com.rapiddweller.common.exception;
 
 /**
  * Indicates a failure in establishing a connection.
  * Created at 03.05.2008 09:27:34
- *
  * @author Volker Bergmann
  * @since 0.4.3
  */
-public class ConnectFailedException extends Exception {
+public class ConnectFailedException extends ApplicationException {
 
-  private static final long serialVersionUID = -8060960690508842962L;
-
-  /**
-   * Instantiates a new Connect failed exception.
-   */
-  public ConnectFailedException() {
-    super();
-  }
-
-  /**
-   * Instantiates a new Connect failed exception.
-   *
-   * @param message the message
-   * @param cause   the cause
-   */
-  public ConnectFailedException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  /**
-   * Instantiates a new Connect failed exception.
-   *
-   * @param message the message
-   */
   public ConnectFailedException(String message) {
-    super(message);
+    this(message, null);
   }
 
-  /**
-   * Instantiates a new Connect failed exception.
-   *
-   * @param cause the cause
-   */
-  public ConnectFailedException(Throwable cause) {
-    super(cause);
+  public ConnectFailedException(String message, Throwable cause) {
+    super(null, ExitCodes.SERVICE_UNAVAILABLE, message, cause);
   }
+
 }

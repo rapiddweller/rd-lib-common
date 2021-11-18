@@ -81,7 +81,7 @@ public class ComparatorFactory {
         }
       }
     } catch (IOException e) {
-      throw new ConfigurationError(e);
+      throw new ConfigurationError("Error reading " + CONFIG_FILE_URI, e);
     } finally {
       IOUtil.close(reader);
     }

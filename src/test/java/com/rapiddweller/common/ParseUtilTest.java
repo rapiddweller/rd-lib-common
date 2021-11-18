@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.SyntaxError;
 import junit.framework.AssertionFailedError;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -35,9 +36,8 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Tests the {@link ParseUtil} class.
+ * Tests the {@link ParseUtil} class.<br/><br/>
  * Created: 20.03.2005 16:32:47
- *
  * @author Volker Bergmann
  */
 public class ParseUtilTest {

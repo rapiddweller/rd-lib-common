@@ -3,8 +3,8 @@
 package com.rapiddweller.common.cli;
 
 import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,16 +66,21 @@ public class CommandLineParser {
       } else if (item instanceof CommandLineOption) {
         parseOption((CommandLineOption) item, args[i], i, args, config);
         i++;
-      } else if (consumedArgs < arguments.size()) {
-        CommandLineArgument argument = arguments.get(consumedArgs++);
-        BeanUtil.setPropertyValue(config, argument.getProperty(), arg, true, true);
       } else {
-        throw new ConfigurationError("Unexpected argument: " + arg);
+        if (arg.startsWith("-")) {
+          throw ExceptionFactory.getInstance().illegalCommandLineOption("Illegal command line option: " + arg);
+        }
+        if (consumedArgs < arguments.size()) {
+          CommandLineArgument argument = arguments.get(consumedArgs++);
+          BeanUtil.setPropertyValue(config, argument.getProperty(), arg, true, true);
+        } else {
+          throw ExceptionFactory.getInstance().illegalCommandLineArgument("Illegal command line argument: " + arg);
+        }
       }
       i++;
     }
     if (consumedArgs < requiredArgumentCount) {
-      throw new ConfigurationError("Argument missing");
+      throw ExceptionFactory.getInstance().missingCommandLineArgument();
     }
     return config;
   }
@@ -101,10 +106,11 @@ public class CommandLineParser {
       try {
         BeanUtil.setPropertyValue(config, option.getProperty(), optionValue, true, true);
       } catch (Exception e) {
-        throw new ConfigurationError("Illegal value for " + option.getLongName() + ": " + optionValue, e);
+        throw ExceptionFactory.getInstance().illegalCommandLineOption(
+            "Illegal value for command line option " + option.getLongName() + ": '" + optionValue + "'");
       }
     } else {
-      throw new ConfigurationError("Value missing for option " + label);
+      throw ExceptionFactory.getInstance().missingCommandLineOptionValue(label);
     }
   }
 

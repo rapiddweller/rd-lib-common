@@ -138,7 +138,7 @@ public class LocalSequenceProvider implements Closeable {
           counters.put(entry.getKey(), new AtomicLong(Long.parseLong(entry.getValue())));
         }
       } catch (Exception e) {
-        throw new ConfigurationError(e);
+        throw new ConfigurationError("Error loading file " + fileName, e);
       }
     }
   }

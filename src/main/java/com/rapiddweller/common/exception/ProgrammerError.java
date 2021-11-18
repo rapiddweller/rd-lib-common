@@ -13,52 +13,26 @@
  * limitations under the License.
  */
 
-package com.rapiddweller.common;
+package com.rapiddweller.common.exception;
+
+import com.rapiddweller.common.exception.ApplicationException;
+import com.rapiddweller.common.exception.CommonErrorCodes;
+import com.rapiddweller.common.exception.ExitCodes;
 
 /**
  * {@link RuntimeException} child class that indicates a fault made by the programmer.
  * Created: 23.03.2011 12:18:46
- *
  * @author Volker Bergmann
  * @since 0.5.8
  */
-public class ProgrammerError extends RuntimeException {
+public abstract class ProgrammerError extends ApplicationException {
 
-  private static final long serialVersionUID = -5982302088793372294L;
-
-  /**
-   * Instantiates a new Programmer error.
-   */
-  public ProgrammerError() {
-    super();
+  protected ProgrammerError(String errorCode, String message) {
+    this(errorCode, message, null);
   }
 
-  /**
-   * Instantiates a new Programmer error.
-   *
-   * @param message the message
-   * @param cause   the cause
-   */
-  public ProgrammerError(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  /**
-   * Instantiates a new Programmer error.
-   *
-   * @param message the message
-   */
-  public ProgrammerError(String message) {
-    super(message);
-  }
-
-  /**
-   * Instantiates a new Programmer error.
-   *
-   * @param cause the cause
-   */
-  public ProgrammerError(Throwable cause) {
-    super(cause);
+  protected ProgrammerError(String errorCode, String message, Throwable cause) {
+    super(errorCode, ExitCodes.INTERNAL_SOFTWARE_ERROR, message, cause);
   }
 
 }

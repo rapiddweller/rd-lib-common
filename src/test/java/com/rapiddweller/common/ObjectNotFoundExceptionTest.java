@@ -7,18 +7,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 public class ObjectNotFoundExceptionTest {
-  @Test
-  public void testConstructor() {
-    ObjectNotFoundException actualObjectNotFoundException = new ObjectNotFoundException();
-    assertEquals("com.rapiddweller.common.ObjectNotFoundException", actualObjectNotFoundException.toString());
-    assertNull(actualObjectNotFoundException.getLocalizedMessage());
-    assertNull(actualObjectNotFoundException.getCause());
-    assertNull(actualObjectNotFoundException.getMessage());
-    assertEquals(0, actualObjectNotFoundException.getSuppressed().length);
-  }
 
   @Test
-  public void testConstructor2() {
+  public void testConstructor1() {
     ObjectNotFoundException actualObjectNotFoundException = new ObjectNotFoundException("An error occurred");
     assertEquals("com.rapiddweller.common.ObjectNotFoundException: An error occurred",
         actualObjectNotFoundException.toString());
@@ -29,15 +20,10 @@ public class ObjectNotFoundExceptionTest {
   }
 
   @Test
-  public void testConstructor3() {
+  public void testConstructor2() {
     Throwable throwable = new Throwable();
     assertSame((new ObjectNotFoundException("An error occurred", throwable)).getCause(), throwable);
   }
 
-  @Test
-  public void testConstructor4() {
-    Throwable throwable = new Throwable();
-    assertSame((new ObjectNotFoundException(throwable)).getCause(), throwable);
-  }
 }
 

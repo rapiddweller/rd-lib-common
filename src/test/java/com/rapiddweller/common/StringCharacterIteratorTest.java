@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ParseException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +26,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests the {@link StringCharacterIterator}.
  * Created: 21.06.2007 08:34:31
- *
  * @author Volker Bergmann
  */
 public class StringCharacterIteratorTest {

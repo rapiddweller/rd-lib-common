@@ -15,7 +15,7 @@
 
 package com.rapiddweller.common.math;
 
-import com.rapiddweller.common.ParseException;
+import com.rapiddweller.common.exception.ParseException;
 import com.rapiddweller.common.Parser;
 
 import java.text.ParsePosition;
@@ -27,7 +27,6 @@ import static com.rapiddweller.common.ParseUtil.skipWhiteSpace;
  * Parses an {@link Interval} generically using an endpoint parser and an endpoint comparator.
  * The endpoint parser has to be able to parse the interval endpoint values.
  * Created: 10.03.2011 15:33:01
- *
  * @param <E> the type of the bounds that define the interval
  * @author Volker Bergmann
  * @since 0.5.8
@@ -37,25 +36,10 @@ public class IntervalParser<E> extends Parser<Interval<E>> {
   private final Parser<E> endpointParser;
   private final Comparator<E> endpointComparator;
 
-  /**
-   * Parse interval.
-   *
-   * @param <T>                the type parameter
-   * @param text               the text
-   * @param endpointParser     the endpoint parser
-   * @param endpointComparator the endpoint comparator
-   * @return the interval
-   */
   public static <T> Interval<T> parse(String text, Parser<T> endpointParser, Comparator<T> endpointComparator) {
     return new IntervalParser<T>(endpointParser, endpointComparator).parseObject(text, new ParsePosition(0));
   }
 
-  /**
-   * Instantiates a new Interval parser.
-   *
-   * @param endPointParser     the end point parser
-   * @param endpointComparator the endpoint comparator
-   */
   public IntervalParser(Parser<E> endPointParser, Comparator<E> endpointComparator) {
     this.endpointParser = endPointParser;
     this.endpointComparator = endpointComparator;

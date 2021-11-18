@@ -94,7 +94,7 @@ public class UntypedPropertyMutator extends AbstractNamedMutator {
           propertyValue = AnyConverter.convert(propertyValue, targetType);
         }
       } catch (ConversionException e) {
-        throw new ConfigurationError(e);
+        throw new ConfigurationError("Error converting " + propertyValue, e);
       }
     }
     BeanUtil.invoke(bean, writeMethod, new Object[] {propertyValue});

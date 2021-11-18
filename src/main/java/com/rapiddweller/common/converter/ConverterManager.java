@@ -354,7 +354,7 @@ public class ConverterManager implements ContextAware, Resettable {
         registerConverterClass((Class<? extends Converter>) Class.forName(className));
       }
     } catch (ClassNotFoundException e) {
-      throw new ConfigurationError(e);
+      throw new ConfigurationError("Error reading config file " + filename, e);
     }
   }
 

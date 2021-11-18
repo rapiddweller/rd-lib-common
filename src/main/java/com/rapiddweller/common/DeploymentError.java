@@ -18,47 +18,17 @@ package com.rapiddweller.common;
 /**
  * {@link ConfigurationError} sub class which indicates an incorrect deployment.
  * Created: 23.03.2011 11:50:42
- *
  * @author Volker Bergmann
  * @since 0.5.8
  */
 public class DeploymentError extends ConfigurationError {
 
-  private static final long serialVersionUID = 826096190591209925L;
-
-  /**
-   * Instantiates a new Deployment error.
-   */
-  public DeploymentError() {
-    super();
-  }
-
-  /**
-   * Instantiates a new Deployment error.
-   *
-   * @param message the message
-   * @param cause   the cause
-   */
   public DeploymentError(String message, Throwable cause) {
     super(message, cause);
   }
 
-  /**
-   * Instantiates a new Deployment error.
-   *
-   * @param message the message
-   */
   public DeploymentError(String message) {
     super(message);
-  }
-
-  /**
-   * Instantiates a new Deployment error.
-   *
-   * @param cause the cause
-   */
-  public DeploymentError(Throwable cause) {
-    super(cause);
   }
 
 }

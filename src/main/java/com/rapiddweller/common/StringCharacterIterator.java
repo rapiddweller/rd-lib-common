@@ -15,24 +15,19 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ParseException;
+
 /**
  * Supports iterating the characters of a String.
  * This is especially useful for writing parsers that iterate over Strings,
- * since it encapsulates the cursor index.
+ * since it encapsulates the cursor index.<br/><br/>
  * Created: 18.08.2006 19:21:45
- *
  * @author Volker Bergmann
  */
 public class StringCharacterIterator implements CharacterIterator {
 
-  /**
-   * The String to iterate
-   */
   private final String source;
 
-  /**
-   * The cursor offset
-   */
   private int offset;
 
   private int line;
@@ -43,21 +38,15 @@ public class StringCharacterIterator implements CharacterIterator {
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Creates an iterator that starts at the String's beginning
-   *
-   * @param source the text to iterate
-   */
+  /** Creates an iterator that starts at the String's beginning
+   *  @param source the text to iterate */
   public StringCharacterIterator(String source) {
     this(source, 0);
   }
 
-  /**
-   * Creates an iterator that starts at a specified position
-   *
-   * @param source the text to iterate
-   * @param offset the offset at witch to begin iteration
-   */
+  /** Creates an iterator that starts at a specified position
+   *  @param source the text to iterate
+   *  @param offset the offset at witch to begin iteration */
   public StringCharacterIterator(String source, int offset) {
     if (source == null) {
       throw new IllegalArgumentException("source string must not be null");
@@ -71,21 +60,16 @@ public class StringCharacterIterator implements CharacterIterator {
 
   // java.util.Iterator interface ------------------------------------------------------------------------------------
 
-  /**
-   * Tells if the iterator has not reached the String's end.
-   * java.util.Iterator#hasNext()
-   *
-   * @return true if there are more characters available, false, if the end was reached.
-   */
+  /** Tells if the iterator has not reached the String's end.
+   *  java.util.Iterator#hasNext()
+   *  @return true if there are more characters available, false, if the end was reached. */
   @Override
   public boolean hasNext() {
     return offset < source.length();
   }
 
-  /**
-   * @return the next character.
-   * @see java.util.Iterator#next()
-   */
+  /**  @return the next character.
+   *  @see java.util.Iterator#next() */
   @Override
   public char next() {
     if (offset >= source.length()) {
@@ -101,23 +85,15 @@ public class StringCharacterIterator implements CharacterIterator {
     return source.charAt(offset++);
   }
 
-  /**
-   * Implements the remove() operation of the Iterator interface,
-   * raising an UnsupportedOperationException.
-   *
-   * @see java.util.Iterator#remove() java.util.Iterator#remove()
-   */
+  /** Implements the remove() operation of the Iterator interface,
+   *  raising an UnsupportedOperationException.
+   *  @see java.util.Iterator#remove() java.util.Iterator#remove() */
   public void remove() {
     throw new UnsupportedOperationException();
   }
 
   // Convenience interface -------------------------------------------------------------------------------------------
 
-  /**
-   * Peek next char.
-   *
-   * @return the char
-   */
   public char peekNext() {
     if (!hasNext()) {
       return 0;
@@ -125,9 +101,7 @@ public class StringCharacterIterator implements CharacterIterator {
     return source.charAt(offset);
   }
 
-  /**
-   * Pushes back the cursor by one character.
-   */
+  /** Pushes back the cursor by one character. */
   public void pushBack() {
     if (offset > 0) {
       if (offset - 1 < source.length() && source.charAt(offset - 1) == '\n') {
@@ -142,38 +116,24 @@ public class StringCharacterIterator implements CharacterIterator {
     }
   }
 
-  /**
-   * Gets offset.
-   *
-   * @return the cursor offset.
-   */
+  /** Gets offset.
+   *  @return the cursor offset. */
   public int getOffset() {
     return offset;
   }
 
-  /**
-   * Sets offset.
-   *
-   * @param offset the offset
-   */
+  /** Sets offset.
+   *  @param offset the offset */
   public void setOffset(int offset) {
     this.offset = offset;
   }
 
-  /**
-   * Skip whitespace.
-   */
   public void skipWhitespace() {
     while (offset < source.length() && Character.isWhitespace(source.charAt(offset))) {
       offset++;
     }
   }
 
-  /**
-   * Parse letters string.
-   *
-   * @return the string
-   */
   public String parseLetters() {
     StringBuilder builder = new StringBuilder();
     while (offset < source.length() && Character.isLetter(source.charAt(offset))) {
@@ -182,20 +142,10 @@ public class StringCharacterIterator implements CharacterIterator {
     return builder.toString();
   }
 
-  /**
-   * Remaining text string.
-   *
-   * @return the string
-   */
   public String remainingText() {
     return source.substring(offset);
   }
 
-  /**
-   * Assert next.
-   *
-   * @param c the c
-   */
   public void assertNext(char c) {
     if (!hasNext()) {
       throw new ParseException("Expected '" + c + "', but no more character is available", source, line, column);
@@ -206,29 +156,17 @@ public class StringCharacterIterator implements CharacterIterator {
     }
   }
 
-  /**
-   * Line int.
-   *
-   * @return the int
-   */
   public int line() {
     return line;
   }
 
-  /**
-   * Column int.
-   *
-   * @return the int
-   */
   public int column() {
     return column;
   }
 
   // java.lang.Object overrides --------------------------------------------------------------------------------------
 
-  /**
-   * @return the String that is iterated.
-   */
+  /** @return the String that is iterated. */
   @Override
   public String toString() {
     return source;

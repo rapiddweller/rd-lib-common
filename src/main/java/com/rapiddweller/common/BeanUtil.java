@@ -1147,7 +1147,7 @@ public final class BeanUtil {
         return field.get(target);
       }
     } catch (IllegalArgumentException | IllegalAccessException e) {
-      throw new ConfigurationError(e);
+      throw new ConfigurationError("Error getting field value", e);
     }
   }
 
