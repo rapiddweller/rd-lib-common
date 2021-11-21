@@ -5,7 +5,7 @@ package com.rapiddweller.common.exception;
 import com.rapiddweller.common.OperationFailedException;
 
 /**
- * TODO JavaDoc.<br/><br/>
+ * Signals that access to a software element failed.<br/><br/>
  * Created: 19.11.2021 22:59:22
  * @author Volker Bergmann
  * @since 2.0.0
