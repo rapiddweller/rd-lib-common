@@ -24,23 +24,22 @@ import java.io.IOException;
 /**
  * Renders the canonical path of a {@link File} in a {@link JList}.
  * Created at 30.11.2008 17:11:26
- *
  * @author Volker Bergmann
  * @since 0.5.13
  */
 public class FilePathListCellRenderer extends DefaultListCellRenderer {
 
-  private static final long serialVersionUID = -448916948052054554L;
-
   @Override
-  public Component getListCellRendererComponent(JList<?> list, Object value,
-                                                int index, boolean isSelected, boolean cellHasFocus) {
+  public Component getListCellRendererComponent(
+      JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+    File file = (File) value;
+    String text;
     try {
-      String text = ((File) value).getCanonicalPath();
-      return super.getListCellRendererComponent(list, text, index, isSelected, hasFocus());
+      text = file.getCanonicalPath();
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      text = file.getAbsolutePath();
     }
+    return super.getListCellRendererComponent(list, text, index, isSelected, hasFocus());
   }
 
 }

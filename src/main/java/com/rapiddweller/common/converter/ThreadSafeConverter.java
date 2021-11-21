@@ -16,6 +16,7 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
  * Parent class for {@link Converter} implementations which support all modes of threaded usage.
@@ -28,12 +29,6 @@ import com.rapiddweller.common.Converter;
  */
 public abstract class ThreadSafeConverter<S, T> extends AbstractConverter<S, T> implements Cloneable {
 
-  /**
-   * Instantiates a new Thread safe converter.
-   *
-   * @param sourceType the source type
-   * @param targetType the target type
-   */
   protected ThreadSafeConverter(Class<S> sourceType, Class<T> targetType) {
     super(sourceType, targetType);
   }
@@ -53,7 +48,7 @@ public abstract class ThreadSafeConverter<S, T> extends AbstractConverter<S, T> 
     try {
       return super.clone();
     } catch (CloneNotSupportedException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().cloningFailed("Failed to clone " + this, e);
     }
   }
 

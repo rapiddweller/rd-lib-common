@@ -33,35 +33,25 @@ import java.util.Map;
 /**
  * Merges properties files with priority and allows for override by VM parameters.
  * Created: 01.08.2013 10:37:30
- *
  * @author Volker Bergmann
  * @since 0.5.24
  */
 public class PropertiesFileMerger {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesFileMerger.class);
+  private static final Logger logger = LoggerFactory.getLogger(PropertiesFileMerger.class);
 
-  /**
-   * Merge.
-   *
-   * @param targetPath  the target path
-   * @param sourceFiles the source files
-   * @throws IOException the io exception
-   */
+  private PropertiesFileMerger() {
+    // private constructor to prevent instantiation of this utility class
+  }
+
   public static void merge(String targetPath, String... sourceFiles) throws IOException {
     merge(targetPath, true, sourceFiles);
   }
 
-  /**
-   * Merge.
-   *
-   * @param targetPath  the target path
-   * @param vmOverride  the vm override
-   * @param sourceFiles the source files
-   * @throws IOException the io exception
-   */
   public static void merge(String targetPath, boolean vmOverride, String... sourceFiles) throws IOException {
-    LOGGER.debug("Merging the files {} into target file: {}", Arrays.toString(sourceFiles), targetPath);
+    if (logger.isDebugEnabled()) {
+      logger.debug("Merging the files {} into target file: {}", Arrays.toString(sourceFiles), targetPath);
+    }
     TreeBuilder tree = null;
     for (String sourceFile : sourceFiles) {
       tree = loadClasspathResourceIfPresent(sourceFile, tree); // find resource on class path
@@ -80,18 +70,10 @@ public class PropertiesFileMerger {
     }
   }
 
-  /**
-   * Load classpath resource if present tree builder.
-   *
-   * @param resourceName the resource name
-   * @param base         the base
-   * @return the tree builder
-   * @throws IOException the io exception
-   */
   static TreeBuilder loadClasspathResourceIfPresent(String resourceName, TreeBuilder base) throws IOException {
     InputStream in = IOUtil.getResourceAsStream(resourceName, false);
     if (in != null) {
-      LOGGER.debug("Loading and merging structure of classpath resource '{}' ", resourceName);
+      logger.debug("Loading and merging structure of classpath resource '{}' ", resourceName);
       try {
         TreeBuilder newTree = TreeBuilder.loadFromStream(in, resourceName);
         return overwriteProperties(base, newTree);
@@ -103,37 +85,19 @@ public class PropertiesFileMerger {
     }
   }
 
-  /**
-   * Load file if present tree builder.
-   *
-   * @param sourceFile the source file
-   * @param base       the base
-   * @return the tree builder
-   * @throws IOException the io exception
-   */
   static TreeBuilder loadFileIfPresent(String sourceFile, TreeBuilder base) throws IOException {
     File file = new File(sourceFile);
     if (file.exists()) {
-      LOGGER.debug("Loading and merging properties of file '{}' ", sourceFile);
-      FileInputStream in = new FileInputStream(file);
-      try {
+      logger.debug("Loading and merging properties of file '{}' ", sourceFile);
+      try (FileInputStream in = new FileInputStream(file)) {
         TreeBuilder newTree = TreeBuilder.loadFromStream(in, sourceFile);
         return overwriteProperties(base, newTree);
-      } finally {
-        IOUtil.close(in);
       }
     } else {
       return base;
     }
   }
 
-  /**
-   * Overwrite properties tree builder.
-   *
-   * @param base       the base
-   * @param overwrites the overwrites
-   * @return the tree builder
-   */
   static TreeBuilder overwriteProperties(TreeBuilder base, TreeBuilder overwrites) {
     if (base == null) {
       return overwrites;
@@ -160,13 +124,8 @@ public class PropertiesFileMerger {
     }
   }
 
-  /**
-   * Overwrite properties with vm params.
-   *
-   * @param tree the tree
-   */
   static void overwritePropertiesWithVMParams(TreeBuilder tree) {
-    LOGGER.debug("Checking properties against VM settings override");
+    logger.debug("Checking properties against VM settings override");
     overwritePropertiesWithVMParams(tree.getRootNode(), tree.getRootName());
   }
 
@@ -180,7 +139,7 @@ public class PropertiesFileMerger {
       } else if (child instanceof String) {
         String vmSetting = System.getProperty(subPath);
         if (vmSetting != null && vmSetting.length() > 0) {
-          LOGGER.debug("Overwriting '{}' property with '{}'", subPath, vmSetting);
+          logger.debug("Overwriting '{}' property with '{}'", subPath, vmSetting);
           entry.setValue(vmSetting);
         }
       }

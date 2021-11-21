@@ -10,9 +10,10 @@ package com.rapiddweller.common.exception;
  */
 public class CommonErrorCodes {
 
-  public static final String MISSING_CLI_ARGUMENT = "CLI-001";
-  public static final String ILLEGAL_CLI_OPTION = "CLI-0002";
-  public static final String MISSING_CLI_OPTION_VALUE = "CLI-0003";
+  public static final String MISSING_CLI_ARGUMENT = "CLI-0001";
+  public static final String ILLEGAL_CLI_ARGUMENT = "CLI-0002";
+  public static final String ILLEGAL_CLI_OPTION = "CLI-0003";
+  public static final String MISSING_CLI_OPTION_VALUE = "CLI-0004";
 
   public static final String PROGRAMMER_VALUE_UNDEFINED = "PRO-001";
   public static final String PROGRAMMER_STATE_ERROR = "PRO-0002";

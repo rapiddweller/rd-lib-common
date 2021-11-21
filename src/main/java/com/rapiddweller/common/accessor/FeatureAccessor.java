@@ -33,14 +33,13 @@ import java.util.Map;
 /**
  * Get values from Maps, Contexts, Composites and JavaBeans.
  * Created: 12.06.2007 18:36:11
- *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
  */
 public class FeatureAccessor<C, V> implements Accessor<C, V> {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(FeatureAccessor.class);
+  private static final Logger logger = LoggerFactory.getLogger(FeatureAccessor.class);
 
   private static final Escalator escalator = new LoggerEscalator();
 
@@ -48,7 +47,7 @@ public class FeatureAccessor<C, V> implements Accessor<C, V> {
     FeatureAccessor<?, ?>[] result = new FeatureAccessor[featureNames.length];
     for (int i = 0; i < featureNames.length; i++) {
       String featureName = featureNames[i];
-      result[i] = new FeatureAccessor<Object, Object>(featureName, true);
+      result[i] = new FeatureAccessor<>(featureName, true);
     }
     return result;
   }
@@ -66,7 +65,7 @@ public class FeatureAccessor<C, V> implements Accessor<C, V> {
   }
 
   public FeatureAccessor(String featureName, boolean strict) {
-    LOGGER.debug("FeatureAccessor({}, {})", featureName, strict);
+    logger.debug("FeatureAccessor({}, {})", featureName, strict);
     this.featureName = featureName;
   }
 
@@ -89,7 +88,7 @@ public class FeatureAccessor<C, V> implements Accessor<C, V> {
   // static convenience methods --------------------------------------------------------------------------------------
 
   public static Object getValue(Object target, String featureName) {
-    LOGGER.debug("getValue({}, {})", target, featureName);
+    logger.debug("getValue({}, {})", target, featureName);
     return getValue(target, featureName, true);
   }
 
@@ -121,7 +120,7 @@ public class FeatureAccessor<C, V> implements Accessor<C, V> {
         Class<?> type = ((target instanceof Class) ? (Class<?>) target : target.getClass());
         Field field = BeanUtil.getField(type, featureName);
         if (field != null) {
-          return BeanUtil.getFieldValue(field, target, false);
+          return BeanUtil.getFieldValue(field, target);
         }
       }
     }

@@ -19,6 +19,7 @@ import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.bean.ObservableBean;
 import com.rapiddweller.common.converter.ToStringConverter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
@@ -31,16 +32,10 @@ import java.beans.PropertyChangeListener;
 /**
  * {@link JTextField} implementation that serves as delegate of a property of a JavaBean object.
  * Created at 17.07.2008 14:38:14
- *
  * @author Volker Bergmann
  * @since 0.5.13
  */
 public class PropertyTextField extends JTextField {
-
-  /**
-   * uid for serialization
-   */
-  private static final long serialVersionUID = -6986676080916477887L;
 
   // attributes ------------------------------------------------------------------------------------------------------
 
@@ -48,20 +43,10 @@ public class PropertyTextField extends JTextField {
   private final String propertyName;
 
   private final ToStringConverter toStringConverter;
-  /**
-   * The Locked.
-   */
   boolean locked;
 
   // constructor -----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Property text field.
-   *
-   * @param bean         the bean
-   * @param propertyName the property name
-   * @param length       the length
-   */
   public PropertyTextField(Object bean, String propertyName, int length) {
     super(length);
     this.bean = bean;
@@ -79,9 +64,7 @@ public class PropertyTextField extends JTextField {
 
   // event handlers --------------------------------------------------------------------------------------------------
 
-  /**
-   * reads the current property value and writes it to the text field.
-   */
+  /** Reads the current property value and writes it to the text field. */
   void refresh() {
     if (!locked) {
       locked = true;
@@ -95,9 +78,7 @@ public class PropertyTextField extends JTextField {
     }
   }
 
-  /**
-   * writes the current text field content to the property.
-   */
+  /** Writes the current text field content to the property. */
   void update() {
     if (!locked) {
       locked = true;
@@ -106,7 +87,7 @@ public class PropertyTextField extends JTextField {
       try {
         text = document.getText(0, document.getLength());
       } catch (BadLocationException e) {
-        throw new RuntimeException(e);
+        throw ExceptionFactory.getInstance().internalError("Error getting TextField content", e);
       }
       text = StringUtil.unescape(text);
       if (!text.equals(BeanUtil.getPropertyValue(bean, propertyName))) {
@@ -116,9 +97,6 @@ public class PropertyTextField extends JTextField {
     }
   }
 
-  /**
-   * The type Listener.
-   */
   class Listener implements PropertyChangeListener, DocumentListener {
 
     @Override
@@ -140,6 +118,6 @@ public class PropertyTextField extends JTextField {
     public void removeUpdate(DocumentEvent evt) {
       update();
     }
-
   }
+
 }

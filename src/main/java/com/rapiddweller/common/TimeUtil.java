@@ -562,7 +562,7 @@ public final class TimeUtil {
         throw new SyntaxError("Not a supported date/time format:", dateOrTimeSpec);
       }
     } catch (ParseException e) {
-      throw new ConversionException(e);
+      throw new ConversionException("Failed to parse date or time " + dateOrTimeSpec, e);
     }
   }
 

@@ -17,6 +17,7 @@ package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ArrayUtil;
 import com.rapiddweller.common.Converter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
  * Parent class for {@link Converter} implementations that
@@ -111,7 +112,7 @@ public abstract class MultiConverterWrapper<S, T> implements Cloneable {
       copy.components = ConverterManager.cloneIfSupported(this.components);
       return copy;
     } catch (CloneNotSupportedException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().cloningFailed("Failed to clone " + this, e);
     }
   }
 

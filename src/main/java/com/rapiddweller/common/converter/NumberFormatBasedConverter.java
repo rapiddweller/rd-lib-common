@@ -17,6 +17,7 @@ package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.NullSafeComparator;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -235,7 +236,7 @@ public abstract class NumberFormatBasedConverter<S, T> extends AbstractConverter
       copy.format = (DecimalFormat) format.clone();
       return copy;
     } catch (CloneNotSupportedException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().cloningFailed("Failed to clone " + this, e);
     }
   }
 

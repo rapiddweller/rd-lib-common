@@ -16,8 +16,9 @@
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -36,7 +37,7 @@ import java.util.Set;
  */
 public class ClassCache {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ClassCache.class);
+  private static final Logger logger = LoggerFactory.getLogger(ClassCache.class);
 
   private final Map<String, Class<?>> classes;
   private final List<String> packages;
@@ -75,9 +76,9 @@ public class ClassCache {
         result = BeanUtil.forName(name);
         classes.put(result.getSimpleName(), result);
         return result;
-      } catch (ConfigurationError e) {
+      } catch (IllegalArgumentError e) {
         nonClassNames.add(name);
-        LOGGER.debug("class not found: {}", name);
+        logger.debug("class not found: {}", name);
       }
     }
     for (String pkg : packages) {
@@ -87,14 +88,14 @@ public class ClassCache {
           result = BeanUtil.forName(fqnTrial);
           classes.put(result.getSimpleName(), result);
           return result;
-        } catch (ConfigurationError e) {
+        } catch (IllegalArgumentError e) {
           nonClassNames.add(fqnTrial);
-          LOGGER.debug("class not found: {}", name);
+          logger.debug("class not found: {}", name);
         }
       }
     }
     if (required) {
-      throw new ConfigurationError("Class not found: " + name);
+      throw ExceptionFactory.getInstance().configurationError("Class not found: " + name);
     } else {
       return null;
     }

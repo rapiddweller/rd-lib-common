@@ -15,7 +15,7 @@
 
 package com.rapiddweller.common.bean;
 
-import com.rapiddweller.common.UpdateFailedException;
+import com.rapiddweller.common.exception.MutationFailedException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 public class PropertyGraphMutatorTest {
 
   @Test
-  public void testLocalProperty() throws UpdateFailedException {
+  public void testLocalProperty() throws MutationFailedException {
     PropertyGraphMutator aNameMutator = new PropertyGraphMutator(ABean.class, "name", true, false);
     ABean a = new ABean();
     aNameMutator.setValue(a, "aName");
@@ -39,7 +39,7 @@ public class PropertyGraphMutatorTest {
   }
 
   @Test
-  public void testNavigatedProperty() throws UpdateFailedException {
+  public void testNavigatedProperty() throws MutationFailedException {
     PropertyGraphMutator bNameMutator = new PropertyGraphMutator(ABean.class, "b.name", true, false);
     ABean a = new ABean();
     bNameMutator.setValue(a, "bName");
@@ -49,7 +49,7 @@ public class PropertyGraphMutatorTest {
   }
 
   @Test
-  public void testNavigatedGraph() throws UpdateFailedException {
+  public void testNavigatedGraph() throws MutationFailedException {
     PropertyGraphMutator bNameMutator = new PropertyGraphMutator(ABean.class, "b.c.name", true, false);
     ABean a = new ABean();
     bNameMutator.setValue(a, "cName");

@@ -17,6 +17,7 @@ package com.rapiddweller.common;
 
 import com.rapiddweller.common.collection.MapEntry;
 import com.rapiddweller.common.converter.ToStringConverter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 import com.rapiddweller.common.file.FileByNameFilter;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -104,13 +105,13 @@ public final class IOUtil {
         try {
           closeable.close();
         } catch (IOException e) {
-          logger.error("Error closing " + closeable, e);
-        } catch (Throwable e) {
+          logExceptionInClose(closeable, e);
+        } catch (Exception e) {
           t = e;
         }
       }
       if (t != null) {
-        throw new RuntimeException("Error closing resources", t);
+        throw ExceptionFactory.getInstance().serviceFailed("Error closing resources", t);
       }
     }
   }
@@ -125,13 +126,13 @@ public final class IOUtil {
         try {
           closeable.close();
         } catch (IOException e) {
-          logger.error("Error closing " + closeable, e);
+          logExceptionInClose(closeable, e);
         } catch (Throwable e) {
           t = e;
         }
       }
       if (t != null) {
-        throw new RuntimeException("Error closing resources", t);
+        throw ExceptionFactory.getInstance().serviceFailed("Error closing resources", t);
       }
     }
   }
@@ -161,71 +162,89 @@ public final class IOUtil {
     } else if (uri.startsWith(HTTP_PROTOCOL)) {
       available = httpUrlAvailable(uri);
     } else {
-      InputStream stream = null;
-      try {
-        if (uri.startsWith("file:") && !uri.startsWith(FILE_PROTOCOL)) {
-          stream = getFileOrResourceAsStream(uri.substring("file:".length()), false);
-        } else {
-          if (!uri.contains("://")) {
-            uri = FILE_PROTOCOL + uri;
-          }
-          if (uri.startsWith(FILE_PROTOCOL)) {
-            stream = getFileOrResourceAsStream(uri.substring(FILE_PROTOCOL.length()), false);
-          }
-        }
-        available = (stream != null);
-      } catch (FileNotFoundException e) {
-        available = false;
-      } finally {
-        close(stream);
-      }
+      available = isFileUriAvailable(uri);
     }
     logger.debug("isURIAvailable({}) returns {}", uri, available);
     return available;
   }
 
-  public static String getContentOfURI(String uri) throws IOException {
+  private static boolean isFileUriAvailable(String uri) {
+    String path = stripOffProtocolFromUri(uri);
+    if (path.isEmpty()) {
+      if (uri.isEmpty()) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    // first check as file or folder in file system
+    File file = new File(path);
+    if (file.exists()) {
+      return true;
+    }
+    // then check as file in classpath
+    InputStream stream = null;
+    try {
+      stream = getFileOrResourceAsStream(path, false);
+      return (stream != null);
+    } finally {
+      close(stream);
+    }
+  }
+
+  public static String getContentOfURI(String uri) {
     return getContentOfURI(uri, SystemInfo.getFileEncoding());
   }
 
-  public static String getContentOfURI(String uri, String encoding) throws IOException {
+  public static String getContentOfURI(String uri, String encoding) {
     Reader reader = getReaderForURI(uri, encoding);
     return readAndClose(reader);
   }
 
-  public static String readAndClose(Reader reader) throws IOException {
+  public static String readAndClose(Reader reader) {
     StringWriter writer = new StringWriter();
     transferAndClose(reader, writer);
     return writer.toString();
   }
 
-  public static String[] readTextLines(String uri, boolean includeEmptyLines) throws IOException {
+  public static String[] readTextLines(String uri, boolean includeEmptyLines) {
     ArrayBuilder<String> builder = new ArrayBuilder<>(String.class, 100);
-    BufferedReader reader = getReaderForURI(uri);
-    String line;
-    while ((line = reader.readLine()) != null) {
-      if (line.length() > 0 || includeEmptyLines) {
-        builder.add(line);
+    try {
+      try (BufferedReader reader = getReaderForURI(uri)) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+          if (line.length() > 0 || includeEmptyLines) {
+            builder.add(line);
+          }
+        }
       }
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(uri, e);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException("Error reading file " + uri, e);
     }
     return builder.toArray();
   }
 
-  public static BufferedReader getReaderForURI(String uri) throws IOException {
+  public static BufferedReader getReaderForURI(String uri) {
     return getReaderForURI(uri, SystemInfo.getFileEncoding());
   }
 
-  public static BufferedReader getReaderForURI(String uri, String encoding) throws IOException {
+  public static BufferedReader getReaderForURI(String uri, String encoding) {
     if (uri.startsWith(STRING_PROTOCOL)) {
       return new BufferedReader(new StringReader(uri.substring(STRING_PROTOCOL.length())));
     } else if (uri.startsWith(HTTP_PROTOCOL)) {
-      return getHttpReader(new URL(uri), encoding);
+      try {
+        return getHttpReader(new URL(uri), encoding);
+      } catch (MalformedURLException e) {
+        throw ExceptionFactory.getInstance().internalError("Error accessing URI " + uri, e);
+      }
     } else {
       return getFileReader(uri, encoding);
     }
   }
 
-  public static InputStream getInputStreamForURI(String uri) throws IOException {
+  public static InputStream getInputStreamForURI(String uri) {
     Assert.notNull(uri, "uri");
     return getInputStreamForURI(uri, true);
   }
@@ -233,9 +252,8 @@ public final class IOUtil {
   /** Creates an InputStream from a url in String representation.
    *  @param uri the source url
    *  @param required causes the method to throw an exception if the resource is not found
-   *  @return an InputStream that reads the url.
-   *  @throws IOException if the url cannot be read. */
-  public static InputStream getInputStreamForURI(String uri, boolean required) throws IOException {
+   *  @return an InputStream that reads the url. */
+  public static InputStream getInputStreamForURI(String uri, boolean required) {
     logger.debug("getInputStreamForURI({}, {})", uri, required);
     if (uri.startsWith(STRING_PROTOCOL)) {
       String content = uri.substring(STRING_PROTOCOL.length());
@@ -246,7 +264,11 @@ public final class IOUtil {
     } else if (uri.startsWith("file:")) {
       return getFileOrResourceAsStream(uri.substring("file:".length()), true);
     } else if (uri.contains("://")) {
-      return getInputStreamForURL(new URL(uri));
+      try {
+        return getInputStreamForURL(new URL(uri));
+      } catch (MalformedURLException e) {
+        throw ExceptionFactory.getInstance().internalError("Error accessing " + uri, e);
+      }
     } else {
       return getFileOrResourceAsStream(uri, required);
     }
@@ -268,16 +290,18 @@ public final class IOUtil {
     return (uri.startsWith("file:") || !uri.contains("://"));
   }
 
-  public static InputStream getInputStreamForURL(URL url) throws IOException {
+  public static InputStream getInputStreamForURL(URL url) {
     try {
       URLConnection connection = getConnection(url);
       return connection.getInputStream();
     } catch (MalformedURLException e) {
-      throw new IllegalArgumentException(e);
+      throw ExceptionFactory.getInstance().illegalArgument("Malformed URL: " + url, e);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().internalError("Error reading URL " + url, e);
     }
   }
 
-  public static InputStream getInputStreamForUriReference(String localUri, String contextUri, boolean required) throws IOException {
+  public static InputStream getInputStreamForUriReference(String localUri, String contextUri, boolean required) {
     logger.debug("getInputStreamForUriReference({}, {})", localUri, contextUri);
     // do not resolve context for absolute URLs or missing contexts
     if (StringUtil.isEmpty(contextUri) || getProtocol(localUri) != null) {
@@ -288,7 +312,11 @@ public final class IOUtil {
     String uri = resolveRelativeUri(localUri, contextUri);
 
     if (localUri.startsWith(HTTP_PROTOCOL)) {
-      return getInputStreamForURL(new URL(uri));
+      try {
+        return getInputStreamForURL(new URL(uri));
+      } catch (MalformedURLException e) {
+        throw ExceptionFactory.getInstance().internalError("Error accessing " + uri, e);
+      }
     }
 
     if (localUri.startsWith("file:") && !localUri.startsWith(FILE_PROTOCOL)) {
@@ -364,27 +392,7 @@ public final class IOUtil {
       return true;
     }
     // if the protocols are 'file' and the URI starts with '/' or '~' its an absolute file URI
-    return ("file".equals(ctxProtocol) && ((uri.startsWith("/") || uri.startsWith("~"))));
-  }
-
-  private static String resolveRelativeFile(String contextPath, String relativePath) {
-    char firstChar = relativePath.charAt(0);
-    boolean isAbsolutePath = firstChar == '/' || firstChar == File.separatorChar;
-    if (isAbsolutePath || isURIAvailable(relativePath)) {
-      return relativePath;
-    } else {
-      return new File(contextPath, relativePath).getPath();
-    }
-  }
-
-  private static String resolveRelativeURL(String contextUri, String relativeUri) {
-    try {
-      URL contextUrl = new URL(contextUri);
-      URL absoluteUrl = new URL(contextUrl, relativeUri);
-      return absoluteUrl.toString();
-    } catch (MalformedURLException e) {
-      throw new IllegalArgumentException(e);
-    }
+    return ("file".equals(ctxProtocol) && (uri.startsWith("/") || uri.startsWith("~")));
   }
 
   public static String getParentUri(String uri) {
@@ -419,17 +427,6 @@ public final class IOUtil {
     return (uri.startsWith("file:") ? "file" : null);
   }
 
-  private static String getPath(String uri) {
-    if (uri == null || ".".equals(uri)) {
-      return null;
-    }
-    int sep = uri.indexOf("://");
-    if (sep > 0) {
-      return uri.substring(sep + 3);
-    }
-    return (uri.startsWith("file:") ? uri.substring(5) : uri);
-  }
-
   public static PrintWriter getPrinterForURI(String uri, String encoding)
       throws FileNotFoundException, UnsupportedEncodingException {
     return getPrinterForURI(uri, encoding, false, SystemInfo.getLineSeparator(), false);
@@ -452,7 +449,7 @@ public final class IOUtil {
 
   // piping streams --------------------------------------------------------------------------------------------------
 
-  public static void transferAndClose(Reader reader, Writer writer) throws IOException {
+  public static void transferAndClose(Reader reader, Writer writer) {
     try {
       transfer(reader, writer);
     } finally {
@@ -461,19 +458,23 @@ public final class IOUtil {
     }
   }
 
-  public static int transfer(Reader reader, Writer writer) throws IOException {
-    int totalChars = 0;
-    char[] buffer = new char[16384];
+  public static int transfer(Reader reader, Writer writer) {
+    try {
+      int totalChars = 0;
+      char[] buffer = new char[16384];
 
-    int charsRead;
-    while ((charsRead = reader.read(buffer, 0, buffer.length)) > 0) {
-      writer.write(buffer, 0, charsRead);
-      totalChars += charsRead;
+      int charsRead;
+      while ((charsRead = reader.read(buffer, 0, buffer.length)) > 0) {
+        writer.write(buffer, 0, charsRead);
+        totalChars += charsRead;
+      }
+      return totalChars;
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().internalError("Error transferring stream data", e);
     }
-    return totalChars;
   }
 
-  public static void transferAndClose(InputStream in, OutputStream out) throws IOException {
+  public static void transferAndClose(InputStream in, OutputStream out) {
     try {
       transfer(in, out);
     } finally {
@@ -482,19 +483,23 @@ public final class IOUtil {
     }
   }
 
-  public static int transfer(InputStream in, OutputStream out) throws IOException {
-    int totalChars = 0;
-    byte[] buffer = new byte[16384];
+  public static int transfer(InputStream in, OutputStream out) {
+    try {
+      int totalChars = 0;
+      byte[] buffer = new byte[16384];
 
-    int charsRead;
-    while ((charsRead = in.read(buffer, 0, buffer.length)) != -1) {
-      out.write(buffer, 0, charsRead);
-      totalChars += charsRead;
+      int charsRead;
+      while ((charsRead = in.read(buffer, 0, buffer.length)) != -1) {
+        out.write(buffer, 0, charsRead);
+        totalChars += charsRead;
+      }
+      return totalChars;
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().internalError("Error transferring stream data", e);
     }
-    return totalChars;
   }
 
-  public static void copyFile(String srcUri, String targetUri) throws IOException {
+  public static void copyFile(String srcUri, String targetUri) {
     logger.debug("copying {} --> {}", srcUri, targetUri);
     InputStream in = null;
     OutputStream out = null;
@@ -508,51 +513,440 @@ public final class IOUtil {
     }
   }
 
-  public static OutputStream openOutputStreamForURI(String uri) throws IOException {
+  public static OutputStream openOutputStreamForURI(String uri) {
     if (uri.startsWith("file:")) {
-      uri = uri.substring(5);
-      if (uri.startsWith("//")) {
-        uri = uri.substring(2);
+      try {
+        uri = uri.substring(5);
+        if (uri.startsWith("//")) {
+          uri = uri.substring(2);
+        }
+        return new FileOutputStream(uri);
+      } catch (FileNotFoundException e) {
+        throw ExceptionFactory.getInstance().fileNotFound(uri, e);
       }
-      return new FileOutputStream(uri);
     } else if (uri.contains("://")) {
       try {
         URL url = new URL(uri);
         URLConnection urlc = url.openConnection();
         return urlc.getOutputStream();
       } catch (MalformedURLException e) {
-        throw new IllegalArgumentException(e);
+        throw ExceptionFactory.getInstance().internalError("Error processing uri " + uri, e);
+      } catch (IOException e) {
+        throw ExceptionFactory.getInstance().serviceFailed("Error writing data to uri " + uri, e);
       }
     }
-    return new FileOutputStream(uri);
+    try {
+      return new FileOutputStream(uri);
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(uri, e);
+    }
   }
 
   // Properties I/O --------------------------------------------------------------------------------------------------
 
-  public static Map<String, String> readProperties(String filename) throws IOException {
+  public static Map<String, String> readProperties(String filename) {
     return readProperties(filename, SystemInfo.getFileEncoding());
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
-  public static Map<String, String> readProperties(String filename, String encoding) throws IOException {
+  public static Map<String, String> readProperties(String filename, String encoding) {
     return readProperties(new OrderedMap(), filename, null, encoding);
   }
 
   @SuppressWarnings("rawtypes")
   public static <V> Map<String, V> readProperties(
-      String filename, Converter<Map.Entry, Map.Entry> converter) throws IOException {
+      String filename, Converter<Map.Entry, Map.Entry> converter) {
     return readProperties(filename, converter, SystemInfo.getFileEncoding());
   }
 
   @SuppressWarnings("rawtypes")
   public static <V> Map<String, V> readProperties(
-      String filename, Converter<Map.Entry, Map.Entry> converter, String encoding) throws IOException {
+      String filename, Converter<Map.Entry, Map.Entry> converter, String encoding) {
     return readProperties(new OrderedMap<>(), filename, converter, encoding);
+  }
+
+  public static void writeProperties(Map<String, ?> properties, String filename) {
+    writeProperties(properties, filename, SystemInfo.getFileEncoding());
+  }
+
+  public static void writeProperties(Map<String, ?> properties, String filename, String encoding) {
+    PrintWriter stream = null;
+    try {
+      stream = IOUtil.getPrinterForURI(filename, encoding);
+      for (Map.Entry<String, ?> entry : properties.entrySet()) {
+        stream.println(entry.getKey() + "=" + ToStringConverter.convert(entry.getValue(), ""));
+      }
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(filename, e);
+    } catch (UnsupportedEncodingException e) {
+      throw ExceptionFactory.getInstance().internalError("Unsupported encoding: " + encoding, e);
+    } finally {
+      IOUtil.close(stream);
+    }
+  }
+
+  // text file im/export ---------------------------------------------------------------------------------------------
+
+  public static void writeTextFile(String filename, String content) {
+    writeTextFile(filename, content, SystemInfo.getFileEncoding());
+  }
+
+  public static void writeTextFile(String filename, String content, String encoding) {
+    try {
+      if (encoding == null) {
+        encoding = SystemInfo.getCharset().name();
+      }
+      try (Writer writer = new OutputStreamWriter(openOutputStreamForURI(filename), encoding)) {
+        transfer(new StringReader(content), writer);
+      }
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException("Error writing text file " + filename, e);
+    }
+  }
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  /** Returns an InputStream that reads a file. The file is first searched on the disk directories
+   *  then in the class path.
+   *  @param filename the name of the file to be searched.
+   *  @param required when set to 'true' this causes an exception to be thrown if the file is not found
+   *  @return an InputStream that accesses the file. If the file is not found and 'required' set to false, null is returned. */
+  private static InputStream getFileOrResourceAsStream(String filename, boolean required) {
+    logger.debug("getFileOrResourceAsStream({}, {})", filename, required);
+    File file = new File(filename);
+    if (file.exists()) {
+      try {
+        return new FileInputStream(filename);
+      } catch (FileNotFoundException e) {
+        throw ExceptionFactory.getInstance().fileNotFound(filename, e);
+      }
+    } else {
+      return getResourceAsStream(filename, required);
+    }
+  }
+
+  private static boolean httpUrlAvailable(String urlString) {
+    try {
+      URL url = new URL(urlString);
+      URLConnection urlConnection = url.openConnection();
+      urlConnection.connect();
+      return true;
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  private static URLConnection getConnection(URL url) {
+    try {
+      URLConnection connection = url.openConnection();
+      connection.setRequestProperty("User-Agent", USER_AGENT);
+      connection.connect();
+      return connection;
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().connectFailed("Failed to connect " + url, e);
+    }
+  }
+
+  public static byte[] getBinaryContentOfUri(String uri) {
+    InputStream in = getInputStreamForURI(uri);
+    ByteArrayOutputStream out = new ByteArrayOutputStream(25000);
+    transfer(in, out);
+    return out.toByteArray();
+  }
+
+  public static void writeBytes(byte[] bytes, File file) {
+    try {
+      ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+      OutputStream out = new FileOutputStream(file);
+      try {
+        transfer(in, out);
+      } finally {
+        IOUtil.close(out);
+        IOUtil.close(in);
+      }
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(file.getPath(), e);
+    }
+  }
+
+  public static void copyDirectory(URL srcUrl, File targetDirectory, Filter<String> filenameFilter)
+      {
+    logger.debug("copyDirectory({}, {}, {})", srcUrl, targetDirectory, filenameFilter);
+    String protocol = srcUrl.getProtocol();
+    if (protocol.equals("file")) {
+      try {
+        FileUtil.copy(new File(srcUrl.toURI()), targetDirectory, true, new FileByNameFilter(filenameFilter));
+      } catch (URISyntaxException e) {
+        throw ExceptionFactory.getInstance().internalError("Error in URI " + srcUrl, e);
+      } catch (IOException e) {
+        throw ExceptionFactory.getInstance().fileAccessException("Error copying directory " + srcUrl, e);
+      }
+    } else if (protocol.equals("jar")) {
+      String path = srcUrl.getPath();
+      int separatorIndex = path.indexOf("!");
+      String jarPath = path.substring(5, separatorIndex); // extract jar file name
+      String relativePath = path.substring(separatorIndex + 2); // extract path inside jar file
+      if (!relativePath.endsWith("/")) {
+        relativePath += "/";
+      }
+      extractFolderFromJar(jarPath, relativePath, targetDirectory, filenameFilter);
+    } else {
+      throw new UnsupportedOperationException("Protocol not supported: " + protocol + " (URL: " + srcUrl + ")");
+    }
+  }
+
+  public static void extractFolderFromJar(String jarPath, String directory, File targetDirectory,
+                                          Filter<String> filenameFilter) {
+    try {
+      logger.debug("extractFolderFromJar({}, {}, {}, {})", jarPath, directory, targetDirectory, filenameFilter);
+      try (JarFile jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8))) {
+        Enumeration<JarEntry> entries = jar.entries();
+        while (entries.hasMoreElements()) {
+          JarEntry entry = entries.nextElement();
+          String name = entry.getName();
+          if (name.startsWith(directory) && !directory.equals(name) && (filenameFilter == null || filenameFilter.accept(name))) {
+            String relativeName = name.substring(directory.length());
+            if (entry.isDirectory()) {
+              File subDir = new File(targetDirectory, relativeName);
+              logger.debug("creating sub directory {}", subDir);
+              if (!subDir.mkdir()) {
+                logger.warn("Failed to create directory {}", subDir);
+              }
+            } else {
+              File targetFile = new File(targetDirectory, relativeName);
+              logger.debug("copying file {} to {}", name, targetFile);
+              InputStream in = jar.getInputStream(entry);
+              OutputStream out = new FileOutputStream(targetFile);
+              transfer(in, out);
+              out.close();
+              in.close();
+            }
+          }
+        }
+      }
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException("Error accessing JAR " + jarPath, e);
+    }
+  }
+
+  public static String[] listResources(URL url) {
+    logger.debug("listResources({})", url);
+    String protocol = url.getProtocol();
+    if (protocol.equals("file")) {
+      return listFileResources(url);
+    } else if (protocol.equals("jar")) {
+      return listJarResources(url);
+    } else {
+      throw new UnsupportedOperationException("Protocol not supported: " + protocol + " (URL: " + url + ")");
+    }
+  }
+
+  public static void download(URL url, File targetFile) {
+    try {
+      logger.info("downloading {}", url);
+      FileUtil.ensureDirectoryExists(targetFile.getParentFile());
+      try (InputStream in = getInputStreamForURL(url)) {
+        try (OutputStream out = new FileOutputStream(targetFile)) {
+          IOUtil.transfer(in, out);
+        }
+      }
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().serviceFailed("URL download failed for " + url, e);
+    }
+  }
+
+  public static String encodeUrl(String text) {
+    return encodeUrl(text, Encodings.UTF_8);
+  }
+
+  public static String encodeUrl(String text, String encoding) {
+    try {
+      return URLEncoder.encode(text, encoding);
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalArgumentException("Not a supported encoding: " + encoding, e);
+    }
+  }
+
+  public static ImageIcon readImageIcon(String resourceName) {
+    try {
+      InputStream in = getInputStreamForURI(resourceName);
+      if (in == null) {
+        throw new FileNotFoundException("Resource not found: " + resourceName);
+      }
+      return new ImageIcon(ImageIO.read(in));
+    } catch (Exception e) {
+      throw new ConfigurationError("Error reading image icon " + resourceName, e);
+    }
+  }
+
+
+  // helpers ---------------------------------------------------------------------------------------------------------
+
+  private static BufferedReader getFileReader(String filename, String defaultEncoding) {
+    try {
+      if (defaultEncoding == null) {
+        defaultEncoding = SystemInfo.getFileEncoding();
+      }
+      InputStream is = getInputStreamForURI(filename);
+      PushbackInputStream in = new PushbackInputStream(is, 4);
+      defaultEncoding = bomEncoding(in, defaultEncoding);
+      return new BufferedReader(new InputStreamReader(in, defaultEncoding));
+    } catch (UnsupportedEncodingException e) {
+      throw ExceptionFactory.getInstance().programmerConfig("Error preparig file read", e);
+    }
+  }
+
+  private static BufferedReader getHttpReader(URL url, String defaultEncoding) {
+    try {
+      URLConnection connection = getConnection(url);
+      connection.connect();
+      String encoding = encoding(connection, defaultEncoding);
+      InputStream inputStream = connection.getInputStream();
+      return new BufferedReader(new InputStreamReader(inputStream, encoding));
+    } catch (MalformedURLException e) {
+      throw ExceptionFactory.getInstance().illegalArgument("Error preparing access to " + url, e);
+    } catch (UnsupportedEncodingException e) {
+      throw ExceptionFactory.getInstance().programmerConfig("Error decoding " + url, e);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().serviceUnavailable("Error connecting " + url, e);
+    }
+  }
+
+  public static String encoding(URLConnection connection, String defaultEncoding) {
+    String encoding = connection.getContentEncoding();
+    if (StringUtil.isEmpty(encoding)) {
+      String ct = connection.getHeaderField("Content-Type");
+      if (!StringUtil.isEmpty(ct)) {
+        int i = ct.indexOf("charset");
+        if (i >= 0) {
+          encoding = ct.substring(i + "charset".length() + 1).trim();
+        }
+      }
+    }
+    if (StringUtil.isEmpty(encoding)) {
+      encoding = defaultEncoding;
+    }
+    if (StringUtil.isEmpty(encoding)) {
+      encoding = SystemInfo.getFileEncoding();
+    }
+    return encoding;
+  }
+
+  public static String bomEncoding(PushbackInputStream in, String defaultEncoding) {
+    try {
+      int b1 = in.read();
+      if (b1 == -1) {
+        return defaultEncoding;
+      }
+      if (b1 != 0xEF) {
+        in.unread(b1);
+        return defaultEncoding;
+      }
+      int b2 = in.read();
+      if (b2 == -1) {
+        in.unread(b1);
+        return defaultEncoding;
+      }
+      if (b2 != 0xBB) {
+        in.unread(b2);
+        in.unread(b1);
+        return defaultEncoding;
+      }
+      int b3 = in.read();
+      if (b3 == -1) {
+        in.unread(b2);
+        in.unread(b1);
+        return defaultEncoding;
+      }
+      if (b3 != 0xBF) {
+        in.unread(b3);
+        in.unread(b2);
+        in.unread(b1);
+        return defaultEncoding;
+      }
+      return Encodings.UTF_8;
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException("Checking BOM failed", e);
+    }
+  }
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private static String resolveRelativeFile(String contextPath, String relativePath) {
+    char firstChar = relativePath.charAt(0);
+    boolean isAbsolutePath = firstChar == '/' || firstChar == File.separatorChar;
+    if (isAbsolutePath || isURIAvailable(relativePath)) {
+      return relativePath;
+    } else {
+      return new File(contextPath, relativePath).getPath();
+    }
+  }
+
+  private static String resolveRelativeURL(String contextUri, String relativeUri) {
+    try {
+      URL contextUrl = new URL(contextUri);
+      URL absoluteUrl = new URL(contextUrl, relativeUri);
+      return absoluteUrl.toString();
+    } catch (MalformedURLException e) {
+      throw new IllegalArgumentException(e);
+    }
+  }
+
+  private static String getPath(String uri) {
+    if (uri == null || ".".equals(uri)) {
+      return null;
+    }
+    int sep = uri.indexOf("://");
+    if (sep > 0) {
+      return uri.substring(sep + 3);
+    }
+    return (uri.startsWith("file:") ? uri.substring(5) : uri);
+  }
+
+  private static String[] listFileResources(URL url) {
+    try {
+      String[] result = new File(url.toURI()).list();
+      if (result == null) {
+        result = new String[0];
+      }
+      logger.debug("found file resources: {}", (Object[]) result); // cast needed for avoiding varargs invocation
+      return result;
+    } catch (URISyntaxException e) {
+      throw ExceptionFactory.getInstance().internalError("Unexpected exception", e);
+    }
+  }
+
+  private static String[] listJarResources(URL url) {
+    Set<String> result;
+    String path = url.getPath();
+    int separatorIndex = path.indexOf("!");
+    String jarPath = path.substring(5, separatorIndex); // extract jar file name
+    String relativePath = path.substring(separatorIndex + 2); // extract path inside jar file
+    try (JarFile jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8))) {
+      Enumeration<JarEntry> entries = jar.entries();
+      result = new HashSet<>();
+      while (entries.hasMoreElements()) {
+        String name = entries.nextElement().getName();
+        if (name.startsWith(relativePath)) {
+          String entry = name.substring(relativePath.length());
+          int checkSubdir = entry.indexOf("/");
+          if (checkSubdir >= 0) // return only the top directory name of all sub directory entries
+          {
+            entry = entry.substring(0, checkSubdir);
+          }
+          result.add(entry);
+        }
+      }
+      logger.debug("found jar resources: {}", result);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException("Error accessing JAR " + path, e);
+    }
+    return result.toArray(new String[result.size()]);
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
   private static <M extends Map> M readProperties(M target, String filename,
-                                                  Converter<Map.Entry, Map.Entry> converter, String encoding) throws IOException {
+                                                  Converter<Map.Entry, Map.Entry> converter, String encoding) {
     Reader reader = null;
     ReaderLineIterator iterator = null;
     try {
@@ -604,301 +998,9 @@ public final class IOUtil {
     return target;
   }
 
-  public static void writeProperties(Map<String, ?> properties, String filename) throws IOException {
-    writeProperties(properties, filename, SystemInfo.getFileEncoding());
-  }
-
-  public static void writeProperties(Map<String, ?> properties, String filename, String encoding) throws IOException {
-    PrintWriter stream = null;
-    try {
-      stream = IOUtil.getPrinterForURI(filename, encoding);
-      for (Map.Entry<String, ?> entry : properties.entrySet()) {
-        stream.println(entry.getKey() + "=" + ToStringConverter.convert(entry.getValue(), ""));
-      }
-    } finally {
-      IOUtil.close(stream);
-    }
-  }
-
-  // text file im/export ---------------------------------------------------------------------------------------------
-
-  public static void writeTextFile(String filename, String content) throws IOException {
-    writeTextFile(filename, content, SystemInfo.getFileEncoding());
-  }
-
-  public static void writeTextFile(String filename, String content, String encoding) throws IOException {
-    if (encoding == null) {
-      encoding = SystemInfo.getCharset().name();
-    }
-    try (Writer writer = new OutputStreamWriter(openOutputStreamForURI(filename), encoding)) {
-      transfer(new StringReader(content), writer);
-    }
-  }
-
-  // private helpers -------------------------------------------------------------------------------------------------
-
-  /** Returns an InputStream that reads a file. The file is first searched on the disk directories
-   *  then in the class path.
-   *  @param filename the name of the file to be searched.
-   *  @param required when set to 'true' this causes an exception to be thrown if the file is not found
-   *  @return an InputStream that accesses the file. If the file is not found and 'required' set to false, null is returned.
-   *  @throws FileNotFoundException if the file cannot be found. */
-  private static InputStream getFileOrResourceAsStream(String filename, boolean required) throws FileNotFoundException {
-    logger.debug("getFileOrResourceAsStream({}, {})", filename, required);
-    File file = new File(filename);
-    if (file.exists()) {
-      return new FileInputStream(filename);
-    } else {
-      return getResourceAsStream(filename, required);
-    }
-  }
-
-  private static boolean httpUrlAvailable(String urlString) {
-    try {
-      URL url = new URL(urlString);
-      URLConnection urlConnection = url.openConnection();
-      urlConnection.connect();
-      return true;
-    } catch (IOException e) {
-      return false;
-    }
-  }
-
-  private static URLConnection getConnection(URL url) throws IOException {
-    URLConnection connection = url.openConnection();
-    connection.setRequestProperty("User-Agent", USER_AGENT);
-    connection.connect();
-    return connection;
-  }
-
-  public static byte[] getBinaryContentOfUri(String uri) throws IOException {
-    InputStream in = getInputStreamForURI(uri);
-    ByteArrayOutputStream out = new ByteArrayOutputStream(25000);
-    transfer(in, out);
-    return out.toByteArray();
-  }
-
-  public static void writeBytes(byte[] bytes, File file) throws IOException {
-    ByteArrayInputStream in = new ByteArrayInputStream(bytes);
-    OutputStream out = new FileOutputStream(file);
-    try {
-      transfer(in, out);
-    } finally {
-      IOUtil.close(out);
-      IOUtil.close(in);
-    }
-  }
-
-  public static void copyDirectory(URL srcUrl, File targetDirectory, Filter<String> filenameFilter)
-      throws IOException {
-    logger.debug("copyDirectory({}, {}, {})", srcUrl, targetDirectory, filenameFilter);
-    String protocol = srcUrl.getProtocol();
-    if (protocol.equals("file")) {
-      try {
-        FileUtil.copy(new File(srcUrl.toURI()), targetDirectory, true, new FileByNameFilter(filenameFilter));
-      } catch (URISyntaxException e) {
-        throw new RuntimeException("Unexpected exception", e);
-      }
-    } else if (protocol.equals("jar")) {
-      String path = srcUrl.getPath();
-      int separatorIndex = path.indexOf("!");
-      String jarPath = path.substring(5, separatorIndex); // extract jar file name
-      String relativePath = path.substring(separatorIndex + 2); // extract path inside jar file
-      if (!relativePath.endsWith("/")) {
-        relativePath += "/";
-      }
-      extractFolderFromJar(jarPath, relativePath, targetDirectory, filenameFilter);
-    } else {
-      throw new UnsupportedOperationException("Protocol not supported: " + protocol +
-          " (URL: " + srcUrl + ")");
-    }
-  }
-
-  public static void extractFolderFromJar(String jarPath, String directory, File targetDirectory,
-                                          Filter<String> filenameFilter) throws IOException {
-    logger.debug("extractFolderFromJar({}, {}, {}, {})", jarPath, directory, targetDirectory, filenameFilter);
-    try (JarFile jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8))) {
-      Enumeration<JarEntry> entries = jar.entries();
-      while (entries.hasMoreElements()) {
-        JarEntry entry = entries.nextElement();
-        String name = entry.getName();
-        if (name.startsWith(directory) && !directory.equals(name) && (filenameFilter == null || filenameFilter.accept(name))) {
-          String relativeName = name.substring(directory.length());
-          if (entry.isDirectory()) {
-            File subDir = new File(targetDirectory, relativeName);
-            logger.debug("creating sub directory {}", subDir);
-            subDir.mkdir();
-          } else {
-            File targetFile = new File(targetDirectory, relativeName);
-            logger.debug("copying file {} to {}", name, targetFile);
-            InputStream in = jar.getInputStream(entry);
-            OutputStream out = new FileOutputStream(targetFile);
-            transfer(in, out);
-            out.close();
-            in.close();
-          }
-        }
-      }
-    }
-  }
-
-  public static String[] listResources(URL url) throws IOException {
-    logger.debug("listResources({})", url);
-    String protocol = url.getProtocol();
-    if (protocol.equals("file")) {
-      try {
-        String[] result = new File(url.toURI()).list();
-        if (result == null) {
-          result = new String[0];
-        }
-        logger.debug("found file resources: {}", (Object[]) result); // cast needed for avoiding varargs invocation
-        return result;
-      } catch (URISyntaxException e) {
-        throw new RuntimeException("Unexpected exception", e);
-      }
-    } else if (protocol.equals("jar")) {
-      String path = url.getPath();
-      int separatorIndex = path.indexOf("!");
-      String jarPath = path.substring(5, separatorIndex); // extract jar file name
-      String relativePath = path.substring(separatorIndex + 2); // extract path inside jar file
-      Set<String> result;
-      try (JarFile jar = new JarFile(URLDecoder.decode(jarPath, StandardCharsets.UTF_8))) {
-        Enumeration<JarEntry> entries = jar.entries();
-        result = new HashSet<>();
-        while (entries.hasMoreElements()) {
-          String name = entries.nextElement().getName();
-          if (name.startsWith(relativePath)) {
-            String entry = name.substring(relativePath.length());
-            int checkSubdir = entry.indexOf("/");
-            if (checkSubdir >= 0) // return only the top directory name of all sub directory entries
-            {
-              entry = entry.substring(0, checkSubdir);
-            }
-            result.add(entry);
-          }
-        }
-        logger.debug("found jar resources: {}", result);
-      }
-      return result.toArray(new String[result.size()]);
-    } else {
-      throw new UnsupportedOperationException("Protocol not supported: " + protocol +
-          " (URL: " + url + ")");
-    }
-  }
-
-  public static void download(URL url, File targetFile) throws IOException {
-    logger.info("downloading {}", url);
-    FileUtil.ensureDirectoryExists(targetFile.getParentFile());
-    try (InputStream in = getInputStreamForURL(url)) {
-      try (OutputStream out = new FileOutputStream(targetFile)) {
-        IOUtil.transfer(in, out);
-      }
-    }
-  }
-
-  public static String encodeUrl(String text) {
-    return encodeUrl(text, Encodings.UTF_8);
-  }
-
-  public static String encodeUrl(String text, String encoding) {
-    try {
-      return URLEncoder.encode(text, encoding);
-    } catch (UnsupportedEncodingException e) {
-      throw new IllegalArgumentException("Not a supported encoding: " + encoding, e);
-    }
-  }
-
-  public static ImageIcon readImageIcon(String resourceName) {
-    try {
-      InputStream in = getInputStreamForURI(resourceName);
-      if (in == null) {
-        throw new FileNotFoundException("Resource not found: " + resourceName);
-      }
-      return new ImageIcon(ImageIO.read(in));
-    } catch (Exception e) {
-      throw new ConfigurationError("Error reading image icon " + resourceName, e);
-    }
-  }
-
-
-  // helpers ---------------------------------------------------------------------------------------------------------
-
-  private static BufferedReader getFileReader(String filename, String defaultEncoding)
-      throws IOException {
-    if (defaultEncoding == null) {
-      defaultEncoding = SystemInfo.getFileEncoding();
-    }
-    InputStream is = getInputStreamForURI(filename);
-    PushbackInputStream in = new PushbackInputStream(is, 4);
-    defaultEncoding = bomEncoding(in, defaultEncoding);
-    return new BufferedReader(new InputStreamReader(in, defaultEncoding));
-  }
-
-  private static BufferedReader getHttpReader(URL url, String defaultEncoding)
-      throws IOException {
-    try {
-      URLConnection connection = getConnection(url);
-      connection.connect();
-      String encoding = encoding(connection, defaultEncoding);
-      InputStream inputStream = connection.getInputStream();
-      return new BufferedReader(new InputStreamReader(inputStream, encoding));
-    } catch (MalformedURLException e) {
-      throw new IllegalArgumentException(e);
-    }
-  }
-
-  public static String encoding(URLConnection connection, String defaultEncoding) {
-    String encoding = connection.getContentEncoding();
-    if (StringUtil.isEmpty(encoding)) {
-      String ct = connection.getHeaderField("Content-Type");
-      if (!StringUtil.isEmpty(ct)) {
-        int i = ct.indexOf("charset");
-        if (i >= 0) {
-          encoding = ct.substring(i + "charset".length() + 1).trim();
-        }
-      }
-    }
-    if (StringUtil.isEmpty(encoding)) {
-      encoding = defaultEncoding;
-    }
-    if (StringUtil.isEmpty(encoding)) {
-      encoding = SystemInfo.getFileEncoding();
-    }
-    return encoding;
-  }
-
-  public static String bomEncoding(PushbackInputStream in, String defaultEncoding) throws IOException {
-    int b1 = in.read();
-    if (b1 == -1) {
-      return defaultEncoding;
-    }
-    if (b1 != 0xEF) {
-      in.unread(b1);
-      return defaultEncoding;
-    }
-    int b2 = in.read();
-    if (b2 == -1) {
-      in.unread(b1);
-      return defaultEncoding;
-    }
-    if (b2 != 0xBB) {
-      in.unread(b2);
-      in.unread(b1);
-      return defaultEncoding;
-    }
-    int b3 = in.read();
-    if (b3 == -1) {
-      in.unread(b2);
-      in.unread(b1);
-      return defaultEncoding;
-    }
-    if (b3 != 0xBF) {
-      in.unread(b3);
-      in.unread(b2);
-      in.unread(b1);
-      return defaultEncoding;
-    }
-    return Encodings.UTF_8;
+  private static void logExceptionInClose(Closeable closeable, IOException e) {
+    String errMsg = "Error closing " + closeable;
+    logger.error(errMsg, e);
   }
 
 }

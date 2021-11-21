@@ -15,8 +15,10 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+import com.rapiddweller.common.file.FileResourceNotFoundException;
+
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -24,7 +26,6 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Generates consecutive sequence values and persists sequence state in a properties file.
  * Created: 09.11.2013 09:04:51
- *
  * @author Volker Bergmann
  * @since 0.5.25
  */
@@ -32,12 +33,6 @@ public class LocalSequenceProvider implements Closeable {
 
   private static final Map<String, LocalSequenceProvider> INSTANCES = new HashMap<>();
 
-  /**
-   * Gets instance.
-   *
-   * @param filename the filename
-   * @return the instance
-   */
   public static LocalSequenceProvider getInstance(String filename) {
     LocalSequenceProvider result = INSTANCES.get(filename);
     if (result == null) {
@@ -69,20 +64,10 @@ public class LocalSequenceProvider implements Closeable {
 
   // Properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Is cached boolean.
-   *
-   * @return the boolean
-   */
   public boolean isCached() {
     return cached;
   }
 
-  /**
-   * Sets cached.
-   *
-   * @param cached the cached
-   */
   public void setCached(boolean cached) {
     this.cached = cached;
   }
@@ -90,14 +75,8 @@ public class LocalSequenceProvider implements Closeable {
 
   // interface -------------------------------------------------------------------------------------------------------
 
-  /**
-   * Next long.
-   *
-   * @param sequenceName the sequence name
-   * @return the long
-   */
   public long next(String sequenceName) {
-    long result = getOrCreateCounter(sequenceName).incrementAndGet();
+    long result = counters.computeIfAbsent(sequenceName, k -> new AtomicLong()).incrementAndGet();
     if (!cached) {
       save();
     }
@@ -112,19 +91,12 @@ public class LocalSequenceProvider implements Closeable {
 
   // static methods --------------------------------------------------------------------------------------------------
 
-  /**
-   * Save.
-   */
   public void save() {
     Map<String, String> values = new HashMap<>();
     for (Map.Entry<String, AtomicLong> entry : counters.entrySet()) {
       values.put(entry.getKey(), String.valueOf(entry.getValue().get()));
     }
-    try {
-      IOUtil.writeProperties(values, fileName);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    IOUtil.writeProperties(values, fileName);
   }
 
 
@@ -137,19 +109,10 @@ public class LocalSequenceProvider implements Closeable {
         for (Map.Entry<String, String> entry : values.entrySet()) {
           counters.put(entry.getKey(), new AtomicLong(Long.parseLong(entry.getValue())));
         }
-      } catch (Exception e) {
-        throw new ConfigurationError("Error loading file " + fileName, e);
+      } catch (FileResourceNotFoundException e) {
+        throw ExceptionFactory.getInstance().configurationError("Error loading configuration file " + fileName, e);
       }
     }
-  }
-
-  private AtomicLong getOrCreateCounter(String name) {
-    AtomicLong counter = counters.get(name);
-    if (counter == null) {
-      counter = new AtomicLong();
-      counters.put(name, counter);
-    }
-    return counter;
   }
 
 }

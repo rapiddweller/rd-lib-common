@@ -11,9 +11,9 @@ import com.rapiddweller.common.exception.ApplicationException;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class CommandLineArgumentException extends ApplicationException {
+public class CLIException extends ApplicationException {
 
-  public CommandLineArgumentException(String errorId, String message) {
+  public CLIException(String errorId, String message) {
     super(errorId, ExitCodes.COMMAND_LINE_USAGE_ERROR, message);
   }
 

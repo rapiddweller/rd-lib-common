@@ -36,7 +36,6 @@ import java.util.Stack;
  * Allows for recursive and absolute tree construction and navigation
  * as well for loading from and writing to XML and properties files.
  * Created: 17.02.2014 12:05:14
- *
  * @author Volker Bergmann
  * @since 0.5.26
  */
@@ -51,11 +50,6 @@ public class TreeBuilder {
 
   // constructor -----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Tree builder.
-   *
-   * @param namedRoot the named root
-   */
   public TreeBuilder(boolean namedRoot) {
     this.namedRoot = namedRoot;
     this.rootName = null;
@@ -64,31 +58,16 @@ public class TreeBuilder {
 
   // properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Gets root name.
-   *
-   * @return the root name
-   */
   public String getRootName() {
     return rootName;
   }
 
-  /**
-   * Gets root node.
-   *
-   * @return the root node
-   */
   public Map<String, Object> getRootNode() {
     return rootMap;
   }
 
   // operational interface -------------------------------------------------------------------------------------------
 
-  /**
-   * Open group node.
-   *
-   * @param nodeName the node name
-   */
   @SuppressWarnings({"rawtypes", "unchecked"})
   public void openGroupNode(String nodeName) {
     if (this.rootMap == null) {
@@ -116,12 +95,6 @@ public class TreeBuilder {
     }
   }
 
-  /**
-   * Add leaf at current path.
-   *
-   * @param nodeName the node name
-   * @param content  the content
-   */
   @SuppressWarnings({"unchecked", "rawtypes"})
   public void addLeafAtCurrentPath(String nodeName, String content) {
     OrderedNameMap<Object> parent = this.currentPath.peek();
@@ -135,19 +108,10 @@ public class TreeBuilder {
     }
   }
 
-  /**
-   * Close group node.
-   */
   public void closeGroupNode() {
     this.currentPath.pop();
   }
 
-  /**
-   * Add leaf at absolute path.
-   *
-   * @param path  the path
-   * @param value the value
-   */
   @SuppressWarnings("unchecked")
   public void addLeafAtAbsolutePath(String path, String value) {
     String[] pathComponents = path.split("/");
@@ -176,12 +140,6 @@ public class TreeBuilder {
     node.put(pathComponents[pathComponents.length - 1], value);
   }
 
-  /**
-   * Gets node value.
-   *
-   * @param path the path
-   * @return the node value
-   */
   @SuppressWarnings("unchecked")
   public Object getNodeValue(String path) {
     String[] pathComponents = path.split("/");
@@ -200,14 +158,6 @@ public class TreeBuilder {
     return node.get(pathComponents[pathComponents.length - 1]);
   }
 
-  /**
-   * Load from stream tree builder.
-   *
-   * @param in             the in
-   * @param sourceFileName the source file name
-   * @return the tree builder
-   * @throws IOException the io exception
-   */
   public static TreeBuilder loadFromStream(InputStream in, String sourceFileName) throws IOException {
     if (sourceFileName.toLowerCase().endsWith(".properties")) {
       return TreeBuilder.parseProperties(in);
@@ -218,13 +168,6 @@ public class TreeBuilder {
     }
   }
 
-  /**
-   * Parse properties tree builder.
-   *
-   * @param in the in
-   * @return the tree builder
-   * @throws IOException the io exception
-   */
   public static TreeBuilder parseProperties(InputStream in) throws IOException {
     try (in) {
       Properties props = new Properties();
@@ -238,13 +181,6 @@ public class TreeBuilder {
     }
   }
 
-  /**
-   * Parse xml tree builder.
-   *
-   * @param in the in
-   * @return the tree builder
-   * @throws IOException the io exception
-   */
   public static TreeBuilder parseXML(InputStream in) throws IOException {
     try (in) {
       Element root = XMLUtil.parse(in).getDocumentElement();
@@ -254,13 +190,6 @@ public class TreeBuilder {
     }
   }
 
-  /**
-   * Save as xml.
-   *
-   * @param out      the out
-   * @param encoding the encoding
-   * @throws IOException the io exception
-   */
   public void saveAsXML(OutputStream out, String encoding) throws IOException {
     try {
       SimpleXMLWriter writer = new SimpleXMLWriter(out, encoding, true);
@@ -272,12 +201,6 @@ public class TreeBuilder {
     }
   }
 
-  /**
-   * Save as properties.
-   *
-   * @param out the out
-   * @throws IOException the io exception
-   */
   public void saveAsProperties(OutputStream out) throws IOException {
     Properties properties = new Properties();
     saveNodeAsProperty(rootMap, "", properties);

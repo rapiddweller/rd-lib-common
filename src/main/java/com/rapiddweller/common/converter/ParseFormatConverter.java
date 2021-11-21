@@ -16,34 +16,25 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.text.Format;
 import java.text.ParseException;
 
 /**
- * Converts a String to an object by using a java.lang.Format object's format() method.
+ * Converts a String to an object by using a java.lang.Format object's format() method.<br/><br/>
  * Created: 30.08.2006 19:48:09
- *
  * @param <T> the object type to convert to
  * @author Volker Bergmann
  * @since 0.1
  */
 public class ParseFormatConverter<T> extends FormatBasedConverter<String, T> {
 
-  /**
-   * Instantiates a new Parse format converter.
-   *
-   * @param targetType the target type
-   * @param format     the format
-   * @param threadSafe the thread safe
-   */
   public ParseFormatConverter(Class<T> targetType, Format format, boolean threadSafe) {
     super(String.class, targetType, format, threadSafe);
   }
 
-  /**
-   * Converts an object to a String by using the format's format() method.
-   */
+  /** Converts an object to a String by using the format's format() method. */
   @Override
   @SuppressWarnings("unchecked")
   public T convert(String source) throws ConversionException {
@@ -53,7 +44,7 @@ public class ParseFormatConverter<T> extends FormatBasedConverter<String, T> {
     try {
       return (T) format.parseObject(source);
     } catch (ParseException e) {
-      throw new ConversionException(e);
+      throw ExceptionFactory.getInstance().conversionFailed("Failed to parse " + source, e);
     }
   }
 

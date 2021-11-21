@@ -28,7 +28,7 @@ public class ConnectFailedException extends ApplicationException {
   }
 
   public ConnectFailedException(String message, Throwable cause) {
-    super(null, ExitCodes.SERVICE_UNAVAILABLE, message, cause);
+    super(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
   }
 
 }

@@ -37,11 +37,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -51,13 +51,12 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests the {@link IOUtil} class.
  * Created: 21.06.2007 08:31:28
- *
  * @author Volker Bergmann
  * @since 0.1
  */
 public class IOUtilTest {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(IOUtilTest.class);
+  private static final Logger logger = LoggerFactory.getLogger(IOUtilTest.class);
 
   @Test
   public void testClose() {
@@ -80,17 +79,16 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testIsURIAvailable() {
+  public void testIsURIAvailable_directory() {
     assertFalse(IOUtil.isURIAvailable("Uri"));
     assertTrue(IOUtil.isURIAvailable("string://"));
     assertTrue(IOUtil.isURIAvailable("file:"));
-    assertFalse(IOUtil.isURIAvailable("://"));
     assertTrue(IOUtil.isURIAvailable("file://"));
-    assertFalse(IOUtil.isURIAvailable("/"));
+    assertTrue(IOUtil.isURIAvailable("/"));
   }
 
   @Test
-  public void testIsURIAvaliable() {
+  public void testIsURIAvailable_file() {
     assertTrue(IOUtil.isURIAvailable("file://com/rapiddweller/common/names.csv"));
     assertTrue(IOUtil.isURIAvailable("file:com/rapiddweller/common/names.csv"));
     assertTrue(IOUtil.isURIAvailable("com/rapiddweller/common/names.csv"));
@@ -98,18 +96,18 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testGetContentOfURI() throws IOException {
-    LOGGER.info(String.format("OS is using following file encoding : %s", SystemInfo.getFileEncoding()));
-    LOGGER.info(String.format("OS is using following file line seperator : %s", SystemInfo.getLineSeparator()));
-    LOGGER.info(String.format("OS is using following file file seperator : %s", SystemInfo.getFileSeparator()));
+  public void testGetContentOfURI() {
+    logger.info(String.format("OS is using following file encoding : %s", SystemInfo.getFileEncoding()));
+    logger.info(String.format("OS is using following file line seperator : %s", SystemInfo.getLineSeparator()));
+    logger.info(String.format("OS is using following file file seperator : %s", SystemInfo.getFileSeparator()));
     String expected = "Alice\nBob";
-    LOGGER.info(String.format("The following String is expected : %s", expected));
+    logger.info(String.format("The following String is expected : %s", expected));
     String result1 = IOUtil.getContentOfURI("file:com/rapiddweller/common/names.csv");
-    LOGGER.info(String.format("The following String we got : %s", result1));
+    logger.info(String.format("The following String we got : %s", result1));
     String result2 = IOUtil.getContentOfURI("file://com/rapiddweller/common/names.csv");
-    LOGGER.info(String.format("The following String we got : %s", result2));
+    logger.info(String.format("The following String we got : %s", result2));
     String result3 = IOUtil.getContentOfURI("com/rapiddweller/common/names.csv");
-    LOGGER.info(String.format("The following String we got : %s", result3));
+    logger.info(String.format("The following String we got : %s", result3));
     assertEquals(expected, result1);
     assertEquals(expected, result2);
     assertEquals(expected, result3);
@@ -121,12 +119,12 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testGetContentOfURI3() throws IOException {
+  public void testGetContentOfURI3() {
     assertEquals("", IOUtil.getContentOfURI("string://"));
   }
 
   @Test
-  public void testGetContentOfURI4() throws IOException {
+  public void testGetContentOfURI4() {
     assertEquals("com\nlog4j2.xml\n", IOUtil.getContentOfURI("file:"));
   }
 
@@ -136,12 +134,12 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testGetContentOfURI6() throws IOException {
+  public void testGetContentOfURI6() {
     assertEquals("", IOUtil.getContentOfURI("string://", "UTF-8"));
   }
 
   @Test
-  public void testGetContentOfURI7() throws IOException {
+  public void testGetContentOfURI7() {
     assertEquals("com\nlog4j2.xml\n", IOUtil.getContentOfURI("file:", "UTF-8"));
   }
 
@@ -151,13 +149,13 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testReadAndClose() throws IOException {
+  public void testReadAndClose() {
     assertEquals("", IOUtil.readAndClose(Reader.nullReader()));
     assertEquals("S", IOUtil.readAndClose(new StringReader("S")));
   }
 
   @Test
-  public void testReadTextLines() throws IOException {
+  public void testReadTextLines() {
     assertThrows(ConfigurationError.class, () -> IOUtil.readTextLines("Uri", true));
     assertEquals(0, IOUtil.readTextLines("string://", true).length);
     assertEquals(2, IOUtil.readTextLines("file:", true).length);
@@ -182,10 +180,10 @@ public class IOUtilTest {
   @Test
   public void testGetInputStreamForURIOfFtpProtocol() throws Exception {
     if (!DatabeneTestUtil.isOnline()) {
-      LOGGER.info("offline mode: skipping test testGetInputStreamForURIOfFtpProtocol()");
+      logger.info("offline mode: skipping test testGetInputStreamForURIOfFtpProtocol()");
       return;
     }
-    InputStream stream = null;
+    InputStream stream;
     BufferedReader reader = null;
     try {
       stream = IOUtil.getInputStreamForURI(DatabeneTestUtil.ftpDownloadUrl());
@@ -222,7 +220,7 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testGetInputStreamForUriReference() throws IOException {
+  public void testGetInputStreamForUriReference() {
     assertThrows(ConfigurationError.class,
         () -> IOUtil.getInputStreamForUriReference("Local Uri", "Context Uri", true));
     assertThrows(ConfigurationError.class, () -> IOUtil.getInputStreamForUriReference("://", "Context Uri", true));
@@ -273,61 +271,6 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testResolveRelativeUri10() {
-    assertEquals("string://", IOUtil.resolveRelativeUri("string://", "file:"));
-  }
-
-  @Test
-  public void testResolveRelativeUri11() {
-    assertEquals("http:/://", IOUtil.resolveRelativeUri("://", "http://"));
-  }
-
-  @Test
-  public void testResolveRelativeUri12() {
-    assertEquals("/:", IOUtil.resolveRelativeUri("://", "file://"));
-  }
-
-  @Test
-  public void testResolveRelativeUri2() {
-    assertEquals("Context Uri/Relative Uri", IOUtil.resolveRelativeUri("Relative Uri", "Context Uri"));
-  }
-
-  @Test
-  public void testResolveRelativeUri3() {
-    assertEquals("Context Uri/:", IOUtil.resolveRelativeUri("://", "Context Uri"));
-  }
-
-  @Test
-  public void testResolveRelativeUri4() {
-    assertEquals("/", IOUtil.resolveRelativeUri("/", "Context Uri"));
-  }
-
-  @Test
-  public void testResolveRelativeUri5() {
-    assertEquals("~", IOUtil.resolveRelativeUri("~", "Context Uri"));
-  }
-
-  @Test
-  public void testResolveRelativeUri6() {
-    assertEquals("Relative Uri", IOUtil.resolveRelativeUri("Relative Uri", null));
-  }
-
-  @Test
-  public void testResolveRelativeUri7() {
-    assertEquals("/Relative Uri", IOUtil.resolveRelativeUri("Relative Uri", "file:"));
-  }
-
-  @Test
-  public void testResolveRelativeUri8() {
-    assertEquals("Relative Uri", IOUtil.resolveRelativeUri("Relative Uri", ""));
-  }
-
-  @Test
-  public void testResolveRelativeUri9() {
-    assertThrows(IllegalArgumentException.class, () -> IOUtil.resolveRelativeUri("://", "string://"));
-  }
-
-  @Test
   public void testIsAbsoluteRef() {
     assertFalse(IOUtil.isAbsoluteRef("Uri", "Context Uri"));
     assertFalse(IOUtil.isAbsoluteRef("://", "Context Uri"));
@@ -341,8 +284,8 @@ public class IOUtilTest {
 
   @Test
   public void testGetParentUri() {
-    assertEquals(null, IOUtil.getParentUri(null));
-    assertEquals(null, IOUtil.getParentUri(""));
+    assertNull(IOUtil.getParentUri(null));
+    assertNull(IOUtil.getParentUri(""));
     assertEquals("file://test/", IOUtil.getParentUri("file://test/text.txt"));
     assertEquals("test/", IOUtil.getParentUri("test/text.txt"));
     assertEquals("http://test.de/", IOUtil.getParentUri("http://test.de/text.txt"));
@@ -382,9 +325,9 @@ public class IOUtilTest {
 
   @Test
   public void testGetProtocol() {
-    assertEquals(null, IOUtil.getProtocol(null));
-    assertEquals(null, IOUtil.getProtocol(""));
-    assertEquals(null, IOUtil.getProtocol("/test/text.txt"));
+    assertNull(null, IOUtil.getProtocol(null));
+    assertNull(null, IOUtil.getProtocol(""));
+    assertNull(null, IOUtil.getProtocol("/test/text.txt"));
     assertEquals("http", IOUtil.getProtocol("http://files/index.dat"));
     assertEquals("file", IOUtil.getProtocol("file:///files/index.dat"));
     assertEquals("xyz", IOUtil.getProtocol("xyz:///files/index.dat"));
@@ -420,39 +363,39 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testTransferStream() throws IOException {
+  public void testTransferStream() {
     ByteArrayInputStream in = new ByteArrayInputStream("abcdefg".getBytes());
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     IOUtil.transfer(in, out);
-    assertTrue(Arrays.equals("abcdefg".getBytes(), out.toByteArray()));
+    assertArrayEquals("abcdefg".getBytes(), out.toByteArray());
   }
 
   @Test
-  public void testTransfer() throws IOException {
+  public void testTransfer() {
     InputStream in = InputStream.nullInputStream();
     assertEquals(0, IOUtil.transfer(in, OutputStream.nullOutputStream()));
   }
 
   @Test
-  public void testTransfer2() throws IOException {
+  public void testTransfer2() {
     ByteArrayInputStream in = new ByteArrayInputStream(
         new byte[] {65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65});
     assertEquals(24, IOUtil.transfer(in, OutputStream.nullOutputStream()));
   }
 
   @Test
-  public void testTransfer3() throws IOException {
+  public void testTransfer3() {
     assertEquals(0, IOUtil.transfer(new ByteArrayInputStream(new byte[] {}), null));
   }
 
   @Test
-  public void testTransfer4() throws IOException {
+  public void testTransfer4() {
     Reader reader = Reader.nullReader();
     assertEquals(0, IOUtil.transfer(reader, Writer.nullWriter()));
   }
 
   @Test
-  public void testTransfer5() throws IOException {
+  public void testTransfer5() {
     StringReader reader = new StringReader("S");
     assertEquals(1, IOUtil.transfer(reader, Writer.nullWriter()));
   }
@@ -465,7 +408,7 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testTransferReaderWriter() throws IOException {
+  public void testTransferReaderWriter() {
     StringReader in = new StringReader("abcdefg");
     StringWriter out = new StringWriter();
     IOUtil.transfer(in, out);
@@ -473,7 +416,7 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testReadProperties() throws IOException {
+  public void testReadProperties() {
     Map<String, String> properties = IOUtil.readProperties("com/rapiddweller/common/test.properties");
     assertEquals(5, properties.size());
     assertEquals("b", properties.get("a"));
@@ -484,7 +427,7 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testReadProperties10() throws IOException {
+  public void testReadProperties10() {
     assertTrue(IOUtil.readProperties("file:", new NoOpConverter(), "UTF-8").isEmpty());
   }
 
@@ -499,12 +442,12 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testReadProperties13() throws IOException {
+  public void testReadProperties13() {
     assertTrue(IOUtil.readProperties("string://", "UTF-8").isEmpty());
   }
 
   @Test
-  public void testReadProperties14() throws IOException {
+  public void testReadProperties14() {
     assertTrue(IOUtil.readProperties("file:", "UTF-8").isEmpty());
   }
 
@@ -514,12 +457,12 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testReadProperties3() throws IOException {
+  public void testReadProperties3() {
     assertTrue(IOUtil.readProperties("string://").isEmpty());
   }
 
   @Test
-  public void testReadProperties4() throws IOException {
+  public void testReadProperties4() {
     assertTrue(IOUtil.readProperties("file:").isEmpty());
   }
 
@@ -529,12 +472,12 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testReadProperties6() throws IOException {
+  public void testReadProperties6() {
     assertTrue(IOUtil.readProperties("string://", new NoOpConverter()).isEmpty());
   }
 
   @Test
-  public void testReadProperties7() throws IOException {
+  public void testReadProperties7() {
     assertTrue(IOUtil.readProperties("file:", new NoOpConverter()).isEmpty());
   }
 
@@ -545,7 +488,7 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testReadProperties9() throws IOException {
+  public void testReadProperties9() {
     assertTrue(IOUtil.readProperties("string://", new NoOpConverter(), "UTF-8").isEmpty());
   }
 
@@ -565,18 +508,18 @@ public class IOUtilTest {
       assertEquals("2", check.getProperty("b"));
       stream.close();
     } finally {
-      file.delete();
+      FileUtil.deleteIfExists(file);
     }
   }
 
   @Test
-  public void testGetBinaryContentOfUri() throws IOException {
+  public void testGetBinaryContentOfUri() {
     assertThrows(ConfigurationError.class, () -> IOUtil.getBinaryContentOfUri("Uri"));
     assertEquals(0, IOUtil.getBinaryContentOfUri("string://").length);
   }
 
   @Test
-  public void testGetBinaryContentOfUri2() throws IOException {
+  public void testGetBinaryContentOfUri2() {
     byte[] actualBinaryContentOfUri = IOUtil.getBinaryContentOfUri("file:");
     assertEquals(15, actualBinaryContentOfUri.length);
     assertEquals((byte) 99, actualBinaryContentOfUri[0]);
@@ -625,7 +568,7 @@ public class IOUtilTest {
   @Test
   public void testOpenOutputStreamForURI_FtpProtocol() throws Exception {
     if (!DatabeneTestUtil.isOnline()) {
-      LOGGER.info("Offline mode: skipping testOpenOutputStreamForURI_FtpProtocol()");
+      logger.info("Offline mode: skipping testOpenOutputStreamForURI_FtpProtocol()");
       return;
     }
     String uri = DatabeneTestUtil.ftpUploadUrl();
@@ -640,7 +583,7 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testCopy_jarUrl() throws Exception {
+  public void testCopy_jarUrl() {
     URL url = Test.class.getClassLoader().getResource("org/junit");
     File targetFolder = new File("target/IOUtilTest");
     FileUtil.ensureDirectoryExists(targetFolder);

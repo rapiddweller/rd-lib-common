@@ -27,38 +27,24 @@ import java.util.List;
  * {@link #unregister(Object)} and in the end you can assert that all resources
  * have been unregistered by calling {@link #assertNoRegistrations(boolean)}.
  * Created: 14.04.2011 17:16:20
- *
  * @author Volker Bergmann
  * @since 0.5.8
  */
 public class ResourceMonitor {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ResourceMonitor.class);
+  private static final Logger logger = LoggerFactory.getLogger(ResourceMonitor.class);
 
   private final List<MonitoredResource> registrations;
 
-  /**
-   * Instantiates a new Resource monitor.
-   */
   public ResourceMonitor() {
     registrations = new ArrayList<>();
   }
 
-  /**
-   * Register.
-   *
-   * @param object the object
-   */
   public void register(Object object) {
     Throwable t = new Throwable();
     registrations.add(new MonitoredResource(object, t.getStackTrace()));
   }
 
-  /**
-   * Unregister.
-   *
-   * @param object the object
-   */
   public void unregister(Object object) {
     for (int i = registrations.size() - 1; i >= 0; i--) {
       MonitoredResource candidate = registrations.get(i);
@@ -70,34 +56,20 @@ public class ResourceMonitor {
     throw new IllegalStateException("Object '" + object + "' was not registered");
   }
 
-  /**
-   * Gets registrations.
-   *
-   * @return the registrations
-   */
   public List<MonitoredResource> getRegistrations() {
     return registrations;
   }
 
-  /**
-   * Reset.
-   */
   public void reset() {
     this.registrations.clear();
   }
 
-  /**
-   * Assert no registrations boolean.
-   *
-   * @param critical the critical
-   * @return the boolean
-   */
   public boolean assertNoRegistrations(boolean critical) {
-    if (registrations.size() == 0) {
+    if (registrations.isEmpty()) {
       return true;
     }
     String message = "There are resources which have not been unregistered:";
-    LOGGER.warn(message);
+    logger.warn(message);
     logRegistrations();
     if (critical) {
       throw new IllegalStateException(message);
@@ -107,7 +79,7 @@ public class ResourceMonitor {
 
   private void logRegistrations() {
     for (MonitoredResource resource : registrations) {
-      LOGGER.warn(resource.toString());
+      logger.warn("{}", resource);
     }
   }
 

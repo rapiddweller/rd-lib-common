@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +15,9 @@
 
 package com.rapiddweller.common.converter;
 
-import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Patterns;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.sql.Time;
 import java.text.ParseException;
@@ -25,57 +25,33 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Parses a String as a time value.
+ * Parses a String as a time value.<br/><br/>
  * Created: 14.03.2008 22:15:58
- *
  * @author Volker Bergmann
  */
 public class String2TimeConverter extends ThreadSafeConverter<String, Time> {
 
   private final String pattern;
 
-  /**
-   * Instantiates a new String 2 time converter.
-   */
   public String2TimeConverter() {
     this(null);
   }
 
-  /**
-   * Instantiates a new String 2 time converter.
-   *
-   * @param pattern the pattern
-   */
   public String2TimeConverter(String pattern) {
     super(String.class, Time.class);
     this.pattern = pattern;
   }
 
   @Override
-  public Time convert(String sourceValue) throws ConversionException {
+  public Time convert(String sourceValue) {
     return parse(sourceValue, pattern);
   }
 
-  /**
-   * Parse time.
-   *
-   * @param value the value
-   * @return the time
-   * @throws ConversionException the conversion exception
-   */
-  public static Time parse(String value) throws ConversionException {
+  public static Time parse(String value) {
     return parse(value, null);
   }
 
-  /**
-   * Parse time.
-   *
-   * @param value   the value
-   * @param pattern the pattern
-   * @return the time
-   * @throws ConversionException the conversion exception
-   */
-  public static Time parse(String value, String pattern) throws ConversionException {
+  public static Time parse(String value, String pattern) {
     if (StringUtil.isEmpty(value)) {
       return null;
     }
@@ -85,7 +61,7 @@ public class String2TimeConverter extends ThreadSafeConverter<String, Time> {
       long millis = simpleDate.getTime();
       return new Time(millis);
     } catch (ParseException e) {
-      throw new ConversionException(e);
+      throw ExceptionFactory.getInstance().conversionFailed("Failed to parse " + value, e);
     }
   }
 
@@ -102,7 +78,7 @@ public class String2TimeConverter extends ThreadSafeConverter<String, Time> {
           pattern = Patterns.DEFAULT_TIME_MINUTES_PATTERN;
           break;
         default:
-          throw new IllegalArgumentException("Not a supported time format: " + sourceValue);
+          throw ExceptionFactory.getInstance().illegalArgument("Not a supported time format: " + sourceValue, null);
       }
     }
     return pattern;

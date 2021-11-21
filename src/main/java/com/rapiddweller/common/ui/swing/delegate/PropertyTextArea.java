@@ -19,6 +19,7 @@ import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.bean.ObservableBean;
 import com.rapiddweller.common.converter.ToStringConverter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import javax.swing.JTextArea;
 import javax.swing.event.DocumentEvent;
@@ -31,16 +32,10 @@ import java.beans.PropertyChangeListener;
 /**
  * {@link JTextArea} implementation that serves as delegate of a property of a JavaBean object.
  * Created: 22.08.2010 07:29:11
- *
  * @author Volker Bergmann
  * @since 0.5.13
  */
 public class PropertyTextArea extends JTextArea {
-
-  /**
-   * uid for serialization
-   */
-  private static final long serialVersionUID = 4917700588809725874L;
 
   // attributes ------------------------------------------------------------------------------------------------------
 
@@ -48,19 +43,10 @@ public class PropertyTextArea extends JTextArea {
   private final String propertyName;
 
   private final ToStringConverter toStringConverter;
-  /**
-   * The Locked.
-   */
   boolean locked;
 
   // constructor -----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Property text area.
-   *
-   * @param bean         the bean
-   * @param propertyName the property name
-   */
   public PropertyTextArea(Object bean, String propertyName) {
     this.bean = bean;
     this.propertyName = propertyName;
@@ -80,9 +66,7 @@ public class PropertyTextArea extends JTextArea {
 
   // event handlers --------------------------------------------------------------------------------------------------
 
-  /**
-   * reads the current property value and writes it to the text field.
-   */
+  /** Reads the current property value and writes it to the text field. */
   void refresh() {
     if (!locked) {
       locked = true;
@@ -96,9 +80,7 @@ public class PropertyTextArea extends JTextArea {
     }
   }
 
-  /**
-   * writes the current text field content to the property.
-   */
+  /** Writes the current text field content to the property. */
   void update() {
     if (!locked) {
       locked = true;
@@ -107,7 +89,7 @@ public class PropertyTextArea extends JTextArea {
       try {
         text = document.getText(0, document.getLength());
       } catch (BadLocationException e) {
-        throw new RuntimeException(e);
+        throw ExceptionFactory.getInstance().programmerStateError("Bad location", e);
       }
       text = StringUtil.unescape(text);
       if (!text.equals(BeanUtil.getPropertyValue(bean, propertyName))) {
@@ -117,9 +99,6 @@ public class PropertyTextArea extends JTextArea {
     }
   }
 
-  /**
-   * The type Listener.
-   */
   class Listener implements PropertyChangeListener, DocumentListener {
 
     @Override
@@ -141,6 +120,6 @@ public class PropertyTextArea extends JTextArea {
     public void removeUpdate(DocumentEvent evt) {
       update();
     }
-
   }
+
 }

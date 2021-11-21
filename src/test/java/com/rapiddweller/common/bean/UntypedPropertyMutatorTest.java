@@ -15,7 +15,7 @@
 
 package com.rapiddweller.common.bean;
 
-import com.rapiddweller.common.UpdateFailedException;
+import com.rapiddweller.common.exception.MutationFailedException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -31,7 +31,7 @@ import static org.junit.Assert.fail;
 public class UntypedPropertyMutatorTest {
 
   @Test
-  public void testLocalProperty() throws UpdateFailedException {
+  public void testLocalProperty() throws MutationFailedException {
     UntypedPropertyMutator aNameMutator = new UntypedPropertyMutator("name", true, false);
     ABean a = new ABean();
     aNameMutator.setValue(a, "aName");
@@ -54,8 +54,8 @@ public class UntypedPropertyMutatorTest {
     try {
       UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", true, false);
       mutator.setValue(null, null);
-      fail(UpdateFailedException.class.getSimpleName() + " expected");
-    } catch (UpdateFailedException e) {
+      fail(MutationFailedException.class.getSimpleName() + " expected");
+    } catch (MutationFailedException e) {
       // expected
     }
   }
@@ -65,8 +65,8 @@ public class UntypedPropertyMutatorTest {
     try {
       UntypedPropertyMutator mutator = new UntypedPropertyMutator("bla", true, false);
       mutator.setValue(new ABean(), null);
-      fail(UpdateFailedException.class.getSimpleName() + " expected");
-    } catch (UpdateFailedException e) {
+      fail(MutationFailedException.class.getSimpleName() + " expected");
+    } catch (MutationFailedException e) {
       // expected
     }
   }
@@ -76,8 +76,8 @@ public class UntypedPropertyMutatorTest {
     try {
       UntypedPropertyMutator mutator = new UntypedPropertyMutator("readOnly", true, false);
       mutator.setValue(new ABean(), null);
-      fail(UpdateFailedException.class.getSimpleName() + " expected");
-    } catch (UpdateFailedException e) {
+      fail(MutationFailedException.class.getSimpleName() + " expected");
+    } catch (MutationFailedException e) {
       // expected
     }
   }

@@ -15,49 +15,22 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ApplicationException;
+
 /**
  * Parent exception class for operation failures.<br><br>
  * Created: 27.07.2019 23:58:38
- *
  * @author Volker Bergmann
  * @since 1.0.12
  */
-public class OperationFailedException extends RuntimeException {
+public class OperationFailedException extends ApplicationException {
 
-  private static final long serialVersionUID = -5835130407800756574L;
-
-  /**
-   * Instantiates a new Operation failed exception.
-   */
-  public OperationFailedException() {
+  public OperationFailedException(String errorId, int exitCode, String message) {
+    this(errorId, exitCode, message, null);
   }
 
-  /**
-   * Instantiates a new Operation failed exception.
-   *
-   * @param message the message
-   */
-  public OperationFailedException(String message) {
-    super(message);
-  }
-
-  /**
-   * Instantiates a new Operation failed exception.
-   *
-   * @param message the message
-   * @param cause   the cause
-   */
-  public OperationFailedException(String message, Throwable cause) {
-    super(message, cause);
-  }
-
-  /**
-   * Instantiates a new Operation failed exception.
-   *
-   * @param cause the cause
-   */
-  public OperationFailedException(Throwable cause) {
-    super(cause);
+  public OperationFailedException(String errorId, int exitCode, String message, Throwable cause) {
+    super(errorId, exitCode, message, cause);
   }
 
 }

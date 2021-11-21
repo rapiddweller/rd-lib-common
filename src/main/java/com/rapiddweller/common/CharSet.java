@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Locale;
@@ -551,7 +553,7 @@ public class CharSet implements Named {
     try {
       return (CharSet) super.clone();
     } catch (CloneNotSupportedException e) {
-      throw new RuntimeException("Unexpected exception", e);
+      throw ExceptionFactory.getInstance().cloningFailed("Unexpected exception", e);
     }
   }
 

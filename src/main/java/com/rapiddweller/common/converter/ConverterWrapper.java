@@ -17,6 +17,7 @@ package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.ThreadAware;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
  * Parent class for {@link Converter}s that hold a reference to another converter instance.
@@ -49,7 +50,7 @@ public abstract class ConverterWrapper<S, T> implements ThreadAware, Cloneable {
     try {
       return super.clone();
     } catch (CloneNotSupportedException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().cloningFailed("Failed to clone " + this, e);
     }
   }
 

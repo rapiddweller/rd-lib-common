@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -23,9 +24,11 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 import java.util.zip.ZipEntry;
@@ -42,7 +45,11 @@ public class ZipUtil {
 
   private static final int BUFFER_SIZE = 2048;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ZipUtil.class);
+  private static final Logger logger = LoggerFactory.getLogger(ZipUtil.class);
+
+  private ZipUtil() {
+    // private constructor to prevent instantiation of this utility class
+  }
 
   public static byte[] decompress(byte[] data, boolean nowrap) throws IOException, DataFormatException {
     Inflater inflater = new Inflater(nowrap);
@@ -59,43 +66,44 @@ public class ZipUtil {
   }
 
   public static void compressAndDelete(File source, File zipFile) {
-    try {
-      compress(source, zipFile);
-      source.delete();
-    } catch (IOException e) {
-      throw new RuntimeException("Unexpected error", e);
+    compress(source, zipFile);
+    if (!source.delete()) {
+      logger.error("Deletion failed for {}", source);
     }
   }
 
-  public static void compress(File source, File zipFile) throws IOException {
-    ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
-    out.setMethod(ZipOutputStream.DEFLATED);
+  public static void compress(File source, File zipFile) {
+    FileOutputStream fos;
     try {
-      addFileOrDirectory(source, source, out);
-      out.close();
-    } catch (IOException e) {
-      throw new RuntimeException("Zipping the report failed");
+      fos = new FileOutputStream(zipFile);
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(zipFile.getAbsolutePath(), e);
     }
+    ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(fos));
+    out.setMethod(ZipOutputStream.DEFLATED);
+    addFileOrDirectory(source, source, out);
+    IOUtil.close(out);
   }
 
   public static void printContent(File zipFile) {
-    ZipInputStream in = null;
-    try {
-      in = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)));
+    printContent(zipFile, System.out);
+  }
+
+  public static void printContent(File zipFile, PrintStream printer) {
+    try (ZipInputStream in = new ZipInputStream(new BufferedInputStream(new FileInputStream(zipFile)))) {
       ZipEntry entry;
       while ((entry = in.getNextEntry()) != null) {
-        System.out.println(entry.getName());
+        printer.println(entry.getName());
       }
     } catch (IOException e) {
-      LOGGER.error("Error listing archive content of file " + zipFile, e);
-    } finally {
-      IOUtil.close(in);
+      printer.println("Error listing archive content of file " + zipFile + ". " + e.getMessage());
+      e.printStackTrace(printer);
     }
   }
 
   // private helpers -------------------------------------------------------------------------------------------------
 
-  private static void addFileOrDirectory(File source, File root, ZipOutputStream out) throws IOException {
+  private static void addFileOrDirectory(File source, File root, ZipOutputStream out) {
     if (source.isFile()) {
       addFile(source, root, out);
     } else if (source.isDirectory()) {
@@ -103,22 +111,29 @@ public class ZipUtil {
     }
   }
 
-  private static void addDirectory(File source, File root, ZipOutputStream out) throws IOException {
-    for (File file : source.listFiles()) {
-      addFileOrDirectory(file, root, out);
+  private static void addDirectory(File source, File root, ZipOutputStream out) {
+    File[] files = source.listFiles();
+    if (files != null) {
+      for (File file : files) {
+        addFileOrDirectory(file, root, out);
+      }
     }
   }
 
-  private static void addFile(File source, File root, ZipOutputStream out) throws IOException {
+  private static void addFile(File source, File root, ZipOutputStream out) {
     byte[] buffer = new byte[BUFFER_SIZE];
-    InputStream in = new BufferedInputStream(new FileInputStream(source));
-    ZipEntry entry = new ZipEntry(FileUtil.relativePath(root, source));
-    out.putNextEntry(entry);
-    int count;
-    while ((count = in.read(buffer, 0, BUFFER_SIZE)) != -1) {
-      out.write(buffer, 0, count);
+    try (InputStream in = new BufferedInputStream(new FileInputStream(source))) {
+      ZipEntry entry = new ZipEntry(FileUtil.relativePath(root, source));
+      out.putNextEntry(entry);
+      int count;
+      while ((count = in.read(buffer, 0, BUFFER_SIZE)) != -1) {
+        out.write(buffer, 0, count);
+      }
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(source.getAbsolutePath(), e);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().mutationFailed("Failed to add " + source + " to a zip", e);
     }
-    in.close();
   }
 
 }

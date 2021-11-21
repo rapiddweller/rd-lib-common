@@ -20,6 +20,7 @@ import com.rapiddweller.common.CollectionUtil;
 import com.rapiddweller.common.Encodings;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 import com.rapiddweller.common.exception.ProgrammerStateError;
 import com.rapiddweller.common.exception.ProgrammerUnsupportedError;
 import com.rapiddweller.common.exception.SyntaxError;
@@ -905,7 +906,7 @@ public class XMLUtilTest {
       DOMImplementation impl = builder.getDOMImplementation();
       return impl.createDocument(null, "document", null);
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().internalError("Error creating document", e);
     }
   }
 

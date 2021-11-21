@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.ConfigurationError;
+
 /**
  * {@link ConfigurationError} sub class which indicates an incorrect deployment.
  * Created: 23.03.2011 11:50:42

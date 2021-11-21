@@ -10,9 +10,9 @@ import com.rapiddweller.common.exception.CommonErrorCodes;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class MissingCommandLineOptionValueException extends CommandLineArgumentException {
+public class CLIMissingOptionValueException extends CLIException {
 
-  public MissingCommandLineOptionValueException(String message) {
+  public CLIMissingOptionValueException(String message) {
     super(CommonErrorCodes.MISSING_CLI_OPTION_VALUE, message);
   }
 

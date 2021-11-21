@@ -16,7 +16,7 @@
 package com.rapiddweller.common.mutator;
 
 import com.rapiddweller.common.Mutator;
-import com.rapiddweller.common.UpdateFailedException;
+import com.rapiddweller.common.exception.MutationFailedException;
 
 /**
  * Mutator proxy that converts the 'value' argument to a String before calling the real proxy.
@@ -37,7 +37,7 @@ public class StringMutator extends MutatorProxy {
   }
 
   @Override
-  public void setValue(Object target, Object value) throws UpdateFailedException {
+  public void setValue(Object target, Object value) throws MutationFailedException {
     String s;
     if (value == null) {
       s = null;

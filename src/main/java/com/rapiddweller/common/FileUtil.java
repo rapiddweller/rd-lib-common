@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
 import com.rapiddweller.common.file.DirectoryFileFilter;
 import com.rapiddweller.common.file.PatternFileFilter;
 import org.slf4j.LoggerFactory;
@@ -185,7 +186,7 @@ public final class FileUtil {
         }
       }
     } catch (IOException e) {
-      throw new RuntimeException("Error comparing " + file1 + " with " + file2, e);
+      throw ExceptionFactory.getInstance().operationFailed("Error comparing " + file1 + " with " + file2, e);
     } finally {
       IOUtil.close(in1);
       IOUtil.close(in2);
@@ -259,7 +260,8 @@ public final class FileUtil {
       }
       return builder.toString();
     } catch (IOException e) {
-      throw new RuntimeException("Error occurred while calculating relative path from " + fromFile + " to " + toFile + ": ", e);
+      throw ExceptionFactory.getInstance().operationFailed(
+              "Error occurred while calculating relative path from " + fromFile + " to " + toFile + ": ", e);
     }
   }
 
@@ -354,7 +356,8 @@ public final class FileUtil {
         return file; // otherwise use the predefined name
       }
     } catch (IOException e) {
-      throw new RuntimeException("Error checking file " + file, e);
+      throw ExceptionFactory.getInstance().operationFailed(
+          "Error checking file " + file, e);
     }
   }
 

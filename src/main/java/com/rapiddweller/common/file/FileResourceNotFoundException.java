@@ -1,6 +1,9 @@
 /* (c) Copyright 2021 by Volker Bergmann. All rights reserved. */
 
-package com.rapiddweller.common.exception;
+package com.rapiddweller.common.file;
+
+import com.rapiddweller.common.exception.ApplicationException;
+import com.rapiddweller.common.exception.ExitCodes;
 
 /**
  * Signals that a file resource has not been found.<br/><br/>

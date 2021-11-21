@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -709,7 +711,8 @@ public final class StringUtil {
         case WS:
           break;
         default:
-          throw new RuntimeException("Internal error");
+          throw ExceptionFactory.getInstance().programmerUnsupported(
+              "Internal error: Not a supported type: " + type);
       }
       prevType = type;
     }

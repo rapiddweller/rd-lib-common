@@ -29,10 +29,10 @@ import com.rapiddweller.common.ReaderLineIterator;
 import com.rapiddweller.common.Resettable;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.context.ContextAware;
+import com.rapiddweller.common.exception.ExceptionFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
-import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -61,7 +61,7 @@ import java.util.Objects;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class ConverterManager implements ContextAware, Resettable {
 
-  private static final Logger CONFIG_LOGGER = LoggerFactory.getLogger(LogCategoriesConstants.CONFIG);
+  private static final Logger configLogger = LoggerFactory.getLogger(LogCategoriesConstants.CONFIG);
 
   private static final String DEFAULT_SETUP_FILENAME = "com/rapiddweller/common/converter/converters.txt";
   private static final String CUSTOM_SETUP_FILENAME = "converters.txt";
@@ -159,12 +159,12 @@ public class ConverterManager implements ContextAware, Resettable {
     this.converterPrototypes = new HashMap<>();
     try {
       if (IOUtil.isURIAvailable(CUSTOM_SETUP_FILENAME)) {
-        CONFIG_LOGGER.debug("Reading custom converter config: {}", CUSTOM_SETUP_FILENAME);
+        configLogger.debug("Reading custom converter config: {}", CUSTOM_SETUP_FILENAME);
         readConfigFile(CUSTOM_SETUP_FILENAME);
       }
       readConfigFile(DEFAULT_SETUP_FILENAME);
-    } catch (IOException e) {
-      throw new ConfigurationError("Error reading setup file: " + DEFAULT_SETUP_FILENAME);
+    } catch (Exception e) {
+      throw ExceptionFactory.getInstance().componentInitializationFailed("Error reading setup file: " + DEFAULT_SETUP_FILENAME, e);
     }
   }
 
@@ -347,7 +347,7 @@ public class ConverterManager implements ContextAware, Resettable {
 
   // private helpers -------------------------------------------------------------------------------------------------
 
-  private void readConfigFile(String filename) throws IOException {
+  private void readConfigFile(String filename) {
     try (ReaderLineIterator iterator = new ReaderLineIterator(IOUtil.getReaderForURI(filename))) {
       while (iterator.hasNext()) {
         String className = iterator.next();

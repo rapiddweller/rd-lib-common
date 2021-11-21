@@ -16,6 +16,7 @@
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.ConfigurationError;
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -37,7 +38,7 @@ public class ClassCacheTest {
   }
 
   @Test
-  public void testDefaultPackage() {
+  public void testDefaultImportOfJavaLangPackage() {
     ClassCache cache = new ClassCache();
     assertEquals(String.class, cache.forName("String"));
   }
@@ -71,7 +72,7 @@ public class ClassCacheTest {
     try {
       ClassCache cache = new ClassCache();
       cache.importClass("com.rapiddweller.common.bean");
-    } catch (ConfigurationError e) {
+    } catch (IllegalArgumentError e) {
       // that's the desired behavior
     }
   }

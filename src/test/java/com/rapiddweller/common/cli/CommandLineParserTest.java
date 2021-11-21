@@ -2,7 +2,6 @@
 
 package com.rapiddweller.common.cli;
 
-import com.rapiddweller.common.ConfigurationError;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -78,26 +77,26 @@ public class CommandLineParserTest {
     assertEquals("blabla", config.getAddendum());
   }
 
-  @Test(expected = MissingCommandLineArgumentException.class)
+  @Test(expected = CLIMissingArgumentException.class)
   public void test2ndArgumentMissing() {
     p.addArgument("file", true);
     p.addArgument("addendum", true);
     check(false, false, SampleEnum.VAL1, OldEnum.OLD1, "specific.xml", "specific.xml");
   }
 
-  @Test(expected = MissingCommandLineOptionValueException.class)
+  @Test(expected = CLIMissingOptionValueException.class)
   public void testMissingOptionValue() {
     p.parse(new SampleConfig(), "--sample");
   }
 
-  @Test(expected = MissingCommandLineArgumentException.class)
+  @Test(expected = CLIMissingArgumentException.class)
   public void testMissingArgument() {
     p = new CommandLineParser();
     p.addArgument("file", true);
     p.parse(new SampleConfig());
   }
 
-  @Test(expected = IllegalCommandLineOptionException.class)
+  @Test(expected = CLIIllegalOptionException.class)
   public void testIllegalIntArgument() {
     p.parse(new SampleConfig(), "--n", "notAnInt");
   }

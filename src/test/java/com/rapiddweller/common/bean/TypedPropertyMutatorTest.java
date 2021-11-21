@@ -15,7 +15,7 @@
 
 package com.rapiddweller.common.bean;
 
-import com.rapiddweller.common.UpdateFailedException;
+import com.rapiddweller.common.exception.MutationFailedException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 public class TypedPropertyMutatorTest {
 
   @Test
-  public void testLocalProperty() throws UpdateFailedException {
+  public void testLocalProperty() throws MutationFailedException {
     TypedPropertyMutator aNameMutator = new TypedPropertyMutator(ABean.class, "name", true, false);
     ABean a = new ABean();
     aNameMutator.setValue(a, "aName");

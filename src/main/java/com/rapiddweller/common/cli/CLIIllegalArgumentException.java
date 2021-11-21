@@ -10,9 +10,9 @@ import com.rapiddweller.common.exception.CommonErrorCodes;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class IllegaCommandLineArgumentException extends CommandLineArgumentException {
+public class CLIIllegalArgumentException extends CLIException {
 
-  public IllegaCommandLineArgumentException(String message) {
+  public CLIIllegalArgumentException(String message) {
     super(CommonErrorCodes.ILLEGAL_CLI_OPTION, message);
   }
 

@@ -10,9 +10,9 @@ import com.rapiddweller.common.exception.CommonErrorCodes;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class MissingCommandLineArgumentException extends CommandLineArgumentException {
+public class CLIMissingArgumentException extends CLIException {
 
-  public MissingCommandLineArgumentException(String message) {
+  public CLIMissingArgumentException(String message) {
     super(CommonErrorCodes.MISSING_CLI_ARGUMENT, message);
   }
 

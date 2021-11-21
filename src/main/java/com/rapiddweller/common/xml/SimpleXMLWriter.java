@@ -18,6 +18,7 @@ package com.rapiddweller.common.xml;
 import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -217,7 +218,7 @@ public class SimpleXMLWriter implements Closeable {
         try {
           handler.endDocument();
         } catch (SAXException e) {
-          throw new RuntimeException("Error in closing XML file", e);
+          throw ExceptionFactory.getInstance().internalError("Error closing XML file", e);
         }
         handler = null;
       }

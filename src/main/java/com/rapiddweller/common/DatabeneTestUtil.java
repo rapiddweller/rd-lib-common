@@ -19,14 +19,12 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Provides test settings from a file <code>${user.home}/databene.test.properties</code>.
  * Created at 01.10.2009 15:30:51
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -34,7 +32,7 @@ public class DatabeneTestUtil {
 
   private static final String DATABENE_TEST_PROPERTIES = "test.properties";
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(DatabeneTestUtil.class);
+  private static final Logger logger = LoggerFactory.getLogger(DatabeneTestUtil.class);
 
   private static Map<String, String> properties;
 
@@ -42,13 +40,17 @@ public class DatabeneTestUtil {
     init();
   }
 
+  private DatabeneTestUtil() {
+    // private constructor to prevent instantiation of this utility class
+  }
+
   private static void init() {
     File file = new File(SystemInfo.getUserHome() + File.separator + "rapiddweller", DATABENE_TEST_PROPERTIES);
     if (file.exists()) {
       try {
         properties = IOUtil.readProperties(file.getAbsolutePath());
-      } catch (IOException e) {
-        LOGGER.error("Error reading " + file.getAbsolutePath(), e);
+      } catch (Exception e) {
+        logger.error("Error reading " + file.getAbsolutePath(), e);
         createDefaultProperties();
       }
     } else {
@@ -56,7 +58,7 @@ public class DatabeneTestUtil {
       try {
         IOUtil.writeProperties(properties, file.getAbsolutePath());
       } catch (Exception e) {
-        LOGGER.error("Error writing " + file.getAbsolutePath(), e);
+        logger.error("Error writing " + file.getAbsolutePath(), e);
       }
     }
   }
@@ -66,11 +68,6 @@ public class DatabeneTestUtil {
     properties.put("online", "false");
   }
 
-  /**
-   * Is online boolean.
-   *
-   * @return the boolean
-   */
   public static boolean isOnline() {
     String setting = properties.get("online");
     if (StringUtil.isEmpty(setting)) {
@@ -80,29 +77,14 @@ public class DatabeneTestUtil {
     }
   }
 
-  /**
-   * Ftp download url string.
-   *
-   * @return the string
-   */
   public static String ftpDownloadUrl() {
     return properties.get("ftp.download.url");
   }
 
-  /**
-   * Ftp upload url string.
-   *
-   * @return the string
-   */
   public static String ftpUploadUrl() {
     return properties.get("ftp.upload.url");
   }
 
-  /**
-   * Gets properties.
-   *
-   * @return the properties
-   */
   public static Map<String, String> getProperties() {
     return properties;
   }

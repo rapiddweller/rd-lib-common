@@ -25,13 +25,12 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests the {@link GUIUtil}.
  * Created: 06.02.2014 13:35:19
- *
  * @author Volker Bergmann
  * @since 0.5.26
  */
 
 public class GUIUtilTest {
-  @Ignore //because fails in docker
+  @Ignore //because fails in docker // TODO Find assumption to skip this test in Docker and reactivate it
   @Test
   public void testTakeScreenshot() throws Exception {
     File file = File.createTempFile("screenshot.png", ".png");

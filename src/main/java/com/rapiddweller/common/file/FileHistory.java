@@ -17,6 +17,7 @@ package com.rapiddweller.common.file;
 
 import com.rapiddweller.common.Assert;
 import com.rapiddweller.common.CollectionUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,15 +29,11 @@ import java.util.prefs.Preferences;
 /**
  * Provides a file history using the Preferences API.<br><br>
  * Created: 27.03.2016 09:02:58
- *
  * @author Volker Bergmann
  * @since 1.0.8
  */
 public class FileHistory {
 
-  /**
-   * The constant HISTORY_LENGTH_LIMIT.
-   */
   public static final int HISTORY_LENGTH_LIMIT = 50;
 
   private static final String RECENT_FILE_PREFIX = "recent_file_";
@@ -45,13 +42,6 @@ public class FileHistory {
   private final ArrayDeque<File> files;
   private final boolean toleratingFailure;
 
-  /**
-   * Instantiates a new File history.
-   *
-   * @param clazz             the clazz
-   * @param length            the length
-   * @param toleratingFailure the tolerating failure
-   */
   public FileHistory(Class<?> clazz, int length, boolean toleratingFailure) {
     this.clazz = clazz;
     Assert.lessOrEqual(length, HISTORY_LENGTH_LIMIT, "length");
@@ -60,21 +50,10 @@ public class FileHistory {
     load();
   }
 
-  /**
-   * Get files file [ ].
-   *
-   * @return the file [ ]
-   */
   public File[] getFiles() {
     return CollectionUtil.toArray(files, File.class);
   }
 
-  /**
-   * Gets most recent folder.
-   *
-   * @param defaultFolder the default folder
-   * @return the most recent folder
-   */
   public File getMostRecentFolder(File defaultFolder) {
     if (files.isEmpty()) {
       return defaultFolder;
@@ -83,21 +62,11 @@ public class FileHistory {
     }
   }
 
-  /**
-   * Add file and save.
-   *
-   * @param file the file
-   */
   public void addFileAndSave(File file) {
     addFile(file);
     save();
   }
 
-  /**
-   * Add file.
-   *
-   * @param file the file
-   */
   public void addFile(File file) {
     try {
       file = normalize(file);
@@ -105,14 +74,11 @@ public class FileHistory {
       files.addFirst(file);
     } catch (IOException e) {
       if (!toleratingFailure) {
-        throw new RuntimeException("Failed to update file history", e);
+        throw ExceptionFactory.getInstance().internalError("Failed to update file history", e);
       }
     }
   }
 
-  /**
-   * Load.
-   */
   public void load() {
     Preferences node = Preferences.userNodeForPackage(clazz);
     for (int i = 0; i < HISTORY_LENGTH_LIMIT; i++) {
@@ -124,9 +90,6 @@ public class FileHistory {
     }
   }
 
-  /**
-   * Save.
-   */
   public void save() {
     Preferences node = Preferences.userNodeForPackage(clazz);
     Iterator<File> iterator = files.iterator();
@@ -137,7 +100,7 @@ public class FileHistory {
       node.flush();
     } catch (BackingStoreException e) {
       if (!toleratingFailure) {
-        throw new RuntimeException("Failed to save file history", e);
+        throw ExceptionFactory.getInstance().internalError("Failed to save file history", e);
       }
     }
   }
@@ -160,7 +123,7 @@ public class FileHistory {
       files.addLast(file);
     } catch (IOException e) {
       if (!toleratingFailure) {
-        throw new RuntimeException("Failed to update file history", e);
+        throw ExceptionFactory.getInstance().internalError("Failed to update file history", e);
       }
     }
   }

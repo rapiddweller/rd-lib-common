@@ -16,7 +16,7 @@
 package com.rapiddweller.common.mutator;
 
 import com.rapiddweller.common.Mutator;
-import com.rapiddweller.common.UpdateFailedException;
+import com.rapiddweller.common.exception.MutationFailedException;
 
 /**
  * Proxy for a Mutator.
@@ -37,7 +37,7 @@ public abstract class MutatorProxy extends MutatorWrapper {
    * @see com.rapiddweller.common.Mutator#setValue(java.lang.Object, java.lang.Object)
    */
   @Override
-  public void setValue(Object target, Object value) throws UpdateFailedException {
+  public void setValue(Object target, Object value) throws MutationFailedException {
     realMutator.setValue(target, value);
   }
 

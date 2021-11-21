@@ -20,39 +20,27 @@ import com.rapiddweller.common.ComparableComparator;
 import com.rapiddweller.common.Mutator;
 import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.StringUtil;
-import com.rapiddweller.common.UpdateFailedException;
+import com.rapiddweller.common.exception.ExceptionFactory;
+import com.rapiddweller.common.exception.MutationFailedException;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 import java.util.Comparator;
 
 /**
- * Mutator that is only applied if a condition is true.
+ * Mutator that is only applied if a condition is true.<br/><br/>
  * Created: 08.05.2005 06:47:17
+ * @author Volker Bergmann
+ * @since 0.1
  */
 @SuppressWarnings("unchecked")
 public class ConditionalMutator extends MutatorProxy {
 
-  /**
-   * The constant ASSERT_EQUALS.
-   */
   public static final int ASSERT_EQUALS = 0;
-  /**
-   * The constant OVERWRITE.
-   */
   public static final int OVERWRITE = 1;
-  /**
-   * The constant SET_IF_UNDEFINED.
-   */
   public static final int SET_IF_UNDEFINED = 2;
-  /**
-   * The constant SET_IF_GREATER.
-   */
   public static final int SET_IF_GREATER = 3;
 
-  /**
-   * The Mode.
-   */
   protected int mode;
 
   @SuppressWarnings("rawtypes")
@@ -63,13 +51,6 @@ public class ConditionalMutator extends MutatorProxy {
 
   private static final Logger logger = LoggerFactory.getLogger(ConditionalMutator.class);
 
-  /**
-   * Instantiates a new Conditional mutator.
-   *
-   * @param realMutator the real mutator
-   * @param accessor    the accessor
-   * @param mode        the mode
-   */
   @SuppressWarnings("rawtypes")
   public ConditionalMutator(Mutator realMutator, Accessor accessor, int mode) {
     super(realMutator);
@@ -79,7 +60,7 @@ public class ConditionalMutator extends MutatorProxy {
   }
 
   @Override
-  public void setValue(Object target, Object value) throws UpdateFailedException {
+  public void setValue(Object target, Object value) throws MutationFailedException {
     Object oldValue = accessor.getValue(target);
     switch (mode) {
       case OVERWRITE:
@@ -89,17 +70,17 @@ public class ConditionalMutator extends MutatorProxy {
         if (isEmpty(oldValue)) {
           realMutator.setValue(target, value);
         } else if (!NullSafeComparator.equals(oldValue, value)) {
-          throw new UpdateFailedException("Mutator " + realMutator + " expected '" + oldValue + "', "
+          throw new MutationFailedException("Mutator " + realMutator + " expected '" + oldValue + "', "
               + "but found '" + value + "'");
         } else {
-          logger.debug("no update needed by " + realMutator);
+          logger.debug("no update needed by {}", realMutator);
         }
         break;
       case SET_IF_UNDEFINED:
         if (isEmpty(oldValue)) {
           realMutator.setValue(target, value);
         } else {
-          logger.debug("no update needed by " + realMutator);
+          logger.debug("no update needed by {}", realMutator);
         }
         break;
       case SET_IF_GREATER:
@@ -108,11 +89,11 @@ public class ConditionalMutator extends MutatorProxy {
         } else if (comparator.compare(oldValue, value) == -1) {
           realMutator.setValue(target, value);
         } else {
-          logger.debug("no update needed by " + realMutator);
+          logger.debug("no update needed by {}", realMutator);
         }
         break;
       default:
-        throw new RuntimeException("Illegal mode");
+        throw ExceptionFactory.getInstance().programmerConfig("Illegal mode", null);
     }
 
   }

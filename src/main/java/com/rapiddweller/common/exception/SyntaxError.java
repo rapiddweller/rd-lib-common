@@ -24,7 +24,11 @@ package com.rapiddweller.common.exception;
 public class SyntaxError extends ParseException {
 
   public SyntaxError(String message) {
-    this(message, null);
+    this(message, null, null, -1, -1);
+  }
+
+  public SyntaxError(String message, Throwable cause) {
+    this(message, cause, null, -1, -1);
   }
 
   public SyntaxError(String message, String parsedText) {

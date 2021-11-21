@@ -17,7 +17,7 @@ package com.rapiddweller.common.mutator;
 
 import com.rapiddweller.common.Accessor;
 import com.rapiddweller.common.Mutator;
-import com.rapiddweller.common.UpdateFailedException;
+import com.rapiddweller.common.exception.MutationFailedException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -37,27 +37,27 @@ public class ConditionalMutatorTest {
   public static final int SET_IF_GREATER = 3;
 
   @Test
-  public void testAssertEqualsSuccess() throws UpdateFailedException {
+  public void testAssertEqualsSuccess() throws MutationFailedException {
     ConnectorMock connector = new ConnectorMock(1);
     ConditionalMutator mutator = createMutator(connector, ConditionalMutator.ASSERT_EQUALS);
     mutator.setValue(null, 1);
   }
 
   @Test
-  public void testAssertEqualsFailure() throws UpdateFailedException {
+  public void testAssertEqualsFailure() throws MutationFailedException {
     try {
       ConnectorMock connector = new ConnectorMock(1);
       ConditionalMutator mutator = createMutator(connector,
           ConditionalMutator.ASSERT_EQUALS);
       mutator.setValue(null, 2);
-      fail("Expected " + UpdateFailedException.class.getSimpleName());
-    } catch (UpdateFailedException e) {
+      fail("Expected " + MutationFailedException.class.getSimpleName());
+    } catch (MutationFailedException e) {
       // this is expected
     }
   }
 
   @Test
-  public void testOverwrite() throws UpdateFailedException {
+  public void testOverwrite() throws MutationFailedException {
     ConnectorMock connector = new ConnectorMock(1);
     ConditionalMutator mutator = createMutator(connector, ConditionalMutator.OVERWRITE);
     mutator.setValue(null, 2);
@@ -65,7 +65,7 @@ public class ConditionalMutatorTest {
   }
 
   @Test
-  public void testSetIfUndefinedTrue() throws UpdateFailedException {
+  public void testSetIfUndefinedTrue() throws MutationFailedException {
     ConnectorMock connector = new ConnectorMock(null);
     ConditionalMutator mutator = createMutator(connector, ConditionalMutator.SET_IF_UNDEFINED);
     mutator.setValue(null, 2);
@@ -73,7 +73,7 @@ public class ConditionalMutatorTest {
   }
 
   @Test
-  public void testSetIfUndefinedFalse() throws UpdateFailedException {
+  public void testSetIfUndefinedFalse() throws MutationFailedException {
     ConnectorMock connector = new ConnectorMock(1);
     ConditionalMutator mutator = createMutator(connector, ConditionalMutator.SET_IF_UNDEFINED);
     mutator.setValue(null, 2);
@@ -81,7 +81,7 @@ public class ConditionalMutatorTest {
   }
 
   @Test
-  public void testSetValueIfGreaterTrue() throws UpdateFailedException {
+  public void testSetValueIfGreaterTrue() throws MutationFailedException {
     ConnectorMock connector = new ConnectorMock(1);
     ConditionalMutator mutator = createMutator(connector, ConditionalMutator.SET_IF_GREATER);
     mutator.setValue(null, 2);
@@ -89,7 +89,7 @@ public class ConditionalMutatorTest {
   }
 
   @Test
-  public void testSetValueIfGreaterFalse() throws UpdateFailedException {
+  public void testSetValueIfGreaterFalse() throws MutationFailedException {
     ConnectorMock connector = new ConnectorMock(1);
     ConditionalMutator mutator = createMutator(connector, ConditionalMutator.SET_IF_GREATER);
     mutator.setValue(null, 0);

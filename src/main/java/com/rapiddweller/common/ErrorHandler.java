@@ -15,13 +15,13 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 /**
  * Provides for error handling by logging and eventually raising an exception.
  * Created at 02.08.2008 13:39:11
- *
  * @author Volker Bergmann
  * @since 0.4.5
  */
@@ -35,30 +35,14 @@ public class ErrorHandler {
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Error handler.
-   *
-   * @param category the category
-   */
   public ErrorHandler(Class<?> category) {
     this(category.getName());
   }
 
-  /**
-   * Instantiates a new Error handler.
-   *
-   * @param category the category
-   */
   public ErrorHandler(String category) {
     this(category, Level.fatal);
   }
 
-  /**
-   * Instantiates a new Error handler.
-   *
-   * @param category the category
-   * @param level    the level
-   */
   public ErrorHandler(String category, Level level) {
     this.logger = LoggerFactory.getLogger(category);
     this.level = level;
@@ -67,11 +51,6 @@ public class ErrorHandler {
 
   // interface -------------------------------------------------------------------------------------------------------
 
-  /**
-   * Handle error.
-   *
-   * @param message the message
-   */
   public void handleError(String message) {
     switch (level) {
       // yes, this could be more efficient, but it's just for error handling
@@ -93,17 +72,11 @@ public class ErrorHandler {
         break;
       case fatal:
         logger.error(message);
-        throw new RuntimeException(message);
+        throw ExceptionFactory.getInstance().operationFailed(message, null);
       case ignore: // ignore
     }
   }
 
-  /**
-   * Handle error.
-   *
-   * @param message the message
-   * @param t       the t
-   */
   public void handleError(String message, Throwable t) {
     if (loggingStackTrace) {
       switch (level) {
@@ -128,7 +101,7 @@ public class ErrorHandler {
           if (t instanceof RuntimeException) {
             throw (RuntimeException) t;
           } else {
-            throw new RuntimeException(t);
+            throw ExceptionFactory.getInstance().operationFailed(message, t);
           }
         case ignore:
           break; // ignore
@@ -140,29 +113,14 @@ public class ErrorHandler {
 
   // properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Gets level.
-   *
-   * @return the level
-   */
   public Level getLevel() {
     return level;
   }
 
-  /**
-   * Is logging stack trace boolean.
-   *
-   * @return the boolean
-   */
   public boolean isLoggingStackTrace() {
     return loggingStackTrace;
   }
 
-  /**
-   * Sets logging stack trace.
-   *
-   * @param loggingStackTrace the logging stack trace
-   */
   public void setLoggingStackTrace(boolean loggingStackTrace) {
     this.loggingStackTrace = loggingStackTrace;
   }
@@ -171,31 +129,16 @@ public class ErrorHandler {
 
   private static ErrorHandler defaultInstance = new ErrorHandler(ErrorHandler.class);
 
-  /**
-   * Gets default.
-   *
-   * @return the default
-   */
   public static ErrorHandler getDefault() {
     return defaultInstance;
   }
 
   private static Level defaultLevel = Level.fatal;
 
-  /**
-   * Gets default level.
-   *
-   * @return the default level
-   */
   public static Level getDefaultLevel() {
     return defaultLevel;
   }
 
-  /**
-   * Sets default level.
-   *
-   * @param level the level
-   */
   public static void setDefaultLevel(Level level) {
     defaultLevel = level;
     if (defaultInstance.getLevel() != level) {

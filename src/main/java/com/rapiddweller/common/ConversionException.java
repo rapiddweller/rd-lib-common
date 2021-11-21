@@ -15,45 +15,21 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ExitCodes;
+
 /**
- * Indicates failure of a conversion operation.
+ * Indicates failure of a conversion operation.<br/><br/>
  * Created: 08.03.2006 14:56:58
+ * @author Volker Bergmann
  */
-public class ConversionException extends RuntimeException {
+public class ConversionException extends OperationFailedException {
 
-  private static final long serialVersionUID = -932701445466221255L;
-
-  /**
-   * Instantiates a new Conversion exception.
-   */
-  public ConversionException() {
-  }
-
-  /**
-   * Instantiates a new Conversion exception.
-   *
-   * @param message the message
-   */
   public ConversionException(String message) {
-    super(message);
+    this(message, null);
   }
 
-  /**
-   * Instantiates a new Conversion exception.
-   *
-   * @param cause the cause
-   */
-  public ConversionException(Throwable cause) {
-    super(cause);
-  }
-
-  /**
-   * Instantiates a new Conversion exception.
-   *
-   * @param message the message
-   * @param cause   the cause
-   */
   public ConversionException(String message, Throwable cause) {
-    super(message, cause);
+    super(null, ExitCodes.INTERNAL_SOFTWARE_ERROR, message, cause);
   }
+
 }

@@ -16,7 +16,7 @@
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.Mutator;
-import com.rapiddweller.common.UpdateFailedException;
+import com.rapiddweller.common.exception.MutationFailedException;
 
 /**
  * Wraps a Mutator, forwards calls to {@link #setValue(Object, Object)} and adds a name property.
@@ -44,7 +44,7 @@ public class NamedMutatorProxy extends AbstractNamedMutator {
   }
 
   @Override
-  public void setValue(Object target, Object value) throws UpdateFailedException {
+  public void setValue(Object target, Object value) throws MutationFailedException {
     realMutator.setValue(target, value);
   }
 

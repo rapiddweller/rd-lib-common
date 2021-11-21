@@ -15,18 +15,21 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ApplicationException;
+import com.rapiddweller.common.exception.ExitCodes;
+
 /**
  * Unchecked exception that indicates failure that results from inappropriate configuration.
  * Created: 02.07.2006 07:30:11
  */
-public class ConfigurationError extends RuntimeException {
+public class ConfigurationError extends ApplicationException {
 
   public ConfigurationError(String message) {
-    super(message);
+    this(message, null);
   }
 
   public ConfigurationError(String message, Throwable cause) {
-    super(message, cause);
+    super(null, ExitCodes.CONFIGURATION_ERROR, message, cause);
   }
 
 }

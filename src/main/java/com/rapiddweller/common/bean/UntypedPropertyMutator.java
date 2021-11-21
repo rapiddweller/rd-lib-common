@@ -18,7 +18,7 @@ package com.rapiddweller.common.bean;
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.ConversionException;
-import com.rapiddweller.common.UpdateFailedException;
+import com.rapiddweller.common.exception.MutationFailedException;
 import com.rapiddweller.common.converter.AnyConverter;
 
 import java.beans.PropertyDescriptor;
@@ -49,7 +49,7 @@ public class UntypedPropertyMutator extends AbstractNamedMutator {
   }
 
   @Override
-  public void setValue(Object target, Object value) throws UpdateFailedException {
+  public void setValue(Object target, Object value) throws MutationFailedException {
     setValue(target, value, this.required, this.autoConvert);
   }
 
@@ -60,12 +60,12 @@ public class UntypedPropertyMutator extends AbstractNamedMutator {
    * @param propertyValue the property value
    * @param required      the required
    * @param autoConvert   the auto convert
-   * @throws UpdateFailedException the update failed exception
+   * @throws MutationFailedException the update failed exception
    */
-  public void setValue(Object bean, Object propertyValue, boolean required, boolean autoConvert) throws UpdateFailedException {
+  public void setValue(Object bean, Object propertyValue, boolean required, boolean autoConvert) throws MutationFailedException {
     if (bean == null) {
       if (required) {
-        throw new UpdateFailedException("Cannot set a property on a null pointer");
+        throw new MutationFailedException("Cannot set a property on a null pointer");
       } else {
         return;
       }
@@ -73,7 +73,7 @@ public class UntypedPropertyMutator extends AbstractNamedMutator {
     PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(bean.getClass(), name);
     if (propertyDescriptor == null) {
       if (required) {
-        throw new UpdateFailedException("property '" + name + "' not found in class " + bean.getClass());
+        throw new MutationFailedException("property '" + name + "' not found in class " + bean.getClass());
       } else {
         return;
       }
@@ -81,7 +81,7 @@ public class UntypedPropertyMutator extends AbstractNamedMutator {
     Method writeMethod = propertyDescriptor.getWriteMethod();
     if (writeMethod == null) {
       if (required) {
-        throw new UpdateFailedException("No write method found for property '" + name + "' in class " + bean.getClass());
+        throw new MutationFailedException("No write method found for property '" + name + "' in class " + bean.getClass());
       } else {
         return;
       }

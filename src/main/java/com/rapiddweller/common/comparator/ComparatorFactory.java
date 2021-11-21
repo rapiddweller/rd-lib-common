@@ -21,6 +21,7 @@ import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -33,9 +34,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Creates comparators by the type of the objects to be compared.
+ * Creates comparators by the type of the objects to be compared.<br/><br/>
  * Created: 22.10.2005 21:29:08
- *
  * @author Volker Bergmann
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -54,13 +54,10 @@ public class ComparatorFactory {
     // this is the fallback if no specific Comparator was found
     addComparator(Comparable.class, new ComparableComparator());
   }
+  private ComparatorFactory() {
+    // private constructor to prevent instantiation
+  }
 
-  /**
-   * Add comparator.
-   *
-   * @param comparedClass the compared class
-   * @param comparator    the comparator
-   */
   public static void addComparator(Class comparedClass, Comparator comparator) {
     comparators.put(comparedClass, comparator);
   }
@@ -94,21 +91,15 @@ public class ComparatorFactory {
     addComparator((Class<T>) genTypes[0], comparator);
   }
 
-  /**
-   * Gets comparator.
-   *
-   * @param <T>  the type parameter
-   * @param type the type
-   * @return the comparator
-   */
   public static <T> Comparator<T> getComparator(Class<T> type) {
     Comparator<T> comparator = (Comparator<T>) comparators.get(type);
     if (comparator == null && Comparable.class.isAssignableFrom(type)) {
       comparator = new ComparableComparator();
     }
     if (comparator == null) {
-      throw new RuntimeException("No Comparator defined for " + type.getName());
+      throw ExceptionFactory.getInstance().programmerConfig("No Comparator defined for " + type.getName(), null);
     }
     return new NullSafeComparator<>(comparator);
   }
+
 }

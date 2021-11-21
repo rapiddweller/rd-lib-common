@@ -1,5 +1,6 @@
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.ObjectNotFoundException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -17,7 +17,7 @@ package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.StringUtil;
-import com.rapiddweller.common.UpdateFailedException;
+import com.rapiddweller.common.exception.MutationFailedException;
 import com.rapiddweller.common.mutator.NamedMutator;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -130,7 +130,7 @@ public class PropertyGraphMutator implements NamedMutator {
   }
 
   @Override
-  public void setValue(Object bean, Object propertyValue) throws UpdateFailedException {
+  public void setValue(Object bean, Object propertyValue) throws MutationFailedException {
     if (bean == null) {
       if (required) {
         throw new IllegalArgumentException("Cannot set a property on null");

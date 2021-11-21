@@ -99,7 +99,7 @@ public class String2DateConverter<E extends Date> extends ThreadSafeConverter<St
         throw new UnsupportedOperationException("Not a supported target type: " + targetType);
       }
     } catch (ParseException e) {
-      throw new ConversionException(e);
+      throw new ConversionException("Failed to convert " + sourceValue, e);
     }
   }
 

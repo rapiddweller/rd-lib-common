@@ -16,6 +16,7 @@
 package com.rapiddweller.common;
 
 import com.rapiddweller.common.converter.Base64ToByteArrayConverter;
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.apache.html.dom.HTMLDocumentImpl;
 import org.junit.Test;
 
@@ -266,11 +267,11 @@ public class BeanUtilTest {
 
   @Test
   public void testNewInstance() {
-    assertThrows(ConfigurationError.class,
+    assertThrows(IllegalArgumentError.class,
         () -> BeanUtil.newInstance(Object.class, true, new Object[] {"parameters"}));
     assertNull(BeanUtil.newInstance((Class<Object>) null, true, null));
     assertNull(BeanUtil.newInstance((Class<Object>) null, true, new Object[] {}));
-    assertThrows(ConfigurationError.class,
+    assertThrows(IllegalArgumentError.class,
         () -> BeanUtil.newInstance(Object.class, new Object[] {"parameters"}));
     assertNull(BeanUtil.newInstance((Class<Object>) null, null));
     assertNull(BeanUtil.newInstance((Class<Object>) null, new Object[] {}));
@@ -381,7 +382,7 @@ public class BeanUtilTest {
     assertEquals(2, p.val);
   }
 
-  @Test(expected = ConfigurationError.class)
+  @Test(expected = IllegalArgumentError.class)
   public void testInvokeToFewParams() {
     P p = new P();
     BeanUtil.invoke(p, "setVal");
@@ -452,53 +453,6 @@ public class BeanUtilTest {
     P p = new P();
     desc.getWriteMethod().invoke(p, 2);
     assertEquals(2, p.val);
-  }
-
-  @Test
-  public void testGetPropertyDescriptor10() {
-    assertNull(BeanUtil.getPropertyDescriptor(Object.class, "Property Name", false));
-  }
-
-  @Test
-  public void testGetPropertyDescriptor2() {
-    assertNull(BeanUtil.getPropertyDescriptor(Object.class, "Property Name"));
-  }
-
-  @Test
-  public void testGetPropertyDescriptor3() {
-    assertThrows(IllegalArgumentException.class, () -> BeanUtil.getPropertyDescriptor(null, "Property Name"));
-  }
-
-  @Test
-  public void testGetPropertyDescriptor4() {
-    assertThrows(IllegalArgumentException.class, () -> BeanUtil.getPropertyDescriptor(null, null));
-  }
-
-  @Test
-  public void testGetPropertyDescriptor5() {
-    assertNull(BeanUtil.getPropertyDescriptor(Object.class, ".class"));
-  }
-
-  @Test
-  public void testGetPropertyDescriptor6() {
-    assertThrows(UnsupportedOperationException.class,
-        () -> BeanUtil.getPropertyDescriptor(Object.class, "Property Name", true));
-  }
-
-  @Test
-  public void testGetPropertyDescriptor7() {
-    assertThrows(IllegalArgumentException.class, () -> BeanUtil.getPropertyDescriptor(null, "Property Name", true));
-  }
-
-  @Test
-  public void testGetPropertyDescriptor8() {
-    assertThrows(IllegalArgumentException.class, () -> BeanUtil.getPropertyDescriptor(null, null, true));
-  }
-
-  @Test
-  public void testGetPropertyDescriptor9() {
-    assertThrows(UnsupportedOperationException.class,
-        () -> BeanUtil.getPropertyDescriptor(Object.class, ".class", true));
   }
 
   @Test
@@ -574,46 +528,6 @@ public class BeanUtilTest {
   }
 
   @Test
-  public void testGetPropertyValue10() {
-    assertNull(BeanUtil.getPropertyValue("bean", "Property Name", false));
-  }
-
-  @Test
-  public void testGetPropertyValue2() {
-    assertThrows(ConfigurationError.class, () -> BeanUtil.getPropertyValue("bean", "Property Name"));
-  }
-
-  @Test
-  public void testGetPropertyValue4() {
-    assertEquals(4, ((byte[]) BeanUtil.getPropertyValue("bean", "bytes")).length);
-  }
-
-  @Test
-  public void testGetPropertyValue5() {
-    assertThrows(ConfigurationError.class, () -> BeanUtil.getPropertyValue("bean", ".class"));
-  }
-
-  @Test
-  public void testGetPropertyValue6() {
-    assertThrows(ConfigurationError.class, () -> BeanUtil.getPropertyValue("bean", "Property Name", true));
-  }
-
-  @Test
-  public void testGetPropertyValue7() {
-    assertFalse((Boolean) BeanUtil.getPropertyValue("bean", "blank", true));
-  }
-
-  @Test
-  public void testGetPropertyValue8() {
-    assertEquals(4, ((byte[]) BeanUtil.getPropertyValue("bean", "bytes", true)).length);
-  }
-
-  @Test
-  public void testGetPropertyValue9() {
-    assertThrows(ConfigurationError.class, () -> BeanUtil.getPropertyValue("bean", ".class", true));
-  }
-
-  @Test
   public void testSetPropertyValue() {
     P p = new P();
     BeanUtil.setPropertyValue(p, "val", 2);
@@ -623,52 +537,13 @@ public class BeanUtilTest {
   @Test
   public void testExtractProperties() {
     assertTrue(BeanUtil.extractProperties(new ArrayList<>(), "Property Name").isEmpty());
-    assertThrows(ConfigurationError.class,
+    assertThrows(com.rapiddweller.common.exception.InternalError.class,
         () -> BeanUtil.extractProperties(new Object[] {"beans"}, "Property Name", Object.class));
     assertEquals(0, BeanUtil.extractProperties(new Object[] {}, "Property Name", Object.class).length);
     assertEquals(1, BeanUtil.extractProperties(new Object[] {"beans"}, "blank", Object.class).length);
     assertEquals(1, BeanUtil.extractProperties(new Object[] {"beans"}, "bytes", Object.class).length);
-    assertThrows(ConfigurationError.class,
+    assertThrows(com.rapiddweller.common.exception.InternalError.class,
         () -> BeanUtil.extractProperties(new Object[] {"beans"}, ".class", Object.class));
-  }
-
-  @Test
-  public void testExtractProperties2() {
-    ArrayList<Object> objectList = new ArrayList<>();
-    objectList.add("e");
-    assertThrows(ConfigurationError.class,
-        () -> BeanUtil.extractProperties(objectList, "Property Name"));
-  }
-
-  @Test
-  public void testExtractProperties3() {
-    ArrayList<Object> objectList = new ArrayList<>();
-    objectList.add("e");
-    objectList.add(null);
-    objectList.add("e");
-    assertThrows(ConfigurationError.class,
-        () -> BeanUtil.extractProperties(objectList, "Property Name"));
-  }
-
-  @Test
-  public void testExtractProperties4() {
-    ArrayList<Object> objectList = new ArrayList<>();
-    objectList.add("e");
-    assertEquals(1, BeanUtil.extractProperties(objectList, "blank").size());
-  }
-
-  @Test
-  public void testExtractProperties5() {
-    ArrayList<Object> objectList = new ArrayList<>();
-    objectList.add("e");
-    assertEquals(1, BeanUtil.extractProperties(objectList, "bytes").size());
-  }
-
-  @Test
-  public void testExtractProperties6() {
-    ArrayList<Object> objectList = new ArrayList<>();
-    objectList.add("e");
-    assertThrows(ConfigurationError.class, () -> BeanUtil.extractProperties(objectList, ".class"));
   }
 
   // class tests -----------------------------------------------------------------------------------------------------

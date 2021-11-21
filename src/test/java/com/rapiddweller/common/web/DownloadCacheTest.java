@@ -25,18 +25,17 @@ import java.net.URL;
 /**
  * Tests the {@link DownloadCache}.
  * Created: 15.08.2010 10:34:15
- *
  * @author Volker Bergmann
  * @since 0.5.4
  */
 public class DownloadCacheTest {
 
-  Logger LOGGER = LoggerFactory.getLogger(DownloadCacheTest.class);
+  Logger logger = LoggerFactory.getLogger(DownloadCacheTest.class);
 
   @Test
   public void test() throws Exception {
     if (!DatabeneTestUtil.isOnline()) {
-      LOGGER.warn("Skipping " + getClass().getName() + " since we're offline");
+      logger.warn("Skipping " + getClass().getName() + " since we're offline");
       return;
     }
     DownloadCache cache = new DownloadCache();

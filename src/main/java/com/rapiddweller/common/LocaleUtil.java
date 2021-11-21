@@ -15,7 +15,9 @@
 
 package com.rapiddweller.common;
 
-import java.io.IOException;
+import com.rapiddweller.common.exception.ExceptionFactory;
+import com.rapiddweller.common.exception.ProgrammerUnsupportedError;
+
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Locale;
@@ -28,49 +30,42 @@ import java.util.concurrent.Callable;
  * finding a locale by code, providing the characters of a locale
  * and a so-called 'fallback locale'.
  * Created: 26.09.2006 23:34:41
- *
  * @author Volker Bergmann
  */
 public final class LocaleUtil {
 
-  /**
-   * The locale to use by default
-   */
+  /** The locale to use by default */
   private static final Locale FALLBACK_LOCALE = Locale.US;
 
-  /**
-   * collects the special letters of locales as set of Characters, indexed by the locale.
-   */
+  /** Collects the special letters of locales as set of Characters, indexed by the locale. */
   private static Map<Locale, Set<Character>> specialLetters;
 
-  /** Static initializer calls readConfigFile(). @see #readConfigFile() */
+  /* Static initializer calls readConfigFile(). @see #readConfigFile() */
   static {
     readConfigFile();
   }
 
+  private LocaleUtil() {
+    // private constructor to prevent instantiation of this utility class
+  }
+
   // interface -------------------------------------------------------------------------------------------------------
 
-  /**
-   * Returns a set that contains all letters of the specified locale.
-   *
-   * @param locale the locale of which the character set is requested
-   * @return a set of characters that contains all letters of the specified locale
-   * @throws UnsupportedOperationException if the locale is not supported
-   */
+  /** Returns a set that contains all letters of the specified locale.
+   *  @param locale the locale of which the character set is requested
+   *  @return a set of characters that contains all letters of the specified locale
+   *  @throws ProgrammerUnsupportedError if the locale is not supported */
   public static Set<Character> letters(Locale locale) {
     Set<Character> set = nullTolerantLetters(locale);
     if (set == null) {
-      throw new UnsupportedOperationException("Locale not supported: " + locale);
+      throw ExceptionFactory.getInstance().programmerUnsupported("Locale not supported: " + locale);
     }
     return set;
   }
 
-  /**
-   * Determines a locale's parent, e.g. for a locale 'de_DE' it returns 'de'.
-   *
-   * @param locale the locale of which to determine the parent
-   * @return the locale's parent, or null if the locale has no parent.
-   */
+  /** Determines a locale's parent, e.g. for a locale 'de_DE' it returns 'de'.
+   *  @param locale the locale of which to determine the parent
+   *  @return the locale's parent, or null if the locale has no parent. */
   public static Locale parent(Locale locale) {
     String variant = locale.getVariant();
     if (!StringUtil.isEmpty(variant)) {
@@ -88,26 +83,20 @@ public final class LocaleUtil {
     }
   }
 
-  /**
-   * Returns the fallback locale.
-   * This differs from the default locale for cases in which it is desirable to
-   * restrict the used character ranges to an unproblematic minimum.
-   *
-   * @return the fallback locale.
-   */
+  /** Returns the fallback locale.
+   *  This differs from the default locale for cases in which it is desirable to
+   *  restrict the used character ranges to an unproblematic minimum.
+   *  @return the fallback locale. */
   public static Locale getFallbackLocale() {
     return FALLBACK_LOCALE;
   }
 
-  /**
-   * Maps the locale code to a locale, e.g. de_DE to Locale.GERMANY.
-   *
-   * @param code the locale colde to map
-   * @return a locale instance the represents the code
-   */
+  /** Maps the locale code to a locale, e.g. de_DE to Locale.GERMANY.
+   *  @param code the locale colde to map
+   *  @return a locale instance the represents the code */
   public static Locale getLocale(String code) {
     if (StringUtil.isEmpty(code)) {
-      throw new IllegalArgumentException("code is empty");
+      throw ExceptionFactory.getInstance().illegalArgument("code is empty");
     }
     String[] path = StringUtil.tokenize(code, '_');
     switch (path.length) {
@@ -122,14 +111,6 @@ public final class LocaleUtil {
     }
   }
 
-  /**
-   * Available locale url string.
-   *
-   * @param baseName the base name
-   * @param locale   the locale
-   * @param suffix   the suffix
-   * @return the string
-   */
   public static String availableLocaleUrl(String baseName, Locale locale, String suffix) {
     String localeString = locale.toString();
     do {
@@ -157,11 +138,6 @@ public final class LocaleUtil {
     return localeString.substring(0, separatorIndex);
   }
 
-  /**
-   * Gets default country code.
-   *
-   * @return the default country code
-   */
   public static String getDefaultCountryCode() {
     String result = Locale.getDefault().getCountry();
     if (StringUtil.isEmpty(result)) {
@@ -170,12 +146,6 @@ public final class LocaleUtil {
     return result;
   }
 
-  /**
-   * Language locale.
-   *
-   * @param locale the locale
-   * @return the locale
-   */
   public static Locale language(Locale locale) {
     Locale result = locale;
     Locale parent;
@@ -188,10 +158,8 @@ public final class LocaleUtil {
 
   // private helpers -------------------------------------------------------------------------------------------------
 
-  /**
-   * @param locale the locale of which to get the letters.
-   * @return the letters of a locale, null if the locale is unknown.
-   */
+  /** @param locale the locale of which to get the letters.
+   *  @return the letters of a locale, null if the locale is unknown. */
   private static Set<Character> nullTolerantLetters(Locale locale) {
     if (locale == null) {
       return null;
@@ -210,26 +178,20 @@ public final class LocaleUtil {
     return latinSet();
   }
 
-  /**
-   * Reads the config file com/rapiddweller/common/special-letters.properties from the file system or the path
-   * and initializes the internal specialLetters map.
-   */
+  /** Reads the config file com/rapiddweller/common/special-letters.properties from the file system or the path
+   * and initializes the internal specialLetters map. */
   private static void readConfigFile() {
-    try {
-      specialLetters = new HashMap<>();
-      Map<String, String> properties = IOUtil.readProperties(
-          "com/rapiddweller/common/special-letters.properties", Encodings.UTF_8);
-      for (Map.Entry<String, String> entry : properties.entrySet()) {
-        Locale locale = getLocale(String.valueOf(entry.getKey()));
-        String specialChars = String.valueOf(entry.getValue());
-        Set<Character> charSet = latinSet();
-        for (int i = 0; i < specialChars.length(); i++) {
-          charSet.add(specialChars.charAt(i));
-        }
-        specialLetters.put(locale, charSet);
+    specialLetters = new HashMap<>();
+    Map<String, String> properties = IOUtil.readProperties(
+        "com/rapiddweller/common/special-letters.properties", Encodings.UTF_8);
+    for (Map.Entry<String, String> entry : properties.entrySet()) {
+      Locale locale = getLocale(String.valueOf(entry.getKey()));
+      String specialChars = String.valueOf(entry.getValue());
+      Set<Character> charSet = latinSet();
+      for (int i = 0; i < specialChars.length(); i++) {
+        charSet.add(specialChars.charAt(i));
       }
-    } catch (IOException e) {
-      throw new ConfigurationError("Setup file for locale-specific letters is missing", e);
+      specialLetters.put(locale, charSet);
     }
   }
 
@@ -237,12 +199,6 @@ public final class LocaleUtil {
     return new CharSet('A', 'Z').addRange('a', 'z').getSet();
   }
 
-  /**
-   * Run in locale.
-   *
-   * @param locale the locale
-   * @param task   the task
-   */
   public static void runInLocale(Locale locale, Runnable task) {
     Locale realLocale = Locale.getDefault();
     try {
@@ -253,15 +209,6 @@ public final class LocaleUtil {
     }
   }
 
-  /**
-   * Call in locale t.
-   *
-   * @param <T>    the type parameter
-   * @param locale the locale
-   * @param task   the task
-   * @return the t
-   * @throws Exception the exception
-   */
   public static <T> T callInLocale(Locale locale, Callable<T> task) throws Exception {
     Locale realLocale = Locale.getDefault();
     try {
@@ -272,11 +219,6 @@ public final class LocaleUtil {
     }
   }
 
-  /**
-   * Gets decimal separator.
-   *
-   * @return the decimal separator
-   */
   public static char getDecimalSeparator() {
     return new DecimalFormat().getDecimalFormatSymbols().getDecimalSeparator();
   }

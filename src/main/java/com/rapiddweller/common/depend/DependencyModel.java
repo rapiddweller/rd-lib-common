@@ -31,7 +31,6 @@ import static com.rapiddweller.common.depend.NodeState.PARTIALLY_INITIALIZABLE;
 
 /**
  * Orders objects by dependency.
- *
  * @param <E> the type of the objects to process
  * @author Volker Bergmann
  * @since 0.3.04
@@ -39,32 +38,18 @@ import static com.rapiddweller.common.depend.NodeState.PARTIALLY_INITIALIZABLE;
 @SuppressWarnings("static-method")
 public class DependencyModel<E extends Dependent<E>> {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(DependencyModel.class);
+  private static final Logger logger = LoggerFactory.getLogger(DependencyModel.class);
 
   private final Map<E, Node<E>> nodeMappings;
 
-  /**
-   * Instantiates a new Dependency model.
-   */
   public DependencyModel() {
     this.nodeMappings = new HashMap<>();
   }
 
-  /**
-   * Add node.
-   *
-   * @param object the object
-   */
   public void addNode(E object) {
     nodeMappings.put(object, new Node<>(object));
   }
 
-  /**
-   * Dependency ordered objects list.
-   *
-   * @param acceptingCycles the accepting cycles
-   * @return the list
-   */
   public List<E> dependencyOrderedObjects(boolean acceptingCycles) {
     // set up dependencies
     for (Node<E> node : nodeMappings.values()) {
@@ -111,7 +96,7 @@ public class DependencyModel<E extends Dependent<E>> {
       orderedNodes.addAll(heads);
 
       // sort remaining nodes
-      while (pending.size() > 0) {
+      while (!pending.isEmpty()) {
         boolean found = extractNodes(pending, INITIALIZABLE, orderedNodes, null);
         if (!found) {
           found = extractNodes(pending, PARTIALLY_INITIALIZABLE, orderedNodes, incompletes);
@@ -120,7 +105,7 @@ public class DependencyModel<E extends Dependent<E>> {
           if (acceptingCycles) {
             // force one node
             Node<E> node = findForceable(pending);
-            LOGGER.debug("forcing " + node);
+            logger.debug("forcing {}", node);
             pending.remove(node);
             node.force();
             orderedNodes.add(node);
@@ -132,7 +117,7 @@ public class DependencyModel<E extends Dependent<E>> {
         postProcessNodes(incompletes);
       }
 
-      if (incompletes.size() > 0) {
+      if (!incompletes.isEmpty()) {
         throw new IllegalStateException("Incomplete nodes left: " + incompletes);
       }
 
@@ -143,8 +128,8 @@ public class DependencyModel<E extends Dependent<E>> {
       orderedNodes.addAll(tails);
 
       // done
-      if (LOGGER.isDebugEnabled()) {
-        LOGGER.debug("ordered to " + orderedNodes);
+      if (logger.isDebugEnabled()) {
+        logger.debug("ordered to {}", orderedNodes);
       }
 
       // map result
@@ -167,18 +152,18 @@ public class DependencyModel<E extends Dependent<E>> {
   }
 
   private void postProcessNodes(List<Node<E>> nodes) {
-    LOGGER.debug("post processing nodes: {}", nodes);
+    logger.debug("post processing nodes: {}", nodes);
     Iterator<Node<E>> iterator = nodes.iterator();
     while (iterator.hasNext()) {
       Node<E> node = iterator.next();
       switch (node.getState()) {
         case PARTIALLY_INITIALIZABLE:
         case INITIALIZED:
-          LOGGER.debug("Initializing {} partially", node);
+          logger.debug("Initializing {} partially", node);
           node.initializePartially();
           break;
         case INITIALIZABLE:
-          LOGGER.debug("Initializing {}", node);
+          logger.debug("Initializing {}", node);
           node.initialize();
           iterator.remove();
           break;
@@ -189,7 +174,7 @@ public class DependencyModel<E extends Dependent<E>> {
   }
 
   private boolean extractNodes(List<Node<E>> source, NodeState requiredState, List<Node<E>> target, List<Node<E>> incompletes) {
-    LOGGER.debug("extracting nodes from {}", source);
+    logger.debug("extracting nodes from {}", source);
     Iterator<Node<E>> iterator;
     boolean found = false;
     iterator = source.iterator();
@@ -199,11 +184,11 @@ public class DependencyModel<E extends Dependent<E>> {
         iterator.remove();
         switch (requiredState) {
           case INITIALIZABLE:
-            LOGGER.debug("Initializing {}", node);
+            logger.debug("Initializing {}", node);
             node.initialize();
             break;
           case PARTIALLY_INITIALIZABLE:
-            LOGGER.debug("Initializing {} partially", node);
+            logger.debug("Initializing {} partially", node);
             node.initializePartially();
             if (incompletes != null) {
               incompletes.add(node);
@@ -222,9 +207,9 @@ public class DependencyModel<E extends Dependent<E>> {
   }
 
   private void logState(List<Node<E>> intermediates) {
-    LOGGER.error(intermediates.size() + " unresolved intermediates on DependencyModel error: ");
+    logger.error("{} unresolved intermediates on DependencyModel error: ", intermediates.size());
     for (Node<E> node : intermediates) {
-      LOGGER.error(node.toString());
+      logger.error("{}", node);
     }
   }
 

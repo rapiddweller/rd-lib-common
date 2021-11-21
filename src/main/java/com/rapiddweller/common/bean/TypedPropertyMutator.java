@@ -18,7 +18,7 @@ package com.rapiddweller.common.bean;
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.ConversionException;
-import com.rapiddweller.common.UpdateFailedException;
+import com.rapiddweller.common.exception.MutationFailedException;
 import com.rapiddweller.common.converter.AnyConverter;
 
 import java.beans.PropertyDescriptor;
@@ -55,7 +55,7 @@ public class TypedPropertyMutator extends AbstractNamedMutator {
   }
 
   @Override
-  public void setValue(Object bean, Object value) throws UpdateFailedException {
+  public void setValue(Object bean, Object value) throws MutationFailedException {
     if (bean == null) {
       if (required) {
         throw new IllegalArgumentException("Cannot set a property on null");

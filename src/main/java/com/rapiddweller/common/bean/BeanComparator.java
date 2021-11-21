@@ -17,6 +17,7 @@ package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.ComparableComparator;
 import com.rapiddweller.common.comparator.ComparatorFactory;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.util.Comparator;
 
@@ -24,8 +25,6 @@ import java.util.Comparator;
  * Compares JavaBeans by a property.
  * If a beanComparator is provided, this one is used for property comparison,
  * else the ComparatorFactory is queried for a Comparator.
- * Created: 06.01.2005 20:04:36
- *
  * @param <E> the type of objects to be compared
  * @author Volker Bergmann
  * @see ComparatorFactory
@@ -37,45 +36,27 @@ public class BeanComparator<E> implements Comparator<E> {
 
   // constructor -----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Bean comparator.
-   *
-   * @param propertyName the property name
-   */
   @SuppressWarnings({"unchecked", "rawtypes"})
   public BeanComparator(String propertyName) {
     this.propertyComparator = new ComparableComparator();
     try {
       this.propertyAccessor = PropertyAccessorFactory.getAccessor(propertyName);
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().programmerConfig("Error creating bean comparator", e);
     }
   }
 
-  /**
-   * Instantiates a new Bean comparator.
-   *
-   * @param comparedClass the compared class
-   * @param propertyName  the property name
-   */
   public BeanComparator(Class<?> comparedClass, String propertyName) {
     this(comparedClass, propertyName, getComparator(comparedClass, propertyName));
   }
 
-  /**
-   * Instantiates a new Bean comparator.
-   *
-   * @param comparedClass the compared class
-   * @param propertyName  the property name
-   * @param comparator    the comparator
-   */
   @SuppressWarnings("unchecked")
   public BeanComparator(Class<?> comparedClass, String propertyName, Comparator<?> comparator) {
     this.propertyComparator = (Comparator<Object>) comparator;
     try {
       this.propertyAccessor = PropertyAccessorFactory.getAccessor(comparedClass, propertyName);
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().programmerConfig("Error creating bean comparator", e);
     }
   }
 
@@ -88,7 +69,7 @@ public class BeanComparator<E> implements Comparator<E> {
       Object v2 = propertyAccessor.getValue(o2);
       return propertyComparator.compare(v1, v2);
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().programmerConfig("Error comparing objects", e);
     }
   }
 

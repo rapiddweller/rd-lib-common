@@ -23,7 +23,7 @@ import com.rapiddweller.common.Context;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Escalator;
 import com.rapiddweller.common.LoggerEscalator;
-import com.rapiddweller.common.UpdateFailedException;
+import com.rapiddweller.common.exception.MutationFailedException;
 import com.rapiddweller.common.accessor.FeatureAccessor;
 import com.rapiddweller.common.converter.AnyConverter;
 
@@ -75,7 +75,7 @@ public class AnyMutator implements NamedMutator {
   }
 
   @Override
-  public void setValue(Object target, Object value) throws UpdateFailedException {
+  public void setValue(Object target, Object value) throws MutationFailedException {
     setValue(target, path, value, required, autoConvert);
   }
 

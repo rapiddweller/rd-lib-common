@@ -17,6 +17,7 @@ package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.ConfigurationError;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
@@ -24,7 +25,6 @@ import java.lang.reflect.Method;
 /**
  * Retrieves the value of a JavaBean property with knowledge of the bean type.
  * Created: 21.07.2007 10:18:00
- *
  * @param <E> the object type to access
  * @author Volker Bergmann
  */
@@ -34,13 +34,6 @@ class TypedPropertyAccessor<E> implements PropertyAccessor<E, Object> {
   private Method accessorMethod;
   private final boolean strict;
 
-  /**
-   * Instantiates a new Typed property accessor.
-   *
-   * @param beanClass    the bean class
-   * @param propertyName the property name
-   * @param strict       the strict
-   */
   public TypedPropertyAccessor(Class<E> beanClass, String propertyName, boolean strict) {
     this.propertyName = propertyName;
     this.strict = strict;
@@ -58,7 +51,8 @@ class TypedPropertyAccessor<E> implements PropertyAccessor<E, Object> {
         }
       }
     } catch (SecurityException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().accessFailed("Failed to create " + getClass().getName() +
+          " for " + propertyName, e);
     }
   }
 
@@ -66,7 +60,8 @@ class TypedPropertyAccessor<E> implements PropertyAccessor<E, Object> {
   public Object getValue(Object object) {
     if (object == null) {
       if (strict) {
-        throw new IllegalArgumentException("Trying to get property value '" + propertyName + "' from null");
+        throw ExceptionFactory.getInstance().accessFailed(
+            "Trying to get property value '" + propertyName + "' from null", null);
       } else {
         return null;
       }
@@ -74,7 +69,7 @@ class TypedPropertyAccessor<E> implements PropertyAccessor<E, Object> {
     try {
       return (accessorMethod != null ? accessorMethod.invoke(object) : null);
     } catch (Exception e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().accessFailed("Error accessing property " + propertyName, e);
     }
   }
 
@@ -87,4 +82,5 @@ class TypedPropertyAccessor<E> implements PropertyAccessor<E, Object> {
   public String getPropertyName() {
     return propertyName;
   }
+
 }

@@ -26,7 +26,6 @@ import java.net.URL;
 /**
  * Provides file download and caches files in the file system.
  * Created: 15.08.2010 10:07:24
- *
  * @author Volker Bergmann
  * @since 0.5.4
  */
@@ -34,32 +33,18 @@ public class DownloadCache {
 
   private static final String DEFAULT_ROOT_FOLDER = "./cache";
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(DownloadCache.class);
+  private static final Logger logger = LoggerFactory.getLogger(DownloadCache.class);
 
   private final File rootFolder;
 
-  /**
-   * Instantiates a new Download cache.
-   */
   public DownloadCache() {
     this(new File(DEFAULT_ROOT_FOLDER));
   }
 
-  /**
-   * Instantiates a new Download cache.
-   *
-   * @param rootFolder the root folder
-   */
   public DownloadCache(File rootFolder) {
     this.rootFolder = rootFolder;
   }
 
-  /**
-   * Get.
-   *
-   * @param url the url
-   * @throws IOException the io exception
-   */
   public void get(URL url) throws IOException {
     File cacheSubDir = new File(rootFolder, url.getHost());
     String filename = url.getFile();
@@ -70,7 +55,7 @@ public class DownloadCache {
     if (!cacheFile.exists()) {
       IOUtil.download(url, cacheFile);
     } else {
-      LOGGER.info("providing {} from cache file {}", url, cacheFile.getAbsolutePath());
+      logger.info("providing {} from cache file {}", url, cacheFile.getAbsolutePath());
     }
   }
 

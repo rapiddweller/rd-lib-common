@@ -17,16 +17,17 @@ package com.rapiddweller.common.filter;
 
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.Condition;
-import com.rapiddweller.common.ExceptionMapper;
 import com.rapiddweller.common.Filter;
+import com.rapiddweller.common.ConfigurationError;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
+import java.beans.IntrospectionException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
  * Filter that matches a JavaBean by checking a Condition for one of its property values.
  * Created: 04.02.2007 00:47:13
- *
  * @param <E> the bean type
  * @param <P> the property type
  * @author Volker Bergmann
@@ -37,19 +38,14 @@ public class PropertyFilter<E, P> implements Filter<E> {
   private final Method propertyReadMethod;
   private final Condition<P> propertyCondition;
 
-  /**
-   * Instantiates a new Property filter.
-   *
-   * @param type              the type
-   * @param propertyName      the property name
-   * @param propertyCondition the property condition
-   */
+  /** Instantiates a new Property filter. */
   public PropertyFilter(Class<E> type, String propertyName, Condition<P> propertyCondition) {
     try {
       this.propertyReadMethod = type.getMethod(BeanUtil.readMethodName(propertyName, type));
       this.propertyCondition = propertyCondition;
     } catch (NoSuchMethodException e) {
-      throw new RuntimeException(e); // How could this ever happen!
+      throw ExceptionFactory.getInstance().illegalArgument(
+          "Error setting up PropertyFilter for property " + propertyName, e); // How could this ever happen!
     }
   }
 
@@ -60,8 +56,22 @@ public class PropertyFilter<E, P> implements Filter<E> {
       P propertyValue = (P) propertyReadMethod.invoke(candidate);
       return propertyCondition.evaluate(propertyValue);
     } catch (IllegalAccessException | InvocationTargetException e) {
-      throw ExceptionMapper.configurationException(e, propertyReadMethod);
+      throw configurationException(e, propertyReadMethod);
     }
+  }
+
+  public static ConfigurationError configurationException(Exception cause, Method method) {
+    String message;
+    if (cause instanceof IllegalAccessException) {
+      message = "No access to method: " + method;
+    } else if (cause instanceof InvocationTargetException) {
+      message = "Internal exception in method: " + method;
+    } else if (cause instanceof IntrospectionException) {
+      message = "Internal exception in method: " + method;
+    } else {
+      message = cause.getMessage();
+    }
+    return new ConfigurationError(message, cause);
   }
 
 }

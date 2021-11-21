@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common.ui.swing;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
 import com.rapiddweller.common.xml.XPathUtil;
 
 import javax.swing.JTextField;
@@ -26,7 +27,6 @@ import java.awt.Color;
 /**
  * Allows the user to enter an XPath definition, rendering illegal expressions in red.
  * Created: 25.05.2016 16:46:53
- *
  * @author Volker Bergmann
  * @since 1.0.11
  */
@@ -34,43 +34,24 @@ public class XPathField extends JTextField {
 
   private static final long serialVersionUID = 1L;
 
-  /**
-   * Instantiates a new X path field.
-   *
-   * @param columns the columns
-   */
   public XPathField(int columns) {
     this("", columns);
   }
 
-  /**
-   * Instantiates a new X path field.
-   *
-   * @param text    the text
-   * @param columns the columns
-   */
   public XPathField(String text, int columns) {
     super(text, columns);
     getDocument().addDocumentListener(new XPathDocumentListener());
   }
 
-  /**
-   * Is x path valid boolean.
-   *
-   * @return the boolean
-   */
   public boolean isXPathValid() {
     try {
       String text = getDocument().getText(0, getDocument().getLength());
       return XPathUtil.isValidXPath(text);
     } catch (BadLocationException e) {
-      throw new RuntimeException("Internal error", e);
+      throw ExceptionFactory.getInstance().internalError("Internal error", e);
     }
   }
 
-  /**
-   * The type X path document listener.
-   */
   protected class XPathDocumentListener implements DocumentListener {
 
     @Override

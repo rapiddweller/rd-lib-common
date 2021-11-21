@@ -19,6 +19,7 @@ import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.bean.ObservableBean;
 import com.rapiddweller.common.converter.ToStringConverter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import javax.swing.JPasswordField;
 import javax.swing.event.DocumentEvent;
@@ -31,16 +32,10 @@ import java.beans.PropertyChangeListener;
 /**
  * {@link JPasswordField} implementation that serves as delegate of a property of a JavaBean object.
  * Created: 05.04.2010 11:14:19
- *
  * @author Volker Bergmann
  * @since 0.5.13
  */
 public class PropertyPasswordField extends JPasswordField {
-
-  /**
-   * UID for serialization
-   */
-  private static final long serialVersionUID = -4336295480697515456L;
 
   // attributes ------------------------------------------------------------------------------------------------------
 
@@ -48,20 +43,10 @@ public class PropertyPasswordField extends JPasswordField {
   private final String propertyName;
 
   private final ToStringConverter toStringConverter;
-  /**
-   * The Locked.
-   */
   boolean locked;
 
   // constructor -----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Property password field.
-   *
-   * @param bean         the bean
-   * @param propertyName the property name
-   * @param length       the length
-   */
   public PropertyPasswordField(Object bean, String propertyName, int length) {
     super(length);
     this.bean = bean;
@@ -79,9 +64,7 @@ public class PropertyPasswordField extends JPasswordField {
 
   // event handlers --------------------------------------------------------------------------------------------------
 
-  /**
-   * reads the current property value and writes it to the text field.
-   */
+  /** Reads the current property value and writes it to the text field. */
   void refresh() {
     if (!locked) {
       locked = true;
@@ -94,9 +77,7 @@ public class PropertyPasswordField extends JPasswordField {
     }
   }
 
-  /**
-   * writes the current text field content to the property.
-   */
+  /** Writes the current text field content to the property. */
   void update() {
     if (!locked) {
       locked = true;
@@ -105,7 +86,7 @@ public class PropertyPasswordField extends JPasswordField {
       try {
         text = document.getText(0, document.getLength());
       } catch (BadLocationException e) {
-        throw new RuntimeException(e);
+        throw ExceptionFactory.getInstance().programmerStateError("Error accessing password field", e);
       }
       text = StringUtil.escape(text);
       if (!text.equals(BeanUtil.getPropertyValue(bean, propertyName))) {
@@ -115,9 +96,6 @@ public class PropertyPasswordField extends JPasswordField {
     }
   }
 
-  /**
-   * The type Listener.
-   */
   class Listener implements PropertyChangeListener, DocumentListener {
 
     @Override

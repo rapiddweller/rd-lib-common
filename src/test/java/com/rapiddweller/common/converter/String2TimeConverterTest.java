@@ -17,6 +17,7 @@ package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.TimeUtil;
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.junit.Test;
 
 import java.util.TimeZone;
@@ -82,17 +83,17 @@ public class String2TimeConverterTest extends AbstractConverterTest {
     assertThrows(ConversionException.class, () -> (new String2TimeConverter()).convert("Source Value"));
     assertNull((new String2TimeConverter()).convert(null));
     assertThrows(ConversionException.class, () -> (new String2TimeConverter()).convert("HH:mm"));
-    assertThrows(IllegalArgumentException.class, () -> (new String2TimeConverter()).convert("java.lang.String"));
+    assertThrows(IllegalArgumentError.class, () -> (new String2TimeConverter()).convert("java.lang.String"));
   }
 
   @Test
   public void testParse() throws ConversionException {
     assertThrows(ConversionException.class, () -> String2TimeConverter.parse("value"));
     assertNull(String2TimeConverter.parse(null));
-    assertThrows(IllegalArgumentException.class, () -> String2TimeConverter.parse("java.lang.String"));
+    assertThrows(IllegalArgumentError.class, () -> String2TimeConverter.parse("java.lang.String"));
     assertNull(String2TimeConverter.parse(null, "Pattern"));
     assertThrows(ConversionException.class, () -> String2TimeConverter.parse("value", null));
-    assertThrows(IllegalArgumentException.class, () -> String2TimeConverter.parse("java.lang.String", null));
+    assertThrows(IllegalArgumentError.class, () -> String2TimeConverter.parse("java.lang.String", null));
   }
 
   protected static void check(String timeString, long expectedLocalMillis) {

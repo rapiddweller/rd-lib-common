@@ -16,6 +16,7 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.text.Format;
 
@@ -23,7 +24,6 @@ import java.text.Format;
  * Parent class for {@link Converter}s that use a {@link java.text.Format} instance for
  * parsing Strings or formatting other objects.
  * Created: 26.02.2010 14:52:25
- *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
@@ -31,21 +31,10 @@ import java.text.Format;
  */
 public abstract class FormatBasedConverter<S, T> extends AbstractConverter<S, T> implements Cloneable {
 
-  /**
-   * The java.text.Format object used for conversion
-   */
   protected Format format;
   private final boolean threadSafe;
 
-  /**
-   * Instantiates a new Format based converter.
-   *
-   * @param sourceType the source type
-   * @param targetType the target type
-   * @param format     the format
-   * @param threadSafe the thread safe
-   */
-  public FormatBasedConverter(Class<S> sourceType, Class<T> targetType, Format format, boolean threadSafe) {
+  protected FormatBasedConverter(Class<S> sourceType, Class<T> targetType, Format format, boolean threadSafe) {
     super(sourceType, targetType);
     this.format = format;
     this.threadSafe = threadSafe;
@@ -69,7 +58,7 @@ public abstract class FormatBasedConverter<S, T> extends AbstractConverter<S, T>
       copy.format = (Format) format.clone();
       return copy;
     } catch (CloneNotSupportedException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().cloningFailed("Ailed to clone " + this, e);
     }
   }
 

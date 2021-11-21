@@ -17,6 +17,7 @@ package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Capitalization;
 import com.rapiddweller.common.Patterns;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
  * Holds format strings for date and number objects.
@@ -404,7 +405,7 @@ public abstract class FormatHolder implements Patterns {
       copy.integralConverter = (NumberFormatter) integralConverter.clone();
       return copy;
     } catch (CloneNotSupportedException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().cloningFailed("Failed to clone " + this, e);
     }
   }
 

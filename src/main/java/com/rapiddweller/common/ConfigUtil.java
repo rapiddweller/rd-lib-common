@@ -2,6 +2,8 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -21,7 +23,7 @@ public class ConfigUtil {
   static {
     try {
       testSettings = IOUtil.readProperties(userConfigFolder() + "/testing.properties");
-    } catch (ConfigurationError | IOException e) {
+    } catch (Exception e) {
       testSettings = new HashMap<>();
     }
   }
@@ -30,7 +32,7 @@ public class ConfigUtil {
     // private constructor to prevent instantiation.
   }
 
-  public static String configFilePathDefaultLocations(String filename, String projectFolder) throws IOException {
+  public static String configFilePathDefaultLocations(String filename, String projectFolder) {
     projectFolder = stripTrailingFileSeparator(projectFolder);
     return configFilePathMulti(filename, defaultConfigLocations(projectFolder));
   }
@@ -48,7 +50,7 @@ public class ConfigUtil {
    *  (including file name) where it was found. The search is performed in the file system
    *  as well as in the class path.
    *  @throws ConfigurationError if the file was not found in any of the search locations */
-  public static String configFilePathMulti(String filename, String... searchLocations) throws IOException {
+  public static String configFilePathMulti(String filename, String... searchLocations) {
     for (String folder : searchLocations) {
       String path = filePath(filename, folder);
       if (path != null) {
@@ -56,16 +58,20 @@ public class ConfigUtil {
       }
     }
     // if nothing was found, then throw an exception
-    throw new ConfigurationError("No config file '" + filename + "' found in " + Arrays.toString(searchLocations));
+    throw ExceptionFactory.getInstance().configurationError("No config file '" + filename + "' found in any of these: " + Arrays.toString(searchLocations));
   }
 
   /** Checks if a file of given filename exists in the specified folder. If a file is found, its path is returned,
    *  otherwise null. The search is performed in the file system as well as in the class path. */
-  public static String filePath(String filename, String folder) throws IOException {
+  public static String filePath(String filename, String folder) {
     // first search in file system...
     File file = FileUtil.getFileIgnoreCase(new File(folder, filename), false);
     if (file.exists()) {
-      return file.getCanonicalPath();
+      try {
+        return file.getCanonicalPath();
+      } catch (IOException e) {
+        return file.getAbsolutePath();
+      }
     }
     // ...then search in class path
     String path = (".".equals(folder) ? filename : folder + '/' + filename);

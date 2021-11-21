@@ -17,6 +17,7 @@ package com.rapiddweller.common;
 
 import com.rapiddweller.common.converter.AnyConverter;
 import com.rapiddweller.common.converter.ToStringConverter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -27,7 +28,6 @@ import java.text.ParsePosition;
 /**
  * java.lang.text.Format implementation for formatting and parsing arrays.
  * Created: 20.06.2007 07:04:37
- *
  * @author Volker Bergmann
  */
 public class ArrayFormat extends Format {
@@ -46,37 +46,18 @@ public class ArrayFormat extends Format {
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Array format.
-   */
   public ArrayFormat() {
     this(DEFAULT_ITEM_FORMATTER, DEFAULT_SEPARATOR);
   }
 
-  /**
-   * Instantiates a new Array format.
-   *
-   * @param separator the separator
-   */
   public ArrayFormat(String separator) {
     this(DEFAULT_ITEM_FORMATTER, separator);
   }
 
-  /**
-   * Instantiates a new Array format.
-   *
-   * @param itemFormat the item format
-   */
   public ArrayFormat(Converter<Object, String> itemFormat) {
     this(itemFormat, DEFAULT_SEPARATOR);
   }
 
-  /**
-   * Instantiates a new Array format.
-   *
-   * @param itemFormatter the item formatter
-   * @param separator     the separator
-   */
   public ArrayFormat(Converter<Object, String> itemFormatter, String separator) {
     this.itemFormatter = itemFormatter;
     this.separator = separator;
@@ -98,26 +79,11 @@ public class ArrayFormat extends Format {
 
   // publicly available utility methods ------------------------------------------------------------------------------
 
-  /**
-   * Format string.
-   *
-   * @param <T>   the type parameter
-   * @param items the items
-   * @return the string
-   */
   @SafeVarargs
   public static <T> String format(T... items) {
     return format(", ", items);
   }
 
-  /**
-   * Format string.
-   *
-   * @param <T>       the type parameter
-   * @param separator the separator
-   * @param items     the items
-   * @return the string
-   */
   @SafeVarargs
   public static <T> String format(String separator, T... items) {
     if (items == null) {
@@ -126,60 +92,21 @@ public class ArrayFormat extends Format {
     return formatPart(null, separator, 0, items.length, items);
   }
 
-  /**
-   * Format string.
-   *
-   * @param <T>       the type parameter
-   * @param formatter the formatter
-   * @param separator the separator
-   * @param items     the items
-   * @return the string
-   */
   @SafeVarargs
   public static <T> String format(Converter<Object, String> formatter, String separator, T... items) {
     return formatPart(formatter, separator, 0, items.length, items);
   }
 
-  /**
-   * Format part string.
-   *
-   * @param <T>    the type parameter
-   * @param offset the offset
-   * @param length the length
-   * @param items  the items
-   * @return the string
-   */
   @SafeVarargs
   public static <T> String formatPart(int offset, int length, T... items) {
     return formatPart(null, DEFAULT_SEPARATOR, offset, length, items);
   }
 
-  /**
-   * Format part string.
-   *
-   * @param <T>       the type parameter
-   * @param separator the separator
-   * @param offset    the offset
-   * @param length    the length
-   * @param items     the items
-   * @return the string
-   */
   @SafeVarargs
   public static <T> String formatPart(String separator, int offset, int length, T... items) {
     return formatPart(null, separator, offset, length, items);
   }
 
-  /**
-   * Format part string.
-   *
-   * @param <T>       the type parameter
-   * @param formatter the formatter
-   * @param separator the separator
-   * @param offset    the offset
-   * @param length    the length
-   * @param items     the items
-   * @return the string
-   */
   @SafeVarargs
   public static <T> String formatPart(Converter<Object, String> formatter, String separator, int offset, int length, T... items) {
     if (items.length == 0) {
@@ -188,19 +115,6 @@ public class ArrayFormat extends Format {
     return formatPart(new StringBuilder(), formatter, separator, offset, length, items).toString();
   }
 
-  /**
-   * Format part e.
-   *
-   * @param <T>        the type parameter
-   * @param <E>        the type parameter
-   * @param toAppendTo the to append to
-   * @param formatter  the formatter
-   * @param separator  the separator
-   * @param offset     the offset
-   * @param length     the length
-   * @param items      the items
-   * @return the e
-   */
   public static <T, E extends Appendable> E formatPart(E toAppendTo, Converter<Object, String> formatter, String separator,
                                                        int offset, int length, Object items) {
     if (Array.getLength(items) == 0) {
@@ -216,17 +130,10 @@ public class ArrayFormat extends Format {
       }
       return toAppendTo;
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().internalError("Error formatting part", e);
     }
   }
 
-  /**
-   * Format ints string.
-   *
-   * @param separator the separator
-   * @param items     the items
-   * @return the string
-   */
   public static String formatInts(String separator, int... items) {
     if (items.length == 0) {
       return "";
@@ -239,13 +146,6 @@ public class ArrayFormat extends Format {
     return builder.toString();
   }
 
-  /**
-   * Format bytes string.
-   *
-   * @param separator the separator
-   * @param items     the items
-   * @return the string
-   */
   public static String formatBytes(String separator, byte... items) {
     if (items.length == 0) {
       return "";
@@ -258,13 +158,6 @@ public class ArrayFormat extends Format {
     return builder.toString();
   }
 
-  /**
-   * Format chars string.
-   *
-   * @param separator the separator
-   * @param items     the items
-   * @return the string
-   */
   public static String formatChars(String separator, char... items) {
     if (items.length == 0) {
       return "";
@@ -277,13 +170,6 @@ public class ArrayFormat extends Format {
     return builder.toString();
   }
 
-  /**
-   * Format strings string.
-   *
-   * @param separator the separator
-   * @param items     the items
-   * @return the string
-   */
   public static String formatStrings(String separator, String... items) {
     if (items == null) {
       return "";
@@ -293,15 +179,6 @@ public class ArrayFormat extends Format {
 
   // parse methods ---------------------------------------------------------------------------------------------------
 
-  /**
-   * Parse t [ ].
-   *
-   * @param <T>           the type parameter
-   * @param source        the source
-   * @param separator     the separator
-   * @param componentType the component type
-   * @return the t [ ]
-   */
   public static <T> T[] parse(String source, String separator, Class<T> componentType) {
     ArrayBuilder<T> builder = new ArrayBuilder<>(componentType);
     int i = 0;

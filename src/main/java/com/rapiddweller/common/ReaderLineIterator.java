@@ -15,14 +15,16 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.NoSuchElementException;
 
 /**
  * Iterator implementation that returns text lines provided by a reader.
  * Created: 01.05.2007 08:06:46
- *
  * @author Volker Bergmann
  * @since 0.1
  */
@@ -34,21 +36,10 @@ public class ReaderLineIterator implements HeavyweightIterator<String> {
 
   private int lineCount;
 
-  /**
-   * Instantiates a new Reader line iterator.
-   *
-   * @param reader the reader
-   */
   public ReaderLineIterator(Reader reader) {
     this(reader, false);
   }
 
-  /**
-   * Instantiates a new Reader line iterator.
-   *
-   * @param reader         the reader
-   * @param skipEmptyLines the skip empty lines
-   */
   public ReaderLineIterator(Reader reader, boolean skipEmptyLines) {
     if (reader instanceof BufferedReader) {
       this.reader = (BufferedReader) reader;
@@ -68,11 +59,6 @@ public class ReaderLineIterator implements HeavyweightIterator<String> {
     }
   }
 
-  /**
-   * Line count int.
-   *
-   * @return the int
-   */
   public int lineCount() {
     return lineCount;
   }
@@ -86,6 +72,9 @@ public class ReaderLineIterator implements HeavyweightIterator<String> {
 
   @Override
   public String next() {
+    if (next == null) {
+      throw new NoSuchElementException();
+    }
     String result = next;
     fetchNext();
     return result;
@@ -112,7 +101,7 @@ public class ReaderLineIterator implements HeavyweightIterator<String> {
         next = null;
       }
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().fileAccessException("Failed to read file", e);
     }
   }
 

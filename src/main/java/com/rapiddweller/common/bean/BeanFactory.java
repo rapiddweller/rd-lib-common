@@ -16,7 +16,6 @@
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.UpdateFailedException;
 import com.rapiddweller.common.mutator.NamedMutator;
 
 import java.util.Map;
@@ -25,42 +24,30 @@ import java.util.Map;
  * Instantiates JavaBeans from class name and a Properties object
  * that contains the text representation of the bean property values.
  * Created: 04.09.2007 21:13:06
- *
  * @author Volker Bergmann
  */
 public class BeanFactory {
 
   private static final ClassProvider DEFAULT_CLASS_PROVIDER = new DefaultClassProvider();
 
-  /**
-   * Creates an object of the specified type.
-   *
-   * @param beanClassName the name of the class to instantiate
-   * @param properties    the bean properties
-   * @return an object of the specified class
-   */
+  private BeanFactory() {
+    // private constructor to prevent instantiation
+  }
+
+  /** Creates an object of the specified type.
+   *  @param beanClassName the name of the class to instantiate
+   *  @param properties    the bean properties
+   *  @return an object of the specified class */
   public static Object newBean(String beanClassName, Map<String, Object> properties) {
     return newBean(beanClassName, properties, DEFAULT_CLASS_PROVIDER);
   }
 
-  /**
-   * New bean object.
-   *
-   * @param beanClassName the bean class name
-   * @param properties    the properties
-   * @param factory       the factory
-   * @return the object
-   */
   public static Object newBean(String beanClassName, Map<String, Object> properties, ClassProvider factory) {
     Object bean = BeanUtil.newInstance(factory.forName(beanClassName));
     for (Map.Entry<String, Object> entry : properties.entrySet()) {
       String propertyName = entry.getKey();
       NamedMutator mutator = PropertyMutatorFactory.getPropertyMutator(bean.getClass(), propertyName, false, true);
-      try {
-        mutator.setValue(bean, entry.getValue());
-      } catch (UpdateFailedException e) {
-        throw new RuntimeException("Unable to set property " + propertyName + " on class " + beanClassName, e);
-      }
+      mutator.setValue(bean, entry.getValue());
     }
     return bean;
   }

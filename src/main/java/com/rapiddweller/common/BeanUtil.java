@@ -18,6 +18,7 @@ package com.rapiddweller.common;
 import com.rapiddweller.common.converter.AnyConverter;
 import com.rapiddweller.common.converter.ConverterManager;
 import com.rapiddweller.common.converter.ToStringConverter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -69,11 +70,15 @@ public final class BeanUtil {
 
   private static final Logger logger = LoggerFactory.getLogger(BeanUtil.class);
 
+  // (static) attributes ---------------------------------------------------------------------------------------------
+
   private static final HashSet<String> NON_CLASS_NAMES = new HashSet<>(100);
 
   private static final Escalator escalator = new LoggerEscalator();
 
-  // (static) attributes ---------------------------------------------------------------------------------------------
+  public static final String CLASS = "class";
+
+  private static final Class<?>[] NO_CLASSES = new Class<?>[0];
 
   private static final Map<String, PropertyDescriptor> propertyDescriptors = new HashMap<>();
 
@@ -174,6 +179,7 @@ public final class BeanUtil {
 
   /** Prevents instantiation of a BeanUtil object. */
   private BeanUtil() {
+    // Prevents instantiation of a BeanUtil object
   }
 
   // type info methods -----------------------------------------------------------------------------------------------
@@ -189,9 +195,7 @@ public final class BeanUtil {
       Object candidate = iterator.next();
       if (candidate != null) {
         Class<?> candidateClass = candidate.getClass();
-        if (result == null) {
-          result = candidateClass;
-        } else if (candidateClass != result && candidateClass.isAssignableFrom(result)) {
+        if (result == null || (candidateClass != result && candidateClass.isAssignableFrom(result))) {
           result = candidateClass;
         }
       }
@@ -210,9 +214,7 @@ public final class BeanUtil {
       Object candidate = iterator.next();
       if (candidate != null) {
         Class<?> candidateClass = candidate.getClass();
-        if (result == null) {
-          result = candidateClass;
-        } else if (candidateClass != result && result.isAssignableFrom(candidateClass)) {
+        if (result == null || (candidateClass != result && result.isAssignableFrom(candidateClass))) {
           result = candidateClass;
         }
       }
@@ -260,8 +262,8 @@ public final class BeanUtil {
   }
 
   /** Tells if the specified class is a collection type.
-    * @param type the class to check
-    * @return true if the class is a collection type, false otherwise */
+   *  @param type the class to check
+   *  @return true if the class is a collection type, false otherwise */
   public static boolean isCollectionType(Class<?> type) {
     return Collection.class.isAssignableFrom(type);
   }
@@ -280,18 +282,17 @@ public final class BeanUtil {
   // field operations ------------------------------------------------------------------------------------------------
 
   /** Returns an object's attribute value
-   *  @param obj           the object to query
+   *  @param target        the object to query
    *  @param attributeName the name of the attribute
    *  @return the attribute value */
-  public static Object getAttributeValue(Object obj, String attributeName) {
-    if (obj == null) {
-      throw new IllegalArgumentException("Object may not be null");
-    }
-    Field field = getField(obj.getClass(), attributeName);
+  public static Object getAttributeValue(Object target, String attributeName) {
+    Assert.notNull(target, "target");
+    Field field = getField(target.getClass(), attributeName);
     try {
-      return field.get(obj);
+      return field.get(target);
     } catch (IllegalAccessException e) {
-      throw ExceptionMapper.configurationException(e, field);
+      throw ExceptionFactory.getInstance().illegalArgument(
+          "Failed to get attribute value " + attributeName + " of " + target, e);
     }
   }
 
@@ -313,7 +314,8 @@ public final class BeanUtil {
     try {
       return field.get(null);
     } catch (IllegalAccessException e) {
-      throw ExceptionMapper.configurationException(e, field);
+      throw ExceptionFactory.getInstance().illegalArgument(
+          "Failed to get static attribute value " + attributeName + " of " + objectType, e);
     }
   }
 
@@ -334,21 +336,21 @@ public final class BeanUtil {
     try {
       field.set(obj, value);
     } catch (IllegalAccessException e) {
-      throw ExceptionMapper.configurationException(e, field);
+      throw ExceptionFactory.getInstance().illegalArgument("Failed to set value for " + field, e);
     }
   }
 
   /** Returns the generic type information of an attribute.
    *  @param field the field representation of the attribute.
    *  @return an array of types that are used to parameterize the attribute. */
-  public static Class<?>[] getGenericTypes(Field field) {
+  public static Type[] getGenericTypes(Field field) {
     Type genericFieldType = field.getGenericType();
     if (!(genericFieldType instanceof ParameterizedType)) {
-      return null; // type is not generic
+      return NO_CLASSES; // type is not generic
     }
     ParameterizedType pType = (ParameterizedType) genericFieldType;
     Type[] args = pType.getActualTypeArguments();
-    Class<?>[] types = new Class[args.length];
+    Type[] types = new Class[args.length];
     System.arraycopy(args, 0, types, 0, args.length);
     return types;
   }
@@ -366,7 +368,7 @@ public final class BeanUtil {
       try {
         return (Class<T>) getContextClassLoader().loadClass(name);
       } catch (ClassNotFoundException | NullPointerException e) {
-        throw ExceptionMapper.configurationException(e, name);
+        throw ExceptionFactory.getInstance().illegalArgument("Failed to instantiate class " + name, e);
       } // this is raised by the Eclipse BundleLoader if it does not find the class
 
     }
@@ -386,7 +388,7 @@ public final class BeanUtil {
       try {
         classLoader = new URLClassLoader(new URL[] {jarFile.toURI().toURL()}, classLoader);
       } catch (MalformedURLException e) {
-        throw new RuntimeException("Unexpected error", e);
+        throw ExceptionFactory.getInstance().internalError("Unexpected error", e);
       }
     }
     return classLoader;
@@ -397,7 +399,7 @@ public final class BeanUtil {
     try {
       classLoader = new URLClassLoader(new URL[] {directory.toURI().toURL()}, classLoader);
     } catch (MalformedURLException e) {
-      throw new RuntimeException("Unexpected error", e);
+      throw ExceptionFactory.getInstance().internalError("Unexpected error", e);
     }
     return classLoader;
   }
@@ -424,9 +426,11 @@ public final class BeanUtil {
     }
   }
 
-  /** Instantiates a class by the default constructor.
-   *  @param className the name of the class to instantiate
-   *  @return an instance of the class
+  /**
+   * Instantiates a class by the default constructor.
+   *
+   * @param className the name of the class to instantiate
+   * @return an instance of the class
    */
   public static Object newInstance(String className) {
     Class<?> type = BeanUtil.forName(className);
@@ -463,8 +467,9 @@ public final class BeanUtil {
       }
       if (candidates.size() == 1) {
         constructorToUse = candidates.get(0);
-      } else if (candidates.size() == 0) {
-        throw new ConfigurationError("No constructor with " + paramCount + " parameters found for " + type);
+      } else if (candidates.isEmpty()) {
+        throw ExceptionFactory.getInstance().illegalArgument(
+            "No constructor with " + paramCount + " parameters found for " + type);
       } else {
         // there are several candidates - find the first one with matching types
         Class<?>[] paramTypes = new Class[parameters.length];
@@ -480,23 +485,10 @@ public final class BeanUtil {
         // there is no ideal match
         if (constructorToUse == null) {
           if (strict) {
-            throw new NoSuchMethodException("No appropriate constructor found: " + type + '(' + ArrayFormat.format(", ", paramTypes) + ')');
+            throw ExceptionFactory.getInstance().illegalArgument(
+                    "No appropriate constructor found: " + type + '(' + ArrayFormat.format(", ", paramTypes) + ')');
           }
-          Exception mostRecentException = null;
-          for (Constructor<T> candidate : candidates) {
-            try {
-              return newInstance(candidate, strict, parameters);
-            } catch (Exception e) {
-              mostRecentException = e;
-              logger.warn("Exception in constructor call: " + candidate, e);
-              continue; // ignore exception and try next constructor
-            }
-          }
-          // no constructor could be called without exception
-          String errMsg = (mostRecentException != null ?
-              "None of these constructors could be called without exception: " + candidates + ", latest exception: " + mostRecentException :
-              type + " has no appropriate constructor for the arguments " + ArrayFormat.format(", ", parameters));
-          throw new ConfigurationError(errMsg);
+          return callFirstFunctioningConstructor(type, strict, parameters, candidates);
         }
       }
       if (!strict) {
@@ -504,10 +496,25 @@ public final class BeanUtil {
       }
       return newInstance(constructorToUse, parameters);
     } catch (SecurityException e) {
-      throw ExceptionMapper.configurationException(e, constructorToUse);
-    } catch (NoSuchMethodException e) {
-      throw ExceptionMapper.configurationException(e, type);
+      throw ExceptionFactory.getInstance().illegalArgument("Error calling " + constructorToUse, e);
     }
+  }
+
+  private static <T> T callFirstFunctioningConstructor(Class<T> type, boolean strict, Object[] parameters, List<Constructor<T>> candidates) {
+    Exception mostRecentException = null;
+    for (Constructor<T> candidate : candidates) {
+      try {
+        return newInstance(candidate, strict, parameters);
+      } catch (Exception e) {
+        mostRecentException = e;
+        logger.warn("Exception in constructor call: " + candidate, e);
+      }
+    }
+    // no constructor could be called without exception
+    String errMsg = (mostRecentException != null ?
+        "None of these constructors could be called without exception: " + candidates + ", latest exception: " + mostRecentException :
+        type + " has no appropriate constructor for the arguments " + ArrayFormat.format(", ", parameters));
+    throw ExceptionFactory.getInstance().internalError(errMsg, null);
   }
 
   /** Creates a new instance of a class.
@@ -530,19 +537,18 @@ public final class BeanUtil {
     try {
       return constructor.newInstance(parameters);
     } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
-      throw ExceptionMapper.configurationException(e, type);
+      throw ExceptionFactory.getInstance().illegalArgument("Failed to execute " + constructor, e);
     }
   }
 
   @SuppressWarnings("unchecked")
   public static <T> T clone(T object) {
+    Class<?> clazz = object.getClass();
     try {
-      Method cloneMethod = object.getClass().getMethod("clone");
+      Method cloneMethod = clazz.getMethod("clone");
       return (T) cloneMethod.invoke(object);
-    } catch (NoSuchMethodException | IllegalAccessException e) {
-      throw new RuntimeException("Unexpected exception", e); // This is not supposed to happen
-    } catch (InvocationTargetException e) {
-      throw new RuntimeException("Execption occured in clone() method", e);
+    } catch (Exception e) {
+      throw ExceptionFactory.getInstance().cloningFailed("Cloning failed for " + clazz, e);
     }
   }
 
@@ -557,17 +563,21 @@ public final class BeanUtil {
 
   // method operations -----------------------------------------------------------------------------------------------
 
-  /** Finds a method by reflection. This iterates all methods of the class, comparing names and parameter types.
-   *  Unlike the method Class.getMethod(String, Class ...), this method is able to match primitive and wrapper types.
-   *  If no appropriate method is found, a ConfigurationError is raised.
-   *  @param type       the class that holds the method
-   *  @param methodName the name of the method
-   *  @param paramTypes the parameter types of the method
-   *  @return a method with matching names and parameters */
+  /**
+   * Finds a method by reflection. This iterates all methods of the class, comparing names and parameter types.
+   * Unlike the method Class.getMethod(String, Class ...), this method is able to match primitive and wrapper types.
+   * If no appropriate method is found, a ConfigurationError is raised.
+   *
+   * @param type       the class that holds the method
+   * @param methodName the name of the method
+   * @param paramTypes the parameter types of the method
+   * @return a method with matching names and parameters
+   */
   public static Method getMethod(Class<?> type, String methodName, Class<?>... paramTypes) {
     Method method = findMethod(type, methodName, paramTypes);
     if (method == null) {
-      throw new ConfigurationError("method not found in class " + type.getName() + ": " + methodName
+      throw ExceptionFactory.getInstance().illegalArgument(
+          "method not found in class " + type.getName() + ": " + methodName
           + '(' + ArrayFormat.format(paramTypes) + ')');
     }
     return method;
@@ -587,7 +597,6 @@ public final class BeanUtil {
         continue;
       }
       if (typesMatch(paramTypes, method.getParameterTypes())) {
-        result = method;
         if ((ArrayUtil.isEmpty(paramTypes) && ArrayUtil.isEmpty(method.getParameterTypes())) ||
             paramTypes.length == method.getParameterTypes().length) {
           return method; // optimal match - return it immediately
@@ -621,7 +630,7 @@ public final class BeanUtil {
   }
 
   /** Invokes a method on an {@link Object}.
-   *  @param target     the object on which to invoke the mthod
+   *  @param target     the object on which to invoke the method
    *  @param methodName the name of the method
    *  @param args       the arguments to provide to the method
    *  @return the invoked method's return value. */
@@ -631,9 +640,7 @@ public final class BeanUtil {
 
   @SuppressWarnings("rawtypes")
   public static Object invoke(boolean strict, Object target, String methodName, Object... args) {
-    if (target == null) {
-      throw new IllegalArgumentException("target is null");
-    }
+    Assert.notNull(target, "target");
     Class[] argTypes = getTypes(args);
     Method method;
     if (target instanceof Class) {
@@ -649,9 +656,7 @@ public final class BeanUtil {
   }
 
   public static Object invokeStatic(Class<?> targetClass, String methodName, boolean strict, Object... args) {
-    if (targetClass == null) {
-      throw new IllegalArgumentException("target is null");
-    }
+    Assert.notNull(targetClass, "targetClass");
     Class<?>[] argClasses = new Class[args.length];
     for (int i = 0; i < args.length; i++) {
       argClasses[i] = (args[i] != null ? args[i].getClass() : null);
@@ -664,8 +669,7 @@ public final class BeanUtil {
    *  @param target the object on which to invoke the mthod
    *  @param method the method to invoke
    *  @param args   the arguments to provide to the method
-   *  @return the invoked method's return value.
-   */
+   *  @return the invoked method's return value. */
   public static Object invoke(Object target, Method method, Object[] args) {
     return invoke(target, method, true, args);
   }
@@ -718,12 +722,13 @@ public final class BeanUtil {
         Object varargs = Array.newInstance(varargsComponentType, 0);
         params[params.length - 1] = varargs;
       } else {
-        throw new RuntimeException("Method " + method.getName() + " requires " + paramTypes.length + " params, " +
-            "but only " + args.length + " were provided. ");
+        throw ExceptionFactory.getInstance().illegalArgument(
+            "Method " + method.getName() + " requires " + paramTypes.length + " params, " +
+                "but only " + args.length + " were provided. ");
       }
       return method.invoke(target, params);
     } catch (IllegalAccessException | InvocationTargetException e) {
-      throw ExceptionMapper.configurationException(e, method);
+      throw ExceptionFactory.getInstance().operationFailed("Failed to invoke " + method, e);
     }
   }
 
@@ -776,9 +781,7 @@ public final class BeanUtil {
    *  @param propertyName the name of the property
    *  @return the attribute's property descriptor */
   public static PropertyDescriptor getPropertyDescriptor(Class<?> beanClass, String propertyName) {
-    if (beanClass == null) {
-      throw new IllegalArgumentException("beanClass is null");
-    }
+    Assert.notNull(beanClass, "beanClass");
     String propertyId = beanClass.getName() + '#' + propertyName;
     PropertyDescriptor result = propertyDescriptors.get(propertyId);
     if (result != null) {
@@ -808,7 +811,8 @@ public final class BeanUtil {
           }
         }
       } catch (IntrospectionException e) {
-        throw ExceptionMapper.configurationException(e, propertyName);
+        throw ExceptionFactory.getInstance().illegalArgument(
+            "Failed to get property descriptor " + propertyName, e);
       }
     }
     propertyDescriptors.put(propertyId, result);
@@ -819,7 +823,8 @@ public final class BeanUtil {
       Class<?> type, String propertyName, boolean required) {
     PropertyDescriptor descriptor = getPropertyDescriptor(type, propertyName);
     if (required && descriptor == null) {
-      throw new UnsupportedOperationException(type.getName() + " does not have a property " + propertyName);
+      throw ExceptionFactory.getInstance().internalError(
+          type.getName() + " does not have a property " + propertyName, null);
     }
     return descriptor;
   }
@@ -834,9 +839,9 @@ public final class BeanUtil {
   }
 
   /** returns the name of a property read method.
-   * @param propertyName the name of the property
-   * @param propertyType the type of the property
-   * @return the name of the property read method */
+   *  @param propertyName the name of the property
+   *  @param propertyType the type of the property
+   *  @return the name of the property read method */
   public static String readMethodName(String propertyName, Class<?> propertyType) {
     if (boolean.class.equals(propertyType) || Boolean.class.equals(propertyType)) {
       return "is" + Character.toUpperCase(propertyName.charAt(0)) + propertyName.substring(1);
@@ -853,13 +858,13 @@ public final class BeanUtil {
   }
 
   /** Finds all property descriptors of a bean class
-   * @param type the class to check
-   * @return all found property descriptors */
+   *  @param type the class to check
+   *  @return all found property descriptors */
   public static PropertyDescriptor[] getPropertyDescriptors(Class<?> type) {
     try {
       return Introspector.getBeanInfo(type).getPropertyDescriptors();
     } catch (IntrospectionException e) {
-      throw new RuntimeException(e);
+      throw ExceptionFactory.getInstance().operationFailed("Introspection failed on " + type, e);
     }
   }
 
@@ -893,50 +898,42 @@ public final class BeanUtil {
           writeMethod.invoke(bean, targetTypeObject);
         }
       }
-    } catch (IntrospectionException e) {
-      throw ExceptionMapper.configurationException(e, beanClass);
-    } catch (IllegalAccessException | InvocationTargetException e) {
-      throw ExceptionMapper.configurationException(e, writeMethod);
+    } catch (IntrospectionException | IllegalAccessException | InvocationTargetException e) {
+      throw ExceptionFactory.getInstance().illegalArgument("Failed to set property value using " + writeMethod, e);
     }
   }
-    
-/*
-    public static Class getPropertyType(Class beanClass, String propertyName) {
-        PropertyDescriptor descriptor = getPropertyDescriptor(beanClass, propertyName);
-        return (descriptor != null ? descriptor.getPropertyType() : null);
-    }
-*/
 
-  public static Map<String, ?> getPropertyValues(Object bean, boolean includeClass) {
+  public static Map<String, Object> getPropertyValues(Object bean, boolean includeClass) {
     Map<String, Object> result = new HashMap<>();
     PropertyDescriptor[] descriptors = getPropertyDescriptors(bean.getClass());
     for (PropertyDescriptor descriptor : descriptors) {
       String propertyName = descriptor.getName();
-      if (includeClass || !"class".equals(propertyName)) {
+      if (includeClass || !CLASS.equals(propertyName)) {
         result.put(propertyName, getPropertyValue(bean, descriptor));
       }
     }
     return result;
   }
 
-  public static Map<String, ?> getReadablePropertyValues(Object bean, boolean includeClass) {
+  public static Map<String, Object> getReadablePropertyValues(Object bean, boolean includeClass) {
     Map<String, Object> result = new HashMap<>();
     PropertyDescriptor[] descriptors = getPropertyDescriptors(bean.getClass());
     for (PropertyDescriptor descriptor : descriptors) {
       String propertyName = descriptor.getName();
-      if (descriptor.getReadMethod() != null && (includeClass || !"class".equals(propertyName))) {
+      if (descriptor.getReadMethod() != null && (includeClass || !CLASS.equals(propertyName))) {
         result.put(propertyName, getPropertyValue(bean, descriptor));
       }
     }
     return result;
   }
 
-  public static Map<String, ?> getRWPropertyValues(Object bean, boolean includeClass) {
+  public static Map<String, Object> getRWPropertyValues(Object bean, boolean includeClass) {
     Map<String, Object> result = new HashMap<>();
     PropertyDescriptor[] descriptors = getPropertyDescriptors(bean.getClass());
     for (PropertyDescriptor descriptor : descriptors) {
       String propertyName = descriptor.getName();
-      if (descriptor.getWriteMethod() != null && descriptor.getReadMethod() != null && (includeClass || !"class".equals(propertyName))) {
+      if (descriptor.getWriteMethod() != null && descriptor.getReadMethod() != null
+          && (includeClass || !CLASS.equals(propertyName))) {
         result.put(propertyName, getPropertyValue(bean, descriptor));
       }
     }
@@ -955,7 +952,8 @@ public final class BeanUtil {
     PropertyDescriptor descriptor = getPropertyDescriptor(bean.getClass(), propertyName);
     if (descriptor == null) {
       if (propertyRequired) {
-        throw new ConfigurationError("Property '" + propertyName + "' not found in class " + bean.getClass());
+        throw ExceptionFactory.getInstance().internalError(
+            "Property '" + propertyName + "' not found in class " + bean.getClass(), null);
       } else {
         return null;
       }
@@ -964,12 +962,13 @@ public final class BeanUtil {
   }
 
   private static Object getPropertyValue(Object bean, PropertyDescriptor descriptor) {
-    Method readMethod = null;
+    Method readMethod;
     try {
       readMethod = descriptor.getReadMethod();
       return readMethod.invoke(bean);
     } catch (IllegalAccessException | InvocationTargetException e) {
-      throw ExceptionMapper.configurationException(e, readMethod);
+      throw ExceptionFactory.getInstance().illegalArgument(
+          "Failed to get property value " + descriptor.getName(), e);
     }
   }
 
@@ -986,13 +985,14 @@ public final class BeanUtil {
   }
 
   public static void setPropertyValue(Object bean, String propertyName, Object propertyValue, boolean required, boolean autoConvert) {
-    Method writeMethod = null;
+    Method writeMethod;
     try {
       Class<?> beanClass = bean.getClass();
       PropertyDescriptor propertyDescriptor = getPropertyDescriptor(beanClass, propertyName);
       if (propertyDescriptor == null) {
         if (required) {
-          throw new ConfigurationError(beanClass + " does not have a property '" + propertyName + "'");
+          throw ExceptionFactory.getInstance().internalError(
+              beanClass + " does not have a property '" + propertyName + "'", null);
         } else {
           return;
         }
@@ -1003,48 +1003,50 @@ public final class BeanUtil {
         if (propertyValue != null) {
           Class<?> argType = propertyValue.getClass();
           if (!propertyType.isAssignableFrom(argType) && !isWrapperTypeOf(propertyType, propertyValue) && !autoConvert) {
-            throw new IllegalArgumentException("ArgumentType mismatch: expected "
-                + propertyType.getName() + ", found " + propertyValue.getClass().getName());
+            throw ExceptionFactory.getInstance().illegalArgument(
+                "ArgumentType mismatch: expected " + propertyType.getName() + ", found "
+                    + propertyValue.getClass().getName());
           } else {
             propertyValue = AnyConverter.convert(propertyValue, propertyType);
           }
         }
         writeMethod.invoke(bean, propertyValue);
       } else if (required) {
-        throw new UnsupportedOperationException("Cannot write read-only property '"
-            + propertyDescriptor.getName() + "' of " + beanClass);
-      } else {
-        // no write method but property is not required, so ignore it silently
+        throw ExceptionFactory.getInstance().illegalArgument(
+            "Cannot write read-only property '" + propertyDescriptor.getName() + "' of " + beanClass);
       }
     } catch (IllegalAccessException | InvocationTargetException e) {
-      throw ExceptionMapper.configurationException(e, writeMethod);
+      throw ExceptionFactory.getInstance().illegalArgument("Failed to set value of property " + propertyName, e);
     }
   }
 
   @SuppressWarnings("unchecked")
-  public static <BEAN, PROP_TYPE> List<PROP_TYPE> extractProperties(Collection<BEAN> beans, String propertyName) {
-    List<PROP_TYPE> result = new ArrayList<>(beans.size());
-    for (BEAN bean : beans) {
-      result.add((PROP_TYPE) getPropertyValue(bean, propertyName));
+  public static <B, P> List<P> extractProperties(Collection<B> beans, String propertyName) {
+    List<P> result = new ArrayList<>(beans.size());
+    for (B bean : beans) {
+      result.add((P) getPropertyValue(bean, propertyName));
     }
     return result;
   }
 
   @SuppressWarnings("unchecked")
-  public static <BEAN, PROP_TYPE> PROP_TYPE[] extractProperties(BEAN[] beans, String propertyName, Class<PROP_TYPE> propertyType) {
-    PROP_TYPE[] result = ArrayUtil.newInstance(propertyType, beans.length);
+  public static <B, P> P[] extractProperties(B[] beans, String propertyName, Class<P> propertyType) {
+    P[] result = ArrayUtil.newInstance(propertyType, beans.length);
     for (int i = 0; i < beans.length; i++) {
-      BEAN bean = beans[i];
-      result[i] = (PROP_TYPE) getPropertyValue(bean, propertyName);
+      B bean = beans[i];
+      result[i] = (P) getPropertyValue(bean, propertyName);
     }
     return result;
   }
 
   // class operations ------------------------------------------------------------------------------------------------
 
-  /** Prints information about a class' parents and methods to a PrintWriter
-   *  @param object  the object to examine
-   *  @param printer the {@link PrintWriter} used to write the text representation */
+  /**
+   * Prints information about a class' parents and methods to a PrintWriter
+   *
+   * @param object  the object to examine
+   * @param printer the {@link PrintWriter} used to write the text representation
+   */
   public static void printClassInfo(Object object, PrintWriter printer) {
     if (object == null) {
       printer.println("null");
@@ -1063,34 +1065,40 @@ public final class BeanUtil {
     }
   }
 
-  /** Checks if a class fulfills the JavaBeans contract.
-   *  @param cls the class to check */
+  /**
+   * Checks if a class fulfills the JavaBeans contract.
+   *
+   * @param cls the class to check
+   */
   public static void checkJavaBean(Class<?> cls) {
     try {
       Constructor<?> constructor = cls.getDeclaredConstructor();
       int classModifiers = cls.getModifiers();
       if (Modifier.isInterface(classModifiers)) {
-        throw new RuntimeException(cls.getName() + " is an interface");
+        throw ExceptionFactory.getInstance().illegalArgument(cls.getName() + " is an interface");
       }
       if (Modifier.isAbstract(classModifiers)) {
-        throw new RuntimeException(cls.getName() + " cannot be instantiated - it is an abstract class");
+        throw ExceptionFactory.getInstance().illegalArgument(cls.getName() + " cannot be instantiated - it is an abstract class");
       }
       int modifiers = constructor.getModifiers();
       if (!Modifier.isPublic(modifiers)) {
-        throw new RuntimeException("No public default constructor in " + cls);
+        throw ExceptionFactory.getInstance().illegalArgument("No public default constructor in " + cls);
       }
     } catch (NoSuchMethodException e) {
-      throw new RuntimeException("No default constructor in class " + cls);
+      throw ExceptionFactory.getInstance().illegalArgument("No default constructor in class " + cls);
     } catch (SecurityException e) {
       logger.error("I am not allowed to check the class by using reflection, " +
           "so I just can hope the class is alright and go on: ", e);
     }
   }
 
-  /**  Tells if a class is deprecated.
-   *  @param type the class to check for deprecation
-   *  @return true if the class is deprecated, else false
-   *  @since 0.2.05 */
+  /**
+   * Tells if a class is deprecated.
+   *
+   * @param type the class to check for deprecation
+   * @return true if the class is deprecated, else false
+   * @since 0.2.05
+   */
   public static boolean deprecated(Class<?> type) {
     Annotation[] annotations = type.getDeclaredAnnotations();
     for (Annotation annotation : annotations) {
@@ -1102,36 +1110,37 @@ public final class BeanUtil {
   }
 
   public static List<Class<?>> getClasses(String packageName) {
+    ClassLoader classLoader = getContextClassLoader();
+    String packagePath = packageName.replace('.', '/');
+    Enumeration<URL> resourceUris;
     try {
-      ClassLoader classLoader = getContextClassLoader();
-      String packagePath = packageName.replace('.', '/');
-      Enumeration<URL> resourceUris = classLoader.getResources(packagePath);
-      List<Class<?>> classes = new ArrayList<>();
-      while (resourceUris.hasMoreElements()) {
-        URL resource = resourceUris.nextElement();
-        String protocol = resource.getProtocol();
-        if ("jar".equals(protocol)) {
-          findClassesInJar(resource.getFile(), packagePath, classes);
-        } else if ("file".equals(protocol)) {
-          findClassesInDirectory(new File(resource.toURI()), packageName, classes);
-        } else {
-          throw new UnsupportedOperationException("Not a supported protocol: " + protocol);
-        }
-      }
-      return classes;
-    } catch (IOException | URISyntaxException e) {
-      throw new RuntimeException(e);
+      resourceUris = classLoader.getResources(packagePath);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().internalError("Error getting class loader resources", e);
     }
+    List<Class<?>> classes = new ArrayList<>();
+    while (resourceUris.hasMoreElements()) {
+      URL resource = resourceUris.nextElement();
+      String protocol = resource.getProtocol();
+      if ("jar".equals(protocol)) {
+        findClassesInJar(resource.getFile(), packagePath, classes);
+      } else if ("file".equals(protocol)) {
+        findClassesInDirectory(resource, packageName, classes);
+      } else {
+        throw ExceptionFactory.getInstance().programmerUnsupported("Not a supported protocol: " + protocol);
+      }
+    }
+    return classes;
   }
 
   public static Object getFieldValue(Object target, String name, boolean strict) {
     Class<?> type = target.getClass();
     try {
       Field field = type.getField(name);
-      return getFieldValue(field, target, strict);
+      return getFieldValue(field, target);
     } catch (NoSuchFieldException e) {
       if (strict) {
-        throw ExceptionMapper.configurationException(e, type.getName() + '.' + name);
+        throw ExceptionFactory.getInstance().illegalArgument("Field not found: " + type.getName() + '.' + name, e);
       } else {
         escalator.escalate("Class '" + type + "' does not have a field '" + name + "'", type, name);
         return null;
@@ -1139,15 +1148,17 @@ public final class BeanUtil {
     }
   }
 
-  public static Object getFieldValue(Field field, Object target, boolean strict) {
+  public static Object getFieldValue(Field field, Object target) {
     try {
       if ((field.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
         return field.get(null);
       } else {
         return field.get(target);
       }
-    } catch (IllegalArgumentException | IllegalAccessException e) {
-      throw new ConfigurationError("Error getting field value", e);
+    } catch (IllegalArgumentException e) {
+      throw ExceptionFactory.getInstance().illegalArgument("Error getting field value", e);
+    } catch (IllegalAccessException e) {
+      throw ExceptionFactory.getInstance().accessFailed("Error accessing " + field, e);
     }
   }
 
@@ -1159,7 +1170,7 @@ public final class BeanUtil {
     try {
       return type.getField(name);
     } catch (NoSuchFieldException e) {
-      throw ExceptionMapper.configurationException(e, type.getName() + '.' + name);
+      throw ExceptionFactory.getInstance().illegalArgument("Field not found: " + type.getName() + '.' + name, e);
     }
   }
 
@@ -1185,17 +1196,18 @@ public final class BeanUtil {
     if (!Object.class.equals(checkedClass.getSuperclass())) {
       return getGenericInterfaceParams(checkedClass.getSuperclass(), searchedInterface);
     }
-    throw new ConfigurationError(checkedClass + " does not implement interface with generic parameters: " + searchedInterface);
+    throw ExceptionFactory.getInstance().illegalArgument(
+        checkedClass + " does not implement interface with generic parameters: " + searchedInterface, null);
   }
 
-  public static <T> String className(Object o) {
+  public static String className(Object o) {
     if (o == null) {
       return null;
     }
     return (o instanceof Class ? ((Class<?>) o).getName() : o.getClass().getName());
   }
 
-  public static <T> String simpleClassName(Object o) {
+  public static String simpleClassName(Object o) {
     if (o == null) {
       return null;
     }
@@ -1205,10 +1217,13 @@ public final class BeanUtil {
 
   // General method support, i.e. for toString(), equals(), hashCode() -----------------------------------------------
 
-  /** Tries to convert both arguments to the same type and then compares them
-   *  @param o1 the first object to compare
-   *  @param o2 the second object to compare
-   * @return true if they are equal, otherwise false */
+  /**
+   * Tries to convert both arguments to the same type and then compares them
+   *
+   * @param o1 the first object to compare
+   * @param o2 the second object to compare
+   * @return true if they are equal, otherwise false
+   */
   public static boolean equalsIgnoreType(Object o1, Object o2) {
     if (NullSafeComparator.equals(o1, o2)) {
       return true;
@@ -1265,7 +1280,7 @@ public final class BeanUtil {
     boolean first = true;
     for (PropertyDescriptor descriptor : descriptors) {
       String propertyName = descriptor.getName();
-      if (!"class".equals(propertyName) && descriptor.getReadMethod() != null) {
+      if (!CLASS.equals(propertyName) && descriptor.getReadMethod() != null) {
         if (first) {
           builder.append('[');
         } else {
@@ -1305,16 +1320,16 @@ public final class BeanUtil {
   }
 
   /** Creates an instance of the class using the default constructor.
-   * @param type the type to instantiate
-   * @return a new instance of the type
-   * @since 0.2.06 */
+   *  @param type the type to instantiate
+   *  @return a new instance of the type
+   *  @since 0.2.06 */
   @SuppressWarnings("cast")
   private static <T> T newInstanceFromDefaultConstructor(Class<T> type) {
     if (type == null) {
       return null;
     }
     if (logger.isDebugEnabled()) {
-      logger.debug("Instantiating " + type.getSimpleName());
+      logger.debug("Instantiating {}", type.getSimpleName());
     }
     if (deprecated(type)) {
       escalator.escalate("Instantiating a deprecated class: " + type.getName(), BeanUtil.class, null);
@@ -1322,34 +1337,41 @@ public final class BeanUtil {
     try {
       return type.getDeclaredConstructor().newInstance();
     } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-      throw ExceptionMapper.configurationException(e, type);
+      throw ExceptionFactory.getInstance().illegalArgument("Failed to instantiate " + type, e);
+    }
+  }
+
+  private static void findClassesInDirectory(URL url, String packagePath, List<Class<?>> classes) {
+    try {
+      findClassesInDirectory(new File(url.toURI()), packagePath, classes);
+    } catch (URISyntaxException e) {
+      throw ExceptionFactory.getInstance().internalError("Error calculating URI", e);
     }
   }
 
   private static void findClassesInDirectory(File directory, String packagePath, List<Class<?>> classes) {
     File[] files = directory.listFiles();
-    for (File file : files) {
-      String fileName = file.getName();
-      if (file.isDirectory()) {
-        findClassesInDirectory(file, packagePath + "." + fileName, classes);
-      } else if (fileName.endsWith(".class") && !fileName.contains("$")) {
-        String className = packagePath + '.' + fileName.substring(0, fileName.length() - 6);
-        classes.add(BeanUtil.forName(className));
+    if (files != null) {
+      for (File file : files) {
+        String fileName = file.getName();
+        if (file.isDirectory()) {
+          findClassesInDirectory(file, packagePath + "." + fileName, classes);
+        } else if (fileName.endsWith(".class") && !fileName.contains("$")) {
+          String className = packagePath + '.' + fileName.substring(0, fileName.length() - 6);
+          classes.add(BeanUtil.forName(className));
+        }
       }
     }
   }
 
-  private static void findClassesInJar(String path, String packagePath, List<Class<?>> classes)
-      throws IOException, URISyntaxException {
+  private static void findClassesInJar(String path, String packagePath, List<Class<?>> classes) {
     // extract jar file name
     String fileName = path;
     if (fileName.contains("!")) {
       fileName = fileName.substring(0, fileName.indexOf('!'));
     }
     // extract classes
-    JarFile jarFile = null;
-    try {
-      jarFile = new JarFile(new File(new URL(fileName).toURI()));
+    try (JarFile jarFile = new JarFile(new File(new URL(fileName).toURI()))) {
       Enumeration<JarEntry> entries = jarFile.entries();
       while (entries.hasMoreElements()) {
         JarEntry entry = entries.nextElement();
@@ -1360,8 +1382,8 @@ public final class BeanUtil {
           classes.add(BeanUtil.forName(className));
         }
       }
-    } finally {
-      IOUtil.close(jarFile);
+    } catch (Exception e) {
+      throw ExceptionFactory.getInstance().internalError("error mapping file path", e);
     }
   }
 
@@ -1386,9 +1408,9 @@ public final class BeanUtil {
   /** Represents a primitive-to-wrapper mapping. */
   private static final class PrimitiveTypeMapping {
     /** The Primitive type to map from. */
-    public Class<?> primitiveType;
+    public final Class<?> primitiveType;
     /** The Wrapper type to map to. */
-    public Class<?> wrapperType;
+    public final Class<?> wrapperType;
 
     public PrimitiveTypeMapping(Class<?> primitiveType, Class<?> wrapperType) {
       this.primitiveType = primitiveType;

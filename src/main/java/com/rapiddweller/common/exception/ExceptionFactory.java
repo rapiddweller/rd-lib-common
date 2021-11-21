@@ -2,15 +2,23 @@
 
 package com.rapiddweller.common.exception;
 
+import com.rapiddweller.common.AssertionError;
+import com.rapiddweller.common.ConfigurationError;
+import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.DeploymentError;
+import com.rapiddweller.common.ImportFailedException;
 import com.rapiddweller.common.ObjectNotFoundException;
+import com.rapiddweller.common.OperationFailedException;
 import com.rapiddweller.common.StringUtil;
-import com.rapiddweller.common.cli.IllegaCommandLineArgumentException;
-import com.rapiddweller.common.cli.IllegalCommandLineOptionException;
-import com.rapiddweller.common.cli.MissingCommandLineArgumentException;
-import com.rapiddweller.common.cli.MissingCommandLineOptionValueException;
+import com.rapiddweller.common.cli.CLIIllegalArgumentException;
+import com.rapiddweller.common.cli.CLIIllegalOptionException;
+import com.rapiddweller.common.cli.CLIMissingArgumentException;
+import com.rapiddweller.common.cli.CLIMissingOptionValueException;
+import com.rapiddweller.common.file.FileAccessException;
+import com.rapiddweller.common.file.FileCreationFailedException;
+import com.rapiddweller.common.file.FileResourceNotFoundException;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 /**
  * Creates {@link ApplicationException}s.<br/><br/>
@@ -33,6 +41,14 @@ public class ExceptionFactory {
     instance = factory;
   }
 
+  public AssertionError assertionFailed(String message) {
+    return new AssertionError(message);
+  }
+
+  public SyntaxError syntaxError(String message, Throwable cause) {
+    return new SyntaxError(message, cause);
+  }
+
   public SyntaxError syntaxError(String uri, int lineNumber, int columnNumber, Throwable cause) {
     return new SyntaxError(StringUtil.removeSuffixIfPresent(".", cause.getMessage()), uri);
   }
@@ -45,24 +61,24 @@ public class ExceptionFactory {
     return new FileResourceNotFoundException(null, "File not found: '" + uri + "'.", cause);
   }
 
-  public IllegalCommandLineOptionException illegalCommandLineOption(String message) {
-    return new IllegalCommandLineOptionException(message);
+  public FileCreationFailedException fileCreationFailed(String message, Exception cause) {
+    return new FileCreationFailedException(message, cause);
   }
 
-  public MissingCommandLineArgumentException missingCommandLineArgument() {
-    return new MissingCommandLineArgumentException("Missing command argument.");
+  public CLIIllegalOptionException illegalCommandLineOption(String message) {
+    return new CLIIllegalOptionException(message);
   }
 
-  public IllegaCommandLineArgumentException illegalCommandLineArgument(String message) {
-    return new IllegaCommandLineArgumentException(message);
+  public CLIMissingArgumentException missingCommandLineArgument() {
+    return new CLIMissingArgumentException("Missing command argument.");
   }
 
-  public MissingCommandLineOptionValueException missingCommandLineOptionValue(String name) {
-    return new MissingCommandLineOptionValueException("Value missing for command line option: '" + name + "'.");
+  public CLIIllegalArgumentException illegalCommandLineArgument(String message) {
+    return new CLIIllegalArgumentException(message);
   }
 
-  public ProgrammerValueUndefinedError programmerUndefinedValue(String message) {
-    return new ProgrammerValueUndefinedError(message);
+  public CLIMissingOptionValueException missingCommandLineOptionValue(String name) {
+    return new CLIMissingOptionValueException("Value missing for command line option: '" + name + "'.");
   }
 
   public ProgrammerStateError programmerStateError(String message) {
@@ -85,16 +101,83 @@ public class ExceptionFactory {
     return new ObjectNotFoundException(message);
   }
 
-  public FileAccessException fileAccessException(String message, IOException cause) {
+  public FileAccessException fileAccessException(String message, Throwable cause) {
     return new FileAccessException(message, cause);
-  }
-
-  public ConnectFailedException systemNotAvailable(String message, Throwable cause) {
-    return new ConnectFailedException(message, cause);
   }
 
   public UnexpectedQueryResultException unexpectedQueryResult(String message, Throwable cause) {
     return new UnexpectedQueryResultException(message, cause);
+  }
+
+  public IllegalArgumentError illegalArgument(String message) {
+    return illegalArgument(message, null);
+  }
+
+  public IllegalArgumentError illegalArgument(String message, Throwable cause) {
+    return new IllegalArgumentError(message, cause);
+  }
+
+  public ConnectFailedException connectFailed(String message, Throwable cause) {
+    return new ConnectFailedException(message, cause);
+  }
+
+  public ServiceUnavailableException serviceUnavailable(String s, Throwable e) {
+    return new ServiceUnavailableException(s, e);
+  }
+
+  public InternalError internalError(String message, Throwable cause) {
+    return new InternalError(message, cause);
+  }
+
+  public ServiceFailedException serviceFailed(String message, Throwable cause) {
+    return new ServiceFailedException(message, cause);
+  }
+
+  public ConfigurationError configurationError(String message) {
+    return configurationError(message, null);
+  }
+
+  public ConfigurationError configurationError(String message, Throwable cause) {
+    return new ConfigurationError(message, cause);
+  }
+
+  public MutationFailedException mutationFailed(String message, Throwable cause) {
+    return new MutationFailedException(message, cause);
+  }
+
+  public AccessFailedException accessFailed(String message, Throwable cause) {
+    return new AccessFailedException(message, cause);
+  }
+  public ConversionException conversionFailed(String message, Throwable cause) {
+    return new ConversionException(message, cause);
+  }
+
+  public ImportFailedException importFailed(String message, Throwable cause) {
+    return new ImportFailedException(message, cause);
+  }
+
+  public DeploymentError deploymentFailed(String message, Throwable cause) {
+    return new DeploymentError(message, cause);
+  }
+
+  public CloningFailedException cloningFailed(String message, Throwable cause) {
+    return new CloningFailedException(message, cause);
+  }
+
+  public OperationCancelledException operationCancelled(String message) {
+    return new OperationCancelledException(message);
+  }
+
+  public OperationFailedException operationFailed(String message, Throwable cause) {
+    return new OperationFailedException(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
+  }
+
+  public QueryFailedException queryFailed(String message, Throwable cause) {
+    return new QueryFailedException(message, cause);
+  }
+
+  public ComponentInitializationFailedException componentInitializationFailed(String message, Throwable cause) {
+    return new ComponentInitializationFailedException(message, cause);
   }
 
 }

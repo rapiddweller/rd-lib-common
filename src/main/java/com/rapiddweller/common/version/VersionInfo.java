@@ -40,7 +40,7 @@ import java.util.Map.Entry;
  */
 public class VersionInfo {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(VersionInfo.class);
+  private static final Logger logger = LoggerFactory.getLogger(VersionInfo.class);
 
   private static final String VERSION_SUFFIX = "_version";
 
@@ -129,12 +129,12 @@ public class VersionInfo {
       }
       boolean ok = readVersionInfo(versionInfo, versionFileName);
       if (!ok) {
-        LOGGER.warn("Version number file '{}' not found, falling back to POM", versionFileName);
+        logger.warn("Version number file '{}' not found, falling back to POM", versionFileName);
       }
       if (versionInfo.version.startsWith("${") || versionInfo.version.startsWith("<unknown")) { // ...in Eclipse no filtering is applied,...
         VersionInfo.development = true;
         if (versionInfo.version.startsWith("${")) {
-          LOGGER.warn("Version number has not been resolved, falling back to POM info"); // ...so I fetch it directly from the POM!
+          logger.warn("Version number has not been resolved, falling back to POM info"); // ...so I fetch it directly from the POM!
         }
         Document doc = XMLUtil.parse("pom.xml");
         Element versionElement = XMLUtil.getChildElement(doc.getDocumentElement(), false, true, "version");
@@ -144,7 +144,7 @@ public class VersionInfo {
         }
       }
     } catch (IOException e) {
-      LOGGER.error("Error reading version info file", e);
+      logger.error("Error reading version info file", e);
     }
   }
 

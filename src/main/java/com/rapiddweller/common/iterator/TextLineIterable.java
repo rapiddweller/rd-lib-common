@@ -25,18 +25,12 @@ import java.io.IOException;
 /**
  * Creates Iterator object that iterate through the lines of a text file from the specified uri.
  * Created: 27.08.2007 19:13:40
- *
  * @author Volker Bergmann
  */
 public class TextLineIterable implements HeavyweightTypedIterable<String> {
 
   private final String uri;
 
-  /**
-   * Instantiates a new Text line iterable.
-   *
-   * @param uri the uri
-   */
   public TextLineIterable(String uri) {
     this.uri = uri;
   }
@@ -48,11 +42,7 @@ public class TextLineIterable implements HeavyweightTypedIterable<String> {
 
   @Override
   public HeavyweightIterator<String> iterator() {
-    try {
-      return new ReaderLineIterator(IOUtil.getReaderForURI(uri));
-    } catch (IOException e) {
-      throw new RuntimeException("Unable to create an Iterator for URI '" + uri + "'", e);
-    }
+    return new ReaderLineIterator(IOUtil.getReaderForURI(uri));
   }
 
 }

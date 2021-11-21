@@ -20,8 +20,6 @@ import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -43,19 +41,10 @@ public class PropertiesFileMergerTest {
   private static final String MERGED_PROPERTIES_FILENAME = "target/merged.properties";
   private static final String FILE_XML_FILENAME = "src/test/resources/com/rapiddweller/common/xml/properties.xml";
   private static final String MERGED_SIMPLE_XML_FILENAME = "target/mergedSimple.xml";
-  private static final URL JAR_URL;
 
   private static final String COMPLEX_XML_FILE1 = "src/test/resources/com/rapiddweller/common/xml/complexProps1.xml";
   private static final String COMPLEX_XML_FILE2 = "src/test/resources/com/rapiddweller/common/xml/complexProps2.xml";
   private static final String MERGED_COMPLEX_XML_FILE = "target/mergedComplex.xml";
-
-  static {
-    try {
-      JAR_URL = new URL("file:src/test/resources/com/rapiddweller/common/file/JarWithProperties.jar");
-    } catch (MalformedURLException e) {
-      throw new RuntimeException(e);
-    }
-  }
 
   @Test
   public void testOverwritePropertiesWithVMParams() {

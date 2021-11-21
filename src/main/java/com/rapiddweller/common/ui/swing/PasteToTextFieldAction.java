@@ -29,23 +29,15 @@ import java.awt.event.ActionEvent;
 /**
  * Pastes the clipboard content to a {@link JTextField} component, replacing its current selection.
  * Created: 10.04.2016 11:37:33
- *
  * @author Volker Bergmann
  * @since 1.0.9
  */
 public class PasteToTextFieldAction extends AbstractAction {
 
-  private static final long serialVersionUID = 1L;
-
-  private static final Logger LOGGER = LoggerFactory.getLogger(PasteToTextFieldAction.class);
+  private static final Logger logger = LoggerFactory.getLogger(PasteToTextFieldAction.class);
 
   private final JTextField textField;
 
-  /**
-   * Instantiates a new Paste to text field action.
-   *
-   * @param textField the text field
-   */
   public PasteToTextFieldAction(JTextField textField) {
     super("Paste");
     this.textField = textField;
@@ -60,7 +52,7 @@ public class PasteToTextFieldAction extends AbstractAction {
         String data = (String) t.getTransferData(DataFlavor.stringFlavor);
         textField.replaceSelection(data);
       } catch (Exception e1) {
-        LOGGER.error("Paste failed", e1);
+        logger.error("Paste failed", e1);
       }
     }
   }

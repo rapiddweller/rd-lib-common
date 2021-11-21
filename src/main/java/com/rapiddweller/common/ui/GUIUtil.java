@@ -31,20 +31,11 @@ import java.io.IOException;
 /**
  * Provides GUI utility methods.
  * Created: 01.12.2010 13:55:23
- *
  * @author Volker Bergmann
  * @since 0.2.4
  */
 public class GUIUtil {
 
-  /**
-   * Create file chooser file chooser.
-   *
-   * @param selectedFile   the selected file
-   * @param supportedTypes the supported types
-   * @param operation      the operation
-   * @return the file chooser
-   */
   public static FileChooser createFileChooser(
       File selectedFile, FileTypeSupport supportedTypes, FileOperation operation) {
     FileChooser chooser;
@@ -63,14 +54,6 @@ public class GUIUtil {
     return chooser;
   }
 
-  /**
-   * Take screenshot.
-   *
-   * @param fileName   the file name
-   * @param formatName the format name
-   * @throws IOException  the io exception
-   * @throws AWTException the awt exception
-   */
   public static void takeScreenshot(String fileName, String formatName) throws IOException, AWTException {
     Rectangle screenBounds = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
     BufferedImage image = new Robot().createScreenCapture(screenBounds);

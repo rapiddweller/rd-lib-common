@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common.file;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -36,18 +38,14 @@ import java.io.IOException;
  * </pre>
  * <p>
  * Created: 29.11.2013 08:16:23
- *
  * @author Volker Bergmann
  * @since 0.5.25
  */
 public class LockFile {
 
-  /**
-   * Acquire lock.
-   *
-   * @param lockFile the lock file
-   * @throws LockAlreadyAcquiredException the lock already acquired exception
-   */
+  /** Acquire lock.
+   *  @param lockFile the lock file
+   *  @throws LockAlreadyAcquiredException the lock already acquired exception */
   public static void acquireLock(final File lockFile) throws LockAlreadyAcquiredException {
     if (lockFile.exists()) {
       throw new LockAlreadyAcquiredException(lockFile.getPath());
@@ -57,24 +55,17 @@ public class LockFile {
         parent.mkdirs();
         lockFile.createNewFile();
       } catch (IOException e) {
-        throw new RuntimeException(e);
+        throw ExceptionFactory.getInstance().internalError("Error acquiring lock", e);
       }
       Runtime.getRuntime().addShutdownHook(new Thread(lockFile::delete));
     }
   }
 
-  /**
-   * The type Lock already acquired exception.
-   */
+  /** The type Lock already acquired exception. */
   public static class LockAlreadyAcquiredException extends Exception {
 
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Instantiates a new Lock already acquired exception.
-     *
-     * @param fileName the file name
-     */
+    /** Instantiates a new Lock already acquired exception.
+     *  @param fileName the file name */
     public LockAlreadyAcquiredException(String fileName) {
       super("Lock file already acquired: " + fileName);
     }
