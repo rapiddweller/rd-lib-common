@@ -21,13 +21,13 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Provides utility methods for threading.
  * Created: 26.03.2010 19:26:07
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class ThreadUtil {
 
   private ThreadUtil() {
+    // private constructor to prevent instantiation of this utility class
   }
 
   public static boolean allThreadSafe(Collection<?> elements) {
@@ -78,16 +78,26 @@ public class ThreadUtil {
     return false;
   }
 
-  public static void sleep(int millis) {
+  public static void sleepWithException(int millis) throws InterruptedException {
     try {
       Thread.sleep(millis);
     } catch (InterruptedException e) {
-      throw new RuntimeException(e); // TODO
+      if (Thread.interrupted()) {
+        throw e;
+      }
+    }
+  }
+
+  public static void sleepIgnoringException(int millis) {
+    try {
+      Thread.sleep(millis);
+    } catch (InterruptedException e) {
+      // ignore exception
     }
   }
 
   public static void sleepRandom(int minMillis, int maxMillis) {
-    sleep(ThreadLocalRandom.current().nextInt(minMillis, maxMillis));
+    sleepIgnoringException(ThreadLocalRandom.current().nextInt(minMillis, maxMillis));
   }
 
   public static String currentStackTraceAsString() {
