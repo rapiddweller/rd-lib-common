@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,58 +17,36 @@ package com.rapiddweller.common.collection;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
 /**
  * Set of {@link Long} values which stores subsequent values in a compressed format.
  * Created: 18.10.2010 08:32:15
- *
  * @author Volker Bergmann
  * @since 0.5.4
  */
 public class CompressedLongSet {
 
-  /**
-   * The Numbers.
-   */
   protected TreeMap<Long, LongRange> numbers;
-  /**
-   * The Size.
-   */
   protected long size;
 
-  /**
-   * Instantiates a new Compressed long set.
-   */
   public CompressedLongSet() {
     this.numbers = new TreeMap<>();
     this.size = 0;
   }
 
-  /**
-   * Clear.
-   */
   public void clear() {
     numbers.clear();
     this.size = 0;
   }
 
-  /**
-   * Add all.
-   *
-   * @param numbers the numbers
-   */
   public void addAll(int... numbers) {
     for (int number : numbers) {
       add(number);
     }
   }
 
-  /**
-   * Add.
-   *
-   * @param i the
-   */
   public void add(long i) {
     if (numbers.isEmpty()) {
       // if the set is empty, insert the number
@@ -87,15 +65,7 @@ public class CompressedLongSet {
           return;
         }
         if (rangeBelow.getMax() + 1 == i) {
-          // extend found range if applicable
-          rangeBelow.setMax(i);
-          size++;
-          // check if two adjacent ranges can be merged
-          LongRange upperNeighbor = numbers.get(i + 1);
-          if (upperNeighbor != null) {
-            numbers.remove(i + 1);
-            rangeBelow.setMax(upperNeighbor.getMax());
-          }
+          extendRangeBelow(rangeBelow, i);
         } else {
           extendRangeAboveOrInsertNumber(i);
         }
@@ -103,40 +73,12 @@ public class CompressedLongSet {
     }
   }
 
-  private void extendRangeAboveOrInsertNumber(long i) {
-    LongRange rangeAbove = numbers.get(i + 1);
-    if (rangeAbove != null) {
-      numbers.remove(i + 1);
-      rangeAbove.setMin(i);
-      numbers.put(i, rangeAbove);
-    } else {
-      insertNumber(i);
-    }
-    size++;
-  }
-
-  private void insertNumber(long i) {
-    numbers.put(i, new LongRange(i, i));
-  }
-
-  /**
-   * Contains boolean.
-   *
-   * @param i the
-   * @return the boolean
-   */
   public boolean contains(long i) {
     Entry<Long, LongRange> floorEntry = numbers.floorEntry(i);
     return (floorEntry != null && floorEntry.getValue().contains(i));
   }
 
 
-  /**
-   * Remove boolean.
-   *
-   * @param i the
-   * @return the boolean
-   */
   public boolean remove(long i) {
     Entry<Long, LongRange> floorEntry = numbers.floorEntry(i);
     if (floorEntry == null || !floorEntry.getValue().contains(i)) {
@@ -160,34 +102,51 @@ public class CompressedLongSet {
     return true;
   }
 
-  /**
-   * Is empty boolean.
-   *
-   * @return the boolean
-   */
   public boolean isEmpty() {
     return numbers.isEmpty();
   }
 
-  /**
-   * Size long.
-   *
-   * @return the long
-   */
   public long size() {
     return size;
   }
 
-  /**
-   * Iterator iterator.
-   *
-   * @return the iterator
-   */
   public Iterator<Long> iterator() {
     return new CompressedSetIterator();
   }
 
-  // java.lang.Object overrrides -------------------------------------------------------------------------------------
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private void extendRangeBelow(LongRange rangeBelow, long indexToInclude) {
+    // extend found range if applicable
+    rangeBelow.setMax(indexToInclude);
+    size++;
+    // check if two adjacent ranges can be merged
+    LongRange upperNeighbor = numbers.get(indexToInclude + 1);
+    if (upperNeighbor != null) {
+      numbers.remove(indexToInclude + 1);
+      rangeBelow.setMax(upperNeighbor.getMax());
+    }
+  }
+
+  private void extendRangeAboveOrInsertNumber(long i) {
+    LongRange rangeAbove = numbers.get(i + 1);
+    if (rangeAbove != null) {
+      numbers.remove(i + 1);
+      rangeAbove.setMin(i);
+      numbers.put(i, rangeAbove);
+    } else {
+      insertNumber(i);
+    }
+    size++;
+  }
+
+  private void insertNumber(long i) {
+    numbers.put(i, new LongRange(i, i));
+  }
+
+
+  // java.lang.Object overrides --------------------------------------------------------------------------------------
 
   @Override
   public boolean equals(Object obj) {
@@ -198,7 +157,7 @@ public class CompressedLongSet {
       return false;
     }
     CompressedLongSet that = (CompressedLongSet) obj;
-    return this.equals(that.numbers);
+    return this.numbers.equals(that.numbers);
   }
 
   @Override
@@ -214,27 +173,12 @@ public class CompressedLongSet {
 
   // Iterator class --------------------------------------------------------------------------------------------------
 
-  /**
-   * The type Compressed set iterator.
-   */
   public class CompressedSetIterator implements Iterator<Long> {
 
-    /**
-     * The Long range iterator.
-     */
     protected Iterator<LongRange> longRangeIterator;
-    /**
-     * The Current long range.
-     */
     protected LongRange currentLongRange;
-    /**
-     * The Last long.
-     */
     protected Long lastLong;
 
-    /**
-     * Instantiates a new Compressed set iterator.
-     */
     protected CompressedSetIterator() {
       longRangeIterator = numbers.values().iterator();
       currentLongRange = null;
@@ -263,11 +207,10 @@ public class CompressedLongSet {
           currentLongRange = longRangeIterator.next();
         } else {
           longRangeIterator = null;
-          currentLongRange = null;
         }
       }
       if (longRangeIterator == null || currentLongRange == null) {
-        throw new IllegalStateException("No 'next' value available. Check hasNext() before calling next().");
+        throw new NoSuchElementException("No 'next' value available. Check hasNext() before calling next().");
       }
       lastLong = (lastLong != null ? ++lastLong : currentLongRange.min);
       if (lastLong == currentLongRange.max) {
@@ -280,7 +223,6 @@ public class CompressedLongSet {
     public void remove() {
       CompressedLongSet.this.remove(lastLong);
     }
-
   }
 
 }

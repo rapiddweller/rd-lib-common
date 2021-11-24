@@ -15,8 +15,8 @@
 
 package com.rapiddweller.common.iterator;
 
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
  * Iterates through another {@link TabularIterator},
@@ -47,7 +47,7 @@ public class SelectiveTabularIterator extends IteratorProxy<Object[]> implements
         String columnName = columnNames[i];
         int sourceIndex = StringUtil.indexOfIgnoreCase(columnName, sourceColumnNames);
         if (sourceIndex < 0) {
-          throw new ConfigurationError("Column '" + columnName + "' not defined in source: " + source);
+          throw ExceptionFactory.getInstance().configurationError("Column '" + columnName + "' not defined in source: " + source);
         }
         this.sourceIndexes[i] = sourceIndex;
       }

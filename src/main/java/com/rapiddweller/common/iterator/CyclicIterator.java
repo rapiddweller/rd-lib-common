@@ -15,11 +15,12 @@
 
 package com.rapiddweller.common.iterator;
 
+import java.util.NoSuchElementException;
+
 /**
  * Iterates through another BidirectionalIterator repeatedly.
  * This is supported forward as well as backward.
  * Created: 12.05.2007 23:21:48
- *
  * @param <E> the type to iterate
  * @author Volker Bergmann
  */
@@ -27,30 +28,15 @@ public class CyclicIterator<E> extends BidirectionalIteratorProxy<E> {
 
   private boolean cyclic;
 
-  /**
-   * Instantiates a new Cyclic iterator.
-   *
-   * @param realIterator the real iterator
-   */
   public CyclicIterator(BidirectionalIterator<E> realIterator) {
     super(realIterator);
     this.cyclic = true;
   }
 
-  /**
-   * Is cyclic boolean.
-   *
-   * @return the boolean
-   */
   public boolean isCyclic() {
     return cyclic;
   }
 
-  /**
-   * Sets cyclic.
-   *
-   * @param cyclic the cyclic
-   */
   public void setCyclic(boolean cyclic) {
     this.cyclic = cyclic;
   }
@@ -72,7 +58,7 @@ public class CyclicIterator<E> extends BidirectionalIteratorProxy<E> {
     } else if (cyclic) {
       return super.last();
     } else {
-      throw new IllegalStateException("No element available for previous()");
+      throw new NoSuchElementException("No element available for previous()");
     }
   }
 
@@ -83,7 +69,8 @@ public class CyclicIterator<E> extends BidirectionalIteratorProxy<E> {
     } else if (cyclic) {
       return super.first();
     } else {
-      throw new IllegalStateException("No element available for next()");
+      throw new NoSuchElementException("No element available for next()");
     }
   }
+
 }

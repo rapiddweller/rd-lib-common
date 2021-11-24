@@ -46,7 +46,7 @@ public class ResourceMonitorTest {
     monitor.assertNoRegistrations(false);
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test(expected = AssertionError.class)
   public void testAssert_critical() {
     ResourceMonitor monitor = new ResourceMonitor();
     Object x = new Object();

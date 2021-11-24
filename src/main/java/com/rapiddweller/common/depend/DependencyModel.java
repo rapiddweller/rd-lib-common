@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common.depend;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -58,7 +59,7 @@ public class DependencyModel<E extends Dependent<E>> {
         E provider = subject.getProvider(i);
         Node<E> providerNode = nodeMappings.get(provider);
         if (providerNode == null) {
-          throw new IllegalStateException("Node is not part of model: " + provider);
+          throw ExceptionFactory.getInstance().programmerStateError("Node is not part of model: " + provider);
         }
         providerNode.addClient(node);
         node.addProvider(providerNode, subject.requiresProvider(i));
@@ -118,7 +119,7 @@ public class DependencyModel<E extends Dependent<E>> {
       }
 
       if (!incompletes.isEmpty()) {
-        throw new IllegalStateException("Incomplete nodes left: " + incompletes);
+        throw ExceptionFactory.getInstance().operationFailed("Incomplete nodes left: " + incompletes, null);
       }
 
       // extract tails
@@ -137,7 +138,7 @@ public class DependencyModel<E extends Dependent<E>> {
       for (Node<E> node : orderedNodes) {
         E subject = node.getSubject();
         if (node.getState() != INITIALIZED) {
-          throw new IllegalStateException("Node '" + subject
+          throw ExceptionFactory.getInstance().programmerStateError("Node '" + subject
               + "' is expected to be in INITIALIZED state, found: " + node.getState());
         }
         result.add(subject);
@@ -195,7 +196,7 @@ public class DependencyModel<E extends Dependent<E>> {
             }
             break;
           default:
-            throw new IllegalArgumentException("state not supported: " + requiredState);
+            throw ExceptionFactory.getInstance().illegalArgument("state not supported: " + requiredState);
         }
         if (target != null) {
           target.add(node);

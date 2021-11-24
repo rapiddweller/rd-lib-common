@@ -26,8 +26,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -59,23 +59,27 @@ public final class FileUtil {
     // private constructor to prevent instantiation of this utility class
   }
 
-  public static String getTextContentOf(File file) throws IOException {
+  public static String getTextContentOf(File file) {
     return getTextContentOf(file, SystemInfo.getFileEncoding());
   }
 
-  public static String getTextContentOf(File file, String encoding) throws IOException {
-    Reader reader = getFileReader(file, encoding);
+  public static String getTextContentOf(File file, String encoding) {
+    Reader reader = createFileReader(file, encoding);
     return IOUtil.readAndClose(reader);
   }
 
-  public static BufferedReader getFileReader(File file, String encoding)
-      throws IOException, UnsupportedEncodingException {
-    if (encoding == null)
-      encoding = SystemInfo.getFileEncoding();
-    InputStream is = new FileInputStream(file);
-    PushbackInputStream in = new PushbackInputStream(is, 4);
-    encoding = IOUtil.bomEncoding(in, encoding);
-    return new BufferedReader(new InputStreamReader(in, encoding));
+  public static BufferedReader createFileReader(File file, String encoding) {
+    try {
+      if (encoding == null) {
+        encoding = SystemInfo.getFileEncoding();
+      }
+      InputStream is = createFileInputStream(file);
+      PushbackInputStream in = new PushbackInputStream(is, 4);
+      encoding = IOUtil.bomEncoding(in, encoding);
+      return new BufferedReader(new InputStreamReader(in, encoding));
+    } catch (UnsupportedEncodingException e) {
+      throw ExceptionFactory.getInstance().configurationError("Not a supported encoding: " + encoding, e);
+    }
   }
 
   public static ZonedDateTime lastFileUpdateInZone(File file, ZoneId zone) {
@@ -134,20 +138,24 @@ public final class FileUtil {
     return list == null || list.length == 0;
   }
 
-  public static void copy(File srcFile, File targetFile, boolean overwrite) throws IOException {
+  public static void copy(File srcFile, File targetFile, boolean overwrite) {
     copy(srcFile, targetFile, overwrite, null);
   }
 
-  public static void copy(File srcFile, File targetFile, boolean overwrite, FileFilter filter)
-      throws IOException {
-    if (filter != null && !filter.accept(srcFile.getCanonicalFile())) {
-      return;
+  public static void copy(File srcFile, File targetFile, boolean overwrite, FileFilter filter) {
+    try {
+      if (filter != null && !filter.accept(srcFile.getCanonicalFile())) {
+        return;
+      }
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().internalError(
+          "Error calculating canonical path of " + srcFile, e);
     }
     if (!srcFile.exists()) {
-      throw new ConfigurationError("Source file not found: " + srcFile);
+      throw ExceptionFactory.getInstance().configurationError("Source file not found: " + srcFile);
     }
     if (!overwrite && targetFile.exists()) {
-      throw new ConfigurationError("Target file already exists: " + targetFile);
+      throw ExceptionFactory.getInstance().configurationError("Target file already exists: " + targetFile);
     }
     if (srcFile.isFile()) {
       copyFile(srcFile, targetFile);
@@ -172,34 +180,28 @@ public final class FileUtil {
     if (length != file2.length()) {
       return false;
     }
-    InputStream in1 = null;
-    InputStream in2 = null;
     boolean equal = true;
-    try {
+    try (InputStream in1 = new BufferedInputStream(createFileInputStream(file1))) {
       logger.debug("Comparing content of {} and {}", file1, file2);
-      in1 = new BufferedInputStream(new FileInputStream(file1));
-      in2 = new BufferedInputStream(new FileInputStream(file2));
-      for (long i = 0; equal && i < length; i++) {
-        if (in1.read() != in2.read()) {
-          logger.debug("files unequal");
-          equal = false;
+      try (InputStream in2 = new BufferedInputStream(createFileInputStream(file2))) {
+        for (long i = 0; equal && i < length; i++) {
+          if (in1.read() != in2.read()) {
+            logger.debug("files unequal");
+            equal = false;
+          }
         }
       }
     } catch (IOException e) {
-      throw ExceptionFactory.getInstance().operationFailed("Error comparing " + file1 + " with " + file2, e);
-    } finally {
-      IOUtil.close(in1);
-      IOUtil.close(in2);
+      throw ExceptionFactory.getInstance().internalError(
+          "Error comparing files " + file1 + " and " + file2, e);
     }
     logger.debug("files equal");
     return equal;
   }
 
   public static void deleteIfExists(File file) {
-    if (file.exists()) {
-      if (!file.delete()) {
-        file.deleteOnExit();
-      }
+    if (file.exists() && !file.delete()) {
+      file.deleteOnExit();
     }
   }
 
@@ -216,11 +218,15 @@ public final class FileUtil {
         if (file.isDirectory()) {
           deleteDirectory(file);
         } else {
-          file.delete();
+          if (!file.delete()) {
+            logger.error("Failed to delete file {}", file);
+          }
         }
       }
     }
-    folder.delete();
+    if (!folder.delete()) {
+      logger.error("Failed to delete folder {}", folder);
+    }
   }
 
   public static List<File> listFiles(File dir, String regex,
@@ -311,12 +317,12 @@ public final class FileUtil {
       int consumedLength = parentPath.length() + 1 + suffix.length();
       int availableLength = maxLength - consumedLength;
       if (availableLength <= 0) {
-        throw new IllegalArgumentException("Parent path name to long: " + parentPath);
+        throw ExceptionFactory.getInstance().illegalArgument("Parent path name to long: " + parentPath);
       }
       String prefix = name;
       if (availableLength < prefix.length()) {
         prefix = prefix.substring(0, availableLength);
-        if (warn) {
+        if (warn && logger.isWarnEnabled()) {
           logger.warn("File name too long: {}, it was cut to {}",
               parentPath + SystemInfo.getFileSeparator() + name + suffix,
               parentPath + SystemInfo.getFileSeparator() + prefix + suffix);
@@ -324,7 +330,7 @@ public final class FileUtil {
       }
       return new File(directory, prefix + suffix);
     } catch (IOException e) {
-      throw new IllegalArgumentException("Error composing file path", e);
+      throw ExceptionFactory.getInstance().illegalArgument("Error composing file path", e);
     }
   }
 
@@ -351,7 +357,8 @@ public final class FileUtil {
       }
       // if no file of equal name has been found...
       if (required) {
-        throw new ObjectNotFoundException("File not found: " + file); // ... then complain if one is required
+        throw ExceptionFactory.getInstance().objectNotFound(
+            "File not found: " + file); // ... then complain if one is required
       } else {
         return file; // otherwise use the predefined name
       }
@@ -383,23 +390,29 @@ public final class FileUtil {
     return path.substring(0, sep + 1) + fileName;
   }
 
-  public static String readTextFileContent(File file) throws IOException {
-    return IOUtil.readAndClose(new FileReader(file));
+  public static String readTextFileContent(File file) {
+    return readTextFileContent(file, null);
   }
 
-  public static String readTextFileContent(File file, String encoding) throws IOException {
-    return IOUtil.readAndClose(new InputStreamReader(new FileInputStream(file), encoding));
+  public static String readTextFileContent(File file, String encoding) {
+    return IOUtil.readAndClose(createFileReader(file, encoding));
   }
 
-  public static void writeTextFileContent(String content, File file) throws IOException {
+  public static void writeTextFileContent(String content, File file) {
     writeTextFileContent(content, file, SystemInfo.getFileEncoding());
   }
 
-  public static void writeTextFileContent(String content, File file, String encoding) throws IOException {
-    IOUtil.transferAndClose(new StringReader(content), new OutputStreamWriter(new FileOutputStream(file), encoding));
+  public static void writeTextFileContent(String content, File file, String encoding) {
+    try {
+      IOUtil.transferAndClose(new StringReader(content), new OutputStreamWriter(new FileOutputStream(file), encoding));
+    } catch (UnsupportedEncodingException e) {
+      throw ExceptionFactory.getInstance().internalError("Not a supported encoding: " + encoding, e);
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound("File not found: " + file.getPath(), e);
+    }
   }
 
-  public static File backupWithTimestamp(File file, LocalDateTime timestamp, boolean overwrite) throws IOException {
+  public static File backupWithTimestamp(File file, LocalDateTime timestamp, boolean overwrite) {
     File folder = file.getParentFile();
     String filename = file.getName();
     String backupName = addTimestampToFilename(filename, timestamp);
@@ -420,24 +433,45 @@ public final class FileUtil {
     return backupName;
   }
 
-  private static void copyFile(File srcFile, File targetFile)
-      throws IOException {
-    InputStream in = new BufferedInputStream(new FileInputStream(srcFile));
-    OutputStream out = null;
+  private static void copyFile(File srcFile, File targetFile) {
     try {
-      out = new FileOutputStream(targetFile);
-      IOUtil.transfer(in, out);
-    } finally {
-      IOUtil.close(out);
-      IOUtil.close(in);
+      try (InputStream in = new BufferedInputStream(createFileInputStream(srcFile))) {
+        transfer(in, targetFile, srcFile.getPath());
+      }
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(srcFile.getPath(), e);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException(srcFile.getPath(), e);
     }
   }
 
-  private static void copyDirectory(File srcDirectory, File targetDirectory, boolean overwrite, FileFilter filter) throws IOException {
+  private static void transfer(InputStream in, File targetFile, String srcPath) {
+    try (OutputStream out = new FileOutputStream(targetFile)) {
+      IOUtil.transfer(in, out);
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(targetFile.getPath(), e);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException(
+          "Error copying " + srcPath + " to " + targetFile.getPath(), e);
+    }
+  }
+
+  private static void copyDirectory(File srcDirectory, File targetDirectory, boolean overwrite, FileFilter filter) {
     ensureDirectoryExists(targetDirectory);
-    for (File src : srcDirectory.listFiles()) {
-      File dstFile = new File(targetDirectory, src.getName());
-      copy(src, dstFile, overwrite, filter);
+    File[] files = srcDirectory.listFiles();
+    if (files != null) {
+      for (File src : files) {
+        File dstFile = new File(targetDirectory, src.getName());
+        copy(src, dstFile, overwrite, filter);
+      }
+    }
+  }
+
+  public static FileInputStream createFileInputStream(File file) {
+    try {
+      return new FileInputStream(file);
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(file.getPath(), e);
     }
   }
 

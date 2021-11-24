@@ -17,32 +17,12 @@ package com.rapiddweller.common.depend;
 
 /**
  * Abstraction of an object that depends on other objects.
- *
  * @param <E> the type to process
  * @author Volker Bergmann
  * @since 0.3.04
  */
 public interface Dependent<E extends Dependent<E>> {
-  /**
-   * Count providers int.
-   *
-   * @return the int
-   */
   int countProviders();
-
-  /**
-   * Gets provider.
-   *
-   * @param index the index
-   * @return the provider
-   */
   E getProvider(int index);
-
-  /**
-   * Requires provider boolean.
-   *
-   * @param index the index
-   * @return the boolean
-   */
   boolean requiresProvider(int index);
 }

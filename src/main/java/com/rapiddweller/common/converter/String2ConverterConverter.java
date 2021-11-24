@@ -16,18 +16,17 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.LoggerEscalator;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.text.Format;
 
 /**
  * Converts Strings to Converters and vice versa.
  * Created: 15.03.2008 12:49:10
- *
  * @author Volker Bergmann
  * @since 0.4.0
  * @deprecated The class is obsolete and will be removed soon
@@ -38,9 +37,6 @@ public class String2ConverterConverter extends ThreadSafeConverter<String, Conve
 
   private static final LoggerEscalator escalator = new LoggerEscalator();
 
-  /**
-   * Instantiates a new String 2 converter converter.
-   */
   public String2ConverterConverter() {
     super(String.class, Converter.class);
     escalator.escalate("Class is deprecated: " + getClass(), this, null);
@@ -57,7 +53,7 @@ public class String2ConverterConverter extends ThreadSafeConverter<String, Conve
     } else if (result instanceof Converter) {
       return (Converter) result;
     } else {
-      throw new ConfigurationError("Class is neither Converter nor Format: " + result.getClass());
+      throw ExceptionFactory.getInstance().configurationError("Class is neither Converter nor Format: " + result.getClass());
     }
   }
 

@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common.ui.swing;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -28,59 +30,31 @@ import java.awt.Insets;
 /**
  * A panel that allows for easy component aligning by an underlying {@link GridBagLayout}.
  * Created: 20.03.2005 11:19:06
- *
  * @author Volker Bergmann
  * @since 0.5.13
  */
 public class AlignedPane extends JPanel implements SwingConstants {
 
-  private static final long serialVersionUID = -5911452561809191394L;
-
   private final int orientation;
   private GridBagConstraints gbc;
   private final int columns;
 
-  /**
-   * Create horizontal pane aligned pane.
-   *
-   * @return the aligned pane
-   */
   public static AlignedPane createHorizontalPane() {
     return new AlignedPane(HORIZONTAL, 0);
   }
 
-  /**
-   * Create vertical pane aligned pane.
-   *
-   * @return the aligned pane
-   */
   public static AlignedPane createVerticalPane() {
     return createVerticalPane(2);
   }
 
-  /**
-   * Create vertical pane aligned pane.
-   *
-   * @param columns the columns
-   * @return the aligned pane
-   */
   public static AlignedPane createVerticalPane(int columns) {
     return new AlignedPane(VERTICAL, columns);
   }
 
-  /**
-   * Instantiates a new Aligned pane.
-   */
   protected AlignedPane() {
     this(VERTICAL, 2);
   }
 
-  /**
-   * Instantiates a new Aligned pane.
-   *
-   * @param orientation the orientation
-   * @param columns     the columns
-   */
   protected AlignedPane(int orientation, int columns) {
     this.columns = columns;
     this.orientation = orientation;
@@ -89,7 +63,7 @@ public class AlignedPane extends JPanel implements SwingConstants {
     } else if (orientation == HORIZONTAL) {
       setLayout(new FlowLayout());
     } else {
-      throw new IllegalArgumentException();
+      throw ExceptionFactory.getInstance().illegalArgument("Illeagl orientation: " + orientation);
     }
     removeAll();
   }
@@ -107,12 +81,6 @@ public class AlignedPane extends JPanel implements SwingConstants {
     }
   }
 
-  /**
-   * Add row.
-   *
-   * @param title     the title
-   * @param component the component
-   */
   public void addRow(String title, Component component) {
     if (orientation == HORIZONTAL) {
       add(new JLabel(title));
@@ -124,11 +92,6 @@ public class AlignedPane extends JPanel implements SwingConstants {
     }
   }
 
-  /**
-   * Add row.
-   *
-   * @param component the component
-   */
   public void addRow(Component component) {
     if (orientation == HORIZONTAL) {
       add(component, gbc);
@@ -143,11 +106,6 @@ public class AlignedPane extends JPanel implements SwingConstants {
     }
   }
 
-  /**
-   * Add tall row.
-   *
-   * @param component the component
-   */
   public void addTallRow(Component component) {
     if (orientation == HORIZONTAL) {
       add(component);
@@ -161,23 +119,10 @@ public class AlignedPane extends JPanel implements SwingConstants {
     }
   }
 
-  /**
-   * Add element.
-   *
-   * @param title     the title
-   * @param component the component
-   */
   public void addElement(String title, Component component) {
     addElement(title, component, 1);
   }
 
-  /**
-   * Add element.
-   *
-   * @param title     the title
-   * @param component the component
-   * @param gridwidth the gridwidth
-   */
   public void addElement(String title, Component component, int gridwidth) {
     JLabel label = new JLabel(title);
     if (orientation == HORIZONTAL) {
@@ -192,30 +137,14 @@ public class AlignedPane extends JPanel implements SwingConstants {
     }
   }
 
-  /**
-   * Add label.
-   *
-   * @param labelText the label text
-   */
   public void addLabel(String labelText) {
     addElement(new JLabel(labelText), 1);
   }
 
-  /**
-   * Add element.
-   *
-   * @param component the component
-   */
   public void addElement(Component component) {
     addElement(component, 1);
   }
 
-  /**
-   * Add element.
-   *
-   * @param component the component
-   * @param gridwidth the gridwidth
-   */
   public void addElement(Component component, int gridwidth) {
     if (orientation == HORIZONTAL) {
       add(component);
@@ -228,9 +157,6 @@ public class AlignedPane extends JPanel implements SwingConstants {
     }
   }
 
-  /**
-   * End row.
-   */
   public void endRow() {
     if (orientation == VERTICAL && gbc.gridx > 0) {
       newRow();
@@ -242,18 +168,10 @@ public class AlignedPane extends JPanel implements SwingConstants {
     gbc.gridx = 0;
   }
 
-  /**
-   * Add separator.
-   */
   public void addSeparator() {
     addLabelRow(" ");
   }
 
-  /**
-   * Add label row.
-   *
-   * @param text the text
-   */
   public void addLabelRow(String text) {
     addRow(new JLabel(text));
   }

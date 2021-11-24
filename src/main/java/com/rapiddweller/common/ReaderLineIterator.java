@@ -82,7 +82,7 @@ public class ReaderLineIterator implements HeavyweightIterator<String> {
 
   @Override
   public void remove() {
-    throw new UnsupportedOperationException("Not supported");
+    throw ExceptionFactory.getInstance().illegalOperation(getClass() + " does not support remove()");
   }
 
   // helpers ---------------------------------------------------------------------------------------------------------

@@ -15,25 +15,23 @@
 
 package com.rapiddweller.common.iterator;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.util.Iterator;
 
 /**
  * Wraps a JDK {@link Iterator} into a {@link BidirectionalIterator},
  * making the unsupported operations throw an {@link UnsupportedOperationException}.
  * Created: 12.06.2007 19:51:44
- *
  * @param <E> the type to be wrapped
  * @author Volker Bergmann
  */
 public class JDKIteratorWrapper<E> implements BidirectionalIterator<E> {
 
+  public static final String OPERATION_NOT_SUPPORTED = "Operation not supported";
+
   private final Iterator<E> realIterator;
 
-  /**
-   * Instantiates a new Jdk iterator wrapper.
-   *
-   * @param realIterator the real iterator
-   */
   public JDKIteratorWrapper(Iterator<E> realIterator) {
     this.realIterator = realIterator;
   }
@@ -55,21 +53,22 @@ public class JDKIteratorWrapper<E> implements BidirectionalIterator<E> {
 
   @Override
   public E first() {
-    throw new UnsupportedOperationException("Operation not supported");
+    throw ExceptionFactory.getInstance().programmerUnsupported(OPERATION_NOT_SUPPORTED);
   }
 
   @Override
   public boolean hasPrevious() {
-    throw new UnsupportedOperationException("Operation not supported");
+    throw ExceptionFactory.getInstance().programmerUnsupported(OPERATION_NOT_SUPPORTED);
   }
 
   @Override
   public E previous() {
-    throw new UnsupportedOperationException("Operation not supported");
+    throw ExceptionFactory.getInstance().programmerUnsupported(OPERATION_NOT_SUPPORTED);
   }
 
   @Override
   public E last() {
-    throw new UnsupportedOperationException("Operation not supported");
+    throw ExceptionFactory.getInstance().programmerUnsupported(OPERATION_NOT_SUPPORTED);
   }
+
 }

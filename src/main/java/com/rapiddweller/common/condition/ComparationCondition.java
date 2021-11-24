@@ -17,6 +17,7 @@ package com.rapiddweller.common.condition;
 
 import com.rapiddweller.common.ComparableComparator;
 import com.rapiddweller.common.Condition;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.util.Comparator;
 
@@ -24,101 +25,48 @@ import java.util.Comparator;
  * Condition implementation that compares an arbitrary number of arguments
  * with one of different available operators.
  * Created: 06.03.2006 17:49:06
- *
  * @param <E> the type of argument to evaluate
  * @author Volker Bergmann
  * @since 0.1
  */
 public class ComparationCondition<E> implements Condition<E[]> {
 
-  /**
-   * The constant EQUAL.
-   */
   public static final int EQUAL = 0;
-  /**
-   * The constant NOT_EQUAL.
-   */
   public static final int NOT_EQUAL = 1;
-  /**
-   * The constant GREATER_OR_EQUAL.
-   */
   public static final int GREATER_OR_EQUAL = 2;
-  /**
-   * The constant GREATER.
-   */
   public static final int GREATER = 3;
-  /**
-   * The constant LESS_OR_EQUAL.
-   */
   public static final int LESS_OR_EQUAL = 4;
-  /**
-   * The constant LESS.
-   */
   public static final int LESS = 5;
 
   private int operator;
   private Comparator<E> comparator;
 
-  /**
-   * Instantiates a new Comparation condition.
-   */
   public ComparationCondition() {
     this(EQUAL);
   }
 
-  /**
-   * Instantiates a new Comparation condition.
-   *
-   * @param operator the operator
-   */
   @SuppressWarnings({"unchecked", "rawtypes"})
   public ComparationCondition(int operator) {
     this(operator, new ComparableComparator());
   }
 
-  /**
-   * Instantiates a new Comparation condition.
-   *
-   * @param operator   the operator
-   * @param comparator the comparator
-   */
   public ComparationCondition(int operator, Comparator<E> comparator) {
     this.operator = operator;
     this.comparator = comparator;
   }
 
-  /**
-   * Gets operator.
-   *
-   * @return the operator
-   */
   public int getOperator() {
     return operator;
   }
 
-  /**
-   * Sets operator.
-   *
-   * @param operator the operator
-   */
   public void setOperator(int operator) {
     this.operator = operator;
   }
 
-  /**
-   * Gets comparator.
-   *
-   * @return the comparator
-   */
   public Comparator<E> getComparator() {
     return comparator;
   }
 
-  /**
-   * Sets comparator.
-   *
-   * @param comparator the comparator
-   */
   public void setComparator(Comparator<E> comparator) {
     this.comparator = comparator;
   }
@@ -126,7 +74,7 @@ public class ComparationCondition<E> implements Condition<E[]> {
   @Override
   public boolean evaluate(E[] arguments) {
     if (arguments.length != 2) {
-      throw new IllegalArgumentException("Comparation only supported for two arguments, found: "
+      throw ExceptionFactory.getInstance().illegalArgument("Comparison only supported for two arguments, found: "
           + arguments.length);
     }
     int comparation = comparator.compare(arguments[0], arguments[1]);
@@ -144,7 +92,8 @@ public class ComparationCondition<E> implements Condition<E[]> {
       case LESS:
         return comparation == -1;
       default:
-        throw new IllegalStateException("Operator no supported: " + operator);
+        throw ExceptionFactory.getInstance().illegalArgument("Operator not supported: " + operator);
     }
   }
+
 }

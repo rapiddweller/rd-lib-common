@@ -15,12 +15,14 @@
 
 package com.rapiddweller.common.iterator;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * A {@link BidirectionalIterator} for {@link List}s.
  * Created: 08.05.2007 19:50:20
- *
  * @param <E> the type to iterate
  * @author Volker Bergmann
  */
@@ -29,11 +31,6 @@ public class BidirectionalListIterator<E> implements BidirectionalIterator<E> {
   private final List<E> list;
   private int index;
 
-  /**
-   * Instantiates a new Bidirectional list iterator.
-   *
-   * @param list the list
-   */
   public BidirectionalListIterator(List<E> list) {
     this.list = list;
     this.index = -1;
@@ -53,7 +50,7 @@ public class BidirectionalListIterator<E> implements BidirectionalIterator<E> {
   @Override
   public E previous() {
     if (!hasPrevious()) {
-      throw new IllegalStateException("No previous object exists");
+      throw ExceptionFactory.getInstance().operationFailed("No previous object exists", null);
     }
     index--;
     return list.get(index);
@@ -73,7 +70,7 @@ public class BidirectionalListIterator<E> implements BidirectionalIterator<E> {
   @Override
   public E next() {
     if (!hasNext()) {
-      throw new IllegalStateException("No next object exists");
+      throw new NoSuchElementException("No next object exists");
     }
     index++;
     return list.get(index);
@@ -81,7 +78,7 @@ public class BidirectionalListIterator<E> implements BidirectionalIterator<E> {
 
   @Override
   public void remove() {
-    throw new UnsupportedOperationException("Not implemented");
+    throw ExceptionFactory.getInstance().programmerUnsupported("Not implemented");
   }
 
 }

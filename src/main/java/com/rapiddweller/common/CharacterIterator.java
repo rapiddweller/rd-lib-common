@@ -18,22 +18,10 @@ package com.rapiddweller.common;
 /**
  * Abstraction of a class that iterates over characters.
  * Created at 28.12.2008 08:23:17
- *
  * @author Volker Bergmann
  * @since 0.4.7
  */
 public interface CharacterIterator {
-  /**
-   * Has next boolean.
-   *
-   * @return the boolean
-   */
   boolean hasNext();
-
-  /**
-   * Next char.
-   *
-   * @return the char
-   */
   char next();
 }

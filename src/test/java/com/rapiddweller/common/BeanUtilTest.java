@@ -17,6 +17,7 @@ package com.rapiddweller.common;
 
 import com.rapiddweller.common.converter.Base64ToByteArrayConverter;
 import com.rapiddweller.common.exception.IllegalArgumentError;
+import com.rapiddweller.common.exception.InternalErrorException;
 import org.apache.html.dom.HTMLDocumentImpl;
 import org.junit.Test;
 
@@ -460,18 +461,18 @@ public class BeanUtilTest {
     assertTrue(BeanUtil.hasProperty(B.class, "val"));
     assertFalse(BeanUtil.hasProperty(B.class, "blaBla"));
     assertFalse(BeanUtil.hasProperty(Object.class, "Property Name"));
-    assertThrows(IllegalArgumentException.class, () -> BeanUtil.hasProperty(null, "Property Name"));
+    assertThrows(IllegalArgumentError.class, () -> BeanUtil.hasProperty(null, "Property Name"));
     assertTrue(BeanUtil.hasProperty(Object.class, "class"));
-    assertThrows(IllegalArgumentException.class, () -> BeanUtil.hasProperty(null, null));
+    assertThrows(IllegalArgumentError.class, () -> BeanUtil.hasProperty(null, null));
     assertFalse(BeanUtil.hasProperty(Object.class, ".class"));
   }
 
   @Test
   public void testHasWriteableProperty() {
     assertFalse(BeanUtil.hasWriteableProperty(Object.class, "Property Name"));
-    assertThrows(IllegalArgumentException.class, () -> BeanUtil.hasWriteableProperty(null, "Property Name"));
+    assertThrows(IllegalArgumentError.class, () -> BeanUtil.hasWriteableProperty(null, "Property Name"));
     assertFalse(BeanUtil.hasWriteableProperty(Object.class, "class"));
-    assertThrows(IllegalArgumentException.class, () -> BeanUtil.hasWriteableProperty(null, null));
+    assertThrows(IllegalArgumentError.class, () -> BeanUtil.hasWriteableProperty(null, null));
     assertFalse(BeanUtil.hasWriteableProperty(Object.class, ".class"));
   }
 
@@ -537,12 +538,12 @@ public class BeanUtilTest {
   @Test
   public void testExtractProperties() {
     assertTrue(BeanUtil.extractProperties(new ArrayList<>(), "Property Name").isEmpty());
-    assertThrows(com.rapiddweller.common.exception.InternalError.class,
+    assertThrows(InternalErrorException.class,
         () -> BeanUtil.extractProperties(new Object[] {"beans"}, "Property Name", Object.class));
     assertEquals(0, BeanUtil.extractProperties(new Object[] {}, "Property Name", Object.class).length);
     assertEquals(1, BeanUtil.extractProperties(new Object[] {"beans"}, "blank", Object.class).length);
     assertEquals(1, BeanUtil.extractProperties(new Object[] {"beans"}, "bytes", Object.class).length);
-    assertThrows(com.rapiddweller.common.exception.InternalError.class,
+    assertThrows(InternalErrorException.class,
         () -> BeanUtil.extractProperties(new Object[] {"beans"}, ".class", Object.class));
   }
 

@@ -2,7 +2,7 @@
 
 package com.rapiddweller.common.exception;
 
-import com.rapiddweller.common.OperationFailedException;
+import com.rapiddweller.common.OperationFailed;
 
 /**
  * Signals that a query has failed.<br/><br/>
@@ -10,13 +10,13 @@ import com.rapiddweller.common.OperationFailedException;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class QueryFailedException extends OperationFailedException {
+public class QueryFailed extends OperationFailed {
 
-  public QueryFailedException(String message) {
+  public QueryFailed(String message) {
     this(message, null);
   }
 
-  public QueryFailedException(String message, Throwable cause) {
+  public QueryFailed(String message, Throwable cause) {
     super(null, ExitCodes.INTERNAL_SOFTWARE_ERROR, message, cause);
   }
 

@@ -15,20 +15,20 @@
 
 package com.rapiddweller.common.exception;
 
-import com.rapiddweller.common.OperationFailedException;
+import com.rapiddweller.common.OperationFailed;
 
 /**
  * Indicates that the update of some data failed.
  * Created: 18.01.2007 20:35:12
  * @author Volker Bergmann
  */
-public class MutationFailedException extends OperationFailedException {
+public class MutationFailed extends OperationFailed {
 
-  public MutationFailedException(String message) {
+  public MutationFailed(String message) {
     this(message, null);
   }
 
-  public MutationFailedException(String message, Throwable cause) {
+  public MutationFailed(String message, Throwable cause) {
     super(null, ExitCodes.INTERNAL_SOFTWARE_ERROR, message, cause);
   }
 

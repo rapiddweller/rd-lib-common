@@ -16,6 +16,7 @@
 package com.rapiddweller.common.tree;
 
 import com.rapiddweller.common.TreeModel;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -72,7 +73,7 @@ public class ChildTreeModel<I, V> implements TreeModel<V> {
           elements.put(parentId, parentNode);
           this.root = parentNode;
         } else {
-          throw new IllegalArgumentException("Multiple roots.");
+          throw ExceptionFactory.getInstance().illegalArgument("Multiple roots.");
         }
       }
       elementNode = new DefaultTreeNode<>(parentNode, element);

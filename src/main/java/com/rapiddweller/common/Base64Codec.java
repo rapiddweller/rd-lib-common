@@ -15,11 +15,12 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.util.Arrays;
 
 /**
  * Codes/Decodes Base64 strings.
- *
  * @author Volker Bergmann
  * @since 0.2.04
  */
@@ -29,16 +30,11 @@ public class Base64Codec {
   private static final byte[] INDICES = createIndices();
 
   private Base64Codec() {
+    // private constructor to prevent instantiation of this utility class
   }
 
   // interface ----------------------------------------------------------------------------------------
 
-  /**
-   * Encode string.
-   *
-   * @param source the source
-   * @return the string
-   */
   public static String encode(byte[] source) {
     int srcLength = source.length;
     int srcCursor = 0;
@@ -58,27 +54,20 @@ public class Base64Codec {
     return new String(buffer);
   }
 
-  /**
-   * Decode byte [ ].
-   *
-   * @param code the code
-   * @return the byte [ ]
-   */
   public static byte[] decode(String code) {
-    if (code == null) {
-      throw new IllegalArgumentException("code is null");
-    }
+    Assert.notNull(code, "code");
     char[] codeBuffer = code.toCharArray();
     int codeLength = codeBuffer.length;
     if (codeLength % 4 != 0) {
-      throw new IllegalArgumentException("Length of Base64 encoded input string is not a multiple of 4.");
+      throw ExceptionFactory.getInstance().illegalArgument(
+          "Length of Base64 encoded input string is not a multiple of 4.");
     }
     while (codeLength > 0 && codeBuffer[codeLength - 1] == '=') {
       codeLength--;
     }
     for (int i = 0; i < codeLength; i++) {
       if (!isBase64Char(codeBuffer[i])) {
-        throw new IllegalArgumentException("Not a base64 code: " + code);
+        throw ExceptionFactory.getInstance().illegalArgument("Not a base64 code: " + code);
       }
     }
     int resultLength = (codeLength * 3) / 4;
@@ -103,12 +92,6 @@ public class Base64Codec {
 
   // private helpers -------------------------------------------------------------------------------------
 
-  /**
-   * Is base 64 char boolean.
-   *
-   * @param c the c
-   * @return the boolean
-   */
   public static boolean isBase64Char(char c) {
     return ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z') || ('0' <= c && c <= '9') || c == '+' || c == '/';
   }

@@ -16,7 +16,7 @@
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.ConfigurationError;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.beans.PropertyDescriptor;
 
@@ -27,21 +27,18 @@ import java.beans.PropertyDescriptor;
  * A PropertyAccessor in a non-strict mode converts the invocation argument to the correct property type
  * and behaves quietly, if it doesn not find the specified property
  * Created: 06.01.2005 20:04:36
- *
  * @author Volker Bergmann
+ * @since 0.1
  */
 @SuppressWarnings("unchecked")
 public class PropertyAccessorFactory {
 
-  /**
-   * private constructor for preventing that the class is instantiated
-   */
+  /** private constructor for preventing that the class is instantiated */
   private PropertyAccessorFactory() {
   }
 
   /**
-   * Gets accessor.
-   *
+   * Creates a PropertyAccessor.
    * @param propertyName the name of the property to access
    * @return a property accessor without knowledge about the bean type (the slowest PropertyAccessor type) in strict mode.
    */
@@ -51,8 +48,7 @@ public class PropertyAccessorFactory {
   }
 
   /**
-   * Gets accessor.
-   *
+   * Creates a PropertyAccessor.
    * @param propertyName the name of the property to access
    * @param strict       set to true if the property must exist
    * @return a property accessor of the specified strictness.
@@ -63,18 +59,7 @@ public class PropertyAccessorFactory {
   }
 
   /**
-   * @return a property accessor without knowledge about the bean type
-   * (the slowest PropertyAccessor type) in strict mode.
-   */
-/*
-    public static PropertyAccessor getAccessor(String propertyName, Class propertyType) {
-        return getAccessor(null, propertyName, propertyType, true);
-    }
-*/
-
-  /**
-   * Gets accessor.
-   *
+   * Creates a PropertyAccessor.
    * @param beanClass    the bean type to access
    * @param propertyName the name of the property to access
    * @return a property accessor in strict mode.
@@ -85,8 +70,7 @@ public class PropertyAccessorFactory {
   }
 
   /**
-   * Gets accessor.
-   *
+   * Creates a PropertyAccessor.
    * @param beanClass    the bean type to access
    * @param propertyName the name of the property to access
    * @param strict       set to true if the property must exist
@@ -96,10 +80,8 @@ public class PropertyAccessorFactory {
   public static PropertyAccessor getAccessor(Class<?> beanClass, String propertyName, boolean strict) {
     if (beanClass != null) {
       PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(beanClass, propertyName);
-      if (propertyDescriptor == null) {
-        if (strict) {
-          throw new ConfigurationError("No property '" + propertyName + "' found in " + beanClass);
-        }
+      if (propertyDescriptor == null && strict) {
+        throw ExceptionFactory.getInstance().configurationError("No property '" + propertyName + "' found in " + beanClass);
       }
     }
     int index = propertyName.indexOf('.');

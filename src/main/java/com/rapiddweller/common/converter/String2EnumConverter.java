@@ -16,22 +16,17 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
  * Instantiates enum instances by their name.
  * Created: 20.08.2007 07:11:16
- *
  * @param <E> the enumeration type to convert to
  * @author Volker Bergmann
  */
 @SuppressWarnings("rawtypes")
 public class String2EnumConverter<E extends Enum> extends ThreadSafeConverter<String, E> {
 
-  /**
-   * Instantiates a new String 2 enum converter.
-   *
-   * @param enumClass the enum class
-   */
   public String2EnumConverter(Class<E> enumClass) {
     super(String.class, enumClass);
   }
@@ -41,15 +36,6 @@ public class String2EnumConverter<E extends Enum> extends ThreadSafeConverter<St
     return convert(sourceValue, targetType);
   }
 
-  /**
-   * Convert t.
-   *
-   * @param <T>         the type parameter
-   * @param sourceValue the source value
-   * @param enumClass   the enum class
-   * @return the t
-   * @throws ConversionException the conversion exception
-   */
   public static <T extends Enum> T convert(String sourceValue, Class<T> enumClass) throws ConversionException {
     if (sourceValue == null) {
       return null;
@@ -60,7 +46,8 @@ public class String2EnumConverter<E extends Enum> extends ThreadSafeConverter<St
         return enumConstant;
       }
     }
-    throw new ConversionException(enumClass + " does not have an instance of name " + sourceValue);
+    throw ExceptionFactory.getInstance().conversionFailed(
+        enumClass + " does not have an instance of name " + sourceValue, null);
   }
 
 }

@@ -16,7 +16,7 @@
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.ConfigurationError;
-import com.rapiddweller.common.exception.MutationFailedException;
+import com.rapiddweller.common.exception.MutationFailed;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -44,7 +44,7 @@ public class PropertyMutatorFactoryTest {
   }
 
   @Test
-  public void testNavigatedProperty() throws MutationFailedException {
+  public void testNavigatedProperty() throws MutationFailed {
     assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "b.name").getClass());
     assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator("b.name").getClass());
     assertEquals(PropertyGraphMutator.class, PropertyMutatorFactory.getPropertyMutator(ABean.class, "doesnt.exist", false, true).getClass());

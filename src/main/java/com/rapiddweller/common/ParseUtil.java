@@ -15,14 +15,13 @@
 
 package com.rapiddweller.common;
 
-import com.rapiddweller.common.exception.SyntaxError;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
 import java.math.BigInteger;
-import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,34 +33,39 @@ import java.util.List;
  */
 public final class ParseUtil {
 
-  public static String parseWord(PushbackReader reader) throws IOException {
+  /** private constructor to prevent instantiation of this utility class */
+  private ParseUtil() {
+    // private constructor to prevent instantiation of this utility class
+  }
+
+  public static String parseWord(PushbackReader reader) {
     StringBuilder builder = new StringBuilder();
     int c;
-    while ((c = reader.read()) != -1 && Character.isAlphabetic(c)) {
+    while ((c = readChar(reader)) != -1 && Character.isAlphabetic(c)) {
       builder.append((char) c);
     }
     if (c != -1) {
-      reader.unread(c);
+      unread(reader, c);
     }
     return builder.toString();
   }
 
-  public static String parseDoubleQuotedString(PushbackReader reader) throws IOException, ParseException {
+  public static String parseDoubleQuotedString(PushbackReader reader) {
     StringBuilder builder = new StringBuilder();
     int c;
-    if ((c = reader.read()) != '"') {
-      throw new ParseException("Opening quote (\") expected", 0);
+    if (readChar(reader) != '"') {
+      throw ExceptionFactory.getInstance().syntaxError("Opening quote (\") expected", null);
     }
-    while ((c = reader.read()) != -1 && c != '"') {
+    while ((c = readChar(reader)) != -1 && c != '"') {
       builder.append((char) c);
     }
     if (c != '"') {
-      throw new ParseException("Closing quote (\") expected", 0);
+      throw ExceptionFactory.getInstance().syntaxError("Closing quote (\") expected", null);
     }
     return builder.toString();
   }
 
-  public static double parseDecimal(PushbackReader reader) throws IOException, ParseException {
+  public static double parseDecimal(PushbackReader reader) {
     double result = parseInteger(reader);
     double postfix = parseOptionalPostfix(reader);
     if (result >= 0) {
@@ -72,38 +76,38 @@ public final class ParseUtil {
     return result;
   }
 
-  public static double parseOptionalPostfix(PushbackReader reader) throws IOException {
-    int c = reader.read();
+  public static double parseOptionalPostfix(PushbackReader reader) {
+    int c = readChar(reader);
     if (c != '.') {
       if (c != -1) {
-        reader.unread(c);
+        unread(reader, c);
       }
       return 0.;
     }
     double result = 0;
     double base = 0.1;
-    while ((c = reader.read()) != -1 && Character.isDigit((char) c)) {
+    while ((c = readChar(reader)) != -1 && Character.isDigit((char) c)) {
       result += (c - '0') * base;
       base *= 0.1;
     }
     if (c != -1) {
-      reader.unread(c);
+      unread(reader, c);
     }
     return result;
   }
 
-  public static long parseInteger(PushbackReader reader) throws IOException, ParseException {
+  public static long parseInteger(PushbackReader reader) {
     boolean negative = parseOptionalSign(reader);
     return parseNonNegativeInteger(reader) * (negative ? -1 : 1);
   }
 
-  public static long parseNonNegativeInteger(String source, ParsePosition pos) throws ParseException {
-    int digit;
-    if (pos.getIndex() > source.length() || !Character.isDigit(digit = source.charAt(pos.getIndex()))) {
-      throw new ParseException("Number expected", 0);
+  public static long parseNonNegativeInteger(String source, ParsePosition pos) {
+    int digit = source.charAt(pos.getIndex());
+    if (pos.getIndex() > source.length() || !Character.isDigit(digit)) {
+      throw ExceptionFactory.getInstance().syntaxError("Number expected", null);
     }
     pos.setIndex(pos.getIndex() + 1);
-    long result = digit - '0';
+    long result = (long) digit - '0';
     while (pos.getIndex() < source.length() && Character.isDigit(digit = source.charAt(pos.getIndex()))) {
       result = result * 10 + digit - '0';
       pos.setIndex(pos.getIndex() + 1);
@@ -111,62 +115,62 @@ public final class ParseUtil {
     return result;
   }
 
-  public static long parseNonNegativeInteger(PushbackReader reader) throws IOException, ParseException {
+  public static long parseNonNegativeInteger(PushbackReader reader) {
     int digit;
-    if ((digit = reader.read()) == -1 || !Character.isDigit((char) digit)) {
-      throw new ParseException("Long expected", 0);
+    if ((digit = readChar(reader)) == -1 || !Character.isDigit((char) digit)) {
+      throw ExceptionFactory.getInstance().syntaxError("Long expected", null);
     }
-    long result = digit - '0';
-    while ((digit = reader.read()) != -1 && Character.isDigit((char) digit)) {
+    long result = (long) digit - '0';
+    while ((digit = readChar(reader)) != -1 && Character.isDigit((char) digit)) {
       result = result * 10 + digit - '0';
     }
     if (digit != -1) {
-      reader.unread(digit);
+      unread(reader, digit);
     }
     return result;
   }
 
-  public static boolean parseOptionalSign(PushbackReader reader) throws IOException {
+  public static boolean parseOptionalSign(PushbackReader reader) {
     skipWhitespace(reader);
-    int optionalSign = reader.read();
+    int optionalSign = readChar(reader);
     if (optionalSign == '-') {
       return true;
     }
     if (optionalSign != -1) {
-      reader.unread(optionalSign);
+      unread(reader, optionalSign);
     }
     return false;
   }
 
-  public static void skipWhitespace(PushbackReader reader) throws IOException {
+  public static void skipWhitespace(PushbackReader reader) {
     int c;
     do {
-      c = reader.read();
+      c = readChar(reader);
     } while (c != -1 && Character.isWhitespace((char) c));
     if (c != -1) {
-      reader.unread(c);
+      unread(reader, c);
     }
   }
 
-  public static String parseUnit(PushbackReader reader) throws IOException {
+  public static String parseUnit(PushbackReader reader) {
     StringBuilder result = new StringBuilder();
     int c;
-    while ((c = reader.read()) != -1 && Character.isUpperCase((char) c)) {
+    while ((c = readChar(reader)) != -1 && Character.isUpperCase((char) c)) {
       result.append((char) c);
     }
     if (c != -1) {
-      reader.unread(c);
+      unread(reader, c);
     }
     return (result.length() > 0 ? result.toString() : null);
   }
 
-  public static boolean parseEstimated(PushbackReader reader) throws IOException {
-    int c = reader.read();
+  public static boolean parseEstimated(PushbackReader reader) {
+    int c = readChar(reader);
     if (c == 'e') {
       return true;
     }
     if (c != -1) {
-      reader.unread(c);
+      unread(reader, c);
     }
     return false;
   }
@@ -185,14 +189,12 @@ public final class ParseUtil {
     return i;
   }
 
-  public static String[][] parseEmptyLineSeparatedFile(Reader src) throws IOException {
-    BufferedReader reader = null;
+  public static String[][] parseEmptyLineSeparatedFile(Reader src) {
     List<List<String>> sections = new ArrayList<>();
     List<String> lines = null;
-    try {
-      reader = new BufferedReader(src);
+    try (BufferedReader reader = new BufferedReader(src)) {
       String line;
-      while ((line = reader.readLine()) != null) {
+      while ((line = readLine(reader)) != null) {
         if (line.length() > 0) {
           if (lines == null) {
             // start a new section
@@ -211,8 +213,8 @@ public final class ParseUtil {
         }
       }
       return StringUtil.toArrayArray(sections);
-    } finally {
-      IOUtil.close(reader);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().internalError("Error opening BufferedReader", e);
     }
   }
 
@@ -332,7 +334,7 @@ public final class ParseUtil {
     } else if ("false".equalsIgnoreCase(s)) {
       return false;
     } else {
-      throw new SyntaxError("Not a boolean value", s);
+      throw ExceptionFactory.getInstance().syntaxError("Not a boolean value", null);
     }
   }
 
@@ -341,6 +343,30 @@ public final class ParseUtil {
   private static void addPart(String partString, List<Object> parts, Boolean numMode) {
     Object part = (numMode ? new BigInteger(partString) : partString);
     parts.add(part);
+  }
+
+  private static String readLine(BufferedReader reader) {
+    try {
+      return reader.readLine();
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException("Error reading line", e);
+    }
+  }
+
+  private static int readChar(PushbackReader reader) {
+    try {
+      return reader.read();
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException("Error reading character", e);
+    }
+  }
+
+  private static void unread(PushbackReader reader, int c) {
+    try {
+      reader.unread(c);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().internalError("Error unreading character", e);
+    }
   }
 
 }

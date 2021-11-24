@@ -17,6 +17,7 @@ package com.rapiddweller.common.io;
 
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.SystemInfo;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -79,7 +80,7 @@ public class HttpClient {
 		    InputStream inputStream = connection.getInputStream();
 		    return new BufferedReader(new InputStreamReader(inputStream, encoding));
 		} catch (MalformedURLException e) {
-		    throw new IllegalArgumentException(e);
+		    throw ExceptionFactory.getInstance().illegalArgument("Malformed URL: " + url, e);
 		}
 	}
 	

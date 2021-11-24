@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common.collection;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,31 +27,20 @@ import java.util.ListIterator;
 /**
  * Combines several {@link List} components to be treated as a single list which contains all component lists' elements.
  * Created: 22.08.2012 17:53:31
- *
  * @param <E> the type of the collection's elements
  * @author Volker Bergmann
  * @since 0.5.18
  */
 public class CompositeList<E> implements List<E>, Serializable {
 
-  private static final long serialVersionUID = -6652107866866558487L;
-
-  /**
-   * The Components.
-   */
   List<List<E>> components;
 
-  /**
-   * Instantiates a new Composite list.
-   *
-   * @param components the components
-   */
   @SuppressWarnings("unchecked")
   public CompositeList(List<? extends E>... components) {
     this.components = new ArrayList<>();
     for (List<? extends E> component : components) {
       if (component == null) {
-        throw new IllegalArgumentException("Component is null");
+        throw ExceptionFactory.getInstance().illegalArgument("Component is null");
       }
       this.components.add((List<E>) component);
     }
@@ -73,7 +64,7 @@ public class CompositeList<E> implements List<E>, Serializable {
       getOrCreateLastComponent().add(element);
       return;
     }
-    throw new IndexOutOfBoundsException("Index " + index + " does not exist (I have " + size() + " elements)");
+    throw indexOutOfBounds(index);
   }
 
   @Override
@@ -92,7 +83,7 @@ public class CompositeList<E> implements List<E>, Serializable {
     if (index == 0) {
       return getOrCreateLastComponent().addAll(elements);
     }
-    throw new IndexOutOfBoundsException("Index " + index + " does not exist (I have " + size() + " elements)");
+    throw indexOutOfBounds(index);
   }
 
   @Override
@@ -128,18 +119,20 @@ public class CompositeList<E> implements List<E>, Serializable {
       }
       index -= component.size();
     }
-    throw new IndexOutOfBoundsException("Index " + index + " does not exist (I have " + size() + " elements)");
+    throw indexOutOfBounds(index);
   }
 
   @Override
   public E set(int index, E element) {
+    int tmp = index;
     for (List<E> component : components) {
-      if (index < component.size()) {
-        return component.set(index, element);
+      if (tmp < component.size()) {
+        return component.set(tmp, element);
       }
-      index -= component.size();
+      tmp -= component.size();
     }
-    throw new IndexOutOfBoundsException("Index " + index + " does not exist (I have " + size() + " elements)");
+    throw ExceptionFactory.getInstance().illegalArgument(
+        "Index " + index + " does not exist (I have " + size() + " elements)");
   }
 
   @Override
@@ -214,7 +207,8 @@ public class CompositeList<E> implements List<E>, Serializable {
       }
       index -= component.size();
     }
-    throw new IndexOutOfBoundsException("Tried to remove index " + index + " from a list with " + size() + " elements");
+    throw ExceptionFactory.getInstance().illegalArgument(
+        "Tried to remove index " + index + " from a list with " + size() + " elements");
   }
 
   @Override
@@ -285,6 +279,10 @@ public class CompositeList<E> implements List<E>, Serializable {
     return components.get(components.size() - 1);
   }
 
+  private IndexOutOfBoundsException indexOutOfBounds(int index) {
+    return new IndexOutOfBoundsException("Index " + index + " does not exist (I have " + size() + " elements)");
+  }
+
 
   // java.lang.Object overrides --------------------------------------------------------------------------------------
 
@@ -294,27 +292,16 @@ public class CompositeList<E> implements List<E>, Serializable {
   }
 
 
-  /**
-   * The type Sub iterator.
-   */
   public class SubIterator implements ListIterator<E> {
 
     private int superIndex;
     private int subIndex;
     private int totalIndex;
 
-    /**
-     * Instantiates a new Sub iterator.
-     */
     public SubIterator() {
       this(0);
     }
 
-    /**
-     * Instantiates a new Sub iterator.
-     *
-     * @param offset the offset
-     */
     public SubIterator(int offset) {
       this.superIndex = 0;
       this.subIndex = 0;
@@ -370,19 +357,22 @@ public class CompositeList<E> implements List<E>, Serializable {
 
     @Override
     public void remove() {
-      throw new UnsupportedOperationException("Not supported");
+      unsupportedMethod();
     }
 
     @Override
     public void add(E newValue) {
-      throw new UnsupportedOperationException("Not supported");
+      unsupportedMethod();
     }
 
     @Override
     public void set(E newValue) {
-      throw new UnsupportedOperationException("Not supported");
+      unsupportedMethod();
     }
 
+    private void unsupportedMethod() {
+      throw ExceptionFactory.getInstance().programmerUnsupported("Not supported");
+    }
   }
 
 }

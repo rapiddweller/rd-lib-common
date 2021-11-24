@@ -16,8 +16,8 @@
 package com.rapiddweller.common.filter;
 
 import com.rapiddweller.common.ArrayBuilder;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.Filter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,26 +26,16 @@ import java.util.List;
 /**
  * Utility class which provides convenience methods related to {@link Filter}s.
  * Created: 05.06.2011 22:58:00
- *
  * @author Volker Bergmann
  * @since 0.5.8
  */
 public class FilterUtil {
 
-  /**
-   * private constructor for preventing instantiation of this utility class.
-   */
+  /** private constructor for preventing instantiation of this utility class. */
   private FilterUtil() {
+    // private constructor to prevent instantiation of this utility class
   }
 
-  /**
-   * Multi filter list.
-   *
-   * @param <T>        the type parameter
-   * @param candidates the candidates
-   * @param filters    the filters
-   * @return the list
-   */
   @SafeVarargs
   public static <T> List<T> multiFilter(Collection<T> candidates, Filter<T>... filters) {
     List<T> result = new ArrayList<>();
@@ -57,14 +47,6 @@ public class FilterUtil {
     return result;
   }
 
-  /**
-   * Filter list.
-   *
-   * @param <T>        the type parameter
-   * @param candidates the candidates
-   * @param filter     the filter
-   * @return the list
-   */
   public static <T> List<T> filter(Collection<T> candidates, Filter<T> filter) {
     List<T> result = new ArrayList<>();
     for (T candidate : candidates) {
@@ -75,14 +57,6 @@ public class FilterUtil {
     return result;
   }
 
-  /**
-   * Accepted by all boolean.
-   *
-   * @param <T>       the type parameter
-   * @param candidate the candidate
-   * @param filters   the filters
-   * @return the boolean
-   */
   @SafeVarargs
   public static <T> boolean acceptedByAll(T candidate, Filter<T>... filters) {
     for (Filter<T> filter : filters) {
@@ -93,14 +67,6 @@ public class FilterUtil {
     return true;
   }
 
-  /**
-   * Find single match t.
-   *
-   * @param <T>        the type parameter
-   * @param candidates the candidates
-   * @param filter     the filter
-   * @return the t
-   */
   public static <T> T findSingleMatch(Collection<T> candidates, Filter<T> filter) {
     T result = null;
     for (T candidate : candidates) {
@@ -108,21 +74,13 @@ public class FilterUtil {
         if (result == null) {
           result = candidate;
         } else {
-          throw new ConfigurationError("Found multiple matches: " + candidates);
+          throw ExceptionFactory.getInstance().configurationError("Found multiple matches: " + candidates);
         }
       }
     }
     return result;
   }
 
-  /**
-   * Split split result.
-   *
-   * @param <T>    the type parameter
-   * @param items  the items
-   * @param filter the filter
-   * @return the split result
-   */
   public static <T> SplitResult<T> split(T[] items, Filter<T> filter) {
     List<T> matches = new ArrayList<>();
     List<T> mismatches = new ArrayList<>();
@@ -136,14 +94,6 @@ public class FilterUtil {
     return new SplitResult<>(matches, mismatches);
   }
 
-  /**
-   * Split split result.
-   *
-   * @param <T>    the type parameter
-   * @param list   the list
-   * @param filter the filter
-   * @return the split result
-   */
   public static <T> SplitResult<T> split(List<T> list, Filter<T> filter) {
     List<T> matches = new ArrayList<>();
     List<T> mismatches = new ArrayList<>();
@@ -157,14 +107,6 @@ public class FilterUtil {
     return new SplitResult<>(matches, mismatches);
   }
 
-  /**
-   * Filter groups list.
-   *
-   * @param <T>     the type parameter
-   * @param items   the items
-   * @param filters the filters
-   * @return the list
-   */
   @SafeVarargs
   public static <T> List<List<T>> filterGroups(T[] items, Filter<T>... filters) {
     List<List<T>> results = new ArrayList<>(filters.length);
@@ -182,14 +124,6 @@ public class FilterUtil {
     return results;
   }
 
-  /**
-   * Filter t [ ].
-   *
-   * @param <T>    the type parameter
-   * @param items  the items
-   * @param filter the filter
-   * @return the t [ ]
-   */
   public static <T> T[] filter(T[] items, Filter<T> filter) {
     @SuppressWarnings("unchecked")
     ArrayBuilder<T> result = new ArrayBuilder<>((Class<T>) items[0].getClass(), items.length / 3);

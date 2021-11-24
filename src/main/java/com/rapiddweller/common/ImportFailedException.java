@@ -23,7 +23,7 @@ import com.rapiddweller.common.exception.ExitCodes;
  *
  * @author Volker Bergmann
  */
-public class ImportFailedException extends OperationFailedException {
+public class ImportFailedException extends OperationFailed {
 
   public ImportFailedException(String message) {
     this(message, null);

@@ -17,6 +17,7 @@ package com.rapiddweller.common.condition;
 
 import com.rapiddweller.common.ArrayUtil;
 import com.rapiddweller.common.NullSafeComparator;
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import com.rapiddweller.common.version.DateVersionNumberComponent;
 import com.rapiddweller.common.version.NumberVersionNumberComponent;
 import org.junit.Test;
@@ -55,7 +56,7 @@ public class ComparationConditionTest {
 
   @Test
   public void testEvaluate() {
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(IllegalArgumentError.class,
         () -> (new ComparationCondition<>()).evaluate(new Object[] {"foo", "foo", "foo"}));
     assertTrue((new ComparationCondition<>()).evaluate(new Object[] {"arguments", "arguments"}));
     assertFalse((new ComparationCondition<>(1)).evaluate(new Object[] {"arguments", "arguments"}));
@@ -63,7 +64,7 @@ public class ComparationConditionTest {
     assertFalse((new ComparationCondition<>(3)).evaluate(new Object[] {"arguments", "arguments"}));
     assertTrue((new ComparationCondition<>(4)).evaluate(new Object[] {"arguments", "arguments"}));
     assertFalse((new ComparationCondition<>(5)).evaluate(new Object[] {"arguments", "arguments"}));
-    assertThrows(IllegalStateException.class,
+    assertThrows(IllegalArgumentError.class,
         () -> (new ComparationCondition<>(-1)).evaluate(new Object[] {"arguments", "arguments"}));
     assertTrue((new ComparationCondition<>(1)).evaluate(new Object[] {"Arguments", "arguments"}));
     assertFalse((new ComparationCondition<>(2)).evaluate(new Object[] {"Arguments", "arguments"}));

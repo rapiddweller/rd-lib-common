@@ -10,13 +10,13 @@ import com.rapiddweller.common.exception.ExitCodes;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class FileCreationFailedException extends FileOperationFailedException {
+public class FileCreationFailed extends FileOperationFailed {
 
-  public FileCreationFailedException(String message) {
+  public FileCreationFailed(String message) {
     this(message, null);
   }
 
-  public FileCreationFailedException(String message, Throwable cause) {
+  public FileCreationFailed(String message, Throwable cause) {
     super(null, ExitCodes.CANT_CREATE_FILE, message, cause);
   }
 

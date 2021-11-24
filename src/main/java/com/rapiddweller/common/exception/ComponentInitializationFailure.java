@@ -2,7 +2,7 @@
 
 package com.rapiddweller.common.exception;
 
-import com.rapiddweller.common.OperationFailedException;
+import com.rapiddweller.common.OperationFailed;
 
 /**
  * Signals that the initialization of a component failed.<br/><br/>
@@ -10,13 +10,13 @@ import com.rapiddweller.common.OperationFailedException;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class ComponentInitializationFailedException extends OperationFailedException {
+public class ComponentInitializationFailure extends OperationFailed {
 
-  public ComponentInitializationFailedException(String message) {
+  public ComponentInitializationFailure(String message) {
     this(message, null);
   }
 
-  public ComponentInitializationFailedException(String message, Throwable cause) {
+  public ComponentInitializationFailure(String message, Throwable cause) {
     super(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
   }
 

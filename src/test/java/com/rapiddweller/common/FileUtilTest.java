@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.junit.Test;
 
 import java.io.File;
@@ -127,7 +128,7 @@ public class FileUtilTest {
     assertEquals(root.getCanonicalPath() + "test.xml", cutResult.getCanonicalPath());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentError.class)
   public void testFileOfLimitedPathLength_invalid() {
     File root = new File((SystemInfo.isWindows() ? "C:\\" : "/") + "01234567890123456789");
     FileUtil.fileOfLimitedPathLength(root, "test", ".xml", 10, false);

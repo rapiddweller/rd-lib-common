@@ -17,7 +17,10 @@ package com.rapiddweller.common.tree;
 
 import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.TreeModel;
+import com.rapiddweller.common.exception.ExceptionFactory;
 import com.rapiddweller.common.iterator.BidirectionalIterator;
+
+import java.util.NoSuchElementException;
 
 /**
  * Iterates a tree forward and backward.
@@ -76,7 +79,7 @@ public class TreeIterator<E> implements BidirectionalIterator<E> {
   @Override
   public E previous() {
     if (!hasPrevious()) {
-      throw new IllegalStateException("No object available for previous()");
+      throw new NoSuchElementException("No object available for previous()");
     }
     hasNext = true;
     next = cursor;
@@ -117,7 +120,7 @@ public class TreeIterator<E> implements BidirectionalIterator<E> {
   @Override
   public E next() {
     if (!hasNext()) {
-      throw new IllegalStateException("No object available for next()");
+      throw new NoSuchElementException("No object available for next()");
     }
     hasPrevious = true;
     previous = cursor;
@@ -129,7 +132,7 @@ public class TreeIterator<E> implements BidirectionalIterator<E> {
 
   @Override
   public void remove() {
-    throw new UnsupportedOperationException("remove() is not supported on " + getClass());
+    throw ExceptionFactory.getInstance().illegalOperation("remove() is not supported on " + getClass());
   }
 
   // private helpers -------------------------------------------------------------------------------------------------

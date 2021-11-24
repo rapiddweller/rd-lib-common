@@ -2,7 +2,7 @@
 
 package com.rapiddweller.common.exception;
 
-import com.rapiddweller.common.OperationFailedException;
+import com.rapiddweller.common.OperationFailed;
 
 /**
  * Signals that cloning failed.<br/><br/>
@@ -10,13 +10,13 @@ import com.rapiddweller.common.OperationFailedException;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class CloningFailedException extends OperationFailedException {
+public class CloningFailed extends OperationFailed {
 
-  protected CloningFailedException(String message) {
+  protected CloningFailed(String message) {
     this(message, null);
   }
 
-  protected CloningFailedException(String message, Throwable cause) {
+  protected CloningFailed(String message, Throwable cause) {
     super(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
   }
 

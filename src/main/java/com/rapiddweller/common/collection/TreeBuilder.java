@@ -19,6 +19,7 @@ import com.rapiddweller.common.Assert;
 import com.rapiddweller.common.CollectionUtil;
 import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 import com.rapiddweller.common.xml.SimpleXMLWriter;
 import com.rapiddweller.common.xml.XMLUtil;
 import org.w3c.dom.Element;
@@ -27,10 +28,11 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Stack;
 
 /**
  * Allows for recursive and absolute tree construction and navigation
@@ -46,14 +48,14 @@ public class TreeBuilder {
   private final boolean namedRoot;
   private String rootName;
   private OrderedNameMap<Object> rootMap;
-  private final Stack<OrderedNameMap<Object>> currentPath;
+  private final Deque<OrderedNameMap<Object>> currentPath;
 
   // constructor -----------------------------------------------------------------------------------------------------
 
   public TreeBuilder(boolean namedRoot) {
     this.namedRoot = namedRoot;
     this.rootName = null;
-    this.currentPath = new Stack<>();
+    this.currentPath = new ArrayDeque<>();
   }
 
   // properties ------------------------------------------------------------------------------------------------------
@@ -85,11 +87,14 @@ public class TreeBuilder {
       OrderedNameMap<Object> node;
       Object formerContent = parent.get(nodeName);
       if (formerContent == null) {
-        parent.put(nodeName, node = new OrderedNameMap<>());
+        node = new OrderedNameMap<>();
+        parent.put(nodeName, node);
       } else if (formerContent instanceof Collection) {
-        ((Collection) formerContent).add(node = new OrderedNameMap<>());
+        node = new OrderedNameMap<>();
+        ((Collection) formerContent).add(node);
       } else {
-        parent.put(nodeName, CollectionUtil.toList(formerContent, node = new OrderedNameMap<>()));
+        node = new OrderedNameMap<>();
+        parent.put(nodeName, CollectionUtil.toList(formerContent, node));
       }
       this.currentPath.push(node);
     }
@@ -131,11 +136,7 @@ public class TreeBuilder {
     Map<String, Object> node = rootMap;
     for (int i = (namedRoot ? 1 : 0); i < pathComponents.length - 1; i++) {
       String subNodeName = pathComponents[i];
-      Map<String, Object> subNode = (Map<String, Object>) node.get(subNodeName);
-      if (subNode == null) {
-        node.put(subNodeName, subNode = new OrderedNameMap<>());
-      }
-      node = subNode;
+      node = (Map<String, Object>) node.computeIfAbsent(subNodeName, k -> new OrderedNameMap<>());
     }
     node.put(pathComponents[pathComponents.length - 1], value);
   }
@@ -158,17 +159,18 @@ public class TreeBuilder {
     return node.get(pathComponents[pathComponents.length - 1]);
   }
 
-  public static TreeBuilder loadFromStream(InputStream in, String sourceFileName) throws IOException {
+  public static TreeBuilder loadFromStream(InputStream in, String sourceFileName) {
     if (sourceFileName.toLowerCase().endsWith(".properties")) {
       return TreeBuilder.parseProperties(in);
     } else if (sourceFileName.toLowerCase().endsWith(".xml")) {
       return TreeBuilder.parseXML(in);
     } else {
-      throw new UnsupportedOperationException("Not a supported file format: " + sourceFileName);
+      throw ExceptionFactory.getInstance().programmerUnsupported(
+          "Not a supported file format: " + sourceFileName);
     }
   }
 
-  public static TreeBuilder parseProperties(InputStream in) throws IOException {
+  public static TreeBuilder parseProperties(InputStream in) {
     try (in) {
       Properties props = new Properties();
       props.load(in);
@@ -178,33 +180,41 @@ public class TreeBuilder {
         builder.addLeafAtAbsolutePath(path, entry.getValue().toString());
       }
       return builder;
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().internalError("Properties parsing failed. ", e);
     }
   }
 
-  public static TreeBuilder parseXML(InputStream in) throws IOException {
+  public static TreeBuilder parseXML(InputStream in) {
     try (in) {
       Element root = XMLUtil.parse(in).getDocumentElement();
       TreeBuilder builder = new TreeBuilder(true);
       parseXMLElement(root, builder);
       return builder;
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().internalError("XML parsing failed. ", e);
     }
   }
 
-  public void saveAsXML(OutputStream out, String encoding) throws IOException {
+  public void saveAsXML(OutputStream out, String encoding) {
     try {
       SimpleXMLWriter writer = new SimpleXMLWriter(out, encoding, true);
       writer.startDocument();
       saveNodeAsXml(rootMap, rootName, writer);
       writer.endDocument();
     } catch (SAXException e) {
-      throw new IOException("Error storing tree as XML", e);
+      throw ExceptionFactory.getInstance().syntaxError("Error storing tree as XML", e);
     }
   }
 
-  public void saveAsProperties(OutputStream out) throws IOException {
-    Properties properties = new Properties();
-    saveNodeAsProperty(rootMap, "", properties);
-    properties.store(out, null);
+  public void saveAsProperties(OutputStream out) {
+    try {
+      Properties properties = new Properties();
+      saveNodeAsProperty(rootMap, "", properties);
+      properties.store(out, null);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().internalError("Failed to save properties file. ", e);
+    }
   }
 
 

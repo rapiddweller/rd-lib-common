@@ -15,13 +15,14 @@
 
 package com.rapiddweller.common.tree;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Default implementation of a tree node.
  * Created: 08.05.2007 19:06:49
- *
  * @param <E> the type of the wrapped object
  * @author Volker Bergmann
  */
@@ -30,61 +31,24 @@ public class DefaultTreeNode<E> {
   private final DefaultTreeNode<E> parent;
   private final boolean leaf;
   private final List<DefaultTreeNode<E>> children;
-  /**
-   * The Object.
-   */
   protected E object;
 
-  /**
-   * Create leaf default tree node.
-   *
-   * @param <T>    the type parameter
-   * @param parent the parent
-   * @param object the object
-   * @return the default tree node
-   */
   public static <T> DefaultTreeNode<T> createLeaf(DefaultTreeNode<T> parent, T object) {
     return new DefaultTreeNode<>(parent, object, true);
   }
 
-  /**
-   * Create folder default tree node.
-   *
-   * @param <T>    the type parameter
-   * @param parent the parent
-   * @param object the object
-   * @return the default tree node
-   */
   public static <T> DefaultTreeNode<T> createFolder(DefaultTreeNode<T> parent, T object) {
     return new DefaultTreeNode<>(parent, object, false);
   }
 
-  /**
-   * Instantiates a new Default tree node.
-   *
-   * @param object the object
-   */
   public DefaultTreeNode(E object) {
     this(null, object);
   }
 
-  /**
-   * Instantiates a new Default tree node.
-   *
-   * @param parent the parent
-   * @param object the object
-   */
   public DefaultTreeNode(DefaultTreeNode<E> parent, E object) {
     this(parent, object, false);
   }
 
-  /**
-   * Instantiates a new Default tree node.
-   *
-   * @param parent the parent
-   * @param object the object
-   * @param leaf   the leaf
-   */
   public DefaultTreeNode(DefaultTreeNode<E> parent, E object, boolean leaf) {
     this.parent = parent;
     this.leaf = leaf;
@@ -92,70 +56,33 @@ public class DefaultTreeNode<E> {
     this.object = object;
   }
 
-  /**
-   * Add child.
-   *
-   * @param child the child
-   */
   public void addChild(DefaultTreeNode<E> child) {
     if (leaf) {
-      throw new IllegalStateException("Can't add a child to a leaf");
+      throw ExceptionFactory.getInstance().illegalOperation("Can't add a child to a leaf");
     }
     children.add(child);
   }
 
-  /**
-   * Gets parent.
-   *
-   * @return the parent
-   */
   public DefaultTreeNode<E> getParent() {
     return parent;
   }
 
-  /**
-   * Gets child.
-   *
-   * @param index the index
-   * @return the child
-   */
   public DefaultTreeNode<E> getChild(int index) {
     return children.get(index);
   }
 
-  /**
-   * Gets child count.
-   *
-   * @return the child count
-   */
   public int getChildCount() {
     return children.size();
   }
 
-  /**
-   * Is leaf boolean.
-   *
-   * @return the boolean
-   */
   public boolean isLeaf() {
     return leaf;
   }
 
-  /**
-   * Gets index of child.
-   *
-   * @param child the child
-   * @return the index of child
-   */
   public int getIndexOfChild(DefaultTreeNode<E> child) {
     return children.indexOf(child);
   }
 
-  /**
-   * Gets object.
-   *
-   * @return the object
-   */
   public E getObject() {
     return object;
   }
@@ -164,4 +91,5 @@ public class DefaultTreeNode<E> {
   public String toString() {
     return String.valueOf(object);
   }
+
 }

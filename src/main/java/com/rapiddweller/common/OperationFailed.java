@@ -23,13 +23,13 @@ import com.rapiddweller.common.exception.ApplicationException;
  * @author Volker Bergmann
  * @since 1.0.12
  */
-public class OperationFailedException extends ApplicationException {
+public class OperationFailed extends ApplicationException {
 
-  public OperationFailedException(String errorId, int exitCode, String message) {
+  public OperationFailed(String errorId, int exitCode, String message) {
     this(errorId, exitCode, message, null);
   }
 
-  public OperationFailedException(String errorId, int exitCode, String message, Throwable cause) {
+  public OperationFailed(String errorId, int exitCode, String message, Throwable cause) {
     super(errorId, exitCode, message, cause);
   }
 

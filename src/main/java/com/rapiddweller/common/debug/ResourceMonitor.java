@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common.debug;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -53,7 +54,7 @@ public class ResourceMonitor {
         return;
       }
     }
-    throw new IllegalStateException("Object '" + object + "' was not registered");
+    throw ExceptionFactory.getInstance().illegalOperation("Object '" + object + "' was not registered");
   }
 
   public List<MonitoredResource> getRegistrations() {
@@ -72,7 +73,7 @@ public class ResourceMonitor {
     logger.warn(message);
     logRegistrations();
     if (critical) {
-      throw new IllegalStateException(message);
+      throw ExceptionFactory.getInstance().assertionFailed(message);
     }
     return false;
   }

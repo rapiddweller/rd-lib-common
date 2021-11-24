@@ -10,13 +10,13 @@ import com.rapiddweller.common.exception.ExitCodes;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class FileDeletionFailedException extends FileOperationFailedException {
+public class FileDeletionFailed extends FileOperationFailed {
 
-  public FileDeletionFailedException(String message) {
+  public FileDeletionFailed(String message) {
     this(message, null);
   }
 
-  public FileDeletionFailedException(String message, Throwable cause) {
+  public FileDeletionFailed(String message, Throwable cause) {
     super(null, ExitCodes.I_O_ERROR, message, cause);
   }
 

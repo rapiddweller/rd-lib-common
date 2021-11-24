@@ -2,6 +2,7 @@ package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -21,7 +22,7 @@ public class ByteArray2StringConverterTest {
   public void testConvert() throws ConversionException {
     assertEquals("AAAAAAAAAAAAAAAAAAAAAAAA", (new ByteArray2StringConverter()).convert(
         new byte[] {65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65}));
-    assertThrows(ConfigurationError.class, () -> (new ByteArray2StringConverter("Encoding")).convert(
+    assertThrows(IllegalArgumentError.class, () -> (new ByteArray2StringConverter("Encoding")).convert(
         new byte[] {65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65}));
   }
 }

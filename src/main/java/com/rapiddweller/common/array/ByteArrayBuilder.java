@@ -16,11 +16,11 @@
 package com.rapiddweller.common.array;
 
 import com.rapiddweller.common.converter.ToStringConverter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
  * Helper class for constructing byte arrays.
  * Created: 27.12.2010 07:45:22
- *
  * @author Volker Bergmann
  * @since 0.5.5
  */
@@ -28,18 +28,10 @@ public class ByteArrayBuilder extends AbstractByteArray {
 
   // constructors ------------------------------------------------------------
 
-  /**
-   * Instantiates a new Byte array builder.
-   */
   public ByteArrayBuilder() {
     super();
   }
 
-  /**
-   * Instantiates a new Byte array builder.
-   *
-   * @param initialCapacity the initial capacity
-   */
   public ByteArrayBuilder(int initialCapacity) {
     super(initialCapacity);
   }
@@ -49,20 +41,17 @@ public class ByteArrayBuilder extends AbstractByteArray {
   @Override
   public ByteArrayBuilder add(byte item) {
     if (this.buffer == null) {
-      throw new UnsupportedOperationException("ArrayBuilder cannot be reused after invoking toArray()");
+      throw ExceptionFactory.getInstance().programmerStateError(
+          "ArrayBuilder cannot be reused after invoking toArray()");
     }
     super.add(item);
     return this;
   }
 
-  /**
-   * To array byte [ ].
-   *
-   * @return the byte [ ]
-   */
   public byte[] toArray() {
     if (this.buffer == null) {
-      throw new UnsupportedOperationException("ArrayBuilder cannot be reused after invoking toArray()");
+      throw ExceptionFactory.getInstance().programmerStateError(
+          "ArrayBuilder cannot be reused after invoking toArray()");
     }
     byte[] result = new byte[this.itemCount];
     System.arraycopy(buffer, 0, result, 0, this.itemCount);

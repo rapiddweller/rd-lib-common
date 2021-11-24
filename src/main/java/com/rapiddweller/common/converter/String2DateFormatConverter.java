@@ -16,6 +16,7 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,15 +24,11 @@ import java.text.SimpleDateFormat;
 /**
  * Parses a {@link String} as {@link DateFormat}.
  * Created at 13.07.2009 18:38:54
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class String2DateFormatConverter extends ThreadSafeConverter<String, DateFormat> {
 
-  /**
-   * Instantiates a new String 2 date format converter.
-   */
   public String2DateFormatConverter() {
     super(String.class, DateFormat.class);
   }
@@ -41,7 +38,7 @@ public class String2DateFormatConverter extends ThreadSafeConverter<String, Date
     try {
       return new SimpleDateFormat(pattern);
     } catch (Exception e) {
-      throw new ConversionException("Error in SimpleDateFormat creation", e);
+      throw ExceptionFactory.getInstance().conversionFailed("Error in SimpleDateFormat creation", e);
     }
   }
 

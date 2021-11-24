@@ -16,9 +16,9 @@
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.ConversionException;
-import com.rapiddweller.common.exception.MutationFailedException;
+import com.rapiddweller.common.exception.ExceptionFactory;
+import com.rapiddweller.common.exception.MutationFailed;
 import com.rapiddweller.common.converter.AnyConverter;
 
 import java.beans.PropertyDescriptor;
@@ -27,7 +27,6 @@ import java.lang.reflect.Method;
 /**
  * Mutates the value of a property on a JavaBean target object.
  * Created: 21.07.2007 09:01:19
- *
  * @author Volker Bergmann
  */
 public class UntypedPropertyMutator extends AbstractNamedMutator {
@@ -35,13 +34,6 @@ public class UntypedPropertyMutator extends AbstractNamedMutator {
   private final boolean required;
   private final boolean autoConvert;
 
-  /**
-   * Instantiates a new Untyped property mutator.
-   *
-   * @param propertyName the property name
-   * @param required     the required
-   * @param autoConvert  the auto convert
-   */
   public UntypedPropertyMutator(String propertyName, boolean required, boolean autoConvert) {
     super(propertyName);
     this.required = required;
@@ -49,42 +41,21 @@ public class UntypedPropertyMutator extends AbstractNamedMutator {
   }
 
   @Override
-  public void setValue(Object target, Object value) throws MutationFailedException {
+  public void setValue(Object target, Object value) throws MutationFailed {
     setValue(target, value, this.required, this.autoConvert);
   }
 
-  /**
-   * Sets value.
-   *
-   * @param bean          the bean
-   * @param propertyValue the property value
-   * @param required      the required
-   * @param autoConvert   the auto convert
-   * @throws MutationFailedException the update failed exception
-   */
-  public void setValue(Object bean, Object propertyValue, boolean required, boolean autoConvert) throws MutationFailedException {
-    if (bean == null) {
-      if (required) {
-        throw new MutationFailedException("Cannot set a property on a null pointer");
-      } else {
-        return;
-      }
+  public void setValue(Object bean, Object propertyValue, boolean required, boolean autoConvert) throws MutationFailed {
+    if (!checkBean(bean, required)) {
+      return;
     }
-    PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(bean.getClass(), name);
+    PropertyDescriptor propertyDescriptor = checkProperty(bean, required);
     if (propertyDescriptor == null) {
-      if (required) {
-        throw new MutationFailedException("property '" + name + "' not found in class " + bean.getClass());
-      } else {
-        return;
-      }
+      return;
     }
-    Method writeMethod = propertyDescriptor.getWriteMethod();
+    Method writeMethod = checkWriteMethod(bean, required, propertyDescriptor);
     if (writeMethod == null) {
-      if (required) {
-        throw new MutationFailedException("No write method found for property '" + name + "' in class " + bean.getClass());
-      } else {
-        return;
-      }
+      return;
     }
     if (autoConvert && propertyValue != null) {
       Class<?> sourceType = propertyValue.getClass();
@@ -94,9 +65,47 @@ public class UntypedPropertyMutator extends AbstractNamedMutator {
           propertyValue = AnyConverter.convert(propertyValue, targetType);
         }
       } catch (ConversionException e) {
-        throw new ConfigurationError("Error converting " + propertyValue, e);
+        throw ExceptionFactory.getInstance().configurationError("Error converting " + propertyValue, e);
       }
     }
     BeanUtil.invoke(bean, writeMethod, new Object[] {propertyValue});
   }
+
+  private boolean checkBean(Object bean, boolean required) {
+    if (bean == null) {
+      if (required) {
+        throw ExceptionFactory.getInstance().mutationFailed(
+            "Cannot set a property on 'null'", null);
+      } else {
+        return false;
+      }
+    }
+    return true;
+  }
+  private PropertyDescriptor checkProperty(Object bean, boolean required) {
+    PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(bean.getClass(), name);
+    if (propertyDescriptor == null) {
+      if (required) {
+        throw ExceptionFactory.getInstance().mutationFailed(
+            "property '" + name + "' not found in class " + bean.getClass(), null);
+      } else {
+        return null;
+      }
+    }
+    return propertyDescriptor;
+  }
+
+  private Method checkWriteMethod(Object bean, boolean required, PropertyDescriptor propertyDescriptor) {
+    Method writeMethod = propertyDescriptor.getWriteMethod();
+    if (writeMethod == null) {
+      if (required) {
+        throw ExceptionFactory.getInstance().mutationFailed(
+            "No write method found for property '" + name + "' in class " + bean.getClass(), null);
+      } else {
+        return null;
+      }
+    }
+    return writeMethod;
+  }
+
 }

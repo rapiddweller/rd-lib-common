@@ -22,7 +22,7 @@ import com.rapiddweller.common.exception.ExitCodes;
  * Created: 08.03.2006 14:56:58
  * @author Volker Bergmann
  */
-public class ConversionException extends OperationFailedException {
+public class ConversionException extends OperationFailed {
 
   public ConversionException(String message) {
     this(message, null);

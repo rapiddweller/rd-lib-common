@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common.comparator;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,7 +58,7 @@ public class TypeComparator implements Comparator<Class<?>> {
   private int indexOfClass(Class<?> type) {
     Integer result = indexes.get(type);
     if (result == null) {
-      throw new IllegalArgumentException("Not a supported type: " + type);
+      throw ExceptionFactory.getInstance().illegalArgument("Not a supported type: " + type);
     }
     return result;
   }

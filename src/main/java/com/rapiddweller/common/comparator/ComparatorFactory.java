@@ -17,7 +17,6 @@ package com.rapiddweller.common.comparator;
 
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.ComparableComparator;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.StringUtil;
@@ -78,7 +77,7 @@ public class ComparatorFactory {
         }
       }
     } catch (IOException e) {
-      throw new ConfigurationError("Error reading " + CONFIG_FILE_URI, e);
+      throw ExceptionFactory.getInstance().configurationError("Error reading " + CONFIG_FILE_URI, e);
     } finally {
       IOUtil.close(reader);
     }

@@ -8,14 +8,14 @@ import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.DeploymentError;
 import com.rapiddweller.common.ImportFailedException;
 import com.rapiddweller.common.ObjectNotFoundException;
-import com.rapiddweller.common.OperationFailedException;
+import com.rapiddweller.common.OperationFailed;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.cli.CLIIllegalArgumentException;
 import com.rapiddweller.common.cli.CLIIllegalOptionException;
 import com.rapiddweller.common.cli.CLIMissingArgumentException;
 import com.rapiddweller.common.cli.CLIMissingOptionValueException;
 import com.rapiddweller.common.file.FileAccessException;
-import com.rapiddweller.common.file.FileCreationFailedException;
+import com.rapiddweller.common.file.FileCreationFailed;
 import com.rapiddweller.common.file.FileResourceNotFoundException;
 
 import java.io.FileNotFoundException;
@@ -61,8 +61,8 @@ public class ExceptionFactory {
     return new FileResourceNotFoundException(null, "File not found: '" + uri + "'.", cause);
   }
 
-  public FileCreationFailedException fileCreationFailed(String message, Exception cause) {
-    return new FileCreationFailedException(message, cause);
+  public FileCreationFailed fileCreationFailed(String message, Exception cause) {
+    return new FileCreationFailed(message, cause);
   }
 
   public CLIIllegalOptionException illegalCommandLineOption(String message) {
@@ -125,8 +125,8 @@ public class ExceptionFactory {
     return new ServiceUnavailableException(s, e);
   }
 
-  public InternalError internalError(String message, Throwable cause) {
-    return new InternalError(message, cause);
+  public InternalErrorException internalError(String message, Throwable cause) {
+    return new InternalErrorException(message, cause);
   }
 
   public ServiceFailedException serviceFailed(String message, Throwable cause) {
@@ -141,12 +141,12 @@ public class ExceptionFactory {
     return new ConfigurationError(message, cause);
   }
 
-  public MutationFailedException mutationFailed(String message, Throwable cause) {
-    return new MutationFailedException(message, cause);
+  public MutationFailed mutationFailed(String message, Throwable cause) {
+    return new MutationFailed(message, cause);
   }
 
-  public AccessFailedException accessFailed(String message, Throwable cause) {
-    return new AccessFailedException(message, cause);
+  public AccessFailed accessFailed(String message, Throwable cause) {
+    return new AccessFailed(message, cause);
   }
   public ConversionException conversionFailed(String message, Throwable cause) {
     return new ConversionException(message, cause);
@@ -160,24 +160,51 @@ public class ExceptionFactory {
     return new DeploymentError(message, cause);
   }
 
-  public CloningFailedException cloningFailed(String message, Throwable cause) {
-    return new CloningFailedException(message, cause);
+  public CloningFailed cloningFailed(String message, Throwable cause) {
+    return new CloningFailed(message, cause);
   }
 
   public OperationCancelledException operationCancelled(String message) {
     return new OperationCancelledException(message);
   }
 
-  public OperationFailedException operationFailed(String message, Throwable cause) {
-    return new OperationFailedException(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
+  public OperationFailed operationFailed(String message, Throwable cause) {
+    return operationFailed(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
   }
 
-  public QueryFailedException queryFailed(String message, Throwable cause) {
-    return new QueryFailedException(message, cause);
+  public OperationFailed operationFailed(String errorId, int exitCode, String message, Throwable cause) {
+    return new OperationFailed(errorId, exitCode, message, cause);
   }
 
-  public ComponentInitializationFailedException componentInitializationFailed(String message, Throwable cause) {
-    return new ComponentInitializationFailedException(message, cause);
+  public QueryFailed queryFailed(String message, Throwable cause) {
+    return new QueryFailed(message, cause);
   }
 
+  public ComponentInitializationFailure componentInitializationFailed(String message, Throwable cause) {
+    return new ComponentInitializationFailure(message, cause);
+  }
+
+  public IllegalOperationError illegalOperation(String message) {
+    return new IllegalOperationError(message);
+  }
+
+  public SyntaxError syntaxErrorForText(String text, String message) {
+    return SyntaxError.forText(text, message);
+  }
+
+  public SyntaxError syntaxErrorForText(String text, String message, int line, int column) {
+    return syntaxErrorForText(text, message, line, column, null);
+  }
+
+  public SyntaxError syntaxErrorForText(String text, String message, int line, int column, Throwable cause) {
+    return SyntaxError.forText(text, message, line, column, cause);
+  }
+
+  public ServicePermissionDenied servicePermissionDenied(String message) {
+    throw new ServicePermissionDenied(message);
+  }
+
+  public IllegalAccess illegalAccess(String message) {
+    return new IllegalAccess(message);
+  }
 }

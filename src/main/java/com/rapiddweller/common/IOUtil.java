@@ -328,7 +328,7 @@ public final class IOUtil {
     if (localUri.startsWith(FILE_PROTOCOL)) {
       return getFileOrResourceAsStream(localUri.substring(FILE_PROTOCOL.length()), true);
     } else {
-      throw new ConfigurationError("Can't to handle URL " + localUri);
+      throw ExceptionFactory.getInstance().configurationError("Can't to handle URL " + localUri);
     }
   }
 
@@ -348,7 +348,7 @@ public final class IOUtil {
       stream = IOUtil.class.getResourceAsStream(searchedName);
     }
     if (required && stream == null) {
-      throw new ConfigurationError("Resource not found: " + name);
+      throw ExceptionFactory.getInstance().configurationError("Resource not found: " + name);
     }
     return stream;
   }
@@ -678,8 +678,6 @@ public final class IOUtil {
         FileUtil.copy(new File(srcUrl.toURI()), targetDirectory, true, new FileByNameFilter(filenameFilter));
       } catch (URISyntaxException e) {
         throw ExceptionFactory.getInstance().internalError("Error in URI " + srcUrl, e);
-      } catch (IOException e) {
-        throw ExceptionFactory.getInstance().fileAccessException("Error copying directory " + srcUrl, e);
       }
     } else if (protocol.equals("jar")) {
       String path = srcUrl.getPath();
@@ -691,7 +689,8 @@ public final class IOUtil {
       }
       extractFolderFromJar(jarPath, relativePath, targetDirectory, filenameFilter);
     } else {
-      throw new UnsupportedOperationException("Protocol not supported: " + protocol + " (URL: " + srcUrl + ")");
+      throw ExceptionFactory.getInstance().configurationError(
+          "Protocol not supported: " + protocol + " (URL: " + srcUrl + ")");
     }
   }
 
@@ -737,7 +736,8 @@ public final class IOUtil {
     } else if (protocol.equals("jar")) {
       return listJarResources(url);
     } else {
-      throw new UnsupportedOperationException("Protocol not supported: " + protocol + " (URL: " + url + ")");
+      throw ExceptionFactory.getInstance().configurationError(
+          "Protocol not supported: " + protocol + " (URL: " + url + ")");
     }
   }
 
@@ -763,7 +763,7 @@ public final class IOUtil {
     try {
       return URLEncoder.encode(text, encoding);
     } catch (UnsupportedEncodingException e) {
-      throw new IllegalArgumentException("Not a supported encoding: " + encoding, e);
+      throw ExceptionFactory.getInstance().internalError("Not a supported encoding: " + encoding, e);
     }
   }
 
@@ -771,11 +771,11 @@ public final class IOUtil {
     try {
       InputStream in = getInputStreamForURI(resourceName);
       if (in == null) {
-        throw new FileNotFoundException("Resource not found: " + resourceName);
+        throw ExceptionFactory.getInstance().fileNotFound("Resource not found: " + resourceName, null);
       }
       return new ImageIcon(ImageIO.read(in));
     } catch (Exception e) {
-      throw new ConfigurationError("Error reading image icon " + resourceName, e);
+      throw ExceptionFactory.getInstance().configurationError("Error reading image icon " + resourceName, e);
     }
   }
 
@@ -888,7 +888,7 @@ public final class IOUtil {
       URL absoluteUrl = new URL(contextUrl, relativeUri);
       return absoluteUrl.toString();
     } catch (MalformedURLException e) {
-      throw new IllegalArgumentException(e);
+      throw ExceptionFactory.getInstance().internalError("Error resolving URL " + relativeUri, e);
     }
   }
 
@@ -945,55 +945,49 @@ public final class IOUtil {
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
-  private static <M extends Map> M readProperties(M target, String filename,
-                                                  Converter<Map.Entry, Map.Entry> converter, String encoding) {
-    Reader reader = null;
-    ReaderLineIterator iterator = null;
-    try {
-      reader = IOUtil.getReaderForURI(filename, encoding);
-      iterator = new ReaderLineIterator(reader);
-      String key = null;
-      String value = "";
-      while (iterator.hasNext()) {
-        String line = iterator.next();
-        line = line.trim();
-        if (line.startsWith("#")) {
-          continue;
-        }
-        boolean incomplete = (line.endsWith("\\") && line.charAt(line.length() - 2) != '\\');
-        if (incomplete) {
-          line = line.substring(0, line.length() - 1);
-        }
-        line = StringUtil.unescape(line);
-        if (key != null) {
-          value += line;
-        } else {
-          String[] assignment = ParseUtil.parseAssignment(line, "=", false);
-          if (assignment != null && assignment[1] != null) {
-            key = assignment[0];
-            value = assignment[1];
-          } else {
+  private static <M extends Map> M readProperties(
+      M target, String filename, Converter<Map.Entry, Map.Entry> converter, String encoding) {
+    try (Reader reader = IOUtil.getReaderForURI(filename, encoding)) {
+      try (ReaderLineIterator iterator = new ReaderLineIterator(reader)) {
+        String key = null;
+        String value = "";
+        while (iterator.hasNext()) {
+          String line = iterator.next();
+          line = line.trim();
+          if (line.startsWith("#")) {
             continue;
           }
-        }
-        if (!incomplete) {
-          if (converter != null) {
-            Map.Entry entry = new MapEntry(key, value);
-            entry = converter.convert(entry);
-            target.put(entry.getKey(), entry.getValue());
-          } else {
-            target.put(key, value);
+          boolean incomplete = (line.endsWith("\\") && line.charAt(line.length() - 2) != '\\');
+          if (incomplete) {
+            line = line.substring(0, line.length() - 1);
           }
-          key = null;
-          value = "";
+          line = StringUtil.unescape(line);
+          if (key != null) {
+            value += line;
+          } else {
+            String[] assignment = ParseUtil.parseAssignment(line, "=", false);
+            if (assignment != null && assignment[1] != null) {
+              key = assignment[0];
+              value = assignment[1];
+            } else {
+              continue;
+            }
+          }
+          if (!incomplete) {
+            if (converter != null) {
+              Map.Entry entry = new MapEntry(key, value);
+              entry = converter.convert(entry);
+              target.put(entry.getKey(), entry.getValue());
+            } else {
+              target.put(key, value);
+            }
+            key = null;
+            value = "";
+          }
         }
       }
-    } finally {
-      if (iterator != null) {
-        iterator.close();
-      } else {
-        IOUtil.close(reader);
-      }
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException("Error reading file " + filename, e);
     }
     return target;
   }

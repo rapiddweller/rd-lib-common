@@ -1,6 +1,7 @@
 package com.rapiddweller.common.format;
 
 import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -22,25 +23,15 @@ public class StringPadderTest {
   }
 
   @Test
-  public void testConstructor2() {
-    assertThrows(IllegalArgumentException.class, () -> new StringPadder(0, Alignment.LEFT, 'A'));
-  }
-
-  @Test
-  public void testConstructor3() {
-    assertThrows(IllegalArgumentException.class, () -> new StringPadder(3, Alignment.LEFT, '\u0000'));
-  }
-
-  @Test
   public void testConvert() throws ConversionException {
-    assertThrows(IllegalArgumentException.class, () -> (new StringPadder(3, Alignment.LEFT, 'A')).convert("Text"));
+    assertThrows(IllegalArgumentError.class, () -> (new StringPadder(3, Alignment.LEFT, 'A')).convert("Text"));
     assertEquals("AAA", (new StringPadder(3, Alignment.LEFT, 'A')).convert(""));
     assertEquals("AAA", (new StringPadder(3, Alignment.RIGHT, 'A')).convert(""));
     assertEquals("AAA", (new StringPadder(3, Alignment.CENTER, 'A')).convert(""));
     assertEquals("000", (new StringPadder(3, Alignment.RIGHT, '0')).convert(""));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentError.class)
   public void testNegative() {
     assertEquals(1129653923, (new StringPadder(-1, Alignment.LEFT, 'A')).hashCode());
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,8 @@ package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.StringUtil;
-import com.rapiddweller.common.exception.MutationFailedException;
+import com.rapiddweller.common.exception.ExceptionFactory;
+import com.rapiddweller.common.exception.MutationFailed;
 import com.rapiddweller.common.mutator.NamedMutator;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -25,8 +26,8 @@ import org.slf4j.Logger;
 /**
  * Mutates JavaBean object graphs.
  * Created: 08.05.2005 06:24:41
- *
  * @author Volker Bergmann
+ * @since 0.1
  */
 public class PropertyGraphMutator implements NamedMutator {
 
@@ -40,44 +41,18 @@ public class PropertyGraphMutator implements NamedMutator {
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Property graph mutator.
-   *
-   * @param propertyName the property name
-   */
   public PropertyGraphMutator(String propertyName) {
     this(propertyName, true, false);
   }
 
-  /**
-   * Instantiates a new Property graph mutator.
-   *
-   * @param propertyName the property name
-   * @param required     the required
-   * @param autoConvert  the auto convert
-   */
   public PropertyGraphMutator(String propertyName, boolean required, boolean autoConvert) {
     this(null, propertyName, required, autoConvert);
   }
 
-  /**
-   * Instantiates a new Property graph mutator.
-   *
-   * @param beanClass    the bean class
-   * @param propertyName the property name
-   */
   public PropertyGraphMutator(Class<?> beanClass, String propertyName) {
     this(beanClass, propertyName, true, false);
   }
 
-  /**
-   * Instantiates a new Property graph mutator.
-   *
-   * @param beanClass    the bean class
-   * @param propertyName the property name
-   * @param required     the required
-   * @param autoConvert  the auto convert
-   */
   @SuppressWarnings("unchecked")
   public PropertyGraphMutator(Class<?> beanClass, String propertyName, boolean required, boolean autoConvert) {
     this.propertyName = propertyName;
@@ -130,15 +105,15 @@ public class PropertyGraphMutator implements NamedMutator {
   }
 
   @Override
-  public void setValue(Object bean, Object propertyValue) throws MutationFailedException {
+  public void setValue(Object bean, Object propertyValue) throws MutationFailed {
     if (bean == null) {
       if (required) {
-        throw new IllegalArgumentException("Cannot set a property on null");
+        throw ExceptionFactory.getInstance().illegalArgument("Cannot set a property on null");
       } else {
         return;
       }
     }
-    logger.debug("setting property '" + getName() + "' to '" + propertyValue + "' on bean " + bean);
+    logger.debug("setting property '{}' to '{}' on bean {}", getName(), propertyValue, bean);
     Object superBean = bean;
     if (subAccessors != null) {
       for (PropertyAccessor<Object, ?> subAccessor : subAccessors) {

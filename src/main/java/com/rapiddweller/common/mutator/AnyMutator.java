@@ -18,12 +18,12 @@ package com.rapiddweller.common.mutator;
 import com.rapiddweller.common.Assert;
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.Composite;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.Context;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Escalator;
 import com.rapiddweller.common.LoggerEscalator;
-import com.rapiddweller.common.exception.MutationFailedException;
+import com.rapiddweller.common.exception.ExceptionFactory;
+import com.rapiddweller.common.exception.MutationFailed;
 import com.rapiddweller.common.accessor.FeatureAccessor;
 import com.rapiddweller.common.converter.AnyConverter;
 
@@ -35,7 +35,6 @@ import java.util.Map;
 /**
  * Mutator implementation for graphs of any object types.
  * Created: 31.01.2008 20:15:11
- *
  * @author Volker Bergmann
  * @since 0.3.0
  */
@@ -47,22 +46,10 @@ public class AnyMutator implements NamedMutator {
   private final boolean required;
   private final boolean autoConvert;
 
-  /**
-   * Instantiates a new Any mutator.
-   *
-   * @param path the path
-   */
   public AnyMutator(String path) {
     this(path, true, false);
   }
 
-  /**
-   * Instantiates a new Any mutator.
-   *
-   * @param path        the path
-   * @param required    the required
-   * @param autoConvert the auto convert
-   */
   public AnyMutator(String path, boolean required, boolean autoConvert) {
     this.path = Assert.notNull(path, "path");
     this.required = required;
@@ -75,34 +62,14 @@ public class AnyMutator implements NamedMutator {
   }
 
   @Override
-  public void setValue(Object target, Object value) throws MutationFailedException {
+  public void setValue(Object target, Object value) throws MutationFailed {
     setValue(target, path, value, required, autoConvert);
   }
 
-  /**
-   * Sets value.
-   *
-   * @param <C>    the type parameter
-   * @param <V>    the type parameter
-   * @param target the target
-   * @param path   the path
-   * @param value  the value
-   */
   public static <C, V> void setValue(C target, String path, V value) {
     setValue(target, path, value, true, false);
   }
 
-  /**
-   * Sets value.
-   *
-   * @param <C>         the type parameter
-   * @param <V>         the type parameter
-   * @param target      the target
-   * @param path        the path
-   * @param value       the value
-   * @param required    the required
-   * @param autoConvert the auto convert
-   */
   public static <C, V> void setValue(C target, String path, V value, boolean required, boolean autoConvert) {
     int sep = path.indexOf('.');
     if (sep < 0)
@@ -122,13 +89,6 @@ public class AnyMutator implements NamedMutator {
     }
   }
 
-  /**
-   * Sets feature default.
-   *
-   * @param target      the target
-   * @param featureName the feature name
-   * @return the feature default
-   */
   public static Object setFeatureDefault(Object target, String featureName) {
     // try JavaBean property
     PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(target.getClass(), featureName);
@@ -139,7 +99,7 @@ public class AnyMutator implements NamedMutator {
         writeMethod.invoke(target, value);
         return value;
       } catch (Exception e) {
-        throw new ConfigurationError("Unable to write feature '" + featureName + "'", e);
+        throw ExceptionFactory.getInstance().configurationError("Unable to write feature '" + featureName + "'", e);
       }
     } else {
       // try attribute
@@ -150,7 +110,7 @@ public class AnyMutator implements NamedMutator {
         BeanUtil.setAttributeValue(target, field, value);
         return value;
       } else {
-        throw new ConfigurationError("Feature '" + featureName + "' not found in class " + type.getName());
+        throw ExceptionFactory.getInstance().configurationError("Feature '" + featureName + "' not found in class " + type.getName());
       }
     }
   }
@@ -183,20 +143,19 @@ public class AnyMutator implements NamedMutator {
               value = (V) AnyConverter.convert(value, targetType);
             }
           } catch (ConversionException e) {
-            throw new ConfigurationError("Error converting " + value, e);
+            throw ExceptionFactory.getInstance().configurationError("Error converting " + value, e);
           }
         }
         field.set(target, value);
-
       } catch (NoSuchFieldException e) {
         String message = "No feature '" + featureName + "' found in " + target;
         if (required) {
-          throw new UnsupportedOperationException(message);
+          throw ExceptionFactory.getInstance().illegalOperation(message);
         } else {
           escalator.escalate(message, AnyMutator.class, null);
         }
       } catch (IllegalAccessException e) {
-        throw new UnsupportedOperationException("Error accessing attribute '" +
+        throw ExceptionFactory.getInstance().illegalArgument("Error accessing attribute '" +
             featureName + "' of class " + target.getClass().getName(), e);
       }
     }

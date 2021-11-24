@@ -16,6 +16,7 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.Converter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -23,35 +24,23 @@ import java.math.BigInteger;
 /**
  * Converts Number objects of one type to another Number type.
  * Created: 16.06.2007 11:51:14
- *
  * @param <S> the number type to convert from
  * @param <T> the number type to convert to
  * @author Volker Bergmann
  */
 public class NumberToNumberConverter<S extends Number, T extends Number> extends ConverterProxy<S, T> {
 
-  /**
-   * Instantiates a new Number to number converter.
-   *
-   * @param targetType the target type
-   */
   @SuppressWarnings("unchecked")
   public NumberToNumberConverter(Class<T> targetType) {
     this((Class<S>) Number.class, targetType);
   }
 
-  /**
-   * Instantiates a new Number to number converter.
-   *
-   * @param sourceType the source type
-   * @param targetType the target type
-   */
   @SuppressWarnings("unchecked")
   public NumberToNumberConverter(Class<S> sourceType, Class<T> targetType) {
     super((Converter<S, T>) createConverter(targetType));
   }
 
-  private static <TT extends Number> Converter<Number, ? extends Number> createConverter(Class<TT> targetType) {
+  private static <U extends Number> Converter<Number, ? extends Number> createConverter(Class<U> targetType) {
     if (Integer.class == targetType || int.class == targetType) {
       return new Number2IntegerConverter();
     } else if (Long.class == targetType || long.class == targetType) {
@@ -69,13 +58,12 @@ public class NumberToNumberConverter<S extends Number, T extends Number> extends
     } else if (BigDecimal.class.equals(targetType)) {
       return new Number2BigDecimalConverter();
     } else {
-      throw new IllegalArgumentException("Not a supported number type: " + targetType);
+      throw ExceptionFactory.getInstance().illegalArgument("Not a supported number type: " + targetType);
     }
   }
 
   /**
    * Converts a number of one number type to another number type.
-   *
    * @param <TT>       the type to convert the number to
    * @param src        the number to convert
    * @param targetType the target number type of the conversion
@@ -102,7 +90,7 @@ public class NumberToNumberConverter<S extends Number, T extends Number> extends
     } else if (BigDecimal.class.equals(targetType)) {
       return (TT) BigDecimal.valueOf(src.doubleValue());
     } else {
-      throw new IllegalArgumentException("Not a supported number type: " + targetType);
+      throw ExceptionFactory.getInstance().illegalArgument("Not a supported number type: " + targetType);
     }
   }
 

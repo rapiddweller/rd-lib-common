@@ -16,12 +16,10 @@
 package com.rapiddweller.common;
 
 import com.rapiddweller.common.exception.SyntaxError;
-import junit.framework.AssertionFailedError;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -34,6 +32,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Tests the {@link ParseUtil} class.<br/><br/>
@@ -47,88 +46,46 @@ public class ParseUtilTest {
   private static final double DELTA = 1e-4;
 
   @Test
-  public void testParseWord() throws IOException {
+  public void testParseWord() {
     assertEquals("", ParseUtil.parseWord(new PushbackReader(Reader.nullReader())));
     assertEquals("S", ParseUtil.parseWord(new PushbackReader(new StringReader("S"))));
   }
 
   @Test
-  public void testParseWord2() throws IOException {
-    Reader nullReaderResult = Reader.nullReader();
-    nullReaderResult.skip(0L);
-    assertEquals("", ParseUtil.parseWord(new PushbackReader(nullReaderResult)));
-  }
-
-  @Test
-  public void testParseWord3() throws IOException {
-    PushbackReader pushbackReader = new PushbackReader(Reader.nullReader());
-    pushbackReader.unread(0);
-    assertEquals("", ParseUtil.parseWord(pushbackReader));
-  }
-
-  @Test
-  public void testParseDoubleQuotedString() throws Exception {
+  public void testParseDoubleQuotedString() {
     assertEquals("Blabla 123 !", ParseUtil.parseDoubleQuotedString(createReader("\"Blabla 123 !\"")));
   }
 
   @Test
-  public void testParseNonNegativeIntegerReader() throws Exception {
+  public void testParseNonNegativeIntegerReader() {
     assertEquals(0, ParseUtil.parseNonNegativeInteger(createReader("0")));
     assertEquals(1, ParseUtil.parseNonNegativeInteger(createReader("1")));
     assertEquals(123, ParseUtil.parseNonNegativeInteger(createReader("123")));
   }
 
   @Test
-  public void testParseNonNegativeIntegerString() throws Exception {
+  public void testParseNonNegativeIntegerString() {
     assertEquals(0, ParseUtil.parseNonNegativeInteger("0", new ParsePosition(0)));
     assertEquals(1, ParseUtil.parseNonNegativeInteger("1", new ParsePosition(0)));
     assertEquals(123, ParseUtil.parseNonNegativeInteger("123", new ParsePosition(0)));
   }
 
   @Test
-  public void testParseOptionalSign() throws IOException {
+  public void testParseOptionalSign() {
     assertFalse(ParseUtil.parseOptionalSign(new PushbackReader(Reader.nullReader())));
     assertFalse(ParseUtil.parseOptionalSign(new PushbackReader(new StringReader("S"))));
   }
 
   @Test
-  public void testParseOptionalSign2() throws IOException {
-    Reader nullReaderResult = Reader.nullReader();
-    nullReaderResult.skip(0L);
-    assertFalse(ParseUtil.parseOptionalSign(new PushbackReader(nullReaderResult)));
-  }
-
-  @Test
-  public void testParseUnit() throws IOException {
+  public void testParseUnit() {
     assertNull(ParseUtil.parseUnit(new PushbackReader(Reader.nullReader())));
     assertEquals("S", ParseUtil.parseUnit(new PushbackReader(new StringReader("S"))));
   }
 
   @Test
-  public void testParseUnit2() throws IOException {
-    Reader nullReaderResult = Reader.nullReader();
-    nullReaderResult.skip(0L);
-    assertNull(ParseUtil.parseUnit(new PushbackReader(nullReaderResult)));
-  }
-
-  @Test
-  public void testParseUnit3() throws IOException {
-    PushbackReader pushbackReader = new PushbackReader(Reader.nullReader());
-    pushbackReader.unread(0);
-    assertNull(ParseUtil.parseUnit(pushbackReader));
-  }
-
-  @Test
-  public void testParseEstimated() throws IOException {
+  public void testParseEstimated() {
     assertFalse(ParseUtil.parseEstimated(new PushbackReader(Reader.nullReader())));
     assertFalse(ParseUtil.parseEstimated(new PushbackReader(new StringReader("S"))));
-  }
-
-  @Test
-  public void testParseEstimated2() throws IOException {
-    Reader nullReaderResult = Reader.nullReader();
-    nullReaderResult.skip(0L);
-    assertFalse(ParseUtil.parseEstimated(new PushbackReader(nullReaderResult)));
   }
 
   @Test
@@ -146,7 +103,7 @@ public class ParseUtilTest {
   }
 
   @Test
-  public void testParseInteger() throws Exception {
+  public void testParseInteger() {
     assertEquals(1, ParseUtil.parseInteger(createReader("1")));
     assertEquals(0, ParseUtil.parseInteger(createReader("0")));
     assertEquals(-1, ParseUtil.parseInteger(createReader("-1")));
@@ -155,7 +112,7 @@ public class ParseUtilTest {
   }
 
   @Test
-  public void testParseDecimal() throws Exception {
+  public void testParseDecimal() {
     assertEquals(1., ParseUtil.parseDecimal(createReader("1")), DELTA);
     assertEquals(1., ParseUtil.parseDecimal(createReader("1.")), DELTA);
     assertEquals(1., ParseUtil.parseDecimal(createReader("1.0")), DELTA);
@@ -176,20 +133,13 @@ public class ParseUtilTest {
   }
 
   @Test
-  public void testParseOptionalPostfix() throws IOException {
+  public void testParseOptionalPostfix() {
     assertEquals(0.0, ParseUtil.parseOptionalPostfix(new PushbackReader(Reader.nullReader())), 0.0);
     assertEquals(0.0, ParseUtil.parseOptionalPostfix(new PushbackReader(new StringReader("S"))), 0.0);
   }
 
   @Test
-  public void testParseOptionalPostfix2() throws IOException {
-    Reader nullReaderResult = Reader.nullReader();
-    nullReaderResult.skip(0L);
-    assertEquals(0.0, ParseUtil.parseOptionalPostfix(new PushbackReader(nullReaderResult)), 0.0);
-  }
-
-  @Test
-  public void testParseEmptyLineSeparatedFile() throws Exception {
+  public void testParseEmptyLineSeparatedFile() {
     checkParseEmptyLineSeparatedFile(new String[0][0], "");
     checkParseEmptyLineSeparatedFile(new String[][] {{"a"}}, "a");
     checkParseEmptyLineSeparatedFile(new String[][] {{}, {"a", "b"}}, "", "a", "b");
@@ -269,19 +219,19 @@ public class ParseUtilTest {
     assertThrows(SyntaxError.class, () -> ParseUtil.parseBoolean("S", false));
   }
 
-  @Test(expected = SyntaxError.class)
+  @Test
   public void testParseBoolean_illegal() {
-    assertNull(ParseUtil.parseBoolean("nix"));
+    assertThrows(SyntaxError.class, () -> ParseUtil.parseBoolean("nix", true));
   }
 
-  @Test(expected = SyntaxError.class)
+  @Test
   public void testParseBoolean_empty() {
-    assertNull(ParseUtil.parseBoolean("  "));
+    assertThrows(SyntaxError.class, () -> ParseUtil.parseBoolean("  "));
   }
 
-  @Test(expected = SyntaxError.class)
+  @Test
   public void testParseBoolean_unaccepted_whitespace() {
-    assertNull(ParseUtil.parseBoolean(" true "));
+    assertThrows(SyntaxError.class, () -> ParseUtil.parseBoolean(" true "));
   }
 
   // implementation --------------------------------------------------------------------------------------------------
@@ -289,23 +239,23 @@ public class ParseUtilTest {
   @SafeVarargs
   private static <T> void assertEqualArrays(T[] found, T... expected) {
     if (!Arrays.deepEquals(expected, found)) {
-      throw new AssertionFailedError();
+      fail();
     }
   }
 
-  private static void checkParseEmptyLineSeparatedFile(String[][] expectedOutput, String... input) throws IOException {
+  private static void checkParseEmptyLineSeparatedFile(String[][] expectedOutput, String... input) {
     String[][] output = ParseUtil.parseEmptyLineSeparatedFile(createReader(input));
     logger.debug(Arrays.deepToString(expectedOutput) + " <-> " + Arrays.deepToString(output));
     assertTrue(Arrays.deepEquals(expectedOutput, output));
   }
 
   @Test
-  public void testParseEmptyLineSeparatedFile2() throws IOException {
+  public void testParseEmptyLineSeparatedFile2() {
     assertEquals(0, ParseUtil.parseEmptyLineSeparatedFile(Reader.nullReader()).length);
   }
 
   @Test
-  public void testParseEmptyLineSeparatedFile3() throws IOException {
+  public void testParseEmptyLineSeparatedFile3() {
     assertEquals(1, ParseUtil.parseEmptyLineSeparatedFile(new StringReader("S")).length);
   }
 

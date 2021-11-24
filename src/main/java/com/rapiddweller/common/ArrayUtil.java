@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
 import com.rapiddweller.common.iterator.ArrayIterator;
 
 import java.lang.reflect.Array;
@@ -46,7 +47,8 @@ public final class ArrayUtil {
         case NEG:
           return -1;
         default:
-          throw new UnsupportedOperationException("Not a supported option: " + resultIfNotFound);
+          throw ExceptionFactory.getInstance().programmerUnsupported(
+              "Not a supported option: " + resultIfNotFound);
       }
     }
   }

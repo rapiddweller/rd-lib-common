@@ -15,13 +15,14 @@
 
 package com.rapiddweller.common;
 
-import com.rapiddweller.common.exception.SyntaxError;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,18 +50,28 @@ public final class TimeUtil {
   public static final int DAY_MILLIS = 24 * HOUR_MILLIS;
   public static final int WEEK_MILLIS = 7 * DAY_MILLIS;
 
-  private static final DateFormat DEFAULT_DATE_FORMAT = DateFormat.getDateInstance();
-  private static final DateFormat DEFAULT_DATETIME_SECONDS_FORMAT = DateFormat.getDateTimeInstance();
-
-  public static TimeZone GMT = TimeZone.getTimeZone("GMT");
-  public static TimeZone CENTRAL_EUROPEAN_TIME = TimeZone.getTimeZone("CET");
-  public static TimeZone PACIFIC_STANDARD_TIME = TimeZone.getTimeZone("PST");
-  public static TimeZone SNGAPORE_TIME = TimeZone.getTimeZone("SGT");
+  public static final TimeZone GMT = TimeZone.getTimeZone("GMT");
+  public static final TimeZone CENTRAL_EUROPEAN_TIME = TimeZone.getTimeZone("CET");
+  public static final TimeZone PACIFIC_STANDARD_TIME = TimeZone.getTimeZone("PST");
+  public static final TimeZone SINGAPORE_TIME = TimeZone.getTimeZone("SGT");
 
   private static final int[] MONTH_LENGTHS = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-  private static final GregorianCalendar GREGORIAN_CALENDAR = new GregorianCalendar();
   public static final int DECADE = 100;
+
+  private static final ThreadLocal<DateFormat> defaultDateFormat
+      = ThreadLocal.withInitial(DateFormat::getDateInstance);
+  private static final ThreadLocal<DateFormat> defaultDateTimeSecondsFormat
+      = ThreadLocal.withInitial(DateFormat::getDateTimeInstance);
+  private static final ThreadLocal<DateFormat> monthDayFormat
+      = ThreadLocal.withInitial(() -> new SimpleDateFormat("MM/yy"));
+  private static final ThreadLocal<DateFormat> numberDateFormat
+      = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd"));
+
+
+  private TimeUtil() {
+    // private constructor to prevent instantiation of this utility class
+  }
 
   public static int currentMonth() {
     return new GregorianCalendar().get(Calendar.MONTH);
@@ -91,7 +102,7 @@ public final class TimeUtil {
   }
 
   public static boolean isLeapYear(int year) {
-    return GREGORIAN_CALENDAR.isLeapYear(year);
+    return Year.isLeap(year);
   }
 
   public static Date today() {
@@ -128,7 +139,7 @@ public final class TimeUtil {
     try {
       return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(spec);
     } catch (ParseException e) {
-      throw new IllegalArgumentException("Error parsing date " + spec, e);
+      throw ExceptionFactory.getInstance().illegalArgument("Error parsing date " + spec, e);
     }
   }
 
@@ -204,22 +215,20 @@ public final class TimeUtil {
   }
 
   public static String formatDateTime(Date date) {
-    synchronized (DEFAULT_DATETIME_SECONDS_FORMAT) {
-      return DEFAULT_DATETIME_SECONDS_FORMAT.format(date);
+    synchronized (defaultDateTimeSecondsFormat) {
+      return defaultDateTimeSecondsFormat.get().format(date);
     }
   }
 
   public static String formatDate(Date date) {
-    synchronized (DEFAULT_DATE_FORMAT) {
-      return DEFAULT_DATE_FORMAT.format(date);
+    synchronized (defaultDateFormat) {
+      return defaultDateFormat.get().format(date);
     }
   }
 
-  private static final DateFormat NUMBER_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
-
   public static String formatAsNumber(Date date) {
-    synchronized (NUMBER_DATE_FORMAT) {
-      return NUMBER_DATE_FORMAT.format(date);
+    synchronized (numberDateFormat) {
+      return numberDateFormat.get().format(date);
     }
   }
 
@@ -249,10 +258,8 @@ public final class TimeUtil {
     return formatDate(date);
   }
 
-  private static final DateFormat mdf = new SimpleDateFormat("MM/yy");
-
   public static String formatMonth(Calendar calendar) {
-    return mdf.format(calendar.getTime());
+    return monthDayFormat.get().format(calendar.getTime());
   }
 
   public static int year(Date date) {
@@ -325,7 +332,7 @@ public final class TimeUtil {
   public static Date nthDayOfWeekInMonth(int n, int dayOfWeek, int month, int year) {
     Calendar cal = new GregorianCalendar(year, month, 1);
     cal.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-    cal.set(Calendar.DAY_OF_WEEK_IN_MONTH, 3);
+    cal.set(Calendar.DAY_OF_WEEK_IN_MONTH, n);
     return cal.getTime();
   }
 
@@ -371,8 +378,7 @@ public final class TimeUtil {
     int years = untilCalendar.get(Calendar.YEAR) - fromCalendar.get(Calendar.YEAR);
     int month1 = untilCalendar.get(Calendar.MONTH);
     int month2 = fromCalendar.get(Calendar.MONTH);
-    if (month1 < month2) // DAY_OF_YEAR comparison would fail in leap years
-    {
+    if (month1 < month2) { // DAY_OF_YEAR comparison would fail in leap years
       years--;
     } else if (month1 == month2 && untilCalendar.get(Calendar.DAY_OF_MONTH) < fromCalendar.get(Calendar.DAY_OF_MONTH)) {
       years--;
@@ -431,7 +437,8 @@ public final class TimeUtil {
   }
 
   public static Time time(int hour, int minute, int second, int millisecond) {
-    GregorianCalendar calendar = new GregorianCalendar(1970, 0, 1, hour, minute, second);
+    GregorianCalendar calendar = new GregorianCalendar(1970, Calendar.JANUARY, 1,
+        hour, minute, second);
     calendar.set(Calendar.MILLISECOND, millisecond);
     return new Time(calendar.getTimeInMillis());
   }
@@ -531,7 +538,7 @@ public final class TimeUtil {
         dateOrTimeSpec = dateOrTimeSpec.substring(0, sepIndex);
       }
       DateFormat format;
-      if (dateOrTimeSpec.indexOf('T') > 0) {
+      if (dateOrTimeSpec.indexOf('T') >= 0) {
         switch (dateOrTimeSpec.length()) {
           case 16:
             format = new SimpleDateFormat(DEFAULT_DATETIME_MINUTES_PATTERN);
@@ -543,7 +550,7 @@ public final class TimeUtil {
             format = new SimpleDateFormat(DEFAULT_DATETIME_MILLIS_PATTERN);
             break;
           default:
-            throw new IllegalArgumentException("Not a supported date format: " + dateOrTimeSpec);
+            throw ExceptionFactory.getInstance().syntaxErrorForText(dateOrTimeSpec, "Not a supported date format");
         }
         Date date = format.parse(dateOrTimeSpec);
         if (nanos == null) {
@@ -559,10 +566,10 @@ public final class TimeUtil {
         format = new SimpleDateFormat(DEFAULT_TIME_PATTERN);
         return new Time(format.parse(dateOrTimeSpec).getTime());
       } else {
-        throw new SyntaxError("Not a supported date/time format:", dateOrTimeSpec);
+        throw ExceptionFactory.getInstance().syntaxError("Not a supported date/time format:" + dateOrTimeSpec, null);
       }
     } catch (ParseException e) {
-      throw new ConversionException("Failed to parse date or time " + dateOrTimeSpec, e);
+      throw ExceptionFactory.getInstance().syntaxError("Failed to parse date or time " + dateOrTimeSpec, e);
     }
   }
 
@@ -574,14 +581,14 @@ public final class TimeUtil {
     return calendar.get(field);
   }
 
-  private static String formatSimplified(int hours, int minutes, int seconds, int millis, boolean includeMillies) {
+  private static String formatSimplified(int hours, int minutes, int seconds, int millis, boolean includeMillis) {
     StringBuilder builder = new StringBuilder();
     String unit = null;
     if (hours > 0) {
       builder.append(hours);
       unit = " h";
     }
-    if (minutes > 0 || seconds > 0 || (includeMillies && millis > 0)) {
+    if (minutes > 0 || seconds > 0 || (includeMillis && millis > 0)) {
       if (unit != null) {
         builder.append(':');
         if (minutes < 10) {
@@ -594,7 +601,7 @@ public final class TimeUtil {
           unit = " min";
         }
       }
-      if (seconds > 0 || (includeMillies && millis > 0)) {
+      if (seconds > 0 || (includeMillis && millis > 0)) {
         if (unit != null) {
           builder.append(':');
           if (seconds < 10) {
@@ -605,7 +612,7 @@ public final class TimeUtil {
         if (unit == null) {
           unit = " s";
         }
-        if (includeMillies) {
+        if (includeMillis) {
           appendMillis(millis, builder);
         }
       }

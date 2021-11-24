@@ -9,13 +9,13 @@ package com.rapiddweller.common.exception;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class InternalError extends ApplicationException {
+public class InternalErrorException extends ApplicationException {
 
-  public InternalError(String message) {
+  public InternalErrorException(String message) {
     this(message, null);
   }
 
-  public InternalError(String message, Throwable cause) {
+  public InternalErrorException(String message, Throwable cause) {
     super(null, ExitCodes.INTERNAL_SOFTWARE_ERROR, message, cause);
   }
 

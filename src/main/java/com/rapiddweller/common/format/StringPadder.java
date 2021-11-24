@@ -20,11 +20,11 @@ import com.rapiddweller.common.Assert;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.converter.ThreadSafeConverter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
  * Pads a string with a pad character to a given length with left/center or right alignment.
  * Created: 13.03.2014 11:40:07
- *
  * @author Volker Bergmann
  * @since 0.5.28
  */
@@ -34,23 +34,16 @@ public class StringPadder extends ThreadSafeConverter<String, String> {
   private final Alignment alignment;
   private final char padChar;
 
-  /**
-   * Instantiates a new String padder.
-   *
-   * @param length    the length
-   * @param alignment the alignment
-   * @param padChar   the pad char
-   */
   public StringPadder(int length, Alignment alignment, char padChar) {
     super(String.class, String.class);
 
     // check preconditions
     if (length < 1) {
-      throw new IllegalArgumentException("Not a supported padding length: " + length);
+      throw ExceptionFactory.getInstance().illegalArgument("Not a supported padding length: " + length);
     }
     Assert.notNull(alignment, "alignment");
     if (padChar == 0) {
-      throw new IllegalArgumentException("padChar must not be null");
+      throw ExceptionFactory.getInstance().illegalArgument("padChar must not be null");
     }
 
     // initialize attributes
@@ -62,29 +55,14 @@ public class StringPadder extends ThreadSafeConverter<String, String> {
 
   // properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Gets length.
-   *
-   * @return the length
-   */
   public int getLength() {
     return length;
   }
 
-  /**
-   * Gets alignment.
-   *
-   * @return the alignment
-   */
   public Alignment getAlignment() {
     return alignment;
   }
 
-  /**
-   * Gets pad char.
-   *
-   * @return the pad char
-   */
   public char getPadChar() {
     return padChar;
   }
@@ -96,7 +74,7 @@ public class StringPadder extends ThreadSafeConverter<String, String> {
   public String convert(String text) throws ConversionException {
     int padLength = length - text.length();
     if (padLength < 0) {
-      throw new IllegalArgumentException("Text is longer that the pad length of " + length + " characters: '" + text + "'");
+      throw ExceptionFactory.getInstance().illegalArgument("Text is longer that the pad length of " + length + " characters: '" + text + "'");
     }
     switch (alignment) {
       case LEFT:
@@ -111,7 +89,7 @@ public class StringPadder extends ThreadSafeConverter<String, String> {
       case CENTER:
         return StringUtil.padString(padChar, padLength / 2) + text + StringUtil.padString(padChar, padLength - padLength / 2);
       default:
-        throw new IllegalArgumentException("Not a supported Alignement: " + alignment);
+        throw ExceptionFactory.getInstance().illegalArgument("Not a supported Alignement: " + alignment);
     }
   }
 

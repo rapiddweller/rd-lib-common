@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common.collection;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -57,7 +59,7 @@ public class ObjectCounter<E> {
   public void uncount(E instance) {
     AtomicInteger counter = instances.get(instance);
     if (counter == null) {
-      throw new IllegalStateException("Cannot uncount: " + instance);
+      throw ExceptionFactory.getInstance().programmerStateError("Cannot uncount: " + instance);
     }
     counter.decrementAndGet();
     totalCount--;

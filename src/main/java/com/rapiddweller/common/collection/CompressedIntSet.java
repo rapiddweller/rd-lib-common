@@ -19,58 +19,36 @@ import com.rapiddweller.common.math.IntRange;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
 /**
  * Collects int values in a compressed way.
  * Created: 05.10.2010 19:17:30
- *
  * @author Volker Bergmann
  * @since 0.5.4
  */
 public class CompressedIntSet {
 
-  /**
-   * The Numbers.
-   */
   protected TreeMap<Integer, IntRange> numbers;
-  /**
-   * The Size.
-   */
   protected long size;
 
-  /**
-   * Instantiates a new Compressed int set.
-   */
   public CompressedIntSet() {
     this.numbers = new TreeMap<>();
     this.size = 0;
   }
 
-  /**
-   * Clear.
-   */
   public void clear() {
     numbers.clear();
     this.size = 0;
   }
 
-  /**
-   * Add all.
-   *
-   * @param numbers the numbers
-   */
   public void addAll(int... numbers) {
     for (int number : numbers) {
       add(number);
     }
   }
 
-  /**
-   * Add.
-   *
-   * @param i the
-   */
   public void add(int i) {
     if (numbers.isEmpty()) {
       // if the set is empty, insert the number
@@ -89,15 +67,7 @@ public class CompressedIntSet {
           return;
         }
         if (rangeBelow.getMax() + 1 == i) {
-          // extend found range if applicable
-          rangeBelow.setMax(i);
-          size++;
-          // check if two adjacent ranges can be merged
-          IntRange upperNeighbor = numbers.get(i + 1);
-          if (upperNeighbor != null) {
-            numbers.remove(i + 1);
-            rangeBelow.setMax(upperNeighbor.getMax());
-          }
+          extendRangeBelow(rangeBelow, i);
         } else {
           extendRangeAboveOrInsertNumber(i);
         }
@@ -105,39 +75,11 @@ public class CompressedIntSet {
     }
   }
 
-  private void extendRangeAboveOrInsertNumber(int i) {
-    IntRange rangeAbove = numbers.get(i + 1);
-    if (rangeAbove != null) {
-      numbers.remove(i + 1);
-      rangeAbove.setMin(i);
-      numbers.put(i, rangeAbove);
-    } else {
-      insertNumber(i);
-    }
-    size++;
-  }
-
-  private void insertNumber(int i) {
-    numbers.put(i, new IntRange(i, i));
-  }
-
-  /**
-   * Contains boolean.
-   *
-   * @param i the
-   * @return the boolean
-   */
   public boolean contains(int i) {
     Entry<Integer, IntRange> floorEntry = numbers.floorEntry(i);
     return (floorEntry != null && floorEntry.getValue().contains(i));
   }
 
-  /**
-   * Remove boolean.
-   *
-   * @param i the
-   * @return the boolean
-   */
   public boolean remove(int i) {
     Entry<Integer, IntRange> floorEntry = numbers.floorEntry(i);
     if (floorEntry == null || !floorEntry.getValue().contains(i)) {
@@ -161,32 +103,49 @@ public class CompressedIntSet {
     return true;
   }
 
-  /**
-   * Is empty boolean.
-   *
-   * @return the boolean
-   */
   public boolean isEmpty() {
     return numbers.isEmpty();
   }
 
-  /**
-   * Size long.
-   *
-   * @return the long
-   */
   public long size() {
     return size;
   }
 
-  /**
-   * Iterator iterator.
-   *
-   * @return the iterator
-   */
   public Iterator<Integer> iterator() {
     return new CompressedSetIterator();
   }
+
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private void extendRangeBelow(IntRange rangeBelow, int indexToInclude) {
+    // extend found range if applicable
+    rangeBelow.setMax(indexToInclude);
+    size++;
+    // check if two adjacent ranges can be merged
+    IntRange upperNeighbor = numbers.get(indexToInclude + 1);
+    if (upperNeighbor != null) {
+      numbers.remove(indexToInclude + 1);
+      rangeBelow.setMax(upperNeighbor.getMax());
+    }
+  }
+
+  private void extendRangeAboveOrInsertNumber(int i) {
+    IntRange rangeAbove = numbers.get(i + 1);
+    if (rangeAbove != null) {
+      numbers.remove(i + 1);
+      rangeAbove.setMin(i);
+      numbers.put(i, rangeAbove);
+    } else {
+      insertNumber(i);
+    }
+    size++;
+  }
+
+  private void insertNumber(int i) {
+    numbers.put(i, new IntRange(i, i));
+  }
+
 
   // java.lang.Object overrides --------------------------------------------------------------------------------------
 
@@ -199,7 +158,7 @@ public class CompressedIntSet {
       return false;
     }
     CompressedIntSet that = (CompressedIntSet) obj;
-    return this.equals(that.numbers);
+    return this.numbers.equals(that.numbers);
   }
 
   @Override
@@ -215,27 +174,12 @@ public class CompressedIntSet {
 
   // Iterator class --------------------------------------------------------------------------------------------------
 
-  /**
-   * The type Compressed set iterator.
-   */
   public class CompressedSetIterator implements Iterator<Integer> {
 
-    /**
-     * The Int range iterator.
-     */
     protected Iterator<IntRange> intRangeIterator;
-    /**
-     * The Current int range.
-     */
     protected IntRange currentIntRange;
-    /**
-     * The Last int.
-     */
     protected Integer lastInt;
 
-    /**
-     * Instantiates a new Compressed set iterator.
-     */
     protected CompressedSetIterator() {
       intRangeIterator = numbers.values().iterator();
       currentIntRange = null;
@@ -264,11 +208,10 @@ public class CompressedIntSet {
           currentIntRange = intRangeIterator.next();
         } else {
           intRangeIterator = null;
-          currentIntRange = null;
         }
       }
       if (intRangeIterator == null || currentIntRange == null) {
-        throw new IllegalStateException("No 'next' value available. Check hasNext() before calling next().");
+        throw new NoSuchElementException("No 'next' value available. Check hasNext() before calling next().");
       }
       lastInt = (lastInt != null ? ++lastInt : currentIntRange.getMin());
       if (lastInt == currentIntRange.getMax()) {

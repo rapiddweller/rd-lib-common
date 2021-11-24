@@ -293,13 +293,6 @@ public class CompositeListTest {
     list.set(-1, 5);
   }
 
-  @Test(expected = IndexOutOfBoundsException.class)
-  public void testSet_N() {
-    @SuppressWarnings("unchecked")
-    CompositeList<Integer> list = new CompositeList<>(CollectionUtil.toList(1, 2), CollectionUtil.toList(3, 1));
-    list.set(4, 5);
-  }
-
   @Test
   public void testSubList() {
     @SuppressWarnings("unchecked")

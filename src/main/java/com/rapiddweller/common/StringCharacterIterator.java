@@ -15,7 +15,9 @@
 
 package com.rapiddweller.common;
 
-import com.rapiddweller.common.exception.ParseException;
+import com.rapiddweller.common.exception.ExceptionFactory;
+
+import java.util.NoSuchElementException;
 
 /**
  * Supports iterating the characters of a String.
@@ -49,7 +51,7 @@ public class StringCharacterIterator implements CharacterIterator {
    *  @param offset the offset at witch to begin iteration */
   public StringCharacterIterator(String source, int offset) {
     if (source == null) {
-      throw new IllegalArgumentException("source string must not be null");
+      throw ExceptionFactory.getInstance().illegalArgument("source string must not be null");
     }
     this.source = source;
     this.offset = offset;
@@ -68,12 +70,12 @@ public class StringCharacterIterator implements CharacterIterator {
     return offset < source.length();
   }
 
-  /**  @return the next character.
+  /** @return the next character.
    *  @see java.util.Iterator#next() */
   @Override
   public char next() {
     if (offset >= source.length()) {
-      throw new IllegalStateException("Reached the end of the string");
+      throw new NoSuchElementException("Reached the end of the string");
     }
     if (source.charAt(offset) == '\n') {
       lastLineLength = column;
@@ -89,7 +91,7 @@ public class StringCharacterIterator implements CharacterIterator {
    *  raising an UnsupportedOperationException.
    *  @see java.util.Iterator#remove() java.util.Iterator#remove() */
   public void remove() {
-    throw new UnsupportedOperationException();
+    throw ExceptionFactory.getInstance().illegalOperation(getClass() + " does not support the use of remove()");
   }
 
   // Convenience interface -------------------------------------------------------------------------------------------
@@ -112,7 +114,7 @@ public class StringCharacterIterator implements CharacterIterator {
       }
       offset--;
     } else {
-      throw new IllegalStateException("cannot pushBack before start of string: " + source);
+      throw ExceptionFactory.getInstance().illegalOperation("cannot pushBack before start of string: " + source);
     }
   }
 
@@ -148,11 +150,13 @@ public class StringCharacterIterator implements CharacterIterator {
 
   public void assertNext(char c) {
     if (!hasNext()) {
-      throw new ParseException("Expected '" + c + "', but no more character is available", source, line, column);
+      throw ExceptionFactory.getInstance().syntaxError(
+          source, line, column, "Expected '" + c + "', but no more character is available");
     }
     char next = next();
     if (next != c) {
-      throw new ParseException("Expected '" + c + "', but found '" + next + "'", source, line, column);
+      throw ExceptionFactory.getInstance().syntaxError(
+          source, line, column, "Expected '" + c + "', but found '" + next + "'");
     }
   }
 

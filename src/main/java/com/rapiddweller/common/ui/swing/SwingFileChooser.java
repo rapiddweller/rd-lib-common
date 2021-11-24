@@ -16,6 +16,7 @@
 package com.rapiddweller.common.ui.swing;
 
 import com.rapiddweller.common.Assert;
+import com.rapiddweller.common.exception.ExceptionFactory;
 import com.rapiddweller.common.ui.FileChooser;
 import com.rapiddweller.common.ui.FileOperation;
 import com.rapiddweller.common.ui.FileTypeSupport;
@@ -95,7 +96,7 @@ public class SwingFileChooser extends JFileChooser implements FileChooser {
       case filesAndDirectories:
         return JFileChooser.FILES_AND_DIRECTORIES;
       default:
-        throw new IllegalArgumentException("Illegal option: " + supportedTypes);
+        throw ExceptionFactory.getInstance().illegalArgument("Illegal option: " + supportedTypes);
     }
   }
 

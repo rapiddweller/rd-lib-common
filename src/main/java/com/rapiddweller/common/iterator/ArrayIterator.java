@@ -16,13 +16,14 @@
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.Assert;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * {@link Iterator} implementation that iterates the elements of an array.
  * Created at 30.06.2009 09:26:55
- *
  * @param <E> the type to iterate
  * @author Volker Bergmann
  * @since 0.5.0
@@ -32,11 +33,6 @@ public class ArrayIterator<E> implements Iterator<E> {
   private final E[] array;
   private int cursor;
 
-  /**
-   * Instantiates a new Array iterator.
-   *
-   * @param array the array
-   */
   public ArrayIterator(E[] array) {
     Assert.notNull(array, "array");
     this.array = array;
@@ -50,12 +46,16 @@ public class ArrayIterator<E> implements Iterator<E> {
 
   @Override
   public E next() {
-    return array[cursor++];
+    if (cursor >= array.length) {
+      throw new NoSuchElementException();
+    } else {
+      return array[cursor++];
+    }
   }
 
   @Override
   public void remove() {
-    throw new UnsupportedOperationException("remove() is not supported by " + getClass());
+    throw ExceptionFactory.getInstance().illegalOperation("remove() is not supported by " + getClass());
   }
 
 }

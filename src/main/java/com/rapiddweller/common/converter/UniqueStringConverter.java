@@ -16,6 +16,7 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -52,7 +53,8 @@ public class UniqueStringConverter extends AbstractConverter<String, String> {
         }
       }
       if (!ok) {
-        throw new UnsupportedOperationException("not more than " + MAX_TRIES + " identical Strings can be made unique");
+        throw ExceptionFactory.getInstance().illegalOperation(
+            "not more than " + MAX_TRIES + " identical Strings can be made unique");
       }
     }
     usedStrings.add(resultValue);

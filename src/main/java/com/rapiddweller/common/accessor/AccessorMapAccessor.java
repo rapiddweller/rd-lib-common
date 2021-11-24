@@ -16,6 +16,7 @@
 package com.rapiddweller.common.accessor;
 
 import com.rapiddweller.common.Accessor;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,6 @@ import java.util.Map;
 /**
  * Uses an accessor which is stored in a Map for accessing the target object.
  * Created: 11.03.2006 12:45:26
- *
  * @author Volker Bergmann
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -35,12 +35,6 @@ public class AccessorMapAccessor implements DependentAccessor {
   private final Map<Object, Accessor<?, ?>> map;
   private final Object key;
 
-  /**
-   * Instantiates a new Accessor map accessor.
-   *
-   * @param map the map
-   * @param key the key
-   */
   public AccessorMapAccessor(Map<Object, Accessor<?, ?>> map, Object key) {
     this.map = map;
     this.key = key;
@@ -48,11 +42,6 @@ public class AccessorMapAccessor implements DependentAccessor {
 
   // interface -------------------------------------------------------------------------------------------------------
 
-  /**
-   * Gets key.
-   *
-   * @return the key
-   */
   public Object getKey() {
     return key;
   }
@@ -61,7 +50,7 @@ public class AccessorMapAccessor implements DependentAccessor {
   public Object getValue(Object target) {
     Accessor accessor = getAccessor();
     if (accessor == null) {
-      throw new IllegalStateException("Key not found: " + key);
+      throw ExceptionFactory.getInstance().objectNotFound("Key not found: " + key);
     }
     return accessor.getValue(target);
   }
@@ -76,12 +65,8 @@ public class AccessorMapAccessor implements DependentAccessor {
     }
   }
 
-  /**
-   * Gets accessor.
-   *
-   * @return the accessor
-   */
   public Accessor<?, ?> getAccessor() {
     return map.get(key);
   }
+
 }

@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common.depend;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,7 +31,6 @@ import static com.rapiddweller.common.depend.NodeState.PARTIALLY_INITIALIZED;
 
 /**
  * Helper class for calculating dependencies.
- *
  * @param <E> the type parameter
  * @author Volker Bergmann
  * @since 0.3.04
@@ -43,11 +44,6 @@ class Node<E extends Dependent<E>> {
   private final List<Boolean> providerRequired;
   private final List<Node<E>> clients;
 
-  /**
-   * Instantiates a new Node.
-   *
-   * @param subject the subject
-   */
   public Node(E subject) {
     super();
     this.subject = subject;
@@ -59,50 +55,22 @@ class Node<E extends Dependent<E>> {
 
   // properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Gets subject.
-   *
-   * @return the subject
-   */
   public E getSubject() {
     return subject;
   }
 
-  /**
-   * Gets state.
-   *
-   * @return the state
-   */
   public NodeState getState() {
     return state;
   }
 
-  /**
-   * Requires boolean.
-   *
-   * @param provider the provider
-   * @return the boolean
-   */
   public boolean requires(Node<E> provider) {
     return providerRequired.get(providers.indexOf(provider));
   }
 
-  /**
-   * Gets providers.
-   *
-   * @return the providers
-   */
   public List<Node<E>> getProviders() {
     return providers;
   }
 
-  /**
-   * Add provider node.
-   *
-   * @param provider the provider
-   * @param required the required
-   * @return the node
-   */
   public Node<E> addProvider(Node<E> provider, boolean required) {
     if (!hasForeignProviders() && provider != this) // A provider is about to be added. If this was a standalone node so far,...
     {
@@ -122,13 +90,8 @@ class Node<E extends Dependent<E>> {
     return this;
   }
 
-  /**
-   * Has foreign providers boolean.
-   *
-   * @return the boolean
-   */
   public boolean hasForeignProviders() {
-    if (providers.size() == 0) {
+    if (providers.isEmpty()) {
       return false;
     }
     for (Node<E> provider : providers) {
@@ -139,43 +102,22 @@ class Node<E extends Dependent<E>> {
     return false;
   }
 
-  /**
-   * Required boolean.
-   *
-   * @param provider the provider
-   * @return the boolean
-   */
   public boolean required(Node<E> provider) {
     return providerRequired.get(providers.indexOf(provider));
   }
 
-  /**
-   * Gets clients.
-   *
-   * @return the clients
-   */
   public List<Node<E>> getClients() {
     return clients;
   }
 
-  /**
-   * Add client.
-   *
-   * @param client the client
-   */
   public void addClient(Node<E> client) {
     if (!this.clients.contains(client)) {
       this.clients.add(client);
     }
   }
 
-  /**
-   * Has foreign clients boolean.
-   *
-   * @return the boolean
-   */
   public boolean hasForeignClients() {
-    if (clients.size() == 0) {
+    if (clients.isEmpty()) {
       return false;
     }
     for (Node<E> client : clients) {
@@ -188,9 +130,6 @@ class Node<E extends Dependent<E>> {
 
   // interface -------------------------------------------------------------------------------------------------------
 
-  /**
-   * Providers changed.
-   */
   void providersChanged() {
     if (state == INITIALIZABLE || state == INITIALIZED) {
       return;
@@ -235,20 +174,9 @@ class Node<E extends Dependent<E>> {
     return providerState == INITIALIZED || providerState == FORCED || providerState == PARTIALLY_INITIALIZED;
   }
 
-  /**
-   * Initialize.
-   */
-/*
-      private boolean allProvidersInState(NodeState state) {
-          for (Node<E> provider : providers)
-              if (provider.getState() != state)
-                  return false;
-          return true;
-      }
-  */
   public void initialize() {
     if (state != INITIALIZABLE) {
-      throw new IllegalStateException("Node not initializable: " + this);
+      throw ExceptionFactory.getInstance().internalError("Node not initializable: " + this, null);
     }
     setState(INITIALIZED);
   }
@@ -260,32 +188,21 @@ class Node<E extends Dependent<E>> {
     }
   }
 
-  /**
-   * Initialize partially.
-   */
   public void initializePartially() {
     if (state != PARTIALLY_INITIALIZABLE) {
-      throw new IllegalStateException("Node not partially initializable: " + this);
+      throw ExceptionFactory.getInstance().internalError("Node not partially initializable: " + this, null);
     }
     setState(PARTIALLY_INITIALIZED);
   }
 
-  /**
-   * Force.
-   */
   public void force() {
     setState(FORCED);
   }
 
-  /**
-   * Assert state.
-   *
-   * @param state the state
-   */
   void assertState(NodeState state) {
     if (this.state != state) {
-      throw new IllegalStateException("Expected to be in state '" + state + "', "
-          + "found: '" + this.state + "'");
+      throw ExceptionFactory.getInstance().internalError(
+          "Expected to be in state '" + state + "', found: '" + this.state + "'", null);
     }
   }
 

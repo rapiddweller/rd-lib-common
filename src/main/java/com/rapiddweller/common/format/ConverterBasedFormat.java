@@ -16,6 +16,7 @@
 package com.rapiddweller.common.format;
 
 import com.rapiddweller.common.Converter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.text.FieldPosition;
 import java.text.Format;
@@ -52,7 +53,7 @@ public class ConverterBasedFormat extends Format {
 
   @Override
   public Object parseObject(String text, ParsePosition pos) {
-    throw new UnsupportedOperationException();
+    throw ExceptionFactory.getInstance().illegalOperation(getClass() + " does not implement parsing");
   }
 
 }

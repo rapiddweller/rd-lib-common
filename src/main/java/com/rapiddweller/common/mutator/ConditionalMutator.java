@@ -21,7 +21,7 @@ import com.rapiddweller.common.Mutator;
 import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.exception.ExceptionFactory;
-import com.rapiddweller.common.exception.MutationFailedException;
+import com.rapiddweller.common.exception.MutationFailed;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -60,7 +60,7 @@ public class ConditionalMutator extends MutatorProxy {
   }
 
   @Override
-  public void setValue(Object target, Object value) throws MutationFailedException {
+  public void setValue(Object target, Object value) throws MutationFailed {
     Object oldValue = accessor.getValue(target);
     switch (mode) {
       case OVERWRITE:
@@ -70,32 +70,37 @@ public class ConditionalMutator extends MutatorProxy {
         if (isEmpty(oldValue)) {
           realMutator.setValue(target, value);
         } else if (!NullSafeComparator.equals(oldValue, value)) {
-          throw new MutationFailedException("Mutator " + realMutator + " expected '" + oldValue + "', "
-              + "but found '" + value + "'");
+          throw ExceptionFactory.getInstance().mutationFailed(
+              "Mutator " + realMutator + " expected '" + oldValue + "', "
+              + "but found '" + value + "'", null);
         } else {
-          logger.debug("no update needed by {}", realMutator);
+          debugNoUpdateNeeded();
         }
         break;
       case SET_IF_UNDEFINED:
         if (isEmpty(oldValue)) {
           realMutator.setValue(target, value);
         } else {
-          logger.debug("no update needed by {}", realMutator);
+          debugNoUpdateNeeded();
         }
         break;
       case SET_IF_GREATER:
         if (isEmpty(oldValue)) {
           realMutator.setValue(target, value);
-        } else if (comparator.compare(oldValue, value) == -1) {
+        } else if (comparator.compare(oldValue, value) < 0) {
           realMutator.setValue(target, value);
         } else {
-          logger.debug("no update needed by {}", realMutator);
+          debugNoUpdateNeeded();
         }
         break;
       default:
         throw ExceptionFactory.getInstance().programmerConfig("Illegal mode", null);
     }
 
+  }
+
+  private void debugNoUpdateNeeded() {
+    logger.debug("no update needed by {}", realMutator);
   }
 
   // private helpers -------------------------------------------------------------------------------------------------

@@ -26,7 +26,6 @@ import java.util.Collection;
  * Converts arrays and collections to arrays and other object to an array of size 1.
  * Note: The target type is not declared Object[], since we also want to create byte[].
  * Created: 26.08.2007 16:01:38
- *
  * @author Volker Bergmann
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -37,28 +36,14 @@ public class ToArrayConverter extends ThreadSafeConverter {
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new To array converter.
-   */
   public ToArrayConverter() {
     this(Object.class);
   }
 
-  /**
-   * Instantiates a new To array converter.
-   *
-   * @param componentType the component type
-   */
   public ToArrayConverter(Class componentType) {
     this(componentType, true);
   }
 
-  /**
-   * Instantiates a new To array converter.
-   *
-   * @param componentType the component type
-   * @param nullToEmpty   the null to empty
-   */
   public ToArrayConverter(Class componentType, boolean nullToEmpty) {
     super(Object.class, ArrayUtil.arrayType(componentType));
     this.componentType = componentType;
@@ -67,11 +52,6 @@ public class ToArrayConverter extends ThreadSafeConverter {
 
   // properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Sets null to empty.
-   *
-   * @param nullToEmpty the null to empty
-   */
   public void setNullToEmpty(boolean nullToEmpty) {
     this.nullToEmpty = nullToEmpty;
   }
@@ -85,25 +65,10 @@ public class ToArrayConverter extends ThreadSafeConverter {
 
   // static utility methods ------------------------------------------------------------------------------------------
 
-  /**
-   * Convert object.
-   *
-   * @param sourceValue   the source value
-   * @param componentType the component type
-   * @return the object
-   */
   public static Object convert(Object sourceValue, Class componentType) {
     return convert(sourceValue, componentType, true);
   }
 
-  /**
-   * Convert object.
-   *
-   * @param sourceValue   the source value
-   * @param componentType the component type
-   * @param nullToEmpty   the null to empty
-   * @return the object
-   */
   @SuppressWarnings("cast")
   public static Object convert(Object sourceValue, Class componentType, boolean nullToEmpty) {
     if (sourceValue == null) {
@@ -119,11 +84,7 @@ public class ToArrayConverter extends ThreadSafeConverter {
       return array;
     } else if (componentType == byte.class) {
       Method method = BeanUtil.getMethod(sourceValue.getClass(), "getBytes");
-      if (method != null) {
-        return BeanUtil.invoke(sourceValue, method, null);
-      } else {
-        throw new UnsupportedOperationException("Conversion not supported: " + sourceValue.getClass() + " -> " + componentType + "[]");
-      }
+      return BeanUtil.invoke(sourceValue, method, null);
     } else if (sourceValue.getClass().isArray()) {
       return ArrayUtil.buildArrayOfType(componentType, (Object[]) sourceValue);
     } else {

@@ -19,6 +19,7 @@ import com.rapiddweller.common.ArrayUtil;
 import com.rapiddweller.common.Element;
 import com.rapiddweller.common.TreeModel;
 import com.rapiddweller.common.Visitor;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.io.File;
 import java.util.Arrays;
@@ -27,7 +28,6 @@ import java.util.Comparator;
 /**
  * databene TreeModel implementation for files.
  * Created: 08.05.2007 17:55:54
- *
  * @author Volker Bergmann
  */
 public class FileTreeModel implements TreeModel<File>, Element<File> {
@@ -35,24 +35,13 @@ public class FileTreeModel implements TreeModel<File>, Element<File> {
   private final File root;
   private final Comparator<File> fileComparator;
 
-  /**
-   * Instantiates a new File tree model.
-   *
-   * @param root the root
-   */
   public FileTreeModel(File root) {
     this(root, new FilenameComparator());
   }
 
-  /**
-   * Instantiates a new File tree model.
-   *
-   * @param root           the root
-   * @param fileComparator the file comparator
-   */
   public FileTreeModel(File root, Comparator<File> fileComparator) {
     if (!root.exists()) {
-      throw new IllegalArgumentException("File/Directory not found: " + root);
+      throw ExceptionFactory.getInstance().illegalArgument("File/Directory not found: " + root);
     }
     this.root = root;
     this.fileComparator = fileComparator;
@@ -111,8 +100,11 @@ public class FileTreeModel implements TreeModel<File>, Element<File> {
   private void accept(Visitor<File> visitor, File file) {
     visitor.visit(file);
     if (file.isDirectory()) {
-      for (File child : file.listFiles()) {
-        accept(visitor, child);
+      File[] files = file.listFiles();
+      if (files != null) {
+        for (File child : files) {
+          accept(visitor, child);
+        }
       }
     }
   }

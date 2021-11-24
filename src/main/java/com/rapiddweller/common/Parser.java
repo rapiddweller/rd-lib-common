@@ -15,7 +15,7 @@
 
 package com.rapiddweller.common;
 
-import com.rapiddweller.common.exception.ParseException;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.text.ParsePosition;
 
@@ -29,11 +29,14 @@ import java.text.ParsePosition;
  */
 public abstract class Parser<E> {
 
+  protected Parser() {
+  }
+
   public E parse(String text) {
     ParsePosition pos = new ParsePosition(0);
     E result = parseObject(text, pos);
     if (pos.getIndex() < text.length()) {
-      throw new ParseException("Illegal syntax", text, -1, pos.getIndex());
+      throw ExceptionFactory.getInstance().syntaxError(text, -1, pos.getIndex(), "Illegal syntax");
     }
     return result;
   }

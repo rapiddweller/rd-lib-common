@@ -16,63 +16,48 @@
 package com.rapiddweller.common.validator;
 
 import com.rapiddweller.common.Validator;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
  * Validates a String for a minimum and a maximum length.
  * Created: 20.09.2006 21:38:20
- *
  * @author Volker Bergmann
  */
 public class StringLengthValidator implements Validator<String> {
 
-  /**
-   * the minimum length of the string
-   */
+  /** the minimum length of the string */
   private int minLength;
 
-  /**
-   * the maximum length of the string. If null, the size is not limited
-   */
+  /** the maximum length of the string. If null, the size is not limited */
   private Integer maxLength;
 
   private boolean nullAllowed;
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Creates a validator that accepts any string
-   */
+  /** Creates a validator that accepts any string */
   public StringLengthValidator() {
     this(0, null);
   }
 
-  /**
-   * Creates a validator of a maximum length
-   *
-   * @param maxLength maximum tolerated length
-   */
+  /** Creates a validator of a maximum length
+   * @param maxLength maximum tolerated length */
   public StringLengthValidator(int maxLength) {
     this(0, maxLength);
   }
 
-  /**
-   * Creates a validator of a minimum and maximum length
-   *
-   * @param minLength minimum tolerated length
-   * @param maxLength maximum tolerated length
-   */
+  /** Creates a validator of a minimum and maximum length
+   *  @param minLength minimum tolerated length
+   *  @param maxLength maximum tolerated length */
   public StringLengthValidator(int minLength, Integer maxLength) {
     setMinLength(minLength);
     setMaxLength(maxLength);
   }
 
-  /**
-   * Instantiates a new String length validator.
-   *
+  /** Instantiates a new String length validator.
    * @param minLength   the min length
    * @param maxLength   the max length
-   * @param nullAllowed the null allowed
-   */
+   * @param nullAllowed flag is null is allowed */
   public StringLengthValidator(int minLength, Integer maxLength, boolean nullAllowed) {
     setMinLength(minLength);
     setMaxLength(maxLength);
@@ -82,52 +67,33 @@ public class StringLengthValidator implements Validator<String> {
 
   // properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Returns the minimum length.
-   *
-   * @return the minimum length.
-   * @see #minLength #minLength
-   */
+  /** Returns the minimum length.
+   * @return the minimum length. */
   public int getMinLength() {
     return minLength;
   }
 
-  /**
-   * Sets the minimum length.
-   *
-   * @param minLength the new minimum length
-   */
+  /** Sets the minimum length.
+   * @param minLength the new minimum length */
   public void setMinLength(int minLength) {
     if (minLength < 0) {
-      throw new IllegalArgumentException("minLength may not be less than 0, but was: " + minLength);
+      throw ExceptionFactory.getInstance().illegalArgument("minLength may not be less than 0, but was: " + minLength);
     }
     this.minLength = minLength;
   }
 
-  /**
-   * Returns the maximum length.
-   *
-   * @return the maximum length.
-   * @see #maxLength #maxLength
-   */
+  /** Returns the maximum length.
+   * @return the maximum length. */
   public Integer getMaxLength() {
     return maxLength;
   }
 
-  /**
-   * Sets the maximum length. If set to null, no maximum length check is done.
-   *
-   * @param maxLength the new minimum length
-   */
+  /** Sets the maximum length. If set to null, no maximum length check is done.
+   * @param maxLength the new maximum length */
   public void setMaxLength(Integer maxLength) {
     this.maxLength = maxLength;
   }
 
-  /**
-   * Is null allowed boolean.
-   *
-   * @return the boolean
-   */
   public boolean isNullAllowed() {
     return nullAllowed;
   }
@@ -138,11 +104,9 @@ public class StringLengthValidator implements Validator<String> {
 
   // validator implementation ----------------------------------------------------------------------------------------
 
-  /**
-   * @param text the string to validate
-   * @return true if the length restrictions match, otherwise false.
-   * @see com.rapiddweller.common.Validator
-   */
+  /** @param text the string to validate
+   *  @return true if the length restrictions match, otherwise false.
+   *  @see com.rapiddweller.common.Validator */
   @Override
   public boolean valid(String text) {
     if (text == null) {
@@ -169,4 +133,5 @@ public class StringLengthValidator implements Validator<String> {
     builder.append(']');
     return builder.toString();
   }
+
 }

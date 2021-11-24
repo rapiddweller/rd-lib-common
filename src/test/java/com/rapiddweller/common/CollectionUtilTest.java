@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import com.rapiddweller.common.filter.OrFilter;
 import com.rapiddweller.common.iterator.FilteringIterator;
 import com.rapiddweller.common.iterator.JDKIteratorWrapper;
@@ -199,7 +200,7 @@ public class CollectionUtilTest {
   @Test
   public void testToArray_empty() {
     List<Object> emptyList = new ArrayList<>();
-    assertThrows(IllegalArgumentException.class, () -> CollectionUtil.toArray(emptyList));
+    assertThrows(IllegalArgumentError.class, () -> CollectionUtil.toArray(emptyList));
   }
 
   @Test
@@ -235,14 +236,14 @@ public class CollectionUtilTest {
   @Test
   public void testBuildMap() {
     assertEquals(1, CollectionUtil.<Object, Object>buildMap("key", "value").size());
-    assertThrows(IllegalArgumentException.class, () -> CollectionUtil.buildMap("keyValuePairs"));
+    assertThrows(IllegalArgumentError.class, () -> CollectionUtil.buildMap("keyValuePairs"));
     assertTrue(CollectionUtil.buildMap().isEmpty());
     assertEquals(1, CollectionUtil.buildMap("keyValuePairs", "keyValuePairs").size());
   }
 
   @Test
   public void testBuildOrderedMap() {
-    assertThrows(IllegalArgumentException.class, () -> CollectionUtil.buildOrderedMap("keyValuePairs"));
+    assertThrows(IllegalArgumentError.class, () -> CollectionUtil.buildOrderedMap("keyValuePairs"));
     assertTrue(CollectionUtil.buildOrderedMap().isEmpty());
     assertEquals(1, CollectionUtil.buildOrderedMap("keyValuePairs", "keyValuePairs").size());
   }

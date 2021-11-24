@@ -15,7 +15,8 @@
 
 package com.rapiddweller.common;
 
-import com.rapiddweller.common.converter.NoOpConverter;
+import com.rapiddweller.common.exception.ExceptionFactory;
+import com.rapiddweller.common.exception.InternalErrorException;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.junit.Test;
@@ -32,7 +33,6 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -59,23 +59,9 @@ public class IOUtilTest {
   private static final Logger logger = LoggerFactory.getLogger(IOUtilTest.class);
 
   @Test
-  public void testClose() {
-    IOUtil.close(new ByteArrayInputStream(new byte[0]));
-    IOUtil.close(new ByteArrayOutputStream());
-    IOUtil.close(new StringWriter());
-    IOUtil.close(new StringReader("abc"));
-  }
-
-  @Test
-  public void testFlush() {
-    IOUtil.flush(new StringWriter());
-  }
-
-  @Test
   public void testLocalFilename() {
     assertEquals("product-info.jsp", IOUtil.localFilename("http://localhost:80/shop/product-info.jsp"));
     assertEquals("Uri", IOUtil.localFilename("Uri"));
-    assertThrows(ArrayIndexOutOfBoundsException.class, () -> IOUtil.localFilename("/"));
   }
 
   @Test
@@ -236,7 +222,7 @@ public class IOUtilTest {
     assertTrue(IOUtil.getInputStreamForUriReference("", "http://", true) instanceof java.io.ByteArrayInputStream);
     assertTrue(
         IOUtil.getInputStreamForUriReference("file://", "http://", true) instanceof java.io.ByteArrayInputStream);
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(InternalErrorException.class,
         () -> IOUtil.getInputStreamForUriReference("getInputStreamForURI({}, {})", "string://", true));
   }
 
@@ -371,43 +357,6 @@ public class IOUtilTest {
   }
 
   @Test
-  public void testTransfer() {
-    InputStream in = InputStream.nullInputStream();
-    assertEquals(0, IOUtil.transfer(in, OutputStream.nullOutputStream()));
-  }
-
-  @Test
-  public void testTransfer2() {
-    ByteArrayInputStream in = new ByteArrayInputStream(
-        new byte[] {65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65});
-    assertEquals(24, IOUtil.transfer(in, OutputStream.nullOutputStream()));
-  }
-
-  @Test
-  public void testTransfer3() {
-    assertEquals(0, IOUtil.transfer(new ByteArrayInputStream(new byte[] {}), null));
-  }
-
-  @Test
-  public void testTransfer4() {
-    Reader reader = Reader.nullReader();
-    assertEquals(0, IOUtil.transfer(reader, Writer.nullWriter()));
-  }
-
-  @Test
-  public void testTransfer5() {
-    StringReader reader = new StringReader("S");
-    assertEquals(1, IOUtil.transfer(reader, Writer.nullWriter()));
-  }
-
-  @Test
-  public void testTransfer6() throws IOException {
-    StringReader stringReader = new StringReader("S");
-    stringReader.read(new char[] {'\u0000', '\u0000', '\u0000', '\u0000'}, 0, 3);
-    assertEquals(0, IOUtil.transfer(stringReader, null));
-  }
-
-  @Test
   public void testTransferReaderWriter() {
     StringReader in = new StringReader("abcdefg");
     StringWriter out = new StringWriter();
@@ -424,72 +373,6 @@ public class IOUtilTest {
     assertEquals("ab", properties.get("z"));
     assertEquals("a bc", properties.get("q"));
     assertEquals("a\tb", properties.get("bla")); // unescaping
-  }
-
-  @Test
-  public void testReadProperties10() {
-    assertTrue(IOUtil.readProperties("file:", new NoOpConverter(), "UTF-8").isEmpty());
-  }
-
-  @Test
-  public void testReadProperties11() {
-    assertThrows(ConfigurationError.class, () -> IOUtil.readProperties("foo.txt", new NoOpConverter(), null));
-  }
-
-  @Test
-  public void testReadProperties12() {
-    assertThrows(ConfigurationError.class, () -> IOUtil.readProperties("foo.txt", "UTF-8"));
-  }
-
-  @Test
-  public void testReadProperties13() {
-    assertTrue(IOUtil.readProperties("string://", "UTF-8").isEmpty());
-  }
-
-  @Test
-  public void testReadProperties14() {
-    assertTrue(IOUtil.readProperties("file:", "UTF-8").isEmpty());
-  }
-
-  @Test
-  public void testReadProperties2() {
-    assertThrows(ConfigurationError.class, () -> IOUtil.readProperties("foo.txt"));
-  }
-
-  @Test
-  public void testReadProperties3() {
-    assertTrue(IOUtil.readProperties("string://").isEmpty());
-  }
-
-  @Test
-  public void testReadProperties4() {
-    assertTrue(IOUtil.readProperties("file:").isEmpty());
-  }
-
-  @Test
-  public void testReadProperties5() {
-    assertThrows(ConfigurationError.class, () -> IOUtil.readProperties("foo.txt", new NoOpConverter()));
-  }
-
-  @Test
-  public void testReadProperties6() {
-    assertTrue(IOUtil.readProperties("string://", new NoOpConverter()).isEmpty());
-  }
-
-  @Test
-  public void testReadProperties7() {
-    assertTrue(IOUtil.readProperties("file:", new NoOpConverter()).isEmpty());
-  }
-
-  @Test
-  public void testReadProperties8() {
-    assertThrows(ConfigurationError.class,
-        () -> IOUtil.readProperties("foo.txt", new NoOpConverter(), "UTF-8"));
-  }
-
-  @Test
-  public void testReadProperties9() {
-    assertTrue(IOUtil.readProperties("string://", new NoOpConverter(), "UTF-8").isEmpty());
   }
 
   @Test
@@ -540,7 +423,7 @@ public class IOUtilTest {
   public void testEncodeUrl() {
     assertEquals("https%3A%2F%2Fexample.org%2Fexample", IOUtil.encodeUrl("https://example.org/example"));
     assertEquals("https%3A%2F%2Fexample.org%2Fexample", IOUtil.encodeUrl("https://example.org/example", "UTF-8"));
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(InternalErrorException.class,
         () -> IOUtil.encodeUrl("https://example.org/example", "https://example.org/example"));
   }
 
@@ -617,7 +500,7 @@ public class IOUtilTest {
 
     @Override
     public void connect() {
-      throw new UnsupportedOperationException("connect() not implemented");
+      throw ExceptionFactory.getInstance().programmerUnsupported("connect() not implemented");
     }
 
     @Override

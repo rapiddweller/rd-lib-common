@@ -16,7 +16,6 @@
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.beans.PropertyDescriptor;
@@ -41,12 +40,12 @@ class TypedPropertyAccessor<E> implements PropertyAccessor<E, Object> {
       PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(beanClass, propertyName);
       if (propertyDescriptor == null) {
         if (strict) {
-          throw new ConfigurationError("No property '" + propertyName + "' found in " + beanClass);
+          throw ExceptionFactory.getInstance().configurationError("No property '" + propertyName + "' found in " + beanClass);
         }
       } else {
         this.accessorMethod = propertyDescriptor.getReadMethod();
         if (accessorMethod == null) {
-          throw new ConfigurationError("No read method for property '" + propertyName + "'" +
+          throw ExceptionFactory.getInstance().configurationError("No read method for property '" + propertyName + "'" +
               " found on " + beanClass);
         }
       }

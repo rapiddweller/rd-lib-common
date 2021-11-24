@@ -16,7 +16,7 @@
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.ConfigurationError;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
@@ -99,7 +99,7 @@ public class UntypedPropertyAccessor implements PropertyAccessor {
   private static PropertyDescriptor getPropertyDescriptor(Object bean, String propertyName, boolean strict) {
     if (bean == null) {
       if (strict) {
-        throw new IllegalArgumentException("Trying to get property value '" + propertyName + "' from null");
+        throw ExceptionFactory.getInstance().illegalArgument("Trying to get property value '" + propertyName + "' from null");
       } else {
         return null;
       }
@@ -107,7 +107,7 @@ public class UntypedPropertyAccessor implements PropertyAccessor {
     PropertyDescriptor descriptor = BeanUtil.getPropertyDescriptor(bean.getClass(), propertyName);
     if (descriptor == null) {
       if (strict) {
-        throw new ConfigurationError("No property '" + propertyName + "' found in class " + bean.getClass());
+        throw ExceptionFactory.getInstance().configurationError("No property '" + propertyName + "' found in class " + bean.getClass());
       } else {
         return null;
       }
@@ -119,7 +119,7 @@ public class UntypedPropertyAccessor implements PropertyAccessor {
     Method readMethod = descriptor.getReadMethod();
     if (readMethod == null) {
       if (strict) {
-        throw new ConfigurationError("No reader for property '" + descriptor.getName() + "' found in class " + bean.getClass());
+        throw ExceptionFactory.getInstance().configurationError("No reader for property '" + descriptor.getName() + "' found in class " + bean.getClass());
       } else {
         return null;
       }

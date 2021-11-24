@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common.depend;
 
+import com.rapiddweller.common.exception.InternalErrorException;
+import jdk.jshell.spi.ExecutionControl;
 import org.junit.Test;
 
 import static com.rapiddweller.common.depend.NodeState.FORCEABLE;
@@ -25,7 +27,6 @@ import static org.junit.Assert.fail;
 
 /**
  * Tests the Node class.
- *
  * @author Volker Bergmann
  * @since 0.3.04
  */
@@ -49,7 +50,7 @@ public class NodeTest {
     try {
       nodes[2].initialize();
       fail("Exception expected");
-    } catch (IllegalStateException e) {
+    } catch (InternalErrorException e) {
       // expected
     }
 

@@ -17,6 +17,7 @@ package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ArrayFormat;
 import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class ArrayConverterTest {
   @Test
   public void testConvert3() throws ConversionException {
     Class<Object> sourceComponentType = Object.class;
-    assertThrows(IllegalArgumentException.class,
+    assertThrows(IllegalArgumentError.class,
         () -> (new ArrayConverter<>(sourceComponentType, Object.class, null, null))
             .convert(new Object[] {"foo", "foo", "foo"}));
   }

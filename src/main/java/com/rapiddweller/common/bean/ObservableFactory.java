@@ -16,8 +16,8 @@
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.ArrayUtil;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -30,23 +30,19 @@ import java.util.Map;
 /**
  * Creates {@link ObservableBean} implementations from interfaces.
  * Created at 17.07.2008 14:57:53
- *
  * @author Volker Bergmann
  * @since 0.4.5
  */
 public class ObservableFactory {
 
-  /**
-   * Create e.
-   *
-   * @param <E>  the type parameter
-   * @param type the type
-   * @return the e
-   */
+  private ObservableFactory() {
+    // private constructor to prevent instantiation of this utility class
+  }
+
   @SuppressWarnings("unchecked")
   public static <E extends ObservableBean> E create(Class<E> type) {
     if (!type.isInterface()) {
-      throw new ConfigurationError("Not an interface: " + type);
+      throw ExceptionFactory.getInstance().configurationError("Not an interface: " + type);
     }
     ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     ObservableBeanInvocationHandler handler = new ObservableBeanInvocationHandler(type);
@@ -59,11 +55,6 @@ public class ObservableFactory {
     private PropertyChangeSupport support;
     private final Class<?> type;
 
-    /**
-     * Instantiates a new Observable bean invocation handler.
-     *
-     * @param type the type
-     */
     public ObservableBeanInvocationHandler(Class<?> type) {
       this.type = type;
     }
@@ -85,39 +76,47 @@ public class ObservableFactory {
         propertyValues.put(propertyName, args[0]);
         support.firePropertyChange(propertyName, oldValue, args[0]);
       } else if ("addPropertyChangeListener".equals(methodName)) {
-        if (args.length == 2) {
-          support.addPropertyChangeListener((String) args[0], (PropertyChangeListener) args[1]);
-        } else {
-          support.addPropertyChangeListener((PropertyChangeListener) args[0]);
-        }
+        invokeAddPropertyChangeListener(args);
       } else if ("removePropertyChangeListener".equals(methodName)) {
-        if (args.length == 2) {
-          support.removePropertyChangeListener((String) args[0], (PropertyChangeListener) args[1]);
-        } else {
-          support.removePropertyChangeListener((PropertyChangeListener) args[0]);
-        }
+        invokeRemovePropertyChangeListener(args);
       } else if ("equals".equals(methodName)) {
-        Object other = args[0];
-        if (proxy == other) {
-          return true;
-        }
-        if (other == null) {
-          return false;
-        }
-        if (!proxy.getClass().equals(other.getClass())) {
-          return false;
-        }
-        ObservableBeanInvocationHandler otherHandler = (ObservableBeanInvocationHandler) Proxy.getInvocationHandler(proxy);
-        return (this.propertyValues.equals(otherHandler.propertyValues));
+        return invokeEquals(proxy, args[0]);
       } else if ("hashCode".equals(methodName)) {
         return propertyValues.hashCode();
       } else if ("toString".equals(methodName)) {
         return type.getName() + propertyValues;
       } else {
-        throw new UnsupportedOperationException("Operation not supported: " + method);
+        throw ExceptionFactory.getInstance().programmerUnsupported("Operation not supported: " + method);
       }
       return null;
     }
 
+    private void invokeAddPropertyChangeListener(Object[] args) {
+      if (args.length == 2) {
+        support.addPropertyChangeListener((String) args[0], (PropertyChangeListener) args[1]);
+      } else {
+        support.addPropertyChangeListener((PropertyChangeListener) args[0]);
+      }
+    }
+
+    private void invokeRemovePropertyChangeListener(Object[] args) {
+      if (args.length == 2) {
+        support.removePropertyChangeListener((String) args[0], (PropertyChangeListener) args[1]);
+      } else {
+        support.removePropertyChangeListener((PropertyChangeListener) args[0]);
+      }
+    }
+
+    private Object invokeEquals(Object proxy, Object other) {
+      if (proxy == other) {
+        return true;
+      }
+      if (other == null || !proxy.getClass().equals(other.getClass())) {
+        return false;
+      }
+      ObservableBeanInvocationHandler otherHandler = (ObservableBeanInvocationHandler) Proxy.getInvocationHandler(proxy);
+      return (this.propertyValues.equals(otherHandler.propertyValues));
+    }
   }
+
 }

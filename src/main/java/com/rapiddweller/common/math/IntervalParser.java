@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common.math;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
 import com.rapiddweller.common.exception.ParseException;
 import com.rapiddweller.common.Parser;
 
@@ -60,7 +61,7 @@ public class IntervalParser<E> extends Parser<Interval<E>> {
         minInclusive = false;
         break;
       default:
-        throw new ParseException("Expected '[' or ']', found: " + c, text);
+        throw ExceptionFactory.getInstance().syntaxError("Expected '[' or ']', found: " + c, null);
     }
     pos.setIndex(pos.getIndex() + 1);
     skipWhiteSpace(text, pos);
@@ -72,7 +73,7 @@ public class IntervalParser<E> extends Parser<Interval<E>> {
     // parse comma
     c = text.charAt(pos.getIndex());
     if (c != ',') {
-      throw new ParseException("Expected ',', found '" + c + "'", text);
+      throw ExceptionFactory.getInstance().syntaxError("Expected ',', found '" + c + "'", null);
     }
     pos.setIndex(pos.getIndex() + 1);
     skipWhiteSpace(text, pos);
@@ -92,7 +93,7 @@ public class IntervalParser<E> extends Parser<Interval<E>> {
         maxInclusive = false;
         break;
       default:
-        throw new ParseException("Expected '[' or ']', found: " + c, text);
+        throw ExceptionFactory.getInstance().syntaxError("Expected '[' or ']', found: " + c, null);
     }
     pos.setIndex(pos.getIndex() + 1);
     skipWhiteSpace(text, pos);

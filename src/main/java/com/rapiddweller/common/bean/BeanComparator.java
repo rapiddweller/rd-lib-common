@@ -80,7 +80,7 @@ public class BeanComparator<E> implements Comparator<E> {
     PropertyAccessor propertyAccessor = PropertyAccessorFactory.getAccessor(comparedClass, propertyName);
     Comparator<?> beanComparator = ComparatorFactory.getComparator(propertyAccessor.getValueType());
     if (beanComparator == null) {
-      throw new IllegalArgumentException("Property '" + comparedClass.getName() + '.' + propertyName + "' " +
+      throw ExceptionFactory.getInstance().illegalArgument("Property '" + comparedClass.getName() + '.' + propertyName + "' " +
           "is expected to implement Comparable");
     }
     return beanComparator;

@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.junit.Test;
 
 import java.time.DayOfWeek;
@@ -86,7 +87,7 @@ public class JavaTimeUtilTest {
 
   @Test
   public void testParseDayOfWeek() {
-    assertThrows(IllegalArgumentException.class, () -> JavaTimeUtil.parseDayOfWeek("Weekday Spec"));
+    assertThrows(IllegalArgumentError.class, () -> JavaTimeUtil.parseDayOfWeek("Weekday Spec"));
     assertEquals(DayOfWeek.SATURDAY, JavaTimeUtil.parseDayOfWeek("SAT"));
   }
 
@@ -134,7 +135,7 @@ public class JavaTimeUtilTest {
 
   @Test
   public void testGranularityMillis() {
-    assertThrows(UnsupportedTemporalTypeException.class, () -> JavaTimeUtil.granularityMillis(ChronoUnit.NANOS));
+    assertThrows(IllegalArgumentError.class, () -> JavaTimeUtil.granularityMillis(ChronoUnit.NANOS));
     assertEquals(1000, JavaTimeUtil.granularityMillis(ChronoUnit.SECONDS));
     assertEquals(60000, JavaTimeUtil.granularityMillis(ChronoUnit.MINUTES));
     assertEquals(3600000, JavaTimeUtil.granularityMillis(ChronoUnit.HOURS));

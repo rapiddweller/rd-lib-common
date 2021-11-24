@@ -64,9 +64,9 @@ public class SimpleXMLWriter implements Closeable {
       handler.setResult(new StreamResult(out));
       handler.startDocument();
     } catch (TransformerConfigurationException e) {
-      throw new ConfigurationError("Error setting up " + getClass(), e);
+      throw ExceptionFactory.getInstance().configurationError("Error setting up " + getClass(), e);
     } catch (SAXException e) {
-      throw new ConfigurationError("Error in initializing XML file", e);
+      throw ExceptionFactory.getInstance().configurationError("Error in initializing XML file", e);
     }
   }
 
@@ -187,7 +187,7 @@ public class SimpleXMLWriter implements Closeable {
     AttributesImpl atts = null;
     if (attributeNameValues != null && attributeNameValues.length > 0) {
       if (attributeNameValues.length % 2 == 1) {
-        throw new IllegalArgumentException("Even number of attribute name/name arguments required");
+        throw ExceptionFactory.getInstance().illegalArgument("Even number of attribute name/name arguments required");
       }
       atts = new AttributesImpl();
       for (int i = 0; i < attributeNameValues.length; i += 2) {

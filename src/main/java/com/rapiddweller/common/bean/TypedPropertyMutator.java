@@ -16,9 +16,9 @@
 package com.rapiddweller.common.bean;
 
 import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.ConversionException;
-import com.rapiddweller.common.exception.MutationFailedException;
+import com.rapiddweller.common.exception.ExceptionFactory;
+import com.rapiddweller.common.exception.MutationFailed;
 import com.rapiddweller.common.converter.AnyConverter;
 
 import java.beans.PropertyDescriptor;
@@ -42,23 +42,23 @@ public class TypedPropertyMutator extends AbstractNamedMutator {
     PropertyDescriptor propertyDescriptor = BeanUtil.getPropertyDescriptor(beanClass, propertyName);
     if (propertyDescriptor == null) {
       if (required) {
-        throw new ConfigurationError("No property '" + propertyName + "' found in " + beanClass);
+        throw ExceptionFactory.getInstance().configurationError("No property '" + propertyName + "' found in " + beanClass);
       } else {
         writeMethod = null;
       }
     } else {
       writeMethod = propertyDescriptor.getWriteMethod();
       if (writeMethod == null) {
-        throw new ConfigurationError("No write method found for property '" + propertyName + "' in class " + beanClass.getName());
+        throw ExceptionFactory.getInstance().configurationError("No write method found for property '" + propertyName + "' in class " + beanClass.getName());
       }
     }
   }
 
   @Override
-  public void setValue(Object bean, Object value) throws MutationFailedException {
+  public void setValue(Object bean, Object value) throws MutationFailed {
     if (bean == null) {
       if (required) {
-        throw new IllegalArgumentException("Cannot set a property on null");
+        throw ExceptionFactory.getInstance().illegalArgument("Cannot set a property on null");
       } else {
         return;
       }
@@ -74,7 +74,7 @@ public class TypedPropertyMutator extends AbstractNamedMutator {
           value = AnyConverter.convert(value, targetType);
         }
       } catch (ConversionException e) {
-        throw new ConfigurationError("Error converting value " + value, e);
+        throw ExceptionFactory.getInstance().configurationError("Error converting value " + value, e);
       }
     }
     BeanUtil.invoke(bean, writeMethod, new Object[] {value});

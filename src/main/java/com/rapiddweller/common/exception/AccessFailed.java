@@ -2,7 +2,7 @@
 
 package com.rapiddweller.common.exception;
 
-import com.rapiddweller.common.OperationFailedException;
+import com.rapiddweller.common.OperationFailed;
 
 /**
  * Signals that access to a software element failed.<br/><br/>
@@ -10,13 +10,13 @@ import com.rapiddweller.common.OperationFailedException;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class AccessFailedException extends OperationFailedException {
+public class AccessFailed extends OperationFailed {
 
-  public AccessFailedException(String message) {
+  public AccessFailed(String message) {
     this(message, null);
   }
 
-  public AccessFailedException(String message, Throwable cause) {
+  public AccessFailed(String message, Throwable cause) {
     super(null, ExitCodes.INTERNAL_SOFTWARE_ERROR, message, cause);
   }
 

@@ -16,9 +16,8 @@
 package com.rapiddweller.common.version;
 
 import com.rapiddweller.common.Assert;
-import com.rapiddweller.common.ConfigurationError;
-import com.rapiddweller.common.DeploymentError;
 import com.rapiddweller.common.IOUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 import com.rapiddweller.common.xml.XMLUtil;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -26,7 +25,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -102,8 +100,9 @@ public class VersionInfo {
       VersionNumber expectedVersion = VersionNumber.valueOf(dependency.getValue());
       VersionNumber actualVersion = VersionNumber.valueOf(getInfo(library).getVersion());
       if (!VersionInfo.development && actualVersion.compareTo(expectedVersion) < 0) {
-        throw new DeploymentError(this + " requires at least " + library + ' ' + expectedVersion + ", " +
-            "but found " + library + ' ' + actualVersion);
+        throw ExceptionFactory.getInstance().deploymentFailed(
+            this + " requires at least " + library + ' ' + expectedVersion + ", " +
+            "but found " + library + ' ' + actualVersion, null);
       }
     }
   }
@@ -120,31 +119,27 @@ public class VersionInfo {
 
   private static void readVersionInfo(VersionInfo versionInfo, boolean parsingDependencies) {
     versionInfo.version = "<unknown version>";
-    try {
-      String versionFileName;
-      if (versionInfo.filePath.contains("/")) {
-        versionFileName = versionInfo.filePath + "/version.properties";
-      } else {
-        versionFileName = VERSION_FILE_PATTERN.replace("{0}", versionInfo.name);
+    String versionFileName;
+    if (versionInfo.filePath.contains("/")) {
+      versionFileName = versionInfo.filePath + "/version.properties";
+    } else {
+      versionFileName = VERSION_FILE_PATTERN.replace("{0}", versionInfo.name);
+    }
+    boolean ok = readVersionInfo(versionInfo, versionFileName);
+    if (!ok) {
+      logger.warn("Version number file '{}' not found, falling back to POM", versionFileName);
+    }
+    if (versionInfo.version.startsWith("${") || versionInfo.version.startsWith("<unknown")) { // ...in Eclipse no filtering is applied,...
+      VersionInfo.development = true;
+      if (versionInfo.version.startsWith("${")) {
+        logger.warn("Version number has not been resolved, falling back to POM info"); // ...so I fetch it directly from the POM!
       }
-      boolean ok = readVersionInfo(versionInfo, versionFileName);
-      if (!ok) {
-        logger.warn("Version number file '{}' not found, falling back to POM", versionFileName);
+      Document doc = XMLUtil.parse("pom.xml");
+      Element versionElement = XMLUtil.getChildElement(doc.getDocumentElement(), false, true, "version");
+      versionInfo.version = versionElement.getTextContent();
+      if (parsingDependencies) {
+        parseDependencies(versionInfo, doc);
       }
-      if (versionInfo.version.startsWith("${") || versionInfo.version.startsWith("<unknown")) { // ...in Eclipse no filtering is applied,...
-        VersionInfo.development = true;
-        if (versionInfo.version.startsWith("${")) {
-          logger.warn("Version number has not been resolved, falling back to POM info"); // ...so I fetch it directly from the POM!
-        }
-        Document doc = XMLUtil.parse("pom.xml");
-        Element versionElement = XMLUtil.getChildElement(doc.getDocumentElement(), false, true, "version");
-        versionInfo.version = versionElement.getTextContent();
-        if (parsingDependencies) {
-          parseDependencies(versionInfo, doc);
-        }
-      }
-    } catch (IOException e) {
-      logger.error("Error reading version info file", e);
     }
   }
 
@@ -163,7 +158,7 @@ public class VersionInfo {
     }
   }
 
-  private static boolean readVersionInfo(VersionInfo versionInfo, String versionFileName) throws IOException {
+  private static boolean readVersionInfo(VersionInfo versionInfo, String versionFileName) {
     if (IOUtil.isURIAvailable(versionFileName)) {
       Map<String, String> props = IOUtil.readProperties(versionFileName);
       for (Entry<String, String> dependency : props.entrySet()) {
@@ -178,7 +173,7 @@ public class VersionInfo {
       String versionKey = versionInfo.name.replace('.', '_') + VERSION_SUFFIX;
       versionInfo.version = props.get(versionKey);
       if (versionInfo.version == null) {
-        throw new ConfigurationError("No version number (" + versionKey + ") defined in file " + versionFileName);
+        throw ExceptionFactory.getInstance().configurationError("No version number (" + versionKey + ") defined in file " + versionFileName);
       }
       return true;
     } else {

@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common.comparator;
 
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -123,8 +124,8 @@ public class NumberComparatorTest {
   private void expectExceptionFor(Number n1, Number n2) {
     try {
       comparator.compare(n1, n2);
-      fail("IllegalArgumentException expected");
-    } catch (IllegalArgumentException e) {
+      fail("IllegalArgumentError expected");
+    } catch (IllegalArgumentError e) {
       // this is the expected behavior
     }
   }

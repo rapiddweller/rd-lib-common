@@ -52,7 +52,7 @@ public class Date2DurationConverterTest extends AbstractConverterTest {
 
   @Test
   public void testSingapore() throws Exception {
-    check(TimeUtil.SNGAPORE_TIME);
+    check(TimeUtil.SINGAPORE_TIME);
   }
 
   @Test

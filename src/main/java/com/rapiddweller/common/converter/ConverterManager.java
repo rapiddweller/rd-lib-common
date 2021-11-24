@@ -16,8 +16,8 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ArrayFormat;
+import com.rapiddweller.common.Assert;
 import com.rapiddweller.common.BeanUtil;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.Context;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
@@ -184,9 +184,7 @@ public class ConverterManager implements ContextAware, Resettable {
 
   public <S, T> Converter<S, T> createConverter(Class<S> sourceType, Class<T> targetType) {
     // check preconditions
-    if (targetType == null) {
-      throw new ConversionException("targetType must be specified");
-    }
+    Assert.notNull(targetType, "targetType");
 
     // check if we already know how to do this conversion
     ConversionTypes conversionTypes = new ConversionTypes(sourceType, targetType);
@@ -262,8 +260,8 @@ public class ConverterManager implements ContextAware, Resettable {
     if (result != null) {
       return result;
     } else {
-      throw new ConversionException("Cannot convert " + sourceType.getName() +
-          " to " + targetType.getName());
+      throw ExceptionFactory.getInstance().conversionFailed(
+          "Cannot convert " + sourceType.getName() + " to " + targetType.getName(), null);
     }
   }
 
@@ -354,7 +352,7 @@ public class ConverterManager implements ContextAware, Resettable {
         registerConverterClass((Class<? extends Converter>) Class.forName(className));
       }
     } catch (ClassNotFoundException e) {
-      throw new ConfigurationError("Error reading config file " + filename, e);
+      throw ExceptionFactory.getInstance().configurationError("Error reading config file " + filename, e);
     }
   }
 

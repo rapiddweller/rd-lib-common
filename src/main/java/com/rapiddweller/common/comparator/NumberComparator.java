@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common.comparator;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Comparator;
@@ -22,7 +24,6 @@ import java.util.Comparator;
 /**
  * Generic comparator for Number objects of different type.
  * Created: 09.10.2006 19:46:22
- *
  * @param <E> the type of objects to be compared
  * @author Volker Bergmann
  * @since 0.1
@@ -34,17 +35,9 @@ public class NumberComparator<E extends Number> implements Comparator<E> {
     return compareNumbers(n1, n2);
   }
 
-  /**
-   * Compare numbers int.
-   *
-   * @param <T> the type parameter
-   * @param n1  the n 1
-   * @param n2  the n 2
-   * @return the int
-   */
   public static <T extends Number> int compareNumbers(T n1, T n2) {
     if (n1 == null || n2 == null) {
-      throw new IllegalArgumentException("comparing null value");
+      throw ExceptionFactory.getInstance().illegalArgument("comparing null value");
     }
     if (n1 instanceof Integer) {
       return ((Integer) n1).compareTo(n2.intValue());
@@ -63,7 +56,8 @@ public class NumberComparator<E extends Number> implements Comparator<E> {
     } else if (n1 instanceof BigDecimal) {
       return ((BigDecimal) n1).compareTo((BigDecimal) n2);
     } else {
-      throw new UnsupportedOperationException("Unsupported Number type: " + n1.getClass());
+      throw ExceptionFactory.getInstance().programmerUnsupported("Unsupported Number type: " + n1.getClass());
     }
   }
+
 }

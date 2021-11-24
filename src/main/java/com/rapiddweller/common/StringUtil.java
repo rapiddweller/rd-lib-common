@@ -384,7 +384,7 @@ public final class StringUtil {
     }
     int textLength = text.length();
     if (textLength > length) {
-      throw new IllegalArgumentException("Text is too long (" + textLength + ") to be padded to " + length + " columns");
+      throw ExceptionFactory.getInstance().illegalArgument("Text is too long (" + textLength + ") to be padded to " + length + " columns");
     }
     char[] chars = new char[length];
     int offset = length - textLength;
@@ -399,7 +399,7 @@ public final class StringUtil {
     }
     int textLength = text.length();
     if (textLength > length) {
-      throw new IllegalArgumentException("Text is too long (" + textLength + ") to be padded to " + length + " columns");
+      throw ExceptionFactory.getInstance().illegalArgument("Text is too long (" + textLength + ") to be padded to " + length + " columns");
     }
     char[] chars = new char[length];
     fill(chars, textLength, length, c);
@@ -454,7 +454,7 @@ public final class StringUtil {
 
   public static String padString(char c, int length) {
     if (length < 0) {
-      throw new IllegalArgumentException("Negative pad length: " + length);
+      throw ExceptionFactory.getInstance().illegalArgument("Negative pad length: " + length);
     }
     char[] chars = new char[length];
     Arrays.fill(chars, 0, length, c);

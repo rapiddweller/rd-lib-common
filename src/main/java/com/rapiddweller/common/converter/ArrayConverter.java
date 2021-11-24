@@ -18,6 +18,7 @@ package com.rapiddweller.common.converter;
 import com.rapiddweller.common.ArrayUtil;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
  * Converts arrays from one component type to arrays of another component type.
@@ -26,7 +27,6 @@ import com.rapiddweller.common.Converter;
  * If there are several converters, the number of converters and array elements are
  * assumed to be equal and each element is converted with the converter of the same index.
  * Created: 07.06.2007 14:35:18
- *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
@@ -37,13 +37,6 @@ public class ArrayConverter<S, T> extends MultiConverterWrapper<S, T> implements
   private final Class<S[]> sourceType;
   private final Class<T[]> targetType;
 
-  /**
-   * Instantiates a new Array converter.
-   *
-   * @param sourceComponentType the source component type
-   * @param targetComponentType the target component type
-   * @param converters          the converters
-   */
   @SuppressWarnings("unchecked")
   public ArrayConverter(Class<S> sourceComponentType, Class<T> targetComponentType, Converter<S, T>... converters) {
     super(converters);
@@ -79,7 +72,7 @@ public class ArrayConverter<S, T> extends MultiConverterWrapper<S, T> implements
       return convertWith(components[0], targetComponentType, sourceValues);
     } else {
       if (sourceValues.length != components.length) {
-        throw new IllegalArgumentException("Array has a different size than the converter list");
+        throw ExceptionFactory.getInstance().illegalArgument("Array has a different size than the converter list");
       }
       T[] result = ArrayUtil.newInstance(targetComponentType, components.length);
       for (int i = 0; i < components.length; i++) {
@@ -91,7 +84,6 @@ public class ArrayConverter<S, T> extends MultiConverterWrapper<S, T> implements
 
   /**
    * Converts all array elements with the same {@link Converter}.
-   *
    * @param <S>           the object type to convert from
    * @param <T>           the object type to convert to
    * @param converter     the converter to apply

@@ -23,6 +23,18 @@ package com.rapiddweller.common.exception;
  */
 public class SyntaxError extends ParseException {
 
+  public static SyntaxError forText(String text, String message) {
+    return forText(text, message, -1, -1);
+  }
+
+  public static SyntaxError forText(String text, String message, int line, int column) {
+    return forText(text, message, line, column, null);
+  }
+
+  public static SyntaxError forText(String text, String message, int line, int column, Throwable cause) {
+    return new SyntaxError(message, cause, text, line, column);
+  }
+
   public SyntaxError(String message) {
     this(message, null, null, -1, -1);
   }

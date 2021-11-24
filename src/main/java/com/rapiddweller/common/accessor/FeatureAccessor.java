@@ -18,10 +18,10 @@ package com.rapiddweller.common.accessor;
 import com.rapiddweller.common.Accessor;
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.Composite;
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.Context;
 import com.rapiddweller.common.Escalator;
 import com.rapiddweller.common.LoggerEscalator;
+import com.rapiddweller.common.exception.ExceptionFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -114,7 +114,7 @@ public class FeatureAccessor<C, V> implements Accessor<C, V> {
         try {
           return propertyDescriptor.getReadMethod().invoke(target);
         } catch (Exception e) {
-          throw new ConfigurationError("Unable to read property '" + featureName + "'", e);
+          throw ExceptionFactory.getInstance().configurationError("Unable to read property '" + featureName + "'", e);
         }
       } else {
         Class<?> type = ((target instanceof Class) ? (Class<?>) target : target.getClass());
@@ -126,7 +126,7 @@ public class FeatureAccessor<C, V> implements Accessor<C, V> {
     }
     // the feature has not been identified, yet - escalate or raise an exception
     if (required) {
-      throw new UnsupportedOperationException(
+      throw ExceptionFactory.getInstance().configurationError(
           target.getClass() + " does not support a feature '" + featureName + "'");
     } else {
       escalator.escalate("Feature '" + featureName + "' not found in object " + target, FeatureAccessor.class, null);

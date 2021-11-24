@@ -17,6 +17,7 @@ package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
  * Parses a {@link String} as a {@link Boolean}.
@@ -78,7 +79,7 @@ public class String2BooleanConverter extends ThreadSafeConverter<String, Boolean
     if (StringUtil.isEmpty(sourceValue)) {
       return null;
     }
-    throw new IllegalArgumentException("Not a boolean value: " + sourceValue);
+    throw ExceptionFactory.getInstance().illegalArgument("Not a boolean value: " + sourceValue);
   }
 
 }

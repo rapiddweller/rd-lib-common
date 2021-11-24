@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.junit.Test;
 
 import static org.junit.Assert.fail;
@@ -22,7 +23,6 @@ import static org.junit.Assert.fail;
 /**
  * Tests the {@link Assert} class.
  * Created at 06.05.2008 12:43:45
- *
  * @author Volker Bergmann
  * @since 0.5.3
  */
@@ -56,8 +56,8 @@ public class AssertTest {
     Assert.lessOrEqual(1, 1, "number");
     try {
       Assert.lessOrEqual(2, 1, "number");
-      fail("AssertionError expected");
-    } catch (IllegalArgumentException e) {
+      fail("IllegalArgumentError expected");
+    } catch (IllegalArgumentError e) {
       // expected
     }
   }
@@ -67,8 +67,8 @@ public class AssertTest {
   private static void expectNotEquals(String[] a1, String[] a2) {
     try {
       Assert.equals(a1, a2);
-      fail("AssertionError expected");
-    } catch (IllegalArgumentException e) {
+      fail("IllegalArgumentError expected");
+    } catch (IllegalArgumentError e) {
       // expected
     }
   }
@@ -76,8 +76,8 @@ public class AssertTest {
   private static void expectNotEquals(byte[] a1, byte[] a2) {
     try {
       Assert.equals(a1, a2);
-      fail("AssertionError expected");
-    } catch (IllegalArgumentException e) {
+      fail("IllegalArgumentError expected");
+    } catch (IllegalArgumentError e) {
       // expected
     }
   }

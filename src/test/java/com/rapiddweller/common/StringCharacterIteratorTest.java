@@ -15,8 +15,11 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.IllegalOperationError;
 import com.rapiddweller.common.exception.ParseException;
 import org.junit.Test;
+
+import java.util.NoSuchElementException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -84,22 +87,12 @@ public class StringCharacterIteratorTest {
   }
 
   @Test
-  public void testConstructor2() {
-    assertThrows(IllegalArgumentException.class, () -> new StringCharacterIterator(null));
-  }
-
-  @Test
   public void testConstructor3() {
     StringCharacterIterator actualStringCharacterIterator = new StringCharacterIterator("Source", 2);
     assertEquals(1, actualStringCharacterIterator.column());
     assertEquals(1, actualStringCharacterIterator.line());
     assertEquals("Source", actualStringCharacterIterator.toString());
     assertEquals(2, actualStringCharacterIterator.getOffset());
-  }
-
-  @Test
-  public void testConstructor4() {
-    assertThrows(IllegalArgumentException.class, () -> new StringCharacterIterator(null, 2));
   }
 
   @Test
@@ -118,7 +111,8 @@ public class StringCharacterIteratorTest {
 
   @Test
   public void testNext2() {
-    assertThrows(IllegalStateException.class, () -> (new StringCharacterIterator("")).next());
+    StringCharacterIterator iterator = new StringCharacterIterator("");
+    assertThrows(NoSuchElementException.class, iterator::next);
   }
 
   @Test
@@ -129,7 +123,8 @@ public class StringCharacterIteratorTest {
 
   @Test
   public void testPushBack() {
-    assertThrows(IllegalStateException.class, () -> (new StringCharacterIterator("Source")).pushBack());
+    StringCharacterIterator iterator = new StringCharacterIterator("Source");
+    assertThrows(IllegalOperationError.class, iterator::pushBack);
   }
 
   @Test
@@ -169,12 +164,18 @@ public class StringCharacterIteratorTest {
 
   @Test
   public void testAssertNext() {
-    assertThrows(ParseException.class, () -> (new StringCharacterIterator("Source")).assertNext('A'));
-    assertThrows(ParseException.class, () -> (new StringCharacterIterator("")).assertNext('A'));
+    StringCharacterIterator iterator = new StringCharacterIterator("Source");
+    assertThrows(ParseException.class, () -> iterator.assertNext('A'));
   }
 
   @Test
   public void testAssertNext2() {
+    StringCharacterIterator iterator = new StringCharacterIterator("");
+    assertThrows(ParseException.class, () -> iterator.assertNext('A'));
+  }
+
+  @Test
+  public void testAssertNext3() {
     StringCharacterIterator stringCharacterIterator = new StringCharacterIterator("Source");
     stringCharacterIterator.assertNext('S');
     assertEquals(2, stringCharacterIterator.column());

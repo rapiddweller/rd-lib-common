@@ -15,9 +15,9 @@
 
 package com.rapiddweller.common.converter;
 
-import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.SystemInfo;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.io.UnsupportedEncodingException;
 
@@ -44,7 +44,7 @@ public class String2ByteArrayConverter extends ThreadSafeConverter<String, byte[
     try {
       return sourceValue.getBytes(encoding);
     } catch (UnsupportedEncodingException e) {
-      throw new ConfigurationError("Error converting " + sourceValue, e);
+      throw ExceptionFactory.getInstance().configurationError("Error converting " + sourceValue, e);
     }
   }
 

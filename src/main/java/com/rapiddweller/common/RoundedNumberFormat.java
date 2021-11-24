@@ -15,7 +15,8 @@
 
 package com.rapiddweller.common;
 
-import java.text.DecimalFormat;
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.NumberFormat;
@@ -25,10 +26,9 @@ import java.util.Locale;
 /**
  * Rounds large numbers to the four most significant digits.
  * Created: 01.09.2007 16:19:14
+ * @author Volker Bergmann
  */
 public class RoundedNumberFormat extends Format {
-
-  private static final long serialVersionUID = 6188839664275513505L;
 
   @Override
   public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
@@ -37,19 +37,11 @@ public class RoundedNumberFormat extends Format {
 
   @Override
   public Object parseObject(String source, ParsePosition pos) {
-    throw new UnsupportedOperationException("Not supported");
+    throw ExceptionFactory.getInstance().illegalOperation("Not supported");
   }
 
-  /**
-   * Format string.
-   *
-   * @param number         the number
-   * @param fractionDigits the fraction digits
-   * @return the string
-   */
   public static String format(Number number, int fractionDigits) {
-    NumberFormat nf = DecimalFormat.getInstance(Locale.US);
-    //nf.setMinimumFractionDigits(fractionDigits);
+    NumberFormat nf = NumberFormat.getInstance(Locale.US);
     nf.setMaximumFractionDigits(fractionDigits);
     StringBuffer buffer = nf.format(number, new StringBuffer(), new FieldPosition(0));
     int nonNullDigits = 0;

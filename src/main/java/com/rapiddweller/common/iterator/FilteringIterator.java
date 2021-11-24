@@ -18,41 +18,26 @@ package com.rapiddweller.common.iterator;
 import com.rapiddweller.common.Filter;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Filters elements of another {@link Iterator} or {@link BidirectionalIterator}
  * by a {@link Filter} element.
  * Created: 08.05.2007 19:37:33
- *
  * @param <E> the type to iterate
  * @author Volker Bergmann
  */
 public class FilteringIterator<E> extends BidirectionalIteratorProxy<E> {
 
-  /**
-   * The Filter.
-   */
   protected Filter<E> filter;
 
   private E next;
   private E previous;
 
-  /**
-   * Instantiates a new Filtering iterator.
-   *
-   * @param realIterator the real iterator
-   * @param filter       the filter
-   */
   public FilteringIterator(Iterator<E> realIterator, Filter<E> filter) {
     this(new JDKIteratorWrapper<>(realIterator), filter);
   }
 
-  /**
-   * Instantiates a new Filtering iterator.
-   *
-   * @param realIterator the real iterator
-   * @param filter       the filter
-   */
   public FilteringIterator(BidirectionalIterator<E> realIterator, Filter<E> filter) {
     super(realIterator);
     this.filter = filter;
@@ -76,7 +61,7 @@ public class FilteringIterator<E> extends BidirectionalIteratorProxy<E> {
   @Override
   public E next() {
     if (next == null && !hasNext()) {
-      throw new IllegalStateException("Nothing more to iterate");
+      throw new NoSuchElementException("Nothing more to iterate");
     }
     E result = next;
     next = null;
@@ -119,7 +104,7 @@ public class FilteringIterator<E> extends BidirectionalIteratorProxy<E> {
   @Override
   public E previous() {
     if (previous == null && !hasPrevious()) {
-      throw new IllegalStateException("Nothing more to iterate");
+      throw new NoSuchElementException("Nothing more to iterate");
     }
     E result = previous;
     previous = null;

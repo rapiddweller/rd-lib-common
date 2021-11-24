@@ -16,6 +16,7 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
  * Converts {@link String}s of length 1 to {@link Character}s, Strings of length 0 to <code>null</code>.
@@ -44,7 +45,8 @@ public class String2CharConverter extends ThreadSafeConverter<String, Character>
       case 1:
         return sourceValue.charAt(0);
       default:
-        throw new ConversionException("'" + sourceValue + "' cannot be converted to a character");
+        throw ExceptionFactory.getInstance().conversionFailed(
+            "'" + sourceValue + "' cannot be converted to a character", null);
     }
   }
 

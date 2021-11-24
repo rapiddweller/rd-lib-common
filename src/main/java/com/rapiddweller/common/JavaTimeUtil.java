@@ -2,6 +2,8 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -14,7 +16,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.UnsupportedTemporalTypeException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -62,8 +63,9 @@ public class JavaTimeUtil {
 
   public static int parseMonthMMM(String mmm) {
     Integer result = MMM_NAMES.get(mmm.toUpperCase());
-    if (result == null)
-      throw new IllegalArgumentException("Illegal MMM mothe spec: " + mmm);
+    if (result == null) {
+      throw ExceptionFactory.getInstance().illegalArgument("Illegal MMM mothe spec: " + mmm);
+    }
     return result;
   }
 
@@ -78,7 +80,7 @@ public class JavaTimeUtil {
   public static DayOfWeek parseDayOfWeek(String weekdaySpec) {
     DayOfWeek dayOfWeek = WEEKDAY_NAMES.get(weekdaySpec.toUpperCase());
     if (dayOfWeek == null) {
-      throw new IllegalArgumentException("Not a supported day abbreviation: " + weekdaySpec);
+      throw ExceptionFactory.getInstance().illegalArgument("Not a supported day abbreviation: " + weekdaySpec);
     }
     return dayOfWeek;
   }
@@ -170,7 +172,7 @@ public class JavaTimeUtil {
       case SECONDS:
         return TimeUtil.SECOND_MILLIS;
       default:
-        throw new UnsupportedTemporalTypeException(field + " is not supported");
+        throw ExceptionFactory.getInstance().illegalArgument(field + " is not supported");
     }
   }
 
@@ -195,7 +197,7 @@ public class JavaTimeUtil {
         chronoUnit = ChronoUnit.SECONDS;
         break;
       default:
-        throw new UnsupportedTemporalTypeException(field + " is not supported");
+        throw ExceptionFactory.getInstance().illegalArgument(field + " is not supported");
     }
     return dateTime.truncatedTo(chronoUnit);
   }

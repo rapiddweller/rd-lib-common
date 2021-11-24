@@ -15,9 +15,9 @@
 
 package com.rapiddweller.common.converter;
 
-import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Patterns;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -83,7 +83,7 @@ public class String2DateConverter<E extends Date> extends ThreadSafeConverter<St
             format = new SimpleDateFormat(DEFAULT_DATETIME_MILLIS_PATTERN);
             break;
           default:
-            throw new IllegalArgumentException("Not a supported date format: " + sourceValue);
+            throw ExceptionFactory.getInstance().illegalArgument("Not a supported date format: " + sourceValue);
         }
       } else {
         format = new SimpleDateFormat(DEFAULT_DATE_PATTERN);
@@ -96,10 +96,10 @@ public class String2DateConverter<E extends Date> extends ThreadSafeConverter<St
       } else if (targetType == java.sql.Timestamp.class) {
         return new java.sql.Timestamp(simpleDate.getTime());
       } else {
-        throw new UnsupportedOperationException("Not a supported target type: " + targetType);
+        throw ExceptionFactory.getInstance().programmerUnsupported("Not a supported target type: " + targetType);
       }
     } catch (ParseException e) {
-      throw new ConversionException("Failed to convert " + sourceValue, e);
+      throw ExceptionFactory.getInstance().conversionFailed("Failed to convert " + sourceValue, e);
     }
   }
 

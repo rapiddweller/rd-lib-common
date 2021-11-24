@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import com.rapiddweller.common.exception.SyntaxError;
 import org.junit.Test;
 
@@ -482,11 +483,11 @@ public class TimeUtilTest {
     assertEquals(TimeUtil.time(8, 30, 23, 0), TimeUtil.parse("08:30:23"));
     assertEquals(TimeUtil.timestamp(2012, 3, 26, 8, 30, 23, 123000000), TimeUtil.parse("2012-04-26 08:30:23.123"));
     assertThrows(SyntaxError.class, () -> TimeUtil.parse("2020/03/01"));
-    assertThrows(ConversionException.class, () -> TimeUtil.parse("-"));
-    assertThrows(IllegalArgumentException.class, () -> TimeUtil.parse("Date Or Time Spec"));
+    assertThrows(SyntaxError.class, () -> TimeUtil.parse("-"));
+    assertThrows(SyntaxError.class, () -> TimeUtil.parse("Date Or Time Spec"));
     assertNull(TimeUtil.parse(""));
     assertThrows(SyntaxError.class, () -> TimeUtil.parse("."));
-    assertThrows(ConversionException.class, () -> TimeUtil.parse(":"));
+    assertThrows(SyntaxError.class, () -> TimeUtil.parse(":"));
   }
 
   @Test

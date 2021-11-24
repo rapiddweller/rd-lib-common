@@ -18,6 +18,7 @@ package com.rapiddweller.common.format;
 import com.rapiddweller.common.NullSafeComparator;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.converter.ToStringConverter;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.text.FieldPosition;
 import java.text.Format;
@@ -26,7 +27,6 @@ import java.text.ParsePosition;
 /**
  * {@link Format} implementation that applies padding for formatting Strings with a fixed width.
  * Created: 07.06.2007 13:23:37
- *
  * @author Volker Bergmann
  */
 public class PadFormat extends Format {
@@ -37,27 +37,10 @@ public class PadFormat extends Format {
   private final Format format;
   private final StringPadder padder;
 
-  /**
-   * Instantiates a new Pad format.
-   *
-   * @param nullString the null string
-   * @param length     the length
-   * @param alignment  the alignment
-   * @param padChar    the pad char
-   */
   public PadFormat(String nullString, int length, Alignment alignment, char padChar) {
     this(null, nullString, length, alignment, padChar);
   }
 
-  /**
-   * Instantiates a new Pad format.
-   *
-   * @param format     the format
-   * @param nullString the null string
-   * @param length     the length
-   * @param alignment  the alignment
-   * @param padChar    the pad char
-   */
   public PadFormat(Format format, String nullString, int length, Alignment alignment, char padChar) {
     assert alignment != null;
     assert padChar != 0;
@@ -68,29 +51,14 @@ public class PadFormat extends Format {
 
   // properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Gets length.
-   *
-   * @return the length
-   */
   public int getLength() {
     return padder.getLength();
   }
 
-  /**
-   * Gets alignment.
-   *
-   * @return the alignment
-   */
   public Alignment getAlignment() {
     return padder.getAlignment();
   }
 
-  /**
-   * Gets pad char.
-   *
-   * @return the pad char
-   */
   public char getPadChar() {
     return padder.getPadChar();
   }
@@ -138,7 +106,7 @@ public class PadFormat extends Format {
         tmp = StringUtil.trim(tmp, padChar);
         break;
       default:
-        throw new IllegalArgumentException("Illegal Alignement: " + getAlignment());
+        throw ExceptionFactory.getInstance().illegalArgument("Illegal Alignement: " + getAlignment());
     }
     Object result;
     if (format != null) {

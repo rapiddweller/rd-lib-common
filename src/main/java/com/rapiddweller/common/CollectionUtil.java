@@ -16,6 +16,7 @@
 package com.rapiddweller.common;
 
 import com.rapiddweller.common.collection.SortedList;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.io.PrintStream;
 import java.lang.reflect.Array;
@@ -107,7 +108,7 @@ public final class CollectionUtil {
   @SuppressWarnings("unchecked")
   public static <T> T[] toArray(Collection<? extends T> source) {
     if (source.isEmpty()) {
-      throw new IllegalArgumentException("For empty collections, a componentType needs to be specified.");
+      throw ExceptionFactory.getInstance().illegalArgument("For empty collections, a componentType needs to be specified.");
     }
     Class<T> componentType = (Class<T>) source.iterator().next().getClass();
     T[] array = (T[]) Array.newInstance(componentType, source.size());
@@ -154,8 +155,8 @@ public final class CollectionUtil {
   public static Map buildMap(Object... keyValuePairs) {
     Map map = new HashMap();
     if (keyValuePairs.length % 2 != 0) {
-      throw new IllegalArgumentException("Invalid number of arguments. " +
-          "It must be even to represent key-value-pairs");
+      throw ExceptionFactory.getInstance().illegalArgument(
+          "Invalid number of arguments. It must be even to represent key-value-pairs");
     }
     for (int i = 0; i < keyValuePairs.length; i += 2) {
       map.put(keyValuePairs[i], keyValuePairs[i + 1]);
@@ -167,8 +168,8 @@ public final class CollectionUtil {
   public static Map buildOrderedMap(Object... keyValuePairs) {
     Map map = new OrderedMap();
     if (keyValuePairs.length % 2 != 0) {
-      throw new IllegalArgumentException("Invalid numer of arguments. " +
-          "It must be even to represent key-value-pairs");
+      throw ExceptionFactory.getInstance().illegalArgument(
+          "Invalid number of arguments. It must be even to represent key-value-pairs");
     }
     for (int i = 0; i < keyValuePairs.length; i += 2) {
       map.put(keyValuePairs[i], keyValuePairs[i + 1]);
@@ -187,7 +188,8 @@ public final class CollectionUtil {
     } else if (Set.class.equals(collectionType)) {
       return (T) new TreeSet<>();
     } else {
-      throw new UnsupportedOperationException("Not a supported collection type: " + collectionType.getName());
+      throw ExceptionFactory.getInstance().programmerUnsupported(
+          "Not a supported collection type: " + collectionType.getName());
     }
   }
 
@@ -432,7 +434,8 @@ public final class CollectionUtil {
       }
     }
     if (required)
-      throw new ObjectNotFoundException("No item with key '" + searchedKey + "' found in data structure");
+      throw ExceptionFactory.getInstance().objectNotFound(
+          "No item with key '" + searchedKey + "' found in data structure");
     else
       return null;
   }

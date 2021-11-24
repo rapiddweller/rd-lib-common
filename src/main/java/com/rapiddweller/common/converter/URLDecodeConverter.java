@@ -18,34 +18,27 @@ package com.rapiddweller.common.converter;
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Encodings;
 import com.rapiddweller.common.StringUtil;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.net.URLEncoder;
 
 /**
  * Decodes a String from the <code>application/x-www-form-urlencoded</code>  MIME format.
- *
  * @author Volker Bergmann
  * @see java.net.URLDecoder Created at 04.07.2009 07:21:15
  * @since 0.5.0
  */
 public class URLDecodeConverter extends ThreadSafeConverter<String, String> {
 
-  private String encoding;
+  private final String encoding;
 
-  /**
-   * Instantiates a new Url decode converter.
-   */
   public URLDecodeConverter() {
     this(Encodings.UTF_8);
   }
 
-  /**
-   * Instantiates a new Url decode converter.
-   *
-   * @param encoding the encoding
-   */
   public URLDecodeConverter(String encoding) {
     super(String.class, String.class);
+    this.encoding = encoding;
   }
 
   @Override
@@ -53,14 +46,6 @@ public class URLDecodeConverter extends ThreadSafeConverter<String, String> {
     return convert(sourceValue, encoding);
   }
 
-  /**
-   * Convert string.
-   *
-   * @param sourceValue the source value
-   * @param encoding    the encoding
-   * @return the string
-   * @throws ConversionException the conversion exception
-   */
   public static String convert(String sourceValue, String encoding) throws ConversionException {
     if (StringUtil.isEmpty(sourceValue)) {
       return null;
@@ -68,8 +53,8 @@ public class URLDecodeConverter extends ThreadSafeConverter<String, String> {
     try {
       return URLEncoder.encode(sourceValue, encoding);
     } catch (Exception e) {
-      throw new ConversionException("URL decoding of '" + sourceValue
-          + "' failed for encoding '" + encoding + "'", e);
+      throw ExceptionFactory.getInstance().conversionFailed(
+          "URL decoding of '" + sourceValue + "' failed for encoding '" + encoding + "'", e);
     }
   }
 

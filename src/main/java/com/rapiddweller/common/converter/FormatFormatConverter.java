@@ -15,42 +15,29 @@
 
 package com.rapiddweller.common.converter;
 
-import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.exception.ExceptionFactory;
 
 import java.text.Format;
 
 /**
  * Converts an object to a String by using a java.lang.Format object's format() method.
  * Created: 30.08.2006 19:43:09
- *
  * @param <S> the object type to convert from
  * @author Volker Bergmann
  * @since 0.1
  */
 public class FormatFormatConverter<S> extends FormatBasedConverter<S, String> {
 
-  /**
-   * Constructor that initializes the format object.
-   *
-   * @param sourceType the type to convert from
-   * @param format     the format object to use.
-   * @param threadSafe tells if the instance is thread safe
-   */
   public FormatFormatConverter(Class<S> sourceType, Format format, boolean threadSafe) {
     super(sourceType, String.class, format, threadSafe);
   }
 
-  /**
-   * Converts an object to a String by using the format's format() method.
-   *
-   * @see com.rapiddweller.common.Converter
-   */
   @Override
   public synchronized String convert(S source) {
     try {
       return format.format(source);
     } catch (Exception e) {
-      throw new ConversionException("Conversion failed for value: " + source, e);
+      throw ExceptionFactory.getInstance().conversionFailed("Conversion failed for value: " + source, e);
     }
   }
 

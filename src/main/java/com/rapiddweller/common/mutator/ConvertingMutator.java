@@ -19,7 +19,7 @@ import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.Mutator;
 import com.rapiddweller.common.exception.ExceptionFactory;
-import com.rapiddweller.common.exception.MutationFailedException;
+import com.rapiddweller.common.exception.MutationFailed;
 
 /**
  * Converts its input by a Converter object and forwards the result to another Mutator.<br/><br/>
@@ -40,7 +40,7 @@ public class ConvertingMutator extends MutatorWrapper {
   }
 
   @Override
-  public void setValue(Object target, Object value) throws MutationFailedException {
+  public void setValue(Object target, Object value) throws MutationFailed {
     try {
       Object convertedValue = converter.convert(value);
       realMutator.setValue(target, convertedValue);

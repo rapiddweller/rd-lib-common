@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -56,7 +57,7 @@ public class String2BooleanConverterTest extends AbstractConverterTest {
     assertFalse(converter.convert("False"));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = IllegalArgumentError.class)
   public void testIllegalStrings() {
     converter.convert("x");
   }

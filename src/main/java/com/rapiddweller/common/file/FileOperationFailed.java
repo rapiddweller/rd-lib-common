@@ -2,7 +2,7 @@
 
 package com.rapiddweller.common.file;
 
-import com.rapiddweller.common.OperationFailedException;
+import com.rapiddweller.common.OperationFailed;
 
 /**
  * Signals failure of a file operation.<br/><br/>
@@ -10,13 +10,13 @@ import com.rapiddweller.common.OperationFailedException;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class FileOperationFailedException extends OperationFailedException {
+public class FileOperationFailed extends OperationFailed {
 
-  public FileOperationFailedException(String errorId, int exitCode, String message) {
+  public FileOperationFailed(String errorId, int exitCode, String message) {
     this(errorId, exitCode, message, null);
   }
 
-  public FileOperationFailedException(String errorId, int exitCode, String message, Throwable cause) {
+  public FileOperationFailed(String errorId, int exitCode, String message, Throwable cause) {
     super(errorId, exitCode, message, cause);
   }
 

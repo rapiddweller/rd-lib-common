@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -246,39 +247,9 @@ public class StringUtilTest {
     try {
       StringUtil.padRight("abcde", 2, ' ');
       fail("IllegalArgumentException expected");
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentError e) {
       // this is expected
     }
-  }
-
-  @Test
-  public void testPadRight2() {
-    assertThrows(IllegalArgumentException.class, () -> StringUtil.padRight("Text", 3, 'A'));
-  }
-
-  @Test
-  public void testPadRight3() {
-    assertEquals("AAA", StringUtil.padRight(null, 3, 'A'));
-  }
-
-  @Test
-  public void testPadRight4() {
-    assertEquals("'AA", StringUtil.padRight("'", 3, 'A'));
-  }
-
-  @Test
-  public void testPadRight5() {
-    assertEquals("AAAAAAAAAAAAAAAAAAAA", StringUtil.padRight(null, 20, 'A'));
-  }
-
-  @Test
-  public void testPadRight6() {
-    assertEquals("                    ", StringUtil.padRight(null, 20, ' '));
-  }
-
-  @Test
-  public void testPadRight7() {
-    assertEquals("java.lang.StringAAAA", StringUtil.padRight("java.lang.String", 20, 'A'));
   }
 
   @Test
@@ -319,7 +290,7 @@ public class StringUtilTest {
   @Test
   public void testPadString() {
     assertEquals("AAA", StringUtil.padString('A', 3));
-    assertThrows(IllegalArgumentException.class, () -> StringUtil.padString('A', -1));
+    assertThrows(IllegalArgumentError.class, () -> StringUtil.padString('A', -1));
   }
 
   @Test
@@ -334,14 +305,14 @@ public class StringUtilTest {
     try {
       StringUtil.padLeft("abcde", 2, ' ');
       fail("IllegalArgumentException expected");
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentError e) {
       // this is expected
     }
   }
 
   @Test
   public void testPadLeft2() {
-    assertThrows(IllegalArgumentException.class, () -> StringUtil.padLeft("Text", 3, 'A'));
+    assertThrows(IllegalArgumentError.class, () -> StringUtil.padLeft("Text", 3, 'A'));
   }
 
   @Test
