@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 /**
  * Retrieves values of a JavaBean property without knowing the bean type.
  * Created: 21.07.2007 10:18:09
- *
  * @author Volker Bergmann
  */
 @SuppressWarnings("rawtypes")
@@ -34,12 +33,6 @@ public class UntypedPropertyAccessor implements PropertyAccessor {
   private Class<?> propertyType;
   private final boolean strict;
 
-  /**
-   * Instantiates a new Untyped property accessor.
-   *
-   * @param propertyName the property name
-   * @param strict       the strict
-   */
   public UntypedPropertyAccessor(String propertyName, boolean strict) {
     this.propertyName = propertyName;
     this.propertyType = null;
@@ -73,14 +66,6 @@ public class UntypedPropertyAccessor implements PropertyAccessor {
 
   // static implementation -------------------------------------------------------------------------------------------
 
-  /**
-   * Gets value.
-   *
-   * @param bean         the bean
-   * @param propertyName the property name
-   * @param strict       the strict
-   * @return the value
-   */
   public static Object getValue(Object bean, String propertyName, boolean strict) {
     PropertyDescriptor descriptor = getPropertyDescriptor(bean, propertyName, strict);
     if (descriptor == null) {
