@@ -96,7 +96,7 @@ public class CommandLineParserTest {
     p.parse(new SampleConfig());
   }
 
-  @Test(expected = CLIIllegalOptionException.class)
+  @Test(expected = CLIIllegalOptionValueException.class)
   public void testIllegalIntArgument() {
     p.parse(new SampleConfig(), "--n", "notAnInt");
   }

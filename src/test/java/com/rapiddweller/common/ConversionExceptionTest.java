@@ -12,7 +12,7 @@ public class ConversionExceptionTest {
   @Test
   public void testConstructor1() {
     ConversionException actualConversionException = new ConversionException("An error occurred");
-    assertEquals("com.rapiddweller.common.ConversionException: An error occurred",
+    assertEquals("Error: An error occurred",
         actualConversionException.toString());
     assertEquals("An error occurred", actualConversionException.getLocalizedMessage());
     assertNull(actualConversionException.getCause());

@@ -12,7 +12,7 @@ public class ImportFailedExceptionTest {
   @Test
   public void testConstructor1() {
     ImportFailedException actualImportFailedException = new ImportFailedException("An error occurred");
-    assertEquals("com.rapiddweller.common.ImportFailedException: An error occurred",
+    assertEquals("Error: An error occurred",
         actualImportFailedException.toString());
     assertEquals("An error occurred", actualImportFailedException.getLocalizedMessage());
     assertNull(actualImportFailedException.getCause());

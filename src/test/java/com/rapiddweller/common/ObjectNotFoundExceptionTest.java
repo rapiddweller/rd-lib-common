@@ -12,7 +12,7 @@ public class ObjectNotFoundExceptionTest {
   @Test
   public void testConstructor1() {
     ObjectNotFoundException actualObjectNotFoundException = new ObjectNotFoundException("An error occurred");
-    assertEquals("com.rapiddweller.common.ObjectNotFoundException: An error occurred",
+    assertEquals("Error: An error occurred",
         actualObjectNotFoundException.toString());
     assertEquals("An error occurred", actualObjectNotFoundException.getLocalizedMessage());
     assertNull(actualObjectNotFoundException.getCause());
