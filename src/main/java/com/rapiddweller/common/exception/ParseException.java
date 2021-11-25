@@ -59,7 +59,7 @@ public class ParseException extends ApplicationException {
   public String getParsedText() {
     return parsedText;
   }
-
+/* TODO remove?
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder(getMessage());
@@ -71,5 +71,5 @@ public class ParseException extends ApplicationException {
     }
     return builder.toString();
   }
-
+*/
 }

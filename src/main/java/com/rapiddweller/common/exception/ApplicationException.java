@@ -35,4 +35,13 @@ public class ApplicationException extends RuntimeException {
     return exitCode;
   }
 
+  @Override
+  public String toString() {
+    return format(errorId, getMessage());
+  }
+
+  public static String format(String errorId, String message) {
+    return "Error" + (errorId != null ? " " + errorId : "") + (message != null ? ": " + message : "");
+  }
+
 }
