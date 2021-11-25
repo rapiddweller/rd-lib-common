@@ -68,7 +68,7 @@ public class CommandLineParser {
         i++;
       } else {
         if (arg.startsWith("-")) {
-          throw ExceptionFactory.getInstance().illegalCommandLineOption("Illegal command line option: " + arg);
+          throw ExceptionFactory.getInstance().illegalCommandLineOption(arg);
         }
         if (consumedArgs < arguments.size()) {
           CommandLineArgument argument = arguments.get(consumedArgs++);
@@ -100,17 +100,16 @@ public class CommandLineParser {
 
   // private helpers -------------------------------------------------------------------------------------------------
 
-  private <T extends CommandLineConfig> void parseOption(CommandLineOption option, String label, int i, String[] args, T config) {
+  private <T extends CommandLineConfig> void parseOption(CommandLineOption option, String usedName, int i, String[] args, T config) {
     if (i < args.length - 1) {
       String optionValue = args[++i];
       try {
         BeanUtil.setPropertyValue(config, option.getProperty(), optionValue, true, true);
       } catch (Exception e) {
-        throw ExceptionFactory.getInstance().illegalCommandLineOption(
-            "Illegal value for command line option " + option.getLongName() + ": '" + optionValue + "'");
+        throw ExceptionFactory.getInstance().illegalCommandLineOptionValue(usedName, optionValue);
       }
     } else {
-      throw ExceptionFactory.getInstance().missingCommandLineOptionValue(label);
+      throw ExceptionFactory.getInstance().missingCommandLineOptionValue(usedName);
     }
   }
 

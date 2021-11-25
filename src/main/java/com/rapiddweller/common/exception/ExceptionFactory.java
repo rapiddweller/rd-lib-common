@@ -12,6 +12,7 @@ import com.rapiddweller.common.OperationFailed;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.cli.CLIIllegalArgumentException;
 import com.rapiddweller.common.cli.CLIIllegalOptionException;
+import com.rapiddweller.common.cli.CLIIllegalOptionValueException;
 import com.rapiddweller.common.cli.CLIMissingArgumentException;
 import com.rapiddweller.common.cli.CLIMissingOptionValueException;
 import com.rapiddweller.common.file.FileAccessException;
@@ -65,8 +66,8 @@ public class ExceptionFactory {
     return new FileCreationFailed(message, cause);
   }
 
-  public CLIIllegalOptionException illegalCommandLineOption(String message) {
-    return new CLIIllegalOptionException(message);
+  public CLIIllegalOptionException illegalCommandLineOption(String optionName) {
+    return new CLIIllegalOptionException(optionName);
   }
 
   public CLIMissingArgumentException missingCommandLineArgument() {
@@ -79,6 +80,10 @@ public class ExceptionFactory {
 
   public CLIMissingOptionValueException missingCommandLineOptionValue(String name) {
     return new CLIMissingOptionValueException("Value missing for command line option: '" + name + "'.");
+  }
+
+  public CLIIllegalOptionValueException illegalCommandLineOptionValue(String name, String key) {
+    return new CLIIllegalOptionValueException(name, key);
   }
 
   public ProgrammerStateError programmerStateError(String message) {
@@ -207,4 +212,5 @@ public class ExceptionFactory {
   public IllegalAccess illegalAccess(String message) {
     return new IllegalAccess(message);
   }
+
 }
