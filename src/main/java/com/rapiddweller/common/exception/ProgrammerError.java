@@ -15,10 +15,6 @@
 
 package com.rapiddweller.common.exception;
 
-import com.rapiddweller.common.exception.ApplicationException;
-import com.rapiddweller.common.exception.CommonErrorCodes;
-import com.rapiddweller.common.exception.ExitCodes;
-
 /**
  * {@link RuntimeException} child class that indicates a fault made by the programmer.
  * Created: 23.03.2011 12:18:46
