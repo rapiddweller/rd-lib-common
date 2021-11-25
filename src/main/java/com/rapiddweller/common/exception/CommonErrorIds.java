@@ -8,12 +8,13 @@ package com.rapiddweller.common.exception;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class CommonErrorCodes {
+public class CommonErrorIds {
 
-  public static final String MISSING_CLI_ARGUMENT = "CLI-0001";
-  public static final String ILLEGAL_CLI_ARGUMENT = "CLI-0002";
-  public static final String ILLEGAL_CLI_OPTION = "CLI-0003";
-  public static final String MISSING_CLI_OPTION_VALUE = "CLI-0004";
+  public static final String CLI_MISSING_ARGUMENT = "CLI-0001";
+  public static final String CLI_ILLEGAL_ARGUMENT = "CLI-0002";
+  public static final String CLI_ILLEGAL_OPTION = "CLI-0003";
+  public static final String CLI_MISSING_OPTION_VALUE = "CLI-0004";
+  public static final String CLI_ILLEGAL_OPTION_VALUE = "CLI-0005";
 
   public static final String PROGRAMMER_VALUE_UNDEFINED = "PRO-001";
   public static final String PROGRAMMER_STATE_ERROR = "PRO-0002";

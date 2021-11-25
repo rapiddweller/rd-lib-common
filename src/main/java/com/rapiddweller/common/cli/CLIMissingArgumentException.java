@@ -2,7 +2,7 @@
 
 package com.rapiddweller.common.cli;
 
-import com.rapiddweller.common.exception.CommonErrorCodes;
+import com.rapiddweller.common.exception.CommonErrorIds;
 
 /**
  * Signals that a command line argument is missing.<br/><br/>
@@ -13,7 +13,7 @@ import com.rapiddweller.common.exception.CommonErrorCodes;
 public class CLIMissingArgumentException extends CLIException {
 
   public CLIMissingArgumentException(String message) {
-    super(CommonErrorCodes.MISSING_CLI_ARGUMENT, message);
+    super(CommonErrorIds.CLI_MISSING_ARGUMENT, message);
   }
 
 }

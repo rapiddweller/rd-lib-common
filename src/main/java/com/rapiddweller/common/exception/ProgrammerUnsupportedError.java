@@ -11,7 +11,7 @@ package com.rapiddweller.common.exception;
 public class ProgrammerUnsupportedError extends ProgrammerError {
 
   protected ProgrammerUnsupportedError(String message) {
-    super(CommonErrorCodes.PROGRAMMER_UNSUPPORTED, message);
+    super(CommonErrorIds.PROGRAMMER_UNSUPPORTED, message);
   }
 
 }

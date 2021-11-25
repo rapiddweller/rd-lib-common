@@ -15,7 +15,7 @@ public class ProgrammerStateError extends ProgrammerError {
   }
 
   public ProgrammerStateError(String message, Throwable cause) {
-    super(CommonErrorCodes.PROGRAMMER_STATE_ERROR, message, cause);
+    super(CommonErrorIds.PROGRAMMER_STATE_ERROR, message, cause);
   }
 
 }

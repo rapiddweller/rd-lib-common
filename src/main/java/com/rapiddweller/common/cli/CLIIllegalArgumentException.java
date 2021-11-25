@@ -2,7 +2,7 @@
 
 package com.rapiddweller.common.cli;
 
-import com.rapiddweller.common.exception.CommonErrorCodes;
+import com.rapiddweller.common.exception.CommonErrorIds;
 
 /**
  * Signals an illegal command line argument.<br/><br/>
@@ -13,7 +13,7 @@ import com.rapiddweller.common.exception.CommonErrorCodes;
 public class CLIIllegalArgumentException extends CLIException {
 
   public CLIIllegalArgumentException(String message) {
-    super(CommonErrorCodes.ILLEGAL_CLI_OPTION, message);
+    super(CommonErrorIds.CLI_ILLEGAL_OPTION, message);
   }
 
 }

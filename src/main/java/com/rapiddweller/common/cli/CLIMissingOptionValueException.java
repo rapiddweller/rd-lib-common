@@ -2,7 +2,7 @@
 
 package com.rapiddweller.common.cli;
 
-import com.rapiddweller.common.exception.CommonErrorCodes;
+import com.rapiddweller.common.exception.CommonErrorIds;
 
 /**
  * Signals that the value is missing for a command line option.<br/><br/>
@@ -13,7 +13,7 @@ import com.rapiddweller.common.exception.CommonErrorCodes;
 public class CLIMissingOptionValueException extends CLIException {
 
   public CLIMissingOptionValueException(String message) {
-    super(CommonErrorCodes.MISSING_CLI_OPTION_VALUE, message);
+    super(CommonErrorIds.CLI_MISSING_OPTION_VALUE, message);
   }
 
 }

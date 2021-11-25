@@ -2,7 +2,7 @@
 
 package com.rapiddweller.common.cli;
 
-import com.rapiddweller.common.exception.CommonErrorCodes;
+import com.rapiddweller.common.exception.CommonErrorIds;
 
 /**
  * Signals the use of an illegal command line option.<br/><br/>
@@ -12,8 +12,15 @@ import com.rapiddweller.common.exception.CommonErrorCodes;
  */
 public class CLIIllegalOptionException extends CLIException {
 
-  public CLIIllegalOptionException(String message) {
-    super(CommonErrorCodes.ILLEGAL_CLI_OPTION, message);
+  private final String optionName;
+
+  public CLIIllegalOptionException(String optionName) {
+    super(CommonErrorIds.CLI_ILLEGAL_OPTION, "Illegal command line option: " + optionName);
+    this.optionName = optionName;
+  }
+
+  public String getOptionName() {
+    return optionName;
   }
 
 }
