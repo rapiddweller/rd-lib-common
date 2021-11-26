@@ -23,30 +23,49 @@ package com.rapiddweller.common.exception;
  */
 public class ParseException extends ApplicationException {
 
-  private final String parsedText;
+  private final Object source;
+  private final SourceType sourceType;
   private final int line;
   private final int column;
 
+  public static ParseException forText(String message, Throwable cause, String errorId,
+                                       String text, int line, int column) {
+    return new ParseException(message, cause, errorId, text, SourceType.TEXT, line, column);
+  }
 
   // constructors ----------------------------------------------------------------------------------------------------
-
-  public ParseException(String message, String parsedText) {
+/*
+  private ParseException(String message, String parsedText) {
     this(message, parsedText, -1, -1);
   }
 
-  public ParseException(String message, String parsedText, int line, int column) {
+  private ParseException(String message, String parsedText, int line, int column) {
     this(message, null, parsedText, line, column);
   }
 
-  public ParseException(String message, Throwable cause, String parsedText, int line, int column) {
-    super(null, ExitCodes.SYNTAX_ERROR, message, cause);
-    this.parsedText = parsedText;
+  private ParseException(String message, Throwable cause, String parsedText, int line, int column) {
+    this(null, message, cause, null, parsedText, line, column);
+  }
+*/
+  protected ParseException(String message, Throwable cause, String errorId,
+                           Object source, SourceType sourceType, int line, int column) {
+    super(errorId, ExitCodes.SYNTAX_ERROR, message, cause);
+    this.source = source;
+    this.sourceType = sourceType;
     this.line = line;
     this.column = column;
   }
 
 
   // properties ------------------------------------------------------------------------------------------------------
+
+  public Object getSource() {
+    return source;
+  }
+
+  public SourceType getSourceType() {
+    return sourceType;
+  }
 
   public int getLine() {
     return line;
@@ -56,20 +75,4 @@ public class ParseException extends ApplicationException {
     return column;
   }
 
-  public String getParsedText() {
-    return parsedText;
-  }
-/* TODO remove?
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder(getMessage());
-    if (line >= 0 && column >= 0) {
-      builder.append(" at line ").append(line).append(", column ").append(column);
-    }
-    if (parsedText != null) {
-      builder.append(" in ").append(parsedText);
-    }
-    return builder.toString();
-  }
-*/
 }

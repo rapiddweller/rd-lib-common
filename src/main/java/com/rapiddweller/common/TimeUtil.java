@@ -566,10 +566,10 @@ public final class TimeUtil {
         format = new SimpleDateFormat(DEFAULT_TIME_PATTERN);
         return new Time(format.parse(dateOrTimeSpec).getTime());
       } else {
-        throw ExceptionFactory.getInstance().syntaxError("Not a supported date/time format:" + dateOrTimeSpec, null);
+        throw ExceptionFactory.getInstance().syntaxErrorForText("Not a supported date/time format", dateOrTimeSpec);
       }
     } catch (ParseException e) {
-      throw ExceptionFactory.getInstance().syntaxError("Failed to parse date or time " + dateOrTimeSpec, e);
+      throw ExceptionFactory.getInstance().syntaxErrorForText("Failed to parse date or time", e, dateOrTimeSpec, -1, -1);
     }
   }
 

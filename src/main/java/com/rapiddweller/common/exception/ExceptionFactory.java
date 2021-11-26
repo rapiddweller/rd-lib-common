@@ -9,7 +9,6 @@ import com.rapiddweller.common.DeploymentError;
 import com.rapiddweller.common.ImportFailedException;
 import com.rapiddweller.common.ObjectNotFoundException;
 import com.rapiddweller.common.OperationFailed;
-import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.cli.CLIIllegalArgumentException;
 import com.rapiddweller.common.cli.CLIIllegalOptionException;
 import com.rapiddweller.common.cli.CLIIllegalOptionValueException;
@@ -18,6 +17,8 @@ import com.rapiddweller.common.cli.CLIMissingOptionValueException;
 import com.rapiddweller.common.file.FileAccessException;
 import com.rapiddweller.common.file.FileCreationFailed;
 import com.rapiddweller.common.file.FileResourceNotFoundException;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
 
 import java.io.FileNotFoundException;
 
@@ -46,18 +47,6 @@ public class ExceptionFactory {
     return new AssertionError(message);
   }
 
-  public SyntaxError syntaxError(String message, Throwable cause) {
-    return new SyntaxError(message, cause);
-  }
-
-  public SyntaxError syntaxError(String uri, int lineNumber, int columnNumber, Throwable cause) {
-    return new SyntaxError(StringUtil.removeSuffixIfPresent(".", cause.getMessage()), uri);
-  }
-
-  public SyntaxError syntaxError(String uri, int lineNumber, int columnNumber, String message) {
-    return new SyntaxError(StringUtil.removeSuffixIfPresent(".", message), uri);
-  }
-
   public FileResourceNotFoundException fileNotFound(String uri, FileNotFoundException cause) {
     return new FileResourceNotFoundException(null, "File not found: '" + uri + "'.", cause);
   }
@@ -82,8 +71,8 @@ public class ExceptionFactory {
     return new CLIMissingOptionValueException("Value missing for command line option: '" + name + "'.");
   }
 
-  public CLIIllegalOptionValueException illegalCommandLineOptionValue(String name, String key) {
-    return new CLIIllegalOptionValueException(name, key);
+  public CLIIllegalOptionValueException illegalCommandLineOptionValue(String name, String value) {
+    return new CLIIllegalOptionValueException(name, value);
   }
 
   public ProgrammerStateError programmerStateError(String message) {
@@ -185,24 +174,12 @@ public class ExceptionFactory {
     return new QueryFailed(message, cause);
   }
 
-  public ComponentInitializationFailure componentInitializationFailed(String message, Throwable cause) {
-    return new ComponentInitializationFailure(message, cause);
+  public ComponentInitializationFailure componentInitializationFailed(String componentName, Throwable cause) {
+    return new ComponentInitializationFailure(componentName, cause);
   }
 
   public IllegalOperationError illegalOperation(String message) {
     return new IllegalOperationError(message);
-  }
-
-  public SyntaxError syntaxErrorForText(String text, String message) {
-    return SyntaxError.forText(text, message);
-  }
-
-  public SyntaxError syntaxErrorForText(String text, String message, int line, int column) {
-    return syntaxErrorForText(text, message, line, column, null);
-  }
-
-  public SyntaxError syntaxErrorForText(String text, String message, int line, int column, Throwable cause) {
-    return SyntaxError.forText(text, message, line, column, cause);
   }
 
   public ServicePermissionDenied servicePermissionDenied(String message) {
@@ -211,6 +188,55 @@ public class ExceptionFactory {
 
   public IllegalAccess illegalAccess(String message) {
     return new IllegalAccess(message);
+  }
+/*
+  public SyntaxError syntaxErrorForUri(String message, Throwable cause) {
+    return SyntaxError.forUri(message, cause);
+  }
+
+  public SyntaxError syntaxErrorForUri(String uri, int lineNumber, int columnNumber, Throwable cause) {
+    return new SyntaxError(StringUtil.removeSuffixIfPresent(".", cause.getMessage()), uri);
+  }
+
+  public SyntaxError syntaxErrorForUri(String uri, int lineNumber, int columnNumber, String message) {
+    return new SyntaxError(StringUtil.removeSuffixIfPresent(".", message), uri);
+  }
+  */
+
+  public SyntaxError syntaxErrorForNothing(String message, Throwable cause) {
+    return SyntaxError.forNothing(message, cause);
+  }
+
+  public SyntaxError syntaxErrorForText(String message, String text) {
+    return SyntaxError.forText(message, null, null, text, -1, -1);
+  }
+
+  public SyntaxError syntaxErrorForText(String message, String text, int line, int column) {
+    return syntaxErrorForText(message, null, text, line, column);
+  }
+
+  public SyntaxError syntaxErrorForText(String message, Throwable cause, String text, int line, int column) {
+    return SyntaxError.forText(message, cause, null, text, line, column);
+  }
+
+  public SyntaxError syntaxErrorForUri(String message, Throwable cause, String uri) {
+    return syntaxErrorForUri(message, cause, uri, -1, -1);
+  }
+
+  public SyntaxError syntaxErrorForUri(String message, Throwable cause, String uri, int line, int column) {
+    return SyntaxError.forUri(message, cause, null, uri, line, column);
+  }
+
+  public SyntaxError syntaxErrorForXmlElement(String message, Element element) {
+    return syntaxErrorForXmlElement(message, element, null);
+  }
+
+  public SyntaxError syntaxErrorForXmlElement(String message, Element element, Throwable cause) {
+    return SyntaxError.forXmlElement(message, element, cause);
+  }
+
+  public SyntaxError syntaxErrorForAttribute(String message, Attr attribute) {
+    return SyntaxError.forXmlAttribute(message, attribute);
   }
 
 }

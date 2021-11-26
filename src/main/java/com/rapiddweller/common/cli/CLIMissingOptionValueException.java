@@ -13,7 +13,11 @@ import com.rapiddweller.common.exception.CommonErrorIds;
 public class CLIMissingOptionValueException extends CLIException {
 
   public CLIMissingOptionValueException(String message) {
-    super(CommonErrorIds.CLI_MISSING_OPTION_VALUE, message);
+    this(message, CommonErrorIds.CLI_MISSING_OPTION_VALUE);
+  }
+
+  public CLIMissingOptionValueException(String message, String errorId) {
+    super(errorId, message);
   }
 
 }

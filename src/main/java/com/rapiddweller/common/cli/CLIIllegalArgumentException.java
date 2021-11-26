@@ -13,7 +13,11 @@ import com.rapiddweller.common.exception.CommonErrorIds;
 public class CLIIllegalArgumentException extends CLIException {
 
   public CLIIllegalArgumentException(String message) {
-    super(CommonErrorIds.CLI_ILLEGAL_OPTION, message);
+    this(CommonErrorIds.CLI_ILLEGAL_OPTION, message);
+  }
+
+  public CLIIllegalArgumentException(String message, String errorId) {
+    super(errorId, message);
   }
 
 }

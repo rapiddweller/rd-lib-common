@@ -15,7 +15,11 @@ public class CLIIllegalOptionException extends CLIException {
   private final String optionName;
 
   public CLIIllegalOptionException(String optionName) {
-    super(CommonErrorIds.CLI_ILLEGAL_OPTION, "Illegal command line option: " + optionName);
+    this(optionName, null);
+  }
+
+  public CLIIllegalOptionException(String optionName, String errorId) {
+    super(errorId, "Illegal command line option: " + optionName);
     this.optionName = optionName;
   }
 

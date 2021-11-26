@@ -12,12 +12,23 @@ import com.rapiddweller.common.OperationFailed;
  */
 public class ComponentInitializationFailure extends OperationFailed {
 
+  private String componentName;
+
   public ComponentInitializationFailure(String message) {
     this(message, null);
   }
 
-  public ComponentInitializationFailure(String message, Throwable cause) {
-    super(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
+  public ComponentInitializationFailure(String componentName, Throwable cause) {
+    this(null, componentName, cause);
+  }
+
+  public ComponentInitializationFailure(String errorId, String componentName, Throwable cause) {
+    super(errorId, ExitCodes.INTERNAL_SOFTWARE_ERROR, "Component initialization failed for " + componentName, cause);
+    this.componentName = componentName;
+  }
+
+  public String getComponentName() {
+    return componentName;
   }
 
 }

@@ -16,8 +16,11 @@ public class CLIIllegalOptionValueException extends CLIException {
   private final String value;
 
   public CLIIllegalOptionValueException(String name, String value) {
-    super(CommonErrorIds.CLI_ILLEGAL_OPTION_VALUE,
-        "Illegal value for command line option " + name + ": " + value);
+    this(name, value, CommonErrorIds.CLI_ILLEGAL_OPTION_VALUE, null);
+  }
+
+  public CLIIllegalOptionValueException(String name, String value, String errorId, String predefMessage) {
+    super(errorId, haveMessage(name, value, predefMessage));
     this.name = name;
     this.value = value;
   }
@@ -28,6 +31,10 @@ public class CLIIllegalOptionValueException extends CLIException {
 
   public String getValue() {
     return value;
+  }
+
+  private static String haveMessage(String name, String value, String predefMessage) {
+    return (predefMessage != null ? predefMessage : "Illegal value for command line option " + name + ": " + value);
   }
 
 }

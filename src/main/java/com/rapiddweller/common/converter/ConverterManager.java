@@ -63,6 +63,8 @@ public class ConverterManager implements ContextAware, Resettable {
 
   private static final Logger configLogger = LoggerFactory.getLogger(LogCategoriesConstants.CONFIG);
 
+  public static final String COMPONENT_NAME = "ConverterManager";
+
   private static final String DEFAULT_SETUP_FILENAME = "com/rapiddweller/common/converter/converters.txt";
   private static final String CUSTOM_SETUP_FILENAME = "converters.txt";
 
@@ -73,50 +75,8 @@ public class ConverterManager implements ContextAware, Resettable {
 
   private Map<ConversionTypes, Converter> converterPrototypes;
 
-  private ConverterManager() {
-    init();
-  }
 
-  public static ConverterManager getInstance() {
-    if (instance == null) {
-      instance = new ConverterManager();
-    }
-    return instance;
-  }
-
-  @SuppressWarnings("cast")
-  private static Converter tryToCreateStringConverter(Class targetType) {
-    if (targetType.getEnumConstants() != null) {
-      return new String2EnumConverter(targetType);
-    } else if (targetType == Boolean.class) {
-      return new String2BooleanConverter();
-    } else if (Number.class.isAssignableFrom(targetType)) {
-      if (targetType != Number.class) {
-        return new String2NumberConverter((Class<Number>) targetType);
-      } else {
-        return new String2NumberConverter(Double.class);
-      }
-    } else if (targetType.isArray()) {
-      Class componentType = targetType.getComponentType();
-      if (componentType == byte.class) {
-        return new String2ByteArrayConverter();
-      } else {
-        return new CommaSeparatedListConverter(componentType);
-      }
-    }
-    return null;
-  }
-
-  private static <T> Converter<?, T> tryToCreateBooleanConverter(Class targetType) {
-    if (Number.class.isAssignableFrom(targetType)) {
-      return new Boolean2NumberConverter(targetType);
-    }
-    Class<?> wrapperClass = BeanUtil.getWrapper(targetType.getName());
-    if (wrapperClass != null && Number.class.isAssignableFrom(wrapperClass)) {
-      return new Boolean2NumberConverter(wrapperClass);
-    }
-    return null;
-  }
+  // static methods --------------------------------------------------------------------------------------------------
 
   public static <S, T> Object convertAll(S[] sourceValues, Converter<S, T> converter, Class componentType) {
     Object convertedValues = Array.newInstance(componentType, sourceValues.length);
@@ -154,31 +114,66 @@ public class ConverterManager implements ContextAware, Resettable {
     return result;
   }
 
-  protected void init() {
-    this.configuredConverterClasses = new OrderedMap<>();
-    this.converterPrototypes = new HashMap<>();
-    try {
-      if (IOUtil.isURIAvailable(CUSTOM_SETUP_FILENAME)) {
-        configLogger.debug("Reading custom converter config: {}", CUSTOM_SETUP_FILENAME);
-        readConfigFile(CUSTOM_SETUP_FILENAME);
-      }
-      readConfigFile(DEFAULT_SETUP_FILENAME);
-    } catch (Exception e) {
-      throw ExceptionFactory.getInstance().componentInitializationFailed("Error reading setup file: " + DEFAULT_SETUP_FILENAME, e);
+  public static ConverterManager getInstance() {
+    if (instance == null) {
+      instance = new ConverterManager();
     }
+    return instance;
   }
+
+  public static void removeInstance() {
+    instance = null;
+  }
+
+  @SuppressWarnings("cast")
+  private static Converter tryToCreateStringConverter(Class targetType) {
+    if (targetType.getEnumConstants() != null) {
+      return new String2EnumConverter(targetType);
+    } else if (targetType == Boolean.class) {
+      return new String2BooleanConverter();
+    } else if (Number.class.isAssignableFrom(targetType)) {
+      if (targetType != Number.class) {
+        return new String2NumberConverter((Class<Number>) targetType);
+      } else {
+        return new String2NumberConverter(Double.class);
+      }
+    } else if (targetType.isArray()) {
+      Class componentType = targetType.getComponentType();
+      if (componentType == byte.class) {
+        return new String2ByteArrayConverter();
+      } else {
+        return new CommaSeparatedListConverter(componentType);
+      }
+    }
+    return null;
+  }
+
+  private static <T> Converter<?, T> tryToCreateBooleanConverter(Class targetType) {
+    if (Number.class.isAssignableFrom(targetType)) {
+      return new Boolean2NumberConverter(targetType);
+    }
+    Class<?> wrapperClass = BeanUtil.getWrapper(targetType.getName());
+    if (wrapperClass != null && Number.class.isAssignableFrom(wrapperClass)) {
+      return new Boolean2NumberConverter(wrapperClass);
+    }
+    return null;
+  }
+
+
+  // constructor -----------------------------------------------------------------------------------------------------
+
+  private ConverterManager() {
+    init();
+  }
+
+
+  // interface -------------------------------------------------------------------------------------------------------
 
   @Override
   public void setContext(Context context) {
     this.context = context;
     for (Converter converter : converterPrototypes.values()) {
       injectContext(converter);
-    }
-  }
-
-  private void injectContext(Converter converter) {
-    if (converter instanceof ContextAware) {
-      ((ContextAware) converter).setContext(context);
     }
   }
 
@@ -205,6 +200,34 @@ public class ConverterManager implements ContextAware, Resettable {
 
     // done
     return result;
+  }
+
+  @Override
+  public void reset() {
+    init();
+  }
+
+
+  // non-public helper methods ---------------------------------------------------------------------------------------
+
+  protected void init() {
+    this.configuredConverterClasses = new OrderedMap<>();
+    this.converterPrototypes = new HashMap<>();
+    try {
+      if (IOUtil.isURIAvailable(CUSTOM_SETUP_FILENAME)) {
+        configLogger.debug("Reading custom converter config: {}", CUSTOM_SETUP_FILENAME);
+        readConfigFile(CUSTOM_SETUP_FILENAME);
+      }
+      readConfigFile(DEFAULT_SETUP_FILENAME);
+    } catch (Exception e) {
+      throw ExceptionFactory.getInstance().componentInitializationFailed(COMPONENT_NAME, e);
+    }
+  }
+
+  private void injectContext(Converter converter) {
+    if (converter instanceof ContextAware) {
+      ((ContextAware) converter).setContext(context);
+    }
   }
 
   private Converter searchAppropriateConverter(Class sourceType, Class targetType) {
@@ -343,22 +366,13 @@ public class ConverterManager implements ContextAware, Resettable {
     }
   }
 
-  // private helpers -------------------------------------------------------------------------------------------------
-
-  private void readConfigFile(String filename) {
+  private void readConfigFile(String filename) throws ClassNotFoundException {
     try (ReaderLineIterator iterator = new ReaderLineIterator(IOUtil.getReaderForURI(filename))) {
       while (iterator.hasNext()) {
         String className = iterator.next();
         registerConverterClass((Class<? extends Converter>) Class.forName(className));
       }
-    } catch (ClassNotFoundException e) {
-      throw ExceptionFactory.getInstance().configurationError("Error reading config file " + filename, e);
     }
-  }
-
-  @Override
-  public void reset() {
-    init();
   }
 
 }

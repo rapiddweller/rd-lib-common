@@ -10,7 +10,7 @@ package com.rapiddweller.common.exception;
  */
 public class ApplicationException extends RuntimeException {
 
-  private String errorId;
+  private final String errorId;
   private final int exitCode;
 
   public ApplicationException(String errorId, int exitCode, String message) {
@@ -25,10 +25,6 @@ public class ApplicationException extends RuntimeException {
 
   public String getErrorId() {
     return errorId;
-  }
-
-  public void setErrorId(String errorId) {
-    this.errorId = errorId;
   }
 
   public int getExitCode() {

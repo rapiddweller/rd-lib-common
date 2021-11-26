@@ -279,10 +279,10 @@ public class XMLUtil {
 
   private static Element assertSingleSearchResult(Element[] elements, boolean required, String searchTerm) {
     if (required && elements.length == 0) {
-      throw ExceptionFactory.getInstance().syntaxError(null, -1, -1, "No element found in search: " + searchTerm);
+      throw ExceptionFactory.getInstance().syntaxErrorForNothing("No element found in search: " + searchTerm, null);
     }
     if (elements.length > 1) {
-      throw ExceptionFactory.getInstance().syntaxError(null, -1, -1, "More that one element found in search: " + searchTerm);
+      throw ExceptionFactory.getInstance().syntaxErrorForNothing("More that one element found in search: " + searchTerm, null);
     }
     return (elements.length > 0 ? elements[0] : null);
   }
@@ -339,9 +339,8 @@ public class XMLUtil {
   public static String getAttribute(Element element, String attributeName, boolean required) {
     String value = StringUtil.emptyToNull(element.getAttribute(attributeName));
     if (value == null && required) {
-      throw ExceptionFactory.getInstance().syntaxError(null, -1, -1,
-          "Element <" + element.getNodeName() + ">" +
-          " is missing the required attribute '" + attributeName + "'");
+      throw ExceptionFactory.getInstance().syntaxErrorForNothing("Element <" + element.getNodeName() + ">" +
+          " is missing the required attribute '" + attributeName + "'", null);
     }
     return value;
   }
@@ -452,7 +451,7 @@ public class XMLUtil {
     } catch (ParserConfigurationException e) {
       throw ExceptionFactory.getInstance().programmerConfig("Error in " + uri, e);
     } catch (SAXParseException e) {
-      throw ExceptionFactory.getInstance().syntaxError(uri, e.getLineNumber(), e.getColumnNumber(), e);
+      throw ExceptionFactory.getInstance().syntaxErrorForUri(e.getMessage(), e, uri, e.getLineNumber(), e.getColumnNumber());
     } catch (SAXException e) {
       throw ExceptionFactory.getInstance().programmerConfig("Error parsing " + uri, e);
     } catch (IOException e) {
@@ -551,7 +550,8 @@ public class XMLUtil {
   public static Boolean getBooleanAttribute(Element element, String attributeName, boolean required) {
     String stringValue = element.getAttribute(attributeName);
     if (StringUtil.isEmpty(stringValue) && required) {
-      throw ExceptionFactory.getInstance().syntaxError(null, -1, -1, "Attribute missing: '" + attributeName + "'");
+      throw ExceptionFactory.getInstance().syntaxErrorForNothing(
+          "Attribute missing: '" + attributeName + "'", null);
     }
     return ParseUtil.parseBoolean(stringValue);
   }
@@ -740,8 +740,9 @@ public class XMLUtil {
       }
       String rootElementName = document.getDocumentElement().getNodeName();
       if (!key.startsWith(rootElementName + '.')) {
-        throw ExceptionFactory.getInstance().syntaxError(file.getAbsolutePath(),
-            -1, -1, "Required prefix '" + rootElementName + "' not present in key " + key);
+        throw ExceptionFactory.getInstance().syntaxErrorForUri(
+            "Required prefix '" + rootElementName + "' not present in key " + key,
+            null, file.getAbsolutePath());
       }
       setProperty(prefixAndRemainingPath[1], value, document.getDocumentElement(), document);
     }
