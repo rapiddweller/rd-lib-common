@@ -279,10 +279,10 @@ public class XMLUtil {
 
   private static Element assertSingleSearchResult(Element[] elements, boolean required, String searchTerm) {
     if (required && elements.length == 0) {
-      throw ExceptionFactory.getInstance().syntaxErrorForNothing("No element found in search: " + searchTerm, null);
+      throw ExceptionFactory.getInstance().unexpectedQueryResult("No element found in search: " + searchTerm, null);
     }
     if (elements.length > 1) {
-      throw ExceptionFactory.getInstance().syntaxErrorForNothing("More that one element found in search: " + searchTerm, null);
+      throw ExceptionFactory.getInstance().unexpectedQueryResult("More that one element found in search: " + searchTerm, null);
     }
     return (elements.length > 0 ? elements[0] : null);
   }
@@ -339,8 +339,8 @@ public class XMLUtil {
   public static String getAttribute(Element element, String attributeName, boolean required) {
     String value = StringUtil.emptyToNull(element.getAttribute(attributeName));
     if (value == null && required) {
-      throw ExceptionFactory.getInstance().syntaxErrorForNothing("Element <" + element.getNodeName() + ">" +
-          " is missing the required attribute '" + attributeName + "'", null);
+      throw ExceptionFactory.getInstance().syntaxErrorForXmlElement("" +
+          "Element is missing the required attribute '" + attributeName + "'", element);
     }
     return value;
   }
@@ -550,8 +550,8 @@ public class XMLUtil {
   public static Boolean getBooleanAttribute(Element element, String attributeName, boolean required) {
     String stringValue = element.getAttribute(attributeName);
     if (StringUtil.isEmpty(stringValue) && required) {
-      throw ExceptionFactory.getInstance().syntaxErrorForNothing(
-          "Attribute missing: '" + attributeName + "'", null);
+      throw ExceptionFactory.getInstance().syntaxErrorForXmlElement(
+          "Attribute missing: '" + attributeName + "'", element);
     }
     return ParseUtil.parseBoolean(stringValue);
   }

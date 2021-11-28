@@ -28,7 +28,11 @@ public class ConnectFailedException extends ApplicationException {
   }
 
   public ConnectFailedException(String message, Throwable cause) {
-    super(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
+    this(message, cause, null);
+  }
+
+  public ConnectFailedException(String message, Throwable cause, String errorId) {
+    super(errorId, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
   }
 
 }

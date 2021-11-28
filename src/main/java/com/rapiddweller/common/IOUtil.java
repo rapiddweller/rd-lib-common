@@ -328,7 +328,7 @@ public final class IOUtil {
     if (localUri.startsWith(FILE_PROTOCOL)) {
       return getFileOrResourceAsStream(localUri.substring(FILE_PROTOCOL.length()), true);
     } else {
-      throw ExceptionFactory.getInstance().configurationError("Can't to handle URL " + localUri);
+      throw ExceptionFactory.getInstance().illegalArgument("Can't to handle URL " + localUri);
     }
   }
 
@@ -348,7 +348,7 @@ public final class IOUtil {
       stream = IOUtil.class.getResourceAsStream(searchedName);
     }
     if (required && stream == null) {
-      throw ExceptionFactory.getInstance().configurationError("Resource not found: " + name);
+      throw ExceptionFactory.getInstance().fileNotFound("Resource not found: " + name, null);
     }
     return stream;
   }

@@ -17,6 +17,7 @@ package com.rapiddweller.common;
 
 import com.rapiddweller.common.exception.ExceptionFactory;
 import com.rapiddweller.common.exception.InternalErrorException;
+import com.rapiddweller.common.file.FileResourceNotFoundException;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.junit.Test;
@@ -101,7 +102,7 @@ public class IOUtilTest {
 
   @Test
   public void testGetContentOfURI2() {
-    assertThrows(ConfigurationError.class, () -> IOUtil.getContentOfURI("Uri"));
+    assertThrows(FileResourceNotFoundException.class, () -> IOUtil.getContentOfURI("Uri"));
   }
 
   @Test
@@ -116,7 +117,7 @@ public class IOUtilTest {
 
   @Test
   public void testGetContentOfURI5() {
-    assertThrows(ConfigurationError.class, () -> IOUtil.getContentOfURI("Uri", "UTF-8"));
+    assertThrows(FileResourceNotFoundException.class, () -> IOUtil.getContentOfURI("Uri", "UTF-8"));
   }
 
   @Test
@@ -131,7 +132,7 @@ public class IOUtilTest {
 
   @Test
   public void testGetContentOfURI8() {
-    assertThrows(ConfigurationError.class, () -> IOUtil.getContentOfURI("Uri", null));
+    assertThrows(FileResourceNotFoundException.class, () -> IOUtil.getContentOfURI("Uri", null));
   }
 
   @Test
@@ -142,7 +143,7 @@ public class IOUtilTest {
 
   @Test
   public void testReadTextLines() {
-    assertThrows(ConfigurationError.class, () -> IOUtil.readTextLines("Uri", true));
+    assertThrows(FileResourceNotFoundException.class, () -> IOUtil.readTextLines("Uri", true));
     assertEquals(0, IOUtil.readTextLines("string://", true).length);
     assertEquals(2, IOUtil.readTextLines("file:", true).length);
     assertEquals(2, IOUtil.readTextLines("file://", false).length);
@@ -207,16 +208,11 @@ public class IOUtilTest {
 
   @Test
   public void testGetInputStreamForUriReference() {
-    assertThrows(ConfigurationError.class,
+    assertThrows(FileResourceNotFoundException.class,
         () -> IOUtil.getInputStreamForUriReference("Local Uri", "Context Uri", true));
-    assertThrows(ConfigurationError.class, () -> IOUtil.getInputStreamForUriReference("://", "Context Uri", true));
     assertTrue(
         IOUtil.getInputStreamForUriReference("file:", "Context Uri", true) instanceof java.io.ByteArrayInputStream);
-    assertThrows(ConfigurationError.class, () -> IOUtil.getInputStreamForUriReference("~", "Context Uri", true));
-    assertThrows(ConfigurationError.class, () -> IOUtil.getInputStreamForUriReference("#", "Context Uri", true));
-    assertThrows(ConfigurationError.class, () -> IOUtil.getInputStreamForUriReference("Local Uri", null, true));
-    assertThrows(ConfigurationError.class, () -> IOUtil.getInputStreamForUriReference("Local Uri", "file:", true));
-    assertThrows(ConfigurationError.class,
+    assertThrows(FileResourceNotFoundException.class,
         () -> IOUtil.getInputStreamForUriReference("getInputStreamForURI({}, {})", null, true));
     assertTrue(IOUtil.getInputStreamForUriReference("string://", null, true) instanceof java.io.ByteArrayInputStream);
     assertTrue(IOUtil.getInputStreamForUriReference("", "http://", true) instanceof java.io.ByteArrayInputStream);
@@ -228,7 +224,7 @@ public class IOUtilTest {
 
   @Test
   public void testGetResourceAsStream() {
-    assertThrows(ConfigurationError.class, () -> IOUtil.getResourceAsStream("Name", true));
+    assertThrows(FileResourceNotFoundException.class, () -> IOUtil.getResourceAsStream("Name", true));
     assertTrue(IOUtil.getResourceAsStream("/", true) instanceof java.io.ByteArrayInputStream);
     assertTrue(IOUtil.getResourceAsStream("", true) instanceof java.io.ByteArrayInputStream);
     assertNull(IOUtil.getResourceAsStream("Name", false));
@@ -397,7 +393,7 @@ public class IOUtilTest {
 
   @Test
   public void testGetBinaryContentOfUri() {
-    assertThrows(ConfigurationError.class, () -> IOUtil.getBinaryContentOfUri("Uri"));
+    assertThrows(FileResourceNotFoundException.class, () -> IOUtil.getBinaryContentOfUri("Uri"));
     assertEquals(0, IOUtil.getBinaryContentOfUri("string://").length);
   }
 

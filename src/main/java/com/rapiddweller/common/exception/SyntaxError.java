@@ -15,7 +15,6 @@
 
 package com.rapiddweller.common.exception;
 
-import com.rapiddweller.common.xml.XMLUtil;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
@@ -26,48 +25,6 @@ import org.w3c.dom.Element;
  * @since 0.5.8
  */
 public class SyntaxError extends ParseException {
-
-/*
-  public static SyntaxError forText(String text, String message) {
-    return forText(text, message, -1, -1);
-  }
-
-  public static SyntaxError forText(String text, String message, int line, int column) {
-    return forText(text, message, line, column, null);
-  }
-
-  public static SyntaxError forText(String text, String message, int line, int column, Throwable cause) {
-    return new SyntaxError(null, message, cause, text, line, column);
-  }
-
-  public SyntaxError(String message) {
-    this(message, null, null, -1, -1);
-  }
-
-  public SyntaxError(String message, Throwable cause) {
-    this(message, cause, null, -1, -1);
-  }
-
-  public SyntaxError(String message, String parsedText) {
-    super(message, parsedText);
-  }
-
-  public SyntaxError(String message, String parsedText, int line, int column) {
-    super(message, parsedText, line, column);
-  }
-
-  public SyntaxError(String message, Throwable cause, String parsedText, int line, int column) {
-    this(null, message, cause, parsedText, line, column);
-  }
-
-  public SyntaxError(String errorId, String message, Throwable cause, String parsedText, int line, int column) {
-    super(errorId, message, cause, parsedText, line, column);
-  }
-
-  public static SyntaxError forFile(String uri, String errorId) {
-    return new SyntaxError();
-  }
-*/
 
   public static SyntaxError forUri(String message, String uri, String errorId) {
     return forUri(message, null, errorId, uri, -1, -1);
@@ -91,13 +48,24 @@ public class SyntaxError extends ParseException {
     return new SyntaxError(message, cause, errorId, null, SourceType.NOTHING, -1, -1);
   }
 
-  public static SyntaxError forXmlElement(String message, Element element, Throwable cause) {
-    return new SyntaxError(message, cause, null, element, SourceType.XML_ELEMENT, -1, -1);
+  public static SyntaxError forXmlElement(String message, Throwable cause, Element element) {
+    return forXmlElement(message, cause, null, element);
+  }
+
+  public static SyntaxError forXmlElement(String message, Throwable cause, String errorId, Element element) {
+    return new SyntaxError(message, cause, errorId, element, SourceType.XML_ELEMENT, -1, -1);
   }
 
   public static SyntaxError forXmlAttribute(String message, Attr attribute) {
-    return new SyntaxError(message, null, null,
-        attribute, SourceType.XML_ATTRIBUTE, -1, -1);
+    return new SyntaxError(message, null, null, attribute, SourceType.XML_ATTRIBUTE, -1, -1);
+  }
+
+  public static SyntaxError forXmlAttribute(String message, Throwable cause, String errorId, Attr attribute) {
+    if (message == null) {
+      message = "Illegal attribute value for " + attribute.getOwnerElement().getNodeName() + '.'
+          + attribute.getName() + ": " + attribute.getValue();
+    }
+    return new SyntaxError(message, cause, errorId, attribute, SourceType.XML_ATTRIBUTE, -1, -1);
   }
 
   protected SyntaxError(String message, Throwable cause, String errorId,

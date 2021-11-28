@@ -16,8 +16,8 @@ public class CommonErrorIds {
   public static final String CLI_MISSING_OPTION_VALUE = "CLI-0004";
   public static final String CLI_ILLEGAL_OPTION_VALUE = "CLI-0005";
 
-  public static final String PROGRAMMER_VALUE_UNDEFINED = "PRO-001";
-  public static final String PROGRAMMER_STATE_ERROR = "PRO-0002";
-  public static final String PROGRAMMER_UNSUPPORTED = "PRO-0003";
+  public static final String PROGRAMMER_STATE_ERROR = "PRO-0001";
+  public static final String PROGRAMMER_UNSUPPORTED = "PRO-0002";
 
+  public static final String XML_ATTR_ILLEGAL_VALUE = "XML-001";
 }

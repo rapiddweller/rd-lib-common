@@ -25,6 +25,7 @@ import com.rapiddweller.common.exception.ProgrammerStateError;
 import com.rapiddweller.common.exception.ProgrammerUnsupportedError;
 import com.rapiddweller.common.exception.SyntaxError;
 import com.rapiddweller.common.converter.URLEncodeConverter;
+import com.rapiddweller.common.exception.UnexpectedQueryResultException;
 import com.rapiddweller.common.filter.OrFilter;
 import org.apache.html.dom.HTMLDocumentImpl;
 import org.apache.xerces.dom.AttrNSImpl;
@@ -69,7 +70,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests the XMLUtil class.
  * Created: 19.03.2008 09:11:08
- *
  * @author Volker Bergmann
  */
 public class XMLUtilTest {
@@ -254,9 +254,9 @@ public class XMLUtilTest {
 
   @Test
   public void testGetChildElement() {
-    assertThrows(SyntaxError.class,
+    assertThrows(UnexpectedQueryResultException.class,
         () -> XMLUtil.getChildElement(new ElementImpl(new CoreDocumentImpl(), "foo"), true, true, "Name"));
-    assertThrows(SyntaxError.class,
+    assertThrows(UnexpectedQueryResultException.class,
         () -> XMLUtil.getChildElement(new DefaultElement(), true, true, "Name"));
     assertNull(XMLUtil.getChildElement(new ElementImpl(new CoreDocumentImpl(), "foo"), true, false, "Name"));
   }
@@ -273,18 +273,18 @@ public class XMLUtilTest {
 
   @Test
   public void testGetChildElementText() {
-    assertThrows(SyntaxError.class,
+    assertThrows(UnexpectedQueryResultException.class,
         () -> XMLUtil.getChildElementText(new ElementImpl(new CoreDocumentImpl(), "foo"), true, true, "Name"));
-    assertThrows(SyntaxError.class,
+    assertThrows(UnexpectedQueryResultException.class,
         () -> XMLUtil.getChildElementText(new DefaultElement(), true, true, "Name"));
     assertNull(XMLUtil.getChildElementText(new ElementImpl(new CoreDocumentImpl(), "foo"), true, false, "Name"));
   }
 
   @Test
   public void testGetChildElementDate() {
-    assertThrows(SyntaxError.class, () -> XMLUtil
+    assertThrows(UnexpectedQueryResultException.class, () -> XMLUtil
         .getChildElementDate(new ElementImpl(new CoreDocumentImpl(), "foo"), true, true, "Name", "Pattern"));
-    assertThrows(SyntaxError.class,
+    assertThrows(UnexpectedQueryResultException.class,
         () -> XMLUtil.getChildElementDate(new DefaultElement(), true, true, "Name", "Pattern"));
     assertNull(
         XMLUtil.getChildElementDate(new ElementImpl(new CoreDocumentImpl(), "foo"), true, false, "Name", "Pattern"));
@@ -343,9 +343,9 @@ public class XMLUtilTest {
 
   @Test
   public void testGetChildElementAtPath() {
-    assertThrows(SyntaxError.class,
+    assertThrows(UnexpectedQueryResultException.class,
         () -> XMLUtil.getChildElementAtPath(new ElementImpl(new CoreDocumentImpl(), "foo"), "Path", true, true));
-    assertThrows(SyntaxError.class,
+    assertThrows(UnexpectedQueryResultException.class,
         () -> XMLUtil.getChildElementAtPath(new DefaultElement(), "Path", true, true));
     assertNull(XMLUtil.getChildElementAtPath(new ElementImpl(new CoreDocumentImpl(), "foo"), "Path", true, false));
   }
@@ -357,7 +357,7 @@ public class XMLUtilTest {
     XMLUtil.getChildElementAtPath(parent, "nonexist", false, false);
   }
 
-  @Test(expected = SyntaxError.class)
+  @Test(expected = UnexpectedQueryResultException.class)
   public void testGetChildElementAtPath_negative_required() {
     Document document = createDocument();
     Element parent = createElementWithChildren(document, "p");

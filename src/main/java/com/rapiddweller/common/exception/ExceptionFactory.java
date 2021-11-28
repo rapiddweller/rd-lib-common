@@ -163,10 +163,10 @@ public class ExceptionFactory {
   }
 
   public OperationFailed operationFailed(String message, Throwable cause) {
-    return operationFailed(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
+    return operationFailed(message, cause, null, ExitCodes.MISCELLANEOUS_ERROR);
   }
 
-  public OperationFailed operationFailed(String errorId, int exitCode, String message, Throwable cause) {
+  public OperationFailed operationFailed(String message, Throwable cause, String errorId, int exitCode) {
     return new OperationFailed(errorId, exitCode, message, cause);
   }
 
@@ -232,11 +232,14 @@ public class ExceptionFactory {
   }
 
   public SyntaxError syntaxErrorForXmlElement(String message, Element element, Throwable cause) {
-    return SyntaxError.forXmlElement(message, element, cause);
+    return SyntaxError.forXmlElement(message, cause, element);
   }
 
-  public SyntaxError syntaxErrorForAttribute(String message, Attr attribute) {
+  public SyntaxError syntaxErrorForXmlAttribute(String message, Attr attribute) {
     return SyntaxError.forXmlAttribute(message, attribute);
   }
 
+  public SyntaxError illegalXmlAttributeValue(String message, Throwable cause, Attr attribute) {
+    return SyntaxError.forXmlAttribute(message, cause, CommonErrorIds.XML_ATTR_ILLEGAL_VALUE, attribute);
+  }
 }
