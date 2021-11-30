@@ -25,46 +25,24 @@ import java.util.Map;
  * A {@link Map} which offers convenience methods for managing {@link Named} objects
  * in a Map semantics by their <code>name</code> property.
  * Created: 06.06.2012 20:15:36
- *
  * @param <E> the type of the collection's elements
  * @author Volker Bergmann
  * @since 0.5.16
  */
 public class NameMap<E extends Named> extends HashMap<String, E> {
 
-  private static final long serialVersionUID = -4765030342987297182L;
-
-  /**
-   * Instantiates a new Name map.
-   */
   public NameMap() {
     super();
   }
 
-  /**
-   * Instantiates a new Name map.
-   *
-   * @param initialCapacity the initial capacity
-   * @param loadFactor      the load factor
-   */
   public NameMap(int initialCapacity, float loadFactor) {
     super(initialCapacity, loadFactor);
   }
 
-  /**
-   * Instantiates a new Name map.
-   *
-   * @param initialCapacity the initial capacity
-   */
   public NameMap(int initialCapacity) {
     super(initialCapacity);
   }
 
-  /**
-   * Instantiates a new Name map.
-   *
-   * @param prototype the prototype
-   */
   public NameMap(Collection<E> prototype) {
     super(prototype.size());
     for (E item : prototype) {
@@ -72,11 +50,6 @@ public class NameMap<E extends Named> extends HashMap<String, E> {
     }
   }
 
-  /**
-   * Instantiates a new Name map.
-   *
-   * @param elements the elements
-   */
   @SafeVarargs
   public NameMap(E... elements) {
     super(elements.length);
@@ -85,11 +58,6 @@ public class NameMap<E extends Named> extends HashMap<String, E> {
     }
   }
 
-  /**
-   * Put.
-   *
-   * @param item the item
-   */
   public void put(E item) {
     super.put(item.getName(), item);
   }

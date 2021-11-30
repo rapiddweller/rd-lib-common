@@ -19,5 +19,10 @@ public class CommonErrorIds {
   public static final String PROGRAMMER_STATE_ERROR = "PRO-0001";
   public static final String PROGRAMMER_UNSUPPORTED = "PRO-0002";
 
-  public static final String XML_ATTR_ILLEGAL_VALUE = "XML-001";
+  public static final String XML_ILLEGAL_ROOT = "XML-0001";
+  public static final String XML_ATTR_ILLEGAL_ELEMENT = "XML-0002";
+  public static final String XML_ILLEGAL_CHILD_ELEMENT = "XML-0003";
+  public static final String XML_ATTR_ILLEGAL_NAME = "XML-0004";
+  public static final String XML_ATTR_ILLEGAL_VALUE = "XML-0005";
+  public static final String XML_ATTR_MISSING = "XML-0006";
 }

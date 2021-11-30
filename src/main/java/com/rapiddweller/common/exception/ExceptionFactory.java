@@ -30,6 +30,8 @@ import java.io.FileNotFoundException;
  */
 public class ExceptionFactory {
 
+  public static final String MISSING_ATTRIBUTE = "Attribute is missing";
+
   private static ExceptionFactory instance;
 
   public static ExceptionFactory getInstance() {
@@ -228,10 +230,10 @@ public class ExceptionFactory {
   }
 
   public SyntaxError syntaxErrorForXmlElement(String message, Element element) {
-    return syntaxErrorForXmlElement(message, element, null);
+    return syntaxErrorForXmlElement(message, null, null, element);
   }
 
-  public SyntaxError syntaxErrorForXmlElement(String message, Element element, Throwable cause) {
+  public SyntaxError syntaxErrorForXmlElement(String message, Throwable cause, String errorId, Element element) {
     return SyntaxError.forXmlElement(message, cause, element);
   }
 
@@ -239,7 +241,31 @@ public class ExceptionFactory {
     return SyntaxError.forXmlAttribute(message, attribute);
   }
 
-  public SyntaxError illegalXmlAttributeValue(String message, Throwable cause, Attr attribute) {
-    return SyntaxError.forXmlAttribute(message, cause, CommonErrorIds.XML_ATTR_ILLEGAL_VALUE, attribute);
+  public SyntaxError illegalXmlAttributeValue(String message, Throwable cause, String errorId, Attr attribute) {
+    if (errorId == null) {
+      errorId = CommonErrorIds.XML_ATTR_ILLEGAL_VALUE;
+    }
+    return SyntaxError.forXmlAttribute(message, cause, errorId, attribute);
   }
+
+  public SyntaxError illegalXmlAttributeName(String message, Throwable cause, String errorId, Attr attribute, Object source) {
+    if (message == null) {
+      message = "Illegal XML attribute: " + attribute.getOwnerElement().getNodeName() + "." + attribute.getName();
+    }
+    if (errorId == null) {
+      errorId = CommonErrorIds.XML_ATTR_ILLEGAL_NAME;
+    }
+    return SyntaxError.forXmlAttribute(message, cause, errorId, attribute);
+  }
+
+  public SyntaxError missingXmlAttribute(String message, String errorId, String attributeName, Element owner) {
+    if (message == null) {
+      message = MISSING_ATTRIBUTE + ": '" + attributeName + "' in <" + owner.getNodeName() + ">";
+    }
+    if (errorId == null) {
+      errorId = CommonErrorIds.XML_ATTR_MISSING;
+    }
+    return syntaxErrorForXmlElement(message, null, errorId, owner);
+  }
+
 }
