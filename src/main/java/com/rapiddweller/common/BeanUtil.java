@@ -588,14 +588,15 @@ public final class BeanUtil {
    *  @return a method with matching names and parameters */
   public static Method findMethod(Class<?> type, String methodName, Class<?>... paramTypes) {
     Method result = null;
-    for (Method method : type.getMethods()) {
+    Method[] methods = type.getMethods();
+    for (Method method : methods) {
       if (!methodName.equals(method.getName())) {
         continue;
       }
       Class<?>[] expectedTypes = method.getParameterTypes();
       if (paramTypesMatch(paramTypes, expectedTypes)) {
         if ((ArrayUtil.isEmpty(paramTypes) && ArrayUtil.isEmpty(expectedTypes))
-            || paramTypesMatch(paramTypes, expectedTypes)) {
+            || paramTypes.length == expectedTypes.length) {
           return method; // optimal match - return it immediately
         } else {
           result = method; // sub optimal match - store it, but keep on searching for better matches
