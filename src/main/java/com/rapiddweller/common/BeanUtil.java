@@ -436,7 +436,7 @@ public final class BeanUtil {
   }
 
   public static <T> T newInstance(Class<T> type) {
-    return newInstance(type, true, null);
+    return newInstance(type, false, null);
   }
 
   /** Creates an object of the specified type.
@@ -445,73 +445,74 @@ public final class BeanUtil {
    *  @param parameters the constructor parameters
    *  @return an object of the specified class */
   public static <T> T newInstance(Class<T> type, Object[] parameters) {
-    return newInstance(type, true, parameters);
+    return newInstance(type, false, parameters);
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
-  public static <T> T newInstance(Class<T> type, boolean strict, Object[] parameters) {
-    if (parameters == null || parameters.length == 0) {
+  @SuppressWarnings({"unchecked"})
+  public static <T> T newInstance(Class<T> type, boolean autoConvert, Object[] params) {
+    if (params == null || params.length == 0) {
       return newInstanceFromDefaultConstructor(type);
     }
-    Constructor<T> constructorToUse = null;
+    Constructor<T> ctorToUse = null;
     try {
+      int paramCount = params.length;
       Constructor<T>[] constructors = (Constructor<T>[]) type.getConstructors();
-      List<Constructor<T>> candidates = new ArrayList<>(constructors.length);
-      int paramCount = parameters.length;
-      for (Constructor<T> constructor : constructors) {
-        if (constructor.getParameterTypes().length == paramCount) {
-          candidates.add(constructor);
-        }
-      }
-      if (candidates.size() == 1) {
-        constructorToUse = candidates.get(0);
-      } else if (candidates.isEmpty()) {
+      List<Constructor<T>> candidates = getConstructorsOfParamCount(paramCount, constructors);
+      if (candidates.isEmpty()) {
         throw ExceptionFactory.getInstance().illegalArgument(
             "No constructor with " + paramCount + " parameters found for " + type);
+      } else if (candidates.size() == 1) {
+        ctorToUse = candidates.get(0);
+      } else { // multiple candidates
+        ctorToUse = findBestMatchingCall(constructors, params);
+      }
+      if (ctorToUse != null) {
+        return newInstance(ctorToUse, autoConvert, params);
       } else {
-        // there are several candidates - find the first one with matching types
-        Class<?>[] paramTypes = new Class[parameters.length];
-        for (int i = 0; i < parameters.length; i++) {
-          paramTypes[i] = parameters[i].getClass();
+        if (!autoConvert) {
+          throw ExceptionFactory.getInstance().illegalArgument(
+              "No appropriate constructor found: " + type + '(' + ArrayFormat.format(", ", getTypes(params)) + ')');
         }
-        for (Constructor c : type.getConstructors()) {
-          if (typesMatch(c.getParameterTypes(), paramTypes)) {
-            constructorToUse = c;
-            break;
-          }
-        }
-        // there is no ideal match
-        if (constructorToUse == null) {
-          if (strict) {
-            throw ExceptionFactory.getInstance().illegalArgument(
-                    "No appropriate constructor found: " + type + '(' + ArrayFormat.format(", ", paramTypes) + ')');
-          }
-          return callFirstFunctioningConstructor(type, strict, parameters, candidates);
-        }
+        return callFirstFunctioningConstructor(candidates, params);
       }
-      if (!strict) {
-        parameters = convertArray(parameters, constructorToUse.getParameterTypes());
-      }
-      return newInstance(constructorToUse, parameters);
     } catch (SecurityException e) {
-      throw ExceptionFactory.getInstance().illegalArgument("Error calling " + constructorToUse, e);
+      throw ExceptionFactory.getInstance().illegalArgument("Error calling " + ctorToUse, e);
     }
   }
 
-  private static <T> T callFirstFunctioningConstructor(Class<T> type, boolean strict, Object[] parameters, List<Constructor<T>> candidates) {
+  private static <T> List<Constructor<T>> getConstructorsOfParamCount(int paramCount, Constructor<T>[] constructors) {
+    List<Constructor<T>> candidates = new ArrayList<>(constructors.length);
+    for (Constructor<T> constructor : constructors) {
+      if (constructor.getParameterTypes().length == paramCount) {
+        candidates.add(constructor);
+      }
+    }
+    return candidates;
+  }
+
+  private static <T> Constructor<T> findBestMatchingCall(Constructor<T>[] candidates, Object[] params) {
+    Class<?>[] paramTypes = getTypes(params);
+    for (Constructor<T> candidate : candidates) {
+      if (paramTypesMatch(paramTypes, candidate.getParameterTypes())) {
+        return candidate;
+      }
+    }
+    return null;
+  }
+
+  private static <T> T callFirstFunctioningConstructor(List<Constructor<T>> candidates, Object[] parameters) {
     Exception mostRecentException = null;
     for (Constructor<T> candidate : candidates) {
       try {
-        return newInstance(candidate, strict, parameters);
+        return newInstance(candidate, true, parameters);
       } catch (Exception e) {
         mostRecentException = e;
         logger.warn("Exception in constructor call: " + candidate, e);
       }
     }
     // no constructor could be called without exception
-    String errMsg = (mostRecentException != null ?
-        "None of these constructors could be called without exception: " + candidates + ", latest exception: " + mostRecentException :
-        type + " has no appropriate constructor for the arguments " + ArrayFormat.format(", ", parameters));
+    String errMsg = "None of these constructors could be called without exception: " + candidates + ", " +
+        "latest exception: " + mostRecentException;
     throw ExceptionFactory.getInstance().internalError(errMsg, null);
   }
 
@@ -521,11 +522,11 @@ public final class BeanUtil {
    *  @param params      the parameters to provide to the constructor
    *  @return a new instance of the class */
   public static <T> T newInstance(Constructor<T> constructor, Object... params) {
-    return newInstance(constructor, true, params);
+    return newInstance(constructor, false, params);
   }
 
-  public static <T> T newInstance(Constructor<T> constructor, boolean strict, Object... parameters) {
-    if (!strict) {
+  public static <T> T newInstance(Constructor<T> constructor, boolean autoConvert, Object... parameters) {
+    if (autoConvert) {
       parameters = convertArray(parameters, constructor.getParameterTypes());
     }
     Class<T> type = constructor.getDeclaringClass();
@@ -591,9 +592,10 @@ public final class BeanUtil {
       if (!methodName.equals(method.getName())) {
         continue;
       }
-      if (typesMatch(paramTypes, method.getParameterTypes())) {
-        if ((ArrayUtil.isEmpty(paramTypes) && ArrayUtil.isEmpty(method.getParameterTypes())) ||
-            paramTypes.length == method.getParameterTypes().length) {
+      Class<?>[] expectedTypes = method.getParameterTypes();
+      if (paramTypesMatch(paramTypes, expectedTypes)) {
+        if ((ArrayUtil.isEmpty(paramTypes) && ArrayUtil.isEmpty(expectedTypes))
+            || paramTypesMatch(paramTypes, expectedTypes)) {
           return method; // optimal match - return it immediately
         } else {
           result = method; // sub optimal match - store it, but keep on searching for better matches
@@ -617,7 +619,7 @@ public final class BeanUtil {
   public static <T> Constructor<T> findConstructor(Class<T> type, Class<?>... paramTypes) {
     Constructor<T>[] ctors = (Constructor<T>[]) type.getConstructors();
     for (Constructor<T> ctor : ctors) {
-      if (typesMatch(paramTypes, ctor.getParameterTypes())) {
+      if (paramTypesMatch(paramTypes, ctor.getParameterTypes())) {
         return ctor;
       }
     }
@@ -727,46 +729,64 @@ public final class BeanUtil {
     }
   }
 
-  public static boolean typesMatch(Class<?>[] usedTypes, Class<?>[] expectedTypes) {
-    // expectedTypes is empty
-    if (ArrayUtil.isEmpty(expectedTypes)) {
-      return ArrayUtil.isEmpty(usedTypes);
+  public static boolean paramTypesMatch(Class<?>[] usedTypes, Class<?>[] expectedTypes) {
+    // check preconditions
+    if (usedTypes == null) {
+      usedTypes = new Class<?>[0];
     }
-    Class<?> lastExpectedType = ArrayUtil.lastElementOf(expectedTypes);
-    if (lastExpectedType.isArray()) {
-      // process varargs parameter
-      if (usedTypes.length < expectedTypes.length - 1) {
-        return false; // fault
-      }
-      if (usedTypes.length == expectedTypes.length - 1) {
-        return typesMatch(usedTypes, ArrayUtil.copyOfRange(expectedTypes, 0, usedTypes.length)); // empty varargs
-      }
-      // check if all used types match the varargs type
-      if (usedTypes.length >= expectedTypes.length) {
-        Class<?> componentType = lastExpectedType.getComponentType();
-        for (int i = expectedTypes.length - 1; i < usedTypes.length; i++) {
-          Class<?> foundType = usedTypes[i];
-          if (!typeMatches(foundType, componentType)) {
-            return false;
-          }
-        }
-        return true;
-      }
-    }
-    if (usedTypes.length != expectedTypes.length) {
+    Assert.notNull(expectedTypes, "expectedTypes");
+
+    // simple plausibility checks by parameter count
+    if (expectedTypes.length == 0) {
+      return (usedTypes.length == 0);
+    } else if (usedTypes.length < expectedTypes.length - 1) { // the last parameter may be an omitted vararg
       return false;
     }
-    if (expectedTypes.length == 0 && usedTypes.length == 0) {
+
+    // check for expected type and possible varargs
+    Class<?> lastExpectedType = expectedTypes[expectedTypes.length - 1];
+    boolean possibleVararg = lastExpectedType.isArray();
+
+    // Simple case: no vararg
+    if (!possibleVararg && usedTypes.length != expectedTypes.length) {
+      return false;
+    }
+
+    // check the param types before an optional varargs param
+    int fixTypeCount = expectedTypes.length - (possibleVararg ? 1 : 0);
+    for (int i = 0; i < fixTypeCount; i++) {
+      if (!typeMatches(usedTypes[i], expectedTypes[i])) {
+        return false;
+      }
+    }
+
+    // if there is no vararg all lights are green
+    if (!possibleVararg) {
       return true;
     }
-    for (int i = 0; i < usedTypes.length; i++) {
-      Class<?> expectedType = expectedTypes[i];
+
+    // empty vararg parameter
+    if (usedTypes.length == expectedTypes.length - 1) {
+      return true;
+    }
+
+    // check if all used varargs params match the varargs type
+    Class<?> componentType = lastExpectedType.getComponentType();
+    for (int i = expectedTypes.length - 1; i < usedTypes.length; i++) {
       Class<?> foundType = usedTypes[i];
-      if (!typeMatches(foundType, expectedType)) {
+      if (!typeMatches(foundType, componentType) && !isArrayOfType(componentType, foundType)) {
         return false;
       }
     }
     return true;
+  }
+
+
+  private static boolean isArrayOfType(Class<?> componentType, Class<?> foundType) {
+    if (!foundType.isArray()) {
+      return false;
+    }
+    return typeMatches(ArrayUtil.componentType(foundType), ArrayUtil.componentType(componentType));
   }
 
   // JavaBean operations ---------------------------------------------------------------------------------------------

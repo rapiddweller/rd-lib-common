@@ -259,23 +259,37 @@ public class BeanUtilTest {
   }
 
   @Test
+  public void testNewStringFromByteArray() {
+    String s = BeanUtil.newInstance(String.class, false, new Object[] { "Test".getBytes() });
+    assertEquals("Test", s);
+  }
+
+  @Test
   public void testNewInstanceWithParamConversion() {
-    P p = BeanUtil.newInstance(P.class, false, new Object[] {2});
+    P p = BeanUtil.newInstance(P.class, true, new Object[] {2});
     assertEquals(2, p.val);
-    p = BeanUtil.newInstance(P.class, false, new Object[] {"2"});
+    p = BeanUtil.newInstance(P.class, true, new Object[] {"2"});
     assertEquals(2, p.val);
   }
 
   @Test
-  public void testNewInstance() {
+  public void testNewInstance_with_3_params() {
     assertThrows(IllegalArgumentError.class,
-        () -> BeanUtil.newInstance(Object.class, true, new Object[] {"parameters"}));
-    assertNull(BeanUtil.newInstance((Class<Object>) null, true, null));
-    assertNull(BeanUtil.newInstance((Class<Object>) null, true, new Object[] {}));
+        () -> BeanUtil.newInstance(Object.class, false, new Object[] {"parameters"}));
+    assertNull(BeanUtil.newInstance((Class<Object>) null, false, null));
+    assertNull(BeanUtil.newInstance((Class<Object>) null, false, new Object[] {}));
+  }
+
+  @Test
+  public void testNewInstance_with_2_params() {
     assertThrows(IllegalArgumentError.class,
         () -> BeanUtil.newInstance(Object.class, new Object[] {"parameters"}));
     assertNull(BeanUtil.newInstance((Class<Object>) null, null));
     assertNull(BeanUtil.newInstance((Class<Object>) null, new Object[] {}));
+  }
+
+  @Test
+  public void testNewInstance_without_params() {
     assertTrue(BeanUtil.newInstance("com.rapiddweller.common.BeanUtil") instanceof BeanUtil);
   }
 
@@ -418,31 +432,31 @@ public class BeanUtilTest {
   @Test
   public void testTypesMatch() {
     // no-arg method calls
-    assertTrue(BeanUtil.typesMatch(new Class[] {}, new Class[] {}));
-    assertFalse(BeanUtil.typesMatch(new Class[] {String.class}, new Class[] {}));
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {}, new Class[] {}));
+    assertFalse(BeanUtil.paramTypesMatch(new Class[] {String.class}, new Class[] {}));
     // Identical types
-    assertTrue(BeanUtil.typesMatch(new Class[] {String.class}, new Class[] {String.class}));
-    assertTrue(BeanUtil.typesMatch(new Class[] {C.class}, new Class[] {B.class}));
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {String.class}, new Class[] {String.class}));
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {C.class}, new Class[] {B.class}));
     // incompatible types
-    assertFalse(BeanUtil.typesMatch(new Class[] {B.class}, new Class[] {C.class}));
-    assertTrue(BeanUtil.typesMatch(new Class[] {A.class}, new Class[] {I.class}));
+    assertFalse(BeanUtil.paramTypesMatch(new Class[] {B.class}, new Class[] {C.class}));
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {A.class}, new Class[] {I.class}));
     // autoboxing
-    assertTrue(BeanUtil.typesMatch(new Class[] {int.class}, new Class[] {Integer.class}));
-    assertTrue(BeanUtil.typesMatch(new Class[] {Integer.class}, new Class[] {int.class}));
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {int.class}, new Class[] {Integer.class}));
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {Integer.class}, new Class[] {int.class}));
     // varargs
-    assertTrue(BeanUtil.typesMatch(new Class[] {}, new Class[] {Integer[].class}));
-    assertTrue(BeanUtil.typesMatch(new Class[] {Integer.class}, new Class[] {Integer[].class}));
-    assertTrue(BeanUtil.typesMatch(new Class[] {Integer.class}, new Class[] {Integer.class, Integer[].class}));
-    assertTrue(BeanUtil.typesMatch(new Class[] {Integer.class, Integer.class},
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {}, new Class[] {Integer[].class}));
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {Integer.class}, new Class[] {Integer[].class}));
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {Integer.class}, new Class[] {Integer.class, Integer[].class}));
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {Integer.class, Integer.class},
         new Class[] {Integer.class, Integer[].class}));
-    assertTrue(BeanUtil.typesMatch(new Class[] {Object.class}, new Class[] {Object.class}));
-    assertTrue(BeanUtil.typesMatch(new Class[] {null}, new Class[] {Object.class}));
-    assertTrue(BeanUtil.typesMatch(null, new Class[] {}));
-    assertFalse(BeanUtil.typesMatch(new Class[] {}, new Class[] {Object.class}));
-    assertFalse(BeanUtil.typesMatch(new Class[] {Object.class}, new Class[] {BeanUtil.class}));
-    assertFalse(BeanUtil.typesMatch(new Class[] {Byte.class}, new Class[] {BeanUtil.class}));
-    assertFalse(BeanUtil.typesMatch(new Class[] {Double.class}, new Class[] {BeanUtil.class}));
-    assertTrue(BeanUtil.typesMatch(new Class[] {Double.class}, new Class[] {Byte.class}));
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {Object.class}, new Class[] {Object.class}));
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {null}, new Class[] {Object.class}));
+    assertTrue(BeanUtil.paramTypesMatch(null, new Class[] {}));
+    assertFalse(BeanUtil.paramTypesMatch(new Class[] {}, new Class[] {Object.class}));
+    assertFalse(BeanUtil.paramTypesMatch(new Class[] {Object.class}, new Class[] {BeanUtil.class}));
+    assertFalse(BeanUtil.paramTypesMatch(new Class[] {Byte.class}, new Class[] {BeanUtil.class}));
+    assertFalse(BeanUtil.paramTypesMatch(new Class[] {Double.class}, new Class[] {BeanUtil.class}));
+    assertTrue(BeanUtil.paramTypesMatch(new Class[] {Double.class}, new Class[] {Byte.class}));
   }
 
   // property tests --------------------------------------------------------------------------------------------------
@@ -639,51 +653,6 @@ public class BeanUtilTest {
     assertEquals("java.lang.String[blank=false, bytes=YmVhbg==, empty=false]", BeanUtil.toString("bean", false));
   }
 
-  @Test
-  public void testToString3() {
-    HTMLDocumentImpl htmlDocumentImpl = new HTMLDocumentImpl();
-    BeanUtil.toString(htmlDocumentImpl);
-    assertEquals("", htmlDocumentImpl.getTitle());
-    assertNull(htmlDocumentImpl.getParentNode());
-    assertEquals(1, htmlDocumentImpl.getLength());
-    assertTrue(htmlDocumentImpl.hasChildNodes());
-    assertTrue(htmlDocumentImpl.getDomConfig() instanceof org.apache.xerces.dom.DOMConfigurationImpl);
-  }
-
-  @Test
-  public void testToString5() {
-    HTMLDocumentImpl htmlDocumentImpl = new HTMLDocumentImpl();
-    htmlDocumentImpl.setDocumentURI("class");
-    BeanUtil.toString(htmlDocumentImpl);
-    assertEquals("", htmlDocumentImpl.getTitle());
-    assertNull(htmlDocumentImpl.getParentNode());
-    assertEquals(1, htmlDocumentImpl.getLength());
-    assertTrue(htmlDocumentImpl.hasChildNodes());
-    assertTrue(htmlDocumentImpl.getDomConfig() instanceof org.apache.xerces.dom.DOMConfigurationImpl);
-  }
-
-  @Test
-  public void testToString7() {
-    HTMLDocumentImpl htmlDocumentImpl = new HTMLDocumentImpl();
-    BeanUtil.toString(htmlDocumentImpl, true);
-    assertEquals("", htmlDocumentImpl.getTitle());
-    assertNull(htmlDocumentImpl.getParentNode());
-    assertEquals(1, htmlDocumentImpl.getLength());
-    assertTrue(htmlDocumentImpl.hasChildNodes());
-    assertTrue(htmlDocumentImpl.getDomConfig() instanceof org.apache.xerces.dom.DOMConfigurationImpl);
-  }
-
-  @Test
-  public void testToString9() {
-    HTMLDocumentImpl htmlDocumentImpl = new HTMLDocumentImpl();
-    htmlDocumentImpl.setDocumentURI("class");
-    BeanUtil.toString(htmlDocumentImpl, true);
-    assertEquals("", htmlDocumentImpl.getTitle());
-    assertNull(htmlDocumentImpl.getParentNode());
-    assertEquals(1, htmlDocumentImpl.getLength());
-    assertTrue(htmlDocumentImpl.hasChildNodes());
-    assertTrue(htmlDocumentImpl.getDomConfig() instanceof org.apache.xerces.dom.DOMConfigurationImpl);
-  }
 
   // Test classes ----------------------------------------------------------------------------------------------------
 
