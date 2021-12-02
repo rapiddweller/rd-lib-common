@@ -15,7 +15,11 @@ public class IllegalArgumentError extends ApplicationException {
   }
 
   public IllegalArgumentError(String message, Throwable cause) {
-    super(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
+    this(message, cause, null);
+  }
+
+  public IllegalArgumentError(String message, Throwable cause, String errorId) {
+    super(errorId, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
   }
 
 }

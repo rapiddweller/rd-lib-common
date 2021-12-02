@@ -368,7 +368,8 @@ public final class BeanUtil {
       try {
         return (Class<T>) getContextClassLoader().loadClass(name);
       } catch (ClassNotFoundException | NullPointerException e) {
-        throw ExceptionFactory.getInstance().illegalArgument("Failed to instantiate class " + name, e);
+        throw ExceptionFactory.getInstance().illegalArgument(
+            "Failed to instantiate class '" + name + "'", e);
       } // this is raised by the Eclipse BundleLoader if it does not find the class
 
     }
@@ -426,12 +427,9 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Instantiates a class by the default constructor.
-   *
-   * @param className the name of the class to instantiate
-   * @return an instance of the class
-   */
+  /** Instantiates a class by the default constructor.
+   *  @param className the name of the class to instantiate
+   *  @return an instance of the class */
   public static Object newInstance(String className) {
     Class<?> type = BeanUtil.forName(className);
     return newInstanceFromDefaultConstructor(type);
@@ -563,16 +561,13 @@ public final class BeanUtil {
 
   // method operations -----------------------------------------------------------------------------------------------
 
-  /**
-   * Finds a method by reflection. This iterates all methods of the class, comparing names and parameter types.
-   * Unlike the method Class.getMethod(String, Class ...), this method is able to match primitive and wrapper types.
-   * If no appropriate method is found, a ConfigurationError is raised.
-   *
-   * @param type       the class that holds the method
-   * @param methodName the name of the method
-   * @param paramTypes the parameter types of the method
-   * @return a method with matching names and parameters
-   */
+  /** Finds a method by reflection. This iterates all methods of the class, comparing names and parameter types.
+   *  Unlike the method Class.getMethod(String, Class ...), this method is able to match primitive and wrapper types.
+   *  If no appropriate method is found, a ConfigurationError is raised.
+   *  @param type       the class that holds the method
+   *  @param methodName the name of the method
+   *  @param paramTypes the parameter types of the method
+   *  @return a method with matching names and parameters */
   public static Method getMethod(Class<?> type, String methodName, Class<?>... paramTypes) {
     Method method = findMethod(type, methodName, paramTypes);
     if (method == null) {
@@ -1065,11 +1060,8 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Checks if a class fulfills the JavaBeans contract.
-   *
-   * @param cls the class to check
-   */
+  /** Checks if a class fulfills the JavaBeans contract.
+   *  @param cls the class to check */
   public static void checkJavaBean(Class<?> cls) {
     try {
       Constructor<?> constructor = cls.getDeclaredConstructor();
@@ -1092,13 +1084,10 @@ public final class BeanUtil {
     }
   }
 
-  /**
-   * Tells if a class is deprecated.
-   *
-   * @param type the class to check for deprecation
-   * @return true if the class is deprecated, else false
-   * @since 0.2.05
-   */
+  /** Tells if a class is deprecated.
+   *  @param type the class to check for deprecation
+   *  @return true if the class is deprecated, else false
+   *  @since 0.2.05 */
   public static boolean deprecated(Class<?> type) {
     Annotation[] annotations = type.getDeclaredAnnotations();
     for (Annotation annotation : annotations) {
@@ -1127,7 +1116,8 @@ public final class BeanUtil {
       } else if ("file".equals(protocol)) {
         findClassesInDirectory(resource, packageName, classes);
       } else {
-        throw ExceptionFactory.getInstance().programmerUnsupported("Not a supported protocol: " + protocol);
+        throw ExceptionFactory.getInstance().programmerUnsupported(
+            "Not a supported protocol for classloader resources: " + protocol);
       }
     }
     return classes;

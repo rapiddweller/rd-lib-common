@@ -110,7 +110,11 @@ public class ExceptionFactory {
   }
 
   public IllegalArgumentError illegalArgument(String message, Throwable cause) {
-    return new IllegalArgumentError(message, cause);
+    return illegalArgument(message, cause, null);
+  }
+
+  public IllegalArgumentError illegalArgument(String message, Throwable cause, String errorId) {
+    return new IllegalArgumentError(message, cause, errorId);
   }
 
   public ConnectFailedException connectFailed(String message, Throwable cause) {
