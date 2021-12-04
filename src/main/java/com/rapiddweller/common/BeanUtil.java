@@ -1119,6 +1119,10 @@ public final class BeanUtil {
     return false;
   }
 
+  public static String getClassName(Object product) {
+    return (product != null ? product.getClass().getName() : null);
+  }
+
   public static List<Class<?>> getClasses(String packageName) {
     ClassLoader classLoader = getContextClassLoader();
     String packagePath = packageName.replace('.', '/');
