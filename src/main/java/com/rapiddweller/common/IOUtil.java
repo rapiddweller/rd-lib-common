@@ -226,6 +226,14 @@ public final class IOUtil {
     return builder.toArray();
   }
 
+  public static void writeTextLines(String[] lines, String uri) {
+    StringBuilder builder = new StringBuilder();
+    for (String line : lines) {
+      builder.append(line).append(SystemInfo.LF);
+    }
+    writeTextFile(uri, builder.toString());
+  }
+
   public static BufferedReader getReaderForURI(String uri) {
     return getReaderForURI(uri, SystemInfo.getFileEncoding());
   }
@@ -348,7 +356,7 @@ public final class IOUtil {
       stream = IOUtil.class.getResourceAsStream(searchedName);
     }
     if (required && stream == null) {
-      throw ExceptionFactory.getInstance().fileNotFound("Resource not found: " + name, null);
+      throw ExceptionFactory.getInstance().fileNotFound(name, null);
     }
     return stream;
   }
