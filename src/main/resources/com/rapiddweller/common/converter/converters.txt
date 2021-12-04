@@ -28,3 +28,4 @@ com.rapiddweller.common.converter.Char2StringConverter
 com.rapiddweller.common.converter.String2LocalDateConverter
 com.rapiddweller.common.converter.String2LocalDateTimeConverter
 com.rapiddweller.common.converter.String2YearMonthConverter
+com.rapiddweller.common.converter.LocalDateToDateConverter
