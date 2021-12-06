@@ -29,7 +29,6 @@ import java.util.Map;
  * Databene {@link Validator} and JSR 303 {@link ConstraintValidator} implementation
  * that validates a String by a regular expression.
  * Created at 15.07.2009 15:22:21
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -53,60 +52,29 @@ public class RegexValidator extends AbstractConstraintValidator<Pattern, String>
   private java.util.regex.Pattern pattern;
   private boolean nullValid;
 
-  /**
-   * Instantiates a new Regex validator.
-   */
   public RegexValidator() {
     this(null);
   }
 
-  /**
-   * Instantiates a new Regex validator.
-   *
-   * @param regexp the regexp
-   */
   public RegexValidator(String regexp) {
     this(regexp, new Flag[0]);
   }
 
-  /**
-   * Instantiates a new Regex validator.
-   *
-   * @param regexp the regexp
-   * @param flags  the flags
-   */
   public RegexValidator(String regexp, Flag... flags) {
     setRegexp(regexp);
     setFlags(flags);
   }
 
-  /**
-   * Instantiates a new Regex validator.
-   *
-   * @param regexp    the regexp
-   * @param nullValid the null valid
-   * @param flags     the flags
-   */
   public RegexValidator(String regexp, boolean nullValid, Flag... flags) {
     this.nullValid = nullValid;
     setRegexp(regexp);
     setFlags(flags);
   }
 
-  /**
-   * Is null valid boolean.
-   *
-   * @return the boolean
-   */
   public boolean isNullValid() {
     return nullValid;
   }
 
-  /**
-   * Sets null valid.
-   *
-   * @param nullValid the null valid
-   */
   public void setNullValid(boolean nullValid) {
     this.nullValid = nullValid;
   }
@@ -125,20 +93,10 @@ public class RegexValidator extends AbstractConstraintValidator<Pattern, String>
     return pattern.matcher(string).matches();
   }
 
-  /**
-   * Gets regexp.
-   *
-   * @return the regexp
-   */
   public String getRegexp() {
     return regexp;
   }
 
-  /**
-   * Sets regexp.
-   *
-   * @param regexp the regexp
-   */
   public void setRegexp(String regexp) {
     this.regexp = regexp;
     if (this.regexp != null) {
@@ -146,20 +104,10 @@ public class RegexValidator extends AbstractConstraintValidator<Pattern, String>
     }
   }
 
-  /**
-   * Get flags flag [ ].
-   *
-   * @return the flag [ ]
-   */
   public Flag[] getFlags() {
     return flags;
   }
 
-  /**
-   * Sets flags.
-   *
-   * @param flags the flags
-   */
   public void setFlags(Flag[] flags) {
     this.flags = flags;
     if (this.regexp != null) {
