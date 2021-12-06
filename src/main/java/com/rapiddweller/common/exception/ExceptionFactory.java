@@ -195,19 +195,6 @@ public class ExceptionFactory {
   public IllegalAccess illegalAccess(String message) {
     return new IllegalAccess(message);
   }
-/*
-  public SyntaxError syntaxErrorForUri(String message, Throwable cause) {
-    return SyntaxError.forUri(message, cause);
-  }
-
-  public SyntaxError syntaxErrorForUri(String uri, int lineNumber, int columnNumber, Throwable cause) {
-    return new SyntaxError(StringUtil.removeSuffixIfPresent(".", cause.getMessage()), uri);
-  }
-
-  public SyntaxError syntaxErrorForUri(String uri, int lineNumber, int columnNumber, String message) {
-    return new SyntaxError(StringUtil.removeSuffixIfPresent(".", message), uri);
-  }
-  */
 
   public SyntaxError syntaxErrorForNothing(String message, Throwable cause) {
     return SyntaxError.forNothing(message, cause);
@@ -238,7 +225,7 @@ public class ExceptionFactory {
   }
 
   public SyntaxError syntaxErrorForXmlElement(String message, Throwable cause, String errorId, Element element) {
-    return SyntaxError.forXmlElement(message, cause, element);
+    return SyntaxError.forXmlElement(message, cause, errorId, element);
   }
 
   public SyntaxError syntaxErrorForXmlAttribute(String message, Attr attribute) {
@@ -270,6 +257,10 @@ public class ExceptionFactory {
       errorId = CommonErrorIds.XML_ATTR_MISSING;
     }
     return syntaxErrorForXmlElement(message, null, errorId, owner);
+  }
+
+  public ApplicationException outOfMemory(Throwable e) {
+    return new ApplicationException(CommonErrorIds.OUT_OF_MEMORY, ExitCodes.MISCELLANEOUS_ERROR, "Out of memory", e);
   }
 
 }
