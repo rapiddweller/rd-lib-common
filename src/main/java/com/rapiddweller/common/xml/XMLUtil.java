@@ -357,15 +357,9 @@ public class XMLUtil {
   }
 
   public static PrintWriter createXMLFile(String uri, String encoding) {
-    try {
-      PrintWriter printer = IOUtil.getPrinterForURI(uri, encoding);
-      printer.println("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
-      return printer;
-    } catch (FileNotFoundException e) {
-      throw ExceptionFactory.getInstance().fileNotFound(uri, e);
-    } catch (UnsupportedEncodingException e) {
-      throw ExceptionFactory.getInstance().programmerConfig("XML file creation failed.", e);
-    }
+    PrintWriter printer = IOUtil.getPrinterForURI(uri, encoding);
+    printer.println("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
+    return printer;
   }
 
   public static String normalizedAttributeValue(Element element, String attributeName) {

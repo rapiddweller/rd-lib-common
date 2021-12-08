@@ -171,11 +171,7 @@ public final class IOUtil {
   private static boolean isFileUriAvailable(String uri) {
     String path = stripOffProtocolFromUri(uri);
     if (path.isEmpty()) {
-      if (uri.isEmpty()) {
-        return false;
-      } else {
-        return true;
-      }
+      return !uri.isEmpty();
     }
     // first check as file or folder in file system
     File file = new File(path);
@@ -435,24 +431,34 @@ public final class IOUtil {
     return (uri.startsWith("file:") ? "file" : null);
   }
 
-  public static PrintWriter getPrinterForURI(String uri, String encoding)
-      throws FileNotFoundException, UnsupportedEncodingException {
+  public static PrintWriter getPrinterForURI(String uri, String encoding) {
     return getPrinterForURI(uri, encoding, false, SystemInfo.getLineSeparator(), false);
   }
 
-  public static PrintWriter getPrinterForURI(String uri, String encoding, boolean append,
-                                             final String lineSeparator, boolean autoCreateFolder)
-      throws FileNotFoundException, UnsupportedEncodingException {
-    File file = new File(uri);
-    if (autoCreateFolder) {
-      FileUtil.ensureDirectoryExists(file.getParentFile());
-    }
-    return new PrintWriter(new OutputStreamWriter(new FileOutputStream(uri, append), encoding)) {
-      @Override
-      public void println() {
-        print(lineSeparator);
+  public static PrintWriter getPrinterForURI(
+      String uri, String encoding, boolean append, final String lineSeparator, boolean autoCreateFolder) {
+    try {
+      OutputStream out;
+      if (isFileUri(uri)) {
+        File file = new File(uri);
+        if (autoCreateFolder) {
+          FileUtil.ensureDirectoryExists(file.getParentFile());
+        }
+        out = new FileOutputStream(uri, append);
+      } else {
+        out = openOutputStreamForURI(uri);
       }
-    };
+      return new PrintWriter(new OutputStreamWriter(out, encoding)) {
+        @Override
+        public void println() {
+          print(lineSeparator);
+        }
+      };
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(uri, e);
+    } catch (UnsupportedEncodingException e) {
+      throw ExceptionFactory.getInstance().programmerConfig("Not a supported encoding: " + encoding, e);
+    }
   }
 
   // piping streams --------------------------------------------------------------------------------------------------
@@ -578,18 +584,10 @@ public final class IOUtil {
   }
 
   public static void writeProperties(Map<String, ?> properties, String filename, String encoding) {
-    PrintWriter stream = null;
-    try {
-      stream = IOUtil.getPrinterForURI(filename, encoding);
+    try (PrintWriter stream = IOUtil.getPrinterForURI(filename, encoding)) {
       for (Map.Entry<String, ?> entry : properties.entrySet()) {
         stream.println(entry.getKey() + "=" + ToStringConverter.convert(entry.getValue(), ""));
       }
-    } catch (FileNotFoundException e) {
-      throw ExceptionFactory.getInstance().fileNotFound(filename, e);
-    } catch (UnsupportedEncodingException e) {
-      throw ExceptionFactory.getInstance().internalError("Unsupported encoding: " + encoding, e);
-    } finally {
-      IOUtil.close(stream);
     }
   }
 
