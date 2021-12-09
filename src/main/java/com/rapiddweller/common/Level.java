@@ -18,37 +18,22 @@ package com.rapiddweller.common;
 /**
  * Represents a log or failure level.
  * Created at 18.09.2009 13:46:48
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public enum Level {
-  /**
-   * Ignore level.
-   */
+  /** Ignore level. */
   ignore,
-  /**
-   * Trace level.
-   */
+  /** Trace level. */
   trace,
-  /**
-   * Debug level.
-   */
+  /** Debug level. */
   debug,
-  /**
-   * Info level.
-   */
+  /** Info level. */
   info,
-  /**
-   * Warn level.
-   */
+  /** Warn level. */
   warn,
-  /**
-   * Error level.
-   */
+  /** Error level. */
   error,
-  /**
-   * Fatal level.
-   */
+  /** Fatal level. */
   fatal
 }
