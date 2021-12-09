@@ -22,7 +22,7 @@ public class EncodingParserTest {
   public void testOK() {
     assertEquals("UTF-8", p.parse("UTF-8"));
     assertEquals("ASCII", p.parse("ASCII"));
-    assertEquals("ISO-8859-1", p.parse("ASCII"));
+    assertEquals("ISO-8859-1", p.parse("ISO-8859-1"));
   }
 
   @Test
