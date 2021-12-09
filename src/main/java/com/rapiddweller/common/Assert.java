@@ -195,7 +195,8 @@ public class Assert {
 
   public static <E extends Number> void notNegative(E value, String role) {
     if (value.doubleValue() < 0) {
-      throw ExceptionFactory.getInstance().illegalArgument(role + " is less than zero: " + value);
+      throw ExceptionFactory.getInstance().illegalArgument(
+          (role != null ? role : value.toString()) + " is less than zero: " + value);
     }
   }
 
