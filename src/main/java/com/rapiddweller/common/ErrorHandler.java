@@ -19,6 +19,8 @@ import com.rapiddweller.common.exception.ExceptionFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import java.util.Objects;
+
 /**
  * Provides for error handling by logging and eventually raising an exception.
  * Created at 02.08.2008 13:39:11
@@ -30,6 +32,7 @@ public class ErrorHandler {
   // attributes ------------------------------------------------------------------------------------------------------
 
   private final Logger logger;
+  private final String category;
   private final Level level;
   private boolean loggingStackTrace;
 
@@ -44,6 +47,7 @@ public class ErrorHandler {
   }
 
   public ErrorHandler(String category, Level level) {
+    this.category = category;
     this.logger = LoggerFactory.getLogger(category);
     this.level = level;
     this.loggingStackTrace = true;
@@ -113,6 +117,10 @@ public class ErrorHandler {
 
   // properties ------------------------------------------------------------------------------------------------------
 
+  public String getCategory() {
+    return category;
+  }
+
   public Level getLevel() {
     return level;
   }
@@ -144,6 +152,25 @@ public class ErrorHandler {
     if (defaultInstance.getLevel() != level) {
       defaultInstance = new ErrorHandler(defaultInstance.logger.getName(), level);
     }
+  }
+
+  // java.lang.Object overrides --------------------------------------------------------------------------------------
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ErrorHandler that = (ErrorHandler) o;
+    return this.category.equals(that.category) && this.level == that.level;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(category, level);
   }
 
 }
