@@ -21,15 +21,11 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts base64-encoded Strings to <code>byte</code> arrays.
  * Created: 26.02.2010 08:23:49
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class Base64ToByteArrayConverter extends ThreadSafeConverter<String, byte[]> {
 
-  /**
-   * Instantiates a new Base 64 to byte array converter.
-   */
   public Base64ToByteArrayConverter() {
     super(String.class, byte[].class);
   }

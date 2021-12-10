@@ -23,24 +23,14 @@ import com.rapiddweller.common.Converter;
  * {@link Converter} implementation which applies another converter only if a condition is fulfilled,
  * otherwise returns the argument itself.
  * Created: 20.07.2011 18:39:51
- *
  * @author Volker Bergmann
  * @since 0.5.9
  */
 @SuppressWarnings("rawtypes")
 public class ConditionalConverter extends ConverterWrapper implements Converter {
 
-  /**
-   * The Condition.
-   */
   protected Condition<Object> condition;
 
-  /**
-   * Instantiates a new Conditional converter.
-   *
-   * @param condition     the condition
-   * @param realConverter the real converter
-   */
   @SuppressWarnings("unchecked")
   public ConditionalConverter(Condition<Object> condition, Converter realConverter) {
     super(realConverter);

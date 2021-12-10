@@ -24,7 +24,6 @@ import java.util.TimeZone;
  * Interprets {@link Long} values as milliseconds since 1970-01-01 and
  * converts them to {@link Date} objects.
  * Created: 26.02.2010 08:19:48
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -34,18 +33,10 @@ public class Long2DateConverter extends ThreadSafeConverter<Long, Date> {
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Long 2 date converter.
-   */
   public Long2DateConverter() {
     this(TimeZone.getDefault());
   }
 
-  /**
-   * Instantiates a new Long 2 date converter.
-   *
-   * @param timeZone the time zone
-   */
   public Long2DateConverter(TimeZone timeZone) {
     super(Long.class, Date.class);
     this.timeZone = timeZone;
@@ -53,20 +44,10 @@ public class Long2DateConverter extends ThreadSafeConverter<Long, Date> {
 
   // properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Gets time zone.
-   *
-   * @return the time zone
-   */
   public TimeZone getTimeZone() {
     return timeZone;
   }
 
-  /**
-   * Sets time zone.
-   *
-   * @param timeZone the time zone
-   */
   public void setTimeZone(TimeZone timeZone) {
     this.timeZone = timeZone;
   }

@@ -22,7 +22,6 @@ import com.rapiddweller.common.Converter;
 /**
  * Parent class for {@link Converter} test classes.
  * Created: 26.02.2010 16:29:48
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -31,18 +30,10 @@ public abstract class AbstractConverterTest {
 
   private final Class<? extends Converter> converterClass;
 
-  /**
-   * Instantiates a new Abstract converter test.
-   *
-   * @param converterClass the converter class
-   */
-  public AbstractConverterTest(Class<? extends Converter> converterClass) {
+  protected AbstractConverterTest(Class<? extends Converter> converterClass) {
     this.converterClass = converterClass;
   }
 
-  /**
-   * Verify parallelizable.
-   */
   public void verifyParallelizable() {
     Converter<?, ?> converter;
     try {

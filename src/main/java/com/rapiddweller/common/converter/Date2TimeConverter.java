@@ -23,15 +23,11 @@ import java.util.Date;
 /**
  * Converts {@link Date} objects to {@link Time} objects.
  * Created: 24.01.2013 17:02:27
- *
  * @author Volker Bergmann
  * @since 0.5.21
  */
 public class Date2TimeConverter extends ThreadSafeConverter<Date, Time> {
 
-  /**
-   * Instantiates a new Date 2 time converter.
-   */
   public Date2TimeConverter() {
     super(Date.class, Time.class);
   }

@@ -20,16 +20,12 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts a {@link Class} object to its fully qualified class name.
  * Created: 25.02.2010 23:37:15
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 @SuppressWarnings("rawtypes")
 public class Class2StringConverter extends ThreadSafeConverter<Class, String> {
 
-  /**
-   * Instantiates a new Class 2 string converter.
-   */
   public Class2StringConverter() {
     super(Class.class, String.class);
   }

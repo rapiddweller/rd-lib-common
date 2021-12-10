@@ -25,15 +25,11 @@ import java.util.Date;
 /**
  * Converts {@link Time} objects to {@link String}s.
  * Created: 26.02.2010 07:59:11
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class Time2StringConverter extends ThreadSafeConverter<Time, String> {
 
-  /**
-   * Instantiates a new Time 2 string converter.
-   */
   public Time2StringConverter() {
     super(Time.class, String.class);
   }

@@ -29,9 +29,8 @@ import java.util.Date;
 
 /**
  * Converts an object to a String by using its toString() method.
- * Null values can be mapped to an individual String.
+ * Null values can be mapped to an individual String.<br/><br/>
  * Created: 31.08.2006 18:44:59
- *
  * @author Volker Bergmann
  * @since 0.1
  */
@@ -41,41 +40,23 @@ public class ToStringConverter extends FormatHolder implements Converter<Object,
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Default constructor that uses an isEmpty String as null representation
-   */
+  /** Default constructor that uses an isEmpty String as null representation */
   public ToStringConverter() {
     this(DEFAULT_NULL_STRING);
   }
 
-  /**
-   * Constructor that initializes the null replacement to the specified parameter.
-   *
-   * @param nullString the String to use for replacing null values.
-   */
+  /** Constructor that initializes the null replacement to the specified parameter.
+   *  @param nullString the String to use for replacing null values. */
   public ToStringConverter(String nullString) {
     this(nullString, DEFAULT_DATE_PATTERN, DEFAULT_DATETIME_SECONDS_PATTERN + '.');
   }
 
-  /**
-   * Instantiates a new To string converter.
-   *
-   * @param nullString       the null string
-   * @param datePattern      the date pattern
-   * @param timestampPattern the timestamp pattern
-   */
   public ToStringConverter(String nullString, String datePattern, String timestampPattern) {
     super(nullString, datePattern, timestampPattern);
   }
 
   // Converter interface implementation ------------------------------------------------------------------------------
 
-  /**
-   * Can convert boolean.
-   *
-   * @param sourceValue the source value
-   * @return the boolean
-   */
   public boolean canConvert(Object sourceValue) {
     return true;
   }
@@ -194,15 +175,7 @@ public class ToStringConverter extends FormatHolder implements Converter<Object,
 
   // utility methods -------------------------------------------------------------------------------------------------
 
-  /**
-   * Convert string.
-   *
-   * @param <TT>       the type parameter
-   * @param source     the source
-   * @param nullString the null string
-   * @return the string
-   */
-  public static <TT> String convert(TT source, String nullString) {
+  public static <T> String convert(T source, String nullString) {
     if (source == null) {
       return nullString;
     }

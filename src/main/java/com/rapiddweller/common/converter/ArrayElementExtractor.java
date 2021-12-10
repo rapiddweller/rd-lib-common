@@ -21,7 +21,6 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Retrieves the value at a given array index from an array.
  * Created at 30.06.2009 18:02:10
- *
  * @param <E> the component type of the arrays to process
  * @author Volker Bergmann
  * @since 0.5.0
@@ -30,12 +29,6 @@ public class ArrayElementExtractor<E> extends ThreadSafeConverter<E[], E> {
 
   private final int index;
 
-  /**
-   * Instantiates a new Array element extractor.
-   *
-   * @param componentType the component type
-   * @param index         the index
-   */
   @SuppressWarnings("unchecked")
   public ArrayElementExtractor(Class<E> componentType, int index) {
     super(ArrayUtil.arrayType(componentType), componentType);

@@ -24,15 +24,11 @@ import java.util.TimeZone;
  * Interprets a Date as duration specification, e.g. '0000-00-00T00:00:00.001' as one millisecond,
  * '0001-00-00T00:00:00.000' as one year. Dates after 1970-01-01 will be interpreted relative to that date.
  * Created at 11.01.2009 06:39:28
- *
  * @author Volker Bergmann
  * @since 0.5.7
  */
 public class Date2DurationConverter extends ThreadSafeConverter<Date, Long> {
 
-  /**
-   * Instantiates a new Date 2 duration converter.
-   */
   public Date2DurationConverter() {
     super(Date.class, Long.class);
   }

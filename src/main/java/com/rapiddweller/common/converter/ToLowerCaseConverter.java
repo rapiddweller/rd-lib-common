@@ -18,26 +18,17 @@ package com.rapiddweller.common.converter;
 import java.util.Locale;
 
 /**
- * Converts Strings to lowercase.
+ * Converts Strings to lowercase.<br/><br/>
  * Created at 26.05.2009 09:10:24
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class ToLowerCaseConverter extends CaseConverter {
 
-  /**
-   * Instantiates a new To lower case converter.
-   */
   public ToLowerCaseConverter() {
     super(false);
   }
 
-  /**
-   * Instantiates a new To lower case converter.
-   *
-   * @param locale the locale
-   */
   public ToLowerCaseConverter(Locale locale) {
     super(false, locale);
   }

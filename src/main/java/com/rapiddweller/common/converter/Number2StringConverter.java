@@ -21,27 +21,16 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 /**
- * Formats a number as a String.
+ * Formats a number as a String.<br/><br/>
  * Created: 10.09.2007 07:35:18
- *
  * @author Volker Bergmann
  */
 public class Number2StringConverter extends ThreadSafeConverter<Number, String> {
 
   private final int minimumFractionDigits;
   private final int maximumFractionDigits;
-  /**
-   * The Grouping used.
-   */
   boolean groupingUsed;
 
-  /**
-   * Instantiates a new Number 2 string converter.
-   *
-   * @param minimumFractionDigits the minimum fraction digits
-   * @param maximumFractionDigits the maximum fraction digits
-   * @param groupingUsed          the grouping used
-   */
   public Number2StringConverter(int minimumFractionDigits, int maximumFractionDigits, boolean groupingUsed) {
     super(Number.class, String.class);
     this.minimumFractionDigits = minimumFractionDigits;
@@ -54,15 +43,6 @@ public class Number2StringConverter extends ThreadSafeConverter<Number, String> 
     return convert(sourceValue, minimumFractionDigits, maximumFractionDigits, groupingUsed);
   }
 
-  /**
-   * Convert string.
-   *
-   * @param sourceValue           the source value
-   * @param minimumFractionDigits the minimum fraction digits
-   * @param maximumFractionDigits the maximum fraction digits
-   * @param groupingUsed          the grouping used
-   * @return the string
-   */
   public static String convert(Number sourceValue, int minimumFractionDigits, int maximumFractionDigits, boolean groupingUsed) {
     NumberFormat format = NumberFormat.getInstance(Locale.US);
     format.setMinimumFractionDigits(minimumFractionDigits);

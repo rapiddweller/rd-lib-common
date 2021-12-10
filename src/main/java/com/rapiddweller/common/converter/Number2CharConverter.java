@@ -20,15 +20,11 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts {@link Number}s to characters like a cast does, e.g. (char) 65.
  * Created: 19.01.2011 15:33:22
- *
  * @author Volker Bergmann
  * @since 0.5.5
  */
 public class Number2CharConverter extends ThreadSafeConverter<Number, Character> {
 
-  /**
-   * Instantiates a new Number 2 char converter.
-   */
   public Number2CharConverter() {
     super(Number.class, Character.class);
   }

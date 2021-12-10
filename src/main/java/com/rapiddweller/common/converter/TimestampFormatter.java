@@ -27,7 +27,6 @@ import java.text.DateFormat;
 /**
  * Formats a {@link Timestamp} as {@link String}.
  * Created: 18.02.2010 17:46:14
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -39,18 +38,10 @@ public class TimestampFormatter extends ThreadSafeConverter<Timestamp, String> {
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Timestamp formatter.
-   */
   public TimestampFormatter() {
     this(Patterns.DEFAULT_TIMESTAMP_PATTERN);
   }
 
-  /**
-   * Instantiates a new Timestamp formatter.
-   *
-   * @param pattern the pattern
-   */
   public TimestampFormatter(String pattern) {
     super(Timestamp.class, String.class);
 
@@ -84,12 +75,6 @@ public class TimestampFormatter extends ThreadSafeConverter<Timestamp, String> {
 
   // static convenience method ---------------------------------------------------------------------------------------
 
-  /**
-   * Format string.
-   *
-   * @param timestamp the timestamp
-   * @return the string
-   */
   public String format(Timestamp timestamp) {
     if (timestamp == null) {
       return null;

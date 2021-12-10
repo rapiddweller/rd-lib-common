@@ -25,24 +25,15 @@ import java.util.List;
 /**
  * Converts arrays and collections to collections of same content, everything else is converted to a collection of size 1.
  * Created: 26.08.2007 16:16:15
- *
  * @param <C> the collection type to convert to
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class ToCollectionConverter<C extends Collection> extends ThreadSafeConverter<Object, C> {
 
-  /**
-   * Instantiates a new To collection converter.
-   */
   public ToCollectionConverter() {
     this((Class<C>) List.class);
   }
 
-  /**
-   * Instantiates a new To collection converter.
-   *
-   * @param targetType the target type
-   */
   public ToCollectionConverter(Class<C> targetType) {
     super(Object.class, targetType);
   }
@@ -52,13 +43,6 @@ public class ToCollectionConverter<C extends Collection> extends ThreadSafeConve
     return (C) convert(sourceValue, targetType);
   }
 
-  /**
-   * Convert collection.
-   *
-   * @param sourceValue the source value
-   * @param targetType  the target type
-   * @return the collection
-   */
   public static Collection convert(Object sourceValue, Class targetType) {
     if (sourceValue == null) {
       return null;

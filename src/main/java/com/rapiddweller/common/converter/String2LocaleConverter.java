@@ -21,16 +21,12 @@ import com.rapiddweller.common.LocaleUtil;
 import java.util.Locale;
 
 /**
- * Instantiates {@link Locale}s by their code, e.g. de_DE.
+ * Instantiates {@link Locale}s by their code, e.g. de_DE.<br/><br/>
  * Created: 05.08.2007 06:29:58
- *
  * @author Volker Bergmann
  */
 public class String2LocaleConverter extends ThreadSafeConverter<String, Locale> {
 
-  /**
-   * Instantiates a new String 2 locale converter.
-   */
   public String2LocaleConverter() {
     super(String.class, Locale.class);
   }

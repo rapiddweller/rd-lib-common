@@ -29,7 +29,6 @@ import com.rapiddweller.common.mutator.EmptyMutator;
 /**
  * Converts an array of property values to a JavaBean instance.
  * Created: 19.09.2014 10:24:05
- *
  * @author Volker Bergmann
  * @since 1.0.0
  */
@@ -40,13 +39,6 @@ public class PropertyArray2JavaBeanConverter extends UnsafeConverter<Object[], O
   private Mutator[] mutators;
   private final ReferenceResolver referenceResolver;
 
-  /**
-   * Instantiates a new Property array 2 java bean converter.
-   *
-   * @param beanClassProvider the bean class provider
-   * @param attributePaths    the attribute paths
-   * @param referenceResolver the reference resolver
-   */
   public PropertyArray2JavaBeanConverter(ClassProvider<Object> beanClassProvider, String[] attributePaths, ReferenceResolver referenceResolver) {
     super(Object[].class, Object.class);
     this.beanClassProvider = Assert.notNull(beanClassProvider, "beanClassProvider");

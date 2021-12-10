@@ -24,102 +24,53 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Utility class for operations related to Java types, e.g. mapping number types and their wrappers.
+ * Utility class for operations related to Java types, e.g. mapping number types and their wrappers.<br/><br/>
  * Created: 29.09.2006 12:29:48
+ * @author Volker Bergmann
  */
 public class JavaType {
 
   // static maps for JavaType lookup by different criteria ---------------------------------------------------------
 
-  /**
-   * Maps the NumberTypes by name
-   */
+  /** Maps the NumberTypes by name */
   private static final Map<String, JavaType> instancesByName = new HashMap<>();
 
-  /**
-   * Maps the NumberTypes by primitive class
-   */
+  /** Maps the NumberTypes by primitive class */
   private static final Map<Class<?>, JavaType> instancesByPrimitive = new HashMap<>();
 
-  /**
-   * Maps the NumberTypes by wrapper class
-   */
+  /**  Maps the NumberTypes by wrapper class */
   private static final Map<Class<?>, JavaType> instancesByWrapper = new HashMap<>();
 
-  /**
-   * Collects all Number types, primitives and wrappers
-   */
+  /** Collects all Number types, primitives and wrappers */
   private static final Set<Class<? extends Number>> numberTypes = new HashSet<>();
 
   // instances -------------------------------------------------------------------------------------------------------
 
-  /**
-   * The constant BOOLEAN.
-   */
   public static final JavaType BOOLEAN = new JavaType("boolean", boolean.class, Boolean.class);
-  /**
-   * The constant CHAR.
-   */
   public static final JavaType CHAR = new JavaType("char", short.class, Short.class);
-  /**
-   * The constant BYTE.
-   */
   public static final JavaType BYTE = new JavaType("byte", byte.class, Byte.class);
-  /**
-   * The constant SHORT.
-   */
   public static final JavaType SHORT = new JavaType("short", short.class, Short.class);
-  /**
-   * The constant INT.
-   */
   public static final JavaType INT = new JavaType("int", int.class, Integer.class);
-  /**
-   * The constant LONG.
-   */
   public static final JavaType LONG = new JavaType("long", long.class, Long.class);
-  /**
-   * The constant FLOAT.
-   */
   public static final JavaType FLOAT = new JavaType("float", float.class, Float.class);
-  /**
-   * The constant DOUBLE.
-   */
   public static final JavaType DOUBLE = new JavaType("double", double.class, Double.class);
-  /**
-   * The constant BIG_INT.
-   */
   public static final JavaType BIG_INT = new JavaType("big_int", BigInteger.class, BigInteger.class);
-  /**
-   * The constant BIG_DECIMAL.
-   */
   public static final JavaType BIG_DECIMAL = new JavaType("big_decimal", BigDecimal.class, BigDecimal.class);
 
   // attributes ------------------------------------------------------------------------------------------------------
 
-  /**
-   * logic name
-   */
+  /** logic name */
   private final String name;
 
-  /**
-   * primitive class of the JavaType
-   */
+  /** primitive class of the JavaType */
   private final Class<?> primitiveClass;
 
-  /**
-   * wrapper class of the JavaType
-   */
+  /** wrapper class of the JavaType */
   private final Class<?> wrapperClass;
 
   // private constructor ---------------------------------------------------------------------------------------------
 
-  /**
-   * Initializes a JavaType instance and puts it into all lookup maps
-   *
-   * @param name
-   * @param primitiveClass
-   * @param objectClass
-   */
+  /** Initializes a JavaType instance and puts it into all lookup maps */
   @SuppressWarnings("unchecked")
   private JavaType(String name, Class<?> primitiveClass, Class<?> objectClass) {
     this.name = name;
@@ -138,60 +89,30 @@ public class JavaType {
 
   // property getters ------------------------------------------------------------------------------------------------
 
-  /**
-   * Gets name.
-   *
-   * @return the name
-   */
   public String getName() {
     return name;
   }
 
-  /**
-   * Gets primitive class.
-   *
-   * @return the primitive class
-   */
   public Class<?> getPrimitiveClass() {
     return primitiveClass;
   }
 
-  /**
-   * Gets wrapper class.
-   *
-   * @return the wrapper class
-   */
   public Class<?> getWrapperClass() {
     return wrapperClass;
   }
 
   // static query methods --------------------------------------------------------------------------------------------
 
-  /**
-   * Gets instances.
-   *
-   * @return the instances
-   */
   public static Collection<JavaType> getInstances() {
     return instancesByName.values();
   }
 
-  /**
-   * Returns a class instance by name.
-   *
-   * @param name the class name
-   * @return the corresponding class
-   */
+  /** Returns a class instance by name. */
   public static JavaType getInstance(String name) {
     return instancesByName.get(name);
   }
 
-  /**
-   * finds the wrapper class for primitive number types
-   *
-   * @param numberType the number type
-   * @return the corresponding class
-   */
+  /** finds the wrapper class for primitive number types */
   public static Class<?> getWrapperClass(Class<?> numberType) {
     JavaType resultType = instancesByPrimitive.get(numberType);
     if (resultType == null) {
@@ -200,12 +121,9 @@ public class JavaType {
     return (resultType != null ? resultType.getWrapperClass() : null);
   }
 
-  /**
-   * Finds the primitive class for primitive number types.
-   *
+  /** Finds the primitive class for primitive number types.
    * @param numberType the number type
-   * @return the corresponding class
-   */
+   * @return the corresponding class */
   public static Class<?> getPrimitiveClass(Class<?> numberType) {
     JavaType resultType = instancesByWrapper.get(numberType);
     if (resultType == null) {
@@ -214,21 +132,11 @@ public class JavaType {
     return (resultType != null ? resultType.getPrimitiveClass() : null);
   }
 
-  /**
-   * Provides all Java number types.
-   *
-   * @return the number types
-   */
+  /** Provides all Java number types. */
   public static Set<Class<? extends Number>> getNumberTypes() {
     return numberTypes;
   }
 
-  /**
-   * Is integral type boolean.
-   *
-   * @param type the type
-   * @return the boolean
-   */
   public static boolean isIntegralType(Class<?> type) {
     return (type == Integer.class || type == int.class
         || type == Long.class || type == long.class
@@ -237,12 +145,6 @@ public class JavaType {
         || type == BigInteger.class);
   }
 
-  /**
-   * Is decimal type boolean.
-   *
-   * @param type the type
-   * @return the boolean
-   */
   public static boolean isDecimalType(Class<?> type) {
     return (type == Double.class || type == double.class || type == Float.class
         || type == float.class || type == BigDecimal.class);

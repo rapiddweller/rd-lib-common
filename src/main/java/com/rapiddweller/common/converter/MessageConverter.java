@@ -24,7 +24,6 @@ import java.util.Locale;
 /**
  * Renders a single object or an array of objects into a String, similar to the java.text.MessageFormat.
  * Created: 12.11.2007 20:46:31
- *
  * @author Volker Bergmann
  */
 public class MessageConverter extends ThreadSafeConverter<Object, String> {
@@ -32,48 +31,24 @@ public class MessageConverter extends ThreadSafeConverter<Object, String> {
   private String pattern;
   private Locale locale;
 
-  /**
-   * Instantiates a new Message converter.
-   */
   public MessageConverter() {
     this("{0}");
   }
 
-  /**
-   * Instantiates a new Message converter.
-   *
-   * @param pattern the pattern
-   */
   public MessageConverter(String pattern) {
     this(pattern, LocaleUtil.getFallbackLocale());
   }
 
-  /**
-   * Instantiates a new Message converter.
-   *
-   * @param pattern the pattern
-   * @param locale  the locale
-   */
   public MessageConverter(String pattern, Locale locale) {
     super(Object.class, String.class);
     this.pattern = pattern;
     this.locale = locale;
   }
 
-  /**
-   * Sets pattern.
-   *
-   * @param pattern the pattern
-   */
   public void setPattern(String pattern) {
     this.pattern = pattern;
   }
 
-  /**
-   * Sets locale.
-   *
-   * @param locale the locale
-   */
   public void setLocale(Locale locale) {
     this.locale = locale;
   }

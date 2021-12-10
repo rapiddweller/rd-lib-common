@@ -22,15 +22,11 @@ import java.time.LocalDate;
 /**
  * Parses a String as {@link LocalDate}.<br><br>
  * Created: 28.07.2019 20:30:49
- *
  * @author Volker Bergmann
  * @since 1.0.12
  */
 public class String2LocalDateConverter extends ThreadSafeConverter<String, LocalDate> {
 
-  /**
-   * Instantiates a new String 2 local date converter.
-   */
   public String2LocalDateConverter() {
     super(String.class, LocalDate.class);
   }

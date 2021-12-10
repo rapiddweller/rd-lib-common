@@ -19,9 +19,8 @@ import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
- * Parent class for {@link Converter} implementations which support all modes of threaded usage.
+ * Parent class for {@link Converter} implementations which support all modes of threaded usage.<br/><br/>
  * Created: 26.02.2010 12:47:56
- *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
@@ -34,12 +33,12 @@ public abstract class ThreadSafeConverter<S, T> extends AbstractConverter<S, T> 
   }
 
   @Override
-  final public boolean isThreadSafe() {
+  public final boolean isThreadSafe() {
     return true;
   }
 
   @Override
-  final public boolean isParallelizable() {
+  public final boolean isParallelizable() {
     return true;
   }
 

@@ -24,30 +24,17 @@ import com.rapiddweller.common.iterator.ConvertingIterator;
 import java.io.Closeable;
 
 /**
- * Iterable that provides {@link ConvertingIterator}s.
+ * Iterable that provides {@link ConvertingIterator}s.<br/><br/>
  * Created: 28.08.2007 08:57:16
- *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
  */
 public class ConvertingIterable<S, T> implements HeavyweightTypedIterable<T> {
 
-  /**
-   * The Iterable.
-   */
   protected Iterable<S> iterable;
-  /**
-   * The Converter.
-   */
   protected Converter<S, T> converter;
 
-  /**
-   * Instantiates a new Converting iterable.
-   *
-   * @param iterable  the iterable
-   * @param converter the converter
-   */
   public ConvertingIterable(Iterable<S> iterable, Converter<S, T> converter) {
     this.iterable = iterable;
     this.converter = converter;
@@ -65,9 +52,6 @@ public class ConvertingIterable<S, T> implements HeavyweightTypedIterable<T> {
     return new ConvertingIterator<>(this.iterable.iterator(), converter);
   }
 
-  /**
-   * Close.
-   */
   public void close() {
     if (iterable instanceof Closeable) {
       IOUtil.close((Closeable) iterable);

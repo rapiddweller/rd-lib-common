@@ -21,15 +21,11 @@ import com.rapiddweller.common.Converter;
 /**
  * {@link Converter} implementation that converts a null value to an empty {@link String}.
  * Created: 08.03.2011 14:59:34
- *
  * @author Volker Bergmann
  * @since 0.5.8
  */
 public class NullToEmptyStringConverter extends ThreadSafeConverter<String, String> {
 
-  /**
-   * Instantiates a new Null to empty string converter.
-   */
   protected NullToEmptyStringConverter() {
     super(String.class, String.class);
   }

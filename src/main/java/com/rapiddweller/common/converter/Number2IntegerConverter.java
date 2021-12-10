@@ -20,15 +20,11 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts {@link Number} objects to {@link Integer}s.
  * Created at 14.04.2008 10:48:53
- *
  * @author Volker Bergmann
  * @since 0.4.2
  */
 public class Number2IntegerConverter extends ThreadSafeConverter<Number, Integer> {
 
-  /**
-   * Instantiates a new Number 2 integer converter.
-   */
   public Number2IntegerConverter() {
     super(Number.class, Integer.class);
   }

@@ -20,15 +20,11 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts arbitrary {@link Number}s to {@link Long}s.
  * Created: 15.11.2012 08:25:09
- *
  * @author Volker Bergmann
  * @since 0.5.20
  */
 public class Number2LongConverter extends ThreadSafeConverter<Number, Long> {
 
-  /**
-   * Instantiates a new Number 2 long converter.
-   */
   protected Number2LongConverter() {
     super(Number.class, Long.class);
   }

@@ -21,15 +21,11 @@ import com.rapiddweller.common.ConversionException;
  * Converts an arbitrary object to a hash code using the method <code>hashCode()</code>.
  * Null values are converted to zero.
  * Created at 06.11.2008 07:37:17
- *
  * @author Volker Bergmann
  * @since 0.4.6
  */
 public class ToHashCodeConverter extends ThreadSafeConverter<Object, Integer> {
 
-  /**
-   * Instantiates a new To hash code converter.
-   */
   public ToHashCodeConverter() {
     super(Object.class, Integer.class);
   }

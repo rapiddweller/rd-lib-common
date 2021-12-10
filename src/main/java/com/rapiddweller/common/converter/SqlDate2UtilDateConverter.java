@@ -22,15 +22,11 @@ import java.util.Date;
 /**
  * Converts {@link java.sql.Date} objects to {@link java.util.Date} objects.
  * Created: 25.02.2010 23:22:14
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class SqlDate2UtilDateConverter extends ThreadSafeConverter<java.sql.Date, Date> {
 
-  /**
-   * Instantiates a new Sql date 2 util date converter.
-   */
   public SqlDate2UtilDateConverter() {
     super(java.sql.Date.class, Date.class);
   }

@@ -20,9 +20,8 @@ import com.rapiddweller.common.Converter;
 
 /**
  * Proxy class for (unsafe) {@link Converter}s
- * that synchronizes calls to the wrapped converter instance.
+ * that synchronizes calls to the wrapped converter instance.<br/><br/>
  * Created: 26.02.2010 18:22:36
- *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
@@ -30,11 +29,6 @@ import com.rapiddweller.common.Converter;
  */
 public class SynchronizedConverterProxy<S, T> extends ConverterProxy<S, T> {
 
-  /**
-   * Instantiates a new Synchronized converter proxy.
-   *
-   * @param realConverter the real converter
-   */
   protected SynchronizedConverterProxy(Converter<S, T> realConverter) {
     super(realConverter);
   }

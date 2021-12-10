@@ -22,7 +22,6 @@ import com.rapiddweller.common.ConversionException;
  * Wraps an Accessor into a Converter interface.
  * The object to be converted is used as the provider for the Accessor
  * Created: 26.08.2007 07:25:26
- *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
@@ -31,13 +30,6 @@ public class AccessingConverter<C, V> extends ThreadSafeConverter<C, V> {
 
   private final Accessor<C, V> accessor;
 
-  /**
-   * Instantiates a new Accessing converter.
-   *
-   * @param sourceType the source type
-   * @param targetType the target type
-   * @param accessor   the accessor
-   */
   public AccessingConverter(Class<C> sourceType, Class<V> targetType, Accessor<C, V> accessor) {
     super(sourceType, targetType);
     this.accessor = accessor;

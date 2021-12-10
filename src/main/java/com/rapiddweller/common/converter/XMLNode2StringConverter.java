@@ -27,7 +27,6 @@ import org.w3c.dom.Element;
 /**
  * Converts content elements of org.w3c.Document to strings.
  * Created: 20.11.2015 18:00:16
- *
  * @author Volker Bergmann
  * @since 1.0.6
  */
@@ -36,9 +35,6 @@ public class XMLNode2StringConverter extends UnsafeConverter<Object, String> {
   private static final String LF = SystemInfo.getLineSeparator();
   private static final XMLNode2StringConverter DEFAULT_INSTANCE = new XMLNode2StringConverter();
 
-  /**
-   * Instantiates a new Xml node 2 string converter.
-   */
   public XMLNode2StringConverter() {
     super(Object.class, String.class);
   }
@@ -62,13 +58,6 @@ public class XMLNode2StringConverter extends UnsafeConverter<Object, String> {
     }
   }
 
-  /**
-   * Format string.
-   *
-   * @param node the node
-   * @return the string
-   * @throws ConversionException the conversion exception
-   */
   public static String format(Object node) throws ConversionException {
     return DEFAULT_INSTANCE.convert(node);
   }

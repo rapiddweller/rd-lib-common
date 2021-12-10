@@ -19,17 +19,13 @@ import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
- * Converts {@link String}s of length 1 to {@link Character}s, Strings of length 0 to <code>null</code>.
+ * Converts {@link String}s of length 1 to {@link Character}s, Strings of length 0 to <code>null</code>.<br/><br/>
  * Created: 27.02.2010 10:16:03
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class String2CharConverter extends ThreadSafeConverter<String, Character> {
 
-  /**
-   * Instantiates a new String 2 char converter.
-   */
   public String2CharConverter() {
     super(String.class, Character.class);
   }

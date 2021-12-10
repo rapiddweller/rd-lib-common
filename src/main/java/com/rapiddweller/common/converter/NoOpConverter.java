@@ -20,7 +20,6 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Returns the argument to be converted.
  * Created: 27.09.2006 23:26:25
- *
  * @param <E> the object type to convert from and to
  * @author Volker Bergmann
  * @since 0.1
@@ -29,29 +28,16 @@ public class NoOpConverter<E> extends ThreadSafeConverter<E, E> {
 
   private static final NoOpConverter<?> instance = new NoOpConverter<>();
 
-  /**
-   * Gets instance.
-   *
-   * @return the instance
-   */
   @SuppressWarnings("rawtypes")
   public static NoOpConverter getInstance() {
     return instance;
   }
 
-  /**
-   * Instantiates a new No op converter.
-   */
   @SuppressWarnings("unchecked")
   public NoOpConverter() {
     this((Class<E>) Object.class);
   }
 
-  /**
-   * Instantiates a new No op converter.
-   *
-   * @param type the type
-   */
   public NoOpConverter(Class<E> type) {
     super(type, type);
   }

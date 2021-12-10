@@ -22,16 +22,12 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Converts Date into Calendar Objects and back.
+ * Converts Date into Calendar Objects and back.<br/><br/>
  * Created: 05.08.2007 06:42:16
- *
  * @author Volker Bergmann
  */
 public class Date2CalendarConverter extends ThreadSafeConverter<Date, Calendar> {
 
-  /**
-   * Instantiates a new Date 2 calendar converter.
-   */
   public Date2CalendarConverter() {
     super(Date.class, Calendar.class);
   }

@@ -26,16 +26,12 @@ import java.util.GregorianCalendar;
 /**
  * Parses a {@link String} as a {@link Calendar}.
  * Created at 13.07.2009 18:49:00
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class String2GregorianCalendarConverter extends ConverterWrapper<String, Date>
     implements Converter<String, GregorianCalendar> {
 
-  /**
-   * Instantiates a new String 2 gregorian calendar converter.
-   */
   public String2GregorianCalendarConverter() {
     super(new String2DateConverter<>());
   }

@@ -20,15 +20,11 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts arbitrary {@link Number}s to {@link Double}s.
  * Created: 15.11.2012 08:26:16
- *
  * @author Volker Bergmann
  * @since 0.5.20
  */
 public class Number2DoubleConverter extends ThreadSafeConverter<Number, Double> {
 
-  /**
-   * Instantiates a new Number 2 double converter.
-   */
   protected Number2DoubleConverter() {
     super(Number.class, Double.class);
   }

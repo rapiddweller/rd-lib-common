@@ -20,15 +20,11 @@ import com.rapiddweller.common.ConversionException;
 
 /**
  * Converts byte arrays to base64 strings and vice versa.
- *
  * @author Volker Bergmann
  * @since 0.2.04
  */
 public class ByteArrayToBase64Converter extends ThreadSafeConverter<byte[], String> {
 
-  /**
-   * Instantiates a new Byte array to base 64 converter.
-   */
   public ByteArrayToBase64Converter() {
     super(byte[].class, String.class);
   }

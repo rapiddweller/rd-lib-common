@@ -22,7 +22,7 @@ import com.rapiddweller.common.exception.ExceptionFactory;
 import java.net.URLEncoder;
 
 /**
- * Converts Strings to their URL-encoded representation.
+ * Converts Strings to their URL-encoded representation.<br/><br/>
  * Created at 04.07.2009 07:11:19
  * @author Volker Bergmann
  * @since 0.5.0

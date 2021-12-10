@@ -20,15 +20,11 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Combines the characters of a character array to a {@link String}.
  * Created: 27.02.2010 09:46:36
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class CharArray2StringConverter extends ThreadSafeConverter<char[], String> {
 
-  /**
-   * Instantiates a new Char array 2 string converter.
-   */
   protected CharArray2StringConverter() {
     super(char[].class, String.class);
   }

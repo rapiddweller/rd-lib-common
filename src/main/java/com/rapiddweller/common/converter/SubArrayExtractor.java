@@ -21,20 +21,14 @@ import com.rapiddweller.common.ConversionException;
 import java.lang.reflect.Array;
 
 /**
- * Extracts a sub array from another array.
+ * Extracts a sub array from another array.<br/><br/>
  * Created: 30.07.2007 21:05:07
- *
  * @author Volker Bergmann
  */
 public class SubArrayExtractor extends ThreadSafeConverter<Object[], Object[]> {
 
   private final int[] indexes;
 
-  /**
-   * Instantiates a new Sub array extractor.
-   *
-   * @param indexes the indexes
-   */
   public SubArrayExtractor(int... indexes) {
     super(Object[].class, Object[].class);
     this.indexes = indexes;

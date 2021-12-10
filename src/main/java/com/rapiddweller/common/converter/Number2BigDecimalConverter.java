@@ -21,17 +21,13 @@ import com.rapiddweller.common.NumberUtil;
 import java.math.BigDecimal;
 
 /**
- * Converts arbitrary {@link Number}s to {@link BigDecimal}s.
+ * Converts arbitrary {@link Number}s to {@link BigDecimal}s.<br/><br/>
  * Created: 15.11.2012 08:28:48
- *
  * @author Volker Bergmann
  * @since 0.5.20
  */
 public class Number2BigDecimalConverter extends ThreadSafeConverter<Number, BigDecimal> {
 
-  /**
-   * Instantiates a new Number 2 big decimal converter.
-   */
   protected Number2BigDecimalConverter() {
     super(Number.class, BigDecimal.class);
   }

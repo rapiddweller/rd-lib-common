@@ -20,15 +20,11 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts a character to a string with a length of one.
  * Created: 19.01.2011 15:52:40
- *
  * @author Volker Bergmann
  * @since 0.5.5
  */
 public class Char2StringConverter extends ThreadSafeConverter<Character, String> {
 
-  /**
-   * Instantiates a new Char 2 string converter.
-   */
   public Char2StringConverter() {
     super(Character.class, String.class);
   }

@@ -22,7 +22,6 @@ import com.rapiddweller.common.Converter;
  * Converting {@link Boolean} values to {@link Number}s: <code>false</code> to <code>0</code>,
  * <code>true</code> to <code>1</code>.
  * Created: 27.02.2010 09:57:17
- *
  * @param <T> the target type of the numbers to convert
  * @author Volker Bergmann
  * @since 0.5.0
@@ -30,11 +29,6 @@ import com.rapiddweller.common.Converter;
 public class Boolean2NumberConverter<T extends Number> extends ConverterWrapper<Integer, T>
     implements Converter<Boolean, T> {
 
-  /**
-   * Instantiates a new Boolean 2 number converter.
-   *
-   * @param targetType the target type
-   */
   public Boolean2NumberConverter(Class<T> targetType) {
     super(new NumberToNumberConverter<>(Integer.class, targetType));
   }

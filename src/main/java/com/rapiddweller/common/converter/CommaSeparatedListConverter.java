@@ -23,7 +23,6 @@ import com.rapiddweller.common.Converter;
 /**
  * Converts a {@link String} with a comma-separated list to an array.
  * Created: 27.02.2010 12:13:49
- *
  * @param <T> the object type to convert to
  * @author Volker Bergmann
  * @since 0.5.0
@@ -33,11 +32,6 @@ public class CommaSeparatedListConverter<T> extends ConverterWrapper<String, T> 
   private final Class<T> targetComponentType;
   private final Class<T[]> targetType;
 
-  /**
-   * Instantiates a new Comma separated list converter.
-   *
-   * @param targetComponentType the target component type
-   */
   @SuppressWarnings("unchecked")
   protected CommaSeparatedListConverter(Class<T> targetComponentType) {
     super(ConverterManager.getInstance().createConverter(String.class, targetComponentType));

@@ -18,9 +18,8 @@ package com.rapiddweller.common.converter;
 import com.rapiddweller.common.Converter;
 
 /**
- * Parent class for {@link Converter}s that are neither parallelizable nor thead-safe.
+ * Parent class for {@link Converter}s that are neither parallelizable nor thead-safe.<br/><br/>
  * Created: 26.02.2010 16:19:44
- *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
@@ -28,12 +27,6 @@ import com.rapiddweller.common.Converter;
  */
 public abstract class UnsafeConverter<S, T> extends AbstractConverter<S, T> {
 
-  /**
-   * Instantiates a new Unsafe converter.
-   *
-   * @param sourceType the source type
-   * @param targetType the target type
-   */
   protected UnsafeConverter(Class<S> sourceType, Class<T> targetType) {
     super(sourceType, targetType);
   }

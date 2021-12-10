@@ -20,7 +20,6 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Extracts a sub string from a string.
  * Created: 26.02.2010 10:55:11
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -29,48 +28,24 @@ public class SubstringExtractor extends ThreadSafeConverter<String, String> {
   private int from;
   private Integer to;
 
-  /**
-   * Instantiates a new Substring extractor.
-   */
   public SubstringExtractor() {
     this(0);
   }
 
-  /**
-   * Instantiates a new Substring extractor.
-   *
-   * @param from the from
-   */
   public SubstringExtractor(int from) {
     this(from, null);
   }
 
-  /**
-   * Instantiates a new Substring extractor.
-   *
-   * @param from the from
-   * @param to   the to
-   */
   public SubstringExtractor(int from, Integer to) {
     super(String.class, String.class);
     this.from = from;
     this.to = to;
   }
 
-  /**
-   * Sets from.
-   *
-   * @param from the from
-   */
   public void setFrom(int from) {
     this.from = from;
   }
 
-  /**
-   * Sets to.
-   *
-   * @param to the to
-   */
   public void setTo(Integer to) {
     this.to = to;
   }

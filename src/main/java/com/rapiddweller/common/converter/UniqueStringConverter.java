@@ -22,9 +22,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Assures uniqueness for all processed Strings by appending unique numbers to recurring instances.
+ * Assures uniqueness for all processed Strings by appending unique numbers to recurring instances.<br/><br/>
  * Created: 24.06.2008 19:41:08
- *
  * @author Volker Bergmann
  * @since 0.4.4
  */
@@ -33,9 +32,6 @@ public class UniqueStringConverter extends AbstractConverter<String, String> {
   private static final int MAX_TRIES = 10000;
   private final Set<String> usedStrings;
 
-  /**
-   * Instantiates a new Unique string converter.
-   */
   public UniqueStringConverter() {
     super(String.class, String.class);
     usedStrings = new HashSet<>();

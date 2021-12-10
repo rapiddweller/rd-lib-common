@@ -21,36 +21,18 @@ import com.rapiddweller.common.bean.HashCodeBuilder;
 /**
  * Converter id class for the ConverterManager.
  * Created: 27.02.2010 05:45:43
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 class ConversionTypes {
 
-  /**
-   * The Source type.
-   */
   public final Class<?> sourceType;
-  /**
-   * The Target type.
-   */
   public final Class<?> targetType;
 
-  /**
-   * Instantiates a new Conversion types.
-   *
-   * @param converter the converter
-   */
   public ConversionTypes(Converter<?, ?> converter) {
     this(converter.getSourceType(), converter.getTargetType());
   }
 
-  /**
-   * Instantiates a new Conversion types.
-   *
-   * @param sourceType the source type
-   * @param targetType the target type
-   */
   public ConversionTypes(Class<?> sourceType, Class<?> targetType) {
     this.sourceType = sourceType;
     this.targetType = targetType;

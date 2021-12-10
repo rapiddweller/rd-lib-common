@@ -20,9 +20,8 @@ import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.exception.ExceptionFactory;
 
 /**
- * Parses a {@link String} as a {@link Boolean}.
+ * Parses a {@link String} as a {@link Boolean}.<br/><br/>
  * Created: 27.02.2010 11:44:57
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -36,20 +35,10 @@ public class String2BooleanConverter extends ThreadSafeConverter<String, Boolean
   private final String falseString;
   private final boolean caseSensitive;
 
-  /**
-   * Instantiates a new String 2 boolean converter.
-   */
   public String2BooleanConverter() {
     this(DEFAULT_TRUE_STRING, DEFAULT_FALSE_STRING, DEFAULT_CASE_SENSITIVE);
   }
 
-  /**
-   * Instantiates a new String 2 boolean converter.
-   *
-   * @param trueString    the true string
-   * @param falseString   the false string
-   * @param caseSensitive the case sensitive
-   */
   public String2BooleanConverter(String trueString, String falseString, boolean caseSensitive) {
     super(String.class, Boolean.class);
     this.falseString = falseString;

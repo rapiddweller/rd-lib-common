@@ -20,15 +20,11 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts arbitrary {@link Number}s to {@link Float}s.
  * Created: 15.11.2012 08:26:50
- *
  * @author Volker Bergmann
  * @since 0.5.20
  */
 public class Number2FloatConverter extends ThreadSafeConverter<Number, Float> {
 
-  /**
-   * Instantiates a new Number 2 float converter.
-   */
   protected Number2FloatConverter() {
     super(Number.class, Float.class);
   }

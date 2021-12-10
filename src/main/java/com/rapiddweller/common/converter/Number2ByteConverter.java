@@ -20,15 +20,11 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts arbitrary {@link Number}s to {@link Byte}s.
  * Created: 15.11.2012 08:25:45
- *
  * @author Volker Bergmann
  * @since 0.5.20
  */
 public class Number2ByteConverter extends ThreadSafeConverter<Number, Byte> {
 
-  /**
-   * Instantiates a new Number 2 byte converter.
-   */
   protected Number2ByteConverter() {
     super(Number.class, Byte.class);
   }

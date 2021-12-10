@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
  * Each part of the 'input' string that matches the regular expression 'pattern'
  * is replaced with the 'replacement' string.
  * Created: 22.02.2010 07:12:12
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -33,19 +32,10 @@ public class RegexReplacer extends ThreadSafeConverter<String, String> {
   private Pattern pattern;
   private String replacement;
 
-  /**
-   * Instantiates a new Regex replacer.
-   */
   public RegexReplacer() {
     this(null, null);
   }
 
-  /**
-   * Instantiates a new Regex replacer.
-   *
-   * @param pattern     the pattern
-   * @param replacement the replacement
-   */
   public RegexReplacer(String pattern, String replacement) {
     super(String.class, String.class);
     setPattern(pattern);
@@ -56,11 +46,6 @@ public class RegexReplacer extends ThreadSafeConverter<String, String> {
     this.replacement = replacement;
   }
 
-  /**
-   * Sets pattern.
-   *
-   * @param pattern the pattern
-   */
   public void setPattern(String pattern) {
     this.pattern = Pattern.compile(pattern);
   }
@@ -70,26 +55,10 @@ public class RegexReplacer extends ThreadSafeConverter<String, String> {
     return this.pattern.matcher(input).replaceAll(this.replacement);
   }
 
-  /**
-   * Convert string.
-   *
-   * @param input       the input
-   * @param replacement the replacement
-   * @return the string
-   * @throws ConversionException the conversion exception
-   */
   public String convert(String input, String replacement) throws ConversionException {
     return this.pattern.matcher(input).replaceAll(replacement);
   }
 
-  /**
-   * Convert string.
-   *
-   * @param input       the input
-   * @param pattern     the pattern
-   * @param replacement the replacement
-   * @return the string
-   */
   public static String convert(String input, String pattern, String replacement) {
     return new RegexReplacer(pattern, replacement).convert(input);
   }

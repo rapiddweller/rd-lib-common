@@ -20,15 +20,11 @@ import java.util.Date;
 /**
  * Converts {@link Integer} values to {@link Date} objects.
  * Created: 10.01.2011 11:59:43
- *
  * @author Volker Bergmann
  * @since 0.6.4
  */
 public class Int2DateConverter extends ConverterChain<Integer, Date> {
 
-  /**
-   * Instantiates a new Int 2 date converter.
-   */
   public Int2DateConverter() {
     super(new NumberToNumberConverter<>(Integer.class, Long.class),
         new Long2DateConverter());

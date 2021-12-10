@@ -26,7 +26,6 @@ import java.time.format.DateTimeFormatter;
 /**
  * Parses Strings into {@link ZonedDateTime} objects.<br><br>
  * Created: 03.03.2019 11:09:37
- *
  * @author Volker Bergmann
  * @since 1.0.12
  */
@@ -34,21 +33,10 @@ public class String2ZonedDateTimeConverter extends ThreadSafeConverter<String, Z
 
   private final DateTimeFormatter formatter;
 
-  /**
-   * Instantiates a new String 2 zoned date time converter.
-   *
-   * @param pattern the pattern
-   * @param zoneId  the zone id
-   */
   public String2ZonedDateTimeConverter(String pattern, ZoneId zoneId) {
     this(DateTimeFormatter.ofPattern(pattern).withZone(zoneId));
   }
 
-  /**
-   * Instantiates a new String 2 zoned date time converter.
-   *
-   * @param formatter the formatter
-   */
   public String2ZonedDateTimeConverter(DateTimeFormatter formatter) {
     super(String.class, ZonedDateTime.class);
     this.formatter = formatter;

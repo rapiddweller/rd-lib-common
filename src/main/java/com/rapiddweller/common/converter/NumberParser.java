@@ -22,7 +22,6 @@ import java.text.DecimalFormat;
 /**
  * Converts Strings to Numbers using a {@link DecimalFormat}.
  * Created: 23.06.2008 18:49:17
- *
  * @author Volker Bergmann
  * @since 0.4.4
  */
@@ -30,18 +29,10 @@ public class NumberParser extends NumberFormatBasedConverter<String, Number> {
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Number parser.
-   */
   public NumberParser() {
     super(String.class, Number.class);
   }
 
-  /**
-   * Instantiates a new Number parser.
-   *
-   * @param pattern the pattern
-   */
   public NumberParser(String pattern) {
     super(String.class, Number.class);
   }

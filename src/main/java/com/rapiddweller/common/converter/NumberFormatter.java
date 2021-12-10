@@ -22,7 +22,6 @@ import java.text.NumberFormat;
 /**
  * Formats {@link Number} objects as {@link String} using {@link NumberFormat}.
  * Created: 26.02.2010 08:36:36
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -30,18 +29,10 @@ public class NumberFormatter extends NumberFormatBasedConverter<Number, String> 
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Number formatter.
-   */
   public NumberFormatter() {
     super(Number.class, String.class);
   }
 
-  /**
-   * Instantiates a new Number formatter.
-   *
-   * @param pattern the pattern
-   */
   public NumberFormatter(String pattern) {
     super(Number.class, String.class, pattern);
   }

@@ -21,7 +21,6 @@ import com.rapiddweller.common.ConversionException;
  * Maps true, false and null to configured aliases, e.g. '1', '0' and '?'.
  * By default booleans are converted to the strings 'true', 'false' and null.
  * Created at 11.03.2009 19:40:33
- *
  * @param <T> the object type to convert to
  * @author Volker Bergmann
  * @since 0.5.8
@@ -32,21 +31,11 @@ public class BooleanMapper<T> extends ThreadSafeConverter<Boolean, T> {
   private final T falseValue;
   private final T nullValue;
 
-  /**
-   * Instantiates a new Boolean mapper.
-   */
   @SuppressWarnings("unchecked")
   public BooleanMapper() {
     this((T) "true", (T) "false", null);
   }
 
-  /**
-   * Instantiates a new Boolean mapper.
-   *
-   * @param trueValue  the true value
-   * @param falseValue the false value
-   * @param nullValue  the null value
-   */
   @SuppressWarnings("unchecked")
   public BooleanMapper(T trueValue, T falseValue, T nullValue) {
     super(Boolean.class, (Class<T>) trueValue.getClass());

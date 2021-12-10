@@ -25,7 +25,6 @@ import java.lang.reflect.Method;
  * {@link Converter} implementation which invokes a static method of an arbitrary class
  * with the object to be converted as argument.
  * Created: 27.02.2010 06:49:13
- *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
@@ -35,13 +34,6 @@ public class StaticTargetClassMethodInvoker<S, T> extends ThreadSafeConverter<S,
 
   private final Method method;
 
-  /**
-   * Instantiates a new Static target class method invoker.
-   *
-   * @param sourceType the source type
-   * @param targetType the target type
-   * @param method     the method
-   */
   protected StaticTargetClassMethodInvoker(Class<S> sourceType, Class<T> targetType, Method method) {
     super(sourceType, targetType);
     this.method = method;

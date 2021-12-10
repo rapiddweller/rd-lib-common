@@ -25,7 +25,6 @@ import java.lang.reflect.Constructor;
  * {@link Converter} implementation which invokes a constructor of the target class
  * with the source object as argument.
  * Created: 27.02.2010 06:57:40
- *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
@@ -33,17 +32,8 @@ import java.lang.reflect.Constructor;
  */
 public class ConstructorInvoker<S, T> extends ThreadSafeConverter<S, T> {
 
-  /**
-   * The Constructor.
-   */
   Constructor<T> constructor;
 
-  /**
-   * Instantiates a new Constructor invoker.
-   *
-   * @param sourceType  the source type
-   * @param constructor the constructor
-   */
   public ConstructorInvoker(Class<S> sourceType, Constructor<T> constructor) {
     super(sourceType, constructor.getDeclaringClass());
     this.constructor = constructor;

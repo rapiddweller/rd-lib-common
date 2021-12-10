@@ -20,15 +20,11 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts {@link Number}s to {@link Short}s.
  * Created: 15.11.2012 10:25:52
- *
  * @author Volker Bergmann
  * @since 0.5.20
  */
 public class Number2ShortConverter extends ThreadSafeConverter<Number, Short> {
 
-  /**
-   * Instantiates a new Number 2 short converter.
-   */
   protected Number2ShortConverter() {
     super(Number.class, Short.class);
   }

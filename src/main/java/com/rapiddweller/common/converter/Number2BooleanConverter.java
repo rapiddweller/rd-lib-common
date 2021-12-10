@@ -21,18 +21,12 @@ import com.rapiddweller.common.ConversionException;
  * Converts {@link Number}s to {@link Boolean}s,
  * interpreting zero as false, any other value as true.
  * Created: 27.02.2010 09:55:30
- *
  * @param <S> the number type to convert from
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class Number2BooleanConverter<S extends Number> extends ThreadSafeConverter<S, Boolean> {
 
-  /**
-   * Instantiates a new Number 2 boolean converter.
-   *
-   * @param sourceType the source type
-   */
   protected Number2BooleanConverter(Class<S> sourceType) {
     super(sourceType, Boolean.class);
   }

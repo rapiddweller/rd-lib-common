@@ -23,15 +23,11 @@ import java.util.Date;
 /**
  * Converts {@link Calendar} objects to {@link Date}s.
  * Created: 25.02.2010 23:34:02
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class Calendar2DateConverter extends ThreadSafeConverter<Calendar, Date> {
 
-  /**
-   * Instantiates a new Calendar 2 date converter.
-   */
   public Calendar2DateConverter() {
     super(Calendar.class, Date.class);
   }

@@ -23,15 +23,11 @@ import java.util.Date;
 /**
  * Converts {@link Date} to {@link Timestamp} Objects.
  * Created: 28.11.2007 20:07:16
- *
  * @author Volker Bergmann
  * @since 0.2.04
  */
 public class Date2TimestampConverter extends ThreadSafeConverter<Date, Timestamp> {
 
-  /**
-   * Instantiates a new Date 2 timestamp converter.
-   */
   public Date2TimestampConverter() {
     super(Date.class, Timestamp.class);
   }

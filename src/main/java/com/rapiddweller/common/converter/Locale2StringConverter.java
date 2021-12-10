@@ -20,17 +20,13 @@ import com.rapiddweller.common.ConversionException;
 import java.util.Locale;
 
 /**
- * Converts a {@link Locale} to its {@link String} representation.
+ * Converts a {@link Locale} to its {@link String} representation.<br/><br/>
  * Created: 25.02.2010 23:42:23
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class Locale2StringConverter extends ThreadSafeConverter<Locale, String> {
 
-  /**
-   * Instantiates a new Locale 2 string converter.
-   */
   public Locale2StringConverter() {
     super(Locale.class, String.class);
   }

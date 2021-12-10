@@ -21,24 +21,14 @@ import com.rapiddweller.common.Converter;
 /**
  * Wraps another Converter and adds the feature of converting null values to a predefined value.
  * Created: 26.07.2007 06:59:35
- *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
  */
 public class NullSafeConverterProxy<S, T> extends ConverterProxy<S, T> {
 
-  /**
-   * The Null result.
-   */
   protected T nullResult;
 
-  /**
-   * Instantiates a new Null safe converter proxy.
-   *
-   * @param realConverter the real converter
-   * @param nullResult    the null result
-   */
   public NullSafeConverterProxy(Converter<S, T> realConverter, T nullResult) {
     super(realConverter);
     this.nullResult = nullResult;

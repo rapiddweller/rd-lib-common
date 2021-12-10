@@ -25,16 +25,12 @@ import java.util.Date;
 /**
  * Parses Strings converting them to {@link Timestamp}s.
  * Created at 01.10.2009 10:53:20
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class String2TimestampConverter extends ConverterWrapper<String, Date>
     implements Converter<String, Timestamp> {
 
-  /**
-   * Instantiates a new String 2 timestamp converter.
-   */
   public String2TimestampConverter() {
     super(new String2DateConverter<>());
   }

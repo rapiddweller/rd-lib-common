@@ -23,15 +23,11 @@ import java.text.NumberFormat;
 /**
  * Parses a {@link String} as {@link NumberFormat}.
  * Created at 13.07.2009 18:45:20
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class String2NumberFormatConverter extends ThreadSafeConverter<String, NumberFormat> {
 
-  /**
-   * Instantiates a new String 2 number format converter.
-   */
   public String2NumberFormatConverter() {
     super(String.class, NumberFormat.class);
   }

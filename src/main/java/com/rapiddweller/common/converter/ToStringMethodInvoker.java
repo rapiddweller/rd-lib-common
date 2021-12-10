@@ -21,18 +21,12 @@ import com.rapiddweller.common.Converter;
 /**
  * {@link Converter} implementation which invokes the toString() method on the source object.
  * Created: 27.02.2010 09:44:10
- *
  * @param <E> the object type to convert
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class ToStringMethodInvoker<E> extends ThreadSafeConverter<E, String> {
 
-  /**
-   * Instantiates a new To string method invoker.
-   *
-   * @param sourceType the source type
-   */
   protected ToStringMethodInvoker(Class<E> sourceType) {
     super(sourceType, String.class);
   }

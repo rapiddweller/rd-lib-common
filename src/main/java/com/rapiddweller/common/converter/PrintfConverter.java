@@ -26,7 +26,6 @@ import java.util.Locale;
  * {@link Converter} implementation that uses a {@link Formatter}
  * to render argument objects in C-like printf format.
  * Created at 20.07.2009 07:18:43
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -37,28 +36,14 @@ public class PrintfConverter extends ThreadSafeConverter<Object, String> {
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Printf converter.
-   */
   public PrintfConverter() {
     this("");
   }
 
-  /**
-   * Instantiates a new Printf converter.
-   *
-   * @param pattern the pattern
-   */
   public PrintfConverter(String pattern) {
     this(pattern, Locale.getDefault());
   }
 
-  /**
-   * Instantiates a new Printf converter.
-   *
-   * @param pattern the pattern
-   * @param locale  the locale
-   */
   public PrintfConverter(String pattern, Locale locale) {
     super(Object.class, String.class);
     this.pattern = pattern;
@@ -67,38 +52,18 @@ public class PrintfConverter extends ThreadSafeConverter<Object, String> {
 
   // properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Gets locale.
-   *
-   * @return the locale
-   */
   public Locale getLocale() {
     return locale;
   }
 
-  /**
-   * Sets locale.
-   *
-   * @param locale the locale
-   */
   public void setLocale(Locale locale) {
     this.locale = locale;
   }
 
-  /**
-   * Gets pattern.
-   *
-   * @return the pattern
-   */
   public String getPattern() {
     return pattern;
   }
 
-  /**
-   * Sets pattern.
-   *
-   * @param pattern the pattern
-   */
   public void setPattern(String pattern) {
     this.pattern = pattern;
   }

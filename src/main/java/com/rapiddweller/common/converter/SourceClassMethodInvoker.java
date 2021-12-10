@@ -22,9 +22,8 @@ import com.rapiddweller.common.Converter;
 import java.lang.reflect.Method;
 
 /**
- * {@link Converter} implementation which invokes a no-arg method on the source object.
+ * {@link Converter} implementation which invokes a no-arg method on the source object.<br/><br/>
  * Created: 27.02.2010 06:53:27
- *
  * @param <S> the object type to convert from
  * @param <T> the object type to convert to
  * @author Volker Bergmann
@@ -34,13 +33,6 @@ public class SourceClassMethodInvoker<S, T> extends ThreadSafeConverter<S, T> {
 
   private final Method method;
 
-  /**
-   * Instantiates a new Source class method invoker.
-   *
-   * @param sourceType the source type
-   * @param targetType the target type
-   * @param method     the method
-   */
   protected SourceClassMethodInvoker(Class<S> sourceType, Class<T> targetType, Method method) {
     super(sourceType, targetType);
     this.method = method;

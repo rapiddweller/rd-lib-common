@@ -21,15 +21,11 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Interprets a String as class name and returns the corresponding class object.
  * Created: 05.08.2007 06:38:38
- *
  * @author Volker Bergmann
  */
 @SuppressWarnings("rawtypes")
 public class String2ClassConverter extends ThreadSafeConverter<String, Class> {
 
-  /**
-   * Instantiates a new String 2 class converter.
-   */
   public String2ClassConverter() {
     super(String.class, Class.class);
   }

@@ -20,18 +20,12 @@ import com.rapiddweller.common.ConversionException;
 /**
  * Converts an enum value to its {@link String} representation.
  * Created: 25.02.2010 23:50:06
- *
  * @param <E> the enumeration type to convert from
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class Enum2StringConverter<E extends Enum<E>> extends ThreadSafeConverter<E, String> {
 
-  /**
-   * Instantiates a new Enum 2 string converter.
-   *
-   * @param enumClass the enum class
-   */
   public Enum2StringConverter(Class<E> enumClass) {
     super(enumClass, String.class);
   }
@@ -41,14 +35,6 @@ public class Enum2StringConverter<E extends Enum<E>> extends ThreadSafeConverter
     return convertToString(target);
   }
 
-  /**
-   * Convert to string string.
-   *
-   * @param <T>    the type parameter
-   * @param target the target
-   * @return the string
-   * @throws ConversionException the conversion exception
-   */
   public static <T extends Enum<?>> String convertToString(T target) throws ConversionException {
     return (target != null ? target.name() : null);
   }

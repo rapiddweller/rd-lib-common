@@ -22,7 +22,7 @@ import com.rapiddweller.common.exception.ExceptionFactory;
 import java.io.UnsupportedEncodingException;
 
 /**
- * Converts strings to byte arrays based on a character encoding, e.g. UTF-8.
+ * Converts strings to byte arrays based on a character encoding, e.g. UTF-8.<br/><br/>
  * @author Volker Bergmann
  * @since 0.2.04
  */

@@ -24,7 +24,6 @@ import java.util.TimeZone;
  * Converts a {@link Date} into the number of milliseconds since 1970-01-01 in a certain time zone and back.
  * By default it uses the system's default time zone.
  * Created: 05.08.2007 07:10:25
- *
  * @author Volker Bergmann
  */
 public class Date2LongConverter extends ThreadSafeConverter<Date, Long> {
@@ -33,18 +32,10 @@ public class Date2LongConverter extends ThreadSafeConverter<Date, Long> {
 
   // construcors -----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Date 2 long converter.
-   */
   public Date2LongConverter() {
     this(TimeZone.getDefault());
   }
 
-  /**
-   * Instantiates a new Date 2 long converter.
-   *
-   * @param timeZone the time zone
-   */
   public Date2LongConverter(TimeZone timeZone) {
     super(Date.class, Long.class);
     this.timeZone = timeZone;
@@ -52,20 +43,10 @@ public class Date2LongConverter extends ThreadSafeConverter<Date, Long> {
 
   // properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Gets time zone.
-   *
-   * @return the time zone
-   */
   public TimeZone getTimeZone() {
     return timeZone;
   }
 
-  /**
-   * Sets time zone.
-   *
-   * @param timeZone the time zone
-   */
   public void setTimeZone(TimeZone timeZone) {
     this.timeZone = timeZone;
   }

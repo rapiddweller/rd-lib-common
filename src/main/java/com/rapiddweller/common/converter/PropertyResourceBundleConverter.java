@@ -30,19 +30,12 @@ import java.util.ResourceBundle;
 /**
  * Converts key strings to localized texts by using a ResourceBundle.
  * Created: 07.06.2007 07:48:35
- *
  * @author Volker Bergmann
  */
 public class PropertyResourceBundleConverter extends ThreadSafeConverter<String, String> {
 
   private final ResourceBundle bundle;
 
-  /**
-   * Instantiates a new Property resource bundle converter.
-   *
-   * @param baseName the base name
-   * @param locale   the locale
-   */
   public PropertyResourceBundleConverter(String baseName, Locale locale) {
     super(String.class, String.class);
     ResourceBundle.Control control = new UTF8Control();
@@ -54,9 +47,6 @@ public class PropertyResourceBundleConverter extends ThreadSafeConverter<String,
     return bundle.getString(sourceValue);
   }
 
-  /**
-   * The type Utf 8 control.
-   */
   static class UTF8Control extends PropertyResourceBundle.Control {
 
     @Override
