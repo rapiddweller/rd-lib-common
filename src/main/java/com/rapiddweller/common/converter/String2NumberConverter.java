@@ -22,18 +22,12 @@ import com.rapiddweller.common.StringUtil;
 /**
  * Converts {@link String}s to {@link Number}s.
  * Created: 27.02.2010 11:22:10
- *
  * @param <T> the {@link Number} type to convert to
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public class String2NumberConverter<T extends Number> extends ConstructorInvoker<String, T> {
 
-  /**
-   * Instantiates a new String 2 number converter.
-   *
-   * @param targetType the target type
-   */
   public String2NumberConverter(Class<T> targetType) {
     super(String.class, BeanUtil.findConstructor(targetType, String.class));
   }
@@ -43,7 +37,7 @@ public class String2NumberConverter<T extends Number> extends ConstructorInvoker
     if (StringUtil.isEmpty(sourceValue)) {
       return null;
     } else {
-      return super.convert(sourceValue);
+      return super.convert(sourceValue.trim());
     }
   }
 
