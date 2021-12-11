@@ -18,11 +18,11 @@ import static org.junit.Assert.assertThrows;
  */
 public class FullyQualifiedClassNameParserTest {
 
-  FullyQualifiedClassNameParser p = new FullyQualifiedClassNameParser();
+  FullyQualifiedClassNameParser p = new FullyQualifiedClassNameParser(true);
 
   @Test
   public void test() {
-    assertEquals("java.util.String", p.parse("java.util.String"));
+    assertEquals("java.lang.String", p.parse("java.lang.String"));
   }
 
   @Test
