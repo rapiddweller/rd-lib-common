@@ -63,7 +63,7 @@ public class SyntaxError extends ParseException {
   public static SyntaxError forXmlAttribute(String message, Throwable cause, String errorId, Attr attribute) {
     if (message == null) {
       message = "Illegal attribute value for " + attribute.getOwnerElement().getNodeName() + '.'
-          + attribute.getName() + ": " + attribute.getValue();
+          + attribute.getName() + ": '" + attribute.getValue() + "'";
     }
     return new SyntaxError(message, cause, errorId, attribute, SourceType.XML_ATTRIBUTE, -1, -1);
   }
