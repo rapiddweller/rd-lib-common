@@ -1099,4 +1099,21 @@ public final class StringUtil {
     return result;
   }
 
+  public static String withLineBreaks(String text, int maxWidth) {
+    StringBuilder builder = new StringBuilder();
+    String rest = text;
+    System.out.println(builder + " - " + rest);
+    while (rest.length() > maxWidth) {
+      int i = maxWidth;
+      while (i > 1 && (i >= rest.length() || !Character.isWhitespace(rest.charAt(i + 1))) && Character.isWhitespace(rest.charAt(i))) {
+        i--;
+      }
+      builder.append(rest.substring(0, i)).append(SystemInfo.LF);
+      rest = rest.substring(i);
+      System.out.println(builder + " - " + rest);
+    }
+    builder.append(rest);
+    return builder.toString();
+  }
+
 }
