@@ -3,22 +3,11 @@
 package com.rapiddweller.common.parser;
 
 /**
- * Parser implementation which holds the target type info.<br/><br/>
- * Created: 08.12.2021 19:46:21
+ * Parent interface for {@link Parser}s which provide type info.<br/><br/>
+ * Created: 13.12.2021 12:03:54
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public abstract class TypedParser<E> extends AbstractParser<E> {
-
-  protected final Class<E> resultType;
-
-  protected TypedParser(String description, Class<E> resultType) {
-    super(description);
-    this.resultType = resultType;
-  }
-
-  public Class<E> getResultType() {
-    return resultType;
-  }
-
+public interface TypedParser<E> extends Parser<E> {
+  Class<E> getResultType();
 }
