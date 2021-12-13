@@ -30,7 +30,7 @@ import java.io.FileNotFoundException;
  */
 public class ExceptionFactory {
 
-  public static final String MISSING_ATTRIBUTE = "Attribute is missing";
+  public static final String MISSING_ATTRIBUTE_FMT = "Attribute '%s' is missing in <%s>";
 
   private static ExceptionFactory instance;
 
@@ -251,7 +251,7 @@ public class ExceptionFactory {
 
   public SyntaxError missingXmlAttribute(String message, String errorId, String attributeName, Element owner) {
     if (message == null) {
-      message = MISSING_ATTRIBUTE + ": '" + attributeName + "' in <" + owner.getNodeName() + ">";
+      message = String.format(MISSING_ATTRIBUTE_FMT, attributeName, owner.getNodeName());
     }
     if (errorId == null) {
       errorId = CommonErrorIds.XML_ATTR_MISSING;

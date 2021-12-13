@@ -10,7 +10,7 @@ import java.nio.charset.Charset;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class EncodingParser extends TypedParser<String> {
+public class EncodingParser extends AbstractTypedParser<String> {
 
   public EncodingParser() {
     super("encoding", String.class);

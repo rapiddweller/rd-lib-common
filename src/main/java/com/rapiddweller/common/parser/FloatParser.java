@@ -8,7 +8,7 @@ package com.rapiddweller.common.parser;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class FloatParser extends TypedParser<Float> {
+public class FloatParser extends AbstractTypedParser<Float> {
 
   protected FloatParser() {
     super("float value", float.class);

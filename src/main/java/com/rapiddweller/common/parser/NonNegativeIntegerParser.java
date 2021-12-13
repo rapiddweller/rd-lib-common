@@ -8,7 +8,7 @@ package com.rapiddweller.common.parser;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class NonNegativeIntegerParser extends TypedParser<Integer> {
+public class NonNegativeIntegerParser extends AbstractTypedParser<Integer> {
 
   public NonNegativeIntegerParser() {
     super("non-negative integer", Integer.class);

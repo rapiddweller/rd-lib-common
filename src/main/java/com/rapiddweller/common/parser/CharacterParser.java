@@ -8,7 +8,7 @@ package com.rapiddweller.common.parser;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class CharacterParser extends TypedParser<Character> {
+public class CharacterParser extends AbstractTypedParser<Character> {
 
   public CharacterParser() {
     super("character", Character.class);

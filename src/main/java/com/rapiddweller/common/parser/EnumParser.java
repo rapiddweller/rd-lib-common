@@ -11,7 +11,7 @@ import com.rapiddweller.common.exception.ExceptionFactory;
  * @author Volker Bergmann
  * @since 2.1.0
  */
-public class EnumParser<E extends Enum<E>> extends TypedParser<E> {
+public class EnumParser<E extends Enum<E>> extends AbstractTypedParser<E> {
 
   public EnumParser(Class<E> resultType) {
     super("instance of ", resultType);

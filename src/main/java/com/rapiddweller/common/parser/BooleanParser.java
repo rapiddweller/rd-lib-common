@@ -10,7 +10,7 @@ import com.rapiddweller.common.exception.ExceptionFactory;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class BooleanParser extends TypedParser<Boolean> {
+public class BooleanParser extends AbstractTypedParser<Boolean> {
 
   public BooleanParser() {
     super("boolean value", Boolean.class);

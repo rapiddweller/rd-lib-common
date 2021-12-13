@@ -8,7 +8,7 @@ package com.rapiddweller.common.parser;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class IntegerParser extends TypedParser<Integer> {
+public class IntegerParser extends AbstractTypedParser<Integer> {
 
   protected IntegerParser() {
     super("integer value", Integer.class);

@@ -10,7 +10,7 @@ import com.rapiddweller.common.RegexUtil;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class RegexBasedStringParser extends TypedParser<String> {
+public class RegexBasedStringParser extends AbstractTypedParser<String> {
 
   private final String regex;
 

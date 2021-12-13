@@ -8,7 +8,7 @@ package com.rapiddweller.common.parser;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class PositiveIntegerParser extends TypedParser<Integer> {
+public class PositiveIntegerParser extends AbstractTypedParser<Integer> {
 
   public PositiveIntegerParser() {
     super("positive integer value", Integer.class);

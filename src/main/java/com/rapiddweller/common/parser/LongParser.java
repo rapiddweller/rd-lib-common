@@ -8,7 +8,7 @@ package com.rapiddweller.common.parser;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class LongParser extends TypedParser<Long> {
+public class LongParser extends AbstractTypedParser<Long> {
 
   public LongParser() {
     super("long value", Long.class);

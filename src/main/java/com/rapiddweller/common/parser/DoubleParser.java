@@ -8,7 +8,7 @@ package com.rapiddweller.common.parser;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class DoubleParser extends TypedParser<Double> {
+public class DoubleParser extends AbstractTypedParser<Double> {
 
   public DoubleParser() {
     super("double value", Double.class);
