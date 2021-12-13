@@ -132,7 +132,7 @@ public class AnyMutator implements NamedMutator {
         BeanUtil.invoke(target, genericSetMethod, true, new Object[] {featureName, value});
         return;
       }
-      // try JavaBean property
+      // try attribute
       try {
         Field field = target.getClass().getField(featureName);
         if (autoConvert && value != null) {
