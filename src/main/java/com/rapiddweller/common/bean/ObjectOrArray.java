@@ -23,7 +23,6 @@ import java.util.Arrays;
  * Wraps a plain object or an array and provides equals() and hashCode()
  * that works consistently for both.
  * Created: 09.09.2010 09:53:11
- *
  * @author Volker Bergmann
  * @since 0.5.4
  */
@@ -31,11 +30,6 @@ public class ObjectOrArray {
 
   private final Object realObject;
 
-  /**
-   * Instantiates a new Object or array.
-   *
-   * @param realObject the real object
-   */
   public ObjectOrArray(Object realObject) {
     this.realObject = realObject;
   }

@@ -29,24 +29,15 @@ import java.util.Stack;
  * Combines several contexts to a {@link Stack}, querying recursively in the {@link #get(String)} method
  * until an entry is found or the stack is completely iterated.
  * Created: 09.01.2013 13:06:13
- *
  * @author Volker Bergmann
  * @since 0.5.21
  */
 public class SimpleContextStack implements ContextStack {
 
-  private static final Logger logger = LoggerFactory.getLogger(ContextStack.class);
+  private static final Logger logger = LoggerFactory.getLogger(SimpleContextStack.class);
 
-  /**
-   * The Contexts.
-   */
   protected Stack<Context> contexts;
 
-  /**
-   * Instantiates a new Simple context stack.
-   *
-   * @param contexts the contexts
-   */
   public SimpleContextStack(Context... contexts) {
     this.contexts = new Stack<>();
     for (Context c : contexts) {
@@ -97,7 +88,7 @@ public class SimpleContextStack implements ContextStack {
 
   @Override
   public void remove(String key) {
-    if (contexts.size() > 0) {
+    if (!contexts.isEmpty()) {
       contexts.peek().remove(key);
     }
   }
@@ -105,10 +96,10 @@ public class SimpleContextStack implements ContextStack {
   @Override
   public void set(String key, Object value) {
     Assert.notNull(key, "key");
-    if (contexts.size() > 0) {
+    if (!contexts.isEmpty()) {
       contexts.peek().set(key, value);
     } else {
-      logger.warn("ContextStack is empty, ignoring element: " + key);
+      logger.warn("ContextStack is empty, ignoring element: {}", key);
     }
   }
 

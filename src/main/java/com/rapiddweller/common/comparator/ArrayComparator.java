@@ -22,7 +22,6 @@ import java.util.Comparator;
 /**
  * Compares two arrays by the first 'min-length' array elements with a Comparator.
  * Created: 22.05.2007 07:07:17
- *
  * @param <E> the component type of the arrays to be compared
  * @author Volker Bergmann
  * @since 0.1
@@ -31,19 +30,11 @@ public class ArrayComparator<E> implements Comparator<E[]> {
 
   private final Comparator<E> elementComparator;
 
-  /**
-   * Instantiates a new Array comparator.
-   */
   @SuppressWarnings({"unchecked", "rawtypes"})
   public ArrayComparator() {
     this(new ComparableComparator());
   }
 
-  /**
-   * Instantiates a new Array comparator.
-   *
-   * @param elementComparator the element comparator
-   */
   public ArrayComparator(Comparator<E> elementComparator) {
     this.elementComparator = elementComparator;
   }

@@ -27,7 +27,6 @@ import java.util.List;
  * individual marking of each list element and retrieval of the
  * marked or unmarked element sub lists.
  * Created: 25.01.2012 17:03:05
- *
  * @param <E> the type of the collection's elements
  * @author Volker Bergmann
  * @since 0.5.14
@@ -36,21 +35,10 @@ public class MarkedList<E> extends ListProxy<E> {
 
   private final List<Boolean> marks;
 
-  /**
-   * Instantiates a new Marked list.
-   *
-   * @param realList the real list
-   */
   public MarkedList(List<E> realList) {
     this(realList, createMarks(realList.size()));
   }
 
-  /**
-   * Instantiates a new Marked list.
-   *
-   * @param realList the real list
-   * @param marks    the marks
-   */
   public MarkedList(List<E> realList, List<Boolean> marks) {
     super(realList);
     this.marks = marks;
@@ -58,64 +46,32 @@ public class MarkedList<E> extends ListProxy<E> {
 
   // marker interface ------------------------------------------------------------------------------------------------
 
-  /**
-   * Mark boolean.
-   *
-   * @param index the index
-   * @return the boolean
-   */
   public boolean mark(int index) {
     return marks.set(index, true);
   }
 
-  /**
-   * Is marked boolean.
-   *
-   * @param index the index
-   * @return the boolean
-   */
   public boolean isMarked(int index) {
     return marks.get(index);
   }
 
-  /**
-   * Mark all.
-   */
   public void markAll() {
     Collections.fill(marks, true);
   }
 
-  /**
-   * Unmark boolean.
-   *
-   * @param index the index
-   * @return the boolean
-   */
   public boolean unmark(int index) {
     return marks.set(index, false);
   }
 
-  /**
-   * Unmark all.
-   */
   public void unmarkAll() {
     Collections.fill(marks, false);
   }
 
-  /**
-   * Invert marks.
-   */
   public void invertMarks() {
     for (int i = 0; i < marks.size(); i++) {
       marks.set(i, !marks.get(i));
     }
   }
 
-  /**
-   * Gets marked elements.
-   *
-   * @return the marked elements
-   */
   public List<E> getMarkedElements() {
     List<E> result = new ArrayList<>();
     for (int i = 0; i < realList.size(); i++) {
@@ -126,11 +82,6 @@ public class MarkedList<E> extends ListProxy<E> {
     return result;
   }
 
-  /**
-   * Gets unmarked elements.
-   *
-   * @return the unmarked elements
-   */
   public List<E> getUnmarkedElements() {
     List<E> result = new ArrayList<>();
     for (int i = 0; i < realList.size(); i++) {

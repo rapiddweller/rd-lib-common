@@ -25,7 +25,6 @@ import java.util.ListIterator;
  * {@link List} implementation which takes wraps another given list
  * and assures that the list is sorted before any read access.
  * Created: 19.06.2012 07:55:42
- *
  * @param <E> the type of the collection's elements
  * @author Volker Bergmann
  * @since 0.5.16
@@ -36,12 +35,6 @@ public class SortedList<E> implements List<E> {
   private final List<E> baseList;
   private final Comparator<? super E> comparator;
 
-  /**
-   * Instantiates a new Sorted list.
-   *
-   * @param baseList   the base list
-   * @param comparator the comparator
-   */
   public SortedList(List<E> baseList, Comparator<? super E> comparator) {
     this.baseList = baseList;
     this.comparator = comparator;

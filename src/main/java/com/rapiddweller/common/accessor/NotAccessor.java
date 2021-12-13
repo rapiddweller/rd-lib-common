@@ -20,17 +20,11 @@ import com.rapiddweller.common.Accessor;
 /**
  * Inverts the boolean result of another Accessor.
  * Created: 07.03.2006 16:48:52
- *
  * @param <E> the object type to access
  * @author Volker Bergmann
  */
 public class NotAccessor<E> extends AccessorProxy<E, Boolean> {
 
-  /**
-   * Instantiates a new Not accessor.
-   *
-   * @param realAccessor the real accessor
-   */
   public NotAccessor(Accessor<E, Boolean> realAccessor) {
     super(realAccessor);
   }

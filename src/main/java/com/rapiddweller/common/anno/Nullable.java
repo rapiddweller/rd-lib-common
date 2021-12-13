@@ -23,7 +23,6 @@ import java.lang.annotation.Target;
 /**
  * Marks Attributes and parameters that may be null.
  * Created at 31.01.2009 19:50:23
- *
  * @author Volker Bergmann
  * @since 0.4.8
  */

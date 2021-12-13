@@ -37,45 +37,37 @@ public class PropertyAccessorFactory {
   private PropertyAccessorFactory() {
   }
 
-  /**
-   * Creates a PropertyAccessor.
-   * @param propertyName the name of the property to access
-   * @return a property accessor without knowledge about the bean type (the slowest PropertyAccessor type) in strict mode.
-   */
+  /** Creates a PropertyAccessor.
+   *  @param propertyName the name of the property to access
+   *  @return a property accessor without knowledge about the bean type (the slowest PropertyAccessor type) in strict mode. */
   @SuppressWarnings("rawtypes")
   public static PropertyAccessor getAccessor(String propertyName) {
     return getAccessor(null, propertyName);
   }
 
-  /**
-   * Creates a PropertyAccessor.
-   * @param propertyName the name of the property to access
-   * @param strict       set to true if the property must exist
-   * @return a property accessor of the specified strictness.
-   */
+  /** Creates a PropertyAccessor.
+   *  @param propertyName the name of the property to access
+   *  @param strict       set to true if the property must exist
+   *  @return a property accessor of the specified strictness. */
   @SuppressWarnings("rawtypes")
   public static PropertyAccessor getAccessor(String propertyName, boolean strict) {
     return getAccessor(null, propertyName, strict);
   }
 
-  /**
-   * Creates a PropertyAccessor.
-   * @param beanClass    the bean type to access
-   * @param propertyName the name of the property to access
-   * @return a property accessor in strict mode.
-   */
+  /** Creates a PropertyAccessor.
+   *  @param beanClass    the bean type to access
+   *  @param propertyName the name of the property to access
+   *  @return a property accessor in strict mode. */
   @SuppressWarnings("rawtypes")
   public static PropertyAccessor getAccessor(Class<?> beanClass, String propertyName) {
     return getAccessor(beanClass, propertyName, true);
   }
 
-  /**
-   * Creates a PropertyAccessor.
-   * @param beanClass    the bean type to access
-   * @param propertyName the name of the property to access
-   * @param strict       set to true if the property must exist
-   * @return a property accessor of the specified strictness.
-   */
+  /** Creates a PropertyAccessor.
+   *  @param beanClass    the bean type to access
+   *  @param propertyName the name of the property to access
+   *  @param strict       set to true if the property must exist
+   *  @return a property accessor of the specified strictness. */
   @SuppressWarnings("rawtypes")
   public static PropertyAccessor getAccessor(Class<?> beanClass, String propertyName, boolean strict) {
     if (beanClass != null) {

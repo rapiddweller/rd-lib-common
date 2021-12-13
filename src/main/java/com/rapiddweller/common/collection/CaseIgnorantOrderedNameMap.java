@@ -22,7 +22,6 @@ import java.util.Map;
 /**
  * Maps name strings to objects ignoring the capitalization of the name.
  * Created: 12.12.2012 11:08:44
- *
  * @param <E> the type of the collection's elements
  * @author Volker Bergmann
  * @since 0.5.21
@@ -33,17 +32,9 @@ public class CaseIgnorantOrderedNameMap<E> extends OrderedMap<String, E> {
 
   // constructors + factory methods ----------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Case ignorant ordered name map.
-   */
   public CaseIgnorantOrderedNameMap() {
   }
 
-  /**
-   * Instantiates a new Case ignorant ordered name map.
-   *
-   * @param that the that
-   */
   public CaseIgnorantOrderedNameMap(Map<String, E> that) {
     super(that);
   }
@@ -55,12 +46,6 @@ public class CaseIgnorantOrderedNameMap<E> extends OrderedMap<String, E> {
     return containsKey((String) key);
   }
 
-  /**
-   * Contains key boolean.
-   *
-   * @param key the key
-   * @return the boolean
-   */
   public boolean containsKey(String key) {
     return super.containsKey(normalizeKey(key));
   }
@@ -70,12 +55,6 @@ public class CaseIgnorantOrderedNameMap<E> extends OrderedMap<String, E> {
     return get((String) key);
   }
 
-  /**
-   * Get e.
-   *
-   * @param key the key
-   * @return the e
-   */
   public E get(String key) {
     return super.get(normalizeKey(key));
   }
@@ -92,12 +71,6 @@ public class CaseIgnorantOrderedNameMap<E> extends OrderedMap<String, E> {
     return super.put(normalizeKey(key), value);
   }
 
-  /**
-   * Remove e.
-   *
-   * @param key the key
-   * @return the e
-   */
   public E remove(String key) {
     return super.remove(normalizeKey(key));
   }

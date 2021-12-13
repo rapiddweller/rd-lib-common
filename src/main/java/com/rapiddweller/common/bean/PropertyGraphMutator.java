@@ -79,20 +79,10 @@ public class PropertyGraphMutator implements NamedMutator {
     }
   }
 
-  /**
-   * Is required boolean.
-   *
-   * @return the boolean
-   */
   public boolean isRequired() {
     return required;
   }
 
-  /**
-   * Is auto convert boolean.
-   *
-   * @return the boolean
-   */
   public boolean isAutoConvert() {
     return autoConvert;
   }
@@ -130,15 +120,6 @@ public class PropertyGraphMutator implements NamedMutator {
     lastMutator.setValue(superBean, propertyValue);
   }
 
-  /**
-   * Sets property graph.
-   *
-   * @param bean          the bean
-   * @param propertyGraph the property graph
-   * @param propertyValue the property value
-   * @param required      the required
-   * @param autoConvert   the auto convert
-   */
   public static void setPropertyGraph(Object bean, String propertyGraph, Object propertyValue, boolean required, boolean autoConvert) {
     new PropertyGraphMutator(bean.getClass(), propertyGraph, required, autoConvert).setValue(bean, propertyValue);
   }

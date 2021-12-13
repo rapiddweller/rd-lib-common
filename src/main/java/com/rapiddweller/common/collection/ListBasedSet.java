@@ -24,44 +24,26 @@ import java.util.Set;
 
 /**
  * Implements a Set based on a List. This provides for ensuring element uniqueness
- * while maintaining the order in which elements were inserted.
- *
- * @param <E> the type of the collection's elements            Created: 03.08.2007 18:47:13
+ * while maintaining the order in which elements were inserted.<br/><br/>
+ * Created: 03.08.2007 18:47:13
+ * @param <E> the type of the collection's elements
  */
 public class ListBasedSet<E> implements Set<E> {
 
   private final List<E> list;
 
-  /**
-   * Instantiates a new List based set.
-   */
   public ListBasedSet() {
     this.list = new ArrayList<>();
   }
 
-  /**
-   * Instantiates a new List based set.
-   *
-   * @param initialCapacity the initial capacity
-   */
   public ListBasedSet(int initialCapacity) {
     this.list = new ArrayList<>(initialCapacity);
   }
 
-  /**
-   * Instantiates a new List based set.
-   *
-   * @param collection the collection
-   */
   public ListBasedSet(Collection<E> collection) {
     this.list = new ArrayList<>(collection);
   }
 
-  /**
-   * Instantiates a new List based set.
-   *
-   * @param elements the elements
-   */
   @SafeVarargs
   public ListBasedSet(E... elements) {
     this.list = new ArrayList<>(elements.length);
@@ -139,12 +121,6 @@ public class ListBasedSet<E> implements Set<E> {
 
   // List interface --------------------------------------------------------------------------------------------------
 
-  /**
-   * Get e.
-   *
-   * @param index the index
-   * @return the e
-   */
   public E get(int index) {
     return list.get(index);
   }
@@ -153,4 +129,5 @@ public class ListBasedSet<E> implements Set<E> {
   public String toString() {
     return list.toString();
   }
+
 }

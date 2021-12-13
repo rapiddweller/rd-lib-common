@@ -19,7 +19,6 @@ package com.rapiddweller.common.accessor;
  * Consecutively invokes a series of accessors
  * using the result value of each invocation as input value for the next.
  * Created: 21.07.2007 07:02:07
- *
  * @author Volker Bergmann
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -27,20 +26,10 @@ public class TypedAccessorChain implements TypedAccessor {
 
   private final TypedAccessor[] subAccessors;
 
-  /**
-   * Instantiates a new Typed accessor chain.
-   *
-   * @param realAccessors the real accessors
-   */
   public TypedAccessorChain(TypedAccessor[] realAccessors) {
     this.subAccessors = realAccessors;
   }
 
-  /**
-   * Get sub accessors typed accessor [ ].
-   *
-   * @return the typed accessor [ ]
-   */
   public TypedAccessor[] getSubAccessors() {
     return subAccessors;
   }

@@ -20,7 +20,6 @@ import com.rapiddweller.common.Accessor;
 /**
  * Evaluates a boolean 'condition' accessor and, depending on the result, calls one of two other accessors.
  * Created: 28.02.2013 16:17:04
- *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
@@ -32,13 +31,6 @@ public class ConditionalAccessor<C, V> implements Accessor<C, V> {
   private final Accessor<C, V> trueAccessor;
   private final Accessor<C, V> falseAccessor;
 
-  /**
-   * Instantiates a new Conditional accessor.
-   *
-   * @param condition     the condition
-   * @param trueAccessor  the true accessor
-   * @param falseAccessor the false accessor
-   */
   public ConditionalAccessor(Accessor<C, Boolean> condition,
                              Accessor<C, V> trueAccessor, Accessor<C, V> falseAccessor) {
     this.condition = condition;

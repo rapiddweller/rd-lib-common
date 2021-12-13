@@ -21,27 +21,14 @@ import com.rapiddweller.common.SystemInfo;
  * Wrapper class for resources that are monitored.
  * It stores the monitored object itself and its allocation stack trace.
  * Created: 14.04.2011 17:22:56
- *
  * @author Volker Bergmann
  * @since 0.5.8
  */
 public class MonitoredResource {
 
-  /**
-   * The Resource.
-   */
   final Object resource;
-  /**
-   * The Registration trace.
-   */
   final StackTraceElement[] registrationTrace;
 
-  /**
-   * Instantiates a new Monitored resource.
-   *
-   * @param resource          the resource
-   * @param registrationTrace the registration trace
-   */
   public MonitoredResource(Object resource, StackTraceElement[] registrationTrace) {
     this.resource = resource;
     this.registrationTrace = registrationTrace;

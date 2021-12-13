@@ -20,7 +20,6 @@ import com.rapiddweller.common.Accessor;
 /**
  * Two step Accessor, that uses one Accessor to fetch an object and another one to read a value from it.
  * Created: 12.06.2007 18:43:28
- *
  * @author Volker Bergmann
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -29,12 +28,6 @@ public class FetchingAccessor implements Accessor {
   private final Accessor provider;
   private final Accessor accessor;
 
-  /**
-   * Instantiates a new Fetching accessor.
-   *
-   * @param provider the provider
-   * @param accessor the accessor
-   */
   public FetchingAccessor(Accessor provider, Accessor accessor) {
     this.provider = provider;
     this.accessor = accessor;

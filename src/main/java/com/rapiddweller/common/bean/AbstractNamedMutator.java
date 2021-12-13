@@ -20,22 +20,13 @@ import com.rapiddweller.common.mutator.NamedMutator;
 /**
  * Abstraction of a Mutator to which a name is assigned.
  * Created at 04.11.2008 09:20:51
- *
  * @author Volker Bergmann
  * @since 0.4.6
  */
 public abstract class AbstractNamedMutator implements NamedMutator {
 
-  /**
-   * The Name.
-   */
   protected String name;
 
-  /**
-   * Instantiates a new Abstract named mutator.
-   *
-   * @param name the name
-   */
   protected AbstractNamedMutator(String name) {
     this.name = name;
   }

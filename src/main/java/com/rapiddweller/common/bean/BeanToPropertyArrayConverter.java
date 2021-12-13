@@ -21,7 +21,6 @@ import com.rapiddweller.common.converter.ThreadSafeConverter;
 /**
  * Converter implementation that extracts all property values of a JavaBean to a Properties object.
  * Created: 07.06.2007 14:11:58
- *
  * @param <E> the bean type to access
  * @author Volker Bergmann
  */
@@ -29,21 +28,10 @@ public class BeanToPropertyArrayConverter<E> extends ThreadSafeConverter<E, Obje
 
   private final PropertyAccessor<E, ?>[] accessors;
 
-  /**
-   * Instantiates a new Bean to property array converter.
-   *
-   * @param propertyNames the property names
-   */
   public BeanToPropertyArrayConverter(String... propertyNames) {
     this(null, propertyNames);
   }
 
-  /**
-   * Instantiates a new Bean to property array converter.
-   *
-   * @param beanClass     the bean class
-   * @param propertyNames the property names
-   */
   @SuppressWarnings("unchecked")
   public BeanToPropertyArrayConverter(Class<E> beanClass, String... propertyNames) {
     super(beanClass, Object[].class);

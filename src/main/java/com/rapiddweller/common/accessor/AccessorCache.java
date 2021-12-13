@@ -24,7 +24,6 @@ import java.util.List;
  * Accessor implementation that caches the value it retrieves first
  * until it is manually invalidated.
  * Created: 11.03.2006 17:02:27
- *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
@@ -36,12 +35,6 @@ public class AccessorCache<C, V> implements DependentAccessor<C, V> {
   private V cachedValue;
   private boolean valid;
 
-  /**
-   * Instantiates a new Accessor cache.
-   *
-   * @param name         the name
-   * @param realAccessor the real accessor
-   */
   public AccessorCache(String name, Accessor<C, V> realAccessor) {
     this.realAccessor = realAccessor;
     this.name = name;
@@ -50,27 +43,14 @@ public class AccessorCache<C, V> implements DependentAccessor<C, V> {
 
   // properties ------------------------------------------------------------------------------------------------------
 
-  /**
-   * Gets name.
-   *
-   * @return the name
-   */
   public String getName() {
     return name;
   }
 
-  /**
-   * Is valid boolean.
-   *
-   * @return the boolean
-   */
   public boolean isValid() {
     return valid;
   }
 
-  /**
-   * Invalidate.
-   */
   public void invalidate() {
     valid = false;
   }

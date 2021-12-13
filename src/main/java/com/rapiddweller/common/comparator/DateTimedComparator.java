@@ -22,7 +22,6 @@ import java.util.Comparator;
 /**
  * Comparator for objects of classes that implement the {@link DateTimed} interface.<br><br>
  * Created: 09.11.2019 12:54:09
- *
  * @author Volker Bergmann
  * @since 1.0.12
  */

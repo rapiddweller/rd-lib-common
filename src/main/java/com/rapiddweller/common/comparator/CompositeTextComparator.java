@@ -24,7 +24,6 @@ import java.util.Comparator;
 /**
  * Splits texts into tokens of words and numbers and compares them element-wise.
  * Created: 22.05.2007 07:04:10
- *
  * @author Volker Bergmann
  * @since 0.1
  */
@@ -32,12 +31,9 @@ public class CompositeTextComparator implements Comparator<String> {
 
   private final ArrayComparator<Object> arrayComparator;
 
-  /**
-   * Instantiates a new Composite text comparator.
-   */
   @SuppressWarnings({"rawtypes"})
   public CompositeTextComparator() {
-    this.arrayComparator = new ArrayComparator<>(new ComparatorChain<Object>(
+    this.arrayComparator = new ArrayComparator<>(new ComparatorChain<>(
         new ObjectTypeComparator(BigInteger.class, String.class),
         new ComparableComparator()
     ));

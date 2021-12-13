@@ -24,7 +24,6 @@ import java.util.Map;
 /**
  * Compares classes based on a predefined order.
  * Created: 17.02.2010 13:07:38
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -32,11 +31,6 @@ public class TypeComparator implements Comparator<Class<?>> {
 
   private final Map<Class<?>, Integer> indexes;
 
-  /**
-   * Instantiates a new Type comparator.
-   *
-   * @param orderedClasses the ordered classes
-   */
   public TypeComparator(Class<?>... orderedClasses) {
     indexes = new HashMap<>();
     int count = 0;

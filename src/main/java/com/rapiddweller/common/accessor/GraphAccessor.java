@@ -20,7 +20,6 @@ import com.rapiddweller.common.Accessor;
 /**
  * Accesses object graphs by splitting a path names into tokens by a dot separator('.').
  * Created: 12.06.2007 18:29:19
- *
  * @author Volker Bergmann
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -28,11 +27,6 @@ public class GraphAccessor implements Accessor {
 
   private final Accessor realAccessor;
 
-  /**
-   * Instantiates a new Graph accessor.
-   *
-   * @param path the path
-   */
   public GraphAccessor(String path) {
     int separatorIndex = path.lastIndexOf('.');
     if (separatorIndex < 0) {
@@ -64,13 +58,6 @@ public class GraphAccessor implements Accessor {
 
   // static utility methods ------------------------------------------------------------------------------------------
 
-  /**
-   * Gets value.
-   *
-   * @param path the path
-   * @param o    the o
-   * @return the value
-   */
   public static Object getValue(String path, Object o) {
     return new GraphAccessor(path).getValue(o);
   }

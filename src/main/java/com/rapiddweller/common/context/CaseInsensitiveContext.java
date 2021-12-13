@@ -26,7 +26,6 @@ import java.util.Set;
 /**
  * {@link Context} implementation which is case insensitive regarding key Strings.
  * Created at 19.11.2008 08:55:05
- *
  * @author Volker Bergmann
  * @since 0.4.6
  */
@@ -35,11 +34,6 @@ public class CaseInsensitiveContext implements Context {
   private final boolean capsPreserved;
   private final Map<String, Object> map;
 
-  /**
-   * Instantiates a new Case insensitive context.
-   *
-   * @param capsPreserved the caps preserved
-   */
   public CaseInsensitiveContext(boolean capsPreserved) {
     this.capsPreserved = capsPreserved;
     map = new HashMap<>();

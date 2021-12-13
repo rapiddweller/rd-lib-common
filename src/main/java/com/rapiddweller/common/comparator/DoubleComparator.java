@@ -20,7 +20,6 @@ import java.util.Comparator;
 /**
  * Compares values of type Double or double.
  * Created: 05.04.2005 19:25:25
- *
  * @author Volker Bergmann
  */
 public class DoubleComparator implements Comparator<Double> {
@@ -30,13 +29,6 @@ public class DoubleComparator implements Comparator<Double> {
     return d1.compareTo(d2);
   }
 
-  /**
-   * Compare int.
-   *
-   * @param d1 the d 1
-   * @param d2 the d 2
-   * @return the int
-   */
   public static int compare(double d1, double d2) {
     if (Double.isNaN(d1)) {
       d1 = 0;

@@ -20,18 +20,12 @@ import java.util.Comparator;
 /**
  * Comparator that compares objects by its Java type with a predefined order.
  * Created: 22.05.2007 18:19:54
- *
  * @author Volker Bergmann
  */
 public class ObjectTypeComparator implements Comparator<Object> {
 
   private final TypeComparator typeComparator;
 
-  /**
-   * Instantiates a new Object type comparator.
-   *
-   * @param orderedClasses the ordered classes
-   */
   public ObjectTypeComparator(Class<?>... orderedClasses) {
     typeComparator = new TypeComparator(orderedClasses);
   }

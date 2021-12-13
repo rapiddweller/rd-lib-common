@@ -22,7 +22,6 @@ import java.util.Set;
 /**
  * Proxy class for a {@link Map}.
  * Created: 12.12.2012 11:49:35
- *
  * @param <M> The type of map to wrap
  * @param <K> the key type
  * @param <V> the value type
@@ -31,25 +30,12 @@ import java.util.Set;
  */
 public class MapProxy<M extends Map<K, V>, K, V> implements Map<K, V> {
 
-  /**
-   * The Real map.
-   */
   protected final M realMap;
 
-  /**
-   * Instantiates a new Map proxy.
-   *
-   * @param realMap the real map
-   */
   protected MapProxy(M realMap) {
     this.realMap = realMap;
   }
 
-  /**
-   * Gets real map.
-   *
-   * @return the real map
-   */
   public Object getRealMap() {
     return realMap;
   }

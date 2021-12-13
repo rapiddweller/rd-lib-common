@@ -20,16 +20,10 @@ import com.rapiddweller.common.accessor.TypedAccessor;
 /**
  * Accesses a named (e.g. JavaBean) property.
  * Created: 11.03.2006 22:17:33
- *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
  */
 public interface PropertyAccessor<C, V> extends TypedAccessor<C, V> {
-  /**
-   * Gets property name.
-   *
-   * @return the property name
-   */
   String getPropertyName();
 }

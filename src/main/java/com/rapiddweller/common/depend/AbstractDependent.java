@@ -20,45 +20,26 @@ import java.util.List;
 
 /**
  * Abstract class that provides partial featur implementation of the Dependent interface.
- *
  * @param <E> the type of the objects to process
  * @author Volker Bergmann
  * @since 0.3.04
  */
 public abstract class AbstractDependent<E extends Dependent<E>> implements Dependent<E> {
 
-  /**
-   * The Providers.
-   */
   protected List<ProviderInfo<E>> providers;
 
-  /**
-   * Instantiates a new Abstract dependent.
-   *
-   * @param requiredProviders the required providers
-   */
   @SafeVarargs
-  public AbstractDependent(E... requiredProviders) {
+  protected AbstractDependent(E... requiredProviders) {
     this.providers = new ArrayList<>();
     for (E requiredProvider : requiredProviders) {
       addRequiredProvider(requiredProvider);
     }
   }
 
-  /**
-   * Add required provider.
-   *
-   * @param provider the provider
-   */
   public void addRequiredProvider(E provider) {
     providers.add(new ProviderInfo<>(provider, true));
   }
 
-  /**
-   * Add optional provider.
-   *
-   * @param provider the provider
-   */
   public void addOptionalProvider(E provider) {
     providers.add(new ProviderInfo<>(provider, false));
   }

@@ -20,15 +20,9 @@ import com.rapiddweller.common.Context;
 /**
  * Interface for all classes that can make use of a {@link Context}.
  * Created at 20.07.2009 09:11:28
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
 public interface ContextAware {
-  /**
-   * Sets context.
-   *
-   * @param context the context
-   */
   void setContext(Context context);
 }

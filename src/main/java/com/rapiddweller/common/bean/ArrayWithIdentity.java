@@ -23,7 +23,6 @@ import java.util.Arrays;
  * Wrapper for an array which implements {@link #equals(Object)}, {@link #hashCode()} and {@link #toString()}
  * based on the array's element values.
  * Created: 03.02.2012 16:34:14
- *
  * @author Volker Bergmann
  * @since 0.5.4
  */
@@ -31,20 +30,10 @@ public class ArrayWithIdentity {
 
   private final Object[] elements;
 
-  /**
-   * Instantiates a new Array with identity.
-   *
-   * @param elements the elements
-   */
   public ArrayWithIdentity(Object[] elements) {
     this.elements = elements;
   }
 
-  /**
-   * Gets element count.
-   *
-   * @return the element count
-   */
   public int getElementCount() {
     return elements.length;
   }

@@ -23,7 +23,6 @@ import java.util.Comparator;
  * Reverts the result of another Comparator.
  * Use this for sorting in descending order.
  * Created: 19.06.2005 18:26:47
- *
  * @param <E> the type of objects to be compared
  * @author Volker Bergmann
  */
@@ -31,19 +30,11 @@ public class ReverseComparator<E> implements Comparator<E> {
 
   private final Comparator<E> subject;
 
-  /**
-   * Instantiates a new Reverse comparator.
-   */
   @SuppressWarnings("unchecked")
   public ReverseComparator() {
-    this((Comparator<E>) new ComparableComparator<Comparable<E>>());
+    this((Comparator<E>) new ComparableComparator<>());
   }
 
-  /**
-   * Instantiates a new Reverse comparator.
-   *
-   * @param subject the subject
-   */
   public ReverseComparator(Comparator<E> subject) {
     this.subject = subject;
   }

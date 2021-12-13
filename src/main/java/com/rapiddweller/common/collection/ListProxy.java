@@ -23,24 +23,15 @@ import java.util.ListIterator;
 /**
  * Abstract proxy class for a {@link List}.
  * Created: 25.01.2012 17:03:57
- *
  * @param <E> the type of the collection's elements
  * @author Volker Bergmann
  * @since 0.5.14
  */
 public abstract class ListProxy<E> implements List<E> {
 
-  /**
-   * The Real list.
-   */
   protected List<E> realList;
 
-  /**
-   * Instantiates a new List proxy.
-   *
-   * @param realList the real list
-   */
-  public ListProxy(List<E> realList) {
+  protected ListProxy(List<E> realList) {
     this.realList = realList;
   }
 

@@ -23,7 +23,6 @@ import com.rapiddweller.common.converter.ThreadSafeConverter;
 /**
  * Maps a bean's feature (attributes, properties, Map contents) values to an array of values.
  * Created: 14.07.2014 15:24:31
- *
  * @param <E> the object type to access
  * @author Volker Bergmann
  * @since 0.5.33
@@ -32,21 +31,10 @@ public class BeanToFeatureArrayConverter<E> extends ThreadSafeConverter<E, Objec
 
   private final Accessor<E, ?>[] accessors;
 
-  /**
-   * Instantiates a new Bean to feature array converter.
-   *
-   * @param featureNames the feature names
-   */
   public BeanToFeatureArrayConverter(String... featureNames) {
     this(null, featureNames);
   }
 
-  /**
-   * Instantiates a new Bean to feature array converter.
-   *
-   * @param beanClass    the bean class
-   * @param featureNames the feature names
-   */
   @SuppressWarnings("unchecked")
   public BeanToFeatureArrayConverter(Class<E> beanClass, String... featureNames) {
     super(beanClass, Object[].class);

@@ -22,7 +22,6 @@ import java.util.Comparator;
 /**
  * Compares to objects by the values returned from an Accessor that is applied to them.
  * Created: 23.02.2006 18:57:09
- *
  * @param <C> type of the objects to compare
  * @param <V> type of the value to get from the compared objects and to use for comparison
  * @author Volker Bergmann
@@ -32,12 +31,6 @@ public class AccessingComparator<C, V> implements Comparator<C> {
   private final Accessor<C, V> accessor;
   private final Comparator<V> comparator;
 
-  /**
-   * Instantiates a new Accessing comparator.
-   *
-   * @param accessor   the accessor
-   * @param comparator the comparator
-   */
   public AccessingComparator(Accessor<C, V> accessor, Comparator<V> comparator) {
     this.accessor = accessor;
     this.comparator = comparator;

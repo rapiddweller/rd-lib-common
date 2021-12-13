@@ -25,7 +25,6 @@ import java.util.List;
 /**
  * Provides a ring buffer for double values.<br><br>
  * Created: 25.11.2017 19:27:12
- *
  * @author Volker Bergmann
  * @since 1.0.12
  */
@@ -37,11 +36,6 @@ public class DoubleRingBuffer {
   private boolean filled;
   private double lastValue;
 
-  /**
-   * Instantiates a new Double ring buffer.
-   *
-   * @param capacity the capacity
-   */
   public DoubleRingBuffer(int capacity) {
     this.buffer = new double[capacity];
     Arrays.fill(this.buffer, Double.NaN);
@@ -50,47 +44,22 @@ public class DoubleRingBuffer {
     this.filled = false;
   }
 
-  /**
-   * Gets sample count.
-   *
-   * @return the sample count
-   */
   public int getSampleCount() {
     return sampleCount;
   }
 
-  /**
-   * Gets capacity.
-   *
-   * @return the capacity
-   */
   public int getCapacity() {
     return buffer.length;
   }
 
-  /**
-   * Size int.
-   *
-   * @return the int
-   */
   public int size() {
     return buffer.length;
   }
 
-  /**
-   * Is filled boolean.
-   *
-   * @return the boolean
-   */
   public boolean isFilled() {
     return filled;
   }
 
-  /**
-   * Add.
-   *
-   * @param value the value
-   */
   public void add(double value) {
     lastValue = value;
     this.sampleCount++;
@@ -101,29 +70,14 @@ public class DoubleRingBuffer {
     }
   }
 
-  /**
-   * Last double.
-   *
-   * @return the double
-   */
   public double last() {
     return lastValue;
   }
 
-  /**
-   * First double.
-   *
-   * @return the double
-   */
   public double first() {
     return this.buffer[cursor];
   }
 
-  /**
-   * Min double.
-   *
-   * @return the minimum value in the buffer or NaN if the buffer is empty
-   */
   public double min() {
     double min = buffer[0];
     int n = (filled ? buffer.length : cursor);
@@ -135,11 +89,6 @@ public class DoubleRingBuffer {
     return min;
   }
 
-  /**
-   * Max double.
-   *
-   * @return the maximum value in the buffer or NaN if the buffer is empty
-   */
   public double max() {
     double max = buffer[0];
     int n = (filled ? buffer.length : cursor);
@@ -151,11 +100,6 @@ public class DoubleRingBuffer {
     return max;
   }
 
-  /**
-   * Average double.
-   *
-   * @return the double
-   */
   public double average() {
     boolean contentFound = false;
     double sum = 0.;
@@ -170,11 +114,6 @@ public class DoubleRingBuffer {
     return (contentFound ? sum / count : Double.NaN);
   }
 
-  /**
-   * Median double.
-   *
-   * @return the double
-   */
   public double median() {
     List<Double> list = new ArrayList<>();
     for (double d : buffer) {
@@ -189,11 +128,6 @@ public class DoubleRingBuffer {
     return list.get(list.size() / 2);
   }
 
-  /**
-   * Sum double.
-   *
-   * @return the double
-   */
   public double sum() {
     double sum = 0.;
     for (double d : buffer) {
@@ -204,20 +138,10 @@ public class DoubleRingBuffer {
     return sum;
   }
 
-  /**
-   * Get content double [ ].
-   *
-   * @return the double [ ]
-   */
   public double[] getContent() {
     return buffer;
   }
 
-  /**
-   * Corrected standard deviation double.
-   *
-   * @return the double
-   */
   public double correctedStandardDeviation() {
     if (!filled) {
       return Double.NaN;
@@ -225,11 +149,6 @@ public class DoubleRingBuffer {
     return MathUtil.correctedStandardDeviation(buffer);
   }
 
-  /**
-   * Standard deviation double.
-   *
-   * @return the double
-   */
   public double standardDeviation() {
     if (!filled) {
       return Double.NaN;
@@ -237,11 +156,6 @@ public class DoubleRingBuffer {
     return MathUtil.standardDeviation(buffer);
   }
 
-  /**
-   * Variance double.
-   *
-   * @return the double
-   */
   public double variance() {
     if (!filled) {
       return Double.NaN;

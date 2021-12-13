@@ -20,7 +20,6 @@ import java.util.Comparator;
 /**
  * Compares values of type Long or long.
  * Created: 05.04.2005 19:25:25
- *
  * @author Volker Bergmann
  */
 public class LongComparator implements Comparator<Long> {
@@ -30,13 +29,6 @@ public class LongComparator implements Comparator<Long> {
     return l1.compareTo(l2);
   }
 
-  /**
-   * Compare int.
-   *
-   * @param n1 the n 1
-   * @param n2 the n 2
-   * @return the int
-   */
   public static int compare(long n1, long n2) {
     return (Long.compare(n1, n2));
   }

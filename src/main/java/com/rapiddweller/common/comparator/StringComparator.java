@@ -23,7 +23,6 @@ import java.util.Locale;
  * Compares two Strings with a Collator. If no Collator is specified,
  * it uses the default Collator of the default Locale.
  * Created: 03.06.2005 16:13:15
- *
  * @author Volker Bergmann
  * @since 0.1
  */
@@ -31,18 +30,10 @@ public class StringComparator implements Comparator<String> {
 
   private final Collator collator;
 
-  /**
-   * Instantiates a new String comparator.
-   */
   public StringComparator() {
     this(Locale.getDefault());
   }
 
-  /**
-   * Instantiates a new String comparator.
-   *
-   * @param locale the locale
-   */
   public StringComparator(Locale locale) {
     this.collator = Collator.getInstance(locale);
   }

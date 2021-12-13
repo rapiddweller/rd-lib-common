@@ -22,29 +22,18 @@ import java.util.Objects;
 /**
  * Accessor that always returns the same value, independent of the object it is applied to.
  * Created: 06.03.2006 08:59:02
- *
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
  */
 public class ConstantAccessor<V> implements Accessor<Object, V> {
 
-  /**
-   * the value to return; null is allowed
-   */
+  /** the value to return; null is allowed */
   private V value;
 
-  /**
-   * Instantiates a new Constant accessor.
-   */
   public ConstantAccessor() {
     this(null);
   }
 
-  /**
-   * Instantiates a new Constant accessor.
-   *
-   * @param value the value
-   */
   public ConstantAccessor(V value) {
     this.value = value;
   }
@@ -54,11 +43,6 @@ public class ConstantAccessor<V> implements Accessor<Object, V> {
     return this.value;
   }
 
-  /**
-   * Sets value.
-   *
-   * @param value the value
-   */
   public void setValue(V value) {
     this.value = value;
   }

@@ -18,33 +18,19 @@ package com.rapiddweller.common.array;
 /**
  * Provides byte array features adding dynamic extension of buffer size.
  * Created: 02.04.2015 11:12:50
- *
  * @author Volker Bergmann
  * @since 1.0.5
  */
 public class ByteArray extends AbstractByteArray {
 
-  /**
-   * Instantiates a new Byte array.
-   */
   public ByteArray() {
     super();
   }
 
-  /**
-   * Instantiates a new Byte array.
-   *
-   * @param initialCapacity the initial capacity
-   */
   public ByteArray(int initialCapacity) {
     super(initialCapacity);
   }
 
-  /**
-   * Get bytes byte [ ].
-   *
-   * @return the byte [ ]
-   */
   public byte[] getBytes() {
     return this.buffer;
   }

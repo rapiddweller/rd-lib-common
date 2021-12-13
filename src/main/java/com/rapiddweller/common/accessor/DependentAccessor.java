@@ -22,16 +22,10 @@ import java.util.List;
 /**
  * Accessor that depends on other Accessors.
  * Created: 08.03.2006 15:50:10
- *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
  */
 public interface DependentAccessor<C, V> extends Accessor<C, V> {
-  /**
-   * Gets dependencies.
-   *
-   * @return the dependencies
-   */
   List<? extends Accessor<?, ?>> getDependencies();
 }

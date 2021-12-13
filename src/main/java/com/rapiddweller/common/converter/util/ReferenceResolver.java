@@ -18,18 +18,9 @@ package com.rapiddweller.common.converter.util;
 /**
  * Resolves object references.
  * Created: 19.09.2014 16:10:42
- *
  * @author Volker Bergmann
  * @since 1.0.0
  */
 public interface ReferenceResolver {
-  /**
-   * Resolve references object.
-   *
-   * @param value       the value
-   * @param target      the target
-   * @param featureName the feature name
-   * @return the object
-   */
   Object resolveReferences(Object value, Object target, String featureName);
 }

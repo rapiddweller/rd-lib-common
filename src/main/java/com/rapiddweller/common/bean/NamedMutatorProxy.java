@@ -21,23 +21,13 @@ import com.rapiddweller.common.exception.MutationFailed;
 /**
  * Wraps a Mutator, forwards calls to {@link #setValue(Object, Object)} and adds a name property.
  * Created: 28.02.2013 16:42:38
- *
  * @author Volker Bergmann
  * @since 0.5.21
  */
 public class NamedMutatorProxy extends AbstractNamedMutator {
 
-  /**
-   * The Real mutator.
-   */
   protected Mutator realMutator;
 
-  /**
-   * Instantiates a new Named mutator proxy.
-   *
-   * @param name        the name
-   * @param realMutator the real mutator
-   */
   public NamedMutatorProxy(String name, Mutator realMutator) {
     super(name);
     this.realMutator = realMutator;

@@ -23,7 +23,6 @@ import com.rapiddweller.common.converter.ThreadSafeConverter;
 /**
  * Extracts property values from an array of JavaBeans in a way that
  * processing n beans results in an array of n elements with the property values.
- *
  * @param <E> the bean type to access            Created: 02.08.2007 20:47:35
  * @author Volker Bergmann
  */
@@ -32,12 +31,6 @@ public class ArrayPropertyExtractor<E> extends ThreadSafeConverter<Object[], E[]
   private final String propertyName;
   private final Class<E> propertyType;
 
-  /**
-   * Instantiates a new Array property extractor.
-   *
-   * @param propertyName the property name
-   * @param propertyType the property type
-   */
   @SuppressWarnings("unchecked")
   public ArrayPropertyExtractor(String propertyName, Class<E> propertyType) {
     super(Object[].class, ArrayUtil.arrayType(propertyType));
@@ -50,16 +43,6 @@ public class ArrayPropertyExtractor<E> extends ThreadSafeConverter<Object[], E[]
     return convert(sourceValue, propertyName, propertyType);
   }
 
-  /**
-   * Convert t [ ].
-   *
-   * @param <T>          the type parameter
-   * @param sourceValue  the source value
-   * @param propertyName the property name
-   * @param propertyType the property type
-   * @return the t [ ]
-   * @throws ConversionException the conversion exception
-   */
   @SuppressWarnings("unchecked")
   public static <T> T[] convert(Object[] sourceValue, String propertyName, Class<T> propertyType)
       throws ConversionException {

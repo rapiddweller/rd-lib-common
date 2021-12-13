@@ -20,18 +20,16 @@ import java.util.Arrays;
 /**
  * Helper class for calculating hash codes.
  * Created: 24.11.2010 12:39:14
- *
  * @author Volker Bergmann
  * @since 0.5.4
  */
 public class HashCodeBuilder {
 
-  /**
-   * Hash code int.
-   *
-   * @param components the components
-   * @return the int
-   */
+  /** private constructor to prevent instantiation of this utility class. */
+  private HashCodeBuilder() {
+    // private constructor to prevent instantiation of this utility class
+  }
+
   public static int hashCode(Object... components) {
     int result = 0;
     for (Object component : components) {
@@ -40,12 +38,6 @@ public class HashCodeBuilder {
     return result;
   }
 
-  /**
-   * Component hash code int.
-   *
-   * @param component the component
-   * @return the int
-   */
   public static int componentHashCode(Object component) {
     if (component == null) {
       return 0;

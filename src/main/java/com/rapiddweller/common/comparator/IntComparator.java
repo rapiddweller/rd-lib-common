@@ -20,7 +20,6 @@ import java.util.Comparator;
 /**
  * Compares values of type Integer or int.
  * Created: 05.04.2005 19:25:25
- *
  * @author Volker Bergmann
  */
 public class IntComparator implements Comparator<Integer> {
@@ -30,13 +29,6 @@ public class IntComparator implements Comparator<Integer> {
     return (i1).compareTo(i2);
   }
 
-  /**
-   * Compare int.
-   *
-   * @param i1 the 1
-   * @param i2 the 2
-   * @return the int
-   */
   public static int compare(int i1, int i2) {
     return (Integer.compare(i1, i2));
   }

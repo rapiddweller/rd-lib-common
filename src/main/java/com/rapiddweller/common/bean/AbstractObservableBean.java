@@ -26,7 +26,6 @@ import java.io.ObjectInputStream;
 /**
  * Default implementation for {@link ObservableBean}.
  * Created at 17.07.2008 14:47:55
- *
  * @author Volker Bergmann
  * @since 0.4.5
  */
@@ -34,10 +33,7 @@ public class AbstractObservableBean implements ObservableBean {
 
   private static final long serialVersionUID = 8228948623675990966L;
 
-  /**
-   * The Property change support.
-   */
-  protected transient PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+  protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 
   @Override
   public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -59,14 +55,6 @@ public class AbstractObservableBean implements ObservableBean {
     propertyChangeSupport.removePropertyChangeListener(propertyName, listener);
   }
 
-  /**
-   * Fire property change.
-   *
-   * @param source       the source
-   * @param propertyName the property name
-   * @param oldValue     the old value
-   * @param newValue     the new value
-   */
   protected void firePropertyChange(Object source, String propertyName, Object oldValue, Object newValue) {
     if (!NullSafeComparator.equals(oldValue, newValue)) {
       PropertyChangeEvent event = new PropertyChangeEvent(source, propertyName, oldValue, newValue);

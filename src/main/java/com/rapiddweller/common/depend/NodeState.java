@@ -17,37 +17,15 @@ package com.rapiddweller.common.depend;
 
 /**
  * Represents the state of a node in a net of dependent objects.
- *
  * @author Volker Bergmann
  * @since 0.3.04
  */
 enum NodeState {
-  /**
-   * Inactive node state.
-   */
   INACTIVE,
-  /**
-   * Forceable node state.
-   */
   FORCEABLE,
-  /**
-   * Forced node state.
-   */
   FORCED,
-  /**
-   * Partially initializable node state.
-   */
   PARTIALLY_INITIALIZABLE,
-  /**
-   * Partially initialized node state.
-   */
   PARTIALLY_INITIALIZED,
-  /**
-   * Initializable node state.
-   */
   INITIALIZABLE,
-  /**
-   * Initialized node state.
-   */
   INITIALIZED
 }

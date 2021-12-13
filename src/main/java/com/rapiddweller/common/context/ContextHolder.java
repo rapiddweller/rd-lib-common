@@ -20,30 +20,18 @@ import com.rapiddweller.common.Context;
 /**
  * Simple implementation of the {@link ContextAware} interface.
  * Created: 16.02.2010 11:59:53
- *
  * @author Volker Bergmann
  * @since 0.6.0
  */
 public abstract class ContextHolder implements ContextAware {
 
-  /**
-   * The Context.
-   */
   protected Context context;
 
-  /**
-   * Instantiates a new Context holder.
-   */
   protected ContextHolder() {
     this(null);
   }
 
-  /**
-   * Instantiates a new Context holder.
-   *
-   * @param context the context
-   */
-  public ContextHolder(Context context) {
+  protected ContextHolder(Context context) {
     this.context = context;
   }
 

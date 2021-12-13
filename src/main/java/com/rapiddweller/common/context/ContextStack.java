@@ -20,22 +20,10 @@ import com.rapiddweller.common.Context;
 /**
  * A Stack of Contexts, querying for items from top to bottom,
  * setting and removing items only on the top.
- *
  * @author Volker Bergmann
  * @since 0.3.0
  */
 public interface ContextStack extends Context {
-  /**
-   * Push.
-   *
-   * @param context the context
-   */
   void push(Context context);
-
-  /**
-   * Pop context.
-   *
-   * @return the context
-   */
   Context pop();
 }

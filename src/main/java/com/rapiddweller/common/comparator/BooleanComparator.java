@@ -20,7 +20,6 @@ import java.util.Comparator;
 /**
  * Compares values of type Boolean or boolean.
  * Created: 05.04.2005 19:25:25
- *
  * @author Volker Bergmann
  */
 public class BooleanComparator implements Comparator<Boolean> {
@@ -30,13 +29,6 @@ public class BooleanComparator implements Comparator<Boolean> {
     return compare(o1.booleanValue(), o2.booleanValue());
   }
 
-  /**
-   * Compare int.
-   *
-   * @param b1 the b 1
-   * @param b2 the b 2
-   * @return the int
-   */
   public static int compare(boolean b1, boolean b2) {
     return (!b1 && b2 ? -1 : (b1 && !b2 ? 1 : 0));
   }

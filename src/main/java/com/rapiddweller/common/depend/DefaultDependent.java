@@ -19,7 +19,6 @@ import java.util.Objects;
 
 /**
  * Default implementation of the Dependent interface.
- *
  * @param <S> the type of the objects to process
  * @param <E> the provider type
  * @author Volker Bergmann
@@ -29,23 +28,12 @@ public class DefaultDependent<S, E extends Dependent<E>> extends AbstractDepende
 
   private final S subject;
 
-  /**
-   * Instantiates a new Default dependent.
-   *
-   * @param subject           the subject
-   * @param requiredProviders the required providers
-   */
   @SafeVarargs
   public DefaultDependent(S subject, E... requiredProviders) {
     super(requiredProviders);
     this.subject = subject;
   }
 
-  /**
-   * Gets subject.
-   *
-   * @return the subject
-   */
   public S getSubject() {
     return subject;
   }

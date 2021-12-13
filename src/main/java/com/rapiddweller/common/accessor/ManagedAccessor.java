@@ -24,41 +24,24 @@ import java.util.List;
 /**
  * DependentAccessor implementation that manages the dependencies in a List.
  * Created: 11.03.2006 14:32:52
- *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
  */
 public abstract class ManagedAccessor<C, V> implements DependentAccessor<C, V> {
 
-  /**
-   * The Dependencies.
-   */
   protected List<? extends Accessor<?, ?>> dependencies;
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Managed accessor.
-   */
   protected ManagedAccessor() {
     this(new ArrayList<>());
   }
 
-  /**
-   * Instantiates a new Managed accessor.
-   *
-   * @param dependency the dependency
-   */
   protected ManagedAccessor(Accessor<?, ?> dependency) {
     this(Collections.singletonList(dependency));
   }
 
-  /**
-   * Instantiates a new Managed accessor.
-   *
-   * @param dependencies the dependencies
-   */
   protected ManagedAccessor(List<? extends Accessor<?, ?>> dependencies) {
     this.dependencies = dependencies;
   }
@@ -70,11 +53,6 @@ public abstract class ManagedAccessor<C, V> implements DependentAccessor<C, V> {
     return dependencies;
   }
 
-  /**
-   * Sets dependencies.
-   *
-   * @param dependencies the dependencies
-   */
   public void setDependencies(List<? extends Accessor<?, ?>> dependencies) {
     this.dependencies = dependencies;
   }

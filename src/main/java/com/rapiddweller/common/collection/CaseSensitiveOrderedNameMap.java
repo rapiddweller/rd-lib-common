@@ -22,7 +22,6 @@ import java.util.Map;
 /**
  * {@link OrderedMap} implementation which assigns names to objects.
  * Created: 12.12.2012 11:04:02
- *
  * @param <E> the type of the collection's elements
  * @author Volker Bergmann
  * @since 0.5.21
@@ -31,17 +30,9 @@ public class CaseSensitiveOrderedNameMap<E> extends OrderedMap<String, E> {
 
   private static final long serialVersionUID = -7129079585162733858L;
 
-  /**
-   * Instantiates a new Case sensitive ordered name map.
-   */
   public CaseSensitiveOrderedNameMap() {
   }
 
-  /**
-   * Instantiates a new Case sensitive ordered name map.
-   *
-   * @param that the that
-   */
   public CaseSensitiveOrderedNameMap(Map<String, E> that) {
     super(that);
   }

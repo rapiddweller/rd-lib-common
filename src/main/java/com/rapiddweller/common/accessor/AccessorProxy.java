@@ -23,24 +23,15 @@ import java.util.List;
 /**
  * Proxy of an accessor.
  * Created: 08.03.2006 15:44:51
- *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
  */
 public abstract class AccessorProxy<C, V> implements DependentAccessor<C, V> {
 
-  /**
-   * The Real accessor.
-   */
   protected Accessor<C, V> realAccessor;
 
-  /**
-   * Instantiates a new Accessor proxy.
-   *
-   * @param realAccessor the real accessor
-   */
-  public AccessorProxy(Accessor<C, V> realAccessor) {
+  protected AccessorProxy(Accessor<C, V> realAccessor) {
     this.realAccessor = realAccessor;
   }
 

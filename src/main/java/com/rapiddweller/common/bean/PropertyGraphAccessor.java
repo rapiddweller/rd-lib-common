@@ -23,7 +23,6 @@ import com.rapiddweller.common.accessor.TypedAccessorChain;
 /**
  * Accesses JavaBean object graphs.
  * Created: 21.07.2007 10:18:17
- *
  * @author Volker Bergmann
  */
 @SuppressWarnings("rawtypes")
@@ -31,13 +30,6 @@ public class PropertyGraphAccessor extends TypedAccessorChain implements Propert
 
   private final String propertyName;
 
-  /**
-   * Instantiates a new Property graph accessor.
-   *
-   * @param beanClass    the bean class
-   * @param propertyName the property name
-   * @param strict       the strict
-   */
   public PropertyGraphAccessor(Class<?> beanClass, String propertyName, boolean strict) {
     super(createSubAccessors(beanClass, propertyName, strict));
     this.propertyName = propertyName;
@@ -51,13 +43,6 @@ public class PropertyGraphAccessor extends TypedAccessorChain implements Propert
 
   // static utility methods ------------------------------------------------------------------------------------------
 
-  /**
-   * Gets property graph.
-   *
-   * @param path the path
-   * @param bean the bean
-   * @return the property graph
-   */
   public static Object getPropertyGraph(String path, Object bean) {
     String[] tokens = StringUtil.splitOnFirstSeparator(path, '.');
     Object tmp = BeanUtil.getPropertyValue(bean, tokens[0]);

@@ -20,65 +20,34 @@ import com.rapiddweller.common.ArrayUtil;
 /**
  * Implements a generic ring buffer.<br><br>
  * Created: 25.11.2017 23:34:53
- *
  * @param <E> the type of object to be buffered
  * @author Volker Bergmann
  * @since 1.0.12
  */
 public class RingBuffer<E> {
 
-  /**
-   * The Buffer.
-   */
   protected final E[] buffer;
   private int cursor;
   private int size;
 
-  /**
-   * Instantiates a new Ring buffer.
-   *
-   * @param componentClass the component class
-   * @param capacity       the capacity
-   */
   public RingBuffer(Class<E> componentClass, int capacity) {
     this.buffer = ArrayUtil.newInstance(componentClass, capacity);
     this.cursor = 0;
     this.size = 0;
   }
 
-  /**
-   * Gets capacity.
-   *
-   * @return the capacity
-   */
   public int getCapacity() {
     return buffer.length;
   }
 
-  /**
-   * Size int.
-   *
-   * @return the int
-   */
   public int size() {
     return size;
   }
 
-  /**
-   * Is filled boolean.
-   *
-   * @return the boolean
-   */
   public boolean isFilled() {
     return (size == buffer.length);
   }
 
-  /**
-   * Contains boolean.
-   *
-   * @param object the object
-   * @return the boolean
-   */
   public boolean contains(E object) {
     for (Object o : buffer) {
       if (o != null && o.equals(object)) {
@@ -88,12 +57,6 @@ public class RingBuffer<E> {
     return false;
   }
 
-  /**
-   * Add e.
-   *
-   * @param object the object
-   * @return the e
-   */
   public E add(E object) {
     E oldComponent = buffer[cursor];
     buffer[cursor++] = object;
@@ -106,12 +69,6 @@ public class RingBuffer<E> {
     return oldComponent;
   }
 
-  /**
-   * Get e.
-   *
-   * @param index the index
-   * @return the e
-   */
   public E get(int index) {
     if (index > size - 1) {
       return null;

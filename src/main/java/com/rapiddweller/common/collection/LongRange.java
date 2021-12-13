@@ -18,73 +18,34 @@ package com.rapiddweller.common.collection;
 /**
  * Represents a range of {@link Long} values.
  * Created: 18.10.2010 08:28:48
- *
  * @author Volker Bergmann
  * @since 0.5.4
  */
 public class LongRange {
-  /**
-   * The Min.
-   */
   protected long min;
-  /**
-   * The Max.
-   */
   protected long max;
 
-  /**
-   * Instantiates a new Long range.
-   *
-   * @param min the min
-   * @param max the max
-   */
   public LongRange(long min, long max) {
     this.min = min;
     this.max = max;
   }
 
-  /**
-   * Gets min.
-   *
-   * @return the min
-   */
   public long getMin() {
     return min;
   }
 
-  /**
-   * Sets min.
-   *
-   * @param min the min
-   */
   public void setMin(long min) {
     this.min = min;
   }
 
-  /**
-   * Gets max.
-   *
-   * @return the max
-   */
   public long getMax() {
     return max;
   }
 
-  /**
-   * Sets max.
-   *
-   * @param max the max
-   */
   public void setMax(long max) {
     this.max = max;
   }
 
-  /**
-   * Contains boolean.
-   *
-   * @param i the
-   * @return the boolean
-   */
   public boolean contains(long i) {
     return (min <= i && i <= max);
   }

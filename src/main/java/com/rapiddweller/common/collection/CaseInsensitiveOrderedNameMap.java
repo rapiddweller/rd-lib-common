@@ -24,7 +24,6 @@ import java.util.Map;
  * {@link OrderedMap} implementation which assigns name strings to objects preserving the capitalization
  * of stored names but allowing retrieval in a different capitalization.
  * Created: 12.12.2012 11:12:16
- *
  * @param <E> the type of the collection's elements
  * @author Volker Bergmann
  * @since 0.5.21
@@ -35,17 +34,9 @@ public class CaseInsensitiveOrderedNameMap<E> extends OrderedMap<String, E> {
 
   // constructors + factory methods ----------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Case insensitive ordered name map.
-   */
   public CaseInsensitiveOrderedNameMap() {
   }
 
-  /**
-   * Instantiates a new Case insensitive ordered name map.
-   *
-   * @param that the that
-   */
   public CaseInsensitiveOrderedNameMap(Map<String, E> that) {
     super(that);
   }
@@ -57,12 +48,6 @@ public class CaseInsensitiveOrderedNameMap<E> extends OrderedMap<String, E> {
     return containsKey((String) key);
   }
 
-  /**
-   * Contains key boolean.
-   *
-   * @param key the key
-   * @return the boolean
-   */
   public boolean containsKey(String key) {
     boolean result = super.containsKey(key);
     if (result) {
@@ -81,12 +66,6 @@ public class CaseInsensitiveOrderedNameMap<E> extends OrderedMap<String, E> {
     return get((String) key);
   }
 
-  /**
-   * Get e.
-   *
-   * @param key the key
-   * @return the e
-   */
   public E get(String key) {
     E result = super.get(key);
     if (result != null) {
@@ -122,12 +101,6 @@ public class CaseInsensitiveOrderedNameMap<E> extends OrderedMap<String, E> {
     return super.put(key, value);
   }
 
-  /**
-   * Remove e.
-   *
-   * @param key the key
-   * @return the e
-   */
   public E remove(String key) {
     E result = super.remove(key);
     if (result != null) {

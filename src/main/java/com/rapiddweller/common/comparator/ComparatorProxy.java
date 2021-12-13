@@ -20,7 +20,6 @@ import java.util.Comparator;
 /**
  * Abstract Comparator proxy.
  * Created: 22.05.2007 07:53:56
- *
  * @param <E> the type of objects to be compared
  * @author Volker Bergmann
  */
@@ -28,12 +27,7 @@ public abstract class ComparatorProxy<E> implements Comparator<E> {
 
   private final Comparator<E> realComparator;
 
-  /**
-   * Instantiates a new Comparator proxy.
-   *
-   * @param realComparator the real comparator
-   */
-  public ComparatorProxy(Comparator<E> realComparator) {
+  protected ComparatorProxy(Comparator<E> realComparator) {
     this.realComparator = realComparator;
   }
 

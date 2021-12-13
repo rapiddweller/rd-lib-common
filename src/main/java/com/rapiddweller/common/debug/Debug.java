@@ -18,7 +18,6 @@ package com.rapiddweller.common.debug;
 /**
  * Gives access to environment settings related to debugging.
  * Created: 14.04.2011 18:22:23
- *
  * @author Volker Bergmann
  * @since 0.5.8
  */
@@ -29,11 +28,6 @@ public class Debug {
   private Debug() {
   }
 
-  /**
-   * Active boolean.
-   *
-   * @return the boolean
-   */
   public static boolean active() {
     return (System.getProperty(SYSTEM_PROPERTY) != null);
   }

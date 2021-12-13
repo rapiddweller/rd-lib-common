@@ -20,7 +20,6 @@ import com.rapiddweller.common.Accessor;
 /**
  * Accessor that consecutively queries a chain of accessors
  * until one provides the requested value.
- *
  * @param <C> the object type to access
  * @param <V> the type of the value to get from the object
  * @author Volker Bergmann
@@ -30,11 +29,6 @@ public class FallbackAccessor<C, V> implements Accessor<C, V> {
 
   private final Accessor<C, V>[] realAccessors;
 
-  /**
-   * Instantiates a new Fallback accessor.
-   *
-   * @param realAccessors the real accessors
-   */
   @SafeVarargs
   public FallbackAccessor(Accessor<C, V>... realAccessors) {
     this.realAccessors = realAccessors;

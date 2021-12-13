@@ -25,7 +25,6 @@ import java.util.Set;
 /**
  * {@link Map} proxy which allow to attach a mark to each entry.
  * Created: 03.02.2012 16:40:07
- *
  * @param <K> the maps's key type
  * @param <V> the map's value type
  * @author Volker Bergmann
@@ -36,18 +35,10 @@ public class MarkedMap<K, V> implements Map<K, V> {
   private final Map<K, V> realMap;
   private Map<K, Boolean> marks;
 
-  /**
-   * Instantiates a new Marked map.
-   */
   public MarkedMap() {
     this(new HashMap<>());
   }
 
-  /**
-   * Instantiates a new Marked map.
-   *
-   * @param realMap the real map
-   */
   public MarkedMap(Map<K, V> realMap) {
     this.realMap = realMap;
     this.marks = new HashMap<>(realMap.size());
@@ -58,40 +49,18 @@ public class MarkedMap<K, V> implements Map<K, V> {
 
   // marker interface ------------------------------------------------------------------------------------------------
 
-  /**
-   * Mark.
-   *
-   * @param key the key
-   */
   public void mark(K key) {
     marks.put(key, true);
   }
 
-  /**
-   * Unmark boolean.
-   *
-   * @param key the key
-   * @return the boolean
-   */
   public boolean unmark(K key) {
     return marks.put(key, false);
   }
 
-  /**
-   * Is marked boolean.
-   *
-   * @param key the key
-   * @return the boolean
-   */
   public boolean isMarked(K key) {
     return marks.get(key);
   }
 
-  /**
-   * Unmarked entries map.
-   *
-   * @return the map
-   */
   public Map<K, V> unmarkedEntries() {
     Map<K, V> result = new OrderedMap<>();
     for (Map.Entry<K, V> entry : realMap.entrySet()) {
@@ -102,11 +71,6 @@ public class MarkedMap<K, V> implements Map<K, V> {
     return result;
   }
 
-  /**
-   * Marked entries map.
-   *
-   * @return the map
-   */
   public Map<K, V> markedEntries() {
     Map<K, V> result = new OrderedMap<>();
     for (Map.Entry<K, V> entry : realMap.entrySet()) {

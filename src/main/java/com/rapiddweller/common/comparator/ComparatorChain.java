@@ -24,7 +24,6 @@ import java.util.Comparator;
  * You can use this, e.g. for ordering objects by attributes of different priority,
  * e.g. country, city.
  * Created: 22.05.2007 18:16:15
- *
  * @param <E> the type of objects to be compared
  * @author Volker Bergmann
  */
@@ -32,11 +31,6 @@ public class ComparatorChain<E> implements Comparator<E> {
 
   private final Comparator<E>[] comparators;
 
-  /**
-   * Instantiates a new Comparator chain.
-   *
-   * @param comparators the comparators
-   */
   @SafeVarargs
   public ComparatorChain(Comparator<E>... comparators) {
     this.comparators = comparators;

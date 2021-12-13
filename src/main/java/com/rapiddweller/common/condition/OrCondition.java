@@ -21,17 +21,11 @@ import com.rapiddweller.common.Condition;
  * Composite condition that requires at least one sub condition to be true.
  * If no sub conditions exist, false is returned by default.
  * Created: 04.02.2007 00:45:23
- *
  * @param <E> the type of argument to evaluate
  * @author Volker Bergmann
  */
 public class OrCondition<E> extends CompositeCondition<E> {
 
-  /**
-   * Instantiates a new Or condition.
-   *
-   * @param components the components
-   */
   @SafeVarargs
   public OrCondition(Condition<E>... components) {
     super(components);

@@ -26,50 +26,28 @@ import java.util.Set;
 /**
  * A thread-safe implementation of Context.
  * Created: 06.07.2007 06:30:43
- *
  * @author Volker Bergmann
  */
 public class DefaultContext implements Context {
 
   private final Context defaults;
 
-  /**
-   * The Map.
-   */
   protected Map<String, Object> map;
 
-  /**
-   * Instantiates a new Default context.
-   */
   public DefaultContext() {
     this((Context) null);
   }
 
-  /**
-   * Instantiates a new Default context.
-   *
-   * @param defaults the defaults
-   */
   public DefaultContext(Context defaults) {
     this.defaults = defaults;
     this.map = new HashMap<>();
   }
 
-  /**
-   * Instantiates a new Default context.
-   *
-   * @param map the map
-   */
   public DefaultContext(Map<String, ?> map) {
     this.defaults = null;
     this.map = new HashMap<>(map);
   }
 
-  /**
-   * Instantiates a new Default context.
-   *
-   * @param props the props
-   */
   public DefaultContext(Properties props) {
     this.defaults = null;
     this.map = new HashMap<>(props.size());
@@ -105,26 +83,12 @@ public class DefaultContext implements Context {
     return map.entrySet();
   }
 
-  /**
-   * Sets all.
-   *
-   * @param <K> the type parameter
-   * @param <V> the type parameter
-   * @param map the map
-   */
   public synchronized <K, V> void setAll(Hashtable<K, V> map) {
     for (Map.Entry<K, V> entry : map.entrySet()) {
       this.set(String.valueOf(entry.getKey()), entry.getValue());
     }
   }
 
-  /**
-   * Sets all.
-   *
-   * @param <K> the type parameter
-   * @param <V> the type parameter
-   * @param map the map
-   */
   public synchronized <K, V> void setAll(Map<K, V> map) {
     for (Map.Entry<K, V> entry : map.entrySet()) {
       this.set(String.valueOf(entry.getKey()), entry.getValue());
