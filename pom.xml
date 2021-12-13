@@ -20,7 +20,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <dependency_junit.version>4.13.2</dependency_junit.version>
         <dependency_slf4j.version>1.7.32</dependency_slf4j.version>
-        <dependency_log4j.version>2.15.1</dependency_log4j.version>
+        <dependency_log4j.version>2.15.0</dependency_log4j.version>
         <dependency_validation-api.version>2.0.1.Final</dependency_validation-api.version>
         <dependency_xercesImpl.version>2.12.1</dependency_xercesImpl.version>
         <plugin_jacoco-maven-plugin.version>0.8.6</plugin_jacoco-maven-plugin.version>
