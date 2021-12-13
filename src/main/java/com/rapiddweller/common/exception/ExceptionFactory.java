@@ -259,6 +259,16 @@ public class ExceptionFactory {
     return syntaxErrorForXmlElement(message, null, errorId, owner);
   }
 
+  public SyntaxError illegalXmlTextContent(String message, String errorId, String textContent, Element owner) {
+    if (message == null) {
+      message = "Element <" + owner.getNodeName() + "> has illegal text content: '" + textContent + "'";
+    }
+    if (errorId == null) {
+      errorId = CommonErrorIds.XML_ILLEGAL_TEXT_CONTENT;
+    }
+    return syntaxErrorForXmlElement(message, null, errorId, owner);
+  }
+
   public ApplicationException outOfMemory(Throwable e) {
     return new ApplicationException(CommonErrorIds.OUT_OF_MEMORY, ExitCodes.MISCELLANEOUS_ERROR, "Out of memory", e);
   }

@@ -30,6 +30,7 @@ public class CommonErrorIds {
   public static final String XML_ATTR_ILLEGAL_NAME = "XML-0004";
   public static final String XML_ATTR_ILLEGAL_VALUE = "XML-0005";
   public static final String XML_ATTR_MISSING = "XML-0006";
+  public static final String XML_ILLEGAL_TEXT_CONTENT = "XML-0006";
 
   public static final String OUT_OF_MEMORY = "MEM-0001";
 }
