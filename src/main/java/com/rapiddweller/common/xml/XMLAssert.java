@@ -24,6 +24,14 @@ public class XMLAssert {
     // private constructor to prevent instantiation of this utility class
   }
 
+  public static void assertElementName(String expectedName, Element element, String errorId) {
+    String actualName = XMLUtil.localName(element);
+    if (!actualName.equals(expectedName)) {
+      String message = "Expected element '" + expectedName + "', found: " + actualName;
+      throw ExceptionFactory.getInstance().syntaxErrorForXmlElement(message, null, errorId, element);
+    }
+  }
+
   /** Raises a {@link com.rapiddweller.common.exception.SyntaxError}
    *  if one of the attribute names listed in 'group' is missing.
    *  Beware: The signature deviates from the conventions used in this library,
