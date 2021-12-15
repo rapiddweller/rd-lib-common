@@ -14,12 +14,12 @@ public class StringParser extends AbstractTypedParser<String> {
 
   private final boolean unescape;
 
-  public StringParser() {
-    this(true);
+  public StringParser(String description) {
+    this(description, true);
   }
 
-  public StringParser(boolean unescape) {
-    super("string", String.class);
+  public StringParser(String description, boolean unescape) {
+    super(description, String.class);
     this.unescape = unescape;
   }
 
