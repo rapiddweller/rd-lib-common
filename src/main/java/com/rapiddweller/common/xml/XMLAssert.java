@@ -66,7 +66,7 @@ public class XMLAssert {
     }
   }
 
-  public static void mutuallyExcludeAttributes(Element element, String... attributeNames) {
+  public static void mutuallyExcludeAttributes(String errorId, Element element, String... attributeNames) {
     String usedAttribute = null;
     for (String attributeName : attributeNames) {
       if (!StringUtil.isEmpty(element.getAttribute(attributeName))) {
@@ -75,7 +75,7 @@ public class XMLAssert {
         } else {
           throw ExceptionFactory.getInstance().syntaxErrorForXmlElement(
               "The attributes '" + usedAttribute + "' and '" + attributeName + "' " +
-                  "exclude each other", element);
+                  "mutually exclude each other", null, errorId, element);
         }
       }
     }
