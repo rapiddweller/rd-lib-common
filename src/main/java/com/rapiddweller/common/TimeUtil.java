@@ -73,12 +73,10 @@ public final class TimeUtil {
     // private constructor to prevent instantiation of this utility class
   }
 
+  // month utilities -------------------------------------------------------------------------------------------------
+
   public static int currentMonth() {
     return new GregorianCalendar().get(Calendar.MONTH);
-  }
-
-  public static int currentYear() {
-    return new GregorianCalendar().get(Calendar.YEAR);
   }
 
   public static int monthLength(int month, int year) {
@@ -88,31 +86,21 @@ public final class TimeUtil {
     return (isLeapYear(year) ? 29 : 28);
   }
 
+  // year utilities --------------------------------------------------------------------------------------------------
+
+  public static int currentYear() {
+    return new GregorianCalendar().get(Calendar.YEAR);
+  }
+
   public static int yearLength(int year) {
     return (isLeapYear(year) ? 366 : 365);
-  }
-
-  public static boolean isWeekend(Date date) {
-    return isWeekend(calendar(date));
-  }
-
-  public static boolean isWeekend(Calendar day) {
-    int dayOfWeek = day.get(Calendar.DAY_OF_WEEK);
-    return (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
   }
 
   public static boolean isLeapYear(int year) {
     return Year.isLeap(year);
   }
 
-  public static Date today() {
-    Calendar calendar = Calendar.getInstance();
-    calendar.set(Calendar.MILLISECOND, 0);
-    calendar.set(Calendar.SECOND, 0);
-    calendar.set(Calendar.MINUTE, 0);
-    calendar.set(Calendar.HOUR_OF_DAY, 0);
-    return calendar.getTime();
-  }
+  // calendar utilities ----------------------------------------------------------------------------------------------
 
   public static Calendar todayCalendar() {
     Calendar today = Calendar.getInstance();
@@ -123,42 +111,9 @@ public final class TimeUtil {
     return today;
   }
 
-  public static Date yesterday() {
-    Calendar calendar = todayCalendar();
-    calendar.add(Calendar.DAY_OF_MONTH, -1);
-    return calendar.getTime();
-  }
-
-  public static Date tomorrow() {
-    Calendar calendar = todayCalendar();
-    calendar.add(Calendar.DAY_OF_MONTH, 1);
-    return calendar.getTime();
-  }
-
-  public static Date dateTime(String spec) {
-    try {
-      return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(spec);
-    } catch (ParseException e) {
-      throw ExceptionFactory.getInstance().illegalArgument("Error parsing date " + spec, e);
-    }
-  }
-
-  public static Date date(int year, int month, int day) {
-    return calendar(year, month, day).getTime();
-  }
-
-  public static Date gmtDate(int year, int month, int day) {
-    return calendar(year, month, day, TimeZone.getTimeZone("GMT")).getTime();
-  }
-
-  public static Date date(int year, int month, int day, int hours, int minutes, int seconds, int milliseconds) {
-    return calendar(year, month, day, hours, minutes, seconds, milliseconds).getTime();
-  }
-
-  public static Date date(long millis) {
-    Date date = new Date();
-    date.setTime(millis);
-    return date;
+  public static boolean isWeekend(Calendar day) {
+    int dayOfWeek = day.get(Calendar.DAY_OF_WEEK);
+    return (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY);
   }
 
   public static Calendar calendar(int year, int month, int day) {
@@ -206,34 +161,67 @@ public final class TimeUtil {
     return calendar;
   }
 
-  public static String formatDateTime(Date dateTime, long resolution) {
-    if (resolution <= DAY_MILLIS) {
-      return formatDate(dateTime);
-    } else {
-      return formatDateTime(dateTime);
+  // Date utilities --------------------------------------------------------------------------------------------------
+
+  public static boolean isWeekend(Date date) {
+    return isWeekend(calendar(date));
+  }
+
+  public static Date today() {
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(Calendar.MILLISECOND, 0);
+    calendar.set(Calendar.SECOND, 0);
+    calendar.set(Calendar.MINUTE, 0);
+    calendar.set(Calendar.HOUR_OF_DAY, 0);
+    return calendar.getTime();
+  }
+
+  public static Date yesterday() {
+    Calendar calendar = todayCalendar();
+    calendar.add(Calendar.DAY_OF_MONTH, -1);
+    return calendar.getTime();
+  }
+
+  public static Date tomorrow() {
+    Calendar calendar = todayCalendar();
+    calendar.add(Calendar.DAY_OF_MONTH, 1);
+    return calendar.getTime();
+  }
+
+  public static Date dateTime(String spec) {
+    try {
+      return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(spec);
+    } catch (ParseException e) {
+      throw ExceptionFactory.getInstance().illegalArgument("Error parsing date " + spec, e);
     }
   }
 
-  public static String formatDateTime(Date date) {
-    synchronized (defaultDateTimeSecondsFormat) {
-      return defaultDateTimeSecondsFormat.get().format(date);
-    }
+  public static Date date(int year, int month, int day) {
+    return calendar(year, month, day).getTime();
+  }
+
+  public static Date gmtDate(int year, int month, int day) {
+    return calendar(year, month, day, TimeZone.getTimeZone("GMT")).getTime();
+  }
+
+  public static Date date(int year, int month, int day, int hours, int minutes, int seconds, int milliseconds) {
+    return calendar(year, month, day, hours, minutes, seconds, milliseconds).getTime();
+  }
+
+  public static Date date(long millis) {
+    Date date = new Date();
+    date.setTime(millis);
+    return date;
+  }
+
+  public static String formatCurrentDate() {
+    return formatDate(new Date());
   }
 
   public static String formatDate(Date date) {
     synchronized (defaultDateFormat) {
       return defaultDateFormat.get().format(date);
     }
-  }
-
-  public static String formatAsNumber(Date date) {
-    synchronized (numberDateFormat) {
-      return numberDateFormat.get().format(date);
-    }
-  }
-
-  public static String formatCurrentDateTime(String pattern) {
-    return new SimpleDateFormat(pattern).format(new Date());
   }
 
   public static Date max(Date date1, Date date2) {
@@ -243,6 +231,67 @@ public final class TimeUtil {
   public static Date min(Date date1, Date date2) {
     return (date1.before(date2) ? date1 : date2);
   }
+
+  // time utilities --------------------------------------------------------------------------------------------------
+
+  public static String formatCurrentTime(String pattern) {
+    return formatTime(currentTime(), pattern);
+  }
+
+  public static String formatTime(Time time, String pattern) {
+    return new SimpleDateFormat(pattern).format(time);
+  }
+
+  public static Time currentTime() {
+    Calendar now = new GregorianCalendar();
+    return time(now.get(Calendar.HOUR), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND));
+  }
+
+  // datetime utilities ----------------------------------------------------------------------------------------------
+
+  public static String formatAsNumber(Date date) {
+    synchronized (numberDateFormat) {
+      return numberDateFormat.get().format(date);
+    }
+  }
+
+  public static String formatCurrentDateTime(String pattern) {
+    return formatDateTime(currentDateTime(), pattern);
+  }
+
+  public static String formatDateTime(Date date, String pattern) {
+    return new SimpleDateFormat(pattern).format(date);
+  }
+
+  public static String formatDateTime(Date date) {
+    synchronized (defaultDateTimeSecondsFormat) {
+      return defaultDateTimeSecondsFormat.get().format(date);
+    }
+  }
+
+  public static String formatDateTime(Date dateTime, long resolution) {
+    if (resolution <= DAY_MILLIS) {
+      return formatDate(dateTime);
+    } else {
+      return formatDateTime(dateTime);
+    }
+  }
+
+  private static Date currentDateTime() {
+    return new Date();
+  }
+
+  // timestamp utilities ---------------------------------------------------------------------------------------------
+
+  public static String formatCurrentTimestamp(String pattern) {
+    return new SimpleDateFormat(pattern).format(new Timestamp(new Date().getTime()));
+  }
+
+  public static String formatTimestamp(Timestamp timestamp, String pattern) {
+    return new SimpleDateFormat(pattern).format(timestamp);
+  }
+
+  // millis utilities ------------------------------------------------------------------------------------------------
 
   public static boolean between(long test, long min, long max) {
     return (test >= min && test <= max);
@@ -473,11 +522,6 @@ public final class TimeUtil {
     cal.set(Calendar.SECOND, 0);
     cal.set(Calendar.MILLISECOND, 0);
     return cal;
-  }
-
-  public static Time currentTime() {
-    Calendar now = new GregorianCalendar();
-    return time(now.get(Calendar.HOUR), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), now.get(Calendar.MILLISECOND));
   }
 
   public static void runInTimeZone(TimeZone timeZone, Runnable action) {
