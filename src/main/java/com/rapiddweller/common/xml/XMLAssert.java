@@ -6,6 +6,7 @@ import com.rapiddweller.common.ArrayFormat;
 import com.rapiddweller.common.CollectionUtil;
 import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.exception.ExceptionFactory;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
 import java.util.HashSet;
@@ -132,6 +133,19 @@ public class XMLAssert {
     if (!StringUtil.isEmpty(textContent)) {
       throw ExceptionFactory.getInstance().illegalXmlTextContent(
           null, errorId, textContent, element);
+    }
+  }
+
+  public static void allowOnlyInContextOf(String base, String errorId, Element element, String... dependent) {
+    if (!element.hasAttribute(base)) {
+      for (String test : dependent) {
+        Attr attr = element.getAttributeNode(test);
+        if (attr != null) {
+          throw ExceptionFactory.getInstance().illegalXmlAttributeName("Element <" + element.getNodeName() +
+                  ">'s attribute '" + test + "' is only permitted in combination with a 'source' attribute",
+              null, errorId, attr, null);
+        }
+      }
     }
   }
 
