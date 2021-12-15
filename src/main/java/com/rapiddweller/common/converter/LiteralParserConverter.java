@@ -28,9 +28,9 @@ import java.util.Date;
  * Created: 19.03.2008 20:05:25
  * @author Volker Bergmann
  */
-public class LiteralParser extends ThreadSafeConverter<String, Object> {
+public class LiteralParserConverter extends ThreadSafeConverter<String, Object> {
 
-  public LiteralParser() {
+  public LiteralParserConverter() {
     super(String.class, Object.class);
   }
 

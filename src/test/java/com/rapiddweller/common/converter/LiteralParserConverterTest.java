@@ -24,30 +24,30 @@ import java.util.Date;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests the {@link LiteralParser}.
+ * Tests the {@link LiteralParserConverter}.
  * Created: 20.03.2008 07:18:30
  *
  * @author Volker Bergmann
  */
-public class LiteralParserTest extends AbstractConverterTest {
+public class LiteralParserConverterTest extends AbstractConverterTest {
 
-  public LiteralParserTest() {
-    super(LiteralParser.class);
+  public LiteralParserConverterTest() {
+    super(LiteralParserConverter.class);
   }
 
   @Test
   public void testNull() {
-    assertEquals(null, LiteralParser.parse(null));
-    assertEquals(null, LiteralParser.parse(""));
-    assertEquals(" \t ", LiteralParser.parse(" \t "));
+    assertEquals(null, LiteralParserConverter.parse(null));
+    assertEquals(null, LiteralParserConverter.parse(""));
+    assertEquals(" \t ", LiteralParserConverter.parse(" \t "));
   }
 
   @Test
   public void testBoolean() {
-    assertEquals(Boolean.TRUE, LiteralParser.parse("true"));
-    assertEquals(Boolean.TRUE, LiteralParser.parse(" true "));
-    assertEquals(Boolean.FALSE, LiteralParser.parse("false"));
-    assertEquals(Boolean.FALSE, LiteralParser.parse(" false "));
+    assertEquals(Boolean.TRUE, LiteralParserConverter.parse("true"));
+    assertEquals(Boolean.TRUE, LiteralParserConverter.parse(" true "));
+    assertEquals(Boolean.FALSE, LiteralParserConverter.parse("false"));
+    assertEquals(Boolean.FALSE, LiteralParserConverter.parse(" false "));
   }
 
   @Test
@@ -87,9 +87,9 @@ public class LiteralParserTest extends AbstractConverterTest {
 
   @Test
   public void testInteger() {
-    assertEquals(0, LiteralParser.parse("0"));
-    assertEquals(1, LiteralParser.parse("1"));
-    assertEquals(-1, LiteralParser.parse("-1"));
+    assertEquals(0, LiteralParserConverter.parse("0"));
+    assertEquals(1, LiteralParserConverter.parse("1"));
+    assertEquals(-1, LiteralParserConverter.parse("-1"));
   }
 
   @Test
@@ -102,11 +102,11 @@ public class LiteralParserTest extends AbstractConverterTest {
 
   @Test
   public void testDouble() {
-    assertEquals(0., LiteralParser.parse("0.0"));
-    assertEquals(1., LiteralParser.parse("1."));
-    assertEquals(1., LiteralParser.parse("1.0"));
-    assertEquals(-1., LiteralParser.parse("-1."));
-    assertEquals(-1., LiteralParser.parse("-1.0"));
+    assertEquals(0., LiteralParserConverter.parse("0.0"));
+    assertEquals(1., LiteralParserConverter.parse("1."));
+    assertEquals(1., LiteralParserConverter.parse("1.0"));
+    assertEquals(-1., LiteralParserConverter.parse("-1."));
+    assertEquals(-1., LiteralParserConverter.parse("-1.0"));
   }
 
   @Test
@@ -144,23 +144,23 @@ public class LiteralParserTest extends AbstractConverterTest {
   // private helper methods ------------------------------------------------------------------------------------------
 
   private static void checkText(String text) {
-    assertEquals(text, LiteralParser.parse(text));
+    assertEquals(text, LiteralParserConverter.parse(text));
   }
 
   private static void checkLong(long value) {
-    assertEquals(value, LiteralParser.parse(String.valueOf(value)));
+    assertEquals(value, LiteralParserConverter.parse(String.valueOf(value)));
   }
 
   private static void checkDate(String dateString, String pattern) throws ParseException {
     SimpleDateFormat f = new SimpleDateFormat(pattern);
     Date date = f.parse(dateString);
-    assertEquals(date, LiteralParser.parse(dateString));
+    assertEquals(date, LiteralParserConverter.parse(dateString));
   }
 
   private static void checkTime(String dateString, String pattern) throws ParseException {
     SimpleDateFormat f = new SimpleDateFormat(pattern);
     Date date = f.parse(dateString);
-    assertEquals(date, LiteralParser.parse(dateString));
+    assertEquals(date, LiteralParserConverter.parse(dateString));
   }
 
 }
