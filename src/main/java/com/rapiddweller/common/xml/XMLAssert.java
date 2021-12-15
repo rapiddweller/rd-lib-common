@@ -142,7 +142,7 @@ public class XMLAssert {
         Attr attr = element.getAttributeNode(test);
         if (attr != null) {
           throw ExceptionFactory.getInstance().illegalXmlAttributeName("Element <" + element.getNodeName() +
-                  ">'s attribute '" + test + "' is only permitted in combination with a 'source' attribute",
+                  ">'s attribute '" + test + "' is only permitted in combination with a '" + base + "' attribute",
               null, errorId, attr, null);
         }
       }
