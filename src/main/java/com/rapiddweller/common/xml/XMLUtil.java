@@ -19,6 +19,7 @@ import com.rapiddweller.common.ArrayBuilder;
 import com.rapiddweller.common.BeanUtil;
 import com.rapiddweller.common.Converter;
 import com.rapiddweller.common.Encodings;
+import com.rapiddweller.common.ExceptionUtil;
 import com.rapiddweller.common.Filter;
 import com.rapiddweller.common.IOUtil;
 import com.rapiddweller.common.ParseUtil;
@@ -28,6 +29,7 @@ import com.rapiddweller.common.Visitor;
 import com.rapiddweller.common.converter.NoOpConverter;
 import com.rapiddweller.common.converter.String2DateConverter;
 import com.rapiddweller.common.exception.ExceptionFactory;
+import com.rapiddweller.common.xml.location.LocationAnnotator;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.w3c.dom.Attr;
@@ -40,19 +42,26 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.validation.Schema;
@@ -431,26 +440,98 @@ public class XMLUtil {
   public static Document parse(InputStream stream, boolean namespaceAware, EntityResolver resolver,
                                String uri, String schemaUri, ClassLoader classLoader) {
     try {
-      DocumentBuilderFactory factory = createDocumentBuilderFactory(classLoader);
-      factory.setNamespaceAware(namespaceAware);
-      if (schemaUri != null) {
-        activateXmlSchemaValidation(factory, schemaUri);
-      }
-      DocumentBuilder builder = factory.newDocumentBuilder();
-      if (resolver != null) {
-        builder.setEntityResolver(resolver);
-      }
-      builder.setErrorHandler(createSaxErrorHandler());
+      DocumentBuilder builder = createDocumentBuilder(namespaceAware, resolver, schemaUri, classLoader);
       return builder.parse(stream);
     } catch (ParserConfigurationException e) {
       throw ExceptionFactory.getInstance().programmerConfig("Error in " + uri, e);
     } catch (SAXParseException e) {
-      throw ExceptionFactory.getInstance().syntaxErrorForUri(e.getMessage(), e, uri, e.getLineNumber(), e.getColumnNumber());
+      throw ExceptionFactory.getInstance().syntaxErrorForXmlDocument(e.getMessage(), e, uri, e.getLineNumber(), e.getColumnNumber());
     } catch (SAXException e) {
       throw ExceptionFactory.getInstance().programmerConfig("Error parsing " + uri, e);
     } catch (IOException e) {
       throw ExceptionFactory.getInstance().fileAccessException(uri, e);
     }
+  }
+
+  public static Document parseWithLocators(String uri) {
+    return parseWithLocators(uri, true, null, null, null);
+  }
+
+  public static Document parseWithLocators(
+      String uri, boolean namespaceAware, EntityResolver resolver, String schemaUri, ClassLoader classLoader) {
+    try {
+      try (InputStream stream = IOUtil.getInputStreamForURI(uri)) {
+        return parseWithLocators(stream, namespaceAware, resolver, uri, schemaUri, classLoader);
+      }
+    } catch (FileNotFoundException e) {
+      throw ExceptionFactory.getInstance().fileNotFound(uri, e);
+    } catch (IOException e) {
+      throw ExceptionFactory.getInstance().fileAccessException("Access to " + uri + " failed", e);
+    }
+  }
+
+  public static Document parseWithLocators(InputStream stream, boolean namespaceAware, EntityResolver resolver,
+                               String uri, String schemaUri, ClassLoader classLoader) {
+    try {
+      DocumentBuilder docBuilder = createDocumentBuilder(namespaceAware, resolver, schemaUri, classLoader);
+      // First, create an empty document to be populated by a DOMResult
+      Document doc = docBuilder.newDocument();
+      DOMResult domResult = new DOMResult(doc);
+      // Create SAX parser/XMLReader that will parse the XML input
+      XMLReader xmlReader = createXMLReader(namespaceAware, resolver);
+      /* Create our filter to wrap the SAX parser, that captures the
+       * locations of elements and annotates their nodes as they are
+       * inserted into the DOM. */
+      LocationAnnotator locationAnnotator = new LocationAnnotator(xmlReader, doc);
+      // Create the SAXSource to use the annotator
+      InputSource inputSource = new InputSource(stream);
+      inputSource.setSystemId(uri); // tells the XML framework, which file name the stream relates to
+      SAXSource saxSource = new SAXSource(locationAnnotator, inputSource);
+      // Finally, create transformer and read the XML into the DOM
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      Transformer nullTransformer = transformerFactory.newTransformer();
+      nullTransformer.transform(saxSource, domResult);
+      return doc;
+    } catch (ParserConfigurationException e) {
+      throw ExceptionFactory.getInstance().programmerConfig("Error in " + uri, e);
+    } catch (TransformerException e) {
+      Throwable cause = ExceptionUtil.getRootCause(e);
+      if (cause instanceof SAXParseException) {
+        SAXParseException se = (SAXParseException) cause;
+        String causeMessage = cause.getMessage();
+        if (causeMessage.contains("Premature end of file") || causeMessage.contains("Content is not allowed in prolog")) {
+          throw ExceptionFactory.getInstance().syntaxErrorForXmlDocument(e.getMessage(), se, uri, se.getLineNumber(), se.getColumnNumber());
+        }
+      }
+      throw ExceptionFactory.getInstance().programmerConfig("Error in " + uri, e);
+    } catch (SAXParseException e) {
+      throw ExceptionFactory.getInstance().syntaxErrorForXmlDocument(e.getMessage(), e, uri, e.getLineNumber(), e.getColumnNumber());
+    } catch (SAXException e) {
+      throw ExceptionFactory.getInstance().programmerConfig("Error parsing " + uri, e);
+    }
+  }
+
+  private static XMLReader createXMLReader(boolean namespaceAware, EntityResolver resolver) throws ParserConfigurationException, SAXException {
+    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+    saxParserFactory.setNamespaceAware(namespaceAware);
+    saxParserFactory.setValidating(resolver != null);
+    SAXParser saxParser = saxParserFactory.newSAXParser();
+    return saxParser.getXMLReader();
+  }
+
+  private static DocumentBuilder createDocumentBuilder(boolean namespaceAware, EntityResolver resolver, String schemaUri, ClassLoader classLoader)
+      throws ParserConfigurationException {
+    DocumentBuilderFactory factory = createDocumentBuilderFactory(classLoader);
+    factory.setNamespaceAware(namespaceAware);
+    if (schemaUri != null) {
+      activateXmlSchemaValidation(factory, schemaUri);
+    }
+    DocumentBuilder builder = factory.newDocumentBuilder();
+    if (resolver != null) {
+      builder.setEntityResolver(resolver);
+    }
+    builder.setErrorHandler(createSaxErrorHandler());
+    return builder;
   }
 
   public static Document parseString(String text) {
@@ -732,13 +813,13 @@ public class XMLUtil {
       if (document == null) {
         document = createDocument(prefixAndRemainingPath[0]);
       }
-      String rootElementName = document.getDocumentElement().getNodeName();
+      Element documentElement = document.getDocumentElement();
+      String rootElementName = documentElement.getNodeName();
       if (!key.startsWith(rootElementName + '.')) {
-        throw ExceptionFactory.getInstance().syntaxErrorForUri(
-            "Required prefix '" + rootElementName + "' not present in key " + key,
-            null, file.getAbsolutePath());
+        throw ExceptionFactory.getInstance().programmerStateError(
+            "Required prefix '" + rootElementName + "' not present in key " + key);
       }
-      setProperty(prefixAndRemainingPath[1], value, document.getDocumentElement(), document);
+      setProperty(prefixAndRemainingPath[1], value, documentElement, document);
     }
     document.setXmlStandalone(true); // needed to omit standalone="yes/no" in the XML header
     saveDocument(document, file, encoding);

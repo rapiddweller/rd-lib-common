@@ -27,6 +27,7 @@ import com.rapiddweller.common.exception.SyntaxError;
 import com.rapiddweller.common.converter.URLEncodeConverter;
 import com.rapiddweller.common.exception.UnexpectedQueryResultException;
 import com.rapiddweller.common.filter.OrFilter;
+import com.rapiddweller.common.TextFileLocation;
 import org.apache.html.dom.HTMLDocumentImpl;
 import org.apache.xerces.dom.AttrNSImpl;
 import org.apache.xerces.dom.CoreDocumentImpl;
@@ -354,7 +355,8 @@ public class XMLUtilTest {
   public void testGetChildElementAtPath_negative_optional() {
     Document document = createDocument();
     Element parent = createElementWithChildren(document, "p");
-    XMLUtil.getChildElementAtPath(parent, "nonexist", false, false);
+    Element element = XMLUtil.getChildElementAtPath(parent, "nonexist", false, false);
+    assertNull(element);
   }
 
   @Test(expected = UnexpectedQueryResultException.class)
@@ -867,6 +869,29 @@ public class XMLUtilTest {
     assertTrue(actual.contains("<group>\n" +
         "    <groupProp>groupValue</groupProp>\n" +
         "  </group>"));
+  }
+
+  @Test
+  public void testParseWithLocators() {
+    String fileName = "com/rapiddweller/common/xml/properties.xml";
+    Document doc = XMLUtil.parseWithLocators(fileName);
+    check("root", doc, 2, 7, 8, 8);
+    check("emptyProp", doc, 3, 17, 3, 17);
+    check("topProp", doc, 4, 14, 4, 32);
+    check("group", doc, 5, 12, 7, 13);
+    check("groupProp", doc, 6, 20, 6, 42);
+  }
+
+  private static void check(String elementName, Document doc,
+                            int startLine, int startColumn, int endLine, int endColumn) {
+    Node n = doc.getElementsByTagName(elementName).item(0);
+    TextFileLocation textFileLocation = (TextFileLocation) n.getUserData(TextFileLocation.LOCATION_DATA_KEY);
+    System.out.println(elementName + ": " + textFileLocation);
+    assertEquals(startLine, textFileLocation.getStartLine());
+    assertEquals(startColumn, textFileLocation.getStartColumn());
+    assertEquals(endLine, textFileLocation.getEndLine());
+    assertEquals(endColumn, textFileLocation.getEndColumn());
+    assertTrue(textFileLocation.getSystemId().endsWith("com/rapiddweller/common/xml/properties.xml"));
   }
 
   // private helpers -------------------------------------------------------------------------------------------------
