@@ -59,13 +59,13 @@ public final class TimeUtil {
 
   public static final int DECADE = 100;
 
-  private static final ThreadLocal<DateFormat> defaultDateFormat
+  private static final ThreadLocal<DateFormat> DEFAULT_DATE_FORMAT
       = ThreadLocal.withInitial(DateFormat::getDateInstance);
-  private static final ThreadLocal<DateFormat> defaultDateTimeSecondsFormat
+  private static final ThreadLocal<DateFormat> DEFAULT_DATE_TIME_SECONDS_FORMAT
       = ThreadLocal.withInitial(DateFormat::getDateTimeInstance);
-  private static final ThreadLocal<DateFormat> monthDayFormat
+  private static final ThreadLocal<DateFormat> MONTH_DAY_FORMAT
       = ThreadLocal.withInitial(() -> new SimpleDateFormat("MM/yy"));
-  private static final ThreadLocal<DateFormat> numberDateFormat
+  private static final ThreadLocal<DateFormat> NUMBER_DATE_FORMAT
       = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyyMMdd"));
 
 
@@ -219,8 +219,8 @@ public final class TimeUtil {
   }
 
   public static String formatDate(Date date) {
-    synchronized (defaultDateFormat) {
-      return defaultDateFormat.get().format(date);
+    synchronized (DEFAULT_DATE_FORMAT) {
+      return DEFAULT_DATE_FORMAT.get().format(date);
     }
   }
 
@@ -250,8 +250,8 @@ public final class TimeUtil {
   // datetime utilities ----------------------------------------------------------------------------------------------
 
   public static String formatAsNumber(Date date) {
-    synchronized (numberDateFormat) {
-      return numberDateFormat.get().format(date);
+    synchronized (NUMBER_DATE_FORMAT) {
+      return NUMBER_DATE_FORMAT.get().format(date);
     }
   }
 
@@ -264,8 +264,8 @@ public final class TimeUtil {
   }
 
   public static String formatDateTime(Date date) {
-    synchronized (defaultDateTimeSecondsFormat) {
-      return defaultDateTimeSecondsFormat.get().format(date);
+    synchronized (DEFAULT_DATE_TIME_SECONDS_FORMAT) {
+      return DEFAULT_DATE_TIME_SECONDS_FORMAT.get().format(date);
     }
   }
 
@@ -308,7 +308,7 @@ public final class TimeUtil {
   }
 
   public static String formatMonth(Calendar calendar) {
-    return monthDayFormat.get().format(calendar.getTime());
+    return MONTH_DAY_FORMAT.get().format(calendar.getTime());
   }
 
   public static int year(Date date) {
@@ -613,7 +613,7 @@ public final class TimeUtil {
         throw ExceptionFactory.getInstance().syntaxErrorForText("Not a supported date/time format", dateOrTimeSpec);
       }
     } catch (ParseException e) {
-      throw ExceptionFactory.getInstance().syntaxErrorForText("Failed to parse date or time", e, dateOrTimeSpec, -1, -1);
+      throw ExceptionFactory.getInstance().syntaxErrorForText("Failed to parse date or time", e, dateOrTimeSpec);
     }
   }
 
