@@ -59,13 +59,6 @@ public class XMLAssert {
     }
   }
 
-  public static void assertElementName(String expectedName, Element element) {
-    if (!element.getNodeName().equals(expectedName)) {
-      throw ExceptionFactory.getInstance().syntaxErrorForXmlElement(
-          "Expected element name '" + expectedName + "', " + "found: '" + element.getNodeName(), element);
-    }
-  }
-
   public static void mutuallyExcludeAttributes(String errorId, Element element, String... attributeNames) {
     String usedAttribute = null;
     for (String attributeName : attributeNames) {
@@ -131,7 +124,7 @@ public class XMLAssert {
   public static void assertNoTextContent(Element element, String errorId) {
     String textContent = element.getTextContent();
     if (!StringUtil.isEmpty(textContent)) {
-      throw ExceptionFactory.getInstance().illegalXmlTextContent(
+      throw ExceptionFactory.getInstance().illegalXmlElementText(
           null, errorId, textContent, element);
     }
   }

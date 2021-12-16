@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common.exception;
 
+import com.rapiddweller.common.TextFileLocation;
+
 /**
  * Indicates a parsing error.
  * Created at 30.12.2008 08:23:05
@@ -34,20 +36,15 @@ public class ParseException extends ApplicationException {
   }
 
   // constructors ----------------------------------------------------------------------------------------------------
-/*
-  private ParseException(String message, String parsedText) {
-    this(message, parsedText, -1, -1);
+
+  public ParseException(String message, Throwable cause, String errorId,
+                           Object source, SourceType sourceType, TextFileLocation textFileLocation) {
+    this(message, cause, errorId, source, sourceType,
+        (textFileLocation != null ? textFileLocation.getStartLine() : -1),
+        (textFileLocation != null ? textFileLocation.getStartColumn() : -1));
   }
 
-  private ParseException(String message, String parsedText, int line, int column) {
-    this(message, null, parsedText, line, column);
-  }
-
-  private ParseException(String message, Throwable cause, String parsedText, int line, int column) {
-    this(null, message, cause, null, parsedText, line, column);
-  }
-*/
-  protected ParseException(String message, Throwable cause, String errorId,
+  public ParseException(String message, Throwable cause, String errorId,
                            Object source, SourceType sourceType, int line, int column) {
     super(errorId, ExitCodes.SYNTAX_ERROR, message, cause);
     this.source = source;

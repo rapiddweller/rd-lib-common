@@ -203,7 +203,7 @@ public class TreeBuilder {
       saveNodeAsXml(rootMap, rootName, writer);
       writer.endDocument();
     } catch (SAXException e) {
-      throw ExceptionFactory.getInstance().syntaxErrorForNothing("Error storing tree as XML", e);
+      throw ExceptionFactory.getInstance().internalError("Error storing tree as XML", e);
     }
   }
 

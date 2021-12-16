@@ -41,7 +41,7 @@ public abstract class AbstractParser<E> implements Parser<E> {
   }
 
   protected SyntaxError syntaxError(String text, Exception e) {
-    return ExceptionFactory.getInstance().syntaxErrorForText("Not a " + getDescription(), e, text, -1, -1);
+    return ExceptionFactory.getInstance().syntaxErrorForText("Not a " + getDescription(), e, text);
   }
 
 }

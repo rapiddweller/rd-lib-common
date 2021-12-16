@@ -11,7 +11,7 @@ package com.rapiddweller.common.exception;
 public enum SourceType {
   URI,
   TEXT,
-  NOTHING,
+  MISSING,
   XML_ELEMENT,
   XML_ATTRIBUTE
 }

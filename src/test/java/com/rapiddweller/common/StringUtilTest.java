@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.accessor.FeatureAccessor;
 import com.rapiddweller.common.exception.IllegalArgumentError;
 import org.junit.Test;
 
@@ -983,6 +984,22 @@ public class StringUtilTest {
     assertNull(StringUtil.substringBefore("Marker", "S"));
     assertEquals("", StringUtil.substringBefore("", "S"));
   }
+
+  @Test
+  public void testMaxLength() {
+    List<Person> list = new ArrayList<>();
+    list.add(new Person("Alice", 23));
+    list.add(new Person("Bob", 34));
+    assertEquals(5, StringUtil.maxLength(list, new FeatureAccessor<>("name"), null));
+  }
+
+  /* TODO test feature
+  @Test
+  public void testWithLineBreaks() {
+    assertEquals("Alice \nBob \nCharly", StringUtil.withLineBreaks("Alice Bob Charly", 7));
+    assertEquals("Alice \nBob \nCharly", StringUtil.withLineBreaks("Alice Bob Charly", 6));
+  }
+  */
 
   // helpers ---------------------------------------------------------------------------------------------------------
 

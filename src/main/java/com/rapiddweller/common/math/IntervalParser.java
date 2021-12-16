@@ -61,7 +61,7 @@ public class IntervalParser<E> extends Parser<Interval<E>> {
         minInclusive = false;
         break;
       default:
-        throw ExceptionFactory.getInstance().syntaxErrorForNothing("Expected '[' or ']', found: " + c, null);
+        throw ExceptionFactory.getInstance().syntaxErrorForText("Expected '[' or ']', text: " + c, text);
     }
     pos.setIndex(pos.getIndex() + 1);
     skipWhiteSpace(text, pos);
@@ -73,7 +73,7 @@ public class IntervalParser<E> extends Parser<Interval<E>> {
     // parse comma
     c = text.charAt(pos.getIndex());
     if (c != ',') {
-      throw ExceptionFactory.getInstance().syntaxErrorForNothing("Expected ',', found '" + c + "'", null);
+      throw ExceptionFactory.getInstance().syntaxErrorForText("Expected ',', found '" + c + "'", text);
     }
     pos.setIndex(pos.getIndex() + 1);
     skipWhiteSpace(text, pos);
@@ -93,7 +93,7 @@ public class IntervalParser<E> extends Parser<Interval<E>> {
         maxInclusive = false;
         break;
       default:
-        throw ExceptionFactory.getInstance().syntaxErrorForNothing("Expected '[' or ']', found: " + c, null);
+        throw ExceptionFactory.getInstance().syntaxErrorForText("Expected '[' or ']', found: " + c, text);
     }
     pos.setIndex(pos.getIndex() + 1);
     skipWhiteSpace(text, pos);

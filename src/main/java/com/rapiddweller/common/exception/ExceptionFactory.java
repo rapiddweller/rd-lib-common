@@ -196,28 +196,32 @@ public class ExceptionFactory {
     return new IllegalAccess(message);
   }
 
-  public SyntaxError syntaxErrorForNothing(String message, Throwable cause) {
-    return SyntaxError.forNothing(message, cause);
+  public SyntaxError missingInfo(String message) {
+    return SyntaxError.forMissingInfo(message);
   }
 
   public SyntaxError syntaxErrorForText(String message, String text) {
-    return SyntaxError.forText(message, null, null, text, -1, -1);
+    return SyntaxError.forText(message, null, null, text);
   }
 
   public SyntaxError syntaxErrorForText(String message, String text, int line, int column) {
-    return syntaxErrorForText(message, null, text, line, column);
+    return SyntaxError.forText(message, null, null, text, line, column);
   }
 
   public SyntaxError syntaxErrorForText(String message, Throwable cause, String text, int line, int column) {
     return SyntaxError.forText(message, cause, null, text, line, column);
   }
 
-  public SyntaxError syntaxErrorForUri(String message, Throwable cause, String uri) {
-    return syntaxErrorForUri(message, cause, uri, -1, -1);
+  public SyntaxError syntaxErrorForText(String message, Throwable cause, String text) {
+    return SyntaxError.forText(message, cause, null, text);
   }
 
-  public SyntaxError syntaxErrorForUri(String message, Throwable cause, String uri, int line, int column) {
-    return SyntaxError.forUri(message, cause, null, uri, line, column);
+  public SyntaxError syntaxErrorForUri(String message, Throwable cause, String uri) {
+    return SyntaxError.forXmlDocument(message, cause, uri, -1, -1);
+  }
+
+  public SyntaxError syntaxErrorForXmlDocument(String message, Throwable cause, String uri, int line, int column) {
+    return SyntaxError.forXmlDocument(message, cause, uri, line, column);
   }
 
   public SyntaxError syntaxErrorForXmlElement(String message, Element element) {
@@ -226,10 +230,6 @@ public class ExceptionFactory {
 
   public SyntaxError syntaxErrorForXmlElement(String message, Throwable cause, String errorId, Element element) {
     return SyntaxError.forXmlElement(message, cause, errorId, element);
-  }
-
-  public SyntaxError syntaxErrorForXmlAttribute(String message, Attr attribute) {
-    return SyntaxError.forXmlAttribute(message, attribute);
   }
 
   public SyntaxError illegalXmlAttributeValue(String message, Throwable cause, String errorId, Attr attribute) {
@@ -259,14 +259,22 @@ public class ExceptionFactory {
     return syntaxErrorForXmlElement(message, null, errorId, owner);
   }
 
-  public SyntaxError illegalXmlTextContent(String message, String errorId, String textContent, Element owner) {
-    if (message == null) {
-      message = "Element <" + owner.getNodeName() + "> has illegal text content: '" + textContent + "'";
-    }
-    if (errorId == null) {
-      errorId = CommonErrorIds.XML_ILLEGAL_TEXT_CONTENT;
-    }
-    return syntaxErrorForXmlElement(message, null, errorId, owner);
+public SyntaxError illegalXmlElementText(String message, String errorId, String textContent, Element owner) {
+  if (message == null) {
+    message = "Element <" + owner.getNodeName() + "> has illegal text content: '" + textContent + "'";
+  }
+  if (errorId == null) {
+    errorId = CommonErrorIds.XML_ILLEGAL_TEXT_CONTENT;
+  }
+  return syntaxErrorForXmlElement(message, null, errorId, owner);
+}
+
+  public ParseException parsingError(String message) {
+    return parsingError(message, null);
+  }
+
+  public ParseException parsingError(String message, Throwable cause) {
+    return new ParseException(message, cause, null, null, null, null);
   }
 
   public ApplicationException outOfMemory(Throwable e) {

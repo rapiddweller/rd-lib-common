@@ -54,13 +54,13 @@ public final class ParseUtil {
     StringBuilder builder = new StringBuilder();
     int c;
     if (readChar(reader) != '"') {
-      throw ExceptionFactory.getInstance().syntaxErrorForNothing("Opening quote (\") expected", null);
+      throw ExceptionFactory.getInstance().parsingError("Opening quote (\") expected");
     }
     while ((c = readChar(reader)) != -1 && c != '"') {
       builder.append((char) c);
     }
     if (c != '"') {
-      throw ExceptionFactory.getInstance().syntaxErrorForNothing("Closing quote (\") expected", null);
+      throw ExceptionFactory.getInstance().parsingError("Closing quote (\") expected");
     }
     return builder.toString();
   }
@@ -104,7 +104,7 @@ public final class ParseUtil {
   public static long parseNonNegativeInteger(String source, ParsePosition pos) {
     int digit = source.charAt(pos.getIndex());
     if (pos.getIndex() > source.length() || !Character.isDigit(digit)) {
-      throw ExceptionFactory.getInstance().syntaxErrorForNothing("Number expected", null);
+      throw ExceptionFactory.getInstance().parsingError("Number expected");
     }
     pos.setIndex(pos.getIndex() + 1);
     long result = (long) digit - '0';
@@ -118,7 +118,7 @@ public final class ParseUtil {
   public static long parseNonNegativeInteger(PushbackReader reader) {
     int digit;
     if ((digit = readChar(reader)) == -1 || !Character.isDigit((char) digit)) {
-      throw ExceptionFactory.getInstance().syntaxErrorForNothing("Long expected", null);
+      throw ExceptionFactory.getInstance().parsingError("Long expected");
     }
     long result = (long) digit - '0';
     while ((digit = readChar(reader)) != -1 && Character.isDigit((char) digit)) {
@@ -334,7 +334,7 @@ public final class ParseUtil {
     } else if ("false".equalsIgnoreCase(s)) {
       return false;
     } else {
-      throw ExceptionFactory.getInstance().syntaxErrorForNothing("Not a boolean value", null);
+      throw ExceptionFactory.getInstance().parsingError("Not a boolean value");
     }
   }
 

@@ -34,5 +34,24 @@ public class ExceptionUtilTest {
     assertEquals("java.lang.Throwable\n\tat Declaring Class.Method Name(foo.txt:2)\n",
         ExceptionUtil.stackTraceToString(throwable));
   }
+
+  @Test
+  public void testFormatMessageWithLocation() {
+    assertEquals("Message. ", ExceptionUtil.formatMessageWithLocation("Message", null));
+    assertEquals("Message. File test.xml", ExceptionUtil.formatMessageWithLocation("Message",
+        new TextFileLocation("test.xml", -1, -1, -1, -1)));
+    assertEquals("Message. File test.xml, line 5", ExceptionUtil.formatMessageWithLocation("Message",
+        new TextFileLocation("test.xml", 5, 5, 5, 5)));
+    assertEquals("Message. Line 5", ExceptionUtil.formatMessageWithLocation("Message",
+        new TextFileLocation(null, 5, 5, 5, 5)));
+  }
+
+  @Test
+  public void testEndWithDotSpace() {
+    assertEquals("Something went wrong. ", ExceptionUtil.endWithDotSpace("Something went wrong"));
+    assertEquals("Something went wrong. ", ExceptionUtil.endWithDotSpace("Something went wrong."));
+    assertEquals("Something went wrong. ", ExceptionUtil.endWithDotSpace("Something went wrong. "));
+  }
+
 }
 

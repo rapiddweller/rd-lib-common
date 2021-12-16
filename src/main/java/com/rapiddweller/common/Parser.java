@@ -36,7 +36,7 @@ public abstract class Parser<E> {
     ParsePosition pos = new ParsePosition(0);
     E result = parseObject(text, pos);
     if (pos.getIndex() < text.length()) {
-      throw ExceptionFactory.getInstance().syntaxErrorForText("Illegal syntax", text, 1, pos.getIndex());
+      throw ExceptionFactory.getInstance().syntaxErrorForText("Illegal syntax", null, text, 1, pos.getIndex());
     }
     return result;
   }

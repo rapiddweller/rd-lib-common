@@ -15,7 +15,7 @@
 
 package com.rapiddweller.common;
 
-import com.rapiddweller.common.exception.SyntaxError;
+import com.rapiddweller.common.exception.ParseException;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.junit.Test;
@@ -208,30 +208,30 @@ public class ParseUtilTest {
     assertFalse(ParseUtil.parseBoolean("FALSE"));
     assertFalse(ParseUtil.parseBoolean("False"));
     assertFalse(ParseUtil.parseBoolean(" False ", true));
-    assertThrows(SyntaxError.class, () -> ParseUtil.parseBoolean("S"));
+    assertThrows(ParseException.class, () -> ParseUtil.parseBoolean("S"));
     assertTrue(ParseUtil.parseBoolean("true"));
     assertNull(ParseUtil.parseBoolean(null));
     assertFalse(ParseUtil.parseBoolean("false"));
-    assertThrows(SyntaxError.class, () -> ParseUtil.parseBoolean("S", true));
+    assertThrows(ParseException.class, () -> ParseUtil.parseBoolean("S", true));
     assertTrue(ParseUtil.parseBoolean("true", true));
     assertNull(ParseUtil.parseBoolean(null, true));
     assertFalse(ParseUtil.parseBoolean("false", true));
-    assertThrows(SyntaxError.class, () -> ParseUtil.parseBoolean("S", false));
+    assertThrows(ParseException.class, () -> ParseUtil.parseBoolean("S", false));
   }
 
   @Test
   public void testParseBoolean_illegal() {
-    assertThrows(SyntaxError.class, () -> ParseUtil.parseBoolean("nix", true));
+    assertThrows(ParseException.class, () -> ParseUtil.parseBoolean("nix", true));
   }
 
   @Test
   public void testParseBoolean_empty() {
-    assertThrows(SyntaxError.class, () -> ParseUtil.parseBoolean("  "));
+    assertThrows(ParseException.class, () -> ParseUtil.parseBoolean("  "));
   }
 
   @Test
   public void testParseBoolean_unaccepted_whitespace() {
-    assertThrows(SyntaxError.class, () -> ParseUtil.parseBoolean(" true "));
+    assertThrows(ParseException.class, () -> ParseUtil.parseBoolean(" true "));
   }
 
   // implementation --------------------------------------------------------------------------------------------------

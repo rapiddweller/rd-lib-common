@@ -21,18 +21,11 @@ import java.io.StringWriter;
 /**
  * Provides Exception related utilities.
  * Created at 23.02.2009 13:13:19
- *
  * @author Volker Bergmann
  * @since 0.4.8
  */
 public class ExceptionUtil {
 
-  /**
-   * Gets root cause.
-   *
-   * @param t the t
-   * @return the root cause
-   */
   public static Throwable getRootCause(Throwable t) {
     Throwable result = t;
     while (result.getCause() != null && result.getCause() != result) // Note: UnsupportedOperationException recurses to itself as cause
@@ -42,13 +35,7 @@ public class ExceptionUtil {
     return result;
   }
 
-  /**
-   * Scans recursively through an Exception and its 'cause' chain and tells if a given Exception type is contained.
-   *
-   * @param exceptionType the requested exception type
-   * @param exception     the actual exception to examine
-   * @return true if the given Exception type was found
-   */
+  /** Scans recursively through an Exception and its 'cause' chain and tells if a given Exception type is contained. */
   public static boolean containsException(Class<? extends Throwable> exceptionType, Throwable exception) {
     do {
       if (exceptionType.isAssignableFrom(exception.getClass())) {
@@ -59,16 +46,38 @@ public class ExceptionUtil {
     return false;
   }
 
-  /**
-   * Stack trace to string string.
-   *
-   * @param throwable the throwable
-   * @return the string
-   */
   public static String stackTraceToString(Throwable throwable) {
     StringWriter sw = new StringWriter();
     PrintWriter pw = new PrintWriter(sw);
     throwable.printStackTrace(pw);
     return sw.toString();
   }
+
+  public static String formatMessageWithLocation(String message, TextFileLocation location) {
+    String result = ExceptionUtil.endWithDotSpace(message != null ? message: "Unspecific error");
+    if (location != null) {
+      boolean sidUsed = false;
+      if (location.getSystemId() != null) {
+        result += "File " + StringUtil.lastToken(location.getSystemId(), '/');
+        sidUsed = true;
+      }
+      if (location.getStartLine() > 0) {
+        if (sidUsed) {
+          result += ", line " + location.getStartLine();
+        } else {
+          result += "Line " + location.getStartLine();
+        }
+      }
+    }
+    return result;
+  }
+
+  public static String endWithDotSpace(String message) {
+    String result = message.trim();
+    if (!result.endsWith(".")) {
+      result += ".";
+    }
+    return result + " ";
+  }
+
 }

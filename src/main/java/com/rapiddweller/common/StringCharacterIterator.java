@@ -151,12 +151,12 @@ public class StringCharacterIterator implements CharacterIterator {
   public void assertNext(char c) {
     if (!hasNext()) {
       throw ExceptionFactory.getInstance().syntaxErrorForText(
-          "Expected '" + c + "', but no more character is available", source, line, column);
+          "Expected '" + c + "', but no more character is available", null, source, line, column);
     }
     char next = next();
     if (next != c) {
       throw ExceptionFactory.getInstance().syntaxErrorForText(
-          "Expected '" + c + "', but found '" + next + "'", source, line, column);
+          "Expected '" + c + "', but found '" + next + "'", null, source, line, column);
     }
   }
 

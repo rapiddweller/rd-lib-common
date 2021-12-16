@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common.exception;
 
+import com.rapiddweller.common.ExceptionUtil;
+import com.rapiddweller.common.TextFileLocation;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
@@ -24,40 +26,31 @@ import org.w3c.dom.Element;
  * @author Volker Bergmann
  * @since 0.5.8
  */
-public class SyntaxError extends ParseException {
+public class SyntaxError extends ApplicationException {
 
-  public static SyntaxError forUri(String message, String uri, String errorId) {
-    return forUri(message, null, errorId, uri, -1, -1);
+  private final Object source;
+  private final SourceType sourceType;
+  private final TextFileLocation location;
+
+  public static SyntaxError forXmlDocument(String message, Throwable cause, String uri, int line, int column) {
+    return new SyntaxError(message, cause, CommonErrorIds.XML_SYNTAX, uri, SourceType.URI, createLocation(line, column));
   }
 
-  public static SyntaxError forUri(String message, Throwable cause, String errorId,
-                                   String uri, int line, int column) {
-    return new SyntaxError(message, cause, errorId, uri, SourceType.URI, line, column);
+  public static SyntaxError forXmlDocument(String message, String uri, String errorId) {
+    return new SyntaxError(message, null, errorId, uri, SourceType.URI, createLocation(uri));
   }
 
   public static SyntaxError forText(String message, Throwable cause, String errorId,
                                     String text, int line, int column) {
-    return new SyntaxError(message, cause, errorId, text, SourceType.TEXT, line, column);
+    return new SyntaxError(message, cause, errorId, text, SourceType.TEXT, createLocation(line, column));
   }
 
-  public static SyntaxError forNothing(String message, Throwable cause) {
-    return forNothing(message, cause, null);
+  public static SyntaxError forText(String message, Throwable cause, String errorId, String text) {
+    return new SyntaxError(message, cause, errorId, text, SourceType.TEXT, null);
   }
 
-  public static SyntaxError forNothing(String message, Throwable cause, String errorId) {
-    return new SyntaxError(message, cause, errorId, null, SourceType.NOTHING, -1, -1);
-  }
-
-  public static SyntaxError forXmlElement(String message, Throwable cause, Element element) {
-    return forXmlElement(message, cause, null, element);
-  }
-
-  public static SyntaxError forXmlElement(String message, Throwable cause, String errorId, Element element) {
-    return new SyntaxError(message, cause, errorId, element, SourceType.XML_ELEMENT, -1, -1);
-  }
-
-  public static SyntaxError forXmlAttribute(String message, Attr attribute) {
-    return new SyntaxError(message, null, null, attribute, SourceType.XML_ATTRIBUTE, -1, -1);
+  public static SyntaxError forMissingInfo(String message) {
+    return new SyntaxError(message, null, CommonErrorIds.INFO_MISSING, null, SourceType.MISSING, null);
   }
 
   public static SyntaxError forXmlAttribute(String message, Throwable cause, String errorId, Attr attribute) {
@@ -65,12 +58,47 @@ public class SyntaxError extends ParseException {
       message = "Illegal attribute value for " + attribute.getOwnerElement().getNodeName() + '.'
           + attribute.getName() + ": '" + attribute.getValue() + "'";
     }
-    return new SyntaxError(message, cause, errorId, attribute, SourceType.XML_ATTRIBUTE, -1, -1);
+    return new SyntaxError(message, cause, errorId, attribute, SourceType.XML_ATTRIBUTE,
+        getLocation(attribute.getOwnerElement()));
   }
 
-  protected SyntaxError(String message, Throwable cause, String errorId,
-                        Object source, SourceType sourceType, int line, int column) {
-    super(message, cause, errorId, source, sourceType, line, column);
+  public static SyntaxError forXmlElement(String message, Throwable cause, String errorId, Element element) {
+    return new SyntaxError(message, cause, errorId, element, SourceType.XML_ELEMENT, getLocation(element));
   }
 
+  private SyntaxError(String message, Throwable cause, String errorId,
+                        Object source, SourceType sourceType, TextFileLocation location) {
+    super(errorId, ExitCodes.SYNTAX_ERROR, ExceptionUtil.formatMessageWithLocation(message, location), cause);
+    this.source = source;
+    this.sourceType = sourceType;
+    this.location = location;
+  }
+
+  public Object getSource() {
+    return source;
+  }
+
+  public SourceType getSourceType() {
+    return sourceType;
+  }
+
+  public TextFileLocation getLocation() {
+    return location;
+  }
+
+  private static TextFileLocation getLocation(Element element) {
+    TextFileLocation textFileLocation = (TextFileLocation) element.getUserData(TextFileLocation.LOCATION_DATA_KEY);
+    if (textFileLocation == null) {
+      textFileLocation = new TextFileLocation(null, -1, -1, -1, -1);
+    }
+    return textFileLocation;
+  }
+
+  private static TextFileLocation createLocation(String uri) {
+    return new TextFileLocation(uri, -1, -1, -1, -1);
+  }
+
+  private static TextFileLocation createLocation(int line, int column) {
+    return new TextFileLocation(null, line, column, line, column);
+  }
 }

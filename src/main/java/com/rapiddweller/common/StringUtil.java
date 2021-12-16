@@ -17,6 +17,7 @@ package com.rapiddweller.common;
 
 import com.rapiddweller.common.exception.ExceptionFactory;
 
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1099,10 +1100,24 @@ public final class StringUtil {
     return result;
   }
 
+  public static<E> int maxLength(List<E> objects, Accessor<E, Object> valueAccessor, Format format) {
+    int result = 0;
+    if (objects != null) {
+      for (E item : objects) {
+        Object value = valueAccessor.getValue(item);
+        String label = (format != null ? format.format(value) : String.valueOf(value));
+        int length = label.length();
+        if (length > result)
+          result = length;
+      }
+    }
+    return result;
+  }
+
   public static String withLineBreaks(String text, int maxWidth) {
     StringBuilder builder = new StringBuilder();
     String rest = text;
-    System.out.println(builder + " - " + rest);
+    //System.out.println(builder + " - " + rest);
     while (rest.length() > maxWidth) {
       int i = maxWidth;
       while (i > 1 && (i >= rest.length() || !Character.isWhitespace(rest.charAt(i + 1))) && Character.isWhitespace(rest.charAt(i))) {
@@ -1110,7 +1125,7 @@ public final class StringUtil {
       }
       builder.append(rest.substring(0, i)).append(SystemInfo.LF);
       rest = rest.substring(i);
-      System.out.println(builder + " - " + rest);
+      //System.out.println(builder + " - " + rest);
     }
     builder.append(rest);
     return builder.toString();

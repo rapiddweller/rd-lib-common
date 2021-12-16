@@ -16,7 +16,7 @@
 package com.rapiddweller.common;
 
 import com.rapiddweller.common.exception.IllegalOperationError;
-import com.rapiddweller.common.exception.ParseException;
+import com.rapiddweller.common.exception.SyntaxError;
 import org.junit.Test;
 
 import java.util.NoSuchElementException;
@@ -165,13 +165,13 @@ public class StringCharacterIteratorTest {
   @Test
   public void testAssertNext() {
     StringCharacterIterator iterator = new StringCharacterIterator("Source");
-    assertThrows(ParseException.class, () -> iterator.assertNext('A'));
+    assertThrows(SyntaxError.class, () -> iterator.assertNext('A'));
   }
 
   @Test
   public void testAssertNext2() {
     StringCharacterIterator iterator = new StringCharacterIterator("");
-    assertThrows(ParseException.class, () -> iterator.assertNext('A'));
+    assertThrows(SyntaxError.class, () -> iterator.assertNext('A'));
   }
 
   @Test
