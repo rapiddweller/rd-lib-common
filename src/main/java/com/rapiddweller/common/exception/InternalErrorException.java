@@ -16,7 +16,7 @@ public class InternalErrorException extends ApplicationException {
   }
 
   public InternalErrorException(String message, Throwable cause) {
-    super(null, ExitCodes.INTERNAL_SOFTWARE_ERROR, message, cause);
+    super(message, cause, null, ExitCodes.INTERNAL_SOFTWARE_ERROR);
   }
 
 }

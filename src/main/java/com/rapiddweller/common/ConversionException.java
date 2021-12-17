@@ -29,7 +29,7 @@ public class ConversionException extends OperationFailed {
   }
 
   public ConversionException(String message, Throwable cause) {
-    super(null, ExitCodes.INTERNAL_SOFTWARE_ERROR, message, cause);
+    super(message, cause, null, ExitCodes.INTERNAL_SOFTWARE_ERROR);
   }
 
 }

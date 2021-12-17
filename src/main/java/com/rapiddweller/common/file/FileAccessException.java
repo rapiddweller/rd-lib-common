@@ -18,7 +18,7 @@ public class FileAccessException extends ApplicationException {
   }
 
   public FileAccessException(String message, Throwable cause) {
-    super(null, ExitCodes.I_O_ERROR, message, cause);
+    super(message, cause, null, ExitCodes.I_O_ERROR);
   }
 
 }

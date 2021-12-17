@@ -14,11 +14,11 @@ import com.rapiddweller.common.exception.ExitCodes;
 public class FileResourceNotFoundException extends ApplicationException {
 
   public FileResourceNotFoundException(String errorCode, String message) {
-    this(errorCode, message, null);
+    this(message, null, errorCode);
   }
 
-  public FileResourceNotFoundException(String errorCode, String message, Throwable cause) {
-    super(errorCode, ExitCodes.FILE_NOT_FOUND, message, cause);
+  public FileResourceNotFoundException(String message, Throwable cause, String errorCode) {
+    super(message, cause, errorCode, ExitCodes.FILE_NOT_FOUND);
   }
 
 }

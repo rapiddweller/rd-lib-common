@@ -19,7 +19,7 @@ public class IllegalAccess extends OperationFailed {
   }
 
   public IllegalAccess(String message, Throwable cause) {
-    super(null, ExitCodes.INTERNAL_SOFTWARE_ERROR, message, cause);
+    super(message, cause, null, ExitCodes.INTERNAL_SOFTWARE_ERROR);
   }
 
 }

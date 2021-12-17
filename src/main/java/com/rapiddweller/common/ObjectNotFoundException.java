@@ -25,12 +25,16 @@ import com.rapiddweller.common.exception.ExitCodes;
  */
 public class ObjectNotFoundException extends ApplicationException {
 
-  public ObjectNotFoundException(String message, Throwable cause) {
-    super(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
+  public ObjectNotFoundException(String message) {
+    super(message, null, ExitCodes.MISCELLANEOUS_ERROR);
   }
 
-  public ObjectNotFoundException(String message) {
-    super(null, ExitCodes.MISCELLANEOUS_ERROR, message);
+  public ObjectNotFoundException(String message, Throwable cause, String errorId) {
+    super(message, cause, errorId, ExitCodes.MISCELLANEOUS_ERROR);
+  }
+
+  public ObjectNotFoundException(String message, Throwable cause, String errorId, int exitCode) {
+    super(message, cause, errorId, exitCode);
   }
 
 }

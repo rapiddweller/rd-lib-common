@@ -11,11 +11,11 @@ package com.rapiddweller.common.exception;
 public abstract class ServiceException extends ApplicationException {
 
   protected ServiceException(String errorId, int exitCode, String message) {
-    super(errorId, exitCode, message);
+    super(message, errorId, exitCode);
   }
 
   protected ServiceException(String errorId, int exitCode, String message, Throwable cause) {
-    super(errorId, exitCode, message, cause);
+    super(message, cause, errorId, exitCode);
   }
 
 }

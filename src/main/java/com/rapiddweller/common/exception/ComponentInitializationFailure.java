@@ -23,7 +23,7 @@ public class ComponentInitializationFailure extends OperationFailed {
   }
 
   public ComponentInitializationFailure(String errorId, String componentName, Throwable cause) {
-    super(errorId, ExitCodes.INTERNAL_SOFTWARE_ERROR, "Component initialization failed for " + componentName, cause);
+    super("Component initialization failed for " + componentName, cause, errorId, ExitCodes.INTERNAL_SOFTWARE_ERROR);
     this.componentName = componentName;
   }
 

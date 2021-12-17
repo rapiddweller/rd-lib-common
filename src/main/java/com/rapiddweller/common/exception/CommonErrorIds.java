@@ -37,5 +37,7 @@ public class CommonErrorIds {
   public static final String XML_ATTR_MISSING = "XML-0007";
   public static final String XML_ILLEGAL_TEXT_CONTENT = "XML-0008";
 
+  public static final String SCRIPT_EXCEPTION = "SCR-0001";
+
   public static final String OUT_OF_MEMORY = "MEM-0001";
 }

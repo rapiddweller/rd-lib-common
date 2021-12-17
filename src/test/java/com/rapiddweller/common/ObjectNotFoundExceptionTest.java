@@ -1,6 +1,5 @@
 package com.rapiddweller.common;
 
-import com.rapiddweller.common.ObjectNotFoundException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -23,7 +22,7 @@ public class ObjectNotFoundExceptionTest {
   @Test
   public void testConstructor2() {
     Throwable throwable = new Throwable();
-    assertSame((new ObjectNotFoundException("An error occurred", throwable)).getCause(), throwable);
+    assertSame((new ObjectNotFoundException("An error occurred", throwable, null)).getCause(), throwable);
   }
 
 }

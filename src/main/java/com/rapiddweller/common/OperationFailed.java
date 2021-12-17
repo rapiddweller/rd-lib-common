@@ -26,11 +26,11 @@ import com.rapiddweller.common.exception.ApplicationException;
 public class OperationFailed extends ApplicationException {
 
   public OperationFailed(String errorId, int exitCode, String message) {
-    this(errorId, exitCode, message, null);
+    this(message, null, errorId, exitCode);
   }
 
-  public OperationFailed(String errorId, int exitCode, String message, Throwable cause) {
-    super(errorId, exitCode, message, cause);
+  public OperationFailed(String message, Throwable cause, String errorId, int exitCode) {
+    super(message, cause, errorId, exitCode);
   }
 
 }

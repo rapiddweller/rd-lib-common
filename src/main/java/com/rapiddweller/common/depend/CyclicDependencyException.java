@@ -30,7 +30,7 @@ public class CyclicDependencyException extends ApplicationException {
   }
 
   public CyclicDependencyException(String message, Throwable cause) {
-    super(null, ExitCodes.INTERNAL_SOFTWARE_ERROR, message, cause);
+    super(message, cause, null, ExitCodes.INTERNAL_SOFTWARE_ERROR);
   }
 
 }

@@ -28,7 +28,7 @@ public abstract class ProgrammerError extends ApplicationException {
   }
 
   protected ProgrammerError(String errorCode, String message, Throwable cause) {
-    super(errorCode, ExitCodes.INTERNAL_SOFTWARE_ERROR, message, cause);
+    super(message, cause, errorCode, ExitCodes.INTERNAL_SOFTWARE_ERROR);
   }
 
 }

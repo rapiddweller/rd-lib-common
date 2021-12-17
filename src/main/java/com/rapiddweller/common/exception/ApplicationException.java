@@ -13,11 +13,11 @@ public class ApplicationException extends RuntimeException {
   private final String errorId;
   private final int exitCode;
 
-  public ApplicationException(String errorId, int exitCode, String message) {
-    this(errorId, exitCode, message, null);
+  public ApplicationException(String message, String errorId, int exitCode) {
+    this(message, null, errorId, exitCode);
   }
 
-  public ApplicationException(String errorId, int exitCode, String message, Throwable cause) {
+  public ApplicationException(String message, Throwable cause, String errorId, int exitCode) {
     super(message, cause);
     this.errorId = errorId;
     this.exitCode = exitCode;

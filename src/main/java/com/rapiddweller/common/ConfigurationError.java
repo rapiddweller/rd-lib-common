@@ -29,7 +29,7 @@ public class ConfigurationError extends ApplicationException {
   }
 
   public ConfigurationError(String message, Throwable cause) {
-    super(null, ExitCodes.CONFIGURATION_ERROR, message, cause);
+    super(message, cause, null, ExitCodes.CONFIGURATION_ERROR);
   }
 
 }

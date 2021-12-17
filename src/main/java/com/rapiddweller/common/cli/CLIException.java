@@ -14,7 +14,7 @@ import com.rapiddweller.common.exception.ApplicationException;
 public class CLIException extends ApplicationException {
 
   public CLIException(String errorId, String message) {
-    super(errorId, ExitCodes.COMMAND_LINE_USAGE_ERROR, message);
+    super(message, errorId, ExitCodes.COMMAND_LINE_USAGE_ERROR);
   }
 
 }

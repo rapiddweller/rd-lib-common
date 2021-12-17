@@ -17,7 +17,11 @@ public class QueryFailed extends OperationFailed {
   }
 
   public QueryFailed(String message, Throwable cause) {
-    super(null, ExitCodes.INTERNAL_SOFTWARE_ERROR, message, cause);
+    super(message, cause, null, ExitCodes.INTERNAL_SOFTWARE_ERROR);
+  }
+
+  public QueryFailed(String message, Throwable cause, String errorId) {
+    super(message, cause, errorId, ExitCodes.INTERNAL_SOFTWARE_ERROR);
   }
 
 }

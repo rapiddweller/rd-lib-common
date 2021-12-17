@@ -15,7 +15,7 @@ public class UnexpectedQueryResultException extends ApplicationException {
   }
 
   public UnexpectedQueryResultException(String message, Throwable cause) {
-    super(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
+    super(message, cause, null, ExitCodes.MISCELLANEOUS_ERROR);
   }
 
 }

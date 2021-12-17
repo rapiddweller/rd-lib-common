@@ -30,7 +30,7 @@ public class ImportFailedException extends OperationFailed {
   }
 
   public ImportFailedException(String message, Throwable cause) {
-    super(null, ExitCodes.MISCELLANEOUS_ERROR, message, cause);
+    super(message, cause, null, ExitCodes.MISCELLANEOUS_ERROR);
   }
 
 }

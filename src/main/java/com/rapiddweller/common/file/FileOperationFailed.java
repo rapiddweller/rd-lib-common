@@ -17,7 +17,7 @@ public class FileOperationFailed extends OperationFailed {
   }
 
   public FileOperationFailed(String errorId, int exitCode, String message, Throwable cause) {
-    super(errorId, exitCode, message, cause);
+    super(message, cause, errorId, exitCode);
   }
 
 }

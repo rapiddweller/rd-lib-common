@@ -9,6 +9,7 @@ import com.rapiddweller.common.DeploymentError;
 import com.rapiddweller.common.ImportFailedException;
 import com.rapiddweller.common.ObjectNotFoundException;
 import com.rapiddweller.common.OperationFailed;
+import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.cli.CLIIllegalArgumentException;
 import com.rapiddweller.common.cli.CLIIllegalOptionException;
 import com.rapiddweller.common.cli.CLIIllegalOptionValueException;
@@ -50,7 +51,18 @@ public class ExceptionFactory {
   }
 
   public FileResourceNotFoundException fileNotFound(String uri, FileNotFoundException cause) {
-    return new FileResourceNotFoundException(null, "File not found: '" + uri + "'.", cause);
+    return new FileResourceNotFoundException("File not found: '" + uri + "'.", cause, null);
+  }
+
+  public ObjectNotFoundException sheetNotFound(String uri, String sheetName) {
+    uri = StringUtil.lastToken(uri, '/');
+    String message = "Sheet not found: '" + sheetName + "'";
+    if (!StringUtil.isEmpty(uri)) {
+      message += " in '" + uri + "'";
+    } else {
+      message += ".";
+    }
+    return new ObjectNotFoundException(message);
   }
 
   public FileCreationFailed fileCreationFailed(String message, Exception cause) {
@@ -173,7 +185,7 @@ public class ExceptionFactory {
   }
 
   public OperationFailed operationFailed(String message, Throwable cause, String errorId, int exitCode) {
-    return new OperationFailed(errorId, exitCode, message, cause);
+    return new OperationFailed(message, cause, errorId, exitCode);
   }
 
   public QueryFailed queryFailed(String message, Throwable cause) {
@@ -278,7 +290,11 @@ public SyntaxError illegalXmlElementText(String message, String errorId, String 
   }
 
   public ApplicationException outOfMemory(Throwable e) {
-    return new ApplicationException(CommonErrorIds.OUT_OF_MEMORY, ExitCodes.MISCELLANEOUS_ERROR, "Out of memory", e);
+    return new ApplicationException("Out of memory", e, CommonErrorIds.OUT_OF_MEMORY, ExitCodes.MISCELLANEOUS_ERROR);
+  }
+
+  public ScriptException scriptEvaluationFailed(String scriptText, Throwable cause) {
+    return new ScriptException(cause.getMessage(), cause, CommonErrorIds.SCRIPT_EXCEPTION, scriptText);
   }
 
 }

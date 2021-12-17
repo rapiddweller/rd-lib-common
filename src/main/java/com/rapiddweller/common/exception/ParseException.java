@@ -46,7 +46,7 @@ public class ParseException extends ApplicationException {
 
   public ParseException(String message, Throwable cause, String errorId,
                            Object source, SourceType sourceType, int line, int column) {
-    super(errorId, ExitCodes.SYNTAX_ERROR, message, cause);
+    super(message, cause, errorId, ExitCodes.SYNTAX_ERROR);
     this.source = source;
     this.sourceType = sourceType;
     this.line = line;
