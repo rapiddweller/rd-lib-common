@@ -42,8 +42,16 @@ public class SubstringExtractor extends ThreadSafeConverter<String, String> {
     this.to = to;
   }
 
+  public int getFrom() {
+    return from;
+  }
+
   public void setFrom(int from) {
     this.from = from;
+  }
+
+  public Integer getTo() {
+    return to;
   }
 
   public void setTo(Integer to) {
