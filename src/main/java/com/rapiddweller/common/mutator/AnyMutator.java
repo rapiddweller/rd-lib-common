@@ -148,7 +148,7 @@ public class AnyMutator implements NamedMutator {
         }
         field.set(target, value);
       } catch (NoSuchFieldException e) {
-        String message = "No feature '" + featureName + "' found in " + target;
+        String message = "No feature '" + featureName + "' found in " + BeanUtil.getClassName(target);
         if (required) {
           throw ExceptionFactory.getInstance().illegalOperation(message);
         } else {
