@@ -38,6 +38,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.rapiddweller.common.BeanUtil.uncapitalizeProperty;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -48,7 +49,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests the BeanUtil class.
  * Created: 05.04.2007 07:51:00
- *
  * @author Volker Bergmann
  * @since 0.1
  */
@@ -652,6 +652,23 @@ public class BeanUtilTest {
     assertEquals("Character", BeanUtil.toString('\u0000', true));
     assertEquals("java.lang.String[blank=false, bytes=YmVhbg==, empty=false]", BeanUtil.toString("bean", false));
   }
+
+  @Test
+  public void testUncapitalizeProperty_regular() {
+    assertEquals("person", uncapitalizeProperty("Person"));
+    assertEquals("personGenerator", uncapitalizeProperty("PersonGenerator"));
+  }
+
+  @Test
+  public void testUncapitalizeProperty_abbreviation() {
+    assertEquals("ssn", uncapitalizeProperty("SSN"));
+  }
+
+  @Test
+  public void testUncapitalizeProperty_mixed() {
+    assertEquals("ssnGenerator", uncapitalizeProperty("SSNGenerator"));
+  }
+
 
 
   // Test classes ----------------------------------------------------------------------------------------------------

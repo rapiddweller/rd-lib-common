@@ -1182,10 +1182,43 @@ public final class BeanUtil {
    *  @param name the name of the attribute
    *  @return a Field object that represents the attribute */
   public static Field getField(Class<?> type, String name) {
+    return getField(type, name, true);
+  }
+
+  public static Field getField(Class<?> type, String name, boolean required) {
     try {
       return type.getField(name);
     } catch (NoSuchFieldException e) {
-      throw ExceptionFactory.getInstance().illegalArgument("Field not found: " + type.getName() + '.' + name, e);
+      if (required) {
+        throw ExceptionFactory.getInstance().illegalArgument("Field not found: " + type.getName() + '.' + name, e);
+      } else {
+        return null;
+      }
+    }
+  }
+
+  public static void setFieldValue(Field field, Object target, Object value, boolean autoConvert) {
+    try {
+      if (value != null) {
+        Class<?> targetType = field.getType();
+        if (!targetType.isAssignableFrom(value.getClass())) {
+          if (autoConvert) {
+            value = AnyConverter.convert(value, targetType);
+          } else {
+            throw ExceptionFactory.getInstance().illegalArgument("expected value of " + targetType +
+                " or child class, found incompatible " + value.getClass());
+          }
+        }
+      }
+      if ((field.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
+        field.set(null, value);
+      } else {
+        field.set(target, value);
+      }
+    } catch (IllegalArgumentException e) {
+      throw ExceptionFactory.getInstance().illegalArgument("Error setting field value", e);
+    } catch (IllegalAccessException e) {
+      throw ExceptionFactory.getInstance().accessFailed("Error accessing " + field, e);
     }
   }
 
@@ -1312,6 +1345,15 @@ public final class BeanUtil {
       builder.append(']');
     }
     return builder.toString();
+  }
+
+  public static String uncapitalizeProperty(String text) {
+    int i = 0;
+    while (i < text.length() && Character.isUpperCase(text.charAt(i))
+        && (i == 0 || i + 1 == text.length() || Character.isUpperCase(text.charAt(i + 1)))) {
+      i++;
+    }
+    return text.substring(0, i).toLowerCase() + text.substring(i);
   }
 
   // private helpers -------------------------------------------------------------------------------------------------
