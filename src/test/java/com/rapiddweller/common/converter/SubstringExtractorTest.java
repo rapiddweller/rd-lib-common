@@ -24,7 +24,6 @@ import static org.junit.Assert.assertNull;
 /**
  * Tests the {@link SubstringExtractor}.
  * Created: 26.02.2010 11:05:31
- *
  * @author Volker Bergmann
  * @since 0.5.0
  */
@@ -54,6 +53,15 @@ public class SubstringExtractorTest extends AbstractConverterTest {
     assertEquals("BC", new SubstringExtractor(1).convert("ABC"));
     assertEquals("BC", new SubstringExtractor(-2).convert("ABC"));
     assertEquals("", new SubstringExtractor(3).convert("ABC"));
+  }
+
+  @Test
+  public void testStringEnd() {
+    assertEquals("BC", new SubstringExtractor(-2, 0).convert("ABC"));
+    assertEquals("ABC", new SubstringExtractor(-4, 0).convert("ABC"));
+    assertEquals("B", new SubstringExtractor(-2, -1).convert("ABC"));
+    assertEquals("A", new SubstringExtractor(-4, -2).convert("ABC"));
+    assertEquals("", new SubstringExtractor(-20, -10).convert("ABC"));
   }
 
   @Test

@@ -67,7 +67,10 @@ public class SubstringExtractor extends ThreadSafeConverter<String, String> {
     if (startIndex >= sourceValue.length()) {
       return "";
     }
-    if (to == null) {
+    if (startIndex < 0) {
+      startIndex = 0;
+    }
+    if (to == null || (from < 0 && to == 0)) {
       return sourceValue.substring(startIndex);
     } else {
       int endIndex = relativeIndex(to, sourceValue);
