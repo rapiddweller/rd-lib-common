@@ -10,7 +10,7 @@ package com.rapiddweller.common.parser;
  */
 public class PositiveLongParser extends AbstractTypedParser<Long> {
 
-  protected PositiveLongParser() {
+  public PositiveLongParser() {
     super("positive long", Long.class);
   }
 
