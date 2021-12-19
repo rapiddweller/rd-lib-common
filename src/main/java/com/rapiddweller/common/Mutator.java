@@ -18,19 +18,11 @@ package com.rapiddweller.common;
 import com.rapiddweller.common.exception.MutationFailed;
 
 /**
- * Models an object that mutates a target object of type C by specification of a value of type V.
+ * Models an object that mutates a target object of type C by specification of a value of type V.<br/><br/>
  * Created: 08.05.2005 06:24:04
- *
  * @author Volker Bergmann
  * @since 0.1
  */
 public interface Mutator {
-  /**
-   * Sets value.
-   *
-   * @param target the target
-   * @param value  the value
-   * @throws MutationFailed the update failed exception
-   */
   void setValue(Object target, Object value) throws MutationFailed;
 }
