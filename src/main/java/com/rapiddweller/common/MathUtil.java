@@ -135,6 +135,14 @@ public class MathUtil {
     return result;
   }
 
+  public static <T> long sum(List<T> addends, Accessor<T, Long> accessor) {
+    long result = 0;
+    for (T addend : addends) {
+      result += accessor.getValue(addend);
+    }
+    return result;
+  }
+
   public static Double sum(double[] addends) {
     double result = 0;
     for (double addend : addends) {
