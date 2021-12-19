@@ -25,9 +25,8 @@ import java.util.Comparator;
  * Represents an interval between to endpoints.
  * The endpoints can be of any class for which a {@link Comparator} can be provided.
  * Using the parameters {@link #minInclusive} and {@link #maxInclusive}, one can
- * specify whether the interval shall contain the endpoint values themselves.
+ * specify whether the interval shall contain the endpoint values themselves.<br/><br/>
  * Created: 10.03.2011 15:20:36
- *
  * @param <E> the type of the bounds that define the interval
  * @author Volker Bergmann
  * @since 0.5.8
@@ -36,52 +35,18 @@ public class Interval<E> implements Serializable {
 
   private static final long serialVersionUID = -5866553873478128132L;
 
-  /**
-   * The Min.
-   */
   public final E min;
-  /**
-   * The Min inclusive.
-   */
   public final boolean minInclusive;
 
-  /**
-   * The Max.
-   */
   public final E max;
-  /**
-   * The Max inclusive.
-   */
   public final boolean maxInclusive;
 
-  /**
-   * The Comparator.
-   */
   public final Comparator<E> comparator;
 
-  /**
-   * For comparable interval.
-   *
-   * @param <T>          the type parameter
-   * @param min          the min
-   * @param minInclusive the min inclusive
-   * @param max          the max
-   * @param maxInclusive the max inclusive
-   * @return the interval
-   */
   public static <T extends Comparable<T>> Interval<T> forComparable(T min, boolean minInclusive, T max, boolean maxInclusive) {
     return new Interval<>(min, minInclusive, max, maxInclusive, new ComparableComparator<>());
   }
 
-  /**
-   * Instantiates a new Interval.
-   *
-   * @param min          the min
-   * @param minInclusive the min inclusive
-   * @param max          the max
-   * @param maxInclusive the max inclusive
-   * @param comparator   the comparator
-   */
   public Interval(E min, boolean minInclusive, E max, boolean maxInclusive,
                   Comparator<E> comparator) {
     this.min = min;
@@ -91,70 +56,30 @@ public class Interval<E> implements Serializable {
     this.comparator = comparator;
   }
 
-  /**
-   * Create closed interval interval.
-   *
-   * @param <T> the type parameter
-   * @param min the min
-   * @param max the max
-   * @return the interval
-   */
   public static <T extends Comparable<T>> Interval<T> createClosedInterval(T min, T max) {
     return new Interval<>(min, true, max, true, new ComparableComparator<>());
   }
 
-  /**
-   * Gets min.
-   *
-   * @return the min
-   */
   public E getMin() {
     return min;
   }
 
-  /**
-   * Is min inclusive boolean.
-   *
-   * @return the boolean
-   */
   public boolean isMinInclusive() {
     return minInclusive;
   }
 
-  /**
-   * Gets max.
-   *
-   * @return the max
-   */
   public E getMax() {
     return max;
   }
 
-  /**
-   * Is max inclusive boolean.
-   *
-   * @return the boolean
-   */
   public boolean isMaxInclusive() {
     return maxInclusive;
   }
 
-  /**
-   * Create infinite interval interval.
-   *
-   * @param <T> the type parameter
-   * @return the interval
-   */
   public static <T> Interval<T> createInfiniteInterval() {
     return new Interval<>(null, false, null, false, null);
   }
 
-  /**
-   * Contains boolean.
-   *
-   * @param x the x
-   * @return the boolean
-   */
   public boolean contains(E x) {
     if (min != null) {
       int minComp = comparator.compare(min, x);
