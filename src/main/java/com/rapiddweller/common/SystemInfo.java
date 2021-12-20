@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,382 +21,106 @@ import java.nio.charset.Charset;
 /**
  * Provides the user with the Java system properties related to the Runtime System.
  * Created: 06.01.2007 19:10:02
- *
  * @author Volker Bergmann
  */
 public final class SystemInfo {
 
-  /**
-   * The constant USER_LANGUAGE_KEY.
-   */
   public static final String USER_LANGUAGE_KEY = "user.language";
-  /**
-   * The constant FILE_ENCODING_KEY.
-   */
   public static final String FILE_ENCODING_KEY = "file.encoding";
-  /**
-   * The constant JAVA_IO_TMPDIR_KEY.
-   */
   public static final String JAVA_IO_TMPDIR_KEY = "java.io.tmpdir";
-  /**
-   * The constant USER_HOME_KEY.
-   */
   public static final String USER_HOME_KEY = "user.home";
-  /**
-   * The constant USER_NAME_KEY.
-   */
   public static final String USER_NAME_KEY = "user.name";
-  /**
-   * The constant USER_DIR_KEY.
-   */
   public static final String USER_DIR_KEY = "user.dir";
-  /**
-   * The constant FILE_SEPARATOR_KEY.
-   */
   public static final String FILE_SEPARATOR_KEY = "file.separator";
-  /**
-   * The constant PATH_SEPARATOR_KEY.
-   */
   public static final String PATH_SEPARATOR_KEY = "path.separator";
-  /**
-   * The constant LINE_SEPARATOR_KEY.
-   */
   public static final String LINE_SEPARATOR_KEY = "line.separator";
-  /**
-   * The constant OS_VERSION_KEY.
-   */
   public static final String OS_VERSION_KEY = "os.version";
-  /**
-   * The constant OS_ARCH_KEY.
-   */
   public static final String OS_ARCH_KEY = "os.arch";
-  /**
-   * The constant OS_NAME_KEY.
-   */
   public static final String OS_NAME_KEY = "os.name";
 
-  /**
-   * The constant LF.
-   */
   public static final String LF = getLineSeparator();
 
-  /**
-   * Os name string.
-   *
-   * @return the OS name
-   * @deprecated use {@link #getOsName()}
-   */
-  @Deprecated
-  public static String osName() {
-    return System.getProperty(OS_NAME_KEY);
+  /** private constructor to prevent instantiation of this utility class. */
+  private SystemInfo() {
+    // private constructor to prevent instantiation of this utility class
   }
 
-  /**
-   * Gets os name.
-   *
-   * @return the OS name
-   */
   public static String getOsName() {
     return System.getProperty(OS_NAME_KEY);
   }
 
-  /**
-   * Os architecture string.
-   *
-   * @return the OS architecture
-   * @deprecated use {@link #getOsArchitecture()}
-   */
-  @Deprecated
-  public static String osArchitecture() {
-    return System.getProperty(OS_ARCH_KEY);
-  }
-
-  /**
-   * Gets os architecture.
-   *
-   * @return the OS architecture
-   */
   public static String getOsArchitecture() {
     return System.getProperty(OS_ARCH_KEY);
   }
 
-  /**
-   * Os version string.
-   *
-   * @return the OS version
-   * @deprecated use {@link #getOsVersion()}
-   */
-  @Deprecated
-  public static String osVersion() {
-    return System.getProperty(OS_VERSION_KEY);
-  }
-
-  /**
-   * Gets os version.
-   *
-   * @return the OS version
-   */
   public static String getOsVersion() {
     return System.getProperty(OS_VERSION_KEY);
   }
 
-  /**
-   * Line separator string.
-   *
-   * @return Line separator ("\n" on UNIX)
-   * @deprecated use {@link #getLineSeparator()}
-   */
-  @Deprecated
-  public static String lineSeparator() {
-    return System.getProperty(LINE_SEPARATOR_KEY);
-  }
-
-  /**
-   * Gets line separator.
-   *
-   * @return Line separator ("\n" on UNIX)
-   */
   public static String getLineSeparator() {
     return System.getProperty(LINE_SEPARATOR_KEY);
   }
 
-  /**
-   * Sets line separator.
-   *
-   * @param lineSeparator the line separator
-   */
   public static void setLineSeparator(String lineSeparator) {
     System.setProperty(LINE_SEPARATOR_KEY, lineSeparator);
   }
 
-  /**
-   * Path separator string.
-   *
-   * @return Path separator (":" on UNIX)
-   * @deprecated use {@link #getPathSeparator()}
-   */
-  @Deprecated
-  public static String pathSeparator() {
-    return System.getProperty(PATH_SEPARATOR_KEY);
-  }
-
-  /**
-   * Gets path separator.
-   *
-   * @return Path separator (":" on UNIX)
-   */
   public static String getPathSeparator() {
     return System.getProperty(PATH_SEPARATOR_KEY);
   }
 
-  /**
-   * File separator char.
-   *
-   * @return File separator ("/" on UNIX)
-   * @deprecated use {@link #getFileSeparator()}
-   */
-  @Deprecated
-  public static char fileSeparator() {
-    return System.getProperty(FILE_SEPARATOR_KEY).charAt(0);
-  }
-
-  /**
-   * Gets file separator.
-   *
-   * @return File separator ("/" on UNIX)
-   */
   public static char getFileSeparator() {
     return System.getProperty(FILE_SEPARATOR_KEY).charAt(0);
   }
 
-  /**
-   * Current dir string.
-   *
-   * @return the user's current directory
-   * @deprecated use {@link #getCurrentDir()}
-   */
-  @Deprecated
-  public static String currentDir() {
-    return System.getProperty(USER_DIR_KEY);
-  }
-
-  /**
-   * Gets current dir file.
-   *
-   * @return the user's current directory as File object
-   */
   public static File getCurrentDirFile() {
     return new File(getCurrentDir());
   }
 
-  /**
-   * Gets current dir.
-   *
-   * @return the user's current directory path
-   */
   public static String getCurrentDir() {
     return System.getProperty(USER_DIR_KEY);
   }
 
-  /**
-   * User name string.
-   *
-   * @return the user's name
-   * @deprecated use {@link #getUserName()}
-   */
-  @Deprecated
-  public static String userName() {
-    return System.getProperty(USER_NAME_KEY);
-  }
-
-  /**
-   * Gets user name.
-   *
-   * @return the user's name
-   */
   public static String getUserName() {
     return System.getProperty(USER_NAME_KEY);
   }
 
-  /**
-   * User home string.
-   *
-   * @return the user's home directory
-   * @deprecated use {@link #getUserHome()}
-   */
-  @Deprecated
-  public static String userHome() {
-    return System.getProperty(USER_HOME_KEY);
-  }
-
-  /**
-   * Gets user home.
-   *
-   * @return the user's home directory
-   */
   public static String getUserHome() {
     return System.getProperty(USER_HOME_KEY);
   }
 
-  /**
-   * Temp dir string.
-   *
-   * @return the default temp file path
-   * @deprecated use {@link #getTempDir()}
-   */
-  @Deprecated
-  public static String tempDir() {
-    return System.getProperty(JAVA_IO_TMPDIR_KEY);
-  }
-
-  /**
-   * Gets temp dir.
-   *
-   * @return the default temp file path
-   */
   public static String getTempDir() {
     return System.getProperty(JAVA_IO_TMPDIR_KEY);
   }
 
-  /**
-   * File encoding string.
-   *
-   * @return the file encoding
-   * @deprecated use {@link #getFileEncoding()}
-   */
-  @Deprecated
-  public static String fileEncoding() {
-    return System.getProperty(FILE_ENCODING_KEY);
-  }
-
-  /**
-   * Gets file encoding.
-   *
-   * @return the file encoding
-   */
   public static String getFileEncoding() {
     return System.getProperty(FILE_ENCODING_KEY);
   }
 
-  /**
-   * Sets file encoding.
-   *
-   * @param encoding the encoding
-   */
   public static void setFileEncoding(String encoding) {
     System.setProperty(FILE_ENCODING_KEY, encoding);
   }
 
-  /**
-   * User language string.
-   *
-   * @return user language
-   * @deprecated use {@link #getUserLanguage()}
-   */
-  @Deprecated
-  public static String userLanguage() {
-    return System.getProperty(USER_LANGUAGE_KEY);
-  }
-
-  /**
-   * Gets user language.
-   *
-   * @return user language
-   */
   public static String getUserLanguage() {
     return System.getProperty(USER_LANGUAGE_KEY);
   }
 
-  /**
-   * Is windows boolean.
-   *
-   * @return true if the system is a Windows version, else false
-   */
   public static boolean isWindows() {
     return getOsName().toLowerCase().startsWith("win");
   }
 
-  /**
-   * Is mac osx boolean.
-   *
-   * @return true if the system is Mac, else false
-   */
   public static boolean isMacOsx() {
     return getOsName().toLowerCase().startsWith("mac");
   }
 
-  /**
-   * Is linux boolean.
-   *
-   * @return true if the system is Linux, else false
-   */
   public static boolean isLinux() {
     return getOsName().toLowerCase().startsWith("linux");
   }
 
-  /**
-   * Is solaris boolean.
-   *
-   * @return true if the system is Solaris, else false
-   */
   public static boolean isSolaris() {
     return getOsName().toLowerCase().startsWith("sun");
   }
 
-  /**
-   * @return the system's default {@link Charset}
-   */
-	/*
-	public static Charset charset() {
-		return Charset.forName(getFileEncoding());
-	}
-*/
-
-  /**
-   * Gets charset.
-   *
-   * @return the system's default {@link Charset}
-   */
   public static Charset getCharset() {
     return Charset.forName(getFileEncoding());
   }
