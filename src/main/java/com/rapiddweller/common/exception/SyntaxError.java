@@ -36,6 +36,10 @@ public class SyntaxError extends ApplicationException {
     return new SyntaxError(message, cause, CommonErrorIds.XML_SYNTAX, uri, SourceType.URI, createLocation(line, column));
   }
 
+  public static SyntaxError forXmlDocument(String message, Throwable cause, String errorId, String uri, int line, int column) {
+    return new SyntaxError(message, cause, errorId, uri, SourceType.URI, createLocation(uri, line, column));
+  }
+
   public static SyntaxError forXmlDocument(String message, String uri, String errorId) {
     return new SyntaxError(message, null, errorId, uri, SourceType.URI, createLocation(uri));
   }
@@ -100,5 +104,9 @@ public class SyntaxError extends ApplicationException {
 
   private static TextFileLocation createLocation(int line, int column) {
     return new TextFileLocation(null, line, column, line, column);
+  }
+
+  private static TextFileLocation createLocation(String uri, int line, int column) {
+    return new TextFileLocation(uri, line, column, line, column);
   }
 }

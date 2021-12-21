@@ -225,15 +225,15 @@ public class ExceptionFactory {
   }
 
   public SyntaxError syntaxErrorForText(String message, Throwable cause, String text) {
-    return SyntaxError.forText(message, cause, null, text);
+    return SyntaxError.forText(message + ". Text: '" + text + "'", cause, null, text);
   }
 
   public SyntaxError syntaxErrorForUri(String message, Throwable cause, String uri) {
     return SyntaxError.forXmlDocument(message, cause, uri, -1, -1);
   }
 
-  public SyntaxError syntaxErrorForXmlDocument(String message, Throwable cause, String uri, int line, int column) {
-    return SyntaxError.forXmlDocument(message, cause, uri, line, column);
+  public SyntaxError syntaxErrorForXmlDocument(String message, Throwable cause, String uri) {
+    return SyntaxError.forXmlDocument(message, cause, uri, -1, -1);
   }
 
   public SyntaxError syntaxErrorForXmlElement(String message, Element element) {

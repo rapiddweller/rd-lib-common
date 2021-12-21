@@ -445,7 +445,7 @@ public class XMLUtil {
     } catch (ParserConfigurationException e) {
       throw ExceptionFactory.getInstance().programmerConfig("Error in " + uri, e);
     } catch (SAXParseException e) {
-      throw ExceptionFactory.getInstance().syntaxErrorForXmlDocument(e.getMessage(), e, uri, e.getLineNumber(), e.getColumnNumber());
+      throw ExceptionFactory.getInstance().syntaxErrorForXmlDocument(e.getMessage(), e, uri);
     } catch (SAXException e) {
       throw ExceptionFactory.getInstance().programmerConfig("Error parsing " + uri, e);
     } catch (IOException e) {
@@ -495,17 +495,9 @@ public class XMLUtil {
     } catch (ParserConfigurationException e) {
       throw ExceptionFactory.getInstance().programmerConfig("Error in " + uri, e);
     } catch (TransformerException e) {
-      Throwable cause = ExceptionUtil.getRootCause(e);
-      if (cause instanceof SAXParseException) {
-        SAXParseException se = (SAXParseException) cause;
-        String causeMessage = cause.getMessage();
-        if (causeMessage.contains("Premature end of file") || causeMessage.contains("Content is not allowed in prolog")) {
-          throw ExceptionFactory.getInstance().syntaxErrorForXmlDocument(e.getMessage(), se, uri, se.getLineNumber(), se.getColumnNumber());
-        }
-      }
-      throw ExceptionFactory.getInstance().programmerConfig("Error in " + uri, e);
+      throw ExceptionFactory.getInstance().syntaxErrorForXmlDocument(e.getMessage(), e, uri);
     } catch (SAXParseException e) {
-      throw ExceptionFactory.getInstance().syntaxErrorForXmlDocument(e.getMessage(), e, uri, e.getLineNumber(), e.getColumnNumber());
+      throw ExceptionFactory.getInstance().syntaxErrorForXmlDocument(e.getMessage(), e, uri);
     } catch (SAXException e) {
       throw ExceptionFactory.getInstance().programmerConfig("Error parsing " + uri, e);
     }
