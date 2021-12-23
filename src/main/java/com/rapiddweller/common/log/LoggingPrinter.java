@@ -15,43 +15,39 @@
 
 package com.rapiddweller.common.log;
 
-import com.rapiddweller.common.ui.InfoPrinter;
+import com.rapiddweller.common.ui.TextPrinter;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 /**
- * {@link InfoPrinter} implementation that writes text to a logger category.
+ * {@link TextPrinter} implementation that writes text to a logger category.
  * Created: 01.08.2010 17:13:04
- *
  * @author Volker Bergmann
  * @since 0.5.3
  */
-public class LoggingInfoPrinter extends InfoPrinter {
+public class LoggingPrinter implements TextPrinter {
 
   private final Logger logger;
 
-  /**
-   * Instantiates a new Logging info printer.
-   *
-   * @param clazz the clazz
-   */
-  public LoggingInfoPrinter(Class<?> clazz) {
+  public LoggingPrinter(Class<?> clazz) {
     this.logger = LoggerFactory.getLogger(clazz);
   }
 
-  /**
-   * Instantiates a new Logging info printer.
-   *
-   * @param category the category
-   */
-  public LoggingInfoPrinter(String category) {
+  public LoggingPrinter(String category) {
     this.logger = LoggerFactory.getLogger(category);
   }
 
   @Override
-  public void printLines(Object owner, String... infoLines) {
-    for (String info : infoLines) {
-      logger.info(info);
+  public void printStd(String... infoLines) {
+    for (String infoLine : infoLines) {
+      logger.info(infoLine);
+    }
+  }
+
+  @Override
+  public void printErr(String... errLines) {
+    for (String errLine : errLines) {
+      logger.error(errLine);
     }
   }
 

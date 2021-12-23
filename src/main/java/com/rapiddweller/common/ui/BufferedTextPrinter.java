@@ -18,29 +18,38 @@ package com.rapiddweller.common.ui;
 import com.rapiddweller.common.SystemInfo;
 
 /**
- * {@link InfoPrinter} implementation that prints into a buffer
+ * {@link TextPrinter} implementation that prints into a buffer
  * and provides the received input as String in {@link #toString()}.
  * Created: 17.03.2013 18:06:28
  * @author Volker Bergmann
  * @since 0.5.23
  */
-public class BufferedInfoPrinter extends InfoPrinter {
+public class BufferedTextPrinter implements TextPrinter {
 
   private final StringBuilder buffer;
 
-  public BufferedInfoPrinter() {
+  public BufferedTextPrinter() {
     this.buffer = new StringBuilder();
   }
 
   @Override
-  public void printLines(Object owner, String... lines) {
-    for (String line : lines) {
-      buffer.append(line).append(SystemInfo.getLineSeparator());
-    }
+  public void printStd(String... lines) {
+    appendLines(lines);
+  }
+
+  @Override
+  public void printErr(String... lines) {
+    appendLines(lines);
   }
 
   public void clear() {
     buffer.delete(0, buffer.length());
+  }
+
+  private void appendLines(String[] lines) {
+    for (String line : lines) {
+      buffer.append(line).append(SystemInfo.getLineSeparator());
+    }
   }
 
   @Override

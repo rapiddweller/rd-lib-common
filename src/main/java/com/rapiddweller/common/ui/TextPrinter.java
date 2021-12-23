@@ -21,9 +21,7 @@ package com.rapiddweller.common.ui;
  * @author Volker Bergmann
  * @since 0.4.7
  */
-public abstract class InfoPrinter {
-  public void printLines(String... lines) {
-    printLines(null, lines);
-  }
-  public abstract void printLines(Object owner, String... lines);
+public interface TextPrinter {
+  void printStd(String... lines);
+  void printErr(String... lines);
 }
