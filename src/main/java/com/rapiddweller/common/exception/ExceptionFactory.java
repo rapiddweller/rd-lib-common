@@ -109,6 +109,10 @@ public class ExceptionFactory {
     return new ObjectNotFoundException(message);
   }
 
+  public ObjectNotFoundException objectNotFound(String message, Throwable cause) {
+    return new ObjectNotFoundException(message, cause, null);
+  }
+
   public FileAccessException fileAccessException(String message, Throwable cause) {
     return new FileAccessException(message, cause);
   }
