@@ -90,6 +90,7 @@ public final class IOUtil {
         closeable.close();
       } catch (Exception e) {
         logger.error("Error closing " + closeable, e);
+        throw ExceptionFactory.getInstance().operationFailed(e.getMessage(), e);
       }
     }
   }
