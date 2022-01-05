@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2022 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,9 @@
 
 package com.rapiddweller.common.bean;
 
+import com.rapiddweller.common.Accessor;
 import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.accessor.FeatureAccessor;
 import com.rapiddweller.common.converter.ThreadSafeConverter;
 
 /**
@@ -26,7 +28,7 @@ import com.rapiddweller.common.converter.ThreadSafeConverter;
  */
 public class BeanToPropertyArrayConverter<E> extends ThreadSafeConverter<E, Object[]> {
 
-  private final PropertyAccessor<E, ?>[] accessors;
+  private final Accessor<E, ?>[] accessors;
 
   public BeanToPropertyArrayConverter(String... propertyNames) {
     this(null, propertyNames);
@@ -35,9 +37,9 @@ public class BeanToPropertyArrayConverter<E> extends ThreadSafeConverter<E, Obje
   @SuppressWarnings("unchecked")
   public BeanToPropertyArrayConverter(Class<E> beanClass, String... propertyNames) {
     super(beanClass, Object[].class);
-    this.accessors = new PropertyAccessor[propertyNames.length];
+    this.accessors = new Accessor[propertyNames.length];
     for (int i = 0; i < propertyNames.length; i++) {
-      this.accessors[i] = PropertyAccessorFactory.getAccessor(beanClass, propertyNames[i]);
+      this.accessors[i] = new FeatureAccessor<>(propertyNames[i]);
     }
   }
 
