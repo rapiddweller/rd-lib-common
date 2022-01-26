@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2022 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,6 @@ import java.util.Set;
  * This is useful for all cases in which elements need to be unique
  * but processed in the original order.
  * Created at 28.02.2009 12:26:35
- *
  * @param <E> the type of the collection's elements
  * @author Volker Bergmann
  * @since 0.4.8
@@ -34,37 +33,18 @@ public class OrderedSet<E> implements Set<E> {
 
   private final OrderedMap<E, E> map;
 
-  /**
-   * Instantiates a new Ordered set.
-   */
   public OrderedSet() {
     map = new OrderedMap<>();
   }
 
-  /**
-   * Instantiates a new Ordered set.
-   *
-   * @param initialCapacity the initial capacity
-   */
   public OrderedSet(int initialCapacity) {
     map = new OrderedMap<>(initialCapacity);
   }
 
-  /**
-   * Instantiates a new Ordered set.
-   *
-   * @param initialCapacity the initial capacity
-   * @param loadFactor      the load factor
-   */
   public OrderedSet(int initialCapacity, float loadFactor) {
     map = new OrderedMap<>(initialCapacity, loadFactor);
   }
 
-  /**
-   * Instantiates a new Ordered set.
-   *
-   * @param source the source
-   */
   public OrderedSet(Collection<E> source) {
     map = new OrderedMap<>(source.size());
     addAll(source);
@@ -159,12 +139,6 @@ public class OrderedSet<E> implements Set<E> {
 
   // List interface --------------------------------------------------------------------------------------------------
 
-  /**
-   * Get e.
-   *
-   * @param index the index
-   * @return the e
-   */
   public E get(int index) {
     return map.valueAt(index);
   }
@@ -190,6 +164,7 @@ public class OrderedSet<E> implements Set<E> {
 
   @Override
   public String toString() {
-    return map.toString();
+    return map.values().toString();
   }
+
 }
