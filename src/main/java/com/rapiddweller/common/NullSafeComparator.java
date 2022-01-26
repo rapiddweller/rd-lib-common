@@ -21,66 +21,37 @@ import java.util.Comparator;
  * Comparator Decorator that adds support for null-Value comparison.
  * null may be defined to have a value either greater or less than any non-null value.
  * Created: 11.04.2005 08:34:02
- *
  * @param <E> the type of the objects to compare
  * @author Volker Bergmann
  */
 public class NullSafeComparator<E> implements Comparator<E> {
 
-  /**
-   * The constant NULL_IS_LESSER.
-   */
-  public static final int NULL_IS_LESSER = -1;
-  /**
-   * The constant NULL_IS_GREATER.
-   */
+  public static final int NULL_IS_LESS = -1;
   public static final int NULL_IS_GREATER = 1;
 
   private final Comparator<? super E> realComparator;
 
-  /**
-   * The value returned if null is compared to something.
-   */
-  private final int nullComparation;
+  private final int nullComparison;
 
   // constructors ----------------------------------------------------------------------------------------------------
 
-  /**
-   * Instantiates a new Null safe comparator.
-   */
   @SuppressWarnings({"unchecked", "rawtypes"})
   public NullSafeComparator() {
     this(new ComparableComparator());
   }
 
-  /**
-   * Instantiates a new Null safe comparator.
-   *
-   * @param nullComparation the null comparation
-   */
   @SuppressWarnings({"unchecked", "rawtypes"})
-  public NullSafeComparator(int nullComparation) {
-    this(new ComparableComparator(), nullComparation);
+  public NullSafeComparator(int nullComparison) {
+    this(new ComparableComparator(), nullComparison);
   }
 
-  /**
-   * Instantiates a new Null safe comparator.
-   *
-   * @param realComparator the real comparator
-   */
   public NullSafeComparator(Comparator<? super E> realComparator) {
     this(realComparator, -1);
   }
 
-  /**
-   * Instantiates a new Null safe comparator.
-   *
-   * @param realComparator  the real comparator
-   * @param nullComparation the null comparation
-   */
-  public NullSafeComparator(Comparator<? super E> realComparator, int nullComparation) {
+  public NullSafeComparator(Comparator<? super E> realComparator, int nullComparison) {
     this.realComparator = realComparator;
-    this.nullComparation = nullComparation;
+    this.nullComparison = nullComparison;
   }
 
   // interface -------------------------------------------------------------------------------------------------------
@@ -91,43 +62,40 @@ public class NullSafeComparator<E> implements Comparator<E> {
       return 0;
     }
     if (o1 == null) {
-      return (o2 == null ? 0 : nullComparation);
+      return nullComparison; // o1 == null, o2 != null
     } else if (o2 == null) {
-      return -nullComparation;
+      return -nullComparison;
     } else {
       return realComparator.compare(o1, o2);
     }
   }
 
-  /**
-   * Compare int.
-   *
-   * @param <T>             the type parameter
-   * @param o1              the o 1
-   * @param o2              the o 2
-   * @param nullComparation the null comparation
-   * @return the int
-   */
-  public static <T extends Comparable<T>> int compare(T o1, T o2, int nullComparation) {
+  public static <T extends Comparable<T>> int compare(T o1, T o2, int nullComparison) {
     if (o1 == o2) {
       return 0;
     }
     if (o1 == null) {
-      return (o2 == null ? 0 : nullComparation);
+      return nullComparison; // o1 == null, o2 != null
     } else if (o2 == null) {
-      return -nullComparation;
+      return -nullComparison;
     } else {
       return o1.compareTo(o2);
     }
   }
 
-  /**
-   * Equals boolean.
-   *
-   * @param o1 the o 1
-   * @param o2 the o 2
-   * @return the boolean
-   */
+  public static <T> int compare(T o1, T o2, int nullComparison, Comparator<? super T> comparator) {
+    if (o1 == o2) {
+      return 0;
+    }
+    if (o1 == null) {
+      return nullComparison; // o1 == null, o2 != null
+    } else if (o2 == null) {
+      return -nullComparison; // o1 != null, o2 == null
+    } else {
+      return comparator.compare(o1, o2); // o1 != null, o2 != null
+    }
+  }
+
   public static boolean equals(Object o1, Object o2) {
     if (o1 == null) {
       return (o2 == null);
@@ -136,13 +104,8 @@ public class NullSafeComparator<E> implements Comparator<E> {
     }
   }
 
-  /**
-   * Hash code int.
-   *
-   * @param o the o
-   * @return the int
-   */
   public static int hashCode(Object o) {
     return (o != null ? o.hashCode() : 0);
   }
+
 }
