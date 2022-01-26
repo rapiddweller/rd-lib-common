@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2022 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +17,7 @@ package com.rapiddweller.common;
 
 import com.rapiddweller.common.exception.ExceptionFactory;
 
+import java.io.UnsupportedEncodingException;
 import java.text.Format;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1114,7 +1115,27 @@ public final class StringUtil {
     return result;
   }
 
+  public static byte[] toBytes(String text, String encoding) {
+    try {
+      return text.getBytes(encoding);
+    } catch (UnsupportedEncodingException e) {
+      throw ExceptionFactory.getInstance().configurationError(e.getMessage(), e);
+    }
+  }
+
+  public static String toString(byte[] bytes, String encoding) {
+    try {
+      return new String(bytes, encoding);
+    } catch (UnsupportedEncodingException e) {
+      throw ExceptionFactory.getInstance().configurationError(e.getMessage(), e);
+    }
+  }
+
   public static String withLineBreaks(String text, int maxWidth) {
+    // TODO test and finalize method
+    if (StringUtil.isEmpty(text)) {
+      return text;
+    }
     StringBuilder builder = new StringBuilder();
     String rest = text;
     //System.out.println(builder + " - " + rest);
