@@ -1,3 +1,4 @@
+com.rapiddweller.common.converter.Long2StringConverter
 com.rapiddweller.common.converter.String2TimestampConverter
 com.rapiddweller.common.converter.String2TimeConverter
 com.rapiddweller.common.converter.Time2StringConverter
