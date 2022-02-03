@@ -595,8 +595,7 @@ public final class BeanUtil {
       }
       Class<?>[] expectedTypes = method.getParameterTypes();
       if (paramTypesMatch(paramTypes, expectedTypes)) {
-        if ((ArrayUtil.isEmpty(paramTypes) && ArrayUtil.isEmpty(expectedTypes))
-            || paramTypes.length == expectedTypes.length) {
+        if (paramCountMatches(expectedTypes, paramTypes)) {
           return method; // optimal match - return it immediately
         } else {
           result = method; // sub optimal match - store it, but keep on searching for better matches
@@ -604,6 +603,11 @@ public final class BeanUtil {
       }
     }
     return result;
+  }
+
+  private static boolean paramCountMatches(Class<?>[] expectedTypes, Class<?>[] paramTypes) {
+    return (ArrayUtil.isEmpty(paramTypes) && ArrayUtil.isEmpty(expectedTypes))
+        || paramTypes.length == expectedTypes.length;
   }
 
   public static Method[] findMethodsByName(Class<?> type, String methodName) {
