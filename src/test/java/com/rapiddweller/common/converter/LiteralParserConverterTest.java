@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests the {@link LiteralParserConverter}.
@@ -37,8 +38,8 @@ public class LiteralParserConverterTest extends AbstractConverterTest {
 
   @Test
   public void testNull() {
-    assertEquals(null, LiteralParserConverter.parse(null));
-    assertEquals(null, LiteralParserConverter.parse(""));
+    assertNull(LiteralParserConverter.parse(null));
+    assertNull(LiteralParserConverter.parse(""));
     assertEquals(" \t ", LiteralParserConverter.parse(" \t "));
   }
 
@@ -55,13 +56,23 @@ public class LiteralParserConverterTest extends AbstractConverterTest {
     checkText("Alpha");
     checkText("'1'");
     checkText("\"2\"");
-    checkText("true or false");
     checkText("7 days");
+    checkText("1.2.3.4");
+    checkText("2000:");
+    checkText("1 2 3 4");
+    checkText("01234");
+  }
+
+  @Test
+  public void testIllegalBooleansAsString() {
+    checkText("true or false");
     checkText("True");
     checkText("TRUE");
-    checkText("1.2.3.4");
+  }
+
+  @Test
+  public void testIllegalDateTimesAsString() {
     checkText("01.02.");
-    checkText("2000:");
     checkText("2000-");
     checkText("2000-00");
     checkText("2000-00-");
@@ -81,8 +92,6 @@ public class LiteralParserConverterTest extends AbstractConverterTest {
     checkText("2000-01-01T00:00:00.");
     checkText("2000-01-01T00:00:00.T");
     checkText("2000-01-01T00:00:00.123T");
-    checkText("1 2 3 4");
-    checkText("01234");
   }
 
   @Test
@@ -98,6 +107,7 @@ public class LiteralParserConverterTest extends AbstractConverterTest {
     checkLong(((long) Integer.MAX_VALUE) + 1);
     checkLong(((long) Integer.MIN_VALUE) - 1);
     checkLong(Long.MIN_VALUE + 1);
+    assertEquals(20211101154530L, LiteralParserConverter.parse("20211101154530"));
   }
 
   @Test
