@@ -144,11 +144,12 @@ public class Assert {
     }
   }
 
-  public static void length(String string, int length) {
+  public static String length(String string, int length) {
     if (string == null || string.length() != length) {
       throw ExceptionFactory.getInstance().illegalArgument("Unexpected string length: Expected string of length " + length + ", found: "
           + (string != null ? string.length() : "null"));
     }
+    return string;
   }
 
   public static void startsWith(String prefix, String string) {
