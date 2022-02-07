@@ -19,6 +19,7 @@ com.rapiddweller.common.converter.UtilDate2SqlDateConverter
 com.rapiddweller.common.converter.SqlDate2UtilDateConverter
 com.rapiddweller.common.converter.ByteArrayToBase64Converter
 com.rapiddweller.common.converter.Base64ToByteArrayConverter
+com.rapiddweller.common.converter.ByteBufferToByteArrayConverter
 com.rapiddweller.common.converter.String2GregorianCalendarConverter
 com.rapiddweller.common.converter.String2DateFormatConverter
 com.rapiddweller.common.converter.String2NumberFormatConverter
