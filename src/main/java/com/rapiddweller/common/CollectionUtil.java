@@ -49,6 +49,10 @@ public final class CollectionUtil {
     return (collection == null || collection.isEmpty());
   }
 
+  public static boolean isEmpty(Map<?, ?> map) {
+    return (map == null || map.isEmpty());
+  }
+
   @SafeVarargs
   public static <T> List<T> toList(T... array) {
     List<T> result = new ArrayList<>(array.length);
