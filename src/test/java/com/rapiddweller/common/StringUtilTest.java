@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2021 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2022 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -34,7 +35,6 @@ import static org.junit.Assert.fail;
 /**
  * Tests the {@link StringUtil} class.
  * Created: 21.07.2006 17:31:42
- *
  * @author Volker Bergmann
  * @since 0.1
  */
@@ -991,6 +991,31 @@ public class StringUtilTest {
     list.add(new Person("Alice", 23));
     list.add(new Person("Bob", 34));
     assertEquals(5, StringUtil.maxLength(list, new FeatureAccessor<>("name"), null));
+  }
+
+  @Test
+  public void testReplace() {
+    String text = "Alice, bob and Charly";
+    // test matching caps
+    Map<String, String> replacements = CollectionUtil.buildMap("Alice", "Annabell", "Bob", "bertie", "Charly", "Curt");
+    assertEquals("Annabell, bob and Curt", StringUtil.replace(text, replacements));
+    // test other caps
+    Map<String, String> lcReplacements = CollectionUtil.buildMap("alice", "Annabell", "bob", "bertie", "charly", "Curt");
+    assertEquals("Alice, bertie and Charly", StringUtil.replace(text, lcReplacements));
+  }
+
+  @Test
+  public void testReplaceIgnoreCase() {
+    String text = "Alice, Bob and Charly";
+    Map replacements = CollectionUtil.buildMap("ALICE", "Annabell", "BoB", "bertie", "ChArlY", "Curt");
+    // test retaining caps
+    assertEquals("Annabell, bertie and Curt", StringUtil.replaceIgnoreCase(text, replacements, true));
+    // test replacing caps
+    assertEquals("Annabell, bertie and Curt", StringUtil.replaceIgnoreCase(text, replacements, false));
+    // test lower case
+    assertEquals("annabell, bertie and curt", StringUtil.replaceIgnoreCase(text.toLowerCase(), replacements, true));
+    // test upper case
+    assertEquals("ANNABELL, BERTIE AND CURT", StringUtil.replaceIgnoreCase(text.toUpperCase(), replacements, true));
   }
 
   /* TODO test feature

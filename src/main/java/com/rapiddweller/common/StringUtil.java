@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -1150,6 +1151,56 @@ public final class StringUtil {
     }
     builder.append(rest);
     return builder.toString();
+  }
+
+  public static String replaceIgnoreCase(String text, Map<String, String> replacements, boolean keepCaps) {
+    Capitalization caps = Capitalization.mixed;
+    String lcText = text.toLowerCase();
+    if (keepCaps) {
+      if (text.equals(lcText)) {
+        caps = Capitalization.lower;
+      } else if (text.equals(text.toUpperCase())) {
+        caps = Capitalization.upper;
+      }
+    }
+
+    String result = text;
+    for (Map.Entry<String, String> entry : replacements.entrySet()) {
+      String orig = entry.getKey().toLowerCase();
+      int index = lcText.indexOf(orig);
+      if (index >= 0) {
+        String replacement = applyCaps(caps, entry);
+        result = result.substring(0, index) + replacement + result.substring(index + orig.length());
+        lcText = result.toLowerCase();
+      }
+    }
+    return result;
+  }
+
+  public static String replace(String text, Map<String, String> replacements) {
+    String result = text;
+    for (Map.Entry<String, String> entry : replacements.entrySet()) {
+      String orig = entry.getKey();
+      int index = result.indexOf(orig);
+      if (index >= 0) {
+        result = result.substring(0, index) + entry.getValue() + result.substring(index + orig.length());
+      }
+    }
+    return result;
+  }
+
+  public static boolean isUpperCase(String text) {
+    return text.toUpperCase().equals(text);
+  }
+
+  private static String applyCaps(Capitalization caps, Map.Entry<String, String> entry) {
+    String replacement = entry.getValue();
+    if (caps == Capitalization.upper) {
+      replacement = replacement.toUpperCase();
+    } else if (caps == Capitalization.lower) {
+      replacement = replacement.toLowerCase();
+    }
+    return replacement;
   }
 
 }
