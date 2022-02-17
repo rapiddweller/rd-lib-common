@@ -15,11 +15,16 @@
 
 package com.rapiddweller.common.collection;
 
+import com.rapiddweller.common.comparator.KeyComparator;
 import com.rapiddweller.common.exception.ExceptionFactory;
+import com.rapiddweller.common.exception.ProgrammerStateError;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -85,6 +90,22 @@ public class ObjectCounter<E> {
   public double averageCount() {
     int distinctInstanceCount = getDistinctInstanceCount();
     return (distinctInstanceCount > 0 ? ((double) totalCount) / distinctInstanceCount : 0);
+  }
+
+  public E median(Comparator<E> comparator) {
+    if (instances.isEmpty()) {
+      return null;
+    }
+    List<Map.Entry<E, AtomicInteger>> list = new ArrayList<>(instances.entrySet());
+    list.sort(new KeyComparator<>(comparator));
+    int acc = 0;
+    for (Map.Entry<E, AtomicInteger> entry : list) {
+      acc += entry.getValue().get();
+      if (acc >= totalCount / 2) {
+        return entry.getKey();
+      }
+    }
+    throw new ProgrammerStateError("This code point is not supposed to be reached");
   }
 
   public double totalCount() {
