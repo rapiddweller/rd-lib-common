@@ -15,12 +15,12 @@
 
 package com.rapiddweller.common.filter;
 
+import com.rapiddweller.common.Assert;
 import com.rapiddweller.common.Filter;
 
 /**
  * Inverts the result of another {@link Filter}.
  * Created at 04.05.2008 10:10:09
- *
  * @param <E> the type of objects to filter
  * @author Volker Bergmann
  * @since 0.4.3
@@ -29,13 +29,8 @@ public class InverseFilter<E> implements Filter<E> {
 
   private final Filter<E> realFilter;
 
-  /**
-   * Instantiates a new Inverse filter.
-   *
-   * @param realFilter the real filter
-   */
   public InverseFilter(Filter<E> realFilter) {
-    this.realFilter = realFilter;
+    this.realFilter = Assert.notNull(realFilter, "realFilter");
   }
 
   @Override

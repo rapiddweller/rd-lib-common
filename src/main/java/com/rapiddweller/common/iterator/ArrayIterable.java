@@ -16,6 +16,7 @@
 package com.rapiddweller.common.iterator;
 
 import com.rapiddweller.common.ArrayFormat;
+import com.rapiddweller.common.ThreadAware;
 import com.rapiddweller.common.TypedIterable;
 
 import java.util.Iterator;
@@ -23,28 +24,30 @@ import java.util.Iterator;
 /**
  * Implementation of the {@link Iterable} interface which creates {@link Iterator} that iterate over an array.
  * Created at 30.06.2009 09:30:02
- *
  * @param <E> the type to iterate
  * @author Volker Bergmann
  * @since 0.5.0
+ * @deprecated Replace uses of this non tread safe class with the thread safe class DataIterator
  */
-public class ArrayIterable<E> implements TypedIterable<E> {
+@Deprecated
+public class ArrayIterable<E> implements TypedIterable<E>, ThreadAware {
 
-  /**
-   * The Type.
-   */
-  protected Class<E> type;
+  protected final Class<E> type;
   private final E[] source;
 
-  /**
-   * Instantiates a new Array iterable.
-   *
-   * @param source the source
-   * @param type   the type
-   */
   public ArrayIterable(E[] source, Class<E> type) {
     this.source = source;
     this.type = type;
+  }
+
+  @Override
+  public boolean isThreadSafe() {
+    return false;
+  }
+
+  @Override
+  public boolean isParallelizable() {
+    return false;
   }
 
   @Override
