@@ -107,17 +107,17 @@ public class XMLAssert {
     }
   }
 
-  public static void assertAttributeIsSet(Element element, String attributeName) {
+  public static void assertAttributeIsSet(String attributeName, Element element, String errorId) {
     if (StringUtil.isEmpty(element.getAttribute(attributeName))) {
       throw ExceptionFactory.getInstance().syntaxErrorForXmlElement(
-          "Attribute '" + attributeName + "' is missing", element);
+          "Attribute '" + attributeName + "' is missing", null, errorId, element);
     }
   }
 
-  public static void assertAttributeIsNotSet(Element element, String attributeName) {
+  public static void assertAttributeIsNotSet(String attributeName, Element element, String errorId) {
     if (!StringUtil.isEmpty(element.getAttribute(attributeName))) {
       throw ExceptionFactory.getInstance().syntaxErrorForXmlElement(
-          "Attributes '" + attributeName + "' must not be set", element);
+          "Attributes '" + attributeName + "' must not be set", null, errorId, element);
     }
   }
 
