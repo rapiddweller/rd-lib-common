@@ -61,6 +61,10 @@ public class ObjectCounter<E> {
     totalCount++;
   }
 
+  public void haveValue(E instance) {
+    instances.computeIfAbsent(instance, k -> new AtomicInteger(0));
+  }
+
   public void uncount(E instance) {
     AtomicInteger counter = instances.get(instance);
     if (counter == null) {
@@ -92,20 +96,56 @@ public class ObjectCounter<E> {
     return (distinctInstanceCount > 0 ? ((double) totalCount) / distinctInstanceCount : 0);
   }
 
-  public E median(Comparator<E> comparator) {
+  /** Calculates the most frequent value */
+  public E mostFrequentValue() {
+    int maxCount = 0;
+    E mostFrequentValue = null;
+    for (Map.Entry<E, AtomicInteger> entry : instances.entrySet()) {
+      int count = entry.getValue().get();
+      if (count > maxCount) {
+        mostFrequentValue = entry.getKey();
+        maxCount = count;
+      }
+    }
+    return mostFrequentValue;
+  }
+
+  public Double quotaAtOrAboveValue(E value, Comparator<E> comparator) {
     if (instances.isEmpty()) {
       return null;
     }
-    List<Map.Entry<E, AtomicInteger>> list = new ArrayList<>(instances.entrySet());
-    list.sort(new KeyComparator<>(comparator));
-    int acc = 0;
+    long count = 0;
+    List<Map.Entry<E, AtomicInteger>> entries = sortedEntries(comparator);
+    for (int i = entries.size() - 1; i >= 0 && comparator.compare(entries.get(i).getKey(), value) >= 0; i--) {
+      count += entries.get(i).getValue().get();
+    }
+    return (double) count / totalCount;
+  }
+
+  public E median(Comparator<E> comparator) {
+    return percentile(comparator, 50);
+  }
+
+  public E percentile(Comparator<E> comparator, int percentile) {
+    if (instances.isEmpty()) {
+      return null;
+    }
+    List<Map.Entry<E, AtomicInteger>> list = sortedEntries(comparator);
+    long accumulatedCount = 0;
+    long percentileCount = totalCount * percentile / 100;
     for (Map.Entry<E, AtomicInteger> entry : list) {
-      acc += entry.getValue().get();
-      if (acc >= totalCount / 2) {
+      accumulatedCount += entry.getValue().get();
+      if (accumulatedCount >= percentileCount) {
         return entry.getKey();
       }
     }
     throw new ProgrammerStateError("This code point is not supposed to be reached");
+  }
+
+  private List<Map.Entry<E, AtomicInteger>> sortedEntries(Comparator<E> comparator) {
+    List<Map.Entry<E, AtomicInteger>> list = new ArrayList<>(instances.entrySet());
+    list.sort(new KeyComparator<>(comparator));
+    return list;
   }
 
   public double totalCount() {
