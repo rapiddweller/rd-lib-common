@@ -461,4 +461,17 @@ public final class CollectionUtil {
     }
     return result;
   }
+
+  public static int recursiveSize(List<?> list) {
+    int sum = 0;
+    for (Object item : list) {
+      if (item instanceof Collection) {
+        sum += ((Collection<?>) item).size();
+      } else {
+        sum++;
+      }
+    }
+    return sum;
+  }
+
 }
