@@ -147,7 +147,7 @@ public final class BeanUtil {
       Short.class, Integer.class, Long.class, BigInteger.class,
       Float.class, Double.class, BigDecimal.class,
       Byte.class, Character.class,
-      String.class, java.util.Date.class, java.sql.Date.class,
+      String.class, java.util.Date.class, java.sql.Date.class, java.sql.Timestamp.class,
       LocalDate.class, LocalDateTime.class, ZonedDateTime.class
   );
 
