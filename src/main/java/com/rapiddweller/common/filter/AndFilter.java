@@ -41,7 +41,7 @@ public class AndFilter<E> extends CompositeFilter<E> {
   @Override
   public boolean accept(E candidate) {
     for (Filter<E> component : components) {
-      if (!component.accept(candidate)) {
+      if (component != null && !component.accept(candidate)) {
         return false;
       }
     }

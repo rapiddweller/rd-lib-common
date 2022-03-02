@@ -122,7 +122,7 @@ public class JavaTimeUtil {
   }
 
   public static LocalDate toLocalDate(Date date) {
-    return toLocalDate(date.toInstant());
+    return (date != null ? toLocalDate(date.toInstant()) : null);
   }
 
   public static LocalDate toLocalDate(long millis) {
