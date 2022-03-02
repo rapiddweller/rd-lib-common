@@ -22,7 +22,6 @@ import java.util.regex.Pattern;
 /**
  * {@link Filter} implementation which filters strings by regular expressions for inclusion and exclusion.
  * Created: 11.06.2011 15:48:30
- *
  * @author Volker Bergmann
  * @since 0.5.8
  */
@@ -31,23 +30,17 @@ public class RegexBasedFilter implements Filter<String> {
   private final Pattern exclusionPattern;
   private final Pattern inclusionPattern;
 
-  /**
-   * Instantiates a new Regex based filter.
-   *
-   * @param inclusionPattern the inclusion pattern
-   * @param exclusionPattern the exclusion pattern
-   */
   public RegexBasedFilter(String inclusionPattern, String exclusionPattern) {
     this.inclusionPattern = (inclusionPattern != null ? Pattern.compile(inclusionPattern) : null);
     this.exclusionPattern = (exclusionPattern != null ? Pattern.compile(exclusionPattern) : null);
   }
 
   @Override
-  public boolean accept(String name) {
-    if (exclusionPattern != null && exclusionPattern.matcher(name).matches()) {
+  public boolean accept(String text) {
+    if (exclusionPattern != null && exclusionPattern.matcher(text).matches()) {
       return false;
     }
-    return (inclusionPattern == null || inclusionPattern.matcher(name).matches());
+    return (inclusionPattern == null || inclusionPattern.matcher(text).matches());
   }
 
 }
