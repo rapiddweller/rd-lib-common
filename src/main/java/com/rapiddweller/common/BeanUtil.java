@@ -144,6 +144,7 @@ public final class BeanUtil {
   private static final Map<String, Class<?>> primitiveNumberTypeMap;
 
   private static final Set<Class<?>> IMMUTABLES = CollectionUtil.toSet(
+      Boolean.class,
       Short.class, Integer.class, Long.class, BigInteger.class,
       Float.class, Double.class, BigDecimal.class,
       Byte.class, Character.class,
