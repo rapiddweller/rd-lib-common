@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ObjectCounter<E> {
 
-  private final Map<E, AtomicInteger> instances;
+  protected final Map<E, AtomicInteger> instances;
   long totalCount;
 
   public ObjectCounter() {
@@ -110,6 +110,7 @@ public class ObjectCounter<E> {
     return mostFrequentValue;
   }
 
+  @SuppressWarnings("unused")
   public Double quotaAtOrAboveValue(E value, Comparator<E> comparator) {
     if (instances.isEmpty()) {
       return null;
