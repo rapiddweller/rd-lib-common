@@ -42,7 +42,7 @@ public class String2ByteArrayConverter extends ThreadSafeConverter<String, byte[
   @Override
   public byte[] convert(String sourceValue) throws ConversionException {
     try {
-      return sourceValue.getBytes(encoding);
+      return (sourceValue != null ? sourceValue.getBytes(encoding) : null);
     } catch (UnsupportedEncodingException e) {
       throw ExceptionFactory.getInstance().configurationError("Error converting " + sourceValue, e);
     }
