@@ -102,8 +102,9 @@ public class ErrorHandler {
           logger.error(message, t);
           break;
         case fatal:
-          if (t instanceof RuntimeException) {
-            throw (RuntimeException) t;
+          String className = t.getClass().getSimpleName();
+          if ("OracleDatabaseException".equals(className)) {
+            throw ExceptionFactory.getInstance().operationFailed(t.getMessage(), t); // forward root message
           } else {
             throw ExceptionFactory.getInstance().operationFailed(message, t);
           }
