@@ -23,6 +23,7 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Parses a String as a time value.<br/><br/>
@@ -57,7 +58,7 @@ public class String2TimeConverter extends ThreadSafeConverter<String, Time> {
     }
     pattern = choosePattern(value, pattern);
     try {
-      Date simpleDate = new SimpleDateFormat(pattern).parse(value);
+      Date simpleDate = new SimpleDateFormat(pattern, Locale.US).parse(value);
       long millis = simpleDate.getTime();
       return new Time(millis);
     } catch (ParseException e) {
