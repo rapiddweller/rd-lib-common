@@ -82,6 +82,7 @@ public final class FileUtil {
     }
   }
 
+  @SuppressWarnings("unused")
   public static ZonedDateTime lastFileUpdateInZone(File file, ZoneId zone) {
     return JavaTimeUtil.toZonedDateTime(file.lastModified(), ZoneId.systemDefault()).withZoneSameInstant(zone);
   }
@@ -133,6 +134,7 @@ public final class FileUtil {
     return path.replace('/', SystemInfo.getFileSeparator());
   }
 
+  @SuppressWarnings("unused")
   public static boolean isEmptyFolder(File folder) {
     String[] list = folder.list();
     return list == null || list.length == 0;
@@ -235,6 +237,12 @@ public final class FileUtil {
     return addFilenames(dir, filter, recursive, new ArrayList<>());
   }
 
+  /** Checks if a path denotes a directory syntactically - without verifying its existence */
+  public static boolean isDirectoryPath(String spec) {
+    return ("..".equals(spec) || ".".equals(spec) || spec.endsWith("/")
+        || spec.endsWith(String.valueOf(SystemInfo.getFileSeparator())));
+  }
+
   public static String relativePath(File fromFile, File toFile) {
     return relativePath(fromFile, toFile, File.separatorChar);
   }
@@ -306,6 +314,7 @@ public final class FileUtil {
     return builder.toString().trim();
   }
 
+  @SuppressWarnings("unused")
   public static File fileOfLimitedPathLength(File directory, String name, String suffix, boolean warn) {
     return fileOfLimitedPathLength(directory, name, suffix, 255, warn);
   }
@@ -390,6 +399,7 @@ public final class FileUtil {
     return path.substring(0, sep + 1) + fileName;
   }
 
+  @SuppressWarnings("unused")
   public static String readTextFileContent(File file) {
     return readTextFileContent(file, null);
   }
@@ -398,6 +408,7 @@ public final class FileUtil {
     return IOUtil.readAndClose(createFileReader(file, encoding));
   }
 
+  @SuppressWarnings("unused")
   public static void writeTextFileContent(String content, File file) {
     writeTextFileContent(content, file, SystemInfo.getFileEncoding());
   }
@@ -412,6 +423,7 @@ public final class FileUtil {
     }
   }
 
+  @SuppressWarnings("unused")
   public static File backupWithTimestamp(File file, LocalDateTime timestamp, boolean overwrite) {
     File folder = file.getParentFile();
     String filename = file.getName();
