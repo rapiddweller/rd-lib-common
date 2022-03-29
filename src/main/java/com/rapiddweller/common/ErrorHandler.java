@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2015 Volker Bergmann (volker.bergmann@bergmann-it.de).
+ * Copyright (C) 2004-2022 Volker Bergmann (volker.bergmann@bergmann-it.de).
  * All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +15,7 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ApplicationException;
 import com.rapiddweller.common.exception.ExceptionFactory;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -105,6 +106,8 @@ public class ErrorHandler {
           String className = t.getClass().getSimpleName();
           if ("OracleDatabaseException".equals(className)) {
             throw ExceptionFactory.getInstance().operationFailed(t.getMessage(), t); // forward root message
+          } else if (t instanceof ApplicationException) {
+            throw (ApplicationException) t;
           } else {
             throw ExceptionFactory.getInstance().operationFailed(message, t);
           }
