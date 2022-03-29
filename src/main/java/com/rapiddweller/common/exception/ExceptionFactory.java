@@ -2,14 +2,8 @@
 
 package com.rapiddweller.common.exception;
 
+import com.rapiddweller.common.*;
 import com.rapiddweller.common.AssertionError;
-import com.rapiddweller.common.ConfigurationError;
-import com.rapiddweller.common.ConversionException;
-import com.rapiddweller.common.DeploymentError;
-import com.rapiddweller.common.ImportFailedException;
-import com.rapiddweller.common.ObjectNotFoundException;
-import com.rapiddweller.common.OperationFailed;
-import com.rapiddweller.common.StringUtil;
 import com.rapiddweller.common.cli.CLIIllegalArgumentException;
 import com.rapiddweller.common.cli.CLIIllegalOptionException;
 import com.rapiddweller.common.cli.CLIIllegalOptionValueException;
@@ -228,6 +222,10 @@ public class ExceptionFactory {
     return SyntaxError.forText(message, cause, null, text, line, column);
   }
 
+  public SyntaxError syntaxErrorForText(String message, Throwable cause, String errorId, TextFileLocation location) {
+    return SyntaxError.forText(message, cause, errorId, location);
+  }
+
   public SyntaxError syntaxErrorForText(String message, Throwable cause, String text) {
     return SyntaxError.forText(message + ". Text: '" + text + "'", cause, null, text);
   }
@@ -275,15 +273,15 @@ public class ExceptionFactory {
     return syntaxErrorForXmlElement(message, null, errorId, owner);
   }
 
-public SyntaxError illegalXmlElementText(String message, String errorId, String textContent, Element owner) {
-  if (message == null) {
-    message = "Element <" + owner.getNodeName() + "> has illegal text content: '" + textContent + "'";
+  public SyntaxError illegalXmlElementText(String message, String errorId, String textContent, Element owner) {
+    if (message == null) {
+      message = "Element <" + owner.getNodeName() + "> has illegal text content: '" + textContent + "'";
+    }
+    if (errorId == null) {
+      errorId = CommonErrorIds.XML_ILLEGAL_TEXT_CONTENT;
+    }
+    return syntaxErrorForXmlElement(message, null, errorId, owner);
   }
-  if (errorId == null) {
-    errorId = CommonErrorIds.XML_ILLEGAL_TEXT_CONTENT;
-  }
-  return syntaxErrorForXmlElement(message, null, errorId, owner);
-}
 
   public ParseException parsingError(String message) {
     return parsingError(message, null);

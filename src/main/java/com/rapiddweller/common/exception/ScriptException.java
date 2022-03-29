@@ -3,6 +3,7 @@
 package com.rapiddweller.common.exception;
 
 import com.rapiddweller.common.ExceptionUtil;
+import com.rapiddweller.common.TextFileLocation;
 
 import static com.rapiddweller.common.StringUtil.isEmpty;
 
@@ -19,13 +20,29 @@ public class ScriptException extends ApplicationException {
   }
 
   public ScriptException(String message, Throwable cause, String errorId, String scriptText) {
-    super(formatMessage(message, scriptText), cause, errorId, ExitCodes.SYNTAX_ERROR);
+    this(message, cause, errorId, scriptText, null);
   }
 
-  private static String formatMessage(String message, String scriptText) {
+  public ScriptException(String message, Throwable cause, String errorId, String scriptText, TextFileLocation location) {
+    super(formatMessage(message, scriptText, location), cause, errorId, ExitCodes.SYNTAX_ERROR);
+  }
+
+  private static String formatMessage(String message, String scriptText, TextFileLocation location) {
     String result = ExceptionUtil.endWithDotSpace(message);
     if (!isEmpty(scriptText)) {
       result += "Script text: '" + scriptText + "'";
+    }
+    if (location != null) {
+      result += " in ";
+      if (location.getSystemId() != null) {
+        result += " file " + location.getSystemId();
+      }
+      if (location.getStartLine() >= 0) {
+        result += " line " + location.getStartLine();
+        if (location.getStartColumn() >= 0) {
+          result += " column " + location.getStartColumn();
+        }
+      }
     }
     return result;
   }

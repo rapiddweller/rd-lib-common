@@ -2,6 +2,8 @@
 
 package com.rapiddweller.common;
 
+import org.w3c.dom.Element;
+
 /**
  * Represents XML location data.<br/><br/>
  * Created: 16.12.2021 14:00:53
@@ -17,6 +19,14 @@ public class TextFileLocation {
   private final int startColumn;
   private final int endLine;
   private final int endColumn;
+
+  public static TextFileLocation of(Element element) {
+    TextFileLocation textFileLocation = (TextFileLocation) element.getUserData(TextFileLocation.LOCATION_DATA_KEY);
+    if (textFileLocation == null) {
+      textFileLocation = new TextFileLocation(null, -1, -1, -1, -1);
+    }
+    return textFileLocation;
+  }
 
   public TextFileLocation(String systemId, int startLine,
                           int startColumn, int endLine, int endColumn) {

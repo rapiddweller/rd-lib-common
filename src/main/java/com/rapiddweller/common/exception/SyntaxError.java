@@ -44,13 +44,17 @@ public class SyntaxError extends ApplicationException {
     return new SyntaxError(message, null, errorId, uri, SourceType.URI, createLocation(uri));
   }
 
+  public static SyntaxError forText(String message, Throwable cause, String errorId, String text) {
+    return new SyntaxError(message, cause, errorId, text, SourceType.TEXT, null);
+  }
+
   public static SyntaxError forText(String message, Throwable cause, String errorId,
                                     String text, int line, int column) {
     return new SyntaxError(message, cause, errorId, text, SourceType.TEXT, createLocation(line, column));
   }
 
-  public static SyntaxError forText(String message, Throwable cause, String errorId, String text) {
-    return new SyntaxError(message, cause, errorId, text, SourceType.TEXT, null);
+  public static SyntaxError forText(String message, Throwable cause, String errorId, TextFileLocation location) {
+    return new SyntaxError(message, cause, errorId, null, SourceType.TEXT, location);
   }
 
   public static SyntaxError forMissingInfo(String message) {
@@ -63,15 +67,15 @@ public class SyntaxError extends ApplicationException {
           + attribute.getName() + ": '" + attribute.getValue() + "'";
     }
     return new SyntaxError(message, cause, errorId, attribute, SourceType.XML_ATTRIBUTE,
-        getLocation(attribute.getOwnerElement()));
+        TextFileLocation.of(attribute.getOwnerElement()));
   }
 
   public static SyntaxError forXmlElement(String message, Throwable cause, String errorId, Element element) {
-    return new SyntaxError(message, cause, errorId, element, SourceType.XML_ELEMENT, getLocation(element));
+    return new SyntaxError(message, cause, errorId, element, SourceType.XML_ELEMENT, TextFileLocation.of(element));
   }
 
   private SyntaxError(String message, Throwable cause, String errorId,
-                        Object source, SourceType sourceType, TextFileLocation location) {
+                      Object source, SourceType sourceType, TextFileLocation location) {
     super(ExceptionUtil.formatMessageWithLocation(message, cause, location), cause, errorId, ExitCodes.SYNTAX_ERROR);
     this.source = source;
     this.sourceType = sourceType;
@@ -88,14 +92,6 @@ public class SyntaxError extends ApplicationException {
 
   public TextFileLocation getLocation() {
     return location;
-  }
-
-  private static TextFileLocation getLocation(Element element) {
-    TextFileLocation textFileLocation = (TextFileLocation) element.getUserData(TextFileLocation.LOCATION_DATA_KEY);
-    if (textFileLocation == null) {
-      textFileLocation = new TextFileLocation(null, -1, -1, -1, -1);
-    }
-    return textFileLocation;
   }
 
   private static TextFileLocation createLocation(String uri) {
