@@ -15,6 +15,8 @@
 
 package com.rapiddweller.common;
 
+import com.rapiddweller.common.exception.ApplicationException;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -25,6 +27,10 @@ import java.io.StringWriter;
  * @since 0.4.8
  */
 public class ExceptionUtil {
+
+  private ExceptionUtil() {
+    // private constructor to prevent instantiation of this utility class
+  }
 
   public static Throwable getRootCause(Throwable t) {
     Throwable result = t;
@@ -53,8 +59,15 @@ public class ExceptionUtil {
     return sw.toString();
   }
 
-  public static String formatMessageWithLocation(String message, TextFileLocation location) {
+  public static String formatMessageWithLocation(String message, Throwable cause, TextFileLocation location) {
+    // format message
     String result = ExceptionUtil.endWithDotSpace(message != null ? message: "Unspecific error");
+    // format help
+    String help = (cause instanceof ApplicationException ? ((ApplicationException) cause).getHelp() : null);
+    if (help != null) {
+      result = ExceptionUtil.endWithDotSpace(result + help);
+    }
+    // format location
     if (location != null) {
       boolean sidUsed = false;
       if (location.getSystemId() != null) {

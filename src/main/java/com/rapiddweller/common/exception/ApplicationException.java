@@ -12,6 +12,7 @@ public class ApplicationException extends RuntimeException {
 
   private final String errorId;
   private final int exitCode;
+  private String help;
 
   public ApplicationException(String message, String errorId, int exitCode) {
     this(message, null, errorId, exitCode);
@@ -23,12 +24,27 @@ public class ApplicationException extends RuntimeException {
     this.exitCode = exitCode;
   }
 
+  public ApplicationException withHelp(String help) {
+    this.help = help;
+    return this;
+  }
+
   public String getErrorId() {
     return errorId;
   }
 
   public int getExitCode() {
     return exitCode;
+  }
+
+  public String getHelp() {
+    if (help != null) {
+      return help;
+    } else if (getCause() instanceof ApplicationException) {
+      return ((ApplicationException) getCause()).getHelp();
+    } else {
+      return null;
+    }
   }
 
   @Override

@@ -72,7 +72,7 @@ public class SyntaxError extends ApplicationException {
 
   private SyntaxError(String message, Throwable cause, String errorId,
                         Object source, SourceType sourceType, TextFileLocation location) {
-    super(ExceptionUtil.formatMessageWithLocation(message, location), cause, errorId, ExitCodes.SYNTAX_ERROR);
+    super(ExceptionUtil.formatMessageWithLocation(message, cause, location), cause, errorId, ExitCodes.SYNTAX_ERROR);
     this.source = source;
     this.sourceType = sourceType;
     this.location = location;

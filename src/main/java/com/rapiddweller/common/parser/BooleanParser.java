@@ -22,7 +22,8 @@ public class BooleanParser extends AbstractTypedParser<Boolean> {
     } else if ("false".equals(spec)) {
       return false;
     } else {
-      throw ExceptionFactory.getInstance().syntaxErrorForText("Not a boolean", spec);
+      throw ExceptionFactory.getInstance().syntaxErrorForText(
+          "Not a boolean", spec).withHelp("Use 'true' or 'false");
     }
   }
 

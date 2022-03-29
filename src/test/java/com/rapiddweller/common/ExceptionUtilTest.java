@@ -37,13 +37,13 @@ public class ExceptionUtilTest {
 
   @Test
   public void testFormatMessageWithLocation() {
-    assertEquals("Message. ", ExceptionUtil.formatMessageWithLocation("Message", null));
+    assertEquals("Message. ", ExceptionUtil.formatMessageWithLocation("Message", null, null));
     assertEquals("Message. File test.xml", ExceptionUtil.formatMessageWithLocation("Message",
-        new TextFileLocation("test.xml", -1, -1, -1, -1)));
+        null, new TextFileLocation("test.xml", -1, -1, -1, -1)));
     assertEquals("Message. File test.xml, line 5", ExceptionUtil.formatMessageWithLocation("Message",
-        new TextFileLocation("test.xml", 5, 5, 5, 5)));
+        null, new TextFileLocation("test.xml", 5, 5, 5, 5)));
     assertEquals("Message. Line 5", ExceptionUtil.formatMessageWithLocation("Message",
-        new TextFileLocation(null, 5, 5, 5, 5)));
+        null, new TextFileLocation(null, 5, 5, 5, 5)));
   }
 
   @Test
