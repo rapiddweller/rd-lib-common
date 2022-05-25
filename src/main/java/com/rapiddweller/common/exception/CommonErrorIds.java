@@ -39,5 +39,7 @@ public class CommonErrorIds {
 
   public static final String SCRIPT_EXCEPTION = "SCR-0001";
 
+  public static final String DB_QUERY_FAILED = "DBS-0001";
+
   public static final String OUT_OF_MEMORY = "MEM-0001";
 }

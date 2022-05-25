@@ -187,7 +187,11 @@ public class ExceptionFactory {
   }
 
   public QueryFailed queryFailed(String message, Throwable cause) {
-    return new QueryFailed(message, cause);
+    return new QueryFailed(message, cause, CommonErrorIds.DB_QUERY_FAILED);
+  }
+
+  public DBQueryFailed dbQueryFailed(String message, Throwable cause) {
+    return new DBQueryFailed(message, cause);
   }
 
   public ComponentInitializationFailure componentInitializationFailed(String componentName, Throwable cause) {
