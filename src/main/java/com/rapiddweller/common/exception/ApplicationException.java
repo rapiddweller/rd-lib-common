@@ -2,6 +2,8 @@
 
 package com.rapiddweller.common.exception;
 
+import com.rapiddweller.common.TextFileLocation;
+
 /**
  * Parent class for unchecked application exceptions.<br/><br/>
  * Created: 17.11.2021 22:23:40
@@ -13,6 +15,7 @@ public class ApplicationException extends RuntimeException {
   private String errorId;
   private int exitCode;
   private String help;
+  private TextFileLocation location;
 
   public ApplicationException(String message, String errorId, int exitCode) {
     this(message, null, errorId, exitCode);
@@ -22,6 +25,14 @@ public class ApplicationException extends RuntimeException {
     super(message, cause);
     this.errorId = errorId;
     this.exitCode = exitCode;
+  }
+
+  public TextFileLocation getLocation() {
+    return location;
+  }
+
+  public void setLocation(TextFileLocation location) {
+    this.location = location;
   }
 
   public ApplicationException withHelp(String help) {
