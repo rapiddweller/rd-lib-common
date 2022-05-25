@@ -69,7 +69,7 @@ public class ExceptionUtil {
     // format message
     String result = ExceptionUtil.endWithDotSpace(message != null ? message: "Unspecific error");
     if (!isEmpty(scriptText)) {
-      result += "Script text: '" + scriptText + "'";
+      result = ExceptionUtil.endWithDotSpace(result + "Script text: '" + scriptText + "'");
     }
     // format help
     String help = (cause instanceof ApplicationException ? ((ApplicationException) cause).getHelp() : null);
