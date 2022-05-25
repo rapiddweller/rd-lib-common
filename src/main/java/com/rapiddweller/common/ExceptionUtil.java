@@ -20,6 +20,8 @@ import com.rapiddweller.common.exception.ApplicationException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import static com.rapiddweller.common.StringUtil.isEmpty;
+
 /**
  * Provides Exception related utilities.
  * Created at 23.02.2009 13:13:19
@@ -60,8 +62,15 @@ public class ExceptionUtil {
   }
 
   public static String formatMessageWithLocation(String message, Throwable cause, TextFileLocation location) {
+    return formatMessageWithTextAndLocation(message, cause, null, location);
+  }
+
+  public static String formatMessageWithTextAndLocation(String message, Throwable cause, String scriptText, TextFileLocation location) {
     // format message
     String result = ExceptionUtil.endWithDotSpace(message != null ? message: "Unspecific error");
+    if (!isEmpty(scriptText)) {
+      result += "Script text: '" + scriptText + "'";
+    }
     // format help
     String help = (cause instanceof ApplicationException ? ((ApplicationException) cause).getHelp() : null);
     if (help != null) {
