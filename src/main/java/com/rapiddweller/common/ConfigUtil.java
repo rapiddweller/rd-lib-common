@@ -85,8 +85,17 @@ public class ConfigUtil {
   /** Feature to disable tests which is activated by having a file ~/rapiddweller/testing.properties
    *  and assigning false to a test code, like mysql=false */
   public static boolean isTestActive(String code) {
+    return isTestActive(code, false);
+  }
+
+  /** Feature to enable/disable tests which is activated by having a file ~/rapiddweller/testing.properties
+   *  and assigning a boolean value to a test system id, like mysql=true */
+  public static boolean isTestActive(String code, boolean defaultActive) {
     String setting = testSettings.get(code);
-    return (!"false".equalsIgnoreCase(setting));
+    if (StringUtil.isEmpty(setting)) {
+      return defaultActive;
+    }
+    return ("true".equalsIgnoreCase(setting));
   }
 
   /** Returns a {@link java.io.File} object that points to the root of all cache folders.
