@@ -1361,6 +1361,10 @@ public final class BeanUtil {
     return text.substring(0, i).toLowerCase() + text.substring(i);
   }
 
+  public static String packageFolder(Class clazz) {
+    return clazz.getPackageName().replace('.', SystemInfo.getFileSeparator());
+  }
+
   // private helpers -------------------------------------------------------------------------------------------------
 
   private static boolean typeMatches(Class<?> foundType, Class<?> expectedType) {
