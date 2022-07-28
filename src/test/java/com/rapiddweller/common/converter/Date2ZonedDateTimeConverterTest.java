@@ -23,7 +23,7 @@ public class Date2ZonedDateTimeConverterTest extends AbstractDateConverterTest {
 
 	@Test
 	public void test() {
-		assertEquals(ZDT_MILLIS, new Date2ZonedDateTimeConverter(ZoneId.of("Europe/Berlin")).convert(DATE));
+		assertEquals(ZDT_MILLIS, new Date2ZonedDateTimeConverter(BERLIN).convert(DATE));
 	}
 
 }

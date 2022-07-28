@@ -2,8 +2,6 @@
 
 package com.rapiddweller.common.converter;
 
-import com.rapiddweller.common.JavaTimeUtil;
-
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -37,7 +35,7 @@ public class Date2ZonedDateTimeConverter extends ThreadSafeConverter<Date, Zoned
 
 	@Override
 	public ZonedDateTime convert(Date sourceValue) {
-		return JavaTimeUtil.toZonedDateTime(sourceValue, zone);
+		return ZonedDateTime.ofInstant(sourceValue.toInstant(), zone);
 	}
 
 }
