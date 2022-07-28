@@ -58,7 +58,7 @@ public class HFTest {
   }
 
   @Test
-  public void testPluralize() {
+  public void testPluralize1() {
     assertEquals("1 degree", HF.pluralize(1, "degree"));
     assertEquals("-5 degrees", HF.pluralize(-5, "degree"));
     assertEquals("-10 DEGREES", HF.pluralize(-10, "DEGREE"));
@@ -69,6 +69,12 @@ public class HFTest {
 
     assertEquals("2 kisses", HF.pluralize(2, "kiss"));
     assertEquals("2 KISSES", HF.pluralize(2, "KISS"));
+  }
+
+  @Test
+  public void testPluralize2() {
+    assertEquals("1 day", HF.pluralize(1, "day", "days"));
+    assertEquals("2 days", HF.pluralize(2, "day", "days"));
   }
 
   @Test

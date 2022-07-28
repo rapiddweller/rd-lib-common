@@ -40,6 +40,9 @@ public class HF {
   private static final DecimalFormat LONG_FMT = new DecimalFormat("#,##0", US_SYMBOLS);
   private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
 
+  public static final String MINUTES = "minutes";
+  public static final String SECONDS = "seconds";
+
   private HF() {
     // private constructor to prevent instantiation of this utility class
   }
@@ -80,17 +83,17 @@ public class HF {
     if (hours >= 10) {
       return hours + " hours";
     } else if (hours > 1) {
-      return hours + " hours " + minutes + " minutes";
+      return hours + " hours " + minutes + " " + MINUTES;
     } else if (hours == 1) {
       return "1 hour" + (minutes > 0 ? " " + minutes + " minutes" : "");
     } else if (minutes > 10) {
-      return minutes + " minutes";
+      return minutes + " " + MINUTES;
     } else if (minutes > 2) {
-      return minutes + " minutes " + seconds + " seconds";
+      return minutes + " " + MINUTES + " " + seconds + " " + SECONDS;
     } else if (minutes == 1) {
-      return "1 minute" + (seconds > 0 ? " " + seconds + " seconds" : "");
+      return "1 minute" + (seconds > 0 ? " " + seconds + " " + SECONDS : "");
     } else if (seconds > 1) {
-      return seconds + " seconds";
+      return seconds + " " + SECONDS;
     } else if (seconds == 1) {
       return "1 second";
     } else {
@@ -117,6 +120,19 @@ public class HF {
       result += name + 'S';
     } else {
       result += name + 's';
+    }
+    return result;
+  }
+
+  public static String pluralize(long count, String singular, String plural) {
+    if (singular == null) {
+      return singular;
+    }
+    String result = format(count) + ' ';
+    if (count == 1) {
+      result += singular;
+    } else {
+      result += plural;
     }
     return result;
   }
