@@ -33,6 +33,8 @@ public class JavaTimeUtil {
   private static final DateTimeFormatter HM_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
   private static final DateTimeFormatter HMS_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
 
+  private static final ZoneId UTC = ZoneId.of("UTC");
+
   @SuppressWarnings("unchecked")
   static final Map<String, DayOfWeek> WEEKDAY_NAMES = CollectionUtil.buildMap(
       "SUN", DayOfWeek.SUNDAY,
@@ -93,8 +95,16 @@ public class JavaTimeUtil {
     return dateTime.toInstant().toEpochMilli();
   }
 
+  public static long millisSinceEpoch(LocalDateTime dateTime) {
+    return dateTime.atZone(UTC).toInstant().toEpochMilli();
+  }
+
   public static long millisSinceEpoch(LocalDate date) {
     return date.toEpochDay() * TimeUtil.DAY_MILLIS;
+  }
+
+  public static long nanosSinceEpoch(ZonedDateTime dateTime) {
+    return dateTime.toInstant().getEpochSecond() * 1000000000L + dateTime.getNano();
   }
 
   public static Date toDate(ZonedDateTime dateTime) {
@@ -145,7 +155,7 @@ public class JavaTimeUtil {
     return toLocalDateTime(Instant.ofEpochMilli(millis));
   }
 
-  private static LocalDateTime toLocalDateTime(Instant instant) {
+  public static LocalDateTime toLocalDateTime(Instant instant) {
     return instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
   }
 
@@ -155,6 +165,14 @@ public class JavaTimeUtil {
 
   public static ZonedDateTime toZonedDateTime(long millis, ZoneId zone) {
     return Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).withZoneSameInstant(zone);
+  }
+
+  public static ZonedDateTime toZonedDateTime(Date date, ZoneId zone) {
+    return date.toInstant().atZone(zone);
+  }
+
+  public static ZonedDateTime nanosToZonedDateTime(long nanos, ZoneId zone) {
+    return Instant.ofEpochSecond(nanos / 1000000000L).atZone(UTC).withZoneSameInstant(zone).withNano((int) (nanos % 1000000000));
   }
 
   public static ZonedDateTime toZonedDateTime(LocalDate date, ZoneId zone) {

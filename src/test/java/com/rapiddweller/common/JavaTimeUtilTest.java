@@ -23,10 +23,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -37,12 +35,13 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests the {@link JavaTimeUtil}.<br><br>
  * Created: 19.11.2019 12:53:42
- *
  * @author Volker Bergmann
  * @since 1.0
  */
 
 public class JavaTimeUtilTest {
+
+  public static final ZoneId UTC = ZoneId.of("UTC");
 
   @Test
   public void test() {
@@ -98,24 +97,18 @@ public class JavaTimeUtilTest {
   }
 
   @Test
-  public void testMillisSinceEpoch() {
+  public void testMillisSinceEpoch_LocalDate() {
     assertEquals(86400000L, JavaTimeUtil.millisSinceEpoch(LocalDate.ofEpochDay(1L)));
   }
 
   @Test
-  public void testMillisSinceEpoch2() {
-    LocalDateTime localDateTime = LocalDateTime.of(1, 1, 1, 1, 1);
-    ZoneOffset offset = ZoneOffset.ofTotalSeconds(1);
-    assertEquals(-62135593141000L, JavaTimeUtil.millisSinceEpoch(
-        ZonedDateTime.ofInstant(localDateTime, offset, ZoneId.ofOffset("", ZoneOffset.ofTotalSeconds(1)))));
-  }
-
-  @Test
-  public void testMillisSinceEpoch3() {
-    LocalDateTime localDateTime = LocalDateTime.of(0, 1, 1, 1, 1);
-    ZoneOffset offset = ZoneOffset.ofTotalSeconds(1);
-    assertEquals(-62167215541000L, JavaTimeUtil.millisSinceEpoch(
-        ZonedDateTime.ofInstant(localDateTime, offset, ZoneId.ofOffset("", ZoneOffset.ofTotalSeconds(1)))));
+  public void testMillisSinceEpoch_ZonedDateTime() {
+    assertEquals(0L, JavaTimeUtil.millisSinceEpoch(
+        ZonedDateTime.of(1970, 1, 1, 0, 0, 0, 0, UTC)));
+    assertEquals(-TimeUtil.HOUR_MILLIS, JavaTimeUtil.millisSinceEpoch(
+        ZonedDateTime.of(1970, 1, 1, 0, 0, 0, 0, ZoneId.of("Europe/Berlin"))));
+    assertEquals(5 * TimeUtil.HOUR_MILLIS, JavaTimeUtil.millisSinceEpoch(
+        ZonedDateTime.of(1970, 1, 1, 0, 0, 0, 0, ZoneId.of("America/New_York"))));
   }
 
   @Test
@@ -169,6 +162,13 @@ public class JavaTimeUtilTest {
   public void testDayOfWeekInMonthId() {
     assertEquals(15, JavaTimeUtil.dayOfWeekInMonthId(LocalDate.ofEpochDay(1L)));
     assertEquals(24, JavaTimeUtil.dayOfWeekInMonthId(LocalDate.ofEpochDay(7L)));
+  }
+
+  @Test
+  public void testNanosToZonedDateTime() {
+    ZonedDateTime EPOCH_0_ZDT = ZonedDateTime.of(1970, 1, 1, 0, 0, 0, 0, UTC);
+    assertEquals(EPOCH_0_ZDT, JavaTimeUtil.nanosToZonedDateTime(0L, UTC));
+    assertEquals(EPOCH_0_ZDT.plusHours(1), JavaTimeUtil.nanosToZonedDateTime(TimeUtil.HOUR_MILLIS * 1000000L, UTC));
   }
 
   private static LocalDate ld(String spec) {
