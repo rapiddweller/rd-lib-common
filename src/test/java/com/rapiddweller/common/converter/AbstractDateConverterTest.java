@@ -76,11 +76,8 @@ public abstract class AbstractDateConverterTest extends AbstractConverterTest {
 
 	public static final LocalDate LOCAL_DATE = LocalDate.of(2022, 7, 28);
 
-	/** The reference timepoint in the time of Chicago but with the system's default time zone */
 	public static final Date DATE_BERLIN_DTZ = TimeUtil.date(2022, 6, 28, 13, 44, 58, 123);
 	public static final Date DATE_LONDON_DTZ = TimeUtil.date(2022, 6, 28, 12, 44, 58, 123);
-
-	/** The reference timepoint in the time of Chicago but with the system's default time zone */
 	public static final Date DATE_CHICAGO_DTZ = TimeUtil.date(2022, 6, 28, 6, 44, 58, 123);
 
 	public static final Date DATE_MIDNIGHT = TimeUtil.date(2022, 6, 28, 0, 0, 0, 0);

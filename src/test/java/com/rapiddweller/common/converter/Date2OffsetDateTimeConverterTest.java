@@ -4,8 +4,11 @@ package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConfigurationError;
 import com.rapiddweller.common.JavaTimeUtil;
+import com.rapiddweller.common.TimeUtil;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -34,13 +37,14 @@ public class Date2OffsetDateTimeConverterTest extends AbstractDateConverterTest 
 
 	@Test
 	public void testDefaultConstructor_berlin_date() {
-		JavaTimeUtil.runInZone(BERLIN, () ->
-		assertEqualOffsetDateTimes(ODT_MILLIS_BERLIN, new Date2OffsetDateTimeConverter().convert(DATE_BERLIN_DTZ))
+		JavaTimeUtil.runInZone(BERLIN, () -> {
+				Date dateBerlin = TimeUtil.date(2022, 6, 28, 13, 44, 58, 123);
+				assertEqualOffsetDateTimes(ODT_MILLIS_BERLIN, new Date2OffsetDateTimeConverter().convert(dateBerlin));
+			}
 		);
 	}
 
 	@Test
-	// CI message: Date2OffsetDateTimeConverterTest.testZone_berlin:46 expected:<2022-07-28T13:44:58.123+02:00> but was:<2022-07-28T15:44:58.123+02:00>
 	public void testZone_berlin() {
 		assertEquals(ODT_MILLIS_BERLIN, new Date2OffsetDateTimeConverter(BERLIN).convert(DATE_BERLIN_DTZ));
 	}

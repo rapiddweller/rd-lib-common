@@ -3,8 +3,10 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.JavaTimeUtil;
-import org.junit.Ignore;
+import com.rapiddweller.common.TimeUtil;
 import org.junit.Test;
+
+import java.util.Date;
 
 import static org.junit.Assert.assertNull;
 
@@ -31,14 +33,18 @@ public class OffsetDateTime2DateConverterTest extends AbstractDateConverterTest 
 
 	@Test
 	public void testDefaultWithBerlinTime() {
-		JavaTimeUtil.runInZone(BERLIN,
-			() -> assertEqualDates(DATE_BERLIN_DTZ, new OffsetDateTime2DateConverter().convert(ODT_NANOS_BERLIN)));
+		JavaTimeUtil.runInZone(BERLIN, () -> {
+			Date dateBerlin = TimeUtil.date(2022, 6, 28, 13, 44, 58, 123);
+			assertEqualDates(dateBerlin, new OffsetDateTime2DateConverter().convert(ODT_NANOS_BERLIN));
+		});
 	}
 
 	@Test
 	public void testDefaultWithChicagoTime() {
-		JavaTimeUtil.runInZone(BERLIN,
-			() -> assertEqualDates(DATE_CHICAGO_DTZ, new OffsetDateTime2DateConverter().convert(ODT_NANOS_CHICAGO)));
+		JavaTimeUtil.runInZone(BERLIN, () -> {
+			Date chicagoDateInZoneBerlin = TimeUtil.date(2022, 6, 28, 6, 44, 58, 123);
+			assertEqualDates(chicagoDateInZoneBerlin, new OffsetDateTime2DateConverter().convert(ODT_NANOS_CHICAGO));
+		});
 	}
 
 	@Test
@@ -66,22 +72,34 @@ public class OffsetDateTime2DateConverterTest extends AbstractDateConverterTest 
 
 	@Test
 	public void testZoneBerlin() {
-		assertEqualDates(DATE_BERLIN_DTZ, berlinConverter.convert(ODT_NANOS_BERLIN));
+		JavaTimeUtil.runInZone(BERLIN, () -> {
+			Date dateBerlin = TimeUtil.date(2022, 6, 28, 13, 44, 58, 123);
+			assertEqualDates(dateBerlin, berlinConverter.convert(ODT_NANOS_BERLIN));
+		});
 	}
 
 	@Test
 	public void testZoneChicago() {
-		assertEqualDates(DATE_CHICAGO_DTZ, chicagoConverter.convert(ODT_NANOS_CHICAGO));
+		JavaTimeUtil.runInZone(CHICAGO, () -> {
+			Date dateChicago = TimeUtil.date(2022, 6, 28, 6, 44, 58, 123);
+			assertEqualDates(dateChicago, chicagoConverter.convert(ODT_NANOS_CHICAGO));
+		});
 	}
 
 	@Test
 	public void testBerlinTimeAtZoneChicago() {
-		assertEqualDates(DATE_CHICAGO_DTZ, chicagoConverter.convert(ODT_NANOS_BERLIN));
+		JavaTimeUtil.runInZone(CHICAGO, () -> {
+			Date dateChicago = TimeUtil.date(2022, 6, 28, 6, 44, 58, 123);
+			assertEqualDates(dateChicago, chicagoConverter.convert(ODT_NANOS_BERLIN));
+		});
 	}
 
 	@Test
 	public void testChicagoTimeAtZoneBerlin() {
-		assertEqualDates(DATE_BERLIN_DTZ, berlinConverter.convert(ODT_NANOS_CHICAGO));
+		JavaTimeUtil.runInZone(BERLIN, () -> {
+			Date dateBerlin = TimeUtil.date(2022, 6, 28, 13, 44, 58, 123);
+			assertEqualDates(dateBerlin, berlinConverter.convert(ODT_NANOS_CHICAGO));
+		});
 	}
 
 }
