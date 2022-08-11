@@ -35,8 +35,12 @@ public class Time2StringConverter extends ThreadSafeConverter<Time, String> {
   }
 
   @Override
-  public String convert(Time target) throws ConversionException {
-    return new SimpleDateFormat(Patterns.DEFAULT_TIME_MILLIS_PATTERN).format(new Date(target.getTime()));
+  public String convert(Time sourceValue) throws ConversionException {
+    if (sourceValue == null) {
+      return null;
+    } else {
+      return new SimpleDateFormat(Patterns.DEFAULT_TIME_MILLIS_PATTERN).format(new Date(sourceValue.getTime()));
+    }
   }
 
 }

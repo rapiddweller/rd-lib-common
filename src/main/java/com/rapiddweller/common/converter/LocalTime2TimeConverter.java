@@ -19,8 +19,12 @@ public class LocalTime2TimeConverter extends ThreadSafeConverter<LocalTime, Time
 
 	@Override
 	public Time convert(LocalTime sourceValue) {
-		Time tmp = Time.valueOf(sourceValue); // this ignores milliseconds
-		return new Time(tmp.getTime() + ((sourceValue.toNanoOfDay() / 1000000) % 1000)); // add milliseconds
+		if (sourceValue == null) {
+			return null;
+		} else {
+			Time tmp = Time.valueOf(sourceValue); // this ignores milliseconds
+			return new Time(tmp.getTime() + ((sourceValue.toNanoOfDay() / 1000000) % 1000)); // add milliseconds
+		}
 	}
 
 }

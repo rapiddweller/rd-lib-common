@@ -19,7 +19,11 @@ public class LocalDateTime2TimestampConverter extends ThreadSafeConverter<LocalD
 
 	@Override
 	public Timestamp convert(LocalDateTime sourceValue) {
-		return Timestamp.valueOf(sourceValue);
+		if (sourceValue == null) {
+			return null;
+		} else {
+			return Timestamp.valueOf(sourceValue);
+		}
 	}
 
 }

@@ -21,7 +21,11 @@ public class Timestamp2LocalDateTimeConverter extends ThreadSafeConverter<Timest
 
 	@Override
 	public LocalDateTime convert(Timestamp sourceValue) {
-		return JavaTimeUtil.toLocalDateTime(sourceValue.toInstant());
+		if (sourceValue == null) {
+			return null;
+		} else {
+			return JavaTimeUtil.toLocalDateTime(sourceValue.toInstant());
+		}
 	}
 
 }

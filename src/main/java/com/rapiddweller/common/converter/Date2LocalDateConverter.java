@@ -13,15 +13,19 @@ import java.util.Date;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class DateToLocalDateConverter extends ThreadSafeConverter<Date, LocalDate> {
+public class Date2LocalDateConverter extends ThreadSafeConverter<Date, LocalDate> {
 
-	public DateToLocalDateConverter() {
+	public Date2LocalDateConverter() {
 		super(Date.class, LocalDate.class);
 	}
 
 	@Override
 	public LocalDate convert(Date sourceValue) {
-		return JavaTimeUtil.toLocalDate(sourceValue);
+		if (sourceValue == null) {
+			return null;
+		} else {
+			return JavaTimeUtil.toLocalDate(sourceValue);
+		}
 	}
 
 }

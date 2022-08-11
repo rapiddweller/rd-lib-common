@@ -3,6 +3,8 @@
 package com.rapiddweller.common.converter;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 /**
@@ -11,15 +13,24 @@ import java.time.ZonedDateTime;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class ZonedDateTime2TimestampConverter extends ThreadSafeConverter<ZonedDateTime, Timestamp> {
+public class ZonedDateTime2TimestampConverter extends AbstractZonedDateTimeConverter<Timestamp> {
 
 	public ZonedDateTime2TimestampConverter() {
-		super(ZonedDateTime.class, Timestamp.class);
+		this(null);
+	}
+
+	public ZonedDateTime2TimestampConverter(ZoneId zone) {
+		super(Timestamp.class, zone);
 	}
 
 	@Override
 	public Timestamp convert(ZonedDateTime sourceValue) {
-		return Timestamp.valueOf(sourceValue.toLocalDateTime());
+		if (sourceValue == null) {
+			return null;
+		} else {
+			LocalDateTime ldtAtTargetZone = localDateTimeAtTargetZone(sourceValue);
+			return toTimestamp(ldtAtTargetZone);
+		}
 	}
 
 }

@@ -4,6 +4,7 @@ package com.rapiddweller.common;
 
 import com.rapiddweller.common.exception.ExceptionFactory;
 
+import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * Provides utility methods for the classes from the java.time package and their conversion
@@ -116,6 +118,11 @@ public class JavaTimeUtil {
       return null;
     ZonedDateTime zdt = dateTime.atZone(ZoneId.systemDefault());
     return Date.from(zdt.toInstant());
+  }
+
+  public static Time toTime(LocalTime localTime) {
+    Time timeInSeconds = Time.valueOf(localTime);
+    return new Time(timeInSeconds.getTime() + localTime.getNano() / 1000000);
   }
 
   public static Calendar toCalendar(LocalDate localDate) {
@@ -329,6 +336,26 @@ public class JavaTimeUtil {
   public static String format(LocalTime time) {
     return time.format(formatterFor(time));
   }
+
+  public static void runInZone(ZoneId zoneId, Runnable action) {
+    TimeZone originalZone = TimeZone.getDefault();
+    try {
+      TimeZone.setDefault(toTimeZone(zoneId));
+      action.run();
+    } finally {
+      TimeZone.setDefault(originalZone);
+    }
+  }
+
+  public static TimeZone toTimeZone(ZoneId zoneId) {
+    return (zoneId != null ? TimeZone.getTimeZone(zoneId) : null);
+  }
+
+  public static ZoneId toZoneId(TimeZone zone) {
+    return (zone != null ? zone.toZoneId() : null);
+  }
+
+  // private helpers -------------------------------------------------------------------------------------------------
 
   private static DateTimeFormatter parserFor(String spec) {
     return (spec.length() == 8 ? HMS_FORMATTER : HM_FORMATTER);

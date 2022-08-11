@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
@@ -38,6 +39,11 @@ public class DateString2DurationConverterTest extends AbstractConverterTest {
 
   public DateString2DurationConverterTest() {
     super(DateString2DurationConverter.class);
+  }
+
+  @Test
+  public void testNullValue() {
+    assertNull(new DateString2DurationConverter().convert(null));
   }
 
   @Test

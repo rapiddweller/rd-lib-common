@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.sql.Time;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests the {@link LocalTime2TimeConverter}.<br/><br/>
@@ -22,6 +23,11 @@ public class LocalTime2TimeConverterTest extends AbstractDateConverterTest {
 	}
 
 	@Test
+	public void testNullValue() {
+		assertNull(new LocalTime2TimeConverter().convert(null));
+	}
+
+	@Test
 	public void test() {
 		LocalTime2TimeConverter converter = new LocalTime2TimeConverter();
 		System.out.println(LOCAL_TIME_MILLIS + " " + LOCAL_TIME_MILLIS.toNanoOfDay() / 1000000);
@@ -31,4 +37,5 @@ public class LocalTime2TimeConverterTest extends AbstractDateConverterTest {
 		assertEquals(TIME, tmp);
 		assertEquals(TIME, converter.convert(LOCAL_TIME_NANOS));
 	}
+
 }

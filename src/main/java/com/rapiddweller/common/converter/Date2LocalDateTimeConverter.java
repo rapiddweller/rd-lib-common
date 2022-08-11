@@ -21,7 +21,11 @@ public class Date2LocalDateTimeConverter extends ThreadSafeConverter<Date, Local
 
 	@Override
 	public LocalDateTime convert(Date sourceValue) {
-		return JavaTimeUtil.toLocalDateTime(sourceValue);
+		if (sourceValue == null) {
+			return null;
+		} else {
+			return JavaTimeUtil.toLocalDateTime(sourceValue);
+		}
 	}
 
 }

@@ -2,8 +2,8 @@
 
 package com.rapiddweller.common.converter;
 
-import com.rapiddweller.common.JavaTimeUtil;
-
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
@@ -13,15 +13,24 @@ import java.util.Date;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class ZonedDateTime2DateConverter extends ThreadSafeConverter<ZonedDateTime, Date> {
+public class ZonedDateTime2DateConverter extends AbstractZonedDateTimeConverter<Date> {
 
 	public ZonedDateTime2DateConverter() {
-		super(ZonedDateTime.class, Date.class);
+		this(null);
+	}
+
+	public ZonedDateTime2DateConverter(ZoneId zone) {
+		super(Date.class, zone);
 	}
 
 	@Override
 	public Date convert(ZonedDateTime sourceValue) {
-		return JavaTimeUtil.toDate(sourceValue);
+		if (sourceValue == null) {
+			return null;
+		} else {
+			LocalDateTime ldtAtTargetZone = localDateTimeAtTargetZone(sourceValue);
+			return toDate(ldtAtTargetZone);
+		}
 	}
 
 }

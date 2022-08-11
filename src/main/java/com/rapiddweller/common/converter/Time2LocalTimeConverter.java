@@ -19,9 +19,13 @@ public class Time2LocalTimeConverter extends ThreadSafeConverter<Time, LocalTime
 
 	@Override
 	public LocalTime convert(Time sourceValue) {
-		LocalTime tmp = sourceValue.toLocalTime(); // this drops millis of second
-		long millis = sourceValue.getTime() % 1000;
-		return tmp.plusNanos(millis * 1000000); // add millis of second
+		if (sourceValue == null) {
+			return null;
+		} else {
+			LocalTime tmp = sourceValue.toLocalTime(); // this drops millis of second
+			long millis = sourceValue.getTime() % 1000;
+			return tmp.plusNanos(millis * 1000000); // add millis of second
+		}
 	}
 
 }

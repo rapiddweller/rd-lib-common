@@ -5,6 +5,7 @@ package com.rapiddweller.common.converter;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests the {@link Time2LocalTimeConverter}.<br/><br/>
@@ -16,6 +17,11 @@ public class Time2LocalTimeConverterTest extends AbstractDateConverterTest {
 
 	public Time2LocalTimeConverterTest() {
 		super(Time2LocalTimeConverter.class);
+	}
+
+	@Test
+	public void testNullValue() {
+		assertNull(new Time2LocalTimeConverter().convert(null));
 	}
 
 	@Test

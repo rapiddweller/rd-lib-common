@@ -5,6 +5,7 @@ package com.rapiddweller.common.converter;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests the {@link Timestamp2LocalDateTimeConverter}.<br/><br/>
@@ -19,8 +20,13 @@ public class Timestamp2LocalDateTimeConverterTest extends AbstractDateConverterT
 	}
 
 	@Test
+	public void testNullValue() {
+		assertNull(new Timestamp2LocalDateTimeConverter().convert(null));
+	}
+
+	@Test
 	public void test() {
-		assertEquals(LDT_NANOS, new Timestamp2LocalDateTimeConverter().convert(TIMESTAMP));
+		assertEquals(LDT_NANOS_BERLIN, new Timestamp2LocalDateTimeConverter().convert(TIMESTAMP_BERLIN));
 	}
 
 }

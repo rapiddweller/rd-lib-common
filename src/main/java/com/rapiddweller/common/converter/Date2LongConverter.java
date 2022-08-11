@@ -16,42 +16,48 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.JavaTimeUtil;
+import com.rapiddweller.common.LoggerEscalator;
 
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.TimeZone;
 
 /**
  * Converts a {@link Date} into the number of milliseconds since 1970-01-01 in a certain time zone and back.
- * By default it uses the system's default time zone.
+ * By default, it uses the system's default time zone.
  * Created: 05.08.2007 07:10:25
  * @author Volker Bergmann
  */
-public class Date2LongConverter extends ThreadSafeConverter<Date, Long> {
+public class Date2LongConverter extends AbstractZonedConverter<Date, Long> {
 
-  private TimeZone timeZone;
+  private static final LoggerEscalator escalator = new LoggerEscalator();
+  public static final String DEPRECATION_MESSAGE = "Property 'timeZone' of " + Date2LongConverter.class.getSimpleName() +
+      " is deprecated and will be removed in a future version. Please use property 'zone' instead";
 
-  // construcors -----------------------------------------------------------------------------------------------------
+  // constructors ----------------------------------------------------------------------------------------------------
 
   public Date2LongConverter() {
-    this(TimeZone.getDefault());
+    this(ZoneId.systemDefault());
   }
 
-  public Date2LongConverter(TimeZone timeZone) {
-    super(Date.class, Long.class);
-    this.timeZone = timeZone;
+  public Date2LongConverter(ZoneId zone) {
+    super(Date.class, Long.class, zone);
   }
 
   // properties ------------------------------------------------------------------------------------------------------
 
   public TimeZone getTimeZone() {
-    return timeZone;
+    escalateTimeZoneDeprecation();
+    return JavaTimeUtil.toTimeZone(getZone());
   }
 
   public void setTimeZone(TimeZone timeZone) {
-    this.timeZone = timeZone;
+    escalateTimeZoneDeprecation();
+    setZone(JavaTimeUtil.toZoneId(timeZone));
   }
 
-  // BidirectionalConverter interface implementation -----------------------------------------------------------------
+  // Converter interface implementation ------------------------------------------------------------------------------
 
   @Override
   public Class<Long> getTargetType() {
@@ -62,8 +68,20 @@ public class Date2LongConverter extends ThreadSafeConverter<Date, Long> {
   public Long convert(Date sourceValue) throws ConversionException {
     if (sourceValue == null) {
       return null;
+    } else {
+      long result = sourceValue.getTime();
+      if (zone != null) {
+        result += zone.getRules().getOffset(sourceValue.toInstant()).getTotalSeconds() * 1000L
+          - ZoneId.systemDefault().getRules().getOffset(sourceValue.toInstant()).getTotalSeconds() * 1000L;
+      }
+      return result;
     }
-    return sourceValue.getTime() + timeZone.getRawOffset();
+  }
+
+  // private helpers -------------------------------------------------------------------------------------------------
+
+  private void escalateTimeZoneDeprecation() {
+    escalator.escalate(DEPRECATION_MESSAGE, Date2LongConverter.class, null);
   }
 
 }

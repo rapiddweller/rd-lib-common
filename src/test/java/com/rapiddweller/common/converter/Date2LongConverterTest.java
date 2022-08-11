@@ -16,41 +16,58 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.TimeUtil;
 import org.junit.Test;
 
 import java.util.SimpleTimeZone;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 /**
  * Tests the {@link Date2LongConverter}.
  * Created at 05.01.2009 18:22:11
- *
  * @author Volker Bergmann
  * @since 0.4.7
  */
 
-public class Date2LongConverterTest extends AbstractConverterTest {
-
-  @Test
-  public void testSetTimeZone() {
-    SimpleTimeZone simpleTimeZone = new SimpleTimeZone(1, "ID");
-    Date2LongConverter date2LongConverter = new Date2LongConverter();
-    date2LongConverter.setTimeZone(simpleTimeZone);
-    assertSame(simpleTimeZone, date2LongConverter.getTimeZone());
-  }
+public class Date2LongConverterTest extends AbstractDateConverterTest {
 
   public Date2LongConverterTest() {
     super(Date2LongConverter.class);
   }
 
+  @Test
+  public void testSetTimeZone() {
+    Date2LongConverter date2LongConverter = new Date2LongConverter();
+    date2LongConverter.setTimeZone(BERLIN_TZ);
+    assertEquals(BERLIN_TZ, date2LongConverter.getTimeZone());
+    date2LongConverter.setTimeZone(CHICAGO_TZ);
+    assertEquals(CHICAGO_TZ, date2LongConverter.getTimeZone());
+  }
 
   @Test
-  public void testConvert3() throws ConversionException {
-    Date2LongConverter date2LongConverter = new Date2LongConverter();
-    date2LongConverter.setTimeZone(null);
-    assertNull(date2LongConverter.convert(null));
+  public void testNullValueConversion() {
+    assertNull(new Date2LongConverter().convert(null));
+  }
+
+  @Test
+  public void testNullZoneConversion() throws ConversionException {
+    TimeUtil.runInTimeZone(BERLIN_TZ,
+        () -> assertEquals(MILLIS_BERLIN, (long) new Date2LongConverter(null).convert(DATE_BERLIN)));
+    TimeUtil.runInTimeZone(CHICAGO_TZ,
+        () -> assertEquals(MILLIS_CHICAGO, (long) new Date2LongConverter(null).convert(DATE_CHICAGO)));
+  }
+
+  @Test
+  public void testZonedConversion_berlin() throws ConversionException {
+    assertEquals(MILLIS_BERLIN, (long) new Date2LongConverter(BERLIN).convert(DATE_BERLIN));
+  }
+
+  @Test
+  public void testZonedConversion_chicago() throws ConversionException {
+    assertEquals(MILLIS_CHICAGO, (long) new Date2LongConverter(CHICAGO).convert(DATE_CHICAGO));
   }
 
 }

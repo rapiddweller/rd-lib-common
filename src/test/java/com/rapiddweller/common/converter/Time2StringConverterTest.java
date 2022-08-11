@@ -6,8 +6,15 @@ import org.junit.Test;
 import java.sql.Time;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class Time2StringConverterTest {
+
+  @Test
+  public void testNullValue() {
+    assertNull(new Time2StringConverter().convert(null));
+  }
+
   @Test
   public void testConvert() throws ConversionException {
     Time target = new Time(10L);

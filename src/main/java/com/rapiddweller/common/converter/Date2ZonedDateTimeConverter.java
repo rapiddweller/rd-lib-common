@@ -12,30 +12,23 @@ import java.util.Date;
  * @author Volker Bergmann
  * @since 2.0.0
  */
-public class Date2ZonedDateTimeConverter extends ThreadSafeConverter<Date, ZonedDateTime> {
-
-	private ZoneId zone;
+public class Date2ZonedDateTimeConverter extends AbstractZonedConverter<Date, ZonedDateTime> {
 
 	public Date2ZonedDateTimeConverter() {
 		this(ZoneId.systemDefault());
 	}
 
 	public Date2ZonedDateTimeConverter(ZoneId zone) {
-		super(Date.class, ZonedDateTime.class);
-		this.zone = zone;
-	}
-
-	public ZoneId getZone() {
-		return zone;
-	}
-
-	public void setZone(ZoneId zone) {
-		this.zone = zone;
+		super(Date.class, ZonedDateTime.class, zone);
 	}
 
 	@Override
 	public ZonedDateTime convert(Date sourceValue) {
-		return ZonedDateTime.ofInstant(sourceValue.toInstant(), zone);
+		if (sourceValue == null) {
+			return null;
+		} else {
+			return ZonedDateTime.ofInstant(sourceValue.toInstant(), zone);
+		}
 	}
 
 }
