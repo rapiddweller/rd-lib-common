@@ -3,6 +3,7 @@
 package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConfigurationError;
+import com.rapiddweller.common.JavaTimeUtil;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -28,29 +29,25 @@ public class Date2OffsetDateTimeConverterTest extends AbstractDateConverterTest 
 
 	@Test(expected = ConfigurationError.class)
 	public void testNullZone() {
-		new Date2OffsetDateTimeConverter(null).convert(DATE_BERLIN);
+		new Date2OffsetDateTimeConverter(null).convert(DATE_BERLIN_DTZ);
 	}
 
-	@Test @Ignore("This fails in CI") // TODO v3.0.0 make this work
-	// CI message Date2OffsetDateTimeConverterTest.testDefaultConstructor_berlin_date:36 expected:<2022-07-28T13:44:58.123+02:00> but was:<2022-07-28T13:44:58.123Z>
+	@Test
 	public void testDefaultConstructor_berlin_date() {
-		assertEquals(ODT_MILLIS_BERLIN, new Date2OffsetDateTimeConverter().convert(DATE_BERLIN));
+		JavaTimeUtil.runInZone(BERLIN, () ->
+		assertEqualOffsetDateTimes(ODT_MILLIS_BERLIN, new Date2OffsetDateTimeConverter().convert(DATE_BERLIN_DTZ))
+		);
 	}
 
-	@Test @Ignore("Ignoring test for release prep merge") // TODO v3.0.0 make it work
-	public void testDefaultConstructor_chicago_date() {
-		assertEquals(ODT_MILLIS_CHICAGO, new Date2OffsetDateTimeConverter().convert(DATE_CHICAGO));
-	}
-
-	@Test @Ignore("This fails in CI") // TODO v3.0.0 make this work
+	@Test
 	// CI message: Date2OffsetDateTimeConverterTest.testZone_berlin:46 expected:<2022-07-28T13:44:58.123+02:00> but was:<2022-07-28T15:44:58.123+02:00>
 	public void testZone_berlin() {
-		assertEquals(ODT_MILLIS_BERLIN, new Date2OffsetDateTimeConverter(BERLIN).convert(DATE_BERLIN));
+		assertEquals(ODT_MILLIS_BERLIN, new Date2OffsetDateTimeConverter(BERLIN).convert(DATE_BERLIN_DTZ));
 	}
 
-	@Test @Ignore("Ignoring test for release prep merge") // TODO v3.0.0 make it work
+	@Test
 	public void testZone_chicago() {
-		assertEquals(ODT_MILLIS_CHICAGO, new Date2OffsetDateTimeConverter(CHICAGO).convert(DATE_CHICAGO));
+		assertEquals(ODT_MILLIS_CHICAGO, new Date2OffsetDateTimeConverter(CHICAGO).convert(DATE_CHICAGO_DTZ));
 	}
 
 }

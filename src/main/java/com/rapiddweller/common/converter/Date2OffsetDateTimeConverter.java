@@ -2,11 +2,13 @@
 
 package com.rapiddweller.common.converter;
 
-import com.rapiddweller.common.ConversionException;
+import com.rapiddweller.common.JavaTimeUtil;
 import com.rapiddweller.common.exception.ExceptionFactory;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Date;
 
 /**
@@ -27,11 +29,13 @@ public class Date2OffsetDateTimeConverter extends AbstractZonedConverter<Date, O
 	}
 
 	@Override
-	public OffsetDateTime convert(Date sourceValue) throws ConversionException {
+	public OffsetDateTime convert(Date sourceValue) {
 		if (sourceValue == null) {
 			return null;
 		} else if (zone != null) {
-			return OffsetDateTime.ofInstant(sourceValue.toInstant(), zone);
+			LocalDateTime localDateTime = JavaTimeUtil.toLocalDateTime(sourceValue);
+			ZoneOffset offset = zone.getRules().getOffset(localDateTime);
+			return OffsetDateTime.of(localDateTime, offset);
 		} else {
 			throw ExceptionFactory.getInstance().configurationError(
 				"'zone' property of " + getClass().getSimpleName() + " is not set");

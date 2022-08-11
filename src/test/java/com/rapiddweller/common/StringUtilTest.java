@@ -1018,13 +1018,19 @@ public class StringUtilTest {
     assertEquals("ANNABELL, BERTIE AND CURT", StringUtil.replaceIgnoreCase(text.toUpperCase(), replacements, true));
   }
 
-  /* TODO test feature
+  @Test(expected = IllegalArgumentError.class)
+  public void testWithLineBreaks_maxWidth_zero() {
+    StringUtil.withLineBreaks("Alice Bob Charly", 0);
+  }
+
   @Test
   public void testWithLineBreaks() {
-    assertEquals("Alice \nBob \nCharly", StringUtil.withLineBreaks("Alice Bob Charly", 7));
-    assertEquals("Alice \nBob \nCharly", StringUtil.withLineBreaks("Alice Bob Charly", 6));
+    assertEquals("Alice Bob Charly", StringUtil.withLineBreaks("Alice Bob Charly", 100));
+    /* TODO make this work
+    assertEquals("Alice Bob \nCharly", StringUtil.withLineBreaks("Alice Bob Charly", 9));
+    assertEquals("Alice \nBob \nCharly", StringUtil.withLineBreaks("Alice Bob Charly", 8));
+    */
   }
-  */
 
   // helpers ---------------------------------------------------------------------------------------------------------
 

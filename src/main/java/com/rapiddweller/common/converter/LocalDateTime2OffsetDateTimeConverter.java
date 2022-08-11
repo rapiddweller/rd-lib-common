@@ -2,6 +2,8 @@
 
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.exception.ExceptionFactory;
+
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -27,8 +29,10 @@ public class LocalDateTime2OffsetDateTimeConverter extends AbstractZonedConverte
 	public OffsetDateTime convert(LocalDateTime sourceValue) {
 		if (sourceValue == null) {
 			return null;
+		} else if (zone == null) {
+			throw ExceptionFactory.getInstance().configurationError("Zone is null for " + getClass().getSimpleName());
 		} else {
-			return sourceValue.atZone(zone).toOffsetDateTime();
+			return localDateTimeAtTargetZone(sourceValue);
 		}
 	}
 

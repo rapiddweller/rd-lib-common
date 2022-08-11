@@ -17,14 +17,12 @@ package com.rapiddweller.common.converter;
 
 import com.rapiddweller.common.ConversionException;
 import com.rapiddweller.common.TimeUtil;
-import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.SimpleTimeZone;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 
 /**
  * Tests the {@link Date2LongConverter}.
@@ -56,21 +54,21 @@ public class Date2LongConverterTest extends AbstractDateConverterTest {
   @Test
   public void testNullZoneConversion() throws ConversionException {
     TimeUtil.runInTimeZone(BERLIN_TZ,
-        () -> assertEquals(MILLIS_BERLIN, (long) new Date2LongConverter(null).convert(DATE_BERLIN)));
-    TimeUtil.runInTimeZone(CHICAGO_TZ,
-        () -> assertEquals(MILLIS_CHICAGO, (long) new Date2LongConverter(null).convert(DATE_CHICAGO)));
+        () -> assertEquals(EPOCH_MILLIS_BERLIN, (long) new Date2LongConverter(null).convert(DATE_BERLIN_DTZ)));
+    TimeUtil.runInTimeZone(CHICAGO_TZ, () -> {
+      Date DATE_CHICAGO = TimeUtil.date(2022, 6, 28, 6, 44, 58, 123);
+      assertEquals(EPOCH_MILLIS_CHICAGO, (long) new Date2LongConverter(null).convert(DATE_CHICAGO));
+    });
   }
 
-  @Test @Ignore("This fails in CI") // TODO v3.0.0 make this work
-  // CI message: Date2LongConverterTest.testZonedConversion_berlin:65 expected:<1659015898123> but was:<1659023098123>
+  @Test
   public void testZonedConversion_berlin() throws ConversionException {
-    assertEquals(MILLIS_BERLIN, (long) new Date2LongConverter(BERLIN).convert(DATE_BERLIN));
+    assertEquals(EPOCH_MILLIS_BERLIN, (long) new Date2LongConverter(BERLIN).convert(DATE_BERLIN_DTZ));
   }
 
-  @Test @Ignore("This fails in CI") // TODO v3.0.0 make this work
-  // CI message: Date2LongConverterTest.testZonedConversion_chicago:70 expected:<1658990698123> but was:<1658972698123>
+  @Test
   public void testZonedConversion_chicago() throws ConversionException {
-    assertEquals(MILLIS_CHICAGO, (long) new Date2LongConverter(CHICAGO).convert(DATE_CHICAGO));
+    assertEquals(EPOCH_MILLIS_BERLIN, (long) new Date2LongConverter(CHICAGO).convert(DATE_CHICAGO_DTZ));
   }
 
 }

@@ -26,12 +26,12 @@ public class Date2LocalDateTimeConverterTest extends AbstractDateConverterTest {
 
 	@Test
 	public void test_berlin() {
-		assertEquals(LDT_MILLIS_BERLIN, new Date2LocalDateTimeConverter().convert(DATE_BERLIN));
+		assertEquals(LDT_MILLIS_BERLIN, new Date2LocalDateTimeConverter().convert(DATE_BERLIN_DTZ));
 	}
 
 	@Test
 	public void test_chicago() {
-		assertEquals(LDT_MILLIS_CHICAGO, new Date2LocalDateTimeConverter().convert(DATE_CHICAGO));
+		assertEquals(LDT_MILLIS_CHICAGO, new Date2LocalDateTimeConverter().convert(DATE_CHICAGO_DTZ));
 	}
 
 }

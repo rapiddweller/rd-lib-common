@@ -2,8 +2,11 @@
 
 package com.rapiddweller.common.converter;
 
-import org.junit.Ignore;
+import com.rapiddweller.common.JavaTimeUtil;
+import com.rapiddweller.common.TimeUtil;
 import org.junit.Test;
+
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -25,10 +28,20 @@ public class Date2ZonedDateTimeConverterTest extends AbstractDateConverterTest {
 		assertNull(new Date2ZonedDateTimeConverter().convert(null));
 	}
 
-	@Test @Ignore("This fails in CI") // TODO v3.0.0 make this work
-	// CI message: Date2ZonedDateTimeConverterTest.test:29 expected:<2022-07-28T13:44:58.123+02:00[Europe/Berlin]> but was:<2022-07-28T15:44:58.123+02:00[Europe/Berlin]>
-	public void test() {
-		assertEquals(ZDT_MILLIS_BERLIN, new Date2ZonedDateTimeConverter(BERLIN).convert(DATE_BERLIN));
+	@Test
+	public void testBerlinDate() {
+		JavaTimeUtil.runInZone(BERLIN, () -> {
+			Date dateBerlin = TimeUtil.date(2022, 6, 28, 13, 44, 58, 123);
+			assertEquals(ZDT_MILLIS_BERLIN, new Date2ZonedDateTimeConverter(BERLIN).convert(dateBerlin));
+		});
+	}
+
+	@Test
+	public void testChicagoDate() {
+		JavaTimeUtil.runInZone(BERLIN, () -> {
+			Date dateChicagoInDTZ = TimeUtil.date(2022, 6, 28, 13, 44, 58, 123);
+			assertEquals(ZDT_MILLIS_CHICAGO, new Date2ZonedDateTimeConverter(CHICAGO).convert(dateChicagoInDTZ));
+		});
 	}
 
 }

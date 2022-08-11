@@ -882,7 +882,7 @@ public final class IOUtil {
   private static String resolveRelativeFile(String contextPath, String relativePath) {
     char firstChar = relativePath.charAt(0);
     boolean isAbsolutePath = firstChar == '/' || firstChar == File.separatorChar;
-    if (isAbsolutePath || isURIAvailable(relativePath)) { // TODO v3.0 remove isURIAvailable(relativePath)
+    if (isAbsolutePath || isURIAvailable(relativePath)) {
       return relativePath;
     } else {
       return new File(contextPath, relativePath).getPath();

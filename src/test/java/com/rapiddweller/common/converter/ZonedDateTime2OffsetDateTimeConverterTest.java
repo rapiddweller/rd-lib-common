@@ -15,7 +15,9 @@ import static org.junit.Assert.assertNull;
  */
 public class ZonedDateTime2OffsetDateTimeConverterTest extends AbstractDateConverterTest {
 
-	private final ZonedDateTime2OffsetDateTimeConverter converter = new ZonedDateTime2OffsetDateTimeConverter();
+	private final ZonedDateTime2OffsetDateTimeConverter defaultConverter = new ZonedDateTime2OffsetDateTimeConverter();
+	private final ZonedDateTime2OffsetDateTimeConverter berlinConverter = new ZonedDateTime2OffsetDateTimeConverter(BERLIN);
+	private final ZonedDateTime2OffsetDateTimeConverter chicagoConverter = new ZonedDateTime2OffsetDateTimeConverter(CHICAGO);
 
 	public ZonedDateTime2OffsetDateTimeConverterTest() {
 		super(ZonedDateTime2OffsetDateTimeConverter.class);
@@ -28,18 +30,27 @@ public class ZonedDateTime2OffsetDateTimeConverterTest extends AbstractDateConve
 
 	@Test
 	public void testBerlin() {
-		assertEqualOffsetDateTimes(ODT_NANOS_BERLIN, converter.convert(ZDT_NANOS_BERLIN));
+		assertEqualOffsetDateTimes(ODT_NANOS_BERLIN, defaultConverter.convert(ZDT_NANOS_BERLIN));
 	}
 
 	@Test
 	public void testLondon() {
-		assertEqualOffsetDateTimes(ODT_NANOS_LONDON, converter.convert(ZDT_NANOS_LONDON));
+		assertEqualOffsetDateTimes(ODT_NANOS_LONDON, defaultConverter.convert(ZDT_NANOS_LONDON));
 	}
 
 	@Test
 	public void testChicago() {
-		assertEqualOffsetDateTimes(ODT_NANOS_CHICAGO, converter.convert(ZDT_NANOS_CHICAGO));
+		assertEqualOffsetDateTimes(ODT_NANOS_CHICAGO, defaultConverter.convert(ZDT_NANOS_CHICAGO));
 	}
 
-	// TODO v3.0.0 Add tests for conversion between time zones
+	@Test
+	public void testChicagoTimeInBerlinZone() {
+		assertEqualOffsetDateTimes(ODT_NANOS_BERLIN, berlinConverter.convert(ZDT_NANOS_CHICAGO));
+	}
+
+	@Test
+	public void testBerlinTimeInChicagoZone() {
+		assertEqualOffsetDateTimes(ODT_NANOS_CHICAGO, chicagoConverter.convert(ZDT_NANOS_BERLIN));
+	}
+
 }

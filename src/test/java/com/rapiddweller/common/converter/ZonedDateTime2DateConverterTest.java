@@ -31,52 +31,52 @@ public class ZonedDateTime2DateConverterTest extends AbstractDateConverterTest {
 
 	@Test
 	public void testDefaultWithBerlinTime() {
-		assertEqualDates(DATE_BERLIN, defaultConverter.convert(ZDT_NANOS_BERLIN));
+		assertEqualDates(DATE_BERLIN_DTZ, defaultConverter.convert(ZDT_NANOS_BERLIN));
 	}
 
 	@Test
 	public void testDefaultWithChicagoTime() {
-		assertEqualDates(DATE_CHICAGO, defaultConverter.convert(ZDT_NANOS_CHICAGO));
+		assertEqualDates(DATE_CHICAGO_DTZ, defaultConverter.convert(ZDT_NANOS_CHICAGO));
 	}
 
 	@Test
 	public void testZoneNullBerlin() {
-		assertEqualDates(DATE_BERLIN, nullConverter.convert(ZDT_NANOS_BERLIN));
+		assertEqualDates(DATE_BERLIN_DTZ, nullConverter.convert(ZDT_NANOS_BERLIN));
 	}
 
 	@Test
 	public void testZoneNullLondon() {
-		assertEqualDates(DATE_LONDON, nullConverter.convert(ZDT_NANOS_LONDON));
+		assertEqualDates(DATE_LONDON_DTZ, nullConverter.convert(ZDT_NANOS_LONDON));
 	}
 
 	@Test
 	public void testZoneNullChicago() {
-		assertEqualDates(DATE_CHICAGO, nullConverter.convert(ZDT_NANOS_CHICAGO));
+		assertEqualDates(DATE_CHICAGO_DTZ, nullConverter.convert(ZDT_NANOS_CHICAGO));
 	}
 
 	@Test
 	public void testZoneLondon() {
-		assertEqualDates(DATE_LONDON, londonConverter.convert(ZDT_NANOS_BERLIN));
+		assertEqualDates(DATE_LONDON_DTZ, londonConverter.convert(ZDT_NANOS_BERLIN));
 	}
 
 	@Test
 	public void testZoneBerlin() {
-		assertEqualDates(DATE_BERLIN, berlinConverter.convert(ZDT_NANOS_BERLIN));
+		assertEqualDates(DATE_BERLIN_DTZ, berlinConverter.convert(ZDT_NANOS_BERLIN));
 	}
 
 	@Test
 	public void testZoneChicago() {
-		assertEqualDates(DATE_CHICAGO, chicagoConverter.convert(ZDT_NANOS_CHICAGO));
+		assertEqualDates(DATE_CHICAGO_DTZ, chicagoConverter.convert(ZDT_NANOS_CHICAGO));
 	}
 
 	@Test
 	public void testBerlinTimeAtZoneChicago() {
-		assertEqualDates(DATE_CHICAGO, chicagoConverter.convert(ZDT_NANOS_BERLIN));
+		assertEqualDates(DATE_CHICAGO_DTZ, chicagoConverter.convert(ZDT_NANOS_BERLIN));
 	}
 
 	@Test
 	public void testChicagoTimeAtZoneBerlin() {
-		assertEqualDates(DATE_BERLIN, berlinConverter.convert(ZDT_NANOS_CHICAGO));
+		assertEqualDates(DATE_BERLIN_DTZ, berlinConverter.convert(ZDT_NANOS_CHICAGO));
 	}
 
 }

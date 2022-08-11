@@ -29,61 +29,59 @@ public class OffsetDateTime2DateConverterTest extends AbstractDateConverterTest 
 		assertNull(new OffsetDateTime2DateConverter().convert(null));
 	}
 
-	@Test @Ignore("This fails in CI") // TODO v3.0.0 make this work
-	// CI message: OffsetDateTime2DateConverterTest.testDefaultWithBerlinTime:33->lambda$testDefaultWithBerlinTime$0:34->AbstractDateConverterTest.assertEqualDates:108 expected:<Thu Jul 28 15:44:58 CEST 2022> but was:<Thu Jul 28 13:44:58 CEST 2022>
+	@Test
 	public void testDefaultWithBerlinTime() {
 		JavaTimeUtil.runInZone(BERLIN,
-			() -> assertEqualDates(DATE_BERLIN, new OffsetDateTime2DateConverter().convert(ODT_NANOS_BERLIN)));
+			() -> assertEqualDates(DATE_BERLIN_DTZ, new OffsetDateTime2DateConverter().convert(ODT_NANOS_BERLIN)));
 	}
 
-	@Test @Ignore("This fails in CI") // TODO v3.0.0 make this work
-	// CI message: OffsetDateTime2DateConverterTest.testDefaultWithChicagoTime:39->lambda$testDefaultWithChicagoTime$1:40->AbstractDateConverterTest.assertEqualDates:108 expected:<Thu Jul 28 08:44:58 CEST 2022> but was:<Thu Jul 28 06:44:58 CEST 2022>
+	@Test
 	public void testDefaultWithChicagoTime() {
 		JavaTimeUtil.runInZone(BERLIN,
-			() -> assertEqualDates(DATE_CHICAGO, new OffsetDateTime2DateConverter().convert(ODT_NANOS_CHICAGO)));
+			() -> assertEqualDates(DATE_CHICAGO_DTZ, new OffsetDateTime2DateConverter().convert(ODT_NANOS_CHICAGO)));
 	}
 
 	@Test
 	public void testZoneNullBerlin() {
 		OffsetDateTime2DateConverter nullConverter = new OffsetDateTime2DateConverter(null);
-		assertEqualDates(DATE_BERLIN, nullConverter.convert(ODT_NANOS_BERLIN));
+		assertEqualDates(DATE_BERLIN_DTZ, nullConverter.convert(ODT_NANOS_BERLIN));
 	}
 
 	@Test
 	public void testZoneNullLondon() {
 		OffsetDateTime2DateConverter nullConverter = new OffsetDateTime2DateConverter(null);
-		assertEqualDates(DATE_LONDON, nullConverter.convert(ODT_NANOS_LONDON));
+		assertEqualDates(DATE_LONDON_DTZ, nullConverter.convert(ODT_NANOS_LONDON));
 	}
 
 	@Test
 	public void testZoneNullChicago() {
 		OffsetDateTime2DateConverter nullConverter = new OffsetDateTime2DateConverter(null);
-		assertEqualDates(DATE_CHICAGO, nullConverter.convert(ODT_NANOS_CHICAGO));
+		assertEqualDates(DATE_CHICAGO_DTZ, nullConverter.convert(ODT_NANOS_CHICAGO));
 	}
 
 	@Test
 	public void testZoneLondon() {
-		assertEqualDates(DATE_LONDON, londonConverter.convert(ODT_NANOS_BERLIN));
+		assertEqualDates(DATE_LONDON_DTZ, londonConverter.convert(ODT_NANOS_BERLIN));
 	}
 
 	@Test
 	public void testZoneBerlin() {
-		assertEqualDates(DATE_BERLIN, berlinConverter.convert(ODT_NANOS_BERLIN));
+		assertEqualDates(DATE_BERLIN_DTZ, berlinConverter.convert(ODT_NANOS_BERLIN));
 	}
 
 	@Test
 	public void testZoneChicago() {
-		assertEqualDates(DATE_CHICAGO, chicagoConverter.convert(ODT_NANOS_CHICAGO));
+		assertEqualDates(DATE_CHICAGO_DTZ, chicagoConverter.convert(ODT_NANOS_CHICAGO));
 	}
 
 	@Test
 	public void testBerlinTimeAtZoneChicago() {
-		assertEqualDates(DATE_CHICAGO, chicagoConverter.convert(ODT_NANOS_BERLIN));
+		assertEqualDates(DATE_CHICAGO_DTZ, chicagoConverter.convert(ODT_NANOS_BERLIN));
 	}
 
 	@Test
 	public void testChicagoTimeAtZoneBerlin() {
-		assertEqualDates(DATE_BERLIN, berlinConverter.convert(ODT_NANOS_CHICAGO));
+		assertEqualDates(DATE_BERLIN_DTZ, berlinConverter.convert(ODT_NANOS_CHICAGO));
 	}
 
 }

@@ -2,6 +2,8 @@
 
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.ConfigurationError;
+import com.rapiddweller.common.JavaTimeUtil;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -25,10 +27,33 @@ public class LocalDateTime2OffsetDateTimeConverterTest extends AbstractDateConve
 		assertNull(new LocalDateTime2OffsetDateTimeConverter().convert(null));
 	}
 
-	@Test @Ignore("This fails in CI") // TODO v3.0.0 make this work
-	// CI message: LocalDateTime2OffsetDateTimeConverterTest.test:29 expected:<2022-07-28T13:44:58.123123123+02:00> but was:<2022-07-28T13:44:58.123123123Z>
-	public void test() {
-		assertEquals(ODT_NANOS_BERLIN, new LocalDateTime2OffsetDateTimeConverter().convert(LDT_NANOS_BERLIN));
+	@Test(expected = ConfigurationError.class)
+	public void testZone_null() {
+		new LocalDateTime2OffsetDateTimeConverter(null).convert(LDT_NANOS_BERLIN);
+	}
+
+	@Test
+	public void testDefaultConstructor_berlin() {
+		JavaTimeUtil.runInZone(BERLIN, () -> {
+			assertEquals(ODT_NANOS_BERLIN, new LocalDateTime2OffsetDateTimeConverter().convert(LDT_NANOS_BERLIN));
+		});
+	}
+
+	@Test
+	public void testDefaultConstructor_chicago() {
+		JavaTimeUtil.runInZone(CHICAGO, () -> {
+			assertEquals(ODT_NANOS_CHICAGO, new LocalDateTime2OffsetDateTimeConverter().convert(LDT_NANOS_CHICAGO));
+		});
+	}
+
+	@Test
+	public void testBerlinZone() {
+		assertEquals(ODT_NANOS_BERLIN, new LocalDateTime2OffsetDateTimeConverter(BERLIN).convert(LDT_NANOS_BERLIN));
+	}
+
+	@Test
+	public void testChicagoZone() {
+		assertEquals(ODT_NANOS_CHICAGO, new LocalDateTime2OffsetDateTimeConverter(CHICAGO).convert(LDT_NANOS_CHICAGO));
 	}
 
 }

@@ -2,8 +2,12 @@
 
 package com.rapiddweller.common.converter;
 
+import com.rapiddweller.common.JavaTimeUtil;
+import com.rapiddweller.common.TimeUtil;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.sql.Timestamp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -25,10 +29,20 @@ public class Timestamp2OffsetDateTimeConverterTest extends AbstractDateConverter
 		assertNull(new Timestamp2OffsetDateTimeConverter().convert(null));
 	}
 
-	@Test @Ignore("This fails in CI") // TODO v3.0.0 make this work
-	// CI message: Timestamp2OffsetDateTimeConverterTest.test:29 expected:<2022-07-28T13:44:58.123123123+02:00> but was:<2022-07-28T13:44:58.123123123Z>
-	public void test() {
-		assertEquals(ODT_NANOS_BERLIN, new Timestamp2OffsetDateTimeConverter().convert(TIMESTAMP_BERLIN));
+	@Test
+	public void testBerlin() {
+		JavaTimeUtil.runInZone(BERLIN, () -> {
+			Timestamp timestampBerlin = TimeUtil.timestamp(2022, 6, 28, 13, 44, 58, 123123123);
+			assertEquals(ODT_NANOS_BERLIN, new Timestamp2OffsetDateTimeConverter().convert(timestampBerlin));
+		});
+	}
+
+	@Test
+	public void testChicago() {
+		JavaTimeUtil.runInZone(CHICAGO, () -> {
+			Timestamp timestampChicago = TimeUtil.timestamp(2022, 6, 28, 6, 44, 58, 123123123);
+			assertEquals(ODT_NANOS_CHICAGO, new Timestamp2OffsetDateTimeConverter().convert(timestampChicago));
+		});
 	}
 
 }

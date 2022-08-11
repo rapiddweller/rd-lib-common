@@ -2,20 +2,17 @@
 
 package com.rapiddweller.common.parser;
 
-import com.rapiddweller.common.Level;
 import com.rapiddweller.common.exception.SyntaxError;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 
 /**
- * TODO JavaDoc.<br/><br/>
+ * Tests the {@link FloatParser}.<br/><br/>
  * Created: 09.12.2021 18:15:32
- *
  * @author Volker Bergmann
- * @since TODO
+ * @since 2.0.0
  */
 public class FloatParserTest {
 

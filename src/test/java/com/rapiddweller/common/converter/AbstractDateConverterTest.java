@@ -70,20 +70,23 @@ public abstract class AbstractDateConverterTest extends AbstractConverterTest {
 
 	public static final ZonedDateTime ZDT_MILLIS_BERLIN = ZonedDateTime.of(2022, 7, 28, 13, 44, 58, 123000000,
 		BERLIN);
+	public static final ZonedDateTime ZDT_MILLIS_CHICAGO = ZonedDateTime.of(2022, 7, 28, 6, 44, 58, 123000000,
+		CHICAGO);
 
 
 	public static final LocalDate LOCAL_DATE = LocalDate.of(2022, 7, 28);
 
-	public static final Date DATE_BERLIN = TimeUtil.date(2022, 6, 28, 13, 44, 58, 123);
-	public static final Date DATE_LONDON = TimeUtil.date(2022, 6, 28, 12, 44, 58, 123);
-	public static final Date DATE_CHICAGO = TimeUtil.date(2022, 6, 28, 6, 44, 58, 123);
-	public static final Date DATE_UTC = TimeUtil.date(2022, 6, 28, 11, 44, 58, 123);
+	/** The reference timepoint in the time of Chicago but with the system's default time zone */
+	public static final Date DATE_BERLIN_DTZ = TimeUtil.date(2022, 6, 28, 13, 44, 58, 123);
+	public static final Date DATE_LONDON_DTZ = TimeUtil.date(2022, 6, 28, 12, 44, 58, 123);
+
+	/** The reference timepoint in the time of Chicago but with the system's default time zone */
+	public static final Date DATE_CHICAGO_DTZ = TimeUtil.date(2022, 6, 28, 6, 44, 58, 123);
+
 	public static final Date DATE_MIDNIGHT = TimeUtil.date(2022, 6, 28, 0, 0, 0, 0);
 
-	public static final long MILLIS_BERLIN = DATE_BERLIN.getTime();
-	public static final long MILLIS_LONDON = DATE_LONDON.getTime();
-	public static final long MILLIS_CHICAGO = DATE_CHICAGO.getTime();
-	public static final long MILLIS_UTC = DATE_UTC.getTime();
+	public static final long EPOCH_MILLIS_BERLIN = JavaTimeUtil.millisSinceEpoch(ZDT_NANOS_BERLIN);
+	public static final long EPOCH_MILLIS_CHICAGO = JavaTimeUtil.millisSinceEpoch(ZDT_NANOS_CHICAGO);
 
 	public static final Timestamp TIMESTAMP_BERLIN = TimeUtil.timestamp(2022, 6, 28, 13, 44, 58, 123123123);
 	public static final Timestamp TIMESTAMP_LONDON = TimeUtil.timestamp(2022, 6, 28, 12, 44, 58, 123123123);

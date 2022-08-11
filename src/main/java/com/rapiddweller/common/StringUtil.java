@@ -1137,6 +1137,7 @@ public final class StringUtil {
     if (StringUtil.isEmpty(text)) {
       return text;
     }
+    Assert.positive(maxWidth, "maxWidth");
     StringBuilder builder = new StringBuilder();
     String rest = text;
     //System.out.println(builder + " - " + rest);

@@ -30,7 +30,7 @@ public class ZonedDateTime2OffsetDateTimeConverter extends AbstractZonedConverte
 		} else if (zone == null){
 			return sourceValue.toOffsetDateTime();
 		} else {
-			return sourceValue.toOffsetDateTime(); // TODO make use of zone
+			return sourceValue.withZoneSameInstant(zone).toOffsetDateTime();
 		}
 	}
 

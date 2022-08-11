@@ -68,6 +68,10 @@ public abstract class AbstractZonedConverter<S, T> extends ThreadSafeConverter<S
 		return ldtAtTargetZone;
 	}
 
+	protected OffsetDateTime localDateTimeAtTargetZone(LocalDateTime sourceValue) {
+		return sourceValue.atZone(zone).toOffsetDateTime();
+	}
+
 	protected Date toDate(LocalDateTime localDateTime) {
 		// In order to construct a Date (which assumes the system's default time zone)
 		// with the expected hour/minute/second values, that LocalDateTime
