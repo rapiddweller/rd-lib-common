@@ -40,10 +40,10 @@ public class Date2LongConverterTest extends AbstractDateConverterTest {
   @Test
   public void testSetTimeZone() {
     Date2LongConverter date2LongConverter = new Date2LongConverter();
-    date2LongConverter.setTimeZone(BERLIN_TZ);
-    assertEquals(BERLIN_TZ, date2LongConverter.getTimeZone());
-    date2LongConverter.setTimeZone(CHICAGO_TZ);
-    assertEquals(CHICAGO_TZ, date2LongConverter.getTimeZone());
+    date2LongConverter.setZone(BERLIN);
+    assertEquals(BERLIN, date2LongConverter.getZone());
+    date2LongConverter.setZone(CHICAGO);
+    assertEquals(CHICAGO, date2LongConverter.getZone());
   }
 
   @Test
@@ -53,11 +53,13 @@ public class Date2LongConverterTest extends AbstractDateConverterTest {
 
   @Test
   public void testNullZoneConversion() throws ConversionException {
-    TimeUtil.runInTimeZone(BERLIN_TZ,
-        () -> assertEquals(EPOCH_MILLIS_BERLIN, (long) new Date2LongConverter(null).convert(DATE_BERLIN_DTZ)));
+    TimeUtil.runInTimeZone(BERLIN_TZ, () -> {
+      Date dateBerlin = TimeUtil.date(2022, 6, 28, 13, 44, 58, 123);
+      assertEquals(EPOCH_MILLIS_BERLIN, (long) new Date2LongConverter(null).convert(dateBerlin));
+    });
     TimeUtil.runInTimeZone(CHICAGO_TZ, () -> {
-      Date DATE_CHICAGO = TimeUtil.date(2022, 6, 28, 6, 44, 58, 123);
-      assertEquals(EPOCH_MILLIS_CHICAGO, (long) new Date2LongConverter(null).convert(DATE_CHICAGO));
+      Date dateChicago = TimeUtil.date(2022, 6, 28, 6, 44, 58, 123);
+      assertEquals(EPOCH_MILLIS_CHICAGO, (long) new Date2LongConverter(null).convert(dateChicago));
     });
   }
 
