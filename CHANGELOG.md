@@ -1,3 +1,9 @@
+# Release 2.0.0-jdk-11
+
+Changes are related to rapiddweller-benerator-ce 3.0.0 release check CHANGE_LOG.md for more details.
+
+---
+
 # Release 1.1.4-jdk-11
 
 ## Release Highlights
