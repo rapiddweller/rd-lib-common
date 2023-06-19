@@ -1442,7 +1442,9 @@ public final class BeanUtil {
       while (entries.hasMoreElements()) {
         JarEntry entry = entries.nextElement();
         String entryName = entry.getName();
-        if (entryName.startsWith(packagePath) && entryName.endsWith(".class") && !entry.isDirectory()
+        if (entryName.endsWith(".jar")) {
+          findClassesInJar(entryName, packagePath, classes);
+        } else if (entryName.startsWith(packagePath) && entryName.endsWith(".class") && !entry.isDirectory()
             && !entry.getName().contains("$")) {
           String className = entryName.replace('/', '.').substring(0, entryName.length() - 6);
           classes.add(BeanUtil.forName(className));
