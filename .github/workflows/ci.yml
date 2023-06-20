@@ -151,7 +151,7 @@ jobs:
     needs:
       - test_jdk11
       - build_jdk11
-    if: startsWith(github.ref, 'refs/tags/')
+    if: startsWith(github.ref, 'refs/tags/') && startsWith(github.ref, 'refs/heads/development')
     container: maven:3.6-adoptopenjdk-11
     steps:
       - uses: actions/checkout@v2
