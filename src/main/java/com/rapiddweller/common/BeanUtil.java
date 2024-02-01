@@ -1476,8 +1476,7 @@ public final class BeanUtil {
     String outerJarFilePath = jarPathList.get(0).substring(5);
     String nestedJarEntryName = jarPathList.get(1);
 
-    try {
-      JarFile outerJarFile = new JarFile(outerJarFilePath);
+    try (JarFile outerJarFile = new JarFile(outerJarFilePath)) {
       JarEntry nestedJarEntry = outerJarFile.getJarEntry(nestedJarEntryName);
 
       if (nestedJarEntry != null) {
