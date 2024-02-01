@@ -1484,9 +1484,8 @@ public final class BeanUtil {
         URL nestedJarUrl = new URL("jar:file:" + outerJarFilePath + "!/" + nestedJarEntryName);
 
         // Create a custom class loader with the nested JAR in the classpath
-        URLClassLoader classLoader = new URLClassLoader(new URL[]{nestedJarUrl}, BeanUtil.class.getClassLoader());
 
-        try (InputStream is = nestedJarUrl.openStream(); JarInputStream jarInputStream = new JarInputStream(is)) {
+        try (URLClassLoader classLoader = new URLClassLoader(new URL[]{nestedJarUrl}, BeanUtil.class.getClassLoader()); InputStream is = nestedJarUrl.openStream(); JarInputStream jarInputStream = new JarInputStream(is)) {
           JarEntry entry;
           while ((entry = jarInputStream.getNextJarEntry()) != null) {
             String entryName = entry.getName();
@@ -1500,13 +1499,12 @@ public final class BeanUtil {
           }
         }
       } else {
-        System.out.println("Nested JAR file not found in the outer JAR.");
+        logger.warn("Nested JAR file not found in the outer JAR.");
       }
 
       outerJarFile.close();
     } catch (IOException | ClassNotFoundException e) {
-      e.printStackTrace();
-      // Handle the exception as needed
+      logger.error(e.getMessage());
     }
   }
 
