@@ -28,6 +28,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
@@ -47,18 +48,11 @@ import java.net.URLClassLoader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.jar.JarInputStream;
 
 /**
  * Bundles reflection and introspection related operations.
@@ -1431,6 +1425,22 @@ public final class BeanUtil {
   }
 
   private static void findClassesInJar(String path, String packagePath, List<Class<?>> classes) {
+    // Check if jar is nested jar
+    long jarCount = path.chars().filter(ch -> ch == '!').count();
+    if (jarCount <= 1) {
+      BeanUtil.findClassesInSimpleJar(path, packagePath, classes);
+    } else {
+      BeanUtil.findClassesInNestedJar(path, packagePath, classes);
+    }
+
+
+  }
+
+  private static void findClassesInSimpleJar(String path, String packagePath, List<Class<?>> classes) {
+    /**
+     * Load classes from simple jar file
+     *
+     */
     // extract jar file name
     String fileName = path;
     if (fileName.contains("!")) {
@@ -1443,13 +1453,60 @@ public final class BeanUtil {
         JarEntry entry = entries.nextElement();
         String entryName = entry.getName();
         if (entryName.startsWith(packagePath) && entryName.endsWith(".class") && !entry.isDirectory()
-            && !entry.getName().contains("$")) {
+                && !entry.getName().contains("$")) {
           String className = entryName.replace('/', '.').substring(0, entryName.length() - 6);
           classes.add(BeanUtil.forName(className));
         }
       }
     } catch (Exception e) {
-      throw ExceptionFactory.getInstance().internalError("error mapping file path", e);
+      throw ExceptionFactory.getInstance().internalError("error mapping file path" + e.getMessage(), e);
+    }
+  }
+
+  private static void findClassesInNestedJar(String path, String packagePath, List<Class<?>> classes) {
+    /**
+     * Load classes from nested jars file
+     *
+     */
+    if (path.chars().filter(ch -> ch == '!').count() != 2) {
+      throw ExceptionFactory.getInstance().internalError("Complex nested benerator jar package is not supported yet", null);
+    }
+    List<String> jarPathList = Arrays.asList(path.split("!/"));
+
+    String outerJarFilePath = jarPathList.get(0).substring(5);
+    String nestedJarEntryName = jarPathList.get(1);
+
+    try {
+      JarFile outerJarFile = new JarFile(outerJarFilePath);
+      JarEntry nestedJarEntry = outerJarFile.getJarEntry(nestedJarEntryName);
+
+      if (nestedJarEntry != null) {
+        URL nestedJarUrl = new URL("jar:file:" + outerJarFilePath + "!/" + nestedJarEntryName);
+
+        // Create a custom class loader with the nested JAR in the classpath
+        URLClassLoader classLoader = new URLClassLoader(new URL[]{nestedJarUrl}, BeanUtil.class.getClassLoader());
+
+        try (InputStream is = nestedJarUrl.openStream(); JarInputStream jarInputStream = new JarInputStream(is)) {
+          JarEntry entry;
+          while ((entry = jarInputStream.getNextJarEntry()) != null) {
+            String entryName = entry.getName();
+            if (entryName.endsWith(".class") && entryName.startsWith(packagePath)) {
+              String className = entry.getName().replace("/", ".").replaceAll(".class$", "");
+              Class<?> clazz = classLoader.loadClass(className);
+              // Use the loaded class as needed
+//              System.out.println("Loaded class: " + className);
+              classes.add(clazz);
+            }
+          }
+        }
+      } else {
+        System.out.println("Nested JAR file not found in the outer JAR.");
+      }
+
+      outerJarFile.close();
+    } catch (IOException | ClassNotFoundException e) {
+      e.printStackTrace();
+      // Handle the exception as needed
     }
   }
 
