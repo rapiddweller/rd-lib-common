@@ -154,24 +154,31 @@ public class DependencyModel<E extends Dependent<E>> {
 
   private void postProcessNodes(List<Node<E>> nodes) {
     logger.debug("post processing nodes: {}", nodes);
-    Iterator<Node<E>> iterator = nodes.iterator();
-    while (iterator.hasNext()) {
-      Node<E> node = iterator.next();
-      switch (node.getState()) {
-        case PARTIALLY_INITIALIZABLE:
-        case INITIALIZED:
-          logger.debug("Initializing {} partially", node);
-          node.initializePartially();
-          break;
-        case INITIALIZABLE:
-          logger.debug("Initializing {}", node);
-          node.initialize();
-          iterator.remove();
-          break;
-        default:
-          break;
+    // Initializing one node can flip an earlier, already-visited incomplete node to INITIALIZABLE
+    // (a partially-initialized node whose last blocking optional provider just got initialized).
+    // A single pass strands those, so repeat until a full pass removes nothing.
+    int sizeBefore;
+    do {
+      sizeBefore = nodes.size();
+      Iterator<Node<E>> iterator = nodes.iterator();
+      while (iterator.hasNext()) {
+        Node<E> node = iterator.next();
+        switch (node.getState()) {
+          case PARTIALLY_INITIALIZABLE:
+          case INITIALIZED:
+            logger.debug("Initializing {} partially", node);
+            node.initializePartially();
+            break;
+          case INITIALIZABLE:
+            logger.debug("Initializing {}", node);
+            node.initialize();
+            iterator.remove();
+            break;
+          default:
+            break;
+        }
       }
-    }
+    } while (nodes.size() < sizeBefore);
   }
 
   private boolean extractNodes(List<Node<E>> source, NodeState requiredState, List<Node<E>> target, List<Node<E>> incompletes) {
