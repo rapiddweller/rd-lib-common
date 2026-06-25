@@ -1,3 +1,15 @@
+# Release 2.1.0-jdk-11
+
+Fixes dependency-ordering failures on complex database schemas and aligns the
+build/publish pipeline with rapiddweller-benerator-ce.
+
+- Fix: DependencyModel no longer reports "Incomplete nodes left" when a
+  partially-initialized node becomes initializable mid-traversal of the
+  incomplete set; postProcessNodes now repeats until that set is stable.
+- Align shared dependencies with benerator: slf4j 1.7.36, log4j 2.25.4.
+- Migrate Maven publishing from the retired OSSRH to the Central Portal; pin
+  maven-gpg-plugin to 3.1.0; bump CI GitHub Actions off the deprecated Node 20.
+
 # Release 2.0.1-jdk-11
 
 Hotfix for rapiddweller-benerator-ce 3.2.1 release.
