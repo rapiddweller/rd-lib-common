@@ -128,6 +128,63 @@ public class DependencyModelTest {
         zero, a, b, c);
   }
 
+  /**
+   * Regression for "Incomplete nodes left": a single pass of postProcessNodes strands nodes that
+   * only become INITIALIZABLE part-way through the pass (a partially-initialized node whose last
+   * blocking optional provider is initialized after the iterator has already passed it). The graph
+   * below — a web of required and optional cycles, the shape that turns up when modelling a complex
+   * database schema — leaves t8 stranded on the buggy single-pass code and must resolve completely
+   * once postProcessNodes loops until stable.
+   *
+   * <p>Whether the strand bites depends on the order incompletes are visited, which is fixed for a
+   * given set of node names, so this reproduces deterministically.</p>
+   */
+  @Test
+  public void testPartiallyInitializableBecomingInitializableMidPass() {
+    Dep t0 = new Dep("t0");
+    Dep t1 = new Dep("t1");
+    Dep t2 = new Dep("t2");
+    Dep t3 = new Dep("t3");
+    Dep t4 = new Dep("t4");
+    Dep t5 = new Dep("t5");
+    Dep t6 = new Dep("t6");
+    Dep t7 = new Dep("t7");
+    Dep t8 = new Dep("t8");
+
+    t1.addOptionalProvider(t3);
+    t2.addRequiredProvider(t8);
+    t2.addRequiredProvider(t6);
+    t3.addOptionalProvider(t6);
+    t4.addOptionalProvider(t2);
+    t4.addRequiredProvider(t0);
+    t4.addOptionalProvider(t6);
+    t4.addOptionalProvider(t3);
+    t4.addOptionalProvider(t8);
+    t5.addOptionalProvider(t8);
+    t5.addOptionalProvider(t2);
+    t6.addRequiredProvider(t2);
+    t6.addRequiredProvider(t5);
+    t6.addRequiredProvider(t7);
+    t7.addRequiredProvider(t8);
+    t7.addRequiredProvider(t1);
+    t7.addRequiredProvider(t0);
+    t7.addOptionalProvider(t6);
+    t8.addOptionalProvider(t2);
+    t8.addOptionalProvider(t5);
+    t8.addRequiredProvider(t6);
+
+    DependencyModel<Dep> model = new DependencyModel<>();
+    for (Dep d : new Dep[] {t0, t1, t2, t3, t4, t5, t6, t7, t8}) {
+      model.addNode(d);
+    }
+
+    List<Dep> oo = model.dependencyOrderedObjects(true);
+    assertEquals(9, oo.size());
+    for (Dep d : new Dep[] {t0, t1, t2, t3, t4, t5, t6, t7, t8}) {
+      assertTrue("missing " + d, oo.contains(d));
+    }
+  }
+
   // private helper -------------------------------------------------------------------------------
 
   private static void expectOrder(Dep... nodes) {
