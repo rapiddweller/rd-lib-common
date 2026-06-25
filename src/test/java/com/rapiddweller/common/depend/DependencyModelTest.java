@@ -17,10 +17,14 @@ package com.rapiddweller.common.depend;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Tests the DependencyModel class.
@@ -183,6 +187,79 @@ public class DependencyModelTest {
     for (Dep d : new Dep[] {t0, t1, t2, t3, t4, t5, t6, t7, t8}) {
       assertTrue("missing " + d, oo.contains(d));
     }
+  }
+
+  /**
+   * Property/fuzz regression for the single-pass postProcessNodes stranding bug. The reporter
+   * could not share the failing DB schema ("a moderate amount of tables", ~200 nodes, 2 stranded),
+   * so instead of one hand-built graph we hammer thousands of random required+optional cyclic
+   * graphs -- subsuming cascade depth, multiple simultaneous strands and shape diversity that a
+   * single fixture cannot. The seed-0 graph alone reproduced the original failure during
+   * development.
+   *
+   * <p>Invariant, scoped to the stranding <em>symptom</em> rather than "never throws":
+   * with {@code acceptingCycles=true} (the mode jdbacl's DBUtil uses) the ordering must always
+   * complete -- every node returned, none dropped or duplicated. With {@code acceptingCycles=false}
+   * a {@link CyclicDependencyException} is legitimate, but the run must never strand
+   * ("Incomplete nodes left" / a node left out of INITIALIZED state).</p>
+   */
+  @Test
+  public void fuzzNeverStrandsIncompleteNodes() {
+    for (long seed = 0; seed < 5000; seed++) {
+      Random r = new Random(seed);
+      int n = 4 + r.nextInt(8); // 4..11 nodes
+      List<Dep> deps = new ArrayList<>();
+      for (int i = 0; i < n; i++) {
+        deps.add(new Dep("t" + i));
+      }
+      int edges = n + r.nextInt(2 * n);
+      for (int e = 0; e < edges; e++) {
+        int a = r.nextInt(n), b = r.nextInt(n);
+        if (a == b) {
+          continue; // self-cycles are exercised separately; keep the random graph between distinct nodes
+        }
+        if (r.nextBoolean()) {
+          deps.get(a).addOptionalProvider(deps.get(b));
+        } else {
+          deps.get(a).addRequiredProvider(deps.get(b));
+        }
+      }
+
+      // acceptingCycles=true: DBUtil's mode -- must always resolve completely.
+      try {
+        List<Dep> ordered = modelOf(deps).dependencyOrderedObjects(true);
+        assertEquals("seed " + seed + ": nodes dropped", n, ordered.size());
+        assertEquals("seed " + seed + ": nodes duplicated", n, new HashSet<>(ordered).size());
+      } catch (RuntimeException ex) {
+        throw new AssertionError("seed " + seed + " (acceptingCycles=true) threw: " + ex, ex);
+      }
+
+      // acceptingCycles=false: a cycle is a legitimate failure; stranding is not.
+      try {
+        modelOf(deps).dependencyOrderedObjects(false);
+      } catch (CyclicDependencyException legitimate) {
+        // expected for graphs with required cycles
+      } catch (RuntimeException ex) {
+        if (isStrandingSymptom(ex)) {
+          fail("seed " + seed + " (acceptingCycles=false) stranded: " + ex);
+        }
+        throw new AssertionError("seed " + seed + " (acceptingCycles=false) threw unexpectedly: " + ex, ex);
+      }
+    }
+  }
+
+  private static boolean isStrandingSymptom(RuntimeException ex) {
+    String m = ex.getMessage();
+    return m != null && (m.startsWith("Incomplete nodes left") || m.contains("INITIALIZED state"));
+  }
+
+  /** Fresh model (and fresh Node state) over the same dependency spec; Dep providers are reusable. */
+  private static DependencyModel<Dep> modelOf(List<Dep> deps) {
+    DependencyModel<Dep> model = new DependencyModel<>();
+    for (Dep d : deps) {
+      model.addNode(d);
+    }
+    return model;
   }
 
   // private helper -------------------------------------------------------------------------------
